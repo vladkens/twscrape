@@ -1,3 +1,6 @@
+import json
+import os
+
 from fake_useragent import UserAgent
 from httpx import Client, HTTPStatusError, Response
 
@@ -136,6 +139,26 @@ class UserClient:
         self.password = password
         self.email = email
         self.client = Client()
+        self.session_path = f"sessions/{self.username}.session.json"
+
+        dirname = os.path.dirname(self.session_path)
+        os.makedirs(dirname, exist_ok=True)
+
+    def save(self):
+        cookies = dict(self.client.cookies)
+        headers = dict(self.client.headers)
+        with open(self.session_path, "w") as fp:
+            json.dump({"cookies": cookies, "headers": headers}, fp)
+
+    def restore(self):
+        try:
+            with open(self.session_path) as fp:
+                data = json.load(fp)
+                self.client.cookies.update(data["cookies"])
+                self.client.headers.update(data["headers"])
+                return True
+        except (FileNotFoundError, json.JSONDecodeError):
+            return False
 
     def _next_login_task(self, rep: Response):
         client = self.client
@@ -165,6 +188,10 @@ class UserClient:
         return None
 
     def login(self):
+        if self.restore():
+            print(f"session restored for {self.username}")
+            return
+
         guest_token = login_get_guest_token(self.client)
         headers = {
             "authorization": TOKEN,
@@ -184,5 +211,6 @@ class UserClient:
 
         self.client.headers["x-csrf-token"] = self.client.cookies["ct0"]
         self.client.headers["x-twitter-auth-type"] = "OAuth2Session"
+        self.save()
 
         print(f"login success for {self.username}")
