@@ -1,7 +1,7 @@
-from httpx import AsyncClient
+from httpx import AsyncClient, Response
 from loguru import logger
 
-from .client import UserClient
+from .client import UserClient, raise_for_status
 
 BASIC_SEARCH_PARAMS = """
 include_profile_interstitial_type=1
@@ -63,6 +63,11 @@ class Search:
             logger.debug(e)
             return None
 
+    def _log(self, rep: Response, msg: str):
+        limit = int(rep.headers.get("x-rate-limit-limit", -1))
+        remaining = int(rep.headers.get("x-rate-limit-remaining", -1))
+        logger.debug(f"[{remaining:3,d}/{limit:3,d}] {self.account.username} - {msg}")
+
     async def query(self, q: str, cursor: str | None = None):
         client = AsyncClient()
         client.headers.update(self.account.client.headers)
@@ -74,13 +79,18 @@ class Search:
             params["cursor" if cursor else "requestContext"] = cursor if cursor else "launch"
 
             rep = await client.get(SEARCH_URL, params=params)
-            rep.raise_for_status()
+            self.account.check_limits(rep, cursor)
+            raise_for_status(rep, "search")
 
             data = rep.json()
-            cursor = self.get_next_cursor(data)
             tweets = data.get("globalObjects", {}).get("tweets", [])
+            cursor = self.get_next_cursor(data)
+            # logger.debug(rep.text)
+
+            total_count += len(tweets)
+            self._log(rep, f"{total_count:,d} (+{len(tweets):,d}) tweets - {q}")
+
             if not tweets or not cursor:
                 return
 
-            total_count += len(tweets)
-            yield rep, data, cursor
+            yield rep.text

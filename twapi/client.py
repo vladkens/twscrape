@@ -3,6 +3,8 @@ import imaplib
 import json
 import os
 import time
+from collections import defaultdict
+from datetime import datetime, timezone
 
 from fake_useragent import UserAgent
 from httpx import Client, HTTPStatusError, Response
@@ -10,6 +12,12 @@ from loguru import logger
 
 TOKEN = "Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA"
 TASK_URL = "https://api.twitter.com/1.1/onboarding/task.json"
+
+
+class RateLimitExceeded(Exception):
+    def __init__(self, reset: int, cursor: str | None = None):
+        self.reset = reset
+        self.cursor = cursor
 
 
 def search_email_with_confirmation_code(imap: imaplib.IMAP4_SSL, msg_count: int) -> str | None:
@@ -190,11 +198,17 @@ class UserClient:
         dirname = os.path.dirname(self.session_path)
         os.makedirs(dirname, exist_ok=True)
 
+        self.limits = defaultdict(dict)
+        self.locked = False
+
     def save(self):
-        cookies = dict(self.client.cookies)
-        headers = dict(self.client.headers)
+        data = {
+            "cookies": dict(self.client.cookies),
+            "headers": dict(self.client.headers),
+            "limits": dict(self.limits),
+        }
         with open(self.session_path, "w") as fp:
-            json.dump({"cookies": cookies, "headers": headers}, fp)
+            json.dump(data, fp, indent=2)
 
     def restore(self):
         try:
@@ -202,9 +216,24 @@ class UserClient:
                 data = json.load(fp)
                 self.client.cookies.update(data["cookies"])
                 self.client.headers.update(data["headers"])
+                self.limits.update(data.get("limits", {}))
                 return True
         except (FileNotFoundError, json.JSONDecodeError):
             return False
+
+    def _update_limits(self, rep: Response):
+        for k, v in rep.headers.items():
+            if k.startswith("x-rate-limit-"):
+                self.limits[rep.url.path][k] = v
+        self.save()
+
+    def check_limits(self, rep: Response, cursor: str | None):
+        if rep.status_code == 429:
+            reset = int(rep.headers.get("x-rate-limit-reset"))
+            reset_time = datetime.fromtimestamp(reset, tz=timezone.utc)
+            logger.debug(f"Rate limit exceeded for {self.username} - reset at {reset_time}")
+            self._update_limits(rep)
+            raise RateLimitExceeded(reset, cursor)
 
     def print_session(self):
         for x in self.client.headers.items():
