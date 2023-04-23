@@ -1,7 +1,11 @@
 {
+  "files.exclude": {
+    ".ruff_cache": true,
+    ".pytest_cache": true
+  },
   "[python]": {
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": ["source.organizeImports"]
   },
-  "python.formatting.provider": "black",
+  "python.formatting.provider": "black"
 }
