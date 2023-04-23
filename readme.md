@@ -5,14 +5,20 @@ Twitter GraphQL and Search API implementation with [SNScrape](https://github.com
 ```python
 import asyncio
 from twapi.client import UserClient
+from twapi.pool import AccountsPool
 from twapi.search import Search
 
 async def main():
-    account = UserClient("user", "pass", "user@example.com", "email_pass")
-    search = Search(account)
+    acc1 = UserClient("user1", "pass1", "user1@example.com", "email_pass1")
+    acc2 = UserClient("user2", "pass2", "user2@example.com", "email_pass2")
 
-    async for rep, data, _ in search.query("elon musk"):
-        print(rep.status_code, data)
+    pool = AccountsPool()
+    pool.add_account(acc1)
+    pool.add_account(acc2)
+
+    search = Search(pool)
+    async for rep in search.query("elon musk"):
+        print(rep.status_code, rep.json())
 
 if __name__ == "__main__":
     asyncio.run(main())

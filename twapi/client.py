@@ -3,11 +3,10 @@ import imaplib
 import json
 import os
 import time
-from collections import defaultdict
 from datetime import datetime, timezone
 
 from fake_useragent import UserAgent
-from httpx import Client, HTTPStatusError, Response
+from httpx import AsyncClient, Client, HTTPStatusError, Response
 from loguru import logger
 
 TOKEN = "Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA"
@@ -198,42 +197,54 @@ class UserClient:
         dirname = os.path.dirname(self.session_path)
         os.makedirs(dirname, exist_ok=True)
 
-        self.limits = defaultdict(dict)
-        self.locked = False
+        self.limits: dict[str, datetime] = {}
+        self.locked: dict[str, bool] = {}
 
     def save(self):
-        data = {
-            "cookies": dict(self.client.cookies),
-            "headers": dict(self.client.headers),
-            "limits": dict(self.limits),
-        }
+        cookies = dict(self.client.cookies)
+        headers = dict(self.client.headers)
+        limits = dict(self.limits)
+
         with open(self.session_path, "w") as fp:
-            json.dump(data, fp, indent=2)
+            json.dump({"cookies": cookies, "headers": headers, "limits": limits}, fp, indent=2)
 
     def restore(self):
         try:
             with open(self.session_path) as fp:
                 data = json.load(fp)
-                self.client.cookies.update(data["cookies"])
-                self.client.headers.update(data["headers"])
-                self.limits.update(data.get("limits", {}))
+                self.client.cookies.update(data.get("cookies", {}))
+                self.client.headers.update(data.get("headers", {}))
+                self.limits.update(
+                    {k: datetime.fromisoformat(v) for k, v in data.get("limits", {}).items()}
+                )
                 return True
         except (FileNotFoundError, json.JSONDecodeError):
             return False
 
-    def _update_limits(self, rep: Response):
-        for k, v in rep.headers.items():
-            if k.startswith("x-rate-limit-"):
-                self.limits[rep.url.path][k] = v
-        self.save()
+    def make_client(self) -> AsyncClient:
+        client = AsyncClient()
+        client.headers.update(self.client.headers)
+        client.cookies.update(self.client.cookies)
+        return client
 
-    def check_limits(self, rep: Response, cursor: str | None):
-        if rep.status_code == 429:
-            reset = int(rep.headers.get("x-rate-limit-reset"))
-            reset_time = datetime.fromtimestamp(reset, tz=timezone.utc)
-            logger.debug(f"Rate limit exceeded for {self.username} - reset at {reset_time}")
-            self._update_limits(rep)
-            raise RateLimitExceeded(reset, cursor)
+    def can_use(self, queue: str):
+        if self.locked.get(queue, False):
+            return False
+
+        limit = self.limits.get(queue)
+        return not limit or limit <= datetime.now(timezone.utc)
+
+    def lock(self, queue: str):
+        self.locked[queue] = True
+
+    def unlock(self, queue: str):
+        self.locked[queue] = False
+
+    def update_limit(self, queue: str, rep: Response):
+        reset = rep.headers.get("x-rate-limit-reset", 0)
+        reset = datetime.fromtimestamp(int(reset), tz=timezone.utc)
+        self.limits[queue] = reset
+        self.save()
 
     def print_session(self):
         for x in self.client.headers.items():

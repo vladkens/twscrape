@@ -1,7 +1,7 @@
 from httpx import AsyncClient, Response
 from loguru import logger
 
-from .client import UserClient, raise_for_status
+from .pool import AccountsPool
 
 BASIC_SEARCH_PARAMS = """
 include_profile_interstitial_type=1
@@ -45,9 +45,13 @@ SEARCH_URL = "https://api.twitter.com/2/search/adaptive.json"
 SEARCH_PARAMS = dict(x.split("=") for x in BASIC_SEARCH_PARAMS.splitlines() if x)
 
 
+def rep_info(rep: Response) -> str:
+    return f"[{rep.headers['x-rate-limit-remaining']}/{rep.headers['x-rate-limit-limit']}]"
+
+
 class Search:
-    def __init__(self, account: UserClient):
-        self.account = account
+    def __init__(self, pool: AccountsPool):
+        self.pool = pool
 
     def get_next_cursor(self, res: dict) -> str | None:
         try:
@@ -63,34 +67,32 @@ class Search:
             logger.debug(e)
             return None
 
-    def _log(self, rep: Response, msg: str):
-        limit = int(rep.headers.get("x-rate-limit-limit", -1))
-        remaining = int(rep.headers.get("x-rate-limit-remaining", -1))
-        logger.debug(f"[{remaining:3,d}/{limit:3,d}] {self.account.username} - {msg}")
-
-    async def query(self, q: str, cursor: str | None = None):
-        client = AsyncClient()
-        client.headers.update(self.account.client.headers)
-        client.cookies.update(self.account.client.cookies)
-
-        total_count = 0
+    async def get(self, client: AsyncClient, q: str, cursor: str | None):
         while True:
             params = {**SEARCH_PARAMS, "q": q, "count": 20}
             params["cursor" if cursor else "requestContext"] = cursor if cursor else "launch"
 
             rep = await client.get(SEARCH_URL, params=params)
-            self.account.check_limits(rep, cursor)
-            raise_for_status(rep, "search")
+            rep.raise_for_status()
 
             data = rep.json()
-            tweets = data.get("globalObjects", {}).get("tweets", [])
             cursor = self.get_next_cursor(data)
-            # logger.debug(rep.text)
-
-            total_count += len(tweets)
-            self._log(rep, f"{total_count:,d} (+{len(tweets):,d}) tweets - {q}")
-
+            tweets = data.get("globalObjects", {}).get("tweets", [])
             if not tweets or not cursor:
+                is_tweets = len(tweets) > 0
+                is_cursor = cursor is not None
+                logger.debug(f"{q} - no more results [res: {is_tweets}, cur: {is_cursor}]")
                 return
 
-            yield rep.text
+            yield rep, data, cursor
+
+    async def query(self, q: str):
+        total_count = 0
+        async for x in self.pool.execute("search", lambda c, cur: self.get(c, q, cur)):
+            rep, data, cursor = x
+
+            tweets = data.get("globalObjects", {}).get("tweets", [])
+            total_count += len(tweets)
+            logger.debug(f"{q} - {total_count:,d} (+{len(tweets):,d}) {rep_info(rep)}")
+
+            yield rep
