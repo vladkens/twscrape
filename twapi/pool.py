@@ -20,6 +20,17 @@ class AccountsPool:
                 return x
         return None
 
+    async def get_account_or_wait(self, queue: str) -> UserClient:
+        while True:
+            account = self.get_account(queue)
+            if account:
+                logger.debug(f"Using account {account.username} for queue '{queue}'")
+                account.lock(queue)
+                return account
+            else:
+                logger.debug(f"No accounts available for queue '{queue}' (sleeping for 5 sec)")
+                await asyncio.sleep(5)
+
     async def execute(
         self,
         queue: str,
@@ -29,14 +40,7 @@ class AccountsPool:
         cursor: str | None = None,
     ):
         while True:
-            account = self.get_account(queue)
-            if not account:
-                logger.debug(f"No accounts available for queue {queue}, sleeping 5 seconds")
-                await asyncio.sleep(5)
-                continue
-            else:
-                account.lock(queue)
-                logger.debug(f"Using account {account.username} for queue {queue}")
+            account = await self.get_account_or_wait(queue)
 
             try:
                 client = account.make_client()
@@ -47,7 +51,7 @@ class AccountsPool:
             except HTTPStatusError as e:
                 if e.response.status_code == 429:
                     account.update_limit(queue, e.response)
-                    logger.debug(f"Account {account.username} is frozen")
+                    logger.debug(f"Rate limit reached for account {account.username}")
                     continue
                 else:
                     raise e
