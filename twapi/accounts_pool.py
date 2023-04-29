@@ -2,7 +2,7 @@ import asyncio
 
 from loguru import logger
 
-from .account import Account
+from .account import Account, Status
 
 
 class AccountsPool:
@@ -12,7 +12,16 @@ class AccountsPool:
     def add_account(self, account: Account):
         self.accounts.append(account)
 
-    def get_login_by_token(self, auth_token: str) -> str:
+    async def login(self):
+        for x in self.accounts:
+            try:
+                if x.status == Status.NEW:
+                    await x.login()
+            except Exception as e:
+                logger.error(f"Error logging in to {x.username}: {e}")
+                pass
+
+    def get_username_by_token(self, auth_token: str) -> str:
         for x in self.accounts:
             if x.client.cookies.get("auth_token") == auth_token:
                 return x.username

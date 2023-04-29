@@ -1,11 +1,18 @@
 import json
 from collections import defaultdict
-from typing import Any, TypeVar
+from typing import Any, AsyncGenerator, TypeVar
 
 from httpx import HTTPStatusError, Response
 from loguru import logger
 
 T = TypeVar("T")
+
+
+async def gather(gen: AsyncGenerator[T, None]) -> list[T]:
+    items = []
+    async for x in gen:
+        items.append(x)
+    return items
 
 
 def raise_for_status(rep: Response, label: str):

@@ -4,21 +4,51 @@ Twitter GraphQL and Search API implementation with [SNScrape](https://github.com
 
 ```python
 import asyncio
-from twapi.client import UserClient
-from twapi.pool import AccountsPool
-from twapi.search import Search
+from twapi.account import Account
+from twapi.accounts_pool import AccountsPool
+from twapi.api import API
+from twapi.utils import gather
 
 async def main():
-    acc1 = UserClient("user1", "pass1", "user1@example.com", "email_pass1")
-    acc2 = UserClient("user2", "pass2", "user2@example.com", "email_pass2")
+    acc1 = Account("user1", "pass1", "user1@example.com", "email_pass1")
+    acc2 = Account("user2", "pass2", "user2@example.com", "email_pass2")
 
     pool = AccountsPool()
     pool.add_account(acc1)
     pool.add_account(acc2)
 
-    search = Search(pool)
-    async for rep in search.query("elon musk"):
-        print(rep.status_code, rep.json())
+    # login all accounts if required (not account file found)
+    # session file will be saved to `accounts/{username}.json`
+    await pool.login()
+
+    api = API(pool)
+
+    # search api
+    await gather(api.search("elon musk", limit=20))  # list[Tweet]
+
+    # graphql api
+    tweet_id = 20
+    user_id, user_login = 2244994945, "twitterdev"
+
+    await api.tweet_details(tweet_id)  # Tweet
+    await gather(api.retweeters(tweet_id, limit=20))  # list[User]
+    await gather(api.favoriters(tweet_id, limit=20))  # list[User]
+
+    await api.user_by_id(user_id)  # User
+    await api.user_by_login(user_login)  # User
+    await gather(api.followers(user_id, limit=20))  # list[User]
+    await gather(api.following(user_id, limit=20))  # list[User]
+    await gather(api.user_tweets(user_id, limit=20))  # list[Tweet]
+    await gather(api.user_tweets_and_replies(user_id, limit=20))  # list[Tweet]
+
+    # note 1: limit is optional, default is -1 (no limit)
+    # note 2: all methods have `raw` version e.g.:
+
+    async for tweet in api.search("elon musk"):
+        print(tweet.id, tweet.user.username, tweet.rawContent)  # tweet is `Tweet` object
+
+    async for rep in api.search_raw("elon musk"):
+        print(rep.status_code, rep.json())  # rep is `httpx.Response` object
 
 if __name__ == "__main__":
     asyncio.run(main())

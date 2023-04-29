@@ -10,7 +10,7 @@ from .models import Tweet, User
 from .utils import encode_params, find_item, to_old_obj, to_search_like
 
 
-class Search:
+class API:
     def __init__(self, pool: AccountsPool):
         self.pool = pool
 
@@ -21,7 +21,7 @@ class Search:
         ll = rep.headers.get("x-rate-limit-limit", -1)
 
         auth_token = rep.request.headers["cookie"].split("auth_token=")[1].split(";")[0]
-        username = self.pool.get_login_by_token(auth_token)
+        username = self.pool.get_username_by_token(auth_token)
 
         return f"{username} {lr}/{ll}"
 
