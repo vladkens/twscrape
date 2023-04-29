@@ -2,23 +2,23 @@ import asyncio
 
 from loguru import logger
 
-from .client import UserClient
+from .client import Account
 
 
 class AccountsPool:
     def __init__(self):
-        self.accounts: list[UserClient] = []
+        self.accounts: list[Account] = []
 
-    def add_account(self, account: UserClient):
+    def add_account(self, account: Account):
         self.accounts.append(account)
 
-    def get_account(self, queue: str) -> UserClient | None:
+    def get_account(self, queue: str) -> Account | None:
         for x in self.accounts:
             if x.can_use(queue):
                 return x
         return None
 
-    async def get_account_or_wait(self, queue: str) -> UserClient:
+    async def get_account_or_wait(self, queue: str) -> Account:
         while True:
             account = self.get_account(queue)
             if account:

@@ -1,4 +1,5 @@
 import json
+from time import time
 from typing import Awaitable, Callable
 
 from httpx import AsyncClient, HTTPStatusError, Response
@@ -118,21 +119,27 @@ class Search:
     async def _inf_req(self, queue: str, cb: Callable[[AsyncClient], Awaitable[Response]]):
         while True:
             account = await self.pool.get_account_or_wait(queue)
-            client = account.make_client()
 
             try:
                 while True:
-                    rep = await cb(client)
+                    rep = await cb(account.client)
                     rep.raise_for_status()
                     yield rep
             except HTTPStatusError as e:
                 if e.response.status_code == 429:
                     logger.debug(f"Rate limit for account={account.username} on queue={queue}")
-                    account.update_limit(queue, e.response)
+                    reset_ts = int(e.response.headers.get("x-rate-limit-reset", 0))
+                    account.update_limit(queue, reset_ts)
                     continue
-                else:
-                    logger.error(f"[{e.response.status_code}] {e.request.url}\n{e.response.text}")
-                    raise e
+
+                if e.response.status_code == 403:
+                    logger.debug(f"Account={account.username} is banned on queue={queue}")
+                    reset_ts = int(time.time() + 60 * 60)  # 1 hour
+                    account.update_limit(queue, reset_ts)
+                    continue
+
+                logger.error(f"[{e.response.status_code}] {e.request.url}\n{e.response.text}")
+                raise e
             finally:
                 account.unlock(queue)
 
