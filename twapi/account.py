@@ -7,11 +7,9 @@ from fake_useragent import UserAgent
 from httpx import AsyncClient, HTTPStatusError, Response
 from loguru import logger
 
+from .constants import LOGIN_URL, TOKEN
 from .imap import get_email_code
 from .utils import raise_for_status
-
-TOKEN = "Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA"
-TASK_URL = "https://api.twitter.com/1.1/onboarding/task.json"
 
 
 class Status(str, Enum):
@@ -151,7 +149,7 @@ class Account:
             "subtask_versions": {},
         }
 
-        rep = await self.client.post(TASK_URL, params={"flow_name": "login"}, json=payload)
+        rep = await self.client.post(LOGIN_URL, params={"flow_name": "login"}, json=payload)
         raise_for_status(rep, "login_initiate")
         return rep
 
@@ -201,7 +199,7 @@ class Account:
             ],
         }
 
-        rep = await self.client.post(TASK_URL, json=payload)
+        rep = await self.client.post(LOGIN_URL, json=payload)
         raise_for_status(rep, "login_instrumentation")
         return rep
 
@@ -224,7 +222,7 @@ class Account:
             ],
         }
 
-        rep = await self.client.post(TASK_URL, json=payload)
+        rep = await self.client.post(LOGIN_URL, json=payload)
         raise_for_status(rep, "login_username")
         return rep
 
@@ -239,7 +237,7 @@ class Account:
             ],
         }
 
-        rep = await self.client.post(TASK_URL, json=payload)
+        rep = await self.client.post(LOGIN_URL, json=payload)
         raise_for_status(rep, "login_password")
         return rep
 
@@ -254,7 +252,7 @@ class Account:
             ],
         }
 
-        rep = await self.client.post(TASK_URL, json=payload)
+        rep = await self.client.post(LOGIN_URL, json=payload)
         raise_for_status(rep, "login_duplication_check")
         return rep
 
@@ -269,7 +267,7 @@ class Account:
             ],
         }
 
-        rep = await self.client.post(TASK_URL, json=payload)
+        rep = await self.client.post(LOGIN_URL, json=payload)
         raise_for_status(rep, "login_confirm_email")
         return rep
 
@@ -287,7 +285,7 @@ class Account:
             ],
         }
 
-        rep = await self.client.post(TASK_URL, json=payload)
+        rep = await self.client.post(LOGIN_URL, json=payload)
         raise_for_status(rep, "login_confirm_email")
         return rep
 
@@ -297,6 +295,6 @@ class Account:
             "subtask_inputs": [],
         }
 
-        rep = await self.client.post(TASK_URL, json=payload)
+        rep = await self.client.post(LOGIN_URL, json=payload)
         raise_for_status(rep, "login_success")
         return rep

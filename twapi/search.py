@@ -1,106 +1,29 @@
-import json
-from time import time
+import time
 from typing import Awaitable, Callable
 
 from httpx import AsyncClient, HTTPStatusError, Response
 from loguru import logger
 
+from .accounts_pool import AccountsPool
+from .constants import GQL_FEATURES, GQL_URL, SEARCH_PARAMS, SEARCH_URL
 from .models import Tweet, User
-from .pool import AccountsPool
 from .utils import encode_params, find_item, to_old_obj, to_search_like
-
-BASIC_SEARCH_PARAMS = """
-include_profile_interstitial_type=1
-include_blocking=1
-include_blocked_by=1
-include_followed_by=1
-include_want_retweets=1
-include_mute_edge=1
-include_can_dm=1
-include_can_media_tag=1
-include_ext_has_nft_avatar=1
-include_ext_is_blue_verified=1
-include_ext_verified_type=1
-include_ext_profile_image_shape=1
-skip_status=1
-cards_platform=Web-12
-include_cards=1
-include_ext_alt_text=true
-include_ext_limited_action_results=false
-include_quote_count=true
-include_reply_count=1
-tweet_mode=extended
-include_ext_views=true
-include_entities=true
-include_user_entities=true
-include_ext_media_color=true
-include_ext_media_availability=true
-include_ext_sensitive_media_warning=true
-include_ext_trusted_friends_metadata=true
-send_error_codes=true
-simple_quoted_tweet=true
-tweet_search_mode=live
-query_source=recent_search_click
-pc=1
-spelling_corrections=1
-include_ext_edit_control=true
-ext=mediaStats%2ChighlightedLabel%2ChasNftAvatar%2CvoiceInfo%2CbirdwatchPivot%2Cenrichments%2CsuperFollowMetadata%2CunmentionInfo%2CeditControl%2Cvibe
-"""
-
-BASE_FEATURES = {
-    "blue_business_profile_image_shape_enabled": True,
-    "responsive_web_graphql_exclude_directive_enabled": True,
-    "verified_phone_label_enabled": False,
-    "responsive_web_graphql_skip_user_profile_image_extensions_enabled": False,
-    "responsive_web_graphql_timeline_navigation_enabled": True,
-    #
-    "tweetypie_unmention_optimization_enabled": True,
-    "vibe_api_enabled": True,
-    "responsive_web_edit_tweet_api_enabled": True,
-    "graphql_is_translatable_rweb_tweet_is_translatable_enabled": True,
-    "view_counts_everywhere_api_enabled": True,
-    "longform_notetweets_consumption_enabled": True,
-    "tweet_awards_web_tipping_enabled": False,
-    "freedom_of_speech_not_reach_fetch_enabled": True,
-    "standardized_nudges_misinfo": True,
-    "tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled": False,
-    "interactive_text_enabled": True,
-    "responsive_web_text_conversations_enabled": False,
-    "longform_notetweets_rich_text_read_enabled": True,
-    "responsive_web_enhance_cards_enabled": False,
-}
-
-SEARCH_URL = "https://api.twitter.com/2/search/adaptive.json"
-SEARCH_PARAMS = dict(x.split("=") for x in BASIC_SEARCH_PARAMS.splitlines() if x)
-GRAPHQL_URL = "https://twitter.com/i/api/graphql/"
-
-
-def filter_null(obj: dict):
-    try:
-        return {k: v for k, v in obj.items() if v is not None}
-    except AttributeError:
-        return obj
-
-
-def json_params(obj: dict):
-    return {k: json.dumps(filter_null(v), separators=(",", ":")) for k, v in obj.items()}
-
-
-def get_ql_entries(obj: dict) -> list[dict]:
-    entries = find_item(obj, "entries")
-    return entries or []
 
 
 class Search:
     def __init__(self, pool: AccountsPool):
         self.pool = pool
 
-        # http helpers
+    # http helpers
 
     def _limit_msg(self, rep: Response):
         lr = rep.headers.get("x-rate-limit-remaining", -1)
         ll = rep.headers.get("x-rate-limit-limit", -1)
-        return f"{lr}/{ll}"
+
+        auth_token = rep.request.headers["cookie"].split("auth_token=")[1].split(";")[0]
+        username = self.pool.get_login_by_token(auth_token)
+
+        return f"{username} {lr}/{ll}"
 
     def _is_end(self, rep: Response, q: str, res: list, cur: str | None, cnt: int, lim: int):
         new_count = len(res)
@@ -170,12 +93,12 @@ class Search:
         except Exception:
             return None
 
-    async def _ql_items(self, op: str, kv: dict, ft: dict = {}, limit=-1):
+    async def _ql_items(self, op: str, kv: dict, limit=-1):
         queue, cursor, count = op.split("/")[-1], None, 0
 
         async def _get(client: AsyncClient):
-            params = {"variables": {**kv, "cursor": cursor}, "features": BASE_FEATURES}
-            return await client.get(f"{GRAPHQL_URL}/{op}", params=encode_params(params))
+            params = {"variables": {**kv, "cursor": cursor}, "features": GQL_FEATURES}
+            return await client.get(f"{GQL_URL}/{op}", params=encode_params(params))
 
         async for rep in self._inf_req(queue, _get):
             obj = rep.json()
@@ -197,11 +120,9 @@ class Search:
                 return
 
     async def _ql_item(self, op: str, kv: dict, ft: dict = {}):
-        variables, features = {**kv}, {**BASE_FEATURES, **ft}
-        params = {"variables": variables, "features": features}
-
         async def _get(client: AsyncClient):
-            return await client.get(f"{GRAPHQL_URL}/{op}", params=encode_params(params))
+            params = {"variables": {**kv}, "features": {**GQL_FEATURES, **ft}}
+            return await client.get(f"{GQL_URL}/{op}", params=encode_params(params))
 
         queue = op.split("/")[-1]
         async for rep in self._inf_req(queue, _get):
