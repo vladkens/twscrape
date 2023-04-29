@@ -1,5 +1,5 @@
 import email.utils
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 from datetime import datetime
 from typing import Optional
 
@@ -7,13 +7,29 @@ from .utils import get_or, int_or_none
 
 
 @dataclass
-class Coordinates:
-    longitude: float
-    latitude: float
+class JSONTrait:
+    def json(self):
+        return asdict(self)
 
 
 @dataclass
-class Place:
+class Coordinates(JSONTrait):
+    longitude: float
+    latitude: float
+
+    @staticmethod
+    def parse(tw_obj: dict):
+        if tw_obj.get("coordinates"):
+            coords = tw_obj["coordinates"]["coordinates"]
+            return Coordinates(coords[0], coords[1])
+        if tw_obj.get("geo"):
+            coords = tw_obj["geo"]["coordinates"]
+            return Coordinates(coords[1], coords[0])
+        return None
+
+
+@dataclass
+class Place(JSONTrait):
     id: str
     fullName: str
     name: str
@@ -34,7 +50,7 @@ class Place:
 
 
 @dataclass
-class TextLink:
+class TextLink(JSONTrait):
     url: str
     text: str | None
     tcourl: str | None
@@ -51,22 +67,18 @@ class TextLink:
 
 
 @dataclass
-class UserRef:
+class UserRef(JSONTrait):
     id: int
     username: str
     displayname: str
 
     @staticmethod
     def parse(obj: dict):
-        return UserRef(
-            id=obj["id"],
-            username=obj["screen_name"],
-            displayname=obj["name"],
-        )
+        return UserRef(id=int(obj["id_str"]), username=obj["screen_name"], displayname=obj["name"])
 
 
 @dataclass
-class User:
+class User(JSONTrait):
     id: int
     username: str
     displayname: str
@@ -115,7 +127,7 @@ class User:
 
 
 @dataclass
-class Tweet:
+class Tweet(JSONTrait):
     id: int
     date: datetime
     user: User
@@ -136,10 +148,6 @@ class Tweet:
     place: Optional[Place] = None
     coordinates: Optional[Coordinates] = None
 
-    @property
-    def url(self):
-        return f"https://twitter.com/{self.user.username}/status/{self.id}"
-
     # renderedContent: str
     # source: str | None = None
     # sourceUrl: str | None = None
@@ -150,23 +158,19 @@ class Tweet:
     # card: typing.Optional["Card"] = None
     # vibe: typing.Optional["Vibe"] = None
 
+    @property
+    def url(self):
+        return f"https://twitter.com/{self.user.username}/status/{self.id}"
+
     @staticmethod
     def parse(obj: dict, res: dict):
-        rt_obj = get_or(res, f"globalObjects.tweets.{obj.get('retweeted_status_id_str')}")
-        qt_obj = get_or(res, f"globalObjects.tweets.{obj.get('quoted_status_id_str')}")
-
-        coordinates: Coordinates | None = None
-        if obj.get("coordinates"):
-            coords = obj["coordinates"]["coordinates"]
-            coordinates = Coordinates(coords[0], coords[1])
-        elif obj.get("geo"):
-            coords = obj["geo"]["coordinates"]
-            coordinates = Coordinates(coords[1], coords[0])
+        rt_obj = get_or(res, f"tweets.{obj.get('retweeted_status_id_str')}")
+        qt_obj = get_or(res, f"tweets.{obj.get('quoted_status_id_str')}")
 
         return Tweet(
-            id=obj["id"],
+            id=int(obj["id_str"]),
             date=email.utils.parsedate_to_datetime(obj["created_at"]),
-            user=User.parse(res["globalObjects"]["users"][obj["user_id_str"]]),
+            user=User.parse(res["users"][obj["user_id_str"]]),
             lang=obj["lang"],
             rawContent=obj["full_text"],
             replyCount=obj["reply_count"],
@@ -182,5 +186,5 @@ class Tweet:
             retweetedTweet=Tweet.parse(rt_obj, res) if rt_obj else None,
             quotedTweet=Tweet.parse(qt_obj, res) if qt_obj else None,
             place=Place.parse(obj["place"]) if obj.get("place") else None,
-            coordinates=coordinates,
+            coordinates=Coordinates.parse(obj),
         )

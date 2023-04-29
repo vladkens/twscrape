@@ -6,17 +6,13 @@ import time
 from datetime import datetime, timezone
 
 from fake_useragent import UserAgent
-from httpx import AsyncClient, Client, HTTPStatusError, Response
+from httpx import AsyncClient, Client, Response
 from loguru import logger
+
+from .utils import raise_for_status
 
 TOKEN = "Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA"
 TASK_URL = "https://api.twitter.com/1.1/onboarding/task.json"
-
-
-class RateLimitExceeded(Exception):
-    def __init__(self, reset: int, cursor: str | None = None):
-        self.reset = reset
-        self.cursor = cursor
 
 
 def search_email_with_confirmation_code(imap: imaplib.IMAP4_SSL, msg_count: int) -> str | None:
@@ -50,13 +46,6 @@ def get_verification_code(email: str, password: str, imap_domain: None | str = N
 
             logger.debug(f"Waiting for confirmation email... {msg_count}")
             time.sleep(1)
-
-
-def raise_for_status(rep: Response, label: str):
-    try:
-        rep.raise_for_status()
-    except HTTPStatusError:
-        raise Exception(f"{label} - {rep.status_code} - {rep.text}")
 
 
 def login_get_guest_token(client: Client) -> str:

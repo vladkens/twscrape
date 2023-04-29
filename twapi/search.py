@@ -4,9 +4,9 @@ from typing import Awaitable, Callable
 from httpx import AsyncClient, HTTPStatusError, Response
 from loguru import logger
 
-from .models import Tweet
+from .models import Tweet, User
 from .pool import AccountsPool
-from .utils import find_item
+from .utils import encode_params, find_item, to_old_obj, to_search_like
 
 BASIC_SEARCH_PARAMS = """
 include_profile_interstitial_type=1
@@ -71,6 +71,7 @@ BASE_FEATURES = {
 
 SEARCH_URL = "https://api.twitter.com/2/search/adaptive.json"
 SEARCH_PARAMS = dict(x.split("=") for x in BASIC_SEARCH_PARAMS.splitlines() if x)
+GRAPHQL_URL = "https://twitter.com/i/api/graphql/"
 
 
 def filter_null(obj: dict):
@@ -93,6 +94,27 @@ class Search:
     def __init__(self, pool: AccountsPool):
         self.pool = pool
 
+        # http helpers
+
+    def _limit_msg(self, rep: Response):
+        lr = rep.headers.get("x-rate-limit-remaining", -1)
+        ll = rep.headers.get("x-rate-limit-limit", -1)
+        return f"{lr}/{ll}"
+
+    def _is_end(self, rep: Response, q: str, res: list, cur: str | None, cnt: int, lim: int):
+        new_count = len(res)
+        new_total = cnt + new_count
+
+        is_res = new_count > 0
+        is_cur = cur is not None
+        is_lim = lim > 0 and new_total >= lim
+
+        stats = f"{q} {new_total:,d} (+{new_count:,d})"
+        flags = f"res={int(is_res)} cur={int(is_cur)} lim={int(is_lim)}"
+        logger.debug(" ".join([stats, flags, self._limit_msg(rep)]))
+
+        return new_total, not is_res, not is_cur or is_lim
+
     async def _inf_req(self, queue: str, cb: Callable[[AsyncClient], Awaitable[Response]]):
         while True:
             account = await self.pool.get_account_or_wait(queue)
@@ -114,23 +136,7 @@ class Search:
             finally:
                 account.unlock(queue)
 
-    def _check_stop(self, rep: Response, txt: str, cnt: int, res: list, cur: str | None, lim: int):
-        els = len(res)
-        is_res, is_cur, is_lim = els > 0, cur is not None, lim > 0 and cnt >= lim
-
-        msg = [
-            f"{txt} {cnt:,d} (+{els:,d}) res={int(is_res)} cur={int(is_cur)} lim={int(is_lim)}",
-            f"[{rep.headers['x-rate-limit-remaining']}/{rep.headers['x-rate-limit-limit']}]",
-        ]
-        logger.debug(" ".join(msg))
-
-        end_before = not is_res
-        end_after = not is_cur or is_lim
-        return cnt + els, end_before, end_after
-
-    # search
-
-    def get_search_cursor(self, res: dict) -> str | None:
+    def _get_search_cursor(self, res: dict) -> str | None:
         try:
             for x in res["timeline"]["instructions"]:
                 entry = x.get("replaceEntry", None)
@@ -144,8 +150,63 @@ class Search:
             logger.debug(e)
             return None
 
+    def get_ql_entries(self, obj: dict) -> list[dict]:
+        entries = find_item(obj, "entries")
+        return entries or []
+
+    def _get_ql_cursor(self, obj: dict) -> str | None:
+        try:
+            for entry in self.get_ql_entries(obj):
+                if entry["entryId"].startswith("cursor-bottom-"):
+                    return entry["content"]["value"]
+            return None
+        except Exception:
+            return None
+
+    async def _ql_items(self, op: str, kv: dict, ft: dict = {}, limit=-1):
+        queue, cursor, count = op.split("/")[-1], None, 0
+
+        async def _get(client: AsyncClient):
+            params = {"variables": {**kv, "cursor": cursor}, "features": BASE_FEATURES}
+            return await client.get(f"{GRAPHQL_URL}/{op}", params=encode_params(params))
+
+        async for rep in self._inf_req(queue, _get):
+            obj = rep.json()
+
+            # cursor-top / cursor-bottom always present
+            entries = self.get_ql_entries(obj)
+            entries = [x for x in entries if not x["entryId"].startswith("cursor-")]
+            cursor = self._get_ql_cursor(obj)
+
+            check = self._is_end(rep, queue, entries, cursor, count, limit)
+            count, end_before, end_after = check
+
+            if end_before:
+                return
+
+            yield rep
+
+            if end_after:
+                return
+
+    async def _ql_item(self, op: str, kv: dict, ft: dict = {}):
+        variables, features = {**kv}, {**BASE_FEATURES, **ft}
+        params = {"variables": variables, "features": features}
+
+        async def _get(client: AsyncClient):
+            return await client.get(f"{GRAPHQL_URL}/{op}", params=encode_params(params))
+
+        queue = op.split("/")[-1]
+        async for rep in self._inf_req(queue, _get):
+            logger.debug(f"{queue} {self._limit_msg(rep)}")
+            return rep
+
+        raise Exception("No response")  # todo
+
+    # search
+
     async def search_raw(self, q: str, limit=-1):
-        queue, cursor, all_count = "search", None, 0
+        queue, cursor, count = "search", None, 0
 
         async def _get(client: AsyncClient):
             params = {**SEARCH_PARAMS, "q": q, "count": 20}
@@ -155,11 +216,11 @@ class Search:
         async for rep in self._inf_req(queue, _get):
             data = rep.json()
 
-            cursor = self.get_search_cursor(data)
+            cursor = self._get_search_cursor(data)
             tweets = data.get("globalObjects", {}).get("tweets", [])
 
-            check = self._check_stop(rep, q, all_count, tweets, cursor, limit)
-            all_count, end_before, end_after = check
+            check = self._is_end(rep, q, tweets, cursor, count, limit)
+            count, end_before, end_after = check
 
             if end_before:
                 return
@@ -171,85 +232,160 @@ class Search:
 
     async def search(self, q: str, limit=-1):
         async for rep in self.search_raw(q, limit=limit):
-            data = rep.json()
-            items = list(data.get("globalObjects", {}).get("tweets", {}).values())
-            for x in items:
-                yield Tweet.parse(x, data)
+            res = rep.json()
+            obj = res.get("globalObjects", {})
+            for x in list(obj.get("tweets", {}).values()):
+                yield Tweet.parse(x, obj)
 
-    # graphql
+    # user_by_id
 
-    def get_ql_cursor(self, obj: dict) -> str | None:
-        try:
-            for entry in get_ql_entries(obj):
-                if entry["entryId"].startswith("cursor-bottom-"):
-                    return entry["content"]["value"]
-            return None
-        except Exception:
-            return None
-
-    async def graphql_items(self, op: str, variables: dict, features: dict = {}, limit=-1):
-        url = f"https://twitter.com/i/api/graphql/{op}"
-        features = {**BASE_FEATURES, **features}
-
-        queue, cursor, all_count = op.split("/")[-1], None, 0
-
-        async def _get(client: AsyncClient):
-            params = {"variables": {**variables, "cursor": cursor}, "features": features}
-            return await client.get(url, params=json_params(params))
-
-        async for rep in self._inf_req(queue, _get):
-            data = rep.json()
-            entries, cursor = get_ql_entries(data), self.get_ql_cursor(data)
-
-            # cursor-top / cursor-bottom always present
-            items = [x for x in entries if not x["entryId"].startswith("cursor-")]
-            check = self._check_stop(rep, queue, all_count, items, cursor, limit)
-            all_count, end_before, end_after = check
-
-            if end_before:
-                return
-
-            yield rep
-
-            if end_after:
-                return
-
-    async def graphql_item(self, op: str, variables: dict, features: dict = {}):
-        url = f"https://twitter.com/i/api/graphql/{op}"
-        features = {**BASE_FEATURES, **features}
-
-        async def _get(client: AsyncClient):
-            params = {"variables": {**variables}, "features": features}
-            return await client.get(url, params=json_params(params))
-
-        queue = op.split("/")[-1]
-        async for rep in self._inf_req(queue, _get):
-            msg = [
-                f"{queue}",
-                f"[{rep.headers['x-rate-limit-remaining']}/{rep.headers['x-rate-limit-limit']}]",
-            ]
-            logger.debug(" ".join(msg))
-
-            return rep
-
-    async def user_by_login(self, login: str):
-        op = "sLVLhk0bGj3MVFEKTdax1w/UserByScreenName"
-        kv = {"screen_name": login, "withSafetyModeUserFields": True}
-        return await self.graphql_item(op, kv)
-
-    async def user_by_id(self, uid: int):
+    async def user_by_id_raw(self, uid: int):
         op = "GazOglcBvgLigl3ywt6b3Q/UserByRestId"
         kv = {"userId": str(uid), "withSafetyModeUserFields": True}
-        return await self.graphql_item(op, kv)
+        return await self._ql_item(op, kv)
 
-    async def retweeters(self, twid: int, limit=-1):
+    async def user_by_id(self, uid: int):
+        rep = await self.user_by_id_raw(uid)
+        res = rep.json()
+        return User.parse(to_old_obj(res["data"]["user"]["result"]))
+
+    # user_by_login
+
+    async def user_by_login_raw(self, login: str):
+        op = "sLVLhk0bGj3MVFEKTdax1w/UserByScreenName"
+        kv = {"screen_name": login, "withSafetyModeUserFields": True}
+        return await self._ql_item(op, kv)
+
+    async def user_by_login(self, login: str):
+        rep = await self.user_by_login_raw(login)
+        res = rep.json()
+        return User.parse(to_old_obj(res["data"]["user"]["result"]))
+
+    # tweet_details
+
+    async def tweet_details_raw(self, twid: int):
+        op = "zXaXQgfyR4GxE21uwYQSyA/TweetDetail"
+        kv = {
+            "focalTweetId": str(twid),
+            "referrer": "tweet",  # tweet, profile
+            "with_rux_injections": False,
+            "includePromotedContent": True,
+            "withCommunity": True,
+            "withQuickPromoteEligibilityTweetFields": True,
+            "withBirdwatchNotes": True,
+            "withVoice": True,
+            "withV2Timeline": True,
+            "withDownvotePerspective": False,
+            "withReactionsMetadata": False,
+            "withReactionsPerspective": False,
+            "withSuperFollowsTweetFields": False,
+            "withSuperFollowsUserFields": False,
+        }
+        ft = {
+            "responsive_web_twitter_blue_verified_badge_is_enabled": True,
+            "longform_notetweets_richtext_consumption_enabled": True,
+        }
+        return await self._ql_item(op, kv, ft)
+
+    async def tweet_details(self, twid: int):
+        rep = await self.tweet_details_raw(twid)
+        obj = to_search_like(rep.json())
+        return Tweet.parse(obj["tweets"][str(twid)], obj)
+
+    # followers
+
+    async def followers_raw(self, uid: int, limit=-1):
+        op = "djdTXDIk2qhd4OStqlUFeQ/Followers"
+        kv = {"userId": str(uid), "count": 20, "includePromotedContent": False}
+        async for x in self._ql_items(op, kv, limit=limit):
+            yield x
+
+    async def followers(self, uid: int, limit=-1):
+        async for rep in self.followers_raw(uid, limit=limit):
+            obj = to_search_like(rep.json())
+            for _, v in obj["users"].items():
+                yield User.parse(v)
+
+    # following
+
+    async def following_raw(self, uid: int, limit=-1):
+        op = "IWP6Zt14sARO29lJT35bBw/Following"
+        kv = {"userId": str(uid), "count": 20, "includePromotedContent": False}
+        async for x in self._ql_items(op, kv, limit=limit):
+            yield x
+
+    async def following(self, uid: int, limit=-1):
+        async for rep in self.following_raw(uid, limit=limit):
+            obj = to_search_like(rep.json())
+            for _, v in obj["users"].items():
+                yield User.parse(v)
+
+    # retweeters
+
+    async def retweeters_raw(self, twid: int, limit=-1):
         op = "U5f_jm0CiLmSfI1d4rGleQ/Retweeters"
         kv = {"tweetId": str(twid), "count": 20, "includePromotedContent": True}
-        async for x in self.graphql_items(op, kv, limit=limit):
+        async for x in self._ql_items(op, kv, limit=limit):
+            yield x
+
+    async def retweeters(self, twid: int, limit=-1):
+        async for rep in self.retweeters_raw(twid, limit=limit):
+            obj = to_search_like(rep.json())
+            for _, v in obj["users"].items():
+                yield User.parse(v)
+
+    # favoriters
+
+    async def favoriters_raw(self, twid: int, limit=-1):
+        op = "vcTrPlh9ovFDQejz22q9vg/Favoriters"
+        kv = {"tweetId": str(twid), "count": 20, "includePromotedContent": True}
+        async for x in self._ql_items(op, kv, limit=limit):
             yield x
 
     async def favoriters(self, twid: int, limit=-1):
-        op = "vcTrPlh9ovFDQejz22q9vg/Favoriters"
-        kv = {"tweetId": str(twid), "count": 20, "includePromotedContent": True}
-        async for x in self.graphql_items(op, kv, limit=limit):
+        async for rep in self.favoriters_raw(twid, limit=limit):
+            obj = to_search_like(rep.json())
+            for _, v in obj["users"].items():
+                yield User.parse(v)
+
+    # user_tweets
+
+    async def user_tweets_raw(self, uid: int, limit=-1):
+        op = "CdG2Vuc1v6F5JyEngGpxVw/UserTweets"
+        kv = {
+            "userId": str(uid),
+            "count": 40,
+            "includePromotedContent": True,
+            "withQuickPromoteEligibilityTweetFields": True,
+            "withVoice": True,
+            "withV2Timeline": True,
+        }
+        async for x in self._ql_items(op, kv, limit=limit):
             yield x
+
+    async def user_tweets(self, uid: int, limit=-1):
+        async for rep in self.user_tweets_raw(uid, limit=limit):
+            obj = to_search_like(rep.json())
+            for _, v in obj["tweets"].items():
+                yield Tweet.parse(v, obj)
+
+    # user_tweets_and_replies
+
+    async def user_tweets_and_replies_raw(self, uid: int, limit=-1):
+        op = "zQxfEr5IFxQ2QZ-XMJlKew/UserTweetsAndReplies"
+        kv = {
+            "userId": str(uid),
+            "count": 40,
+            "includePromotedContent": True,
+            "withCommunity": True,
+            "withVoice": True,
+            "withV2Timeline": True,
+        }
+        async for x in self._ql_items(op, kv, limit=limit):
+            yield x
+
+    async def user_tweets_and_replies(self, uid: int, limit=-1):
+        async for rep in self.user_tweets_and_replies_raw(uid, limit=limit):
+            obj = to_search_like(rep.json())
+            for _, v in obj["tweets"].items():
+                yield Tweet.parse(v, obj)
