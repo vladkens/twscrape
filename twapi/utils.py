@@ -3,7 +3,8 @@ from collections import defaultdict
 from typing import Any, AsyncGenerator, TypeVar
 
 from httpx import HTTPStatusError, Response
-from loguru import logger
+
+from .logger import logger
 
 T = TypeVar("T")
 

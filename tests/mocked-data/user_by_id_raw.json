@@ -1,0 +1,94 @@
+{
+  "data": {
+    "user": {
+      "result": {
+        "__typename": "User",
+        "id": "VXNlcjoyMjQ0OTk0OTQ1",
+        "rest_id": "2244994945",
+        "affiliates_highlighted_label": {
+          "label": {
+            "url": {
+              "url": "https://twitter.com/Twitter",
+              "urlType": "DeepLink"
+            },
+            "badge": {
+              "url": "https://pbs.twimg.com/profile_images/1488548719062654976/u6qfBBkF_bigger.jpg"
+            },
+            "description": "Twitter",
+            "userLabelType": "BusinessLabel",
+            "userLabelDisplayType": "Badge"
+          }
+        },
+        "has_graduated_access": true,
+        "is_blue_verified": true,
+        "profile_image_shape": "Square",
+        "legacy": {
+          "can_dm": false,
+          "can_media_tag": true,
+          "created_at": "Sat Dec 14 04:35:55 +0000 2013",
+          "default_profile": false,
+          "default_profile_image": false,
+          "description": "The voice of the #TwitterDev team and your official source for updates, news, and events, related to the #TwitterAPI.",
+          "entities": {
+            "description": {
+              "urls": []
+            },
+            "url": {
+              "urls": [
+                {
+                  "display_url": "developer.twitter.com/en/community",
+                  "expanded_url": "https://developer.twitter.com/en/community",
+                  "url": "https://t.co/9wI31m3ELF",
+                  "indices": [
+                    0,
+                    23
+                  ]
+                }
+              ]
+            }
+          },
+          "fast_followers_count": 0,
+          "favourites_count": 2128,
+          "followers_count": 583721,
+          "friends_count": 1941,
+          "has_custom_timelines": true,
+          "is_translator": false,
+          "listed_count": 2395,
+          "location": "127.0.0.1",
+          "media_count": 815,
+          "name": "Twitter Dev",
+          "normal_followers_count": 583721,
+          "pinned_tweet_ids_str": [
+            "1641222782594990080"
+          ],
+          "possibly_sensitive": false,
+          "profile_banner_url": "https://pbs.twimg.com/profile_banners/2244994945/1660405530",
+          "profile_image_url_https": "https://pbs.twimg.com/profile_images/1445764922474827784/W2zEPN7U_normal.jpg",
+          "profile_interstitial_type": "",
+          "screen_name": "TwitterDev",
+          "statuses_count": 4076,
+          "translator_type": "regular",
+          "url": "https://t.co/9wI31m3ELF",
+          "verified": false,
+          "verified_type": "Business",
+          "want_retweets": false,
+          "withheld_in_countries": []
+        },
+        "professional": {
+          "rest_id": "1516891231749517312",
+          "professional_type": "Business",
+          "category": [
+            {
+              "id": 1009,
+              "name": "Community",
+              "icon_name": "IconBriefcaseStroke"
+            }
+          ]
+        },
+        "smart_blocked_by": false,
+        "smart_blocking": false,
+        "business_account": {}
+      }
+    }
+  }
+}

@@ -4,18 +4,13 @@ Twitter GraphQL and Search API implementation with [SNScrape](https://github.com
 
 ```python
 import asyncio
-from twapi.account import Account
-from twapi.accounts_pool import AccountsPool
-from twapi.api import API
-from twapi.utils import gather
+from twapi import AccountsPool, API, gather
+from twapi.logger import set_log_level
 
 async def main():
-    acc1 = Account("user1", "pass1", "user1@example.com", "email_pass1")
-    acc2 = Account("user2", "pass2", "user2@example.com", "email_pass2")
-
     pool = AccountsPool()
-    pool.add_account(acc1)
-    pool.add_account(acc2)
+    pool.add_account("user1", "pass1", "user1@example.com", "email_pass1")
+    pool.add_account("user2", "pass2", "user2@example.com", "email_pass2")
 
     # login all accounts if required (not account file found)
     # session file will be saved to `accounts/{username}.json`
@@ -49,6 +44,9 @@ async def main():
 
     async for rep in api.search_raw("elon musk"):
         print(rep.status_code, rep.json())  # rep is `httpx.Response` object
+
+    # change log level, default info
+    set_log_level("DEBUG")
 
 if __name__ == "__main__":
     asyncio.run(main())

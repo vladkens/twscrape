@@ -3,7 +3,7 @@ import email as emaillib
 import imaplib
 from datetime import datetime
 
-from loguru import logger
+from .logger import logger
 
 
 def get_imap_domain(email: str) -> str:

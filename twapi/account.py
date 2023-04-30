@@ -5,10 +5,10 @@ from enum import Enum
 
 from fake_useragent import UserAgent
 from httpx import AsyncClient, HTTPStatusError, Response
-from loguru import logger
 
 from .constants import LOGIN_URL, TOKEN
 from .imap import get_email_code
+from .logger import logger
 from .utils import raise_for_status
 
 
@@ -27,7 +27,7 @@ class Account:
             with open(filepath) as f:
                 data = json.load(f)
             return cls(**data)
-        except Exception as e:
+        except (FileNotFoundError, json.JSONDecodeError) as e:
             logger.error(f"Failed to load account {filepath}: {e}")
             return None
 

@@ -1,15 +1,44 @@
 import asyncio
-
-from loguru import logger
+import os
 
 from .account import Account, Status
+from .logger import logger
 
 
 class AccountsPool:
+    BASE_DIR = "accounts"
+
     def __init__(self):
         self.accounts: list[Account] = []
 
-    def add_account(self, account: Account):
+    def load_from_dir(self, folder: str | None = None):
+        folder = folder or self.BASE_DIR
+
+        files = os.listdir(folder)
+        files = [x for x in files if x.endswith(".json")]
+        files = [os.path.join(folder, x) for x in files]
+
+        for file in files:
+            account = Account.load(file)
+            if account:
+                self.accounts.append(account)
+
+    def add_account(
+        self,
+        login: str,
+        password: str,
+        email: str,
+        email_password: str,
+        proxy: str | None = None,
+        user_agent: str | None = None,
+    ):
+        filepath = os.path.join(self.BASE_DIR, f"{login}.json")
+        account = Account.load(filepath)
+        if account:
+            self.accounts.append(account)
+            return
+
+        account = Account(login, password, email, email_password, user_agent, proxy)
         self.accounts.append(account)
 
     async def login(self):

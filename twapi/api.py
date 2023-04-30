@@ -2,10 +2,10 @@ import time
 from typing import Awaitable, Callable
 
 from httpx import AsyncClient, HTTPStatusError, Response
-from loguru import logger
 
 from .accounts_pool import AccountsPool
 from .constants import GQL_FEATURES, GQL_URL, SEARCH_PARAMS, SEARCH_URL
+from .logger import logger
 from .models import Tweet, User
 from .utils import encode_params, find_item, to_old_obj, to_search_like
 

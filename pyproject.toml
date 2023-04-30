@@ -6,3 +6,7 @@ line-length = 99
 
 [tool.ruff]
 line-length = 99
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+asyncio_mode = "auto"

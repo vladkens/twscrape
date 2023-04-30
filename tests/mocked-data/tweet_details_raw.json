@@ -1,0 +1,1813 @@
+{
+  "data": {
+    "threaded_conversation_with_injections_v2": {
+      "instructions": [
+        {
+          "type": "TimelineAddEntries",
+          "entries": [
+            {
+              "entryId": "tweet-1649191520250245121",
+              "sortIndex": "7574180516604530686",
+              "content": {
+                "entryType": "TimelineTimelineItem",
+                "__typename": "TimelineTimelineItem",
+                "itemContent": {
+                  "itemType": "TimelineTweet",
+                  "__typename": "TimelineTweet",
+                  "tweet_results": {
+                    "result": {
+                      "__typename": "Tweet",
+                      "rest_id": "1649191520250245121",
+                      "has_birdwatch_notes": false,
+                      "core": {
+                        "user_results": {
+                          "result": {
+                            "__typename": "User",
+                            "id": "VXNlcjoyMjQ0OTk0OTQ1",
+                            "rest_id": "2244994945",
+                            "affiliates_highlighted_label": {
+                              "label": {
+                                "url": {
+                                  "url": "https://twitter.com/Twitter",
+                                  "urlType": "DeepLink"
+                                },
+                                "badge": {
+                                  "url": "https://pbs.twimg.com/profile_images/1488548719062654976/u6qfBBkF_bigger.jpg"
+                                },
+                                "description": "Twitter",
+                                "userLabelType": "BusinessLabel",
+                                "userLabelDisplayType": "Badge"
+                              }
+                            },
+                            "has_graduated_access": true,
+                            "is_blue_verified": true,
+                            "legacy": {
+                              "can_dm": false,
+                              "can_media_tag": true,
+                              "created_at": "Sat Dec 14 04:35:55 +0000 2013",
+                              "default_profile": false,
+                              "default_profile_image": false,
+                              "description": "The voice of the #TwitterDev team and your official source for updates, news, and events, related to the #TwitterAPI.",
+                              "entities": {
+                                "description": {
+                                  "urls": []
+                                },
+                                "url": {
+                                  "urls": [
+                                    {
+                                      "display_url": "developer.twitter.com/en/community",
+                                      "expanded_url": "https://developer.twitter.com/en/community",
+                                      "url": "https://t.co/9wI31m3ELF",
+                                      "indices": [
+                                        0,
+                                        23
+                                      ]
+                                    }
+                                  ]
+                                }
+                              },
+                              "fast_followers_count": 0,
+                              "favourites_count": 2128,
+                              "followers_count": 583731,
+                              "friends_count": 1941,
+                              "has_custom_timelines": true,
+                              "is_translator": false,
+                              "listed_count": 2395,
+                              "location": "127.0.0.1",
+                              "media_count": 815,
+                              "name": "Twitter Dev",
+                              "normal_followers_count": 583731,
+                              "pinned_tweet_ids_str": [
+                                "1641222782594990080"
+                              ],
+                              "possibly_sensitive": false,
+                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/2244994945/1660405530",
+                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1445764922474827784/W2zEPN7U_normal.jpg",
+                              "profile_interstitial_type": "",
+                              "screen_name": "TwitterDev",
+                              "statuses_count": 4076,
+                              "translator_type": "regular",
+                              "url": "https://t.co/9wI31m3ELF",
+                              "verified": false,
+                              "verified_type": "Business",
+                              "want_retweets": false,
+                              "withheld_in_countries": []
+                            },
+                            "professional": {
+                              "rest_id": "1516891231749517312",
+                              "professional_type": "Business",
+                              "category": [
+                                {
+                                  "id": 1009,
+                                  "name": "Community",
+                                  "icon_name": "IconBriefcaseStroke"
+                                }
+                              ]
+                            },
+                            "business_account": {}
+                          }
+                        }
+                      },
+                      "unmention_data": {},
+                      "edit_control": {
+                        "edit_tweet_ids": [
+                          "1649191520250245121"
+                        ],
+                        "editable_until_msecs": "1682034673000",
+                        "is_edit_eligible": false,
+                        "edits_remaining": "5"
+                      },
+                      "edit_perspective": {
+                        "favorited": false,
+                        "retweeted": false
+                      },
+                      "is_translatable": false,
+                      "views": {
+                        "count": "297877",
+                        "state": "EnabledWithCount"
+                      },
+                      "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+                      "legacy": {
+                        "created_at": "Thu Apr 20 23:21:13 +0000 2023",
+                        "conversation_id_str": "1649191520250245121",
+                        "display_text_range": [
+                          0,
+                          98
+                        ],
+                        "entities": {
+                          "user_mentions": [],
+                          "urls": [],
+                          "hashtags": [],
+                          "symbols": []
+                        },
+                        "favorite_count": 334,
+                        "favorited": false,
+                        "full_text": "Today, we are deprecating our Premium v1.1 API, including Premium Search and Account Activity API.",
+                        "is_quote_status": false,
+                        "lang": "en",
+                        "quote_count": 99,
+                        "reply_count": 73,
+                        "retweet_count": 203,
+                        "retweeted": false,
+                        "user_id_str": "2244994945",
+                        "id_str": "1649191520250245121",
+                        "self_thread": {
+                          "id_str": "1649191520250245121"
+                        }
+                      },
+                      "quick_promote_eligibility": {
+                        "eligibility": "IneligibleNotProfessional"
+                      }
+                    }
+                  },
+                  "tweetDisplayType": "SelfThread",
+                  "hasModeratedReplies": false
+                }
+              }
+            },
+            {
+              "entryId": "conversationthread-1649191521323995138",
+              "sortIndex": "7574180516604530676",
+              "content": {
+                "entryType": "TimelineTimelineModule",
+                "__typename": "TimelineTimelineModule",
+                "items": [
+                  {
+                    "entryId": "conversationthread-1649191521323995138-tweet-1649191521323995138",
+                    "item": {
+                      "itemContent": {
+                        "itemType": "TimelineTweet",
+                        "__typename": "TimelineTweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "rest_id": "1649191521323995138",
+                            "has_birdwatch_notes": false,
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "id": "VXNlcjoyMjQ0OTk0OTQ1",
+                                  "rest_id": "2244994945",
+                                  "affiliates_highlighted_label": {
+                                    "label": {
+                                      "url": {
+                                        "url": "https://twitter.com/Twitter",
+                                        "urlType": "DeepLink"
+                                      },
+                                      "badge": {
+                                        "url": "https://pbs.twimg.com/profile_images/1488548719062654976/u6qfBBkF_bigger.jpg"
+                                      },
+                                      "description": "Twitter",
+                                      "userLabelType": "BusinessLabel",
+                                      "userLabelDisplayType": "Badge"
+                                    }
+                                  },
+                                  "has_graduated_access": true,
+                                  "is_blue_verified": true,
+                                  "legacy": {
+                                    "can_dm": false,
+                                    "can_media_tag": true,
+                                    "created_at": "Sat Dec 14 04:35:55 +0000 2013",
+                                    "default_profile": false,
+                                    "default_profile_image": false,
+                                    "description": "The voice of the #TwitterDev team and your official source for updates, news, and events, related to the #TwitterAPI.",
+                                    "entities": {
+                                      "description": {
+                                        "urls": []
+                                      },
+                                      "url": {
+                                        "urls": [
+                                          {
+                                            "display_url": "developer.twitter.com/en/community",
+                                            "expanded_url": "https://developer.twitter.com/en/community",
+                                            "url": "https://t.co/9wI31m3ELF",
+                                            "indices": [
+                                              0,
+                                              23
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "fast_followers_count": 0,
+                                    "favourites_count": 2128,
+                                    "followers_count": 583731,
+                                    "friends_count": 1941,
+                                    "has_custom_timelines": true,
+                                    "is_translator": false,
+                                    "listed_count": 2395,
+                                    "location": "127.0.0.1",
+                                    "media_count": 815,
+                                    "name": "Twitter Dev",
+                                    "normal_followers_count": 583731,
+                                    "pinned_tweet_ids_str": [
+                                      "1641222782594990080"
+                                    ],
+                                    "possibly_sensitive": false,
+                                    "profile_banner_url": "https://pbs.twimg.com/profile_banners/2244994945/1660405530",
+                                    "profile_image_url_https": "https://pbs.twimg.com/profile_images/1445764922474827784/W2zEPN7U_normal.jpg",
+                                    "profile_interstitial_type": "",
+                                    "screen_name": "TwitterDev",
+                                    "statuses_count": 4076,
+                                    "translator_type": "regular",
+                                    "url": "https://t.co/9wI31m3ELF",
+                                    "verified": false,
+                                    "verified_type": "Business",
+                                    "want_retweets": false,
+                                    "withheld_in_countries": []
+                                  },
+                                  "professional": {
+                                    "rest_id": "1516891231749517312",
+                                    "professional_type": "Business",
+                                    "category": [
+                                      {
+                                        "id": 1009,
+                                        "name": "Community",
+                                        "icon_name": "IconBriefcaseStroke"
+                                      }
+                                    ]
+                                  },
+                                  "business_account": {}
+                                }
+                              }
+                            },
+                            "unmention_data": {},
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1649191521323995138"
+                              ],
+                              "editable_until_msecs": "1682034673000",
+                              "is_edit_eligible": false,
+                              "edits_remaining": "5"
+                            },
+                            "edit_perspective": {
+                              "favorited": false,
+                              "retweeted": false
+                            },
+                            "is_translatable": false,
+                            "views": {
+                              "count": "87118",
+                              "state": "EnabledWithCount"
+                            },
+                            "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+                            "legacy": {
+                              "created_at": "Thu Apr 20 23:21:13 +0000 2023",
+                              "conversation_id_str": "1649191520250245121",
+                              "display_text_range": [
+                                0,
+                                190
+                              ],
+                              "entities": {
+                                "user_mentions": [],
+                                "urls": [],
+                                "hashtags": [],
+                                "symbols": []
+                              },
+                              "favorite_count": 66,
+                              "favorited": false,
+                              "full_text": "On 3/29 we announced that deprecations across our legacy Twitter API access tiers would be completed by 4/29.  Unwinding Premium is one step closer to full deprecation of those legacy tiers.",
+                              "in_reply_to_screen_name": "TwitterDev",
+                              "in_reply_to_status_id_str": "1649191520250245121",
+                              "in_reply_to_user_id_str": "2244994945",
+                              "is_quote_status": false,
+                              "lang": "en",
+                              "quote_count": 35,
+                              "reply_count": 1,
+                              "retweet_count": 46,
+                              "retweeted": false,
+                              "user_id_str": "2244994945",
+                              "id_str": "1649191521323995138",
+                              "self_thread": {
+                                "id_str": "1649191520250245121"
+                              }
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotProfessional"
+                            }
+                          }
+                        },
+                        "tweetDisplayType": "SelfThread"
+                      },
+                      "clientEventInfo": {
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABFSABCCADg4UKAAIAAAAAGEAQCAAAAAA="
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "entryId": "conversationthread-1649191521323995138-tweet-1649191522485817345",
+                    "item": {
+                      "itemContent": {
+                        "itemType": "TimelineTweet",
+                        "__typename": "TimelineTweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "rest_id": "1649191522485817345",
+                            "has_birdwatch_notes": false,
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "id": "VXNlcjoyMjQ0OTk0OTQ1",
+                                  "rest_id": "2244994945",
+                                  "affiliates_highlighted_label": {
+                                    "label": {
+                                      "url": {
+                                        "url": "https://twitter.com/Twitter",
+                                        "urlType": "DeepLink"
+                                      },
+                                      "badge": {
+                                        "url": "https://pbs.twimg.com/profile_images/1488548719062654976/u6qfBBkF_bigger.jpg"
+                                      },
+                                      "description": "Twitter",
+                                      "userLabelType": "BusinessLabel",
+                                      "userLabelDisplayType": "Badge"
+                                    }
+                                  },
+                                  "has_graduated_access": true,
+                                  "is_blue_verified": true,
+                                  "legacy": {
+                                    "can_dm": false,
+                                    "can_media_tag": true,
+                                    "created_at": "Sat Dec 14 04:35:55 +0000 2013",
+                                    "default_profile": false,
+                                    "default_profile_image": false,
+                                    "description": "The voice of the #TwitterDev team and your official source for updates, news, and events, related to the #TwitterAPI.",
+                                    "entities": {
+                                      "description": {
+                                        "urls": []
+                                      },
+                                      "url": {
+                                        "urls": [
+                                          {
+                                            "display_url": "developer.twitter.com/en/community",
+                                            "expanded_url": "https://developer.twitter.com/en/community",
+                                            "url": "https://t.co/9wI31m3ELF",
+                                            "indices": [
+                                              0,
+                                              23
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "fast_followers_count": 0,
+                                    "favourites_count": 2128,
+                                    "followers_count": 583731,
+                                    "friends_count": 1941,
+                                    "has_custom_timelines": true,
+                                    "is_translator": false,
+                                    "listed_count": 2395,
+                                    "location": "127.0.0.1",
+                                    "media_count": 815,
+                                    "name": "Twitter Dev",
+                                    "normal_followers_count": 583731,
+                                    "pinned_tweet_ids_str": [
+                                      "1641222782594990080"
+                                    ],
+                                    "possibly_sensitive": false,
+                                    "profile_banner_url": "https://pbs.twimg.com/profile_banners/2244994945/1660405530",
+                                    "profile_image_url_https": "https://pbs.twimg.com/profile_images/1445764922474827784/W2zEPN7U_normal.jpg",
+                                    "profile_interstitial_type": "",
+                                    "screen_name": "TwitterDev",
+                                    "statuses_count": 4076,
+                                    "translator_type": "regular",
+                                    "url": "https://t.co/9wI31m3ELF",
+                                    "verified": false,
+                                    "verified_type": "Business",
+                                    "want_retweets": false,
+                                    "withheld_in_countries": []
+                                  },
+                                  "professional": {
+                                    "rest_id": "1516891231749517312",
+                                    "professional_type": "Business",
+                                    "category": [
+                                      {
+                                        "id": 1009,
+                                        "name": "Community",
+                                        "icon_name": "IconBriefcaseStroke"
+                                      }
+                                    ]
+                                  },
+                                  "business_account": {}
+                                }
+                              }
+                            },
+                            "unmention_data": {},
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1649191522485817345"
+                              ],
+                              "editable_until_msecs": "1682034674000",
+                              "is_edit_eligible": false,
+                              "edits_remaining": "5"
+                            },
+                            "edit_perspective": {
+                              "favorited": false,
+                              "retweeted": false
+                            },
+                            "is_translatable": false,
+                            "views": {
+                              "count": "43667",
+                              "state": "EnabledWithCount"
+                            },
+                            "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+                            "legacy": {
+                              "created_at": "Thu Apr 20 23:21:14 +0000 2023",
+                              "conversation_id_str": "1649191520250245121",
+                              "display_text_range": [
+                                0,
+                                256
+                              ],
+                              "entities": {
+                                "user_mentions": [],
+                                "urls": [
+                                  {
+                                    "display_url": "shorturl.at/uwAKZ",
+                                    "expanded_url": "https://shorturl.at/uwAKZ",
+                                    "url": "https://t.co/A2FQP2DWuy",
+                                    "indices": [
+                                      233,
+                                      256
+                                    ]
+                                  }
+                                ],
+                                "hashtags": [],
+                                "symbols": []
+                              },
+                              "favorite_count": 65,
+                              "favorited": false,
+                              "full_text": "If you are a Twitter developer with a commercial use case, we recommend that you apply for our Enterprise tier.\nEnterprise Search and Account Activity API continue to be available to developers on that Enterprise tier. \n\nApply here: https://t.co/A2FQP2DWuy",
+                              "in_reply_to_screen_name": "TwitterDev",
+                              "in_reply_to_status_id_str": "1649191521323995138",
+                              "in_reply_to_user_id_str": "2244994945",
+                              "is_quote_status": false,
+                              "lang": "en",
+                              "possibly_sensitive": false,
+                              "possibly_sensitive_editable": true,
+                              "quote_count": 11,
+                              "reply_count": 14,
+                              "retweet_count": 18,
+                              "retweeted": false,
+                              "user_id_str": "2244994945",
+                              "id_str": "1649191522485817345",
+                              "self_thread": {
+                                "id_str": "1649191520250245121"
+                              }
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotProfessional"
+                            }
+                          }
+                        },
+                        "tweetDisplayType": "SelfThread"
+                      },
+                      "clientEventInfo": {
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABFSABECADg4EKAAIAAAAAGEAQCAAAAAA="
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "entryId": "conversationthread-1649191521323995138-tweet-1649191523697979392",
+                    "item": {
+                      "itemContent": {
+                        "itemType": "TimelineTweet",
+                        "__typename": "TimelineTweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "rest_id": "1649191523697979392",
+                            "has_birdwatch_notes": false,
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "id": "VXNlcjoyMjQ0OTk0OTQ1",
+                                  "rest_id": "2244994945",
+                                  "affiliates_highlighted_label": {
+                                    "label": {
+                                      "url": {
+                                        "url": "https://twitter.com/Twitter",
+                                        "urlType": "DeepLink"
+                                      },
+                                      "badge": {
+                                        "url": "https://pbs.twimg.com/profile_images/1488548719062654976/u6qfBBkF_bigger.jpg"
+                                      },
+                                      "description": "Twitter",
+                                      "userLabelType": "BusinessLabel",
+                                      "userLabelDisplayType": "Badge"
+                                    }
+                                  },
+                                  "has_graduated_access": true,
+                                  "is_blue_verified": true,
+                                  "legacy": {
+                                    "can_dm": false,
+                                    "can_media_tag": true,
+                                    "created_at": "Sat Dec 14 04:35:55 +0000 2013",
+                                    "default_profile": false,
+                                    "default_profile_image": false,
+                                    "description": "The voice of the #TwitterDev team and your official source for updates, news, and events, related to the #TwitterAPI.",
+                                    "entities": {
+                                      "description": {
+                                        "urls": []
+                                      },
+                                      "url": {
+                                        "urls": [
+                                          {
+                                            "display_url": "developer.twitter.com/en/community",
+                                            "expanded_url": "https://developer.twitter.com/en/community",
+                                            "url": "https://t.co/9wI31m3ELF",
+                                            "indices": [
+                                              0,
+                                              23
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "fast_followers_count": 0,
+                                    "favourites_count": 2128,
+                                    "followers_count": 583731,
+                                    "friends_count": 1941,
+                                    "has_custom_timelines": true,
+                                    "is_translator": false,
+                                    "listed_count": 2395,
+                                    "location": "127.0.0.1",
+                                    "media_count": 815,
+                                    "name": "Twitter Dev",
+                                    "normal_followers_count": 583731,
+                                    "pinned_tweet_ids_str": [
+                                      "1641222782594990080"
+                                    ],
+                                    "possibly_sensitive": false,
+                                    "profile_banner_url": "https://pbs.twimg.com/profile_banners/2244994945/1660405530",
+                                    "profile_image_url_https": "https://pbs.twimg.com/profile_images/1445764922474827784/W2zEPN7U_normal.jpg",
+                                    "profile_interstitial_type": "",
+                                    "screen_name": "TwitterDev",
+                                    "statuses_count": 4076,
+                                    "translator_type": "regular",
+                                    "url": "https://t.co/9wI31m3ELF",
+                                    "verified": false,
+                                    "verified_type": "Business",
+                                    "want_retweets": false,
+                                    "withheld_in_countries": []
+                                  },
+                                  "professional": {
+                                    "rest_id": "1516891231749517312",
+                                    "professional_type": "Business",
+                                    "category": [
+                                      {
+                                        "id": 1009,
+                                        "name": "Community",
+                                        "icon_name": "IconBriefcaseStroke"
+                                      }
+                                    ]
+                                  },
+                                  "business_account": {}
+                                }
+                              }
+                            },
+                            "unmention_data": {},
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1649191523697979392"
+                              ],
+                              "editable_until_msecs": "1682034674000",
+                              "is_edit_eligible": false,
+                              "edits_remaining": "5"
+                            },
+                            "edit_perspective": {
+                              "favorited": false,
+                              "retweeted": false
+                            },
+                            "is_translatable": false,
+                            "views": {
+                              "count": "37046",
+                              "state": "EnabledWithCount"
+                            },
+                            "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+                            "legacy": {
+                              "created_at": "Thu Apr 20 23:21:14 +0000 2023",
+                              "conversation_id_str": "1649191520250245121",
+                              "display_text_range": [
+                                0,
+                                193
+                              ],
+                              "entities": {
+                                "user_mentions": [],
+                                "urls": [
+                                  {
+                                    "display_url": "developer.twitter.com",
+                                    "expanded_url": "https://developer.twitter.com/",
+                                    "url": "https://t.co/iGTdPXTp2D",
+                                    "indices": [
+                                      170,
+                                      193
+                                    ]
+                                  }
+                                ],
+                                "hashtags": [],
+                                "symbols": []
+                              },
+                              "favorite_count": 66,
+                              "favorited": false,
+                              "full_text": "Thank you to those who have already migrated to our new API offerings. We hope you can continue to seamlessly use the Twitter API via our new access tiers. \n\nLearn more: https://t.co/iGTdPXTp2D",
+                              "in_reply_to_screen_name": "TwitterDev",
+                              "in_reply_to_status_id_str": "1649191522485817345",
+                              "in_reply_to_user_id_str": "2244994945",
+                              "is_quote_status": false,
+                              "lang": "en",
+                              "possibly_sensitive": false,
+                              "possibly_sensitive_editable": true,
+                              "quote_count": 0,
+                              "reply_count": 20,
+                              "retweet_count": 20,
+                              "retweeted": false,
+                              "user_id_str": "2244994945",
+                              "id_str": "1649191523697979392",
+                              "self_thread": {
+                                "id_str": "1649191520250245121"
+                              }
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotProfessional"
+                            }
+                          }
+                        },
+                        "tweetDisplayType": "SelfThread"
+                      },
+                      "clientEventInfo": {
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABFSABICADg4EKAAIAAAAAGEAQCAAAAAA="
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "displayType": "VerticalConversation",
+                "clientEventInfo": {
+                  "details": {
+                    "conversationDetails": {
+                      "conversationSection": "HighQuality"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "entryId": "conversationthread-1649192501142515714",
+              "sortIndex": "7574180516604530666",
+              "content": {
+                "entryType": "TimelineTimelineModule",
+                "__typename": "TimelineTimelineModule",
+                "items": [
+                  {
+                    "entryId": "conversationthread-1649192501142515714-tweet-1649192501142515714",
+                    "item": {
+                      "itemContent": {
+                        "itemType": "TimelineTweet",
+                        "__typename": "TimelineTweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "rest_id": "1649192501142515714",
+                            "has_birdwatch_notes": false,
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "id": "VXNlcjoxNDIxMDk4MA==",
+                                  "rest_id": "14210980",
+                                  "affiliates_highlighted_label": {},
+                                  "has_graduated_access": true,
+                                  "is_blue_verified": false,
+                                  "legacy": {
+                                    "can_dm": false,
+                                    "can_media_tag": true,
+                                    "created_at": "Mon Mar 24 21:39:23 +0000 2008",
+                                    "default_profile": false,
+                                    "default_profile_image": false,
+                                    "description": "",
+                                    "entities": {
+                                      "description": {
+                                        "urls": []
+                                      }
+                                    },
+                                    "fast_followers_count": 0,
+                                    "favourites_count": 2316,
+                                    "followers_count": 304,
+                                    "friends_count": 776,
+                                    "has_custom_timelines": true,
+                                    "is_translator": false,
+                                    "listed_count": 10,
+                                    "location": "Kingston",
+                                    "media_count": 1809,
+                                    "name": "elyob",
+                                    "normal_followers_count": 304,
+                                    "pinned_tweet_ids_str": [],
+                                    "possibly_sensitive": false,
+                                    "profile_banner_url": "https://pbs.twimg.com/profile_banners/14210980/1568350363",
+                                    "profile_image_url_https": "https://pbs.twimg.com/profile_images/1237404288596480003/4z-LNpGk_normal.jpg",
+                                    "profile_interstitial_type": "",
+                                    "screen_name": "elyob",
+                                    "statuses_count": 6429,
+                                    "translator_type": "none",
+                                    "verified": false,
+                                    "want_retweets": false,
+                                    "withheld_in_countries": []
+                                  },
+                                  "business_account": {}
+                                }
+                              }
+                            },
+                            "unmention_data": {},
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1649192501142515714"
+                              ],
+                              "editable_until_msecs": "1682034907000",
+                              "is_edit_eligible": false,
+                              "edits_remaining": "5"
+                            },
+                            "edit_perspective": {
+                              "favorited": false,
+                              "retweeted": false
+                            },
+                            "is_translatable": false,
+                            "views": {
+                              "count": "4423",
+                              "state": "EnabledWithCount"
+                            },
+                            "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+                            "legacy": {
+                              "created_at": "Thu Apr 20 23:25:07 +0000 2023",
+                              "conversation_id_str": "1649191520250245121",
+                              "display_text_range": [
+                                12,
+                                111
+                              ],
+                              "entities": {
+                                "user_mentions": [
+                                  {
+                                    "id_str": "2244994945",
+                                    "name": "Twitter Dev",
+                                    "screen_name": "TwitterDev",
+                                    "indices": [
+                                      0,
+                                      11
+                                    ]
+                                  }
+                                ],
+                                "urls": [],
+                                "hashtags": [],
+                                "symbols": []
+                              },
+                              "favorite_count": 51,
+                              "favorited": false,
+                              "full_text": "@TwitterDev I love the idea of giving you money to publish information that we give you for free that you sell.",
+                              "in_reply_to_screen_name": "TwitterDev",
+                              "in_reply_to_status_id_str": "1649191520250245121",
+                              "in_reply_to_user_id_str": "2244994945",
+                              "is_quote_status": false,
+                              "lang": "en",
+                              "quote_count": 1,
+                              "reply_count": 6,
+                              "retweet_count": 1,
+                              "retweeted": false,
+                              "user_id_str": "14210980",
+                              "id_str": "1649192501142515714"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotProfessional"
+                            }
+                          }
+                        },
+                        "tweetDisplayType": "Tweet"
+                      },
+                      "clientEventInfo": {
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABFSABCGAHgAUKAAIAAAAACEBACAAAAAA="
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "entryId": "conversationthread-1649192501142515714-cursor-showmore-8822273141268665287",
+                    "item": {
+                      "itemContent": {
+                        "itemType": "TimelineTimelineCursor",
+                        "__typename": "TimelineTimelineCursor",
+                        "value": "PAAAAPAtPBwcFoTAs83x9Y3jLRUCAAAYJmNvbnZlcnNhdGlvbnRocmVhZC0xNjQ5MTkyNTAxMTQyNTE1NzE0IgAA",
+                        "cursorType": "ShowMore",
+                        "displayTreatment": {
+                          "actionText": "Show replies"
+                        }
+                      },
+                      "clientEventInfo": {
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "displayType": "VerticalConversation",
+                "clientEventInfo": {
+                  "details": {
+                    "conversationDetails": {
+                      "conversationSection": "HighQuality"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "entryId": "conversationthread-1649407172340482052",
+              "sortIndex": "7574180516604530656",
+              "content": {
+                "entryType": "TimelineTimelineModule",
+                "__typename": "TimelineTimelineModule",
+                "items": [
+                  {
+                    "entryId": "conversationthread-1649407172340482052-tweet-1649407172340482052",
+                    "item": {
+                      "itemContent": {
+                        "itemType": "TimelineTweet",
+                        "__typename": "TimelineTweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "rest_id": "1649407172340482052",
+                            "has_birdwatch_notes": false,
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "id": "VXNlcjoxOTIzMjY5MTY=",
+                                  "rest_id": "192326916",
+                                  "affiliates_highlighted_label": {},
+                                  "has_graduated_access": true,
+                                  "is_blue_verified": false,
+                                  "legacy": {
+                                    "can_dm": true,
+                                    "can_media_tag": true,
+                                    "created_at": "Sat Sep 18 20:39:11 +0000 2010",
+                                    "default_profile": false,
+                                    "default_profile_image": false,
+                                    "description": "Chief contributer to the B.O.F.A. Initiative  https://t.co/GvqaNO0Xgx",
+                                    "entities": {
+                                      "description": {
+                                        "urls": [
+                                          {
+                                            "display_url": "youtu.be/f7IqAjnuc4c",
+                                            "expanded_url": "http://youtu.be/f7IqAjnuc4c",
+                                            "url": "https://t.co/GvqaNO0Xgx",
+                                            "indices": [
+                                              46,
+                                              69
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      "url": {
+                                        "urls": [
+                                          {
+                                            "display_url": "scp-wiki.net/andariel-halo-\u2026",
+                                            "expanded_url": "http://www.scp-wiki.net/andariel-halo-file",
+                                            "url": "https://t.co/4WnKh97I9W",
+                                            "indices": [
+                                              0,
+                                              23
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "fast_followers_count": 0,
+                                    "favourites_count": 226440,
+                                    "followers_count": 518,
+                                    "friends_count": 699,
+                                    "has_custom_timelines": true,
+                                    "is_translator": false,
+                                    "listed_count": 14,
+                                    "location": "Bagabigna's Court",
+                                    "media_count": 3672,
+                                    "name": "Admiral Benghazi",
+                                    "normal_followers_count": 518,
+                                    "pinned_tweet_ids_str": [
+                                      "1597994574559203329"
+                                    ],
+                                    "possibly_sensitive": false,
+                                    "profile_banner_url": "https://pbs.twimg.com/profile_banners/192326916/1482786978",
+                                    "profile_image_url_https": "https://pbs.twimg.com/profile_images/1639067707625680898/rgNp476Y_normal.jpg",
+                                    "profile_interstitial_type": "",
+                                    "screen_name": "AdmiralHalo",
+                                    "statuses_count": 85379,
+                                    "translator_type": "none",
+                                    "url": "https://t.co/4WnKh97I9W",
+                                    "verified": false,
+                                    "want_retweets": false,
+                                    "withheld_in_countries": []
+                                  },
+                                  "business_account": {}
+                                }
+                              }
+                            },
+                            "unmention_data": {},
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1649407172340482052"
+                              ],
+                              "editable_until_msecs": "1682086089000",
+                              "is_edit_eligible": false,
+                              "edits_remaining": "5"
+                            },
+                            "edit_perspective": {
+                              "favorited": false,
+                              "retweeted": false
+                            },
+                            "is_translatable": false,
+                            "views": {
+                              "count": "2061",
+                              "state": "EnabledWithCount"
+                            },
+                            "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
+                            "legacy": {
+                              "created_at": "Fri Apr 21 13:38:09 +0000 2023",
+                              "conversation_id_str": "1649191520250245121",
+                              "display_text_range": [
+                                12,
+                                71
+                              ],
+                              "entities": {
+                                "user_mentions": [
+                                  {
+                                    "id_str": "2244994945",
+                                    "name": "Twitter Dev",
+                                    "screen_name": "TwitterDev",
+                                    "indices": [
+                                      0,
+                                      11
+                                    ]
+                                  }
+                                ],
+                                "urls": [],
+                                "hashtags": [],
+                                "symbols": []
+                              },
+                              "favorite_count": 8,
+                              "favorited": false,
+                              "full_text": "@TwitterDev Fake account using Twitter blue to impersonate Twitter devs",
+                              "in_reply_to_screen_name": "TwitterDev",
+                              "in_reply_to_status_id_str": "1649191520250245121",
+                              "in_reply_to_user_id_str": "2244994945",
+                              "is_quote_status": false,
+                              "lang": "en",
+                              "quote_count": 0,
+                              "reply_count": 3,
+                              "retweet_count": 1,
+                              "retweeted": false,
+                              "user_id_str": "192326916",
+                              "id_str": "1649407172340482052"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotProfessional"
+                            }
+                          }
+                        },
+                        "tweetDisplayType": "Tweet"
+                      },
+                      "clientEventInfo": {
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABFSAZCKIDgBUKAAIAAAAABUBACAAAAAA="
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "displayType": "VerticalConversation",
+                "clientEventInfo": {
+                  "details": {
+                    "conversationDetails": {
+                      "conversationSection": "HighQuality"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "entryId": "conversationthread-1649205557440512001",
+              "sortIndex": "7574180516604530646",
+              "content": {
+                "entryType": "TimelineTimelineModule",
+                "__typename": "TimelineTimelineModule",
+                "items": [
+                  {
+                    "entryId": "conversationthread-1649205557440512001-tweet-1649205557440512001",
+                    "item": {
+                      "itemContent": {
+                        "itemType": "TimelineTweet",
+                        "__typename": "TimelineTweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "rest_id": "1649205557440512001",
+                            "has_birdwatch_notes": false,
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "id": "VXNlcjo4NjA4NzEyNDc=",
+                                  "rest_id": "860871247",
+                                  "affiliates_highlighted_label": {},
+                                  "has_graduated_access": true,
+                                  "is_blue_verified": true,
+                                  "legacy": {
+                                    "can_dm": false,
+                                    "can_media_tag": false,
+                                    "created_at": "Thu Oct 04 04:43:26 +0000 2012",
+                                    "default_profile": false,
+                                    "default_profile_image": false,
+                                    "description": "\ud83d\udcabBelieve You Can\ud83d\udcab",
+                                    "entities": {
+                                      "description": {
+                                        "urls": []
+                                      },
+                                      "url": {
+                                        "urls": [
+                                          {
+                                            "display_url": "cassandramsplace.com",
+                                            "expanded_url": "https://www.cassandramsplace.com",
+                                            "url": "https://t.co/Yd36L1miEe",
+                                            "indices": [
+                                              0,
+                                              23
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "fast_followers_count": 0,
+                                    "favourites_count": 104568,
+                                    "followers_count": 20423,
+                                    "friends_count": 9673,
+                                    "has_custom_timelines": true,
+                                    "is_translator": false,
+                                    "listed_count": 101,
+                                    "location": " ",
+                                    "media_count": 1264,
+                                    "name": "Cassandra",
+                                    "normal_followers_count": 20423,
+                                    "pinned_tweet_ids_str": [
+                                      "1642013926572584960"
+                                    ],
+                                    "possibly_sensitive": false,
+                                    "profile_banner_url": "https://pbs.twimg.com/profile_banners/860871247/1673966993",
+                                    "profile_image_url_https": "https://pbs.twimg.com/profile_images/1226616987498893312/LwUJeQ0N_normal.jpg",
+                                    "profile_interstitial_type": "",
+                                    "screen_name": "star95011",
+                                    "statuses_count": 145951,
+                                    "translator_type": "none",
+                                    "url": "https://t.co/Yd36L1miEe",
+                                    "verified": false,
+                                    "want_retweets": false,
+                                    "withheld_in_countries": []
+                                  },
+                                  "professional": {
+                                    "rest_id": "1458115924012277775",
+                                    "professional_type": "Creator",
+                                    "category": []
+                                  },
+                                  "business_account": {}
+                                }
+                              }
+                            },
+                            "unmention_data": {},
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1649205557440512001"
+                              ],
+                              "editable_until_msecs": "1682038020000",
+                              "is_edit_eligible": false,
+                              "edits_remaining": "5"
+                            },
+                            "edit_perspective": {
+                              "favorited": false,
+                              "retweeted": false
+                            },
+                            "is_translatable": false,
+                            "views": {
+                              "count": "3818",
+                              "state": "EnabledWithCount"
+                            },
+                            "source": "<a href=\"http://twitter.com/#!/download/ipad\" rel=\"nofollow\">Twitter for iPad</a>",
+                            "legacy": {
+                              "created_at": "Fri Apr 21 00:17:00 +0000 2023",
+                              "conversation_id_str": "1649191520250245121",
+                              "display_text_range": [
+                                12,
+                                13
+                              ],
+                              "entities": {
+                                "user_mentions": [
+                                  {
+                                    "id_str": "2244994945",
+                                    "name": "Twitter Dev",
+                                    "screen_name": "TwitterDev",
+                                    "indices": [
+                                      0,
+                                      11
+                                    ]
+                                  }
+                                ],
+                                "urls": [],
+                                "hashtags": [],
+                                "symbols": []
+                              },
+                              "favorite_count": 1,
+                              "favorited": false,
+                              "full_text": "@TwitterDev \ud83d\udc93",
+                              "in_reply_to_screen_name": "TwitterDev",
+                              "in_reply_to_status_id_str": "1649191520250245121",
+                              "in_reply_to_user_id_str": "2244994945",
+                              "is_quote_status": false,
+                              "lang": "qme",
+                              "quote_count": 0,
+                              "reply_count": 0,
+                              "retweet_count": 1,
+                              "retweeted": false,
+                              "user_id_str": "860871247",
+                              "id_str": "1649205557440512001"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotProfessional"
+                            }
+                          }
+                        },
+                        "tweetDisplayType": "Tweet"
+                      },
+                      "clientEventInfo": {
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABFSABCSQDgAUKAAIAAAAAGEBACAAAAAA="
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "displayType": "VerticalConversation",
+                "clientEventInfo": {
+                  "details": {
+                    "conversationDetails": {
+                      "conversationSection": "HighQuality"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "entryId": "conversationthread-1649225698102636544",
+              "sortIndex": "7574180516604530636",
+              "content": {
+                "entryType": "TimelineTimelineModule",
+                "__typename": "TimelineTimelineModule",
+                "items": [
+                  {
+                    "entryId": "conversationthread-1649225698102636544-tweet-1649225698102636544",
+                    "item": {
+                      "itemContent": {
+                        "itemType": "TimelineTweet",
+                        "__typename": "TimelineTweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "rest_id": "1649225698102636544",
+                            "has_birdwatch_notes": false,
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "id": "VXNlcjozMjYyODEwNjA0",
+                                  "rest_id": "3262810604",
+                                  "affiliates_highlighted_label": {},
+                                  "has_graduated_access": true,
+                                  "is_blue_verified": true,
+                                  "legacy": {
+                                    "can_dm": true,
+                                    "can_media_tag": false,
+                                    "created_at": "Wed Jul 01 03:10:15 +0000 2015",
+                                    "default_profile": false,
+                                    "default_profile_image": false,
+                                    "description": "https://t.co/Y7BSNS1VT6  \u3067BPO\u4e8b\u696d\u63a8\u9032\u3068\u304b\u30b3\u30f3\u30c6\u30f3\u30c4\u30de\u30fc\u30b1\u3068\u304bSEO\u3084\u3063\u3066\u307e\u3059\u2503 UGC\u30de\u30fc\u30b1\u30c6\u30a3\u30f3\u30b0\u2503 SNS\u30ad\u30e3\u30f3\u30da\u30fc\u30f3\u2503Director/Planner/BizDev\u2503 \u5730\u65b9\u5275\u751f/\u30a6\u30a7\u30eb\u30d3\u30fc\u30a4\u30f3\u30b0\u2503\u660e\u5927\u6cd5\u2503\u30d3\u30b8\u30cd\u30b9\u306e\u6839\u672c\u306f\u300e\u8ab0\u306e\u305f\u3081\u3001\u4f55\u306e\u305f\u3081\u300f\u2503\u4ed5\u4e8b\u3084\u30d7\u30e9\u30a4\u30d9\u30fc\u30c8\u3067\u306e\u6c17\u4ed8\u304d\u3084\u611f\u60c5\u3092\u767a\u4fe1\u4e2d",
+                                    "entities": {
+                                      "description": {
+                                        "urls": [
+                                          {
+                                            "display_url": "smartshare.jp",
+                                            "expanded_url": "http://smartshare.jp",
+                                            "url": "https://t.co/Y7BSNS1VT6",
+                                            "indices": [
+                                              0,
+                                              23
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      "url": {
+                                        "urls": [
+                                          {
+                                            "display_url": "ownly.jp",
+                                            "expanded_url": "https://ownly.jp/",
+                                            "url": "https://t.co/94WGiRubK3",
+                                            "indices": [
+                                              0,
+                                              23
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "fast_followers_count": 0,
+                                    "favourites_count": 180304,
+                                    "followers_count": 12111,
+                                    "friends_count": 9798,
+                                    "has_custom_timelines": true,
+                                    "is_translator": false,
+                                    "listed_count": 99,
+                                    "location": "\u6e0b\u8c37\ud83d\udc15",
+                                    "media_count": 91,
+                                    "name": "\u30bf\u30b0\u30de\u30b5| SmartShare Inc.",
+                                    "normal_followers_count": 12111,
+                                    "pinned_tweet_ids_str": [],
+                                    "possibly_sensitive": false,
+                                    "profile_banner_url": "https://pbs.twimg.com/profile_banners/3262810604/1676467056",
+                                    "profile_image_url_https": "https://pbs.twimg.com/profile_images/1341982608918421506/N9pS511E_normal.jpg",
+                                    "profile_interstitial_type": "",
+                                    "screen_name": "Ma3kitagu",
+                                    "statuses_count": 6421,
+                                    "translator_type": "none",
+                                    "url": "https://t.co/94WGiRubK3",
+                                    "verified": false,
+                                    "want_retweets": false,
+                                    "withheld_in_countries": []
+                                  },
+                                  "professional": {
+                                    "rest_id": "1455890554005307393",
+                                    "professional_type": "Business",
+                                    "category": [
+                                      {
+                                        "id": 982,
+                                        "name": "Digital Marketing Agency",
+                                        "icon_name": "IconBriefcaseStroke"
+                                      }
+                                    ]
+                                  },
+                                  "business_account": {}
+                                }
+                              }
+                            },
+                            "unmention_data": {},
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1649225698102636544"
+                              ],
+                              "editable_until_msecs": "1682042822000",
+                              "is_edit_eligible": false,
+                              "edits_remaining": "5"
+                            },
+                            "edit_perspective": {
+                              "favorited": false,
+                              "retweeted": false
+                            },
+                            "is_translatable": true,
+                            "views": {
+                              "count": "5665",
+                              "state": "EnabledWithCount"
+                            },
+                            "source": "<a href=\"https://twitter.com\" rel=\"nofollow\">TweetDeck Web App</a>",
+                            "legacy": {
+                              "created_at": "Fri Apr 21 01:37:02 +0000 2023",
+                              "conversation_id_str": "1649191520250245121",
+                              "display_text_range": [
+                                12,
+                                67
+                              ],
+                              "entities": {
+                                "user_mentions": [
+                                  {
+                                    "id_str": "2244994945",
+                                    "name": "Twitter Dev",
+                                    "screen_name": "TwitterDev",
+                                    "indices": [
+                                      0,
+                                      11
+                                    ]
+                                  }
+                                ],
+                                "urls": [],
+                                "hashtags": [],
+                                "symbols": []
+                              },
+                              "favorite_count": 3,
+                              "favorited": false,
+                              "full_text": "@TwitterDev \u3082\u306f\u3084\u5f7c\u3089\u3078\u306e\u4fe1\u7528\u306f\u306a\u3044\u3002\u3067\u3082\u88cf\u8fd4\u305b\u3070\u305d\u308c\u304c\u30d7\u30e9\u30c3\u30c8\u30d5\u30a9\u30fc\u30de\u30fc\u3067\u3042\u308b\u3053\u3068\u306e\u5f37\u307f\u3067\u3082\u3042\u308b\u3093\u3060\u3051\u3069\u3002\u89e3\u305b\u306a\u3044\u306a\u3002\u3002",
+                              "in_reply_to_screen_name": "TwitterDev",
+                              "in_reply_to_status_id_str": "1649191520250245121",
+                              "in_reply_to_user_id_str": "2244994945",
+                              "is_quote_status": false,
+                              "lang": "ja",
+                              "quote_count": 0,
+                              "reply_count": 0,
+                              "retweet_count": 0,
+                              "retweeted": false,
+                              "user_id_str": "3262810604",
+                              "id_str": "1649225698102636544"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotProfessional"
+                            }
+                          }
+                        },
+                        "tweetDisplayType": "Tweet"
+                      },
+                      "clientEventInfo": {
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABFSABCigDgAUKAAIAAAAAGEBACAAAAAA="
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "displayType": "VerticalConversation",
+                "clientEventInfo": {
+                  "details": {
+                    "conversationDetails": {
+                      "conversationSection": "HighQuality"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "entryId": "conversationthread-1649294040985157633",
+              "sortIndex": "7574180516604530626",
+              "content": {
+                "entryType": "TimelineTimelineModule",
+                "__typename": "TimelineTimelineModule",
+                "items": [
+                  {
+                    "entryId": "conversationthread-1649294040985157633-tweet-1649294040985157633",
+                    "item": {
+                      "itemContent": {
+                        "itemType": "TimelineTweet",
+                        "__typename": "TimelineTweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "rest_id": "1649294040985157633",
+                            "has_birdwatch_notes": false,
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "id": "VXNlcjo2NzI5MTQ2Mw==",
+                                  "rest_id": "67291463",
+                                  "affiliates_highlighted_label": {},
+                                  "has_graduated_access": true,
+                                  "is_blue_verified": false,
+                                  "legacy": {
+                                    "can_dm": false,
+                                    "can_media_tag": false,
+                                    "created_at": "Thu Aug 20 11:37:23 +0000 2009",
+                                    "default_profile": true,
+                                    "default_profile_image": false,
+                                    "description": "Technical Developer \ud83d\udda5 Anti-woke \ud83c\uddec\ud83c\udde7 \ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f\ud83d\ude4f Aikidoka \ud83e\udd4bVoted Leave \ud83d\udc4f\ud83c\udffb Vote Tory #BackBoris",
+                                    "entities": {
+                                      "description": {
+                                        "urls": []
+                                      },
+                                      "url": {
+                                        "urls": [
+                                          {
+                                            "display_url": "app.establishmindfulness.com",
+                                            "expanded_url": "https://app.establishmindfulness.com",
+                                            "url": "https://t.co/R8idtOiirl",
+                                            "indices": [
+                                              0,
+                                              23
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "fast_followers_count": 0,
+                                    "favourites_count": 14425,
+                                    "followers_count": 3342,
+                                    "friends_count": 2784,
+                                    "has_custom_timelines": true,
+                                    "is_translator": false,
+                                    "listed_count": 25,
+                                    "location": "",
+                                    "media_count": 542,
+                                    "name": "Charles Robertson",
+                                    "normal_followers_count": 3342,
+                                    "pinned_tweet_ids_str": [
+                                      "1510004885722476546"
+                                    ],
+                                    "possibly_sensitive": false,
+                                    "profile_banner_url": "https://pbs.twimg.com/profile_banners/67291463/1627848214",
+                                    "profile_image_url_https": "https://pbs.twimg.com/profile_images/481337014160482305/id51gNhE_normal.jpeg",
+                                    "profile_interstitial_type": "",
+                                    "screen_name": "charlesr1971",
+                                    "statuses_count": 22824,
+                                    "translator_type": "none",
+                                    "url": "https://t.co/R8idtOiirl",
+                                    "verified": false,
+                                    "want_retweets": false,
+                                    "withheld_in_countries": []
+                                  },
+                                  "business_account": {}
+                                }
+                              }
+                            },
+                            "unmention_data": {},
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1649294040985157633"
+                              ],
+                              "editable_until_msecs": "1682059116000",
+                              "is_edit_eligible": false,
+                              "edits_remaining": "5"
+                            },
+                            "edit_perspective": {
+                              "favorited": false,
+                              "retweeted": false
+                            },
+                            "is_translatable": false,
+                            "views": {
+                              "count": "1155",
+                              "state": "EnabledWithCount"
+                            },
+                            "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
+                            "legacy": {
+                              "created_at": "Fri Apr 21 06:08:36 +0000 2023",
+                              "conversation_id_str": "1649191520250245121",
+                              "display_text_range": [
+                                12,
+                                213
+                              ],
+                              "entities": {
+                                "user_mentions": [
+                                  {
+                                    "id_str": "2244994945",
+                                    "name": "Twitter Dev",
+                                    "screen_name": "TwitterDev",
+                                    "indices": [
+                                      0,
+                                      11
+                                    ]
+                                  }
+                                ],
+                                "urls": [],
+                                "hashtags": [],
+                                "symbols": []
+                              },
+                              "favorite_count": 5,
+                              "favorited": false,
+                              "full_text": "@TwitterDev What exactly is your definition of deprecation?\nBecause normally it means a period of time where users can still access a service, before it is retired?\nI doubt anyone from Twitter, will answer this. \ud83d\ude1e",
+                              "in_reply_to_screen_name": "TwitterDev",
+                              "in_reply_to_status_id_str": "1649191520250245121",
+                              "in_reply_to_user_id_str": "2244994945",
+                              "is_quote_status": false,
+                              "lang": "en",
+                              "quote_count": 0,
+                              "reply_count": 2,
+                              "retweet_count": 0,
+                              "retweeted": false,
+                              "user_id_str": "67291463",
+                              "id_str": "1649294040985157633"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotProfessional"
+                            }
+                          }
+                        },
+                        "tweetDisplayType": "Tweet"
+                      },
+                      "clientEventInfo": {
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABFSAJDDADgBUKAAIAAAAABEBACAAAAAA="
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "displayType": "VerticalConversation",
+                "clientEventInfo": {
+                  "details": {
+                    "conversationDetails": {
+                      "conversationSection": "HighQuality"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "entryId": "conversationthread-1649593041966219264",
+              "sortIndex": "7574180516604530616",
+              "content": {
+                "entryType": "TimelineTimelineModule",
+                "__typename": "TimelineTimelineModule",
+                "items": [
+                  {
+                    "entryId": "conversationthread-1649593041966219264-tweet-1649593041966219264",
+                    "item": {
+                      "itemContent": {
+                        "itemType": "TimelineTweet",
+                        "__typename": "TimelineTweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "rest_id": "1649593041966219264",
+                            "has_birdwatch_notes": false,
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "id": "VXNlcjoxNTQzNzk4MTExMTU5ODgxNzI4",
+                                  "rest_id": "1543798111159881728",
+                                  "affiliates_highlighted_label": {},
+                                  "has_graduated_access": true,
+                                  "is_blue_verified": false,
+                                  "legacy": {
+                                    "can_dm": false,
+                                    "can_media_tag": true,
+                                    "created_at": "Mon Jul 04 03:28:18 +0000 2022",
+                                    "default_profile": true,
+                                    "default_profile_image": false,
+                                    "description": "My name is pronounced almost like \"Wheaty\".\nWe all need each other we all help each other. \nProfile pic by @neu_siberiancat",
+                                    "entities": {
+                                      "description": {
+                                        "urls": []
+                                      }
+                                    },
+                                    "fast_followers_count": 0,
+                                    "favourites_count": 33799,
+                                    "followers_count": 1855,
+                                    "friends_count": 1714,
+                                    "has_custom_timelines": true,
+                                    "is_translator": false,
+                                    "listed_count": 3,
+                                    "location": "Aotearoa/New Zealand",
+                                    "media_count": 401,
+                                    "name": "Huitty \ud83d\udc99 Scruffa #SaveA11yBots",
+                                    "normal_followers_count": 1855,
+                                    "pinned_tweet_ids_str": [
+                                      "1553657376829427713"
+                                    ],
+                                    "possibly_sensitive": false,
+                                    "profile_banner_url": "https://pbs.twimg.com/profile_banners/1543798111159881728/1672295170",
+                                    "profile_image_url_https": "https://pbs.twimg.com/profile_images/1615596259259346944/QxXj0gfM_normal.jpg",
+                                    "profile_interstitial_type": "",
+                                    "screen_name": "HuittyH",
+                                    "statuses_count": 10961,
+                                    "translator_type": "none",
+                                    "verified": false,
+                                    "want_retweets": false,
+                                    "withheld_in_countries": []
+                                  },
+                                  "business_account": {}
+                                }
+                              }
+                            },
+                            "unmention_data": {},
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1649593041966219264"
+                              ],
+                              "editable_until_msecs": "1682130403000",
+                              "is_edit_eligible": false,
+                              "edits_remaining": "5"
+                            },
+                            "edit_perspective": {
+                              "favorited": false,
+                              "retweeted": false
+                            },
+                            "is_translatable": false,
+                            "views": {
+                              "count": "641",
+                              "state": "EnabledWithCount"
+                            },
+                            "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+                            "legacy": {
+                              "created_at": "Sat Apr 22 01:56:43 +0000 2023",
+                              "conversation_id_str": "1649191520250245121",
+                              "display_text_range": [
+                                12,
+                                213
+                              ],
+                              "entities": {
+                                "user_mentions": [
+                                  {
+                                    "id_str": "2244994945",
+                                    "name": "Twitter Dev",
+                                    "screen_name": "TwitterDev",
+                                    "indices": [
+                                      0,
+                                      11
+                                    ]
+                                  }
+                                ],
+                                "urls": [],
+                                "hashtags": [
+                                  {
+                                    "indices": [
+                                      24,
+                                      38
+                                    ],
+                                    "text": "accessibility"
+                                  },
+                                  {
+                                    "indices": [
+                                      54,
+                                      68
+                                    ],
+                                    "text": "accessibility"
+                                  },
+                                  {
+                                    "indices": [
+                                      134,
+                                      148
+                                    ],
+                                    "text": "accessibility"
+                                  },
+                                  {
+                                    "indices": [
+                                      200,
+                                      213
+                                    ],
+                                    "text": "SaveA11yBots"
+                                  }
+                                ],
+                                "symbols": []
+                              },
+                              "favorite_count": 7,
+                              "favorited": false,
+                              "full_text": "@TwitterDev Any word on #accessibility bots? \nWithout #accessibility bots Twitter will be unusable for blind/VI  and some ND people. \n#accessibility bots need to remain and they need to remain free.\n\n#SaveA11yBots",
+                              "in_reply_to_screen_name": "TwitterDev",
+                              "in_reply_to_status_id_str": "1649191520250245121",
+                              "in_reply_to_user_id_str": "2244994945",
+                              "is_quote_status": false,
+                              "lang": "en",
+                              "quote_count": 0,
+                              "reply_count": 0,
+                              "retweet_count": 4,
+                              "retweeted": false,
+                              "user_id_str": "1543798111159881728",
+                              "id_str": "1649593041966219264"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotProfessional"
+                            }
+                          }
+                        },
+                        "tweetDisplayType": "Tweet"
+                      },
+                      "clientEventInfo": {
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABFSAZiCADgAUKAAIAAAAABEBACAAAAAA="
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "displayType": "VerticalConversation",
+                "clientEventInfo": {
+                  "details": {
+                    "conversationDetails": {
+                      "conversationSection": "HighQuality"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "entryId": "cursor-bottom-5943802396034306028",
+              "sortIndex": "7574180516604530615",
+              "content": {
+                "entryType": "TimelineTimelineItem",
+                "__typename": "TimelineTimelineItem",
+                "itemContent": {
+                  "itemType": "TimelineTimelineCursor",
+                  "__typename": "TimelineTimelineCursor",
+                  "value": "SQAAAPA6HBl2hMCzzfH1jeMtgIDSpbeIxOQtgoC8ze7tk-MthMDSse28jeMtiICw1bLF7-MtgoC2saSMvOMtgMDTnZqCneMtJQISFQQAAA",
+                  "cursorType": "Bottom"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "TimelineTerminateTimeline",
+          "direction": "Top"
+        }
+      ],
+      "metadata": {
+        "reader_mode_config": {
+          "is_reader_mode_available": true
+        }
+      }
+    }
+  }
+}
