@@ -7,6 +7,9 @@ lint:
 lint-fix:
 	ruff check --fix .
 
+pylint:
+	pylint --errors-only twapi
+
 test:
 	pytest --cov=twapi tests/
 

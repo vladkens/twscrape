@@ -1,6 +1,7 @@
 import json
+import random
 from collections import defaultdict
-from typing import Any, AsyncGenerator, TypeVar
+from typing import Any, AsyncGenerator, Callable, TypeVar
 
 from httpx import HTTPStatusError, Response
 
@@ -53,7 +54,7 @@ def int_or_none(obj: dict, key: str):
 
 
 # https://stackoverflow.com/a/43184871
-def find_item(obj: dict, key: str, default=None):
+def get_by_path(obj: dict, key: str, default=None):
     stack = [iter(obj.items())]
     while stack:
         for k, v in stack[-1]:
@@ -68,6 +69,13 @@ def find_item(obj: dict, key: str, default=None):
         else:
             stack.pop()
     return default
+
+
+def find_item(lst: list[T], fn: Callable[[T], bool]) -> T | None:
+    for item in lst:
+        if fn(item):
+            return item
+    return None
 
 
 def get_typed_object(obj: dict, res: defaultdict[str, list]):
@@ -100,3 +108,9 @@ def to_search_like(obj: dict):
     users = {str(x["rest_id"]): to_old_obj(x) for x in users}
 
     return {"tweets": tweets, "users": users}
+
+
+def shuffle(lst: list):
+    lst = lst.copy()
+    random.shuffle(lst)
+    return lst

@@ -1,27 +1,34 @@
 import asyncio
+import json
 import os
 
 from .account import Account, Status
 from .logger import logger
+from .utils import shuffle
 
 
 class AccountsPool:
-    BASE_DIR = "accounts"
-
-    def __init__(self):
+    def __init__(self, base_dir: str | None = None):
         self.accounts: list[Account] = []
+        self.base_dir = base_dir or "accounts"
 
-    def load_from_dir(self, folder: str | None = None):
-        folder = folder or self.BASE_DIR
-
-        files = os.listdir(folder)
+    def restore(self):
+        files = [os.path.join(self.base_dir, x) for x in os.listdir(self.base_dir)]
         files = [x for x in files if x.endswith(".json")]
-        files = [os.path.join(folder, x) for x in files]
-
         for file in files:
-            account = Account.load(file)
-            if account:
-                self.accounts.append(account)
+            self._load_account_from_file(file)
+
+    def _load_account_from_file(self, filepath: str):
+        account = Account.load_from_file(filepath)
+        if account:
+            username = set(x.username for x in self.accounts)
+            if account.username in username:
+                raise ValueError(f"Duplicate username {account.username}")
+            self.accounts.append(account)
+        return account
+
+    def _get_filename(self, username: str):
+        return f"{self.base_dir}/{username}.json"
 
     def add_account(
         self,
@@ -32,14 +39,20 @@ class AccountsPool:
         proxy: str | None = None,
         user_agent: str | None = None,
     ):
-        filepath = os.path.join(self.BASE_DIR, f"{login}.json")
-        account = Account.load(filepath)
+        account = self._load_account_from_file(self._get_filename(login))
         if account:
-            self.accounts.append(account)
             return
 
-        account = Account(login, password, email, email_password, user_agent, proxy)
-        self.accounts.append(account)
+        account = Account(
+            login,
+            password,
+            email,
+            email_password,
+            proxy=proxy,
+            user_agent=user_agent,
+        )
+        self.save_account(account)
+        self._load_account_from_file(self._get_filename(login))
 
     async def login(self):
         for x in self.accounts:
@@ -48,7 +61,8 @@ class AccountsPool:
                     await x.login()
             except Exception as e:
                 logger.error(f"Error logging in to {x.username}: {e}")
-                pass
+            finally:
+                self.save_account(x)
 
     def get_username_by_token(self, auth_token: str) -> str:
         for x in self.accounts:
@@ -57,7 +71,8 @@ class AccountsPool:
         return "UNKNOWN"
 
     def get_account(self, queue: str) -> Account | None:
-        for x in self.accounts:
+        accounts = shuffle(self.accounts)  # make random order each time
+        for x in accounts:
             if x.can_use(queue):
                 return x
         return None
@@ -72,3 +87,15 @@ class AccountsPool:
             else:
                 logger.debug(f"No accounts available for queue '{queue}' (sleeping for 5 sec)")
                 await asyncio.sleep(5)
+
+    def save_account(self, account: Account):
+        filename = self._get_filename(account.username)
+        data = account.dump()
+
+        os.makedirs(os.path.dirname(filename), exist_ok=True)
+        with open(filename, "w") as f:
+            json.dump(data, f, indent=2)
+
+    def update_limit(self, account: Account, queue: str, reset_ts: int):
+        account.update_limit(queue, reset_ts)
+        self.save_account(account)

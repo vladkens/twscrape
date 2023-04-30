@@ -58,52 +58,70 @@ async def test_search():
     items = await gather(api.search("elon musk lang:en", limit=20))
     assert len(items) > 0
 
-    for x in items:
-        assert x.id is not None
-        assert x.user is not None
+    for doc in items:
+        assert doc.id is not None
+        assert doc.user is not None
 
-        tw_dict = x.json()
-        assert x.id == tw_dict["id"]
-        assert x.user.id == tw_dict["user"]["id"]
+        obj = doc.dict()
+        assert doc.id == obj["id"]
+        assert doc.user.id == obj["user"]["id"]
+        assert "url" in obj
+        assert "url" in obj["user"]
+
+        txt = doc.json()
+        assert isinstance(txt, str)
+        assert str(doc.id) in txt
 
 
 async def test_user_by_id():
     api = API(AccountsPool())
     mock_rep(api, "user_by_id_raw")
 
-    rep = await api.user_by_id(2244994945)
-    assert rep.id == 2244994945
-    assert rep.username == "TwitterDev"
+    doc = await api.user_by_id(2244994945)
+    assert doc.id == 2244994945
+    assert doc.username == "TwitterDev"
 
-    obj = rep.json()
-    assert rep.id == obj["id"]
-    assert rep.username == obj["username"]
+    obj = doc.dict()
+    assert doc.id == obj["id"]
+    assert doc.username == obj["username"]
+
+    txt = doc.json()
+    assert isinstance(txt, str)
+    assert str(doc.id) in txt
 
 
 async def test_user_by_login():
     api = API(AccountsPool())
     mock_rep(api, "user_by_login_raw")
 
-    rep = await api.user_by_login("twitterdev")
-    assert rep.id == 2244994945
-    assert rep.username == "TwitterDev"
+    doc = await api.user_by_login("twitterdev")
+    assert doc.id == 2244994945
+    assert doc.username == "TwitterDev"
 
-    obj = rep.json()
-    assert rep.id == obj["id"]
-    assert rep.username == obj["username"]
+    obj = doc.dict()
+    assert doc.id == obj["id"]
+    assert doc.username == obj["username"]
+
+    txt = doc.json()
+    assert isinstance(txt, str)
+    assert str(doc.id) in txt
 
 
 async def test_tweet_details():
     api = API(AccountsPool())
     mock_rep(api, "tweet_details_raw")
 
-    rep = await api.tweet_details(1649191520250245121)
-    assert rep.id == 1649191520250245121
-    assert rep.user is not None
+    doc = await api.tweet_details(1649191520250245121)
+    assert doc.id == 1649191520250245121
+    assert doc.user is not None
 
-    obj = rep.json()
-    assert rep.id == obj["id"]
-    assert rep.user.id == obj["user"]["id"]
+    obj = doc.dict()
+    assert doc.id == obj["id"]
+    assert doc.user.id == obj["user"]["id"]
+
+    txt = doc.json()
+    assert isinstance(txt, str)
+    assert str(doc.id) in txt
 
 
 async def test_followers():
@@ -113,13 +131,17 @@ async def test_followers():
     users = await gather(api.followers(2244994945))
     assert len(users) > 0
 
-    for user in users:
-        assert user.id is not None
-        assert user.username is not None
+    for doc in users:
+        assert doc.id is not None
+        assert doc.username is not None
 
-        obj = user.json()
-        assert user.id == obj["id"]
-        assert user.username == obj["username"]
+        obj = doc.dict()
+        assert doc.id == obj["id"]
+        assert doc.username == obj["username"]
+
+        txt = doc.json()
+        assert isinstance(txt, str)
+        assert str(doc.id) in txt
 
 
 async def test_following():
@@ -129,13 +151,17 @@ async def test_following():
     users = await gather(api.following(2244994945))
     assert len(users) > 0
 
-    for user in users:
-        assert user.id is not None
-        assert user.username is not None
+    for doc in users:
+        assert doc.id is not None
+        assert doc.username is not None
 
-        obj = user.json()
-        assert user.id == obj["id"]
-        assert user.username == obj["username"]
+        obj = doc.dict()
+        assert doc.id == obj["id"]
+        assert doc.username == obj["username"]
+
+        txt = doc.json()
+        assert isinstance(txt, str)
+        assert str(doc.id) in txt
 
 
 async def test_retweters():
@@ -145,13 +171,17 @@ async def test_retweters():
     users = await gather(api.retweeters(1649191520250245121))
     assert len(users) > 0
 
-    for user in users:
-        assert user.id is not None
-        assert user.username is not None
+    for doc in users:
+        assert doc.id is not None
+        assert doc.username is not None
 
-        obj = user.json()
-        assert user.id == obj["id"]
-        assert user.username == obj["username"]
+        obj = doc.dict()
+        assert doc.id == obj["id"]
+        assert doc.username == obj["username"]
+
+        txt = doc.json()
+        assert isinstance(txt, str)
+        assert str(doc.id) in txt
 
 
 async def test_favoriters():
@@ -161,13 +191,17 @@ async def test_favoriters():
     users = await gather(api.favoriters(1649191520250245121))
     assert len(users) > 0
 
-    for user in users:
-        assert user.id is not None
-        assert user.username is not None
+    for doc in users:
+        assert doc.id is not None
+        assert doc.username is not None
 
-        obj = user.json()
-        assert user.id == obj["id"]
-        assert user.username == obj["username"]
+        obj = doc.dict()
+        assert doc.id == obj["id"]
+        assert doc.username == obj["username"]
+
+        txt = doc.json()
+        assert isinstance(txt, str)
+        assert str(doc.id) in txt
 
 
 async def test_user_tweets():
@@ -177,13 +211,17 @@ async def test_user_tweets():
     tweets = await gather(api.user_tweets(2244994945))
     assert len(tweets) > 0
 
-    for tweet in tweets:
-        assert tweet.id is not None
-        assert tweet.user is not None
+    for doc in tweets:
+        assert doc.id is not None
+        assert doc.user is not None
 
-        obj = tweet.json()
-        assert tweet.id == obj["id"]
-        assert tweet.user.id == obj["user"]["id"]
+        obj = doc.dict()
+        assert doc.id == obj["id"]
+        assert doc.user.id == obj["user"]["id"]
+
+        txt = doc.json()
+        assert isinstance(txt, str)
+        assert str(doc.id) in txt
 
 
 async def test_user_tweets_and_replies():
@@ -193,13 +231,17 @@ async def test_user_tweets_and_replies():
     tweets = await gather(api.user_tweets_and_replies(2244994945))
     assert len(tweets) > 0
 
-    for tweet in tweets:
-        assert tweet.id is not None
-        assert tweet.user is not None
+    for doc in tweets:
+        assert doc.id is not None
+        assert doc.user is not None
 
-        obj = tweet.json()
-        assert tweet.id == obj["id"]
-        assert tweet.user.id == obj["user"]["id"]
+        obj = doc.dict()
+        assert doc.id == obj["id"]
+        assert doc.user.id == obj["user"]["id"]
+
+        txt = doc.json()
+        assert isinstance(txt, str)
+        assert str(doc.id) in txt
 
 
 async def main():
@@ -207,7 +249,7 @@ async def main():
     # you need to have some account to perform this
 
     pool = AccountsPool()
-    pool.load_from_dir()
+    pool.restore()
 
     api = API(pool)
 

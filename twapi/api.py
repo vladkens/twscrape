@@ -7,7 +7,7 @@ from .accounts_pool import AccountsPool
 from .constants import GQL_FEATURES, GQL_URL, SEARCH_PARAMS, SEARCH_URL
 from .logger import logger
 from .models import Tweet, User
-from .utils import encode_params, find_item, to_old_obj, to_search_like
+from .utils import encode_params, get_by_path, to_old_obj, to_search_like
 
 
 class API:
@@ -52,13 +52,13 @@ class API:
                 if e.response.status_code == 429:
                     logger.debug(f"Rate limit for account={account.username} on queue={queue}")
                     reset_ts = int(e.response.headers.get("x-rate-limit-reset", 0))
-                    account.update_limit(queue, reset_ts)
+                    self.pool.update_limit(account, queue, reset_ts)
                     continue
 
                 if e.response.status_code == 403:
                     logger.debug(f"Account={account.username} is banned on queue={queue}")
                     reset_ts = int(time.time() + 60 * 60)  # 1 hour
-                    account.update_limit(queue, reset_ts)
+                    self.pool.update_limit(account, queue, reset_ts)
                     continue
 
                 logger.error(f"[{e.response.status_code}] {e.request.url}\n{e.response.text}")
@@ -80,13 +80,13 @@ class API:
             logger.debug(e)
             return None
 
-    def get_ql_entries(self, obj: dict) -> list[dict]:
-        entries = find_item(obj, "entries")
+    def _get_ql_entries(self, obj: dict) -> list[dict]:
+        entries = get_by_path(obj, "entries")
         return entries or []
 
     def _get_ql_cursor(self, obj: dict) -> str | None:
         try:
-            for entry in self.get_ql_entries(obj):
+            for entry in self._get_ql_entries(obj):
                 if entry["entryId"].startswith("cursor-bottom-"):
                     return entry["content"]["value"]
             return None
@@ -104,7 +104,7 @@ class API:
             obj = rep.json()
 
             # cursor-top / cursor-bottom always present
-            entries = self.get_ql_entries(obj)
+            entries = self._get_ql_entries(obj)
             entries = [x for x in entries if not x["entryId"].startswith("cursor-")]
             cursor = self._get_ql_cursor(obj)
 
@@ -141,11 +141,18 @@ class API:
             params["cursor" if cursor else "requestContext"] = cursor if cursor else "launch"
             return await client.get(SEARCH_URL, params=params)
 
+        retries = 0
         async for rep in self._inf_req(queue, _get):
             data = rep.json()
 
-            cursor = self._get_search_cursor(data)
             tweets = data.get("globalObjects", {}).get("tweets", [])
+            if not tweets and retries < 3:
+                retries += 1
+                continue
+            else:
+                retries = 0
+
+            cursor = self._get_search_cursor(data)
 
             check = self._is_end(rep, q, tweets, cursor, count, limit)
             count, end_before, end_after = check

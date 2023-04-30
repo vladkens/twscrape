@@ -1,15 +1,23 @@
 import email.utils
-from dataclasses import asdict, dataclass
+import json
+import re
+from dataclasses import asdict, dataclass, field
 from datetime import datetime
 from typing import Optional
 
-from .utils import get_or, int_or_none
+from snscrape.modules import twitter
+
+from .logger import logger
+from .utils import find_item, get_or, int_or_none
 
 
 @dataclass
 class JSONTrait:
-    def json(self):
+    def dict(self):
         return asdict(self)
+
+    def json(self):
+        return json.dumps(self.dict(), default=str)
 
 
 @dataclass
@@ -80,6 +88,7 @@ class UserRef(JSONTrait):
 @dataclass
 class User(JSONTrait):
     id: int
+    url: str
     username: str
     displayname: str
     rawDescription: str
@@ -100,14 +109,11 @@ class User(JSONTrait):
     # link: typing.Optional[TextLink] = None
     # label: typing.Optional["UserLabel"] = None
 
-    @property
-    def url(self) -> str:
-        return f"https://twitter.com/{self.username}"
-
     @staticmethod
     def parse(obj: dict):
         return User(
             id=int(obj["id_str"]),
+            url=f'https://twitter.com/{obj["screen_name"]}',
             username=obj["screen_name"],
             displayname=obj["name"],
             rawDescription=obj["description"],
@@ -129,6 +135,7 @@ class User(JSONTrait):
 @dataclass
 class Tweet(JSONTrait):
     id: int
+    url: str
     date: datetime
     user: User
     lang: str
@@ -147,30 +154,28 @@ class Tweet(JSONTrait):
     quotedTweet: Optional["Tweet"] = None
     place: Optional[Place] = None
     coordinates: Optional[Coordinates] = None
+    inReplyToTweetId: int | None = None
+    inReplyToUser: UserRef | None = None
+    source: str | None = None
+    sourceUrl: str | None = None
+    sourceLabel: str | None = None
 
     # renderedContent: str
-    # source: str | None = None
-    # sourceUrl: str | None = None
-    # sourceLabel: str | None = None
     # media: typing.Optional[typing.List["Medium"]] = None
-    # inReplyToTweetId: typing.Optional[int] = None
-    # inReplyToUser: typing.Optional["User"] = None
     # card: typing.Optional["Card"] = None
     # vibe: typing.Optional["Vibe"] = None
 
-    @property
-    def url(self):
-        return f"https://twitter.com/{self.user.username}/status/{self.id}"
-
     @staticmethod
     def parse(obj: dict, res: dict):
+        tw_usr = User.parse(res["users"][obj["user_id_str"]])
         rt_obj = get_or(res, f"tweets.{obj.get('retweeted_status_id_str')}")
         qt_obj = get_or(res, f"tweets.{obj.get('quoted_status_id_str')}")
 
         return Tweet(
             id=int(obj["id_str"]),
+            url=f'https://twitter.com/{tw_usr.username}/status/{obj["id_str"]}',
             date=email.utils.parsedate_to_datetime(obj["created_at"]),
-            user=User.parse(res["users"][obj["user_id_str"]]),
+            user=tw_usr,
             lang=obj["lang"],
             rawContent=obj["full_text"],
             replyCount=obj["reply_count"],
@@ -187,4 +192,40 @@ class Tweet(JSONTrait):
             quotedTweet=Tweet.parse(qt_obj, res) if qt_obj else None,
             place=Place.parse(obj["place"]) if obj.get("place") else None,
             coordinates=Coordinates.parse(obj),
+            inReplyToTweetId=int_or_none(obj, "in_reply_to_status_id_str"),
+            inReplyToUser=_get_reply_user(obj, res),
+            source=obj.get("source", None),
+            sourceUrl=_get_source_url(obj),
+            sourceLabel=_get_source_label(obj),
         )
+
+
+def _get_reply_user(tw_obj: dict, res: dict):
+    user_id = tw_obj.get("in_reply_to_user_id_str", None)
+    if user_id is None:
+        return None
+
+    if user_id in res["users"]:
+        return UserRef.parse(res["users"][user_id])
+
+    mentions = get_or(tw_obj, "entities.user_mentions", [])
+    mention = find_item(mentions, lambda x: x["id_str"] == tw_obj["in_reply_to_user_id_str"])
+    if mention:
+        return UserRef.parse(mention)
+
+    logger.debug(f'{tw_obj["in_reply_to_user_id_str"]}\n{json.dumps(res)}')
+    return None
+
+
+def _get_source_url(tw_obj: dict):
+    source = tw_obj.get("source", None)
+    if source and (match := re.search(r'href=[\'"]?([^\'" >]+)', source)):
+        return str(match.group(1))
+    return None
+
+
+def _get_source_label(tw_obj: dict):
+    source = tw_obj.get("source", None)
+    if source and (match := re.search(r">([^<]*)<", source)):
+        return str(match.group(1))
+    return None

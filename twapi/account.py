@@ -1,5 +1,4 @@
 import json
-import os
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 
@@ -19,10 +18,8 @@ class Status(str, Enum):
 
 
 class Account:
-    BASE_DIR = "accounts"
-
     @classmethod
-    def load(cls, filepath: str):
+    def load_from_file(cls, filepath: str):
         try:
             with open(filepath) as f:
                 data = json.load(f)
@@ -81,15 +78,8 @@ class Account:
             "status": self.status,
         }
 
-    def save(self):
-        os.makedirs(self.BASE_DIR, exist_ok=True)
-        data = self.dump()
-        with open(f"{self.BASE_DIR}/{self.username}.json", "w") as f:
-            json.dump(data, f, indent=2)
-
     def update_limit(self, queue: str, reset_ts: int):
         self.limits[queue] = datetime.fromtimestamp(reset_ts, tz=timezone.utc)
-        self.save()
 
     def can_use(self, queue: str):
         if self.locked.get(queue, False) or self.status != Status.ACTIVE:
@@ -126,7 +116,6 @@ class Account:
                 if e.response.status_code == 403:
                     logger.error(f"403 error {log_id}")
                     self.status = Status.LOGIN_ERROR
-                    self.save()
                     return
 
         self.client.headers["x-csrf-token"] = self.client.cookies["ct0"]
@@ -134,7 +123,6 @@ class Account:
 
         logger.info(f"logged in success {log_id}")
         self.status = Status.ACTIVE
-        self.save()
 
     async def get_guest_token(self):
         rep = await self.client.post("https://api.twitter.com/1.1/guest/activate.json")

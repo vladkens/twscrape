@@ -1,6 +1,12 @@
 Twitter GraphQL and Search API implementation with [SNScrape](https://github.com/JustAnotherArchivist/snscrape) data models.
 
-### Usage
+## Install
+
+```bash
+pip install https://github.com/vladkens/tw-api
+```
+
+## Usage
 
 ```python
 import asyncio
@@ -47,6 +53,13 @@ async def main():
 
     # change log level, default info
     set_log_level("DEBUG")
+
+    # Tweet & User model can be converted to regular dict or json, e.g.:
+    doc = await api.user_by_id(user_id)  # User
+    doc.dict()  # -> python dict
+    doc.json()  # -> json string
+
+
 
 if __name__ == "__main__":
     asyncio.run(main())

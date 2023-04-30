@@ -2,4 +2,5 @@
 from .account import Account
 from .accounts_pool import AccountsPool
 from .api import API
+from .models import *
 from .utils import gather
