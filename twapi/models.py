@@ -1,11 +1,9 @@
 import email.utils
 import json
 import re
-from dataclasses import asdict, dataclass, field
+from dataclasses import asdict, dataclass
 from datetime import datetime
 from typing import Optional
-
-from snscrape.modules import twitter
 
 from .logger import logger
 from .utils import find_item, get_or, int_or_none

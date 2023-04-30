@@ -83,7 +83,7 @@ def get_typed_object(obj: dict, res: defaultdict[str, list]):
     if obj_type is not None:
         res[obj_type].append(obj)
 
-    for k, v in obj.items():
+    for _, v in obj.items():
         if isinstance(v, dict):
             get_typed_object(v, res)
         elif isinstance(v, list):

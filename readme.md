@@ -6,6 +6,14 @@ Twitter GraphQL and Search API implementation with [SNScrape](https://github.com
 pip install https://github.com/vladkens/tw-api
 ```
 
+## Features
+- Support both Search & GraphQL Twitter API
+- Async / Await functions (can run multiple scrappers in parallel same time)
+- Login flow (with receiving verification code from email)
+- Saving / restore accounts sessions
+- Raw Twitter API responses & SNScrape models
+- Automatic account switching to smooth Twitter API rate limits
+
 ## Usage
 
 ```python
@@ -58,7 +66,6 @@ async def main():
     doc = await api.user_by_id(user_id)  # User
     doc.dict()  # -> python dict
     doc.json()  # -> json string
-
 
 
 if __name__ == "__main__":
