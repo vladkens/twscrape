@@ -78,6 +78,32 @@ def find_item(lst: list[T], fn: Callable[[T], bool]) -> T | None:
     return None
 
 
+def find_or_fail(lst: list[T], fn: Callable[[T], bool]) -> T:
+    item = find_item(lst, fn)
+    if item is None:
+        raise ValueError()
+    return item
+
+
+def find_obj(obj: dict, fn: Callable[[dict], bool]) -> Any | None:
+    if not isinstance(obj, dict):
+        return None
+
+    if fn(obj):
+        return obj
+
+    for _, v in obj.items():
+        if isinstance(v, dict):
+            if res := find_obj(v, fn):
+                return res
+        elif isinstance(v, list):
+            for x in v:
+                if res := find_obj(x, fn):
+                    return res
+
+    return None
+
+
 def get_typed_object(obj: dict, res: defaultdict[str, list]):
     obj_type = obj.get("__typename", None)
     if obj_type is not None:
