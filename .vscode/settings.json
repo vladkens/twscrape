@@ -1,7 +1,10 @@
 {
   "files.exclude": {
     ".ruff_cache": true,
-    ".pytest_cache": true
+    ".pytest_cache": true,
+    "*.egg-info": true,
+    "build": true,
+    ".coverage": true,
   },
   "[python]": {
     "editor.formatOnSave": true,

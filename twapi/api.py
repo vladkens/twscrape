@@ -24,9 +24,7 @@ class API:
         lr = rep.headers.get("x-rate-limit-remaining", -1)
         ll = rep.headers.get("x-rate-limit-limit", -1)
 
-        auth_token = rep.request.headers["cookie"].split("auth_token=")[1].split(";")[0]
-        username = self.pool.get_username_by_token(auth_token)
-
+        username = getattr(rep, "__username", "<UNKNOWN>")
         return f"{username} {lr}/{ll}"
 
     def _is_end(self, rep: Response, q: str, res: list, cur: str | None, cnt: int, lim: int):
@@ -73,31 +71,33 @@ class API:
 
     async def _inf_req(self, queue: str, cb: Callable[[AsyncClient], Awaitable[Response]]):
         while True:
-            account = await self.pool.get_account_or_wait(queue)
+            acc = await self.pool.get_for_queue_or_wait(queue)
+            client = acc.make_client()
 
             try:
                 while True:
-                    rep = await cb(account.client)
-                    rep.raise_for_status()
+                    rep = await cb(client)
+                    setattr(rep, "__username", acc.username)
                     self._push_history(rep)
+                    rep.raise_for_status()
+
                     yield rep
             except HTTPStatusError as e:
                 rep = e.response
-                self._push_history(rep)
                 log_id = f"{self._limit_msg(rep)} on queue={queue}"
 
                 # rate limit
                 if rep.status_code == 429:
                     logger.debug(f"Rate limit for {log_id}")
                     reset_ts = int(rep.headers.get("x-rate-limit-reset", 0))
-                    self.pool.update_limit(account, queue, reset_ts)
+                    await self.pool.lock_until(acc.username, queue, reset_ts)
                     continue
 
                 # possible account banned
                 if rep.status_code == 403:
                     logger.debug(f"Ban for {log_id}")
                     reset_ts = int(time.time() + 60 * 60)  # 1 hour
-                    self.pool.update_limit(account, queue, reset_ts)
+                    await self.pool.lock_until(acc.username, queue, reset_ts)
                     continue
 
                 # twitter can return different types of cursors that not transfers between accounts
@@ -109,7 +109,8 @@ class API:
                 logger.error(f"[{rep.status_code}] {e.request.url}\n{rep.text}")
                 raise e
             finally:
-                account.unlock(queue)
+                await self.pool.unlock(acc.username, queue)
+                await client.aclose()
 
     def _get_cursor(self, obj: dict):
         if cur := find_obj(obj, lambda x: x.get("cursorType") == "Bottom"):
@@ -153,7 +154,6 @@ class API:
 
         queue = op.split("/")[-1]
         async for rep in self._inf_req(queue, _get):
-            logger.debug(f"{queue} {self._limit_msg(rep)}")
             return rep
 
         raise Exception("No response")  # todo
@@ -166,7 +166,12 @@ class API:
         async def _get(client: AsyncClient):
             params = {**SEARCH_PARAMS, "q": q, "count": 20}
             params["cursor" if cursor else "requestContext"] = cursor if cursor else "launch"
-            return await client.get(SEARCH_URL, params=params)
+            try:
+                return await client.get(SEARCH_URL, params=params)
+            except Exception as e:
+                logger.error(f"Error requesting {q}: {e}")
+                logger.error(f"Request: {SEARCH_URL}, {params}")
+                raise e
 
         try:
             async for rep in self._inf_req(queue, _get):
@@ -190,11 +195,14 @@ class API:
             raise e
 
     async def search(self, q: str, limit=-1):
+        twids = set()
         async for rep in self.search_raw(q, limit=limit):
             res = rep.json()
             obj = res.get("globalObjects", {})
             for x in list(obj.get("tweets", {}).values()):
-                yield Tweet.parse(x, obj)
+                if x["id_str"] not in twids:
+                    twids.add(x["id_str"])
+                    yield Tweet.parse(x, obj)
 
     # user_by_id
 

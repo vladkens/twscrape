@@ -1,101 +1,153 @@
+# ruff: noqa: E501
 import asyncio
-import json
-import os
 
-from .account import Account, Status
+from fake_useragent import UserAgent
+
+from .account import Account
+from .db import add_init_query, execute, fetchall, fetchone
 from .logger import logger
-from .utils import shuffle
+from .login import login
 
 
 class AccountsPool:
-    def __init__(self, base_dir: str | None = None):
-        self.accounts: list[Account] = []
-        self.base_dir = base_dir or "accounts"
+    def __init__(self, db_file="accounts.db"):
+        self._db_file = db_file
+        add_init_query(db_file, Account.create_sql())
 
-    def restore(self):
-        files = [os.path.join(self.base_dir, x) for x in os.listdir(self.base_dir)]
-        files = [x for x in files if x.endswith(".json")]
-        for file in files:
-            self._load_account_from_file(file)
-
-    def _load_account_from_file(self, filepath: str):
-        account = Account.load_from_file(filepath)
-        if account:
-            username = set(x.username for x in self.accounts)
-            if account.username in username:
-                raise ValueError(f"Duplicate username {account.username}")
-            self.accounts.append(account)
-        return account
-
-    def _get_filename(self, username: str):
-        return f"{self.base_dir}/{username}.json"
-
-    def add_account(
+    async def add_account(
         self,
-        login: str,
+        username: str,
         password: str,
         email: str,
         email_password: str,
-        proxy: str | None = None,
         user_agent: str | None = None,
+        proxy: str | None = None,
     ):
-        account = self._load_account_from_file(self._get_filename(login))
-        if account:
+        qs = "SELECT * FROM accounts WHERE username = :username"
+        rs = await fetchone(self._db_file, qs, {"username": username})
+        if rs:
             return
 
         account = Account(
-            login,
-            password,
-            email,
-            email_password,
+            username=username,
+            password=password,
+            email=email,
+            email_password=email_password,
+            user_agent=user_agent or UserAgent().safari,
+            active=False,
+            locks={},
+            headers={},
+            cookies={},
             proxy=proxy,
-            user_agent=user_agent,
         )
-        self.save_account(account)
-        self._load_account_from_file(self._get_filename(login))
+        await self.save(account)
 
-    async def login(self):
-        for x in self.accounts:
-            try:
-                if x.status == Status.NEW:
-                    await x.login()
-            except Exception as e:
-                logger.error(f"Error logging in to {x.username}: {e}")
-            finally:
-                self.save_account(x)
+    async def get(self, username: str):
+        qs = "SELECT * FROM accounts WHERE username = :username"
+        rs = await fetchone(self._db_file, qs, {"username": username})
+        if not rs:
+            raise ValueError(f"Account {username} not found")
+        return Account.from_rs(rs)
 
-    def get_username_by_token(self, auth_token: str) -> str:
-        for x in self.accounts:
-            if x.client.cookies.get("auth_token") == auth_token:
-                return x.username
-        return "UNKNOWN"
+    async def get_all(self):
+        qs = "SELECT * FROM accounts"
+        rs = await fetchall(self._db_file, qs)
+        return [Account.from_rs(x) for x in rs]
 
-    def get_account(self, queue: str) -> Account | None:
-        accounts = shuffle(self.accounts)  # make random order each time
-        for x in accounts:
-            if x.can_use(queue):
-                return x
-        return None
+    async def save(self, account: Account):
+        data = account.to_rs()
+        cols = list(data.keys())
 
-    async def get_account_or_wait(self, queue: str) -> Account:
+        qs = f"""
+        INSERT INTO accounts ({",".join(cols)}) VALUES ({",".join([f":{x}" for x in cols])})
+        ON CONFLICT DO UPDATE SET {",".join([f"{x}=excluded.{x}" for x in cols])}
+        """
+        await execute(self._db_file, qs, data)
+
+    async def login(self, account: Account):
+        try:
+            await login(account)
+        except Exception as e:
+            logger.error(f"Error logging in to {account.username}: {e}")
+        finally:
+            await self.save(account)
+
+    async def login_all(self):
+        qs = "SELECT * FROM accounts WHERE active = false AND error_msg IS NULL"
+        rs = await fetchall(self._db_file, qs)
+
+        accounts = [Account.from_rs(rs) for rs in rs]
+        # await asyncio.gather(*[login(x) for x in self.accounts])
+
+        for i, x in enumerate(accounts, start=1):
+            logger.info(f"[{i}/{len(accounts)}] Logging in {x.username} - {x.email}")
+            await self.login(x)
+
+    async def set_active(self, username: str, active: bool):
+        qs = "UPDATE accounts SET active = :active WHERE username = :username"
+        await execute(self._db_file, qs, {"username": username, "active": active})
+
+    async def lock_until(self, username: str, queue: str, unlock_at: int):
+        # unlock_at is unix timestamp
+        qs = f"""
+        UPDATE accounts SET locks = json_set(locks, '$.{queue}', datetime({unlock_at}, 'unixepoch'))
+        WHERE username = :username
+        """
+        await execute(self._db_file, qs, {"username": username})
+
+    async def unlock(self, username: str, queue: str):
+        qs = f"""
+        UPDATE accounts SET locks = json_remove(locks, '$.{queue}')
+        WHERE username = :username
+        """
+        await execute(self._db_file, qs, {"username": username})
+
+    async def get_for_queue(self, queue: str):
+        q1 = f"""
+        SELECT username FROM accounts
+        WHERE active = true AND (
+            locks IS NULL
+            OR json_extract(locks, '$.{queue}') IS NULL
+            OR json_extract(locks, '$.{queue}') < datetime('now')
+        )
+        ORDER BY RANDOM()
+        LIMIT 1
+        """
+
+        q2 = f"""
+        UPDATE accounts SET locks = json_set(locks, '$.{queue}', datetime('now', '+15 minutes'))
+        WHERE username = ({q1})
+        RETURNING *
+        """
+
+        rs = await fetchone(self._db_file, q2)
+        return Account.from_rs(rs) if rs else None
+
+    async def get_for_queue_or_wait(self, queue: str) -> Account:
         while True:
-            account = self.get_account(queue)
-            if account:
-                logger.debug(f"Using account {account.username} for queue '{queue}'")
-                account.lock(queue)
-                return account
-            else:
+            account = await self.get_for_queue(queue)
+            if not account:
                 logger.debug(f"No accounts available for queue '{queue}' (sleeping for 5 sec)")
                 await asyncio.sleep(5)
+                continue
 
-    def save_account(self, account: Account):
-        filename = self._get_filename(account.username)
-        data = account.dump()
+            logger.debug(f"Using account {account.username} for queue '{queue}'")
+            return account
 
-        os.makedirs(os.path.dirname(filename), exist_ok=True)
-        with open(filename, "w") as f:
-            json.dump(data, f, indent=2)
+    async def stats(self):
+        def by_queue(queue: str):
+            return f"""
+            SELECT COUNT(*) FROM accounts
+            WHERE json_extract(locks, '$.{queue}') IS NOT NULL AND json_extract(locks, '$.{queue}') > datetime('now')
+            """
 
-    def update_limit(self, account: Account, queue: str, reset_ts: int):
-        account.update_limit(queue, reset_ts)
-        self.save_account(account)
+        config = [
+            ("total", "SELECT COUNT(*) FROM accounts"),
+            ("active", "SELECT COUNT(*) FROM accounts WHERE active = true"),
+            ("inactive", "SELECT COUNT(*) FROM accounts WHERE active = false"),
+            ("locked_search", by_queue("search")),
+        ]
+
+        qs = f"SELECT {','.join([f'({q}) as {k}' for k, q in config])}"
+        rs = await fetchone(self._db_file, qs)
+        return dict(rs) if rs else {}

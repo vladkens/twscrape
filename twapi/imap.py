@@ -1,9 +1,12 @@
 import asyncio
 import email as emaillib
 import imaplib
+import time
 from datetime import datetime
 
 from .logger import logger
+
+MAX_WAIT_SEC = 30
 
 
 def get_imap_domain(email: str) -> str:
@@ -34,6 +37,7 @@ def search_email_code(imap: imaplib.IMAP4_SSL, count: int, min_t: datetime | Non
 
 async def get_email_code(email: str, password: str, min_t: datetime | None = None) -> str:
     domain = get_imap_domain(email)
+    start_time = time.time()
     with imaplib.IMAP4_SSL(domain) as imap:
         imap.login(email, password)
 
@@ -47,4 +51,6 @@ async def get_email_code(email: str, password: str, min_t: datetime | None = Non
                     return code
 
             logger.debug(f"Waiting for confirmation code for {email}, msg_count: {now_count}")
+            if MAX_WAIT_SEC < time.time() - start_time:
+                raise Exception(f"Timeout on getting confirmation code for {email}")
             await asyncio.sleep(5)

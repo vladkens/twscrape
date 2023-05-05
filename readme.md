@@ -22,13 +22,12 @@ from twapi import AccountsPool, API, gather
 from twapi.logger import set_log_level
 
 async def main():
-    pool = AccountsPool()
-    pool.add_account("user1", "pass1", "user1@example.com", "email_pass1")
-    pool.add_account("user2", "pass2", "user2@example.com", "email_pass2")
+    pool = AccountsPool()  # or pool = AccountsPool("path-to.db") - default is `accounts.db` 
+    await pool.add_account("user1", "pass1", "user1@example.com", "email_pass1")
+    await pool.add_account("user2", "pass2", "user2@example.com", "email_pass2")
 
-    # login all accounts if required (not account file found)
-    # session file will be saved to `accounts/{username}.json`
-    await pool.login()
+    # log in to all fresh accounts
+    await pool.login_all()
 
     api = API(pool)
 
@@ -67,7 +66,8 @@ async def main():
     doc.dict()  # -> python dict
     doc.json()  # -> json string
 
-
 if __name__ == "__main__":
     asyncio.run(main())
 ```
+
+You can use `login_all` once in your program to pass the login flow and add the accounts to the database. Re-runs will use the previously activated accounts.

@@ -2,10 +2,10 @@ all:
 	@echo "hi"
 
 lint:
-	ruff check .
+	ruff check twapi
 
 lint-fix:
-	ruff check --fix .
+	ruff check --fix twapi
 
 pylint:
 	pylint --errors-only twapi

@@ -1,5 +1,4 @@
 import json
-import random
 from collections import defaultdict
 from typing import Any, AsyncGenerator, Callable, TypeVar
 
@@ -134,9 +133,3 @@ def to_search_like(obj: dict):
     users = {str(x["rest_id"]): to_old_obj(x) for x in users}
 
     return {"tweets": tweets, "users": users}
-
-
-def shuffle(lst: list):
-    lst = lst.copy()
-    random.shuffle(lst)
-    return lst
