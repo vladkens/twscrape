@@ -1,17 +1,22 @@
+.PHONY: all build
+
 all:
 	@echo "hi"
 
+build:
+	python -m build
+
 lint:
-	ruff check twapi
+	ruff check twscrape
 
 lint-fix:
-	ruff check --fix twapi
+	ruff check --fix twscrape
 
 pylint:
-	pylint --errors-only twapi
+	pylint --errors-only twscrape
 
 test:
-	pytest --cov=twapi tests/
+	pytest --cov=twscrape tests/
 
 act:
 	act --container-architecture linux/amd64

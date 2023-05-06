@@ -2,8 +2,8 @@ import asyncio
 import json
 import os
 
-from twapi import API, AccountsPool, gather
-from twapi.logger import set_log_level
+from twscrape import API, AccountsPool, gather
+from twscrape.logger import set_log_level
 
 BASE_DIR = os.path.dirname(__file__)
 DATA_DIR = os.path.join(BASE_DIR, "mocked-data")
@@ -247,10 +247,9 @@ async def test_user_tweets_and_replies():
 async def main():
     # prepare mock files from real twitter replies
     # you need to have some account to perform this
+    FRESH = False
 
     pool = AccountsPool()
-    pool.restore()
-
     api = API(pool)
 
     jobs = [
@@ -269,7 +268,7 @@ async def main():
     for filename, fn in jobs:
         filename = os.path.join(DATA_DIR, f"{filename}")
         print("-" * 20)
-        if os.path.exists(filename):
+        if os.path.exists(filename) and FRESH is False:
             print(f"File {filename} already exists")
             continue
 

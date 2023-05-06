@@ -1,7 +1,7 @@
 import os
 
-from twapi.accounts_pool import AccountsPool
-from twapi.db import DB
+from twscrape.accounts_pool import AccountsPool
+from twscrape.db import DB
 
 DB_FILE = "/tmp/twapi_test.db"
 

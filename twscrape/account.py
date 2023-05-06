@@ -3,7 +3,7 @@ import sqlite3
 from dataclasses import asdict, dataclass
 from datetime import datetime
 
-from httpx import AsyncClient
+from httpx import AsyncClient, AsyncHTTPTransport
 
 from .constants import TOKEN
 
@@ -57,7 +57,8 @@ class Account:
         return rs
 
     def make_client(self) -> AsyncClient:
-        client = AsyncClient(proxies=self.proxy)
+        transport = AsyncHTTPTransport(retries=2)
+        client = AsyncClient(proxies=self.proxy, follow_redirects=True, transport=transport)
 
         # saved from previous usage
         client.cookies.update(self.cookies)

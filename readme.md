@@ -18,8 +18,8 @@ pip install https://github.com/vladkens/tw-api
 
 ```python
 import asyncio
-from twapi import AccountsPool, API, gather
-from twapi.logger import set_log_level
+from twscrape import AccountsPool, API, gather
+from twscrape.logger import set_log_level
 
 async def main():
     pool = AccountsPool()  # or pool = AccountsPool("path-to.db") - default is `accounts.db` 
