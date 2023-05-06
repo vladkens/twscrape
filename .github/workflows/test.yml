@@ -1,4 +1,4 @@
-name: ci
+name: test
 
 on: [push]
 
@@ -6,7 +6,7 @@ env:
   PIP_ROOT_USER_ACTION: ignore
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
