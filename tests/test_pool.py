@@ -2,8 +2,9 @@ import os
 
 from twscrape.accounts_pool import AccountsPool
 from twscrape.db import DB
+from twscrape.utils import utc_ts
 
-DB_FILE = "/tmp/twapi_test.db"
+DB_FILE = "/tmp/twscrape_test.db"
 
 
 def remove_db():
@@ -105,3 +106,58 @@ async def test_get_for_queue():
     # should return None
     acc = await pool.get_for_queue(Q)
     assert acc is None
+
+
+async def test_account_unlock():
+    remove_db()
+    pool = AccountsPool(DB_FILE)
+    Q = "test_queue"
+
+    await pool.add_account("user1", "pass1", "email1", "email_pass1")
+    await pool.set_active("user1", True)
+    acc = await pool.get_for_queue(Q)
+    assert acc is not None
+    assert acc.locks[Q] is not None
+
+    # should unlock account and make available for queue
+    await pool.unlock(acc.username, Q)
+    acc = await pool.get_for_queue(Q)
+    assert acc is not None
+    assert acc.locks[Q] is not None
+
+    # should update lock time
+    end_time = utc_ts() + 60  # + 1 minute
+    await pool.lock_until(acc.username, Q, end_time)
+
+    acc = await pool.get(acc.username)
+    assert int(acc.locks[Q].timestamp()) == end_time
+
+
+async def test_get_stats():
+    remove_db()
+    pool = AccountsPool(DB_FILE)
+    Q = "search"
+
+    # should return empty stats
+    stats = await pool.stats()
+    for k, v in stats.items():
+        assert v == 0, f"{k} should be 0"
+
+    # should increate total
+    await pool.add_account("user1", "pass1", "email1", "email_pass1")
+    stats = await pool.stats()
+    assert stats["total"] == 1
+    assert stats["active"] == 0
+
+    # should increate active
+    await pool.set_active("user1", True)
+    stats = await pool.stats()
+    assert stats["total"] == 1
+    assert stats["active"] == 1
+
+    # should update queue stats
+    await pool.get_for_queue(Q)
+    stats = await pool.stats()
+    assert stats["total"] == 1
+    assert stats["active"] == 1
+    assert stats["locked_search"] == 1

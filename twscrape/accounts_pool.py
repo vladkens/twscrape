@@ -88,7 +88,6 @@ class AccountsPool:
         await execute(self._db_file, qs, {"username": username, "active": active})
 
     async def lock_until(self, username: str, queue: str, unlock_at: int):
-        # unlock_at is unix timestamp
         qs = f"""
         UPDATE accounts SET locks = json_set(locks, '$.{queue}', datetime({unlock_at}, 'unixepoch'))
         WHERE username = :username
@@ -141,11 +140,18 @@ class AccountsPool:
             WHERE json_extract(locks, '$.{queue}') IS NOT NULL AND json_extract(locks, '$.{queue}') > datetime('now')
             """
 
+        gql_ops = """
+        UserByRestId UserByScreenName TweetDetail Followers Following
+        Retweeters Favoriters UserTweets UserTweetsAndReplies
+        """
+        gql_ops = [x.strip() for x in gql_ops.split(" ") if x.strip()]
+
         config = [
             ("total", "SELECT COUNT(*) FROM accounts"),
             ("active", "SELECT COUNT(*) FROM accounts WHERE active = true"),
             ("inactive", "SELECT COUNT(*) FROM accounts WHERE active = false"),
             ("locked_search", by_queue("search")),
+            *[(f"locked_{x}", by_queue(x)) for x in gql_ops],
         ]
 
         qs = f"SELECT {','.join([f'({q}) as {k}' for k, q in config])}"

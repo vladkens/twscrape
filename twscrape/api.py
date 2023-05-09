@@ -1,5 +1,4 @@
 import json
-import time
 from datetime import datetime
 from typing import Awaitable, Callable
 
@@ -9,7 +8,7 @@ from .accounts_pool import AccountsPool
 from .constants import GQL_FEATURES, GQL_URL, SEARCH_PARAMS, SEARCH_URL
 from .logger import logger
 from .models import Tweet, User
-from .utils import encode_params, find_obj, get_by_path, to_old_obj, to_search_like
+from .utils import encode_params, find_obj, get_by_path, to_old_obj, to_old_rep, utc_ts
 
 
 class API:
@@ -95,8 +94,8 @@ class API:
 
                 # possible account banned
                 if rep.status_code == 403:
-                    logger.debug(f"Ban for {log_id}")
-                    reset_ts = int(time.time() + 60 * 60)  # 1 hour
+                    logger.warning(f"403 for {log_id}")
+                    reset_ts = utc_ts() + 60 * 60  # + 1 hour
                     await self.pool.lock_until(acc.username, queue, reset_ts)
                     continue
 
@@ -256,7 +255,7 @@ class API:
 
     async def tweet_details(self, twid: int):
         rep = await self.tweet_details_raw(twid)
-        obj = to_search_like(rep.json())
+        obj = to_old_rep(rep.json())
         return Tweet.parse(obj["tweets"][str(twid)], obj)
 
     # followers
@@ -269,7 +268,7 @@ class API:
 
     async def followers(self, uid: int, limit=-1):
         async for rep in self.followers_raw(uid, limit=limit):
-            obj = to_search_like(rep.json())
+            obj = to_old_rep(rep.json())
             for _, v in obj["users"].items():
                 yield User.parse(v)
 
@@ -283,7 +282,7 @@ class API:
 
     async def following(self, uid: int, limit=-1):
         async for rep in self.following_raw(uid, limit=limit):
-            obj = to_search_like(rep.json())
+            obj = to_old_rep(rep.json())
             for _, v in obj["users"].items():
                 yield User.parse(v)
 
@@ -297,7 +296,7 @@ class API:
 
     async def retweeters(self, twid: int, limit=-1):
         async for rep in self.retweeters_raw(twid, limit=limit):
-            obj = to_search_like(rep.json())
+            obj = to_old_rep(rep.json())
             for _, v in obj["users"].items():
                 yield User.parse(v)
 
@@ -311,7 +310,7 @@ class API:
 
     async def favoriters(self, twid: int, limit=-1):
         async for rep in self.favoriters_raw(twid, limit=limit):
-            obj = to_search_like(rep.json())
+            obj = to_old_rep(rep.json())
             for _, v in obj["users"].items():
                 yield User.parse(v)
 
@@ -332,7 +331,7 @@ class API:
 
     async def user_tweets(self, uid: int, limit=-1):
         async for rep in self.user_tweets_raw(uid, limit=limit):
-            obj = to_search_like(rep.json())
+            obj = to_old_rep(rep.json())
             for _, v in obj["tweets"].items():
                 yield Tweet.parse(v, obj)
 
@@ -353,6 +352,6 @@ class API:
 
     async def user_tweets_and_replies(self, uid: int, limit=-1):
         async for rep in self.user_tweets_and_replies_raw(uid, limit=limit):
-            obj = to_search_like(rep.json())
+            obj = to_old_rep(rep.json())
             for _, v in obj["tweets"].items():
                 yield Tweet.parse(v, obj)

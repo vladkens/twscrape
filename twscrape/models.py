@@ -5,7 +5,6 @@ from dataclasses import asdict, dataclass
 from datetime import datetime
 from typing import Optional
 
-from .logger import logger
 from .utils import find_item, get_or, int_or_none
 
 
@@ -77,6 +76,7 @@ class UserRef(JSONTrait):
     id: int
     username: str
     displayname: str
+    _type: str = "snscrape.modules.twitter.UserRef"
 
     @staticmethod
     def parse(obj: dict):
@@ -102,7 +102,9 @@ class User(JSONTrait):
     profileBannerUrl: str | None = None
     protected: bool | None = None
     verified: bool | None = None
+    _type: str = "snscrape.modules.twitter.User"
 
+    # todo:
     # descriptionLinks: typing.Optional[typing.List[TextLink]] = None
     # link: typing.Optional[TextLink] = None
     # label: typing.Optional["UserLabel"] = None
@@ -157,7 +159,9 @@ class Tweet(JSONTrait):
     source: str | None = None
     sourceUrl: str | None = None
     sourceLabel: str | None = None
+    _type: str = "snscrape.modules.twitter.Tweet"
 
+    # todo:
     # renderedContent: str
     # media: typing.Optional[typing.List["Medium"]] = None
     # card: typing.Optional["Card"] = None
@@ -211,7 +215,7 @@ def _get_reply_user(tw_obj: dict, res: dict):
     if mention:
         return UserRef.parse(mention)
 
-    logger.debug(f'{tw_obj["in_reply_to_user_id_str"]}\n{json.dumps(res)}')
+    # todo: user not found in reply (probably deleted or hidden)
     return None
 
 

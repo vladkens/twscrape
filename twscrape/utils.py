@@ -1,5 +1,6 @@
 import json
 from collections import defaultdict
+from datetime import datetime, timezone
 from typing import Any, AsyncGenerator, Callable, TypeVar
 
 from httpx import HTTPStatusError, Response
@@ -123,7 +124,7 @@ def to_old_obj(obj: dict):
     return {**obj, **obj["legacy"], "id_str": str(obj["rest_id"]), "id": int(obj["rest_id"])}
 
 
-def to_search_like(obj: dict):
+def to_old_rep(obj: dict):
     tmp = get_typed_object(obj, defaultdict(list))
 
     tweets = [x for x in tmp.get("Tweet", []) if "legacy" in x]
@@ -133,3 +134,11 @@ def to_search_like(obj: dict):
     users = {str(x["rest_id"]): to_old_obj(x) for x in users}
 
     return {"tweets": tweets, "users": users}
+
+
+def utc_ts() -> int:
+    return int(datetime.utcnow().replace(tzinfo=timezone.utc).timestamp())
+
+
+def from_utciso(iso: str) -> datetime:
+    return datetime.fromisoformat(iso).replace(tzinfo=timezone.utc)

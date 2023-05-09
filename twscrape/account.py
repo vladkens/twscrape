@@ -6,6 +6,7 @@ from datetime import datetime
 from httpx import AsyncClient, AsyncHTTPTransport
 
 from .constants import TOKEN
+from .utils import from_utciso
 
 
 @dataclass
@@ -43,7 +44,7 @@ class Account:
     @staticmethod
     def from_rs(rs: sqlite3.Row):
         doc = dict(rs)
-        doc["locks"] = {k: datetime.fromisoformat(v) for k, v in json.loads(doc["locks"]).items()}
+        doc["locks"] = {k: from_utciso(v) for k, v in json.loads(doc["locks"]).items()}
         doc["headers"] = json.loads(doc["headers"])
         doc["cookies"] = json.loads(doc["cookies"])
         doc["active"] = bool(doc["active"])

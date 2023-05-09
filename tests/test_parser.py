@@ -65,8 +65,14 @@ async def test_search():
         obj = doc.dict()
         assert doc.id == obj["id"]
         assert doc.user.id == obj["user"]["id"]
+
         assert "url" in obj
+        assert "_type" in obj
+        assert obj["_type"] == "snscrape.modules.twitter.Tweet"
+
         assert "url" in obj["user"]
+        assert "_type" in obj["user"]
+        assert obj["user"]["_type"] == "snscrape.modules.twitter.User"
 
         txt = doc.json()
         assert isinstance(txt, str)

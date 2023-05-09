@@ -75,8 +75,13 @@ if __name__ == "__main__":
     asyncio.run(main())
 ```
 
-You can use `login_all` once in your program to pass the login flow and add the accounts to the database. Re-runs will use the previously activated accounts.
+Note on rate limits:
+- Search API – 250 requests per account / 15 minites
+- GraphQL API – 500 requests per account per operation / 15 minutes
 
 ### Models
 - [Tweet](https://github.com/vladkens/twscrape/blob/main/twscrape/models.py#:~:text=class%20Tweet)
 - [User](https://github.com/vladkens/twscrape/blob/main/twscrape/models.py#:~:text=class%20User)
+
+### Related
+- [SNScrape](https://github.com/JustAnotherArchivist/snscrape) – is a scraper for social networking services (SNS)
