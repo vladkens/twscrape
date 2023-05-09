@@ -1,6 +1,9 @@
 name: test
 
-on: [push]
+on:
+  push:
+    tags-ignore:
+      - '**'
 
 env:
   PIP_ROOT_USER_ACTION: ignore
