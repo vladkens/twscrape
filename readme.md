@@ -5,14 +5,18 @@ Twitter GraphQL and Search API implementation with [SNScrape](https://github.com
 ## Install
 
 ```bash
-pip install https://github.com/vladkens/tw-api
+pip install twscrape
+```
+Or development version:
+```bash
+pip install git+https://github.com/vladkens/twscrape.git
 ```
 
 ## Features
 - Support both Search & GraphQL Twitter API
-- Async / Await functions (can run multiple scrappers in parallel same time)
+- Async/Await functions (can run multiple scrapers in parallel at the same time)
 - Login flow (with receiving verification code from email)
-- Saving / restore accounts sessions
+- Saving/restoring account sessions
 - Raw Twitter API responses & SNScrape models
 - Automatic account switching to smooth Twitter API rate limits
 
@@ -24,21 +28,20 @@ from twscrape import AccountsPool, API, gather
 from twscrape.logger import set_log_level
 
 async def main():
-    pool = AccountsPool()  # or pool = AccountsPool("path-to.db") - default is `accounts.db` 
+    pool = AccountsPool()  # or AccountsPool("path-to.db") - default is `accounts.db` 
     await pool.add_account("user1", "pass1", "user1@example.com", "email_pass1")
     await pool.add_account("user2", "pass2", "user2@example.com", "email_pass2")
 
-    # log in to all fresh accounts
+    # log in to all new accounts
     await pool.login_all()
 
     api = API(pool)
 
-    # search api
+    # search api (latest tab)
     await gather(api.search("elon musk", limit=20))  # list[Tweet]
 
     # graphql api
-    tweet_id = 20
-    user_id, user_login = 2244994945, "twitterdev"
+    tweet_id, user_id, user_login = 20, 2244994945, "twitterdev"
 
     await api.tweet_details(tweet_id)  # Tweet
     await gather(api.retweeters(tweet_id, limit=20))  # list[User]
@@ -73,3 +76,7 @@ if __name__ == "__main__":
 ```
 
 You can use `login_all` once in your program to pass the login flow and add the accounts to the database. Re-runs will use the previously activated accounts.
+
+### Models
+- [Tweet](https://github.com/vladkens/twscrape/blob/main/twscrape/models.py#:~:text=class%20Tweet)
+- [User](https://github.com/vladkens/twscrape/blob/main/twscrape/models.py#:~:text=class%20User)
