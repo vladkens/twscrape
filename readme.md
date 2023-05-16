@@ -1,5 +1,23 @@
 # twscrape
 
+<div align="center">
+  <a href="https://pypi.org/project/twscrape">
+    <img src="https://badgen.net/pypi/v/twscrape" alt="version" />
+  </a>
+  <a href="https://pypi.org/project/twscrape">
+    <img src="https://badgen.net/pypi/python/twscrape" alt="python versions" />
+  </a>
+  <a href="https://github.com/vladkens/twscrape/actions">
+    <img src="https://github.com/vladkens/twscrape/workflows/test/badge.svg" alt="test status" />
+  </a>
+  <!-- <a href="https://npmjs.org/package/array-utils-ts">
+    <img src="https://badgen.net/npm/dm/array-utils-ts" alt="downloads" />
+  </a> -->
+  <a href="https://github.com/vladkens/twscrape/blob/main/LICENSE">
+    <img src="https://badgen.net/github/license/vladkens/twscrape" alt="license" />
+  </a>
+</div>
+
 Twitter GraphQL and Search API implementation with [SNScrape](https://github.com/JustAnotherArchivist/snscrape) data models.
 
 ## Install
