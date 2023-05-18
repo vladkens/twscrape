@@ -60,7 +60,7 @@ class AccountsPool:
 
         qs = f"""
         INSERT INTO accounts ({",".join(cols)}) VALUES ({",".join([f":{x}" for x in cols])})
-        ON CONFLICT DO UPDATE SET {",".join([f"{x}=excluded.{x}" for x in cols])}
+        ON CONFLICT(username) DO UPDATE SET {",".join([f"{x}=excluded.{x}" for x in cols])}
         """
         await execute(self._db_file, qs, data)
 
