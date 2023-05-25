@@ -4,7 +4,7 @@ from twscrape.accounts_pool import AccountsPool
 from twscrape.db import DB
 from twscrape.utils import utc_ts
 
-DB_FILE = "/tmp/twscrape_test.db"
+DB_FILE = "/tmp/twscrape_test_pool.db"
 
 
 def remove_db():
