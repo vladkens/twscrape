@@ -22,6 +22,7 @@ class Ctx:
     def __init__(self, acc: Account, clt: httpx.AsyncClient):
         self.acc = acc
         self.clt = clt
+        self.req_count = 0
 
 
 class QueueClient:
@@ -43,7 +44,7 @@ class QueueClient:
     async def _close_ctx(self):
         if self.ctx is not None:
             await self.ctx.clt.aclose()
-            await self.pool.unlock(self.ctx.acc.username, self.queue)
+            await self.pool.unlock(self.ctx.acc.username, self.queue, self.ctx.req_count)
 
     async def _get_ctx(self, fresh=False) -> Ctx:
         if self.ctx and not fresh:
@@ -96,6 +97,7 @@ class QueueClient:
                 setattr(rep, "__username", ctx.acc.username)
                 self._push_history(rep)
                 rep.raise_for_status()
+                ctx.req_count += 1  # count only successful
                 return rep
             except httpx.HTTPStatusError as e:
                 rep = e.response

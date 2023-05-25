@@ -4,6 +4,8 @@ from collections import defaultdict
 
 import aiosqlite
 
+from .logger import logger
+
 MIN_SQLITE_VERSION = "3.34"
 
 
@@ -36,6 +38,51 @@ async def check_version(db: aiosqlite.Connection):
             raise SystemError(msg)
 
 
+async def migrate(db: aiosqlite.Connection):
+    async with db.execute("PRAGMA user_version") as cur:
+        rs = await cur.fetchone()
+        uv = rs[0] if rs else 0
+
+    async def v1():
+        qs = """
+        CREATE TABLE IF NOT EXISTS accounts (
+            username TEXT PRIMARY KEY NOT NULL COLLATE NOCASE,
+            password TEXT NOT NULL,
+            email TEXT NOT NULL COLLATE NOCASE,
+            email_password TEXT NOT NULL,
+            user_agent TEXT NOT NULL,
+            active BOOLEAN DEFAULT FALSE NOT NULL,
+            locks TEXT DEFAULT '{}' NOT NULL,
+            headers TEXT DEFAULT '{}' NOT NULL,
+            cookies TEXT DEFAULT '{}' NOT NULL,
+            proxy TEXT DEFAULT NULL,
+            error_msg TEXT DEFAULT NULL
+        );"""
+        await db.execute(qs)
+
+    async def v2():
+        await db.execute("ALTER TABLE accounts ADD COLUMN stats TEXT DEFAULT '{}' NOT NULL")
+        await db.execute("ALTER TABLE accounts ADD COLUMN last_used TEXT DEFAULT NULL")
+
+    migrations = {
+        1: v1,
+        2: v2,
+    }
+
+    logger.debug(f"Current migration v{uv} (latest v{len(migrations)})")
+
+    for i in range(uv + 1, len(migrations) + 1):
+        logger.debug(f"Running migration to v{i}")
+        try:
+            await migrations[i]()
+        except sqlite3.OperationalError as e:
+            if "duplicate column name" not in str(e):
+                raise e
+
+        await db.execute(f"PRAGMA user_version = {i}")
+        await db.commit()
+
+
 class DB:
     _init_queries: defaultdict[str, list[str]] = defaultdict(list)
     _init_once: defaultdict[str, bool] = defaultdict(bool)
@@ -50,10 +97,7 @@ class DB:
         await check_version(db)
 
         if not self._init_once[self.db_path]:
-            for qs in self._init_queries[self.db_path]:
-                await db.execute(qs)
-
-            await db.commit()  # required here because of _init_once
+            await migrate(db)
             self._init_once[self.db_path] = True
 
         self.conn = db
@@ -63,10 +107,6 @@ class DB:
         if self.conn:
             await self.conn.commit()
             await self.conn.close()
-
-
-def add_init_query(db_path: str, qs: str):
-    DB._init_queries[db_path].append(qs)
 
 
 @lock_retry()

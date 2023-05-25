@@ -4,15 +4,15 @@ import asyncio
 from fake_useragent import UserAgent
 
 from .account import Account
-from .db import add_init_query, execute, fetchall, fetchone
+from .db import execute, fetchall, fetchone
 from .logger import logger
 from .login import login
+from .utils import utc_ts
 
 
 class AccountsPool:
     def __init__(self, db_file="accounts.db"):
         self._db_file = db_file
-        add_init_query(db_file, Account.create_sql())
 
     async def add_account(
         self,
@@ -36,6 +36,7 @@ class AccountsPool:
             user_agent=user_agent or UserAgent().safari,
             active=False,
             locks={},
+            stats={},
             headers={},
             cookies={},
             proxy=proxy,
@@ -94,9 +95,12 @@ class AccountsPool:
         """
         await execute(self._db_file, qs, {"username": username})
 
-    async def unlock(self, username: str, queue: str):
+    async def unlock(self, username: str, queue: str, req_count=0):
         qs = f"""
-        UPDATE accounts SET locks = json_remove(locks, '$.{queue}')
+        UPDATE accounts SET
+            locks = json_remove(locks, '$.{queue}'),
+            stats = json_set(stats, '$.{queue}', COALESCE(json_extract(stats, '$.{queue}'), 0) + {req_count}),
+            last_used = datetime({utc_ts()}, 'unixepoch')
         WHERE username = :username
         """
         await execute(self._db_file, qs, {"username": username})
