@@ -3,6 +3,9 @@
 all:
 	@echo "hi"
 
+install:
+	pip install -e .[dev]
+
 build:
 	python -m build
 
