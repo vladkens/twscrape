@@ -6,7 +6,7 @@ from twscrape.queue_client import QueueClient
 
 from .utils import get_pool
 
-DB_FILE = "/tmp/test_queue_client.db"
+DB_FILE = "/tmp/twscrape_test_queue_client.db"
 URL = "https://example.com/api"
 
 set_log_level("ERROR")
