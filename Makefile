@@ -27,8 +27,10 @@ pylint:
 test:
 	@pytest -s --cov=twscrape tests/
 
-get-cov:
-	@coverage report -m
+show-cov:
+	@pytest -s --cov=twscrape tests/
+	@coverage html
+	@open htmlcov/index.html
 
 act:
 	@act --container-architecture linux/amd64

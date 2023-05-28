@@ -12,8 +12,8 @@ from .utils import utc_ts
 
 
 def guess_delim(line: str):
-    l, r = [x.strip() for x in line.split("username")]
-    return r[0] if not l else l[-1]
+    lp, rp = tuple([x.strip() for x in line.split("username")])
+    return rp[0] if not lp else lp[-1]
 
 
 class AccountsPool:
