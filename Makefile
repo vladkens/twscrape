@@ -34,3 +34,7 @@ show-cov:
 
 act:
 	@act --container-architecture linux/amd64
+
+changelog:
+	@git pull origin --tags > /dev/null
+	@git log $(shell git describe --tags --abbrev=0 HEAD)^..HEAD --pretty=format:'- %s'
