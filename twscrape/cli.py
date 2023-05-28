@@ -3,12 +3,11 @@
 import argparse
 import asyncio
 import io
+from importlib.metadata import version
 
 from .api import API, AccountsPool
 from .logger import logger, set_log_level
 from .utils import print_table
-
-VER = "0.1.0"
 
 
 class CustomHelpFormatter(argparse.HelpFormatter):
@@ -31,7 +30,7 @@ async def main(args):
         set_log_level("DEBUG")
 
     if args.command == "version":
-        print(VER)
+        print(version("twscrape"))
         return
 
     logger.debug(f"Using database: {args.db}")
