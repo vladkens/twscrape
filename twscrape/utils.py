@@ -142,3 +142,22 @@ def utc_ts() -> int:
 
 def from_utciso(iso: str) -> datetime:
     return datetime.fromisoformat(iso).replace(tzinfo=timezone.utc)
+
+
+def print_table(rows: list[dict]):
+    if not rows:
+        return
+
+    keys = list(rows[0].keys())
+    rows = [{k: k for k in keys}, *[{k: str(x.get(k, "")) for k in keys} for x in rows]]
+    colw = [max(len(x[k]) for x in rows) + 1 for k in keys]
+
+    lines = []
+    for row in rows:
+        line = [f"{row[k]:<{colw[i]}}" for i, k in enumerate(keys)]
+        lines.append(" ".join(line))
+
+    max_len = max(len(x) for x in lines)
+    lines.insert(1, "─" * max_len)
+    lines.insert(0, "─" * max_len)
+    print("\n".join(lines))

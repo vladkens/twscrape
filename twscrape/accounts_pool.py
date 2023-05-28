@@ -1,5 +1,6 @@
 # ruff: noqa: E501
 import asyncio
+from datetime import datetime, timezone
 
 from fake_useragent import UserAgent
 
@@ -161,3 +162,25 @@ class AccountsPool:
         qs = f"SELECT {','.join([f'({q}) as {k}' for k, q in config])}"
         rs = await fetchone(self._db_file, qs)
         return dict(rs) if rs else {}
+
+    async def accounts_info(self):
+        accounts = await self.get_all()
+
+        items = []
+        for x in accounts:
+            item = {
+                "username": x.username,
+                "logged_in": (x.headers or {}).get("authorization", "") != "",
+                "active": x.active,
+                "last_used": x.last_used,
+                "total_req": sum(x.stats.values()),
+                "error_msg": x.error_msg,
+            }
+            items.append(item)
+
+        old_time = datetime(1970, 1, 1).replace(tzinfo=timezone.utc)
+        items = sorted(items, key=lambda x: x["username"].lower())
+        items = sorted(items, key=lambda x: x["last_used"] or old_time, reverse=True)
+        items = sorted(items, key=lambda x: x["total_req"], reverse=True)
+        items = sorted(items, key=lambda x: x["active"], reverse=True)
+        return items

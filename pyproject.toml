@@ -37,6 +37,9 @@ dev = [
 [project.urls]
 repository = "https://github.com/vladkens/twscrape"
 
+[project.scripts]
+twscrape = "twscrape.cli:run"
+
 [tool.setuptools]
 packages = ['twscrape']
 
