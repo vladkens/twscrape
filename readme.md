@@ -44,6 +44,8 @@ Since this project works through an authorized API, accounts need to be added. Y
 
 The email password is needed to get the code to log in to the account automatically (via imap protocol).
 
+Data models: [Tweet](https://github.com/vladkens/twscrape/blob/main/twscrape/models.py#:~:text=class%20Tweet), [User](https://github.com/vladkens/twscrape/blob/main/twscrape/models.py#:~:text=class%20User)
+
 ```python
 import asyncio
 from twscrape import AccountsPool, API, gather
