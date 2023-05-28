@@ -2,9 +2,6 @@ import httpx
 from pytest_httpx import HTTPXMock
 
 from twscrape.logger import set_log_level
-from twscrape.queue_client import QueueClient
-
-from .utils import get_pool
 
 DB_FILE = "/tmp/twscrape_test_queue_client.db"
 URL = "https://example.com/api"
@@ -12,19 +9,8 @@ URL = "https://example.com/api"
 set_log_level("ERROR")
 
 
-async def get_client():
-    pool = get_pool(DB_FILE)
-    await pool.add_account("user1", "pass1", "email1", "email_pass1")
-    await pool.add_account("user2", "pass2", "email2", "email_pass2")
-    await pool.set_active("user1", True)
-    await pool.set_active("user2", True)
-
-    client = QueueClient(pool, "search")
-    return pool, client
-
-
-async def test_should_lock_account_on_queue(httpx_mock: HTTPXMock):
-    pool, client = await get_client()
+async def test_lock_account_when_used(httpx_mock: HTTPXMock, client_fixture):
+    pool, client = client_fixture
     assert (await pool.stats())["locked_search"] == 0
 
     await client.__aenter__()
@@ -37,9 +23,8 @@ async def test_should_lock_account_on_queue(httpx_mock: HTTPXMock):
     assert (await pool.stats())["locked_search"] == 0
 
 
-async def test_should_not_switch_account_on_200(httpx_mock: HTTPXMock):
-    pool, client = await get_client()
-
+async def test_do_not_switch_account_on_200(httpx_mock: HTTPXMock, client_fixture):
+    pool, client = client_fixture
     assert (await pool.stats())["locked_search"] == 0
     await client.__aenter__()
 
@@ -56,8 +41,8 @@ async def test_should_not_switch_account_on_200(httpx_mock: HTTPXMock):
     await client.__aexit__(None, None, None)
 
 
-async def test_should_switch_account_on_http_error(httpx_mock: HTTPXMock):
-    pool, client = await get_client()
+async def test_switch_acc_on_http_error(httpx_mock: HTTPXMock, client_fixture):
+    pool, client = client_fixture
 
     assert (await pool.stats())["locked_search"] == 0
     await client.__aenter__()
@@ -72,8 +57,8 @@ async def test_should_switch_account_on_http_error(httpx_mock: HTTPXMock):
     await client.__aexit__(None, None, None)
 
 
-async def test_should_retry_with_same_account_on_network_error(httpx_mock: HTTPXMock):
-    pool, client = await get_client()
+async def test_retry_with_same_acc_on_network_error(httpx_mock: HTTPXMock, client_fixture):
+    pool, client = client_fixture
     await client.__aenter__()
 
     httpx_mock.add_exception(httpx.ReadTimeout("Unable to read within timeout"))
