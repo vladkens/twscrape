@@ -132,6 +132,28 @@ twscrape
 twscrape search --help
 ```
 
+## Advanced usage
+
+### Get list of connected accounts and their statuses
+
+```sh
+twscrape accounts
+
+# Output:
+# ───────────────────────────────────────────────────────────────────────────────────
+# username  logged_in  active  last_used            total_req  error_msg
+# ───────────────────────────────────────────────────────────────────────────────────
+# user1     True       True    2023-05-20 03:20:40  100        None
+# user2     True       True    2023-05-20 03:25:45  120        None
+# user3     False      False   None                 120        Login error
+```
+
+Or from code:
+```python
+pool = AccountsPool()
+print(await pool.accounts_info())  # list
+```
+
 ## Limitations
 
 API rate limits (per account):
