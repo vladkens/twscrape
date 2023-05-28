@@ -40,6 +40,10 @@ pip install git+https://github.com/vladkens/twscrape.git
 
 ## Usage
 
+Since this project works through an authorized API, accounts need to be added. You can register and add an account yourself. You can also google sites that provide these things.
+
+The email password is needed to get the code to log in to the account automatically (via imap protocol).
+
 ```python
 import asyncio
 from twscrape import AccountsPool, API, gather
