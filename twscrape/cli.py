@@ -7,9 +7,11 @@ from .api import API, AccountsPool
 from .logger import logger, set_log_level
 from .utils import print_table
 
+VER = "0.1.0"
+
 
 def get_fn_arg(args):
-    names = ["query", "tweet_id", "user_id"]
+    names = ["query", "tweet_id", "user_id", "username"]
     for name in names:
         if name in args:
             return name, getattr(args, name)
@@ -24,6 +26,10 @@ async def main(args):
 
     pool = AccountsPool(args.db)
     api = API(pool, debug=args.debug)
+
+    if args.command == "version":
+        print(VER)
+        return
 
     if args.command == "accounts":
         print_table(await pool.accounts_info())
@@ -50,7 +56,7 @@ async def main(args):
 
 
 def run():
-    p = argparse.ArgumentParser()
+    p = argparse.ArgumentParser(add_help=False)
     p.add_argument("--db", default="accounts.db", help="Accounts database file")
     p.add_argument("--debug", action="store_true", help="Enable debug mode")
     subparsers = p.add_subparsers(dest="command")
@@ -63,9 +69,10 @@ def run():
 
     def clim(name: str, msg: str, a_name: str, a_msg: str, a_type: type = str):
         p = cone(name, msg, a_name, a_msg, a_type)
-        p.add_argument("--limit", type=int, default=20, help="Max tweets to retrieve")
+        p.add_argument("--limit", type=int, default=-1, help="Max tweets to retrieve")
         return p
 
+    subparsers.add_parser("version", help="Show version")
     subparsers.add_parser("accounts", help="List all accounts")
     subparsers.add_parser("stats", help="Show scraping statistics")
 
@@ -81,4 +88,8 @@ def run():
     clim("user_tweets_and_replies", "Get user tweets and replies", "user_id", "User ID", int)
 
     args = p.parse_args()
+    if args.command is None:
+        p.print_help()
+        return
+
     asyncio.run(main(args))

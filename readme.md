@@ -93,13 +93,60 @@ if __name__ == "__main__":
     asyncio.run(main())
 ```
 
-Note on rate limits:
-- Search API – 250 requests per account / 15 minites
-- GraphQL API – 500 requests per account per operation / 15 minutes
+## CLI
 
-### Models
+You can also use the CLI to make requests (before that you need to log in to some accounts through the programming interface).
+
+```sh
+twscrape search "QUERY" --limit=20
+twscrape tweet_details TWEET_ID
+twscrape retweeters TWEET_ID --limit=20
+twscrape favoriters TWEET_ID --limit=20
+twscrape user_by_id USER_ID
+twscrape user_by_login USERNAME
+twscrape followers USER_ID --limit=20
+twscrape following USER_ID --limit=20
+twscrape user_tweets USER_ID --limit=20
+twscrape user_tweets_and_replies USER_ID --limit=20
+```
+
+The default output is in the console (stdout), one document per line. So it can be redirected to the file.
+
+```sh
+twscrape search "elon mask lang:es" --limit=20 > data.txt
+```
+
+By default, parsed data is returned. The original tweet responses can be retrieved with `--raw`
+
+```sh
+twscrape search "elon mask lang:es" --limit=20 --raw
+```
+
+View a list of commands:
+
+```sh
+# show all commands
+twscrape
+
+# help on specific comand
+twscrape search --help
+```
+
+## Limitations
+
+API rate limits (per account):
+- Search API – 250 req / 15 min
+- GraphQL API – has individual rate limits per operation (in most cases this is 500 req / 15 min)
+
+API data limits:
+- `user_tweets` & `user_tweets_and_replies` – can return ~3200 tweets maximum
+
+## Models
 - [Tweet](https://github.com/vladkens/twscrape/blob/main/twscrape/models.py#:~:text=class%20Tweet)
 - [User](https://github.com/vladkens/twscrape/blob/main/twscrape/models.py#:~:text=class%20User)
 
-### Related
-- [SNScrape](https://github.com/JustAnotherArchivist/snscrape) – is a scraper for social networking services (SNS)
+## See also
+- [twitter-advanced-search](https://github.com/igorbrigadir/twitter-advanced-search) – guide on search filters
+- [twitter-api-client](https://github.com/trevorhobenshield/twitter-api-client) – Implementation of Twitter's v1, v2, and GraphQL APIs
+- [snscrape](https://github.com/JustAnotherArchivist/snscrape) – is a scraper for social networking services (SNS)
+- [twint](https://github.com/twintproject/twint) – Twitter Intelligence Tool
