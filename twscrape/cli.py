@@ -32,10 +32,7 @@ async def main(args):
         set_log_level("DEBUG")
 
     if args.command == "version":
-        print(version("twscrape"))
-        return
-
-    if args.command == "sqlite_version":
+        print(f"twscrape: {version('twscrape')}")
         print(f"SQlite client: {sqlite3.version}")
         print(f"SQlite runtime: {sqlite3.sqlite_version} ({await get_sqlite_version()})")
         return
@@ -115,7 +112,6 @@ def run():
         return p
 
     subparsers.add_parser("version", help="Show version")
-    subparsers.add_parser("sqlite_version", help="Show sqlite version")
 
     subparsers.add_parser("accounts", help="List all accounts")
     add_accounts = subparsers.add_parser("add_accounts", help="Add accounts")
