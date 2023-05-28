@@ -1,6 +1,6 @@
 # twscrape
 
-<div align="center">
+<div align="center" style="padding-bottom: 8px">
   <a href="https://pypi.org/project/twscrape">
     <img src="https://badgen.net/pypi/v/twscrape" alt="version" />
   </a>
