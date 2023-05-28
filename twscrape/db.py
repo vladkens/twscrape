@@ -27,15 +27,20 @@ def lock_retry(max_retries=5, delay=1):
     return decorator
 
 
-async def check_version(db: aiosqlite.Connection):
-    async with db.execute("SELECT SQLITE_VERSION()") as cur:
-        rs = await cur.fetchone()
-        rs = rs[0] if rs else "3.0.0"
-        rs = ".".join(rs.split(".")[:2])
+async def get_sqlite_version():
+    async with aiosqlite.connect(":memory:") as db:
+        async with db.execute("SELECT SQLITE_VERSION()") as cur:
+            rs = await cur.fetchone()
+            return rs[0] if rs else "3.0.0"
 
-        if rs < MIN_SQLITE_VERSION:
-            msg = f"SQLite version '{rs}' is too old, please upgrade to {MIN_SQLITE_VERSION}+"
-            raise SystemError(msg)
+
+async def check_version():
+    ver = await get_sqlite_version()
+    ver = ".".join(ver.split(".")[:2])
+
+    if ver < MIN_SQLITE_VERSION:
+        msg = f"SQLite version '{ver}' is too old, please upgrade to {MIN_SQLITE_VERSION}+"
+        raise SystemError(msg)
 
 
 async def migrate(db: aiosqlite.Connection):
@@ -92,9 +97,9 @@ class DB:
         self.conn = None
 
     async def __aenter__(self):
+        await check_version()
         db = await aiosqlite.connect(self.db_path)
         db.row_factory = aiosqlite.Row
-        await check_version(db)
 
         if not self._init_once[self.db_path]:
             await migrate(db)

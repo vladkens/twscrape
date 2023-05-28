@@ -3,9 +3,11 @@
 import argparse
 import asyncio
 import io
+import sqlite3
 from importlib.metadata import version
 
 from .api import API, AccountsPool
+from .db import get_sqlite_version
 from .logger import logger, set_log_level
 from .utils import print_table
 
@@ -31,6 +33,11 @@ async def main(args):
 
     if args.command == "version":
         print(version("twscrape"))
+        return
+
+    if args.command == "sqlite_version":
+        print(f"SQlite client: {sqlite3.version}")
+        print(f"SQlite runtime: {sqlite3.sqlite_version} ({await get_sqlite_version()})")
         return
 
     logger.debug(f"Using database: {args.db}")
@@ -108,8 +115,9 @@ def run():
         return p
 
     subparsers.add_parser("version", help="Show version")
-    subparsers.add_parser("accounts", help="List all accounts")
+    subparsers.add_parser("sqlite_version", help="Show sqlite version")
 
+    subparsers.add_parser("accounts", help="List all accounts")
     add_accounts = subparsers.add_parser("add_accounts", help="Add accounts")
     add_accounts.add_argument("file_path", help="File with accounts")
     add_accounts.add_argument("line_format", help="args of Pool.add_account splited by same delim")
