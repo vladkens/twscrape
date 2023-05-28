@@ -44,7 +44,9 @@ Since this project works through an authorized API, accounts need to be added. Y
 
 The email password is needed to get the code to log in to the account automatically (via imap protocol).
 
-Data models: [Tweet](https://github.com/vladkens/twscrape/blob/main/twscrape/models.py#:~:text=class%20Tweet), [User](https://github.com/vladkens/twscrape/blob/main/twscrape/models.py#:~:text=class%20User)
+Data models:
+- [User](https://github.com/vladkens/twscrape/blob/main/twscrape/models.py#L87)
+- [Tweet](https://github.com/vladkens/twscrape/blob/main/twscrape/models.py#L136)
 
 ```python
 import asyncio
@@ -187,10 +189,6 @@ API rate limits (per account):
 
 API data limits:
 - `user_tweets` & `user_tweets_and_replies` – can return ~3200 tweets maximum
-
-## Models
-- [Tweet](https://github.com/vladkens/twscrape/blob/main/twscrape/models.py#:~:text=class%20Tweet)
-- [User](https://github.com/vladkens/twscrape/blob/main/twscrape/models.py#:~:text=class%20User)
 
 ## See also
 - [twitter-advanced-search](https://github.com/igorbrigadir/twitter-advanced-search) – guide on search filters
