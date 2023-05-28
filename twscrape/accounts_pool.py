@@ -11,9 +11,35 @@ from .login import login
 from .utils import utc_ts
 
 
+def guess_delim(line: str):
+    l, r = [x.strip() for x in line.split("username")]
+    return r[0] if not l else l[-1]
+
+
 class AccountsPool:
     def __init__(self, db_file="accounts.db"):
         self._db_file = db_file
+
+    async def load_from_file(self, filepath: str, line_format: str):
+        assert "username" in line_format, "username is required"
+        assert "password" in line_format, "password is required"
+        assert "email" in line_format, "email is required"
+        assert "email_password" in line_format, "email_password is required"
+
+        line_delim = guess_delim(line_format)
+        tokens = line_format.split(line_delim)
+
+        with open(filepath, "r") as f:
+            lines = f.read().split("\n")
+            lines = [x.strip() for x in lines if x.strip()]
+            for line in lines:
+                data = [x.strip() for x in line.split(line_delim)]
+                if len(data) < len(tokens):
+                    logger.warning(f"Invalid line format: {line}")
+                    continue
+
+                data = data[: len(tokens)]
+                await self.add_account(**{k: v for k, v in zip(tokens, data)})
 
     async def add_account(
         self,
@@ -27,7 +53,10 @@ class AccountsPool:
         qs = "SELECT * FROM accounts WHERE username = :username"
         rs = await fetchone(self._db_file, qs, {"username": username})
         if rs:
+            logger.debug(f"Account {username} already exists")
             return
+
+        logger.debug(f"Adding account {username}")
 
         account = Account(
             username=username,
@@ -69,6 +98,7 @@ class AccountsPool:
     async def login(self, account: Account):
         try:
             await login(account)
+            logger.info(f"Logged in to {account.username} successfully")
         except Exception as e:
             logger.error(f"Error logging in to {account.username}: {e}")
         finally:

@@ -148,8 +148,17 @@ def print_table(rows: list[dict]):
     if not rows:
         return
 
+    def prt(x):
+        if isinstance(x, str):
+            return x
+
+        if isinstance(x, int):
+            return f"{x:,}"
+
+        return str(x)
+
     keys = list(rows[0].keys())
-    rows = [{k: k for k in keys}, *[{k: str(x.get(k, "")) for k in keys} for x in rows]]
+    rows = [{k: k for k in keys}, *[{k: prt(x.get(k, "")) for k in keys} for x in rows]]
     colw = [max(len(x[k]) for x in rows) + 1 for k in keys]
 
     lines = []

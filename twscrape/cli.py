@@ -2,12 +2,18 @@
 
 import argparse
 import asyncio
+import io
 
 from .api import API, AccountsPool
 from .logger import logger, set_log_level
 from .utils import print_table
 
 VER = "0.1.0"
+
+
+class CustomHelpFormatter(argparse.HelpFormatter):
+    def __init__(self, prog):
+        super().__init__(prog, max_help_position=30, width=120)
 
 
 def get_fn_arg(args):
@@ -24,12 +30,13 @@ async def main(args):
     if args.debug:
         set_log_level("DEBUG")
 
-    pool = AccountsPool(args.db)
-    api = API(pool, debug=args.debug)
-
     if args.command == "version":
         print(VER)
         return
+
+    logger.debug(f"Using database: {args.db}")
+    pool = AccountsPool(args.db)
+    api = API(pool, debug=args.debug)
 
     if args.command == "accounts":
         print_table(await pool.accounts_info())
@@ -37,6 +44,14 @@ async def main(args):
 
     if args.command == "stats":
         print(await pool.stats())
+        return
+
+    if args.command == "add_accounts":
+        await pool.load_from_file(args.file_path, args.line_format)
+        return
+
+    if args.command == "login_accounts":
+        await pool.login_all()
         return
 
     fn = args.command + "_raw" if args.raw else args.command
@@ -55,8 +70,29 @@ async def main(args):
         print(doc.json())
 
 
+def custom_help(p):
+    buffer = io.StringIO()
+    p.print_help(buffer)
+    msg = buffer.getvalue()
+
+    cmd = msg.split("positional arguments:")[1].strip().split("\n")[0]
+    msg = msg.replace("positional arguments:", "commands:")
+    msg = [x for x in msg.split("\n") if not cmd in x and not "..." in x]
+    msg[0] = f"{msg[0]} <command> [...]"
+
+    i = 0
+    for i, line in enumerate(msg):
+        if line.strip().startswith("search"):
+            break
+
+    msg.insert(i, "")
+    msg.insert(i + 1, "search commands:")
+
+    print("\n".join(msg))
+
+
 def run():
-    p = argparse.ArgumentParser(add_help=False)
+    p = argparse.ArgumentParser(add_help=False, formatter_class=CustomHelpFormatter)
     p.add_argument("--db", default="accounts.db", help="Accounts database file")
     p.add_argument("--debug", action="store_true", help="Enable debug mode")
     subparsers = p.add_subparsers(dest="command")
@@ -74,7 +110,11 @@ def run():
 
     subparsers.add_parser("version", help="Show version")
     subparsers.add_parser("accounts", help="List all accounts")
-    subparsers.add_parser("stats", help="Show scraping statistics")
+
+    add_accounts = subparsers.add_parser("add_accounts", help="Add accounts")
+    add_accounts.add_argument("file_path", help="File with accounts")
+    add_accounts.add_argument("line_format", help="args of Pool.add_account splited by same delim")
+    subparsers.add_parser("login_accounts", help="Login accounts")
 
     clim("search", "Search for tweets", "query", "Search query")
     cone("tweet_details", "Get tweet details", "tweet_id", "Tweet ID", int)
@@ -89,7 +129,6 @@ def run():
 
     args = p.parse_args()
     if args.command is None:
-        p.print_help()
-        return
+        return custom_help(p)
 
     asyncio.run(main(args))

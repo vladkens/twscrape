@@ -176,7 +176,7 @@ async def next_login_task(client: AsyncClient, acc: Account, rep: Response):
             if task_id == "LoginJsInstrumentationSubtask":
                 return await login_instrumentation(client, acc, prev)
         except Exception as e:
-            acc.error_msg = f"task={task_id} err={e}"
+            acc.error_msg = f"login_step={task_id} err={e}"
             logger.error(f"Error in {task_id}: {e}")
             raise e
 

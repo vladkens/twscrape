@@ -99,7 +99,58 @@ if __name__ == "__main__":
 
 ## CLI
 
-You can also use the CLI to make requests (before that you need to log in to some accounts through the programming interface).
+### Get help on CLI commands
+
+```sh
+# show all commands
+twscrape
+
+# help on specific comand
+twscrape search --help
+```
+
+### Add accounts & login
+
+First add accounts from file:
+
+```sh
+# twscrape add_accounts <file_path> <line_format>
+# line_format should have "username", "password", "email", "email_password" tokens
+# tokens delimeter should be same as an file
+twscrape add_accounts accounts.txt username:password:email:email_password
+```
+
+The call login:
+
+```sh
+twscrape login_accounts
+```
+
+Accounts and their sessions will be saved, so they can be reused for future requests
+
+### Get list of accounts and their statuses
+
+```sh
+twscrape accounts
+
+# Output:
+# ───────────────────────────────────────────────────────────────────────────────────
+# username  logged_in  active  last_used            total_req  error_msg
+# ───────────────────────────────────────────────────────────────────────────────────
+# user1     True       True    2023-05-20 03:20:40  100        None
+# user2     True       True    2023-05-20 03:25:45  120        None
+# user3     False      False   None                 120        Login error
+```
+
+### Use different accounts file
+
+Useful if using a different set of accounts for different actions
+
+```
+twscrape --db test-accounts.db <command>
+```
+
+### Search commands
 
 ```sh
 twscrape search "QUERY" --limit=20
@@ -124,38 +175,6 @@ By default, parsed data is returned. The original tweet responses can be retriev
 
 ```sh
 twscrape search "elon mask lang:es" --limit=20 --raw
-```
-
-View a list of commands:
-
-```sh
-# show all commands
-twscrape
-
-# help on specific comand
-twscrape search --help
-```
-
-## Advanced usage
-
-### Get list of connected accounts and their statuses
-
-```sh
-twscrape accounts
-
-# Output:
-# ───────────────────────────────────────────────────────────────────────────────────
-# username  logged_in  active  last_used            total_req  error_msg
-# ───────────────────────────────────────────────────────────────────────────────────
-# user1     True       True    2023-05-20 03:20:40  100        None
-# user2     True       True    2023-05-20 03:25:45  120        None
-# user3     False      False   None                 120        Login error
-```
-
-Or from code:
-```python
-pool = AccountsPool()
-print(await pool.accounts_info())  # list
 ```
 
 ## Limitations
