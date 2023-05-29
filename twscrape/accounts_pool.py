@@ -141,21 +141,36 @@ class AccountsPool:
         SELECT username FROM accounts
         WHERE active = true AND (
             locks IS NULL
-            OR json_extract(locks, '$.{queue}') IS NULL
+         OR json_extract(locks, '$.{queue}') IS NULL
             OR json_extract(locks, '$.{queue}') < datetime('now')
         )
         ORDER BY RANDOM()
         LIMIT 1
         """
 
-        q2 = f"""
-        UPDATE accounts SET locks = json_set(locks, '$.{queue}', datetime('now', '+15 minutes'))
-        WHERE username = ({q1})
-        RETURNING *
-        """
+        # Get the username from the first query
+        username_rs = await fetchone(self._db_file, q1)
+        if username_rs:
+            username = username_rs["username"]
 
-        rs = await fetchone(self._db_file, q2)
-        return Account.from_rs(rs) if rs else None
+            q2 = f"""
+            UPDATE accounts SET locks = json_set(locks, '$.{queue}', datetime('now', '+15 minutes'))
+            WHERE username = ?
+            """
+
+            # Execute the second query to update the accounts table
+            await execute(self._db_file, q2, (username,))
+
+            q3 = f"""
+            SELECT * FROM accounts
+            WHERE username = ?
+            """
+
+            # Execute the third query to fetch the updated account
+            rs = await fetchone(self._db_file, q3, (username,))
+            return Account.from_rs(rs) if rs else None
+        else:
+            return None
 
     async def get_for_queue_or_wait(self, queue: str) -> Account:
         while True:
