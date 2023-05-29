@@ -1,6 +1,6 @@
 # twscrape
 
-<div align="center">
+<div align="center" style="padding-bottom: 8px">
   <a href="https://pypi.org/project/twscrape">
     <img src="https://badgen.net/pypi/v/twscrape" alt="version" />
   </a>
@@ -39,6 +39,14 @@ pip install git+https://github.com/vladkens/twscrape.git
 - Automatic account switching to smooth Twitter API rate limits
 
 ## Usage
+
+Since this project works through an authorized API, accounts need to be added. You can register and add an account yourself. You can also google sites that provide these things.
+
+The email password is needed to get the code to log in to the account automatically (via imap protocol).
+
+Data models:
+- [User](https://github.com/vladkens/twscrape/blob/main/twscrape/models.py#L87)
+- [Tweet](https://github.com/vladkens/twscrape/blob/main/twscrape/models.py#L136)
 
 ```python
 import asyncio
@@ -93,13 +101,97 @@ if __name__ == "__main__":
     asyncio.run(main())
 ```
 
-Note on rate limits:
-- Search API – 250 requests per account / 15 minites
-- GraphQL API – 500 requests per account per operation / 15 minutes
+## CLI
 
-### Models
-- [Tweet](https://github.com/vladkens/twscrape/blob/main/twscrape/models.py#:~:text=class%20Tweet)
-- [User](https://github.com/vladkens/twscrape/blob/main/twscrape/models.py#:~:text=class%20User)
+### Get help on CLI commands
 
-### Related
-- [SNScrape](https://github.com/JustAnotherArchivist/snscrape) – is a scraper for social networking services (SNS)
+```sh
+# show all commands
+twscrape
+
+# help on specific comand
+twscrape search --help
+```
+
+### Add accounts & login
+
+First add accounts from file:
+
+```sh
+# twscrape add_accounts <file_path> <line_format>
+# line_format should have "username", "password", "email", "email_password" tokens
+# tokens delimeter should be same as an file
+twscrape add_accounts accounts.txt username:password:email:email_password
+```
+
+The call login:
+
+```sh
+twscrape login_accounts
+```
+
+Accounts and their sessions will be saved, so they can be reused for future requests
+
+### Get list of accounts and their statuses
+
+```sh
+twscrape accounts
+
+# Output:
+# ───────────────────────────────────────────────────────────────────────────────────
+# username  logged_in  active  last_used            total_req  error_msg
+# ───────────────────────────────────────────────────────────────────────────────────
+# user1     True       True    2023-05-20 03:20:40  100        None
+# user2     True       True    2023-05-20 03:25:45  120        None
+# user3     False      False   None                 120        Login error
+```
+
+### Use different accounts file
+
+Useful if using a different set of accounts for different actions
+
+```
+twscrape --db test-accounts.db <command>
+```
+
+### Search commands
+
+```sh
+twscrape search "QUERY" --limit=20
+twscrape tweet_details TWEET_ID
+twscrape retweeters TWEET_ID --limit=20
+twscrape favoriters TWEET_ID --limit=20
+twscrape user_by_id USER_ID
+twscrape user_by_login USERNAME
+twscrape followers USER_ID --limit=20
+twscrape following USER_ID --limit=20
+twscrape user_tweets USER_ID --limit=20
+twscrape user_tweets_and_replies USER_ID --limit=20
+```
+
+The default output is in the console (stdout), one document per line. So it can be redirected to the file.
+
+```sh
+twscrape search "elon mask lang:es" --limit=20 > data.txt
+```
+
+By default, parsed data is returned. The original tweet responses can be retrieved with `--raw`
+
+```sh
+twscrape search "elon mask lang:es" --limit=20 --raw
+```
+
+## Limitations
+
+API rate limits (per account):
+- Search API – 250 req / 15 min
+- GraphQL API – has individual rate limits per operation (in most cases this is 500 req / 15 min)
+
+API data limits:
+- `user_tweets` & `user_tweets_and_replies` – can return ~3200 tweets maximum
+
+## See also
+- [twitter-advanced-search](https://github.com/igorbrigadir/twitter-advanced-search) – guide on search filters
+- [twitter-api-client](https://github.com/trevorhobenshield/twitter-api-client) – Implementation of Twitter's v1, v2, and GraphQL APIs
+- [snscrape](https://github.com/JustAnotherArchivist/snscrape) – is a scraper for social networking services (SNS)
+- [twint](https://github.com/twintproject/twint) – Twitter Intelligence Tool

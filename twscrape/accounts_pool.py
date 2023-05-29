@@ -1,18 +1,45 @@
 # ruff: noqa: E501
 import asyncio
+from datetime import datetime, timezone
 
 from fake_useragent import UserAgent
 
 from .account import Account
-from .db import add_init_query, execute, fetchall, fetchone
+from .db import execute, fetchall, fetchone
 from .logger import logger
 from .login import login
+from .utils import utc_ts
+
+
+def guess_delim(line: str):
+    lp, rp = tuple([x.strip() for x in line.split("username")])
+    return rp[0] if not lp else lp[-1]
 
 
 class AccountsPool:
     def __init__(self, db_file="accounts.db"):
         self._db_file = db_file
-        add_init_query(db_file, Account.create_sql())
+
+    async def load_from_file(self, filepath: str, line_format: str):
+        assert "username" in line_format, "username is required"
+        assert "password" in line_format, "password is required"
+        assert "email" in line_format, "email is required"
+        assert "email_password" in line_format, "email_password is required"
+
+        line_delim = guess_delim(line_format)
+        tokens = line_format.split(line_delim)
+
+        with open(filepath, "r") as f:
+            lines = f.read().split("\n")
+            lines = [x.strip() for x in lines if x.strip()]
+            for line in lines:
+                data = [x.strip() for x in line.split(line_delim)]
+                if len(data) < len(tokens):
+                    logger.warning(f"Invalid line format: {line}")
+                    continue
+
+                data = data[: len(tokens)]
+                await self.add_account(**{k: v for k, v in zip(tokens, data)})
 
     async def add_account(
         self,
@@ -26,7 +53,10 @@ class AccountsPool:
         qs = "SELECT * FROM accounts WHERE username = :username"
         rs = await fetchone(self._db_file, qs, {"username": username})
         if rs:
+            logger.debug(f"Account {username} already exists")
             return
+
+        logger.debug(f"Adding account {username}")
 
         account = Account(
             username=username,
@@ -36,6 +66,7 @@ class AccountsPool:
             user_agent=user_agent or UserAgent().safari,
             active=False,
             locks={},
+            stats={},
             headers={},
             cookies={},
             proxy=proxy,
@@ -67,6 +98,7 @@ class AccountsPool:
     async def login(self, account: Account):
         try:
             await login(account)
+            logger.info(f"Logged in to {account.username} successfully")
         except Exception as e:
             logger.error(f"Error logging in to {account.username}: {e}")
         finally:
@@ -94,9 +126,12 @@ class AccountsPool:
         """
         await execute(self._db_file, qs, {"username": username})
 
-    async def unlock(self, username: str, queue: str):
+    async def unlock(self, username: str, queue: str, req_count=0):
         qs = f"""
-        UPDATE accounts SET locks = json_remove(locks, '$.{queue}')
+        UPDATE accounts SET
+            locks = json_remove(locks, '$.{queue}'),
+            stats = json_set(stats, '$.{queue}', COALESCE(json_extract(stats, '$.{queue}'), 0) + {req_count}),
+            last_used = datetime({utc_ts()}, 'unixepoch')
         WHERE username = :username
         """
         await execute(self._db_file, qs, {"username": username})
@@ -157,3 +192,25 @@ class AccountsPool:
         qs = f"SELECT {','.join([f'({q}) as {k}' for k, q in config])}"
         rs = await fetchone(self._db_file, qs)
         return dict(rs) if rs else {}
+
+    async def accounts_info(self):
+        accounts = await self.get_all()
+
+        items = []
+        for x in accounts:
+            item = {
+                "username": x.username,
+                "logged_in": (x.headers or {}).get("authorization", "") != "",
+                "active": x.active,
+                "last_used": x.last_used,
+                "total_req": sum(x.stats.values()),
+                "error_msg": x.error_msg,
+            }
+            items.append(item)
+
+        old_time = datetime(1970, 1, 1).replace(tzinfo=timezone.utc)
+        items = sorted(items, key=lambda x: x["username"].lower())
+        items = sorted(items, key=lambda x: x["last_used"] or old_time, reverse=True)
+        items = sorted(items, key=lambda x: x["total_req"], reverse=True)
+        items = sorted(items, key=lambda x: x["active"], reverse=True)
+        return items

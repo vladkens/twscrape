@@ -9,8 +9,35 @@ from .logger import logger
 MAX_WAIT_SEC = 30
 
 
+class EmailLoginError(Exception):
+    def __init__(self, message="Email login error"):
+        self.message = message
+        super().__init__(self.message)
+
+
+class EmailCodeTimeoutError(Exception):
+    def __init__(self, message="Email code timeout"):
+        self.message = message
+        super().__init__(self.message)
+
+
+IMAP_MAPPING: dict[str, str] = {
+    "yahoo.com": "imap.mail.yahoo.com",
+    "icloud.com": "imap.mail.me.com",
+    "outlook.com": "imap-mail.outlook.com",
+    "hotmail.com": "imap-mail.outlook.com",
+}
+
+
+def add_imap_mapping(email_domain: str, imap_domain: str):
+    IMAP_MAPPING[email_domain] = imap_domain
+
+
 def get_imap_domain(email: str) -> str:
-    return f"imap.{email.split('@')[1]}"
+    email_domain = email.split("@")[1]
+    if email_domain in IMAP_MAPPING:
+        return IMAP_MAPPING[email_domain]
+    return f"imap.{email_domain}"
 
 
 def search_email_code(imap: imaplib.IMAP4_SSL, count: int, min_t: datetime | None) -> str | None:
@@ -39,7 +66,11 @@ async def get_email_code(email: str, password: str, min_t: datetime | None = Non
     domain = get_imap_domain(email)
     start_time = time.time()
     with imaplib.IMAP4_SSL(domain) as imap:
-        imap.login(email, password)
+        try:
+            imap.login(email, password)
+        except imaplib.IMAP4.error as e:
+            logger.error(f"Error logging into {email}: {e}")
+            raise EmailLoginError() from e
 
         was_count = 0
         while True:
@@ -52,5 +83,6 @@ async def get_email_code(email: str, password: str, min_t: datetime | None = Non
 
             logger.debug(f"Waiting for confirmation code for {email}, msg_count: {now_count}")
             if MAX_WAIT_SEC < time.time() - start_time:
-                raise Exception(f"Timeout on getting confirmation code for {email}")
+                logger.error(f"Timeout waiting for confirmation code for {email}")
+                raise EmailCodeTimeoutError()
             await asyncio.sleep(5)
