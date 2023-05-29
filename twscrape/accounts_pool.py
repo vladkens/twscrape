@@ -141,7 +141,7 @@ class AccountsPool:
         SELECT username FROM accounts
         WHERE active = true AND (
             locks IS NULL
-         OR json_extract(locks, '$.{queue}') IS NULL
+            OR json_extract(locks, '$.{queue}') IS NULL
             OR json_extract(locks, '$.{queue}') < datetime('now')
         )
         ORDER BY RANDOM()
