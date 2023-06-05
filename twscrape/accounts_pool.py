@@ -1,5 +1,7 @@
 # ruff: noqa: E501
 import asyncio
+import sqlite3
+import uuid
 from datetime import datetime, timezone
 
 from fake_useragent import UserAgent
@@ -148,13 +150,25 @@ class AccountsPool:
         LIMIT 1
         """
 
-        q2 = f"""
-        UPDATE accounts SET locks = json_set(locks, '$.{queue}', datetime('now', '+15 minutes'))
-        WHERE username = ({q1})
-        RETURNING *
-        """
+        if int(sqlite3.sqlite_version_info[1]) >= 35:
+            qs = f"""
+            UPDATE accounts SET locks = json_set(locks, '$.{queue}', datetime('now', '+15 minutes'))
+            WHERE username = ({q1})
+            RETURNING *
+            """
+            rs = await fetchone(self._db_file, qs)
+        else:
+            tx = uuid.uuid4().hex
+            qs = f"""
+            UPDATE accounts
+            SET locks = json_set(locks, '$.{queue}', datetime('now', '+15 minutes')), _tx = '{tx}'
+            WHERE username = ({q1})
+            """
+            await execute(self._db_file, qs)
 
-        rs = await fetchone(self._db_file, q2)
+            qs = f"SELECT * FROM accounts WHERE _tx = '{tx}'"
+            rs = await fetchone(self._db_file, qs)
+
         return Account.from_rs(rs) if rs else None
 
     async def get_for_queue_or_wait(self, queue: str) -> Account:

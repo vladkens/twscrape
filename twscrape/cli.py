@@ -33,8 +33,8 @@ async def main(args):
 
     if args.command == "version":
         print(f"twscrape: {version('twscrape')}")
-        print(f"SQlite client: {sqlite3.version}")
-        print(f"SQlite runtime: {sqlite3.sqlite_version} ({await get_sqlite_version()})")
+        print(f"SQLite client: {sqlite3.version}")
+        print(f"SQLite runtime: {sqlite3.sqlite_version} ({await get_sqlite_version()})")
         return
 
     logger.debug(f"Using database: {args.db}")

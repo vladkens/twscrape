@@ -38,3 +38,6 @@ act:
 changelog:
 	@git pull origin --tags > /dev/null
 	@git log $(shell git describe --tags --abbrev=0 HEAD)^..HEAD --pretty=format:'- %s'
+
+test34:
+	docker build -f Dockerfile-test .
