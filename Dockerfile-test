@@ -1,0 +1,26 @@
+FROM python:3.10-alpine
+ARG SQLITE_Y=2021
+ARG SQLITE_V=3340100
+
+RUN pip install --upgrade pip
+RUN python -c "import sqlite3;print(sqlite3.sqlite_version)"
+
+# https://www.sqlite.org/chronology.html
+RUN apk add build-base
+RUN wget https://sqlite.org/${SQLITE_Y}/sqlite-autoconf-${SQLITE_V}.tar.gz -O sqlite.tar.gz \
+    && tar xvfz sqlite.tar.gz \
+    && cd sqlite-autoconf-${SQLITE_V} \
+    && ./configure --prefix=/usr/local --build=aarch64-unknown-linux-gnu \
+    && make \
+    && make install \
+    && cd .. \
+    && rm -rf sqlite*
+
+RUN sqlite3 --version
+RUN python -c "import sqlite3;print(sqlite3.sqlite_version)"
+
+WORKDIR /app
+COPY pyproject.toml readme.md /app/
+RUN pip install -e .[dev]
+COPY . /app
+RUN pytest tests/

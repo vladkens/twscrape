@@ -25,6 +25,7 @@ class Account(JSONTrait):
     proxy: str | None = None
     error_msg: str | None = None
     last_used: datetime | None = None
+    _tx: str | None = None
 
     @staticmethod
     def from_rs(rs: sqlite3.Row):
