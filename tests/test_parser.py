@@ -4,6 +4,7 @@ import os
 
 from twscrape import API, AccountsPool, gather
 from twscrape.logger import set_log_level
+from twscrape.models import Tweet, User
 
 BASE_DIR = os.path.dirname(__file__)
 DATA_DIR = os.path.join(BASE_DIR, "mocked-data")
@@ -51,6 +52,54 @@ def mock_gen(obj, fn: str):
     setattr(obj, fn, cb_gen)
 
 
+def check_tweet(doc: Tweet):
+    assert doc.id is not None
+    assert doc.id_str is not None
+    assert isinstance(doc.id, int)
+    assert isinstance(doc.id_str, str)
+    assert doc.id == int(doc.id_str)
+
+    assert doc.url is not None
+    assert doc.id_str in doc.url
+    assert doc.user is not None
+
+    obj = doc.dict()
+    assert doc.id == obj["id"]
+    assert doc.user.id == obj["user"]["id"]
+
+    assert "url" in obj
+    assert "_type" in obj
+    assert obj["_type"] == "snscrape.modules.twitter.Tweet"
+
+    assert "url" in obj["user"]
+    assert "_type" in obj["user"]
+    assert obj["user"]["_type"] == "snscrape.modules.twitter.User"
+
+    txt = doc.json()
+    assert isinstance(txt, str)
+    assert str(doc.id) in txt
+
+    check_user(doc.user)
+
+
+def check_user(doc: User):
+    assert doc.id is not None
+    assert doc.id_str is not None
+    assert isinstance(doc.id, int)
+    assert isinstance(doc.id_str, str)
+    assert doc.id == int(doc.id_str)
+
+    assert doc.username is not None
+
+    obj = doc.dict()
+    assert doc.id == obj["id"]
+    assert doc.username == obj["username"]
+
+    txt = doc.json()
+    assert isinstance(txt, str)
+    assert str(doc.id) in txt
+
+
 async def test_search():
     api = API(AccountsPool())
     mock_gen(api, "search_raw")
@@ -59,24 +108,7 @@ async def test_search():
     assert len(items) > 0
 
     for doc in items:
-        assert doc.id is not None
-        assert doc.user is not None
-
-        obj = doc.dict()
-        assert doc.id == obj["id"]
-        assert doc.user.id == obj["user"]["id"]
-
-        assert "url" in obj
-        assert "_type" in obj
-        assert obj["_type"] == "snscrape.modules.twitter.Tweet"
-
-        assert "url" in obj["user"]
-        assert "_type" in obj["user"]
-        assert obj["user"]["_type"] == "snscrape.modules.twitter.User"
-
-        txt = doc.json()
-        assert isinstance(txt, str)
-        assert str(doc.id) in txt
+        check_tweet(doc)
 
 
 async def test_user_by_id():
@@ -118,16 +150,9 @@ async def test_tweet_details():
     mock_rep(api, "tweet_details_raw")
 
     doc = await api.tweet_details(1649191520250245121)
+    check_tweet(doc)
     assert doc.id == 1649191520250245121
     assert doc.user is not None
-
-    obj = doc.dict()
-    assert doc.id == obj["id"]
-    assert doc.user.id == obj["user"]["id"]
-
-    txt = doc.json()
-    assert isinstance(txt, str)
-    assert str(doc.id) in txt
 
 
 async def test_followers():
@@ -138,16 +163,7 @@ async def test_followers():
     assert len(users) > 0
 
     for doc in users:
-        assert doc.id is not None
-        assert doc.username is not None
-
-        obj = doc.dict()
-        assert doc.id == obj["id"]
-        assert doc.username == obj["username"]
-
-        txt = doc.json()
-        assert isinstance(txt, str)
-        assert str(doc.id) in txt
+        check_user(doc)
 
 
 async def test_following():
@@ -158,16 +174,7 @@ async def test_following():
     assert len(users) > 0
 
     for doc in users:
-        assert doc.id is not None
-        assert doc.username is not None
-
-        obj = doc.dict()
-        assert doc.id == obj["id"]
-        assert doc.username == obj["username"]
-
-        txt = doc.json()
-        assert isinstance(txt, str)
-        assert str(doc.id) in txt
+        check_user(doc)
 
 
 async def test_retweters():
@@ -178,16 +185,7 @@ async def test_retweters():
     assert len(users) > 0
 
     for doc in users:
-        assert doc.id is not None
-        assert doc.username is not None
-
-        obj = doc.dict()
-        assert doc.id == obj["id"]
-        assert doc.username == obj["username"]
-
-        txt = doc.json()
-        assert isinstance(txt, str)
-        assert str(doc.id) in txt
+        check_user(doc)
 
 
 async def test_favoriters():
@@ -198,16 +196,7 @@ async def test_favoriters():
     assert len(users) > 0
 
     for doc in users:
-        assert doc.id is not None
-        assert doc.username is not None
-
-        obj = doc.dict()
-        assert doc.id == obj["id"]
-        assert doc.username == obj["username"]
-
-        txt = doc.json()
-        assert isinstance(txt, str)
-        assert str(doc.id) in txt
+        check_user(doc)
 
 
 async def test_user_tweets():
@@ -218,16 +207,7 @@ async def test_user_tweets():
     assert len(tweets) > 0
 
     for doc in tweets:
-        assert doc.id is not None
-        assert doc.user is not None
-
-        obj = doc.dict()
-        assert doc.id == obj["id"]
-        assert doc.user.id == obj["user"]["id"]
-
-        txt = doc.json()
-        assert isinstance(txt, str)
-        assert str(doc.id) in txt
+        check_tweet(doc)
 
 
 async def test_user_tweets_and_replies():
@@ -238,16 +218,7 @@ async def test_user_tweets_and_replies():
     assert len(tweets) > 0
 
     for doc in tweets:
-        assert doc.id is not None
-        assert doc.user is not None
-
-        obj = doc.dict()
-        assert doc.id == obj["id"]
-        assert doc.user.id == obj["user"]["id"]
-
-        txt = doc.json()
-        assert isinstance(txt, str)
-        assert str(doc.id) in txt
+        check_tweet(doc)
 
 
 async def main():

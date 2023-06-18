@@ -86,6 +86,7 @@ class UserRef(JSONTrait):
 @dataclass
 class User(JSONTrait):
     id: int
+    id_str: str
     url: str
     username: str
     displayname: str
@@ -113,6 +114,7 @@ class User(JSONTrait):
     def parse(obj: dict):
         return User(
             id=int(obj["id_str"]),
+            id_str=obj["id_str"],
             url=f'https://twitter.com/{obj["screen_name"]}',
             username=obj["screen_name"],
             displayname=obj["name"],
@@ -135,6 +137,7 @@ class User(JSONTrait):
 @dataclass
 class Tweet(JSONTrait):
     id: int
+    id_str: str
     url: str
     date: datetime
     user: User
@@ -175,6 +178,7 @@ class Tweet(JSONTrait):
 
         return Tweet(
             id=int(obj["id_str"]),
+            id_str=obj["id_str"],
             url=f'https://twitter.com/{tw_usr.username}/status/{obj["id_str"]}',
             date=email.utils.parsedate_to_datetime(obj["created_at"]),
             user=tw_usr,
