@@ -26,8 +26,9 @@ class Files:
     user_tweets_and_replies_raw = "user_tweets_and_replies_raw.json"
 
 
-def fake_rep(fn: str):
-    filename = os.path.join(DATA_DIR, getattr(Files, fn))
+def fake_rep(fn: str, filename: str | None = None):
+    if filename is None:
+        filename = os.path.join(DATA_DIR, getattr(Files, fn))
 
     with open(filename) as fp:
         data = fp.read()
@@ -38,9 +39,9 @@ def fake_rep(fn: str):
     return rep
 
 
-def mock_rep(obj, fn: str):
+def mock_rep(obj, fn: str, filename: str | None = None):
     async def cb_rep(*args, **kwargs):
-        return fake_rep(fn)
+        return fake_rep(fn, filename)
 
     setattr(obj, fn, cb_rep)
 
@@ -78,6 +79,19 @@ def check_tweet(doc: Tweet):
     txt = doc.json()
     assert isinstance(txt, str)
     assert str(doc.id) in txt
+
+    if doc.media is not None:
+        if len(doc.media.photos) > 0:
+            assert doc.media.photos[0].url is not None
+
+        if len(doc.media.videos) > 0:
+            for x in doc.media.videos:
+                assert x.thumbnailUrl is not None
+                assert x.duration is not None
+                for v in x.variants:
+                    assert v.url is not None
+                    assert v.bitrate is not None
+                    assert v.contentType is not None
 
     check_user(doc.user)
 
@@ -218,6 +232,20 @@ async def test_user_tweets_and_replies():
     assert len(tweets) > 0
 
     for doc in tweets:
+        check_tweet(doc)
+
+
+async def test_tweet_with_video():
+    api = API(AccountsPool())
+
+    files = [
+        ("manual_tweet_with_video_1.json", 1671508600538161153),
+        ("manual_tweet_with_video_2.json", 1671753569412820992),
+    ]
+
+    for file, twid in files:
+        mock_rep(api, "tweet_details_raw", os.path.join(DATA_DIR, file))
+        doc = await api.tweet_details(twid)
         check_tweet(doc)
 
 

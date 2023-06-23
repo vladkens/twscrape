@@ -1,10 +1,11 @@
 import email.utils
 import json
 import re
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, field
 from datetime import datetime
 from typing import Optional
 
+from .logger import logger
 from .utils import find_item, get_or, int_or_none
 
 
@@ -162,11 +163,11 @@ class Tweet(JSONTrait):
     source: str | None = None
     sourceUrl: str | None = None
     sourceLabel: str | None = None
+    media: Optional["Media"] = None
     _type: str = "snscrape.modules.twitter.Tweet"
 
     # todo:
     # renderedContent: str
-    # media: typing.Optional[typing.List["Medium"]] = None
     # card: typing.Optional["Card"] = None
     # vibe: typing.Optional["Vibe"] = None
 
@@ -203,7 +204,102 @@ class Tweet(JSONTrait):
             source=obj.get("source", None),
             sourceUrl=_get_source_url(obj),
             sourceLabel=_get_source_label(obj),
+            media=Media.parse(obj),
         )
+
+
+@dataclass
+class MediaPhoto(JSONTrait):
+    url: str
+
+    @staticmethod
+    def parse(obj: dict):
+        return MediaPhoto(
+            url=obj["media_url_https"],
+        )
+
+
+@dataclass
+class MediaVideo(JSONTrait):
+    thumbnailUrl: str
+    variants: list["MediaVideoVariant"]
+    duration: int
+    views: int | None = None
+
+    @staticmethod
+    def parse(obj: dict):
+        return MediaVideo(
+            thumbnailUrl=obj["media_url_https"],
+            variants=[
+                MediaVideoVariant.parse(x) for x in obj["video_info"]["variants"] if "bitrate" in x
+            ],
+            duration=obj["video_info"]["duration_millis"],
+            views=int_or_none(obj, "mediaStats.viewCount"),
+        )
+
+
+@dataclass
+class MediaAnimated(JSONTrait):
+    thumbnailUrl: str
+    videoUrl: str
+
+    @staticmethod
+    def parse(obj: dict):
+        try:
+            return MediaAnimated(
+                thumbnailUrl=obj["media_url_https"],
+                videoUrl=obj["video_info"]["variants"][0]["url"],
+            )
+        except KeyError:
+            return None
+
+
+@dataclass
+class MediaVideoVariant(JSONTrait):
+    contentType: str
+    bitrate: int
+    url: str
+
+    @staticmethod
+    def parse(obj: dict):
+        return MediaVideoVariant(
+            contentType=obj["content_type"],
+            bitrate=obj["bitrate"],
+            url=obj["url"],
+        )
+
+
+@dataclass
+class Media(JSONTrait):
+    photos: list[MediaPhoto] = field(default_factory=list)
+    videos: list[MediaVideo] = field(default_factory=list)
+    animated: list[MediaAnimated] = field(default_factory=list)
+
+    @staticmethod
+    def parse(obj: dict):
+        photos: list[MediaPhoto] = []
+        videos: list[MediaVideo] = []
+        animated: list[MediaAnimated] = []
+
+        for x in get_or(obj, "extended_entities.media", []):
+            if x["type"] == "video":
+                if video := MediaVideo.parse(x):
+                    videos.append(video)
+                continue
+
+            if x["type"] == "photo":
+                if photo := MediaPhoto.parse(x):
+                    photos.append(photo)
+                continue
+
+            if x["type"] == "animated_gif":
+                if animated_gif := MediaAnimated.parse(x):
+                    animated.append(animated_gif)
+                continue
+
+            logger.warning(f"Unknown media type: {x['type']}: {json.dumps(x)}")
+
+        return Media(photos=photos, videos=videos, animated=animated)
 
 
 def _get_reply_user(tw_obj: dict, res: dict):

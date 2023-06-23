@@ -3,6 +3,7 @@
 import argparse
 import asyncio
 import io
+import json
 import sqlite3
 from importlib.metadata import version
 
@@ -25,6 +26,12 @@ def get_fn_arg(args):
 
     logger.error(f"Missing argument: {names}")
     exit(1)
+
+
+def to_str(doc):
+    # doc is httpx.Response or twscrape.User / twscrape.Tweet
+    # both have .json method but with different return type
+    return doc if isinstance(doc, str) else json.dumps(doc.json(), default=str)
 
 
 async def main(args):
@@ -67,10 +74,10 @@ async def main(args):
 
     if "limit" in args:
         async for doc in fn(val, limit=args.limit):
-            print(doc.json())
+            print(to_str(doc))
     else:
         doc = await fn(val)
-        print(doc.json())
+        print(to_str(doc))
 
 
 def custom_help(p):

@@ -1,0 +1,2117 @@
+{
+	"data": {
+		"threaded_conversation_with_injections_v2": {
+			"instructions": [{
+				"type": "TimelineAddEntries",
+				"entries": [{
+					"entryId": "tweet-1671508600538161153",
+					"sortIndex": "7551863436316614654",
+					"content": {
+						"entryType": "TimelineTimelineItem",
+						"__typename": "TimelineTimelineItem",
+						"itemContent": {
+							"itemType": "TimelineTweet",
+							"__typename": "TimelineTweet",
+							"tweet_results": {
+								"result": {
+									"__typename": "Tweet",
+									"rest_id": "1671508600538161153",
+									"has_birdwatch_notes": false,
+									"core": {
+										"user_results": {
+											"result": {
+												"__typename": "User",
+												"id": "VXNlcjoxNTYyMDM4ODU4OTg4MDY0NzY4",
+												"rest_id": "1562038858988064768",
+												"affiliates_highlighted_label": {},
+												"has_graduated_access": true,
+												"is_blue_verified": true,
+												"legacy": {
+													"can_dm": true,
+													"can_media_tag": true,
+													"created_at": "Tue Aug 23 11:27:52 +0000 2022",
+													"default_profile": true,
+													"default_profile_image": false,
+													"description": "PhD musicology /Teacher/ Turkish woman/ \n\nPosting #humor #art #cool content.",
+													"entities": {
+														"description": {
+															"urls": []
+														},
+														"url": {
+															"urls": [{
+																"display_url": "instagram.com/thefigen/",
+																"expanded_url": "https://www.instagram.com/thefigen/",
+																"url": "https://t.co/Cp75iLJ8XY",
+																"indices": [0, 23]
+															}]
+														}
+													},
+													"fast_followers_count": 0,
+													"favourites_count": 65299,
+													"followers_count": 537196,
+													"friends_count": 7,
+													"has_custom_timelines": true,
+													"is_translator": false,
+													"listed_count": 2846,
+													"location": "",
+													"media_count": 2186,
+													"name": "Figen",
+													"normal_followers_count": 537196,
+													"pinned_tweet_ids_str": ["1662083075004661760"],
+													"possibly_sensitive": false,
+													"profile_banner_url": "https://pbs.twimg.com/profile_banners/1562038858988064768/1664828989",
+													"profile_image_url_https": "https://pbs.twimg.com/profile_images/1645880810958929921/8mi_I17M_normal.jpg",
+													"profile_interstitial_type": "",
+													"screen_name": "TheFigen_",
+													"statuses_count": 3865,
+													"translator_type": "none",
+													"url": "https://t.co/Cp75iLJ8XY",
+													"verified": false,
+													"want_retweets": false,
+													"withheld_in_countries": []
+												},
+												"professional": {
+													"rest_id": "1577454623266422784",
+													"professional_type": "Creator",
+													"category": [{
+														"id": 478,
+														"name": "Advertising & Marketing Agency",
+														"icon_name": "IconBriefcaseStroke"
+													}]
+												},
+												"business_account": {}
+											}
+										}
+									},
+									"edit_control": {
+										"edit_tweet_ids": ["1671508600538161153"],
+										"editable_until_msecs": "1687357280000",
+										"is_edit_eligible": true,
+										"edits_remaining": "5"
+									},
+									"edit_perspective": {
+										"favorited": false,
+										"retweeted": false
+									},
+									"is_translatable": false,
+									"views": {
+										"count": "3443243",
+										"state": "EnabledWithCount"
+									},
+									"source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+									"legacy": {
+										"created_at": "Wed Jun 21 13:21:20 +0000 2023",
+										"conversation_id_str": "1671508600538161153",
+										"display_text_range": [0, 84],
+										"entities": {
+											"media": [{
+												"display_url": "pic.twitter.com/XnC1A3Uk3J",
+												"expanded_url": "https://twitter.com/sz_mediagroup/status/1669691294183043074/video/1",
+												"id_str": "1668857866328100864",
+												"indices": [61, 84],
+												"media_url_https": "https://pbs.twimg.com/ext_tw_video_thumb/1668857866328100864/pu/img/nvEZWP1Yu9-6C23H.jpg",
+												"source_status_id_str": "1669691294183043074",
+												"source_user_id_str": "1433745612537741318",
+												"type": "photo",
+												"url": "https://t.co/XnC1A3Uk3J",
+												"features": {},
+												"sizes": {
+													"large": {
+														"h": 1920,
+														"w": 1080,
+														"resize": "fit"
+													},
+													"medium": {
+														"h": 1200,
+														"w": 675,
+														"resize": "fit"
+													},
+													"small": {
+														"h": 680,
+														"w": 383,
+														"resize": "fit"
+													},
+													"thumb": {
+														"h": 150,
+														"w": 150,
+														"resize": "crop"
+													}
+												},
+												"original_info": {
+													"height": 1920,
+													"width": 1080
+												}
+											}],
+											"user_mentions": [],
+											"urls": [],
+											"hashtags": [],
+											"symbols": []
+										},
+										"extended_entities": {
+											"media": [{
+												"display_url": "pic.twitter.com/XnC1A3Uk3J",
+												"expanded_url": "https://twitter.com/sz_mediagroup/status/1669691294183043074/video/1",
+												"id_str": "1668857866328100864",
+												"indices": [61, 84],
+												"media_key": "7_1668857866328100864",
+												"media_url_https": "https://pbs.twimg.com/ext_tw_video_thumb/1668857866328100864/pu/img/nvEZWP1Yu9-6C23H.jpg",
+												"source_status_id_str": "1669691294183043074",
+												"source_user_id_str": "1433745612537741318",
+												"type": "video",
+												"url": "https://t.co/XnC1A3Uk3J",
+												"additional_media_info": {
+													"monetizable": false,
+													"source_user": {
+														"user_results": {
+															"result": {
+																"__typename": "User",
+																"id": "VXNlcjoxNDMzNzQ1NjEyNTM3NzQxMzE4",
+																"rest_id": "1433745612537741318",
+																"affiliates_highlighted_label": {},
+																"has_graduated_access": true,
+																"is_blue_verified": false,
+																"legacy": {
+																	"can_dm": false,
+																	"can_media_tag": true,
+																	"created_at": "Fri Sep 03 10:57:09 +0000 2021",
+																	"default_profile": true,
+																	"default_profile_image": false,
+																	"description": "Shenzhen, Greater Bay Area, and beyond. News, life, cuisine, art, nature, etc. The official Twitter channel of #Shenzhen Media Group. \u6b22\u8fce\u5173\u6ce8\u6df1\u5733\u7535\u89c6\u53f0\uff01",
+																	"entities": {
+																		"description": {
+																			"urls": []
+																		},
+																		"url": {
+																			"urls": [{
+																				"display_url": "szmg.com.cn",
+																				"expanded_url": "http://www.szmg.com.cn",
+																				"url": "https://t.co/iJ4g7v1XF1",
+																				"indices": [0, 23]
+																			}]
+																		}
+																	},
+																	"fast_followers_count": 0,
+																	"favourites_count": 6693,
+																	"followers_count": 4592,
+																	"friends_count": 1580,
+																	"has_custom_timelines": true,
+																	"is_translator": false,
+																	"listed_count": 35,
+																	"location": "",
+																	"media_count": 7850,
+																	"name": "Shenzhen Channel",
+																	"normal_followers_count": 4592,
+																	"pinned_tweet_ids_str": ["1647140198734614528"],
+																	"possibly_sensitive": false,
+																	"profile_banner_url": "https://pbs.twimg.com/profile_banners/1433745612537741318/1630819518",
+																	"profile_image_url_https": "https://pbs.twimg.com/profile_images/1433818385628893185/jLLaWsiw_normal.jpg",
+																	"profile_interstitial_type": "",
+																	"screen_name": "sz_mediagroup",
+																	"statuses_count": 10388,
+																	"translator_type": "none",
+																	"url": "https://t.co/iJ4g7v1XF1",
+																	"verified": false,
+																	"want_retweets": false,
+																	"withheld_in_countries": []
+																},
+																"business_account": {}
+															}
+														}
+													}
+												},
+												"mediaStats": {
+													"viewCount": 3847526
+												},
+												"ext_media_availability": {
+													"status": "Available"
+												},
+												"features": {},
+												"sizes": {
+													"large": {
+														"h": 1920,
+														"w": 1080,
+														"resize": "fit"
+													},
+													"medium": {
+														"h": 1200,
+														"w": 675,
+														"resize": "fit"
+													},
+													"small": {
+														"h": 680,
+														"w": 383,
+														"resize": "fit"
+													},
+													"thumb": {
+														"h": 150,
+														"w": 150,
+														"resize": "crop"
+													}
+												},
+												"original_info": {
+													"height": 1920,
+													"width": 1080
+												},
+												"video_info": {
+													"aspect_ratio": [9, 16],
+													"duration_millis": 5434,
+													"variants": [{
+														"content_type": "application/x-mpegURL",
+														"url": "https://video.twimg.com/ext_tw_video/1668857866328100864/pu/pl/XClvBaLx4CLu1KJ6.m3u8?tag=12&container=fmp4"
+													}, {
+														"bitrate": 632000,
+														"content_type": "video/mp4",
+														"url": "https://video.twimg.com/ext_tw_video/1668857866328100864/pu/vid/320x568/pY6q1h6ISkvyHc0F.mp4?tag=12"
+													}, {
+														"bitrate": 950000,
+														"content_type": "video/mp4",
+														"url": "https://video.twimg.com/ext_tw_video/1668857866328100864/pu/vid/480x852/Doxgvs4FudRgrvhF.mp4?tag=12"
+													}, {
+														"bitrate": 2176000,
+														"content_type": "video/mp4",
+														"url": "https://video.twimg.com/ext_tw_video/1668857866328100864/pu/vid/720x1280/ENfeGwtfyiYvpNy8.mp4?tag=12"
+													}]
+												}
+											}]
+										},
+										"favorite_count": 30817,
+										"favorited": false,
+										"full_text": "This is not science fiction.\nNightscape in Nanjing, China  \n\nhttps://t.co/XnC1A3Uk3J",
+										"is_quote_status": false,
+										"lang": "en",
+										"possibly_sensitive": false,
+										"possibly_sensitive_editable": true,
+										"quote_count": 263,
+										"reply_count": 534,
+										"retweet_count": 4063,
+										"retweeted": false,
+										"user_id_str": "1562038858988064768",
+										"id_str": "1671508600538161153"
+									},
+									"quick_promote_eligibility": {
+										"eligibility": "IneligibleNotProfessional"
+									}
+								}
+							},
+							"tweetDisplayType": "Tweet",
+							"hasModeratedReplies": false
+						}
+					}
+				}, {
+					"entryId": "conversationthread-1671508958299713538",
+					"sortIndex": "7551863436316614644",
+					"content": {
+						"entryType": "TimelineTimelineModule",
+						"__typename": "TimelineTimelineModule",
+						"items": [{
+							"entryId": "conversationthread-1671508958299713538-tweet-1671508958299713538",
+							"item": {
+								"itemContent": {
+									"itemType": "TimelineTweet",
+									"__typename": "TimelineTweet",
+									"tweet_results": {
+										"result": {
+											"__typename": "Tweet",
+											"rest_id": "1671508958299713538",
+											"has_birdwatch_notes": false,
+											"core": {
+												"user_results": {
+													"result": {
+														"__typename": "User",
+														"id": "VXNlcjoxMzQ3OTYzNjY=",
+														"rest_id": "134796366",
+														"affiliates_highlighted_label": {},
+														"has_graduated_access": true,
+														"is_blue_verified": false,
+														"legacy": {
+															"can_dm": false,
+															"can_media_tag": true,
+															"created_at": "Mon Apr 19 13:29:09 +0000 2010",
+															"default_profile": true,
+															"default_profile_image": false,
+															"description": "British-born, currently teaching English and literature at Jiaying University in China.",
+															"entities": {
+																"description": {
+																	"urls": []
+																},
+																"url": {
+																	"urls": [{
+																		"display_url": "forums.theplothole.net",
+																		"expanded_url": "https://forums.theplothole.net/",
+																		"url": "https://t.co/LrevQ5KqHI",
+																		"indices": [0, 23]
+																	}]
+																}
+															},
+															"fast_followers_count": 0,
+															"favourites_count": 5131,
+															"followers_count": 39,
+															"friends_count": 420,
+															"has_custom_timelines": false,
+															"is_translator": false,
+															"listed_count": 2,
+															"location": "Meizhou, China",
+															"media_count": 0,
+															"name": "Britt J. L. Halliburton",
+															"normal_followers_count": 39,
+															"pinned_tweet_ids_str": [],
+															"possibly_sensitive": false,
+															"profile_image_url_https": "https://pbs.twimg.com/profile_images/1497197434/505-Liu-Bei_B_normal.jpg",
+															"profile_interstitial_type": "",
+															"screen_name": "TheBritt2001",
+															"statuses_count": 2311,
+															"translator_type": "none",
+															"url": "https://t.co/LrevQ5KqHI",
+															"verified": false,
+															"want_retweets": false,
+															"withheld_in_countries": []
+														},
+														"business_account": {}
+													}
+												}
+											},
+											"edit_control": {
+												"edit_tweet_ids": ["1671508958299713538"],
+												"editable_until_msecs": "1687357365000",
+												"is_edit_eligible": false,
+												"edits_remaining": "5"
+											},
+											"edit_perspective": {
+												"favorited": false,
+												"retweeted": false
+											},
+											"is_translatable": false,
+											"views": {
+												"count": "52017",
+												"state": "EnabledWithCount"
+											},
+											"source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
+											"legacy": {
+												"created_at": "Wed Jun 21 13:22:45 +0000 2023",
+												"conversation_id_str": "1671508600538161153",
+												"display_text_range": [11, 63],
+												"entities": {
+													"user_mentions": [{
+														"id_str": "1562038858988064768",
+														"name": "Figen",
+														"screen_name": "TheFigen_",
+														"indices": [0, 10]
+													}],
+													"urls": [],
+													"hashtags": [],
+													"symbols": []
+												},
+												"favorite_count": 137,
+												"favorited": false,
+												"full_text": "@TheFigen_ Yeah, Nanjing is a great city, great place to visit.",
+												"in_reply_to_screen_name": "TheFigen_",
+												"in_reply_to_status_id_str": "1671508600538161153",
+												"in_reply_to_user_id_str": "1562038858988064768",
+												"is_quote_status": false,
+												"lang": "en",
+												"quote_count": 0,
+												"reply_count": 4,
+												"retweet_count": 0,
+												"retweeted": false,
+												"user_id_str": "134796366",
+												"id_str": "1671508958299713538"
+											},
+											"quick_promote_eligibility": {
+												"eligibility": "IneligibleNotProfessional"
+											}
+										}
+									},
+									"tweetDisplayType": "Tweet"
+								},
+								"clientEventInfo": {
+									"details": {
+										"conversationDetails": {
+											"conversationSection": "HighQuality"
+										},
+										"timelinesDetails": {
+											"controllerData": "DAACDAAEDAABCgABFQgJCGAHgBUKAAIAAAAABEAICAAAAAA="
+										}
+									}
+								}
+							}
+						}, {
+							"entryId": "conversationthread-1671508958299713538-tweet-1671510449605558272",
+							"item": {
+								"itemContent": {
+									"itemType": "TimelineTweet",
+									"__typename": "TimelineTweet",
+									"tweet_results": {
+										"result": {
+											"__typename": "Tweet",
+											"rest_id": "1671510449605558272",
+											"has_birdwatch_notes": false,
+											"core": {
+												"user_results": {
+													"result": {
+														"__typename": "User",
+														"id": "VXNlcjoxNTYyMDM4ODU4OTg4MDY0NzY4",
+														"rest_id": "1562038858988064768",
+														"affiliates_highlighted_label": {},
+														"has_graduated_access": true,
+														"is_blue_verified": true,
+														"legacy": {
+															"can_dm": true,
+															"can_media_tag": true,
+															"created_at": "Tue Aug 23 11:27:52 +0000 2022",
+															"default_profile": true,
+															"default_profile_image": false,
+															"description": "PhD musicology /Teacher/ Turkish woman/ \n\nPosting #humor #art #cool content.",
+															"entities": {
+																"description": {
+																	"urls": []
+																},
+																"url": {
+																	"urls": [{
+																		"display_url": "instagram.com/thefigen/",
+																		"expanded_url": "https://www.instagram.com/thefigen/",
+																		"url": "https://t.co/Cp75iLJ8XY",
+																		"indices": [0, 23]
+																	}]
+																}
+															},
+															"fast_followers_count": 0,
+															"favourites_count": 65299,
+															"followers_count": 537197,
+															"friends_count": 7,
+															"has_custom_timelines": true,
+															"is_translator": false,
+															"listed_count": 2846,
+															"location": "",
+															"media_count": 2186,
+															"name": "Figen",
+															"normal_followers_count": 537197,
+															"pinned_tweet_ids_str": ["1662083075004661760"],
+															"possibly_sensitive": false,
+															"profile_banner_url": "https://pbs.twimg.com/profile_banners/1562038858988064768/1664828989",
+															"profile_image_url_https": "https://pbs.twimg.com/profile_images/1645880810958929921/8mi_I17M_normal.jpg",
+															"profile_interstitial_type": "",
+															"screen_name": "TheFigen_",
+															"statuses_count": 3865,
+															"translator_type": "none",
+															"url": "https://t.co/Cp75iLJ8XY",
+															"verified": false,
+															"want_retweets": false,
+															"withheld_in_countries": []
+														},
+														"professional": {
+															"rest_id": "1577454623266422784",
+															"professional_type": "Creator",
+															"category": [{
+																"id": 478,
+																"name": "Advertising & Marketing Agency",
+																"icon_name": "IconBriefcaseStroke"
+															}]
+														},
+														"business_account": {}
+													}
+												}
+											},
+											"edit_control": {
+												"edit_tweet_ids": ["1671510449605558272"],
+												"editable_until_msecs": "1687357721000",
+												"is_edit_eligible": false,
+												"edits_remaining": "5"
+											},
+											"edit_perspective": {
+												"favorited": false,
+												"retweeted": false
+											},
+											"is_translatable": false,
+											"views": {
+												"count": "49257",
+												"state": "EnabledWithCount"
+											},
+											"source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+											"legacy": {
+												"created_at": "Wed Jun 21 13:28:41 +0000 2023",
+												"conversation_id_str": "1671508600538161153",
+												"display_text_range": [14, 20],
+												"entities": {
+													"user_mentions": [{
+														"id_str": "134796366",
+														"name": "Britt J. L. Halliburton",
+														"screen_name": "TheBritt2001",
+														"indices": [0, 13]
+													}],
+													"urls": [],
+													"hashtags": [],
+													"symbols": []
+												},
+												"favorite_count": 17,
+												"favorited": false,
+												"full_text": "@TheBritt2001 Agree.",
+												"in_reply_to_screen_name": "TheBritt2001",
+												"in_reply_to_status_id_str": "1671508958299713538",
+												"in_reply_to_user_id_str": "134796366",
+												"is_quote_status": false,
+												"lang": "en",
+												"quote_count": 0,
+												"reply_count": 4,
+												"retweet_count": 0,
+												"retweeted": false,
+												"user_id_str": "1562038858988064768",
+												"id_str": "1671510449605558272"
+											},
+											"quick_promote_eligibility": {
+												"eligibility": "IneligibleNotProfessional"
+											}
+										}
+									},
+									"tweetDisplayType": "Tweet"
+								},
+								"clientEventInfo": {
+									"details": {
+										"conversationDetails": {
+											"conversationSection": "HighQuality"
+										},
+										"timelinesDetails": {
+											"controllerData": "DAACDAAEDAABCgABFQgJEKIDgZEKAAIAAAAAFEBACAAAAAA="
+										}
+									}
+								}
+							}
+						}],
+						"displayType": "VerticalConversation",
+						"clientEventInfo": {
+							"details": {
+								"conversationDetails": {
+									"conversationSection": "HighQuality"
+								}
+							}
+						}
+					}
+				}, {
+					"entryId": "conversationthread-1671812868457545729",
+					"sortIndex": "7551863436316614634",
+					"content": {
+						"entryType": "TimelineTimelineModule",
+						"__typename": "TimelineTimelineModule",
+						"items": [{
+							"entryId": "conversationthread-1671812868457545729-tweet-1671812868457545729",
+							"item": {
+								"itemContent": {
+									"itemType": "TimelineTweet",
+									"__typename": "TimelineTweet",
+									"tweet_results": {
+										"result": {
+											"__typename": "Tweet",
+											"rest_id": "1671812868457545729",
+											"has_birdwatch_notes": false,
+											"core": {
+												"user_results": {
+													"result": {
+														"__typename": "User",
+														"id": "VXNlcjoxNTM3NDI4NzA1NjAxMTEwMDE2",
+														"rest_id": "1537428705601110016",
+														"affiliates_highlighted_label": {},
+														"has_graduated_access": true,
+														"is_blue_verified": true,
+														"legacy": {
+															"can_dm": true,
+															"can_media_tag": false,
+															"created_at": "Thu Jun 16 13:35:57 +0000 2022",
+															"default_profile": true,
+															"default_profile_image": false,
+															"description": "Straight White Male\nDon't mind my @ name on here I'm republican\nAlabama born and raised.\n#INTJ",
+															"entities": {
+																"description": {
+																	"urls": []
+																}
+															},
+															"fast_followers_count": 0,
+															"favourites_count": 3969,
+															"followers_count": 75,
+															"friends_count": 197,
+															"has_custom_timelines": false,
+															"is_translator": false,
+															"listed_count": 0,
+															"location": "",
+															"media_count": 211,
+															"name": "Brad",
+															"normal_followers_count": 75,
+															"pinned_tweet_ids_str": ["1632524263289765889"],
+															"possibly_sensitive": false,
+															"profile_banner_url": "https://pbs.twimg.com/profile_banners/1537428705601110016/1671215318",
+															"profile_image_url_https": "https://pbs.twimg.com/profile_images/1636218949334343680/6SoqFWZS_normal.jpg",
+															"profile_interstitial_type": "",
+															"screen_name": "LeftBrad",
+															"statuses_count": 2158,
+															"translator_type": "none",
+															"verified": false,
+															"want_retweets": false,
+															"withheld_in_countries": []
+														},
+														"business_account": {}
+													}
+												}
+											},
+											"edit_control": {
+												"edit_tweet_ids": ["1671812868457545729"],
+												"editable_until_msecs": "1687429823000",
+												"is_edit_eligible": false,
+												"edits_remaining": "5"
+											},
+											"edit_perspective": {
+												"favorited": false,
+												"retweeted": false
+											},
+											"is_translatable": false,
+											"views": {
+												"count": "7396",
+												"state": "EnabledWithCount"
+											},
+											"source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+											"legacy": {
+												"created_at": "Thu Jun 22 09:30:23 +0000 2023",
+												"conversation_id_str": "1671508600538161153",
+												"display_text_range": [11, 66],
+												"entities": {
+													"user_mentions": [{
+														"id_str": "1562038858988064768",
+														"name": "Figen",
+														"screen_name": "TheFigen_",
+														"indices": [0, 10]
+													}],
+													"urls": [],
+													"hashtags": [],
+													"symbols": []
+												},
+												"favorite_count": 2,
+												"favorited": false,
+												"full_text": "@TheFigen_ That looks beautiful. Clean.\nCompare that to California",
+												"in_reply_to_screen_name": "TheFigen_",
+												"in_reply_to_status_id_str": "1671508600538161153",
+												"in_reply_to_user_id_str": "1562038858988064768",
+												"is_quote_status": false,
+												"lang": "en",
+												"quote_count": 0,
+												"reply_count": 2,
+												"retweet_count": 0,
+												"retweeted": false,
+												"user_id_str": "1537428705601110016",
+												"id_str": "1671812868457545729"
+											},
+											"quick_promote_eligibility": {
+												"eligibility": "IneligibleNotProfessional"
+											}
+										}
+									},
+									"tweetDisplayType": "Tweet"
+								},
+								"clientEventInfo": {
+									"details": {
+										"conversationDetails": {
+											"conversationSection": "HighQuality"
+										},
+										"timelinesDetails": {
+											"controllerData": "DAACDAAEDAABCgABFQAJCSQDgBUKAAIAAAAAFEBACAAAAAA="
+										}
+									}
+								}
+							}
+						}],
+						"displayType": "VerticalConversation",
+						"clientEventInfo": {
+							"details": {
+								"conversationDetails": {
+									"conversationSection": "HighQuality"
+								}
+							}
+						}
+					}
+				}, {
+					"entryId": "conversationthread-1671885256914518017",
+					"sortIndex": "7551863436316614624",
+					"content": {
+						"entryType": "TimelineTimelineModule",
+						"__typename": "TimelineTimelineModule",
+						"items": [{
+							"entryId": "conversationthread-1671885256914518017-tweet-1671885256914518017",
+							"item": {
+								"itemContent": {
+									"itemType": "TimelineTweet",
+									"__typename": "TimelineTweet",
+									"tweet_results": {
+										"result": {
+											"__typename": "Tweet",
+											"rest_id": "1671885256914518017",
+											"has_birdwatch_notes": false,
+											"core": {
+												"user_results": {
+													"result": {
+														"__typename": "User",
+														"id": "VXNlcjoxMjg5MjM1NjY3NTE2NDU2OTYy",
+														"rest_id": "1289235667516456962",
+														"affiliates_highlighted_label": {},
+														"has_graduated_access": true,
+														"is_blue_verified": true,
+														"legacy": {
+															"can_dm": true,
+															"can_media_tag": false,
+															"created_at": "Fri Jul 31 16:25:21 +0000 2020",
+															"default_profile": true,
+															"default_profile_image": false,
+															"description": "",
+															"entities": {
+																"description": {
+																	"urls": []
+																}
+															},
+															"fast_followers_count": 0,
+															"favourites_count": 23767,
+															"followers_count": 269743,
+															"friends_count": 609,
+															"has_custom_timelines": true,
+															"is_translator": false,
+															"listed_count": 430,
+															"location": "India",
+															"media_count": 5762,
+															"name": "Facts",
+															"normal_followers_count": 269743,
+															"pinned_tweet_ids_str": ["1331169210852990979"],
+															"possibly_sensitive": false,
+															"profile_banner_url": "https://pbs.twimg.com/profile_banners/1289235667516456962/1657276899",
+															"profile_image_url_https": "https://pbs.twimg.com/profile_images/1554516717761855488/0w-QEwIX_normal.jpg",
+															"profile_interstitial_type": "",
+															"screen_name": "BefittingFacts",
+															"statuses_count": 33521,
+															"translator_type": "none",
+															"verified": false,
+															"want_retweets": false,
+															"withheld_in_countries": []
+														},
+														"business_account": {}
+													}
+												}
+											},
+											"edit_control": {
+												"edit_tweet_ids": ["1671885256914518017"],
+												"editable_until_msecs": "1687447082000",
+												"is_edit_eligible": false,
+												"edits_remaining": "5"
+											},
+											"edit_perspective": {
+												"favorited": false,
+												"retweeted": false
+											},
+											"is_translatable": false,
+											"views": {
+												"count": "80",
+												"state": "EnabledWithCount"
+											},
+											"source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
+											"legacy": {
+												"created_at": "Thu Jun 22 14:18:02 +0000 2023",
+												"conversation_id_str": "1671508600538161153",
+												"display_text_range": [11, 51],
+												"entities": {
+													"media": [{
+														"display_url": "pic.twitter.com/BlksXCHXiM",
+														"expanded_url": "https://twitter.com/BefittingFacts/status/1671885256914518017/photo/1",
+														"id_str": "1671885208583548935",
+														"indices": [52, 75],
+														"media_url_https": "https://pbs.twimg.com/media/FzO6vTraMAcRbum.jpg",
+														"type": "photo",
+														"url": "https://t.co/BlksXCHXiM",
+														"features": {
+															"large": {
+																"faces": []
+															},
+															"medium": {
+																"faces": []
+															},
+															"small": {
+																"faces": []
+															},
+															"orig": {
+																"faces": []
+															}
+														},
+														"sizes": {
+															"large": {
+																"h": 674,
+																"w": 455,
+																"resize": "fit"
+															},
+															"medium": {
+																"h": 674,
+																"w": 455,
+																"resize": "fit"
+															},
+															"small": {
+																"h": 674,
+																"w": 455,
+																"resize": "fit"
+															},
+															"thumb": {
+																"h": 150,
+																"w": 150,
+																"resize": "crop"
+															}
+														},
+														"original_info": {
+															"height": 674,
+															"width": 455,
+															"focus_rects": [{
+																"x": 0,
+																"y": 395,
+																"w": 455,
+																"h": 255
+															}, {
+																"x": 0,
+																"y": 219,
+																"w": 455,
+																"h": 455
+															}, {
+																"x": 0,
+																"y": 155,
+																"w": 455,
+																"h": 519
+															}, {
+																"x": 118,
+																"y": 0,
+																"w": 337,
+																"h": 674
+															}, {
+																"x": 0,
+																"y": 0,
+																"w": 455,
+																"h": 674
+															}]
+														}
+													}],
+													"user_mentions": [{
+														"id_str": "1562038858988064768",
+														"name": "Figen",
+														"screen_name": "TheFigen_",
+														"indices": [0, 10]
+													}],
+													"urls": [],
+													"hashtags": [],
+													"symbols": []
+												},
+												"extended_entities": {
+													"media": [{
+														"display_url": "pic.twitter.com/BlksXCHXiM",
+														"expanded_url": "https://twitter.com/BefittingFacts/status/1671885256914518017/photo/1",
+														"id_str": "1671885208583548935",
+														"indices": [52, 75],
+														"media_key": "3_1671885208583548935",
+														"media_url_https": "https://pbs.twimg.com/media/FzO6vTraMAcRbum.jpg",
+														"type": "photo",
+														"url": "https://t.co/BlksXCHXiM",
+														"ext_media_availability": {
+															"status": "Available"
+														},
+														"features": {
+															"large": {
+																"faces": []
+															},
+															"medium": {
+																"faces": []
+															},
+															"small": {
+																"faces": []
+															},
+															"orig": {
+																"faces": []
+															}
+														},
+														"sizes": {
+															"large": {
+																"h": 674,
+																"w": 455,
+																"resize": "fit"
+															},
+															"medium": {
+																"h": 674,
+																"w": 455,
+																"resize": "fit"
+															},
+															"small": {
+																"h": 674,
+																"w": 455,
+																"resize": "fit"
+															},
+															"thumb": {
+																"h": 150,
+																"w": 150,
+																"resize": "crop"
+															}
+														},
+														"original_info": {
+															"height": 674,
+															"width": 455,
+															"focus_rects": [{
+																"x": 0,
+																"y": 395,
+																"w": 455,
+																"h": 255
+															}, {
+																"x": 0,
+																"y": 219,
+																"w": 455,
+																"h": 455
+															}, {
+																"x": 0,
+																"y": 155,
+																"w": 455,
+																"h": 519
+															}, {
+																"x": 118,
+																"y": 0,
+																"w": 337,
+																"h": 674
+															}, {
+																"x": 0,
+																"y": 0,
+																"w": 455,
+																"h": 674
+															}]
+														}
+													}]
+												},
+												"favorite_count": 3,
+												"favorited": false,
+												"full_text": "@TheFigen_ This is Nanjing Zendai Himalayas Center. https://t.co/BlksXCHXiM",
+												"in_reply_to_screen_name": "TheFigen_",
+												"in_reply_to_status_id_str": "1671508600538161153",
+												"in_reply_to_user_id_str": "1562038858988064768",
+												"is_quote_status": false,
+												"lang": "en",
+												"possibly_sensitive": false,
+												"possibly_sensitive_editable": true,
+												"quote_count": 0,
+												"reply_count": 0,
+												"retweet_count": 0,
+												"retweeted": false,
+												"user_id_str": "1289235667516456962",
+												"id_str": "1671885256914518017"
+											},
+											"quick_promote_eligibility": {
+												"eligibility": "IneligibleNotProfessional"
+											}
+										}
+									},
+									"tweetDisplayType": "Tweet"
+								},
+								"clientEventInfo": {
+									"details": {
+										"conversationDetails": {
+											"conversationSection": "HighQuality"
+										},
+										"timelinesDetails": {
+											"controllerData": "DAACDAAEDAABCgABFUAJiihjgAUKAAIAAAAAFEBACAAAAAA="
+										}
+									}
+								}
+							}
+						}],
+						"displayType": "VerticalConversation",
+						"clientEventInfo": {
+							"details": {
+								"conversationDetails": {
+									"conversationSection": "HighQuality"
+								}
+							}
+						}
+					}
+				}, {
+					"entryId": "conversationthread-1671647162206244864",
+					"sortIndex": "7551863436316614614",
+					"content": {
+						"entryType": "TimelineTimelineModule",
+						"__typename": "TimelineTimelineModule",
+						"items": [{
+							"entryId": "conversationthread-1671647162206244864-tweet-1671647162206244864",
+							"item": {
+								"itemContent": {
+									"itemType": "TimelineTweet",
+									"__typename": "TimelineTweet",
+									"tweet_results": {
+										"result": {
+											"__typename": "Tweet",
+											"rest_id": "1671647162206244864",
+											"has_birdwatch_notes": false,
+											"core": {
+												"user_results": {
+													"result": {
+														"__typename": "User",
+														"id": "VXNlcjo3MzI2OTg3MzE2ODI4OTM4MjQ=",
+														"rest_id": "732698731682893824",
+														"affiliates_highlighted_label": {},
+														"has_graduated_access": true,
+														"is_blue_verified": true,
+														"legacy": {
+															"can_dm": true,
+															"can_media_tag": false,
+															"created_at": "Tue May 17 22:26:05 +0000 2016",
+															"default_profile": false,
+															"default_profile_image": false,
+															"description": "handsome/brilliant/funny",
+															"entities": {
+																"description": {
+																	"urls": []
+																},
+																"url": {
+																	"urls": [{
+																		"display_url": "linktr.ee/Younghogey",
+																		"expanded_url": "https://linktr.ee/Younghogey",
+																		"url": "https://t.co/ODHughDvXE",
+																		"indices": [0, 23]
+																	}]
+																}
+															},
+															"fast_followers_count": 0,
+															"favourites_count": 4738,
+															"followers_count": 269,
+															"friends_count": 571,
+															"has_custom_timelines": true,
+															"is_translator": false,
+															"listed_count": 7,
+															"location": "",
+															"media_count": 960,
+															"name": "younghogey",
+															"normal_followers_count": 269,
+															"pinned_tweet_ids_str": [],
+															"possibly_sensitive": false,
+															"profile_banner_url": "https://pbs.twimg.com/profile_banners/732698731682893824/1678483088",
+															"profile_image_url_https": "https://pbs.twimg.com/profile_images/1640301113227333633/35030YR__normal.jpg",
+															"profile_interstitial_type": "",
+															"screen_name": "Younghogey",
+															"statuses_count": 6200,
+															"translator_type": "none",
+															"url": "https://t.co/ODHughDvXE",
+															"verified": false,
+															"want_retweets": false,
+															"withheld_in_countries": []
+														},
+														"professional": {
+															"rest_id": "1476802165251481600",
+															"professional_type": "Creator",
+															"category": [{
+																"id": 432,
+																"name": "Electrician",
+																"icon_name": "IconBriefcaseStroke"
+															}]
+														},
+														"business_account": {}
+													}
+												}
+											},
+											"edit_control": {
+												"edit_tweet_ids": ["1671647162206244864"],
+												"editable_until_msecs": "1687390315000",
+												"is_edit_eligible": false,
+												"edits_remaining": "5"
+											},
+											"edit_perspective": {
+												"favorited": false,
+												"retweeted": false
+											},
+											"is_translatable": false,
+											"views": {
+												"count": "19128",
+												"state": "EnabledWithCount"
+											},
+											"source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
+											"legacy": {
+												"created_at": "Wed Jun 21 22:31:55 +0000 2023",
+												"conversation_id_str": "1671508600538161153",
+												"display_text_range": [11, 32],
+												"entities": {
+													"user_mentions": [{
+														"id_str": "1562038858988064768",
+														"name": "Figen",
+														"screen_name": "TheFigen_",
+														"indices": [0, 10]
+													}],
+													"urls": [],
+													"hashtags": [],
+													"symbols": []
+												},
+												"favorite_count": 1,
+												"favorited": false,
+												"full_text": "@TheFigen_ Just like the anime\u2019s",
+												"in_reply_to_screen_name": "TheFigen_",
+												"in_reply_to_status_id_str": "1671508600538161153",
+												"in_reply_to_user_id_str": "1562038858988064768",
+												"is_quote_status": false,
+												"lang": "en",
+												"quote_count": 0,
+												"reply_count": 0,
+												"retweet_count": 0,
+												"retweeted": false,
+												"user_id_str": "732698731682893824",
+												"id_str": "1671647162206244864"
+											},
+											"quick_promote_eligibility": {
+												"eligibility": "IneligibleNotProfessional"
+											}
+										}
+									},
+									"tweetDisplayType": "Tweet"
+								},
+								"clientEventInfo": {
+									"details": {
+										"conversationDetails": {
+											"conversationSection": "HighQuality"
+										},
+										"timelinesDetails": {
+											"controllerData": "DAACDAAEDAABCgABFQQJjDADgAUKAAIAAAAAFEBACAAAAAA="
+										}
+									}
+								}
+							}
+						}],
+						"displayType": "VerticalConversation",
+						"clientEventInfo": {
+							"details": {
+								"conversationDetails": {
+									"conversationSection": "HighQuality"
+								}
+							}
+						}
+					}
+				}, {
+					"entryId": "conversationthread-1671700833363447808",
+					"sortIndex": "7551863436316614604",
+					"content": {
+						"entryType": "TimelineTimelineModule",
+						"__typename": "TimelineTimelineModule",
+						"items": [{
+							"entryId": "conversationthread-1671700833363447808-tweet-1671700833363447808",
+							"item": {
+								"itemContent": {
+									"itemType": "TimelineTweet",
+									"__typename": "TimelineTweet",
+									"tweet_results": {
+										"result": {
+											"__typename": "Tweet",
+											"rest_id": "1671700833363447808",
+											"has_birdwatch_notes": false,
+											"core": {
+												"user_results": {
+													"result": {
+														"__typename": "User",
+														"id": "VXNlcjoxMzY3NjY3NzM4ODc3OTg4ODY0",
+														"rest_id": "1367667738877988864",
+														"affiliates_highlighted_label": {},
+														"has_graduated_access": true,
+														"is_blue_verified": true,
+														"legacy": {
+															"can_dm": true,
+															"can_media_tag": false,
+															"created_at": "Fri Mar 05 02:46:27 +0000 2021",
+															"default_profile": true,
+															"default_profile_image": false,
+															"description": "@mychinatrip Travelers from China. Share what I see. Photography, drones, football, self-driving travel in China over 100,000 km. Living in Lishui, Zhejiang.",
+															"entities": {
+																"description": {
+																	"urls": []
+																},
+																"url": {
+																	"urls": [{
+																		"display_url": "instagram.com/mychinatrip",
+																		"expanded_url": "https://instagram.com/mychinatrip",
+																		"url": "https://t.co/Y4T3tstnZA",
+																		"indices": [0, 23]
+																	}]
+																}
+															},
+															"fast_followers_count": 0,
+															"favourites_count": 43025,
+															"followers_count": 57531,
+															"friends_count": 226,
+															"has_custom_timelines": true,
+															"is_translator": false,
+															"listed_count": 300,
+															"location": "Lishui",
+															"media_count": 6474,
+															"name": "Sharing Travel",
+															"normal_followers_count": 57531,
+															"pinned_tweet_ids_str": ["1670602205383254017"],
+															"possibly_sensitive": false,
+															"profile_banner_url": "https://pbs.twimg.com/profile_banners/1367667738877988864/1643992024",
+															"profile_image_url_https": "https://pbs.twimg.com/profile_images/1489636633180012544/HY9RWfzI_normal.jpg",
+															"profile_interstitial_type": "",
+															"screen_name": "TripInChina",
+															"statuses_count": 18063,
+															"translator_type": "none",
+															"url": "https://t.co/Y4T3tstnZA",
+															"verified": false,
+															"want_retweets": false,
+															"withheld_in_countries": []
+														},
+														"business_account": {}
+													}
+												}
+											},
+											"edit_control": {
+												"edit_tweet_ids": ["1671700833363447808"],
+												"editable_until_msecs": "1687403112000",
+												"is_edit_eligible": false,
+												"edits_remaining": "5"
+											},
+											"edit_perspective": {
+												"favorited": false,
+												"retweeted": false
+											},
+											"is_translatable": false,
+											"views": {
+												"count": "35856",
+												"state": "EnabledWithCount"
+											},
+											"source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
+											"legacy": {
+												"created_at": "Thu Jun 22 02:05:12 +0000 2023",
+												"conversation_id_str": "1671508600538161153",
+												"display_text_range": [11, 63],
+												"entities": {
+													"media": [{
+														"display_url": "pic.twitter.com/tfZVdxKYQN",
+														"expanded_url": "https://twitter.com/TripInChina/status/1670987332973998080/video/1",
+														"id_str": "1670817068445495296",
+														"indices": [40, 63],
+														"media_url_https": "https://pbs.twimg.com/ext_tw_video_thumb/1670817068445495296/pu/img/2gy4ynHr-YNRJMAo.jpg",
+														"source_status_id_str": "1670987332973998080",
+														"source_user_id_str": "1367667738877988864",
+														"type": "photo",
+														"url": "https://t.co/tfZVdxKYQN",
+														"features": {},
+														"sizes": {
+															"large": {
+																"h": 1920,
+																"w": 1080,
+																"resize": "fit"
+															},
+															"medium": {
+																"h": 1200,
+																"w": 675,
+																"resize": "fit"
+															},
+															"small": {
+																"h": 680,
+																"w": 383,
+																"resize": "fit"
+															},
+															"thumb": {
+																"h": 150,
+																"w": 150,
+																"resize": "crop"
+															}
+														},
+														"original_info": {
+															"height": 1920,
+															"width": 1080
+														}
+													}],
+													"user_mentions": [{
+														"id_str": "1562038858988064768",
+														"name": "Figen",
+														"screen_name": "TheFigen_",
+														"indices": [0, 10]
+													}],
+													"urls": [],
+													"hashtags": [],
+													"symbols": []
+												},
+												"extended_entities": {
+													"media": [{
+														"display_url": "pic.twitter.com/tfZVdxKYQN",
+														"expanded_url": "https://twitter.com/TripInChina/status/1670987332973998080/video/1",
+														"id_str": "1670817068445495296",
+														"indices": [40, 63],
+														"media_key": "7_1670817068445495296",
+														"media_url_https": "https://pbs.twimg.com/ext_tw_video_thumb/1670817068445495296/pu/img/2gy4ynHr-YNRJMAo.jpg",
+														"source_status_id_str": "1670987332973998080",
+														"source_user_id_str": "1367667738877988864",
+														"type": "video",
+														"url": "https://t.co/tfZVdxKYQN",
+														"additional_media_info": {
+															"monetizable": false,
+															"source_user": {
+																"user_results": {
+																	"result": {
+																		"__typename": "User",
+																		"id": "VXNlcjoxMzY3NjY3NzM4ODc3OTg4ODY0",
+																		"rest_id": "1367667738877988864",
+																		"affiliates_highlighted_label": {},
+																		"has_graduated_access": true,
+																		"is_blue_verified": true,
+																		"legacy": {
+																			"can_dm": true,
+																			"can_media_tag": false,
+																			"created_at": "Fri Mar 05 02:46:27 +0000 2021",
+																			"default_profile": true,
+																			"default_profile_image": false,
+																			"description": "@mychinatrip Travelers from China. Share what I see. Photography, drones, football, self-driving travel in China over 100,000 km. Living in Lishui, Zhejiang.",
+																			"entities": {
+																				"description": {
+																					"urls": []
+																				},
+																				"url": {
+																					"urls": [{
+																						"display_url": "instagram.com/mychinatrip",
+																						"expanded_url": "https://instagram.com/mychinatrip",
+																						"url": "https://t.co/Y4T3tstnZA",
+																						"indices": [0, 23]
+																					}]
+																				}
+																			},
+																			"fast_followers_count": 0,
+																			"favourites_count": 43025,
+																			"followers_count": 57531,
+																			"friends_count": 226,
+																			"has_custom_timelines": true,
+																			"is_translator": false,
+																			"listed_count": 300,
+																			"location": "Lishui",
+																			"media_count": 6474,
+																			"name": "Sharing Travel",
+																			"normal_followers_count": 57531,
+																			"pinned_tweet_ids_str": ["1670602205383254017"],
+																			"possibly_sensitive": false,
+																			"profile_banner_url": "https://pbs.twimg.com/profile_banners/1367667738877988864/1643992024",
+																			"profile_image_url_https": "https://pbs.twimg.com/profile_images/1489636633180012544/HY9RWfzI_normal.jpg",
+																			"profile_interstitial_type": "",
+																			"screen_name": "TripInChina",
+																			"statuses_count": 18063,
+																			"translator_type": "none",
+																			"url": "https://t.co/Y4T3tstnZA",
+																			"verified": false,
+																			"want_retweets": false,
+																			"withheld_in_countries": []
+																		},
+																		"business_account": {}
+																	}
+																}
+															}
+														},
+														"mediaStats": {
+															"viewCount": 33611
+														},
+														"ext_media_availability": {
+															"status": "Available"
+														},
+														"features": {},
+														"sizes": {
+															"large": {
+																"h": 1920,
+																"w": 1080,
+																"resize": "fit"
+															},
+															"medium": {
+																"h": 1200,
+																"w": 675,
+																"resize": "fit"
+															},
+															"small": {
+																"h": 680,
+																"w": 383,
+																"resize": "fit"
+															},
+															"thumb": {
+																"h": 150,
+																"w": 150,
+																"resize": "crop"
+															}
+														},
+														"original_info": {
+															"height": 1920,
+															"width": 1080
+														},
+														"video_info": {
+															"aspect_ratio": [9, 16],
+															"duration_millis": 23934,
+															"variants": [{
+																"bitrate": 950000,
+																"content_type": "video/mp4",
+																"url": "https://video.twimg.com/ext_tw_video/1670817068445495296/pu/vid/480x852/KFNZjHXDu-eea_8O.mp4?tag=14"
+															}, {
+																"bitrate": 2176000,
+																"content_type": "video/mp4",
+																"url": "https://video.twimg.com/ext_tw_video/1670817068445495296/pu/vid/720x1280/oggMXA2mz4TMLV-h.mp4?tag=14"
+															}, {
+																"content_type": "application/x-mpegURL",
+																"url": "https://video.twimg.com/ext_tw_video/1670817068445495296/pu/pl/4U0Uj5v9khO_CJY5.m3u8?tag=14&container=fmp4"
+															}, {
+																"bitrate": 632000,
+																"content_type": "video/mp4",
+																"url": "https://video.twimg.com/ext_tw_video/1670817068445495296/pu/vid/320x568/AWOVNL2252BRl_Bx.mp4?tag=14"
+															}, {
+																"bitrate": 10368000,
+																"content_type": "video/mp4",
+																"url": "https://video.twimg.com/ext_tw_video/1670817068445495296/pu/vid/1080x1920/22YicpjoyeMTMZEj.mp4?tag=14"
+															}]
+														}
+													}]
+												},
+												"favorite_count": 372,
+												"favorited": false,
+												"full_text": "@TheFigen_ There are more details here.\nhttps://t.co/tfZVdxKYQN",
+												"in_reply_to_screen_name": "TheFigen_",
+												"in_reply_to_status_id_str": "1671508600538161153",
+												"in_reply_to_user_id_str": "1562038858988064768",
+												"is_quote_status": false,
+												"lang": "en",
+												"possibly_sensitive": false,
+												"possibly_sensitive_editable": true,
+												"quote_count": 5,
+												"reply_count": 7,
+												"retweet_count": 44,
+												"retweeted": false,
+												"user_id_str": "1367667738877988864",
+												"id_str": "1671700833363447808"
+											},
+											"quick_promote_eligibility": {
+												"eligibility": "IneligibleNotProfessional"
+											}
+										}
+									},
+									"tweetDisplayType": "Tweet"
+								},
+								"clientEventInfo": {
+									"details": {
+										"conversationDetails": {
+											"conversationSection": "HighQuality"
+										},
+										"timelinesDetails": {
+											"controllerData": "DAACDAAEDAABCgABFQAJCCBTgBUKAAIAAAAAFkBACAAAAAA="
+										}
+									}
+								}
+							}
+						}],
+						"displayType": "VerticalConversation",
+						"clientEventInfo": {
+							"details": {
+								"conversationDetails": {
+									"conversationSection": "HighQuality"
+								}
+							}
+						}
+					}
+				}, {
+					"entryId": "conversationthread-1671834254790086657",
+					"sortIndex": "7551863436316614594",
+					"content": {
+						"entryType": "TimelineTimelineModule",
+						"__typename": "TimelineTimelineModule",
+						"items": [{
+							"entryId": "conversationthread-1671834254790086657-tweet-1671834254790086657",
+							"item": {
+								"itemContent": {
+									"itemType": "TimelineTweet",
+									"__typename": "TimelineTweet",
+									"tweet_results": {
+										"result": {
+											"__typename": "Tweet",
+											"rest_id": "1671834254790086657",
+											"has_birdwatch_notes": false,
+											"core": {
+												"user_results": {
+													"result": {
+														"__typename": "User",
+														"id": "VXNlcjo0MjczNjEwMDU0",
+														"rest_id": "4273610054",
+														"affiliates_highlighted_label": {},
+														"has_graduated_access": true,
+														"is_blue_verified": true,
+														"legacy": {
+															"can_dm": true,
+															"can_media_tag": true,
+															"created_at": "Wed Nov 18 01:27:02 +0000 2015",
+															"default_profile": true,
+															"default_profile_image": false,
+															"description": "Go Dawgs!!!",
+															"entities": {
+																"description": {
+																	"urls": []
+																}
+															},
+															"fast_followers_count": 0,
+															"favourites_count": 12077,
+															"followers_count": 1694,
+															"friends_count": 2939,
+															"has_custom_timelines": true,
+															"is_translator": false,
+															"listed_count": 2,
+															"location": "Georgia, USA",
+															"media_count": 93,
+															"name": "Todd",
+															"normal_followers_count": 1694,
+															"pinned_tweet_ids_str": [],
+															"possibly_sensitive": false,
+															"profile_banner_url": "https://pbs.twimg.com/profile_banners/4273610054/1528614514",
+															"profile_image_url_https": "https://pbs.twimg.com/profile_images/1618787137318420480/IIIJo7rR_normal.jpg",
+															"profile_interstitial_type": "",
+															"screen_name": "ToddLingefelt",
+															"statuses_count": 12613,
+															"translator_type": "none",
+															"verified": false,
+															"want_retweets": false,
+															"withheld_in_countries": []
+														},
+														"business_account": {}
+													}
+												}
+											},
+											"edit_control": {
+												"edit_tweet_ids": ["1671834254790086657"],
+												"editable_until_msecs": "1687434922000",
+												"is_edit_eligible": false,
+												"edits_remaining": "5"
+											},
+											"edit_perspective": {
+												"favorited": false,
+												"retweeted": false
+											},
+											"is_translatable": false,
+											"views": {
+												"count": "1305",
+												"state": "EnabledWithCount"
+											},
+											"source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
+											"legacy": {
+												"created_at": "Thu Jun 22 10:55:22 +0000 2023",
+												"conversation_id_str": "1671508600538161153",
+												"display_text_range": [27, 41],
+												"entities": {
+													"user_mentions": [{
+														"id_str": "1562038858988064768",
+														"name": "Figen",
+														"screen_name": "TheFigen_",
+														"indices": [0, 10]
+													}, {
+														"id_str": "15484198",
+														"name": "George Galloway",
+														"screen_name": "georgegalloway",
+														"indices": [11, 26]
+													}],
+													"urls": [],
+													"hashtags": [],
+													"symbols": []
+												},
+												"favorite_count": 0,
+												"favorited": false,
+												"full_text": "@TheFigen_ @georgegalloway Cool buildings",
+												"in_reply_to_screen_name": "TheFigen_",
+												"in_reply_to_status_id_str": "1671508600538161153",
+												"in_reply_to_user_id_str": "1562038858988064768",
+												"is_quote_status": false,
+												"lang": "en",
+												"quote_count": 0,
+												"reply_count": 0,
+												"retweet_count": 0,
+												"retweeted": false,
+												"user_id_str": "4273610054",
+												"id_str": "1671834254790086657"
+											},
+											"quick_promote_eligibility": {
+												"eligibility": "IneligibleNotProfessional"
+											}
+										}
+									},
+									"tweetDisplayType": "Tweet"
+								},
+								"clientEventInfo": {
+									"details": {
+										"conversationDetails": {
+											"conversationSection": "HighQuality"
+										},
+										"timelinesDetails": {
+											"controllerData": "DAACDAAEDAABCgABFQAJiCADgAUKAAIAAAAAFUAICAAAAAA="
+										}
+									}
+								}
+							}
+						}],
+						"displayType": "VerticalConversation",
+						"clientEventInfo": {
+							"details": {
+								"conversationDetails": {
+									"conversationSection": "HighQuality"
+								}
+							}
+						}
+					}
+				}, {
+					"entryId": "conversationthread-1671848456506294274",
+					"sortIndex": "7551863436316614584",
+					"content": {
+						"entryType": "TimelineTimelineModule",
+						"__typename": "TimelineTimelineModule",
+						"items": [{
+							"entryId": "conversationthread-1671848456506294274-tweet-1671848456506294274",
+							"item": {
+								"itemContent": {
+									"itemType": "TimelineTweet",
+									"__typename": "TimelineTweet",
+									"tweet_results": {
+										"result": {
+											"__typename": "Tweet",
+											"rest_id": "1671848456506294274",
+											"has_birdwatch_notes": false,
+											"core": {
+												"user_results": {
+													"result": {
+														"__typename": "User",
+														"id": "VXNlcjoyMTk5MDMzMzY=",
+														"rest_id": "219903336",
+														"affiliates_highlighted_label": {},
+														"has_graduated_access": true,
+														"is_blue_verified": true,
+														"legacy": {
+															"can_dm": false,
+															"can_media_tag": true,
+															"created_at": "Fri Nov 26 06:15:01 +0000 2010",
+															"default_profile": true,
+															"default_profile_image": false,
+															"description": "Founder & CEO @Dazeinfo l  Ex @LgIndia, @Google, @adrenalinhrms l Serial entrepreneur l Follow for mind-boggling insights & trends",
+															"entities": {
+																"description": {
+																	"urls": []
+																},
+																"url": {
+																	"urls": [{
+																		"display_url": "dazeinfo.com",
+																		"expanded_url": "https://dazeinfo.com",
+																		"url": "https://t.co/Hj9TmnxOdj",
+																		"indices": [0, 23]
+																	}]
+																}
+															},
+															"fast_followers_count": 0,
+															"favourites_count": 29599,
+															"followers_count": 4366,
+															"friends_count": 2373,
+															"has_custom_timelines": true,
+															"is_translator": false,
+															"listed_count": 346,
+															"location": "Bangalore, India",
+															"media_count": 3030,
+															"name": "Amit Misra",
+															"normal_followers_count": 4366,
+															"pinned_tweet_ids_str": ["1641306185734447104"],
+															"possibly_sensitive": false,
+															"profile_banner_url": "https://pbs.twimg.com/profile_banners/219903336/1668924922",
+															"profile_image_url_https": "https://pbs.twimg.com/profile_images/752926884422299648/RupOT5BC_normal.jpg",
+															"profile_interstitial_type": "",
+															"screen_name": "amit6060",
+															"statuses_count": 91565,
+															"translator_type": "none",
+															"url": "https://t.co/Hj9TmnxOdj",
+															"verified": false,
+															"want_retweets": false,
+															"withheld_in_countries": []
+														},
+														"professional": {
+															"rest_id": "1460882725083107333",
+															"professional_type": "Creator",
+															"category": [{
+																"id": 713,
+																"name": "Science & Technology",
+																"icon_name": "IconBriefcaseStroke"
+															}]
+														},
+														"business_account": {}
+													}
+												}
+											},
+											"edit_control": {
+												"edit_tweet_ids": ["1671848456506294274"],
+												"editable_until_msecs": "1687438308000",
+												"is_edit_eligible": false,
+												"edits_remaining": "5"
+											},
+											"edit_perspective": {
+												"favorited": false,
+												"retweeted": false
+											},
+											"is_translatable": false,
+											"views": {
+												"count": "4525",
+												"state": "EnabledWithCount"
+											},
+											"source": "<a href=\"https://www.hootsuite.com\" rel=\"nofollow\">Hootsuite Inc.</a>",
+											"legacy": {
+												"created_at": "Thu Jun 22 11:51:48 +0000 2023",
+												"conversation_id_str": "1671508600538161153",
+												"display_text_range": [11, 106],
+												"entities": {
+													"user_mentions": [{
+														"id_str": "1562038858988064768",
+														"name": "Figen",
+														"screen_name": "TheFigen_",
+														"indices": [0, 10]
+													}],
+													"urls": [],
+													"hashtags": [],
+													"symbols": []
+												},
+												"favorite_count": 4,
+												"favorited": false,
+												"full_text": "@TheFigen_ If Nanjing's nightscape were a movie, it would be a blockbuster hit that leaves you starstruck!",
+												"in_reply_to_screen_name": "TheFigen_",
+												"in_reply_to_status_id_str": "1671508600538161153",
+												"in_reply_to_user_id_str": "1562038858988064768",
+												"is_quote_status": false,
+												"lang": "en",
+												"quote_count": 0,
+												"reply_count": 0,
+												"retweet_count": 0,
+												"retweeted": false,
+												"user_id_str": "219903336",
+												"id_str": "1671848456506294274"
+											},
+											"quick_promote_eligibility": {
+												"eligibility": "IneligibleNotProfessional"
+											}
+										}
+									},
+									"tweetDisplayType": "Tweet"
+								},
+								"clientEventInfo": {
+									"details": {
+										"conversationDetails": {
+											"conversationSection": "HighQuality"
+										},
+										"timelinesDetails": {
+											"controllerData": "DAACDAAEDAABCgABFQAJiCADgAUKAAIAAAAAFEBACAAAAAA="
+										}
+									}
+								}
+							}
+						}],
+						"displayType": "VerticalConversation",
+						"clientEventInfo": {
+							"details": {
+								"conversationDetails": {
+									"conversationSection": "HighQuality"
+								}
+							}
+						}
+					}
+				}, {
+					"entryId": "conversationthread-1671842536288133120",
+					"sortIndex": "7551863436316614574",
+					"content": {
+						"entryType": "TimelineTimelineModule",
+						"__typename": "TimelineTimelineModule",
+						"items": [{
+							"entryId": "conversationthread-1671842536288133120-tweet-1671842536288133120",
+							"item": {
+								"itemContent": {
+									"itemType": "TimelineTweet",
+									"__typename": "TimelineTweet",
+									"tweet_results": {
+										"result": {
+											"__typename": "Tweet",
+											"rest_id": "1671842536288133120",
+											"has_birdwatch_notes": false,
+											"core": {
+												"user_results": {
+													"result": {
+														"__typename": "User",
+														"id": "VXNlcjoyNDEwODMxMjQ2",
+														"rest_id": "2410831246",
+														"affiliates_highlighted_label": {},
+														"has_graduated_access": true,
+														"is_blue_verified": true,
+														"legacy": {
+															"can_dm": false,
+															"can_media_tag": true,
+															"created_at": "Fri Mar 14 18:51:34 +0000 2014",
+															"default_profile": false,
+															"default_profile_image": false,
+															"description": "Follower of Christ, Bibliophile, logophile, seeker of justice, mama of 7, gma of 2, Singer/Songwriter, fighting to get my abducted children home safe.",
+															"entities": {
+																"description": {
+																	"urls": []
+																},
+																"url": {
+																	"urls": [{
+																		"display_url": "youtu.be/YzZwydtilEU",
+																		"expanded_url": "https://youtu.be/YzZwydtilEU",
+																		"url": "https://t.co/3P80bRnrNl",
+																		"indices": [0, 23]
+																	}]
+																}
+															},
+															"fast_followers_count": 0,
+															"favourites_count": 15509,
+															"followers_count": 3416,
+															"friends_count": 4980,
+															"has_custom_timelines": true,
+															"is_translator": false,
+															"listed_count": 7,
+															"location": "Belleville, MI",
+															"media_count": 2289,
+															"name": "LibertyLindz\ud83d\uddfd\u2696\ufe0f",
+															"normal_followers_count": 3416,
+															"pinned_tweet_ids_str": ["1609191381532114944"],
+															"possibly_sensitive": false,
+															"profile_banner_url": "https://pbs.twimg.com/profile_banners/2410831246/1661089957",
+															"profile_image_url_https": "https://pbs.twimg.com/profile_images/1668112560522928129/qbfNaJNc_normal.jpg",
+															"profile_interstitial_type": "",
+															"screen_name": "JUSTICE4Lacie",
+															"statuses_count": 19388,
+															"translator_type": "none",
+															"url": "https://t.co/3P80bRnrNl",
+															"verified": false,
+															"want_retweets": false,
+															"withheld_in_countries": []
+														},
+														"professional": {
+															"rest_id": "1522434668288692224",
+															"professional_type": "Creator",
+															"category": [{
+																"id": 940,
+																"name": "Musician",
+																"icon_name": "IconBriefcaseStroke"
+															}]
+														},
+														"business_account": {}
+													}
+												}
+											},
+											"edit_control": {
+												"edit_tweet_ids": ["1671842536288133120"],
+												"editable_until_msecs": "1687436896000",
+												"is_edit_eligible": false,
+												"edits_remaining": "5"
+											},
+											"edit_perspective": {
+												"favorited": false,
+												"retweeted": false
+											},
+											"is_translatable": false,
+											"views": {
+												"count": "1645",
+												"state": "EnabledWithCount"
+											},
+											"source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
+											"legacy": {
+												"created_at": "Thu Jun 22 11:28:16 +0000 2023",
+												"conversation_id_str": "1671508600538161153",
+												"display_text_range": [11, 109],
+												"entities": {
+													"user_mentions": [{
+														"id_str": "1562038858988064768",
+														"name": "Figen",
+														"screen_name": "TheFigen_",
+														"indices": [0, 10]
+													}],
+													"urls": [],
+													"hashtags": [],
+													"symbols": []
+												},
+												"favorite_count": 1,
+												"favorited": false,
+												"full_text": "@TheFigen_ Wow, I'd love to see the science behind the architecture and how those buildings were constructed!",
+												"in_reply_to_screen_name": "TheFigen_",
+												"in_reply_to_status_id_str": "1671508600538161153",
+												"in_reply_to_user_id_str": "1562038858988064768",
+												"is_quote_status": false,
+												"lang": "en",
+												"quote_count": 0,
+												"reply_count": 1,
+												"retweet_count": 0,
+												"retweeted": false,
+												"user_id_str": "2410831246",
+												"id_str": "1671842536288133120"
+											},
+											"quick_promote_eligibility": {
+												"eligibility": "IneligibleNotProfessional"
+											}
+										}
+									},
+									"tweetDisplayType": "Tweet"
+								},
+								"clientEventInfo": {
+									"details": {
+										"conversationDetails": {
+											"conversationSection": "HighQuality"
+										},
+										"timelinesDetails": {
+											"controllerData": "DAACDAAEDAABCgABFQAJiCADgAUKAAIAAAAAFEBACAAAAAA="
+										}
+									}
+								}
+							}
+						}],
+						"displayType": "VerticalConversation",
+						"clientEventInfo": {
+							"details": {
+								"conversationDetails": {
+									"conversationSection": "HighQuality"
+								}
+							}
+						}
+					}
+				}, {
+					"entryId": "conversationthread-1671848864599425024",
+					"sortIndex": "7551863436316614564",
+					"content": {
+						"entryType": "TimelineTimelineModule",
+						"__typename": "TimelineTimelineModule",
+						"items": [{
+							"entryId": "conversationthread-1671848864599425024-tweet-1671848864599425024",
+							"item": {
+								"itemContent": {
+									"itemType": "TimelineTweet",
+									"__typename": "TimelineTweet",
+									"tweet_results": {
+										"result": {
+											"__typename": "Tweet",
+											"rest_id": "1671848864599425024",
+											"has_birdwatch_notes": false,
+											"core": {
+												"user_results": {
+													"result": {
+														"__typename": "User",
+														"id": "VXNlcjoxNTQ3NzA1NzgyMzQyMjk5NjU2",
+														"rest_id": "1547705782342299656",
+														"affiliates_highlighted_label": {},
+														"has_graduated_access": true,
+														"is_blue_verified": true,
+														"legacy": {
+															"can_dm": false,
+															"can_media_tag": false,
+															"created_at": "Thu Jul 14 22:13:17 +0000 2022",
+															"default_profile": true,
+															"default_profile_image": false,
+															"description": "Formerly of San Francisco. Would love to connect with other like minded gay conservatives. LGB\u2702\ufe0fTQ+.  Have lived in \ud83c\uddf8\ud83c\uddec\ud83c\uddf9\ud83c\udded\ud83c\uddf5\ud83c\udded & \ud83c\udde6\ud83c\uddfa. #DeSantis2024",
+															"entities": {
+																"description": {
+																	"urls": []
+																}
+															},
+															"fast_followers_count": 0,
+															"favourites_count": 12469,
+															"followers_count": 438,
+															"friends_count": 586,
+															"has_custom_timelines": true,
+															"is_translator": false,
+															"listed_count": 9,
+															"location": "Buford, GA",
+															"media_count": 129,
+															"name": "SM Kelly \ud83c\uddfa\ud83c\uddf8\ud83c\udff3\ufe0f\u200d\ud83c\udf08",
+															"normal_followers_count": 438,
+															"pinned_tweet_ids_str": ["1662191992820867073"],
+															"possibly_sensitive": false,
+															"profile_banner_url": "https://pbs.twimg.com/profile_banners/1547705782342299656/1659906296",
+															"profile_image_url_https": "https://pbs.twimg.com/profile_images/1590531810835955713/n3AGkFkR_normal.jpg",
+															"profile_interstitial_type": "",
+															"screen_name": "SMKLLY77",
+															"statuses_count": 9221,
+															"translator_type": "none",
+															"verified": false,
+															"want_retweets": false,
+															"withheld_in_countries": []
+														},
+														"business_account": {}
+													}
+												}
+											},
+											"edit_control": {
+												"edit_tweet_ids": ["1671848864599425024"],
+												"editable_until_msecs": "1687438405000",
+												"is_edit_eligible": false,
+												"edits_remaining": "5"
+											},
+											"edit_perspective": {
+												"favorited": false,
+												"retweeted": false
+											},
+											"is_translatable": false,
+											"views": {
+												"count": "1560",
+												"state": "EnabledWithCount"
+											},
+											"source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
+											"legacy": {
+												"created_at": "Thu Jun 22 11:53:25 +0000 2023",
+												"conversation_id_str": "1671508600538161153",
+												"display_text_range": [11, 20],
+												"entities": {
+													"user_mentions": [{
+														"id_str": "1562038858988064768",
+														"name": "Figen",
+														"screen_name": "TheFigen_",
+														"indices": [0, 10]
+													}],
+													"urls": [],
+													"hashtags": [],
+													"symbols": []
+												},
+												"favorite_count": 8,
+												"favorited": false,
+												"full_text": "@TheFigen_ Dystopian",
+												"in_reply_to_screen_name": "TheFigen_",
+												"in_reply_to_status_id_str": "1671508600538161153",
+												"in_reply_to_user_id_str": "1562038858988064768",
+												"is_quote_status": false,
+												"lang": "cy",
+												"quote_count": 0,
+												"reply_count": 1,
+												"retweet_count": 0,
+												"retweeted": false,
+												"user_id_str": "1547705782342299656",
+												"id_str": "1671848864599425024"
+											},
+											"quick_promote_eligibility": {
+												"eligibility": "IneligibleNotProfessional"
+											}
+										}
+									},
+									"tweetDisplayType": "Tweet"
+								},
+								"clientEventInfo": {
+									"details": {
+										"conversationDetails": {
+											"conversationSection": "HighQuality"
+										},
+										"timelinesDetails": {
+											"controllerData": "DAACDAAEDAABCgABFQABCCADgBUKAAIAAAAAFEBACAAAAAA="
+										}
+									}
+								}
+							}
+						}],
+						"displayType": "VerticalConversation",
+						"clientEventInfo": {
+							"details": {
+								"conversationDetails": {
+									"conversationSection": "HighQuality"
+								}
+							}
+						}
+					}
+				}, {
+					"entryId": "cursor-bottom-3457498124702048771",
+					"sortIndex": "7551863436316614563",
+					"content": {
+						"entryType": "TimelineTimelineItem",
+						"__typename": "TimelineTimelineItem",
+						"itemContent": {
+							"itemType": "TimelineTimelineCursor",
+							"__typename": "TimelineTimelineCursor",
+							"value": "WwAAAPAEHBmWgoDSuY-y3bMugIC2yefrzAkA0L39ufvJsy6EgL6Fh9QSAPAkwL7Rl4_xsi6AwNL1oMOJsy6CgLa1x7y8sy6EwLOl1KKysi6CwL6BtJnGsy4lAhIVBAAA",
+							"cursorType": "Bottom"
+						}
+					}
+				}]
+			}, {
+				"type": "TimelineTerminateTimeline",
+				"direction": "Top"
+			}]
+		}
+	}
+}
