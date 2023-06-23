@@ -1,0 +1,2298 @@
+{
+	"data": {
+		"threaded_conversation_with_injections_v2": {
+			"instructions": [{
+				"type": "TimelineAddEntries",
+				"entries": [{
+					"entryId": "tweet-1671753569412820992",
+					"sortIndex": "7551618467441954815",
+					"content": {
+						"entryType": "TimelineTimelineItem",
+						"__typename": "TimelineTimelineItem",
+						"itemContent": {
+							"itemType": "TimelineTweet",
+							"__typename": "TimelineTweet",
+							"tweet_results": {
+								"result": {
+									"__typename": "Tweet",
+									"rest_id": "1671753569412820992",
+									"has_birdwatch_notes": false,
+									"core": {
+										"user_results": {
+											"result": {
+												"__typename": "User",
+												"id": "VXNlcjoxMTMwMDIxNjg1MzUxMDc5OTM4",
+												"rest_id": "1130021685351079938",
+												"affiliates_highlighted_label": {},
+												"has_graduated_access": true,
+												"is_blue_verified": true,
+												"legacy": {
+													"can_dm": true,
+													"can_media_tag": false,
+													"created_at": "Sun May 19 08:05:39 +0000 2019",
+													"default_profile": true,
+													"default_profile_image": false,
+													"description": "Welcome to the positive side of Twitter! I\u2019m Sander from the Netherlands. All copyrights belong to their respective owners! DM for credits/removal/submission!",
+													"entities": {
+														"description": {
+															"urls": []
+														},
+														"url": {
+															"urls": [{
+																"display_url": "linktr.ee/buitengebieden",
+																"expanded_url": "https://linktr.ee/buitengebieden",
+																"url": "https://t.co/lcTxsIZCBL",
+																"indices": [0, 23]
+															}]
+														}
+													},
+													"fast_followers_count": 0,
+													"favourites_count": 23583,
+													"followers_count": 2274134,
+													"friends_count": 90,
+													"has_custom_timelines": false,
+													"is_translator": false,
+													"listed_count": 11311,
+													"location": "Nederland",
+													"media_count": 1425,
+													"name": "Buitengebieden",
+													"normal_followers_count": 2274134,
+													"pinned_tweet_ids_str": ["1534564404943106056"],
+													"possibly_sensitive": false,
+													"profile_banner_url": "https://pbs.twimg.com/profile_banners/1130021685351079938/1558253468",
+													"profile_image_url_https": "https://pbs.twimg.com/profile_images/1130022182971760640/FlbICzEn_normal.jpg",
+													"profile_interstitial_type": "",
+													"screen_name": "buitengebieden",
+													"statuses_count": 1119,
+													"translator_type": "none",
+													"url": "https://t.co/lcTxsIZCBL",
+													"verified": false,
+													"want_retweets": false,
+													"withheld_in_countries": []
+												},
+												"professional": {
+													"rest_id": "1591178864939737089",
+													"professional_type": "Business",
+													"category": [{
+														"id": 1009,
+														"name": "Community",
+														"icon_name": "IconBriefcaseStroke"
+													}]
+												},
+												"business_account": {}
+											}
+										}
+									},
+									"edit_control": {
+										"edit_tweet_ids": ["1671753569412820992"],
+										"editable_until_msecs": "1687415685000",
+										"is_edit_eligible": true,
+										"edits_remaining": "5"
+									},
+									"edit_perspective": {
+										"favorited": false,
+										"retweeted": false
+									},
+									"is_translatable": false,
+									"views": {
+										"count": "4204051",
+										"state": "EnabledWithCount"
+									},
+									"source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
+									"legacy": {
+										"created_at": "Thu Jun 22 05:34:45 +0000 2023",
+										"conversation_id_str": "1671753569412820992",
+										"display_text_range": [0, 42],
+										"entities": {
+											"media": [{
+												"display_url": "pic.twitter.com/1FyrDMxt16",
+												"expanded_url": "https://twitter.com/buitengebieden/status/1671753569412820992/video/1",
+												"id_str": "1671753482821328896",
+												"indices": [43, 66],
+												"media_url_https": "https://pbs.twimg.com/amplify_video_thumb/1671753482821328896/img/3mnaTe96MVljUllm.jpg",
+												"type": "photo",
+												"url": "https://t.co/1FyrDMxt16",
+												"features": {},
+												"sizes": {
+													"large": {
+														"h": 720,
+														"w": 720,
+														"resize": "fit"
+													},
+													"medium": {
+														"h": 720,
+														"w": 720,
+														"resize": "fit"
+													},
+													"small": {
+														"h": 680,
+														"w": 680,
+														"resize": "fit"
+													},
+													"thumb": {
+														"h": 150,
+														"w": 150,
+														"resize": "crop"
+													}
+												},
+												"original_info": {
+													"height": 720,
+													"width": 720
+												}
+											}],
+											"user_mentions": [],
+											"urls": [],
+											"hashtags": [],
+											"symbols": []
+										},
+										"extended_entities": {
+											"media": [{
+												"display_url": "pic.twitter.com/1FyrDMxt16",
+												"expanded_url": "https://twitter.com/buitengebieden/status/1671753569412820992/video/1",
+												"id_str": "1671753482821328896",
+												"indices": [43, 66],
+												"media_key": "13_1671753482821328896",
+												"media_url_https": "https://pbs.twimg.com/amplify_video_thumb/1671753482821328896/img/3mnaTe96MVljUllm.jpg",
+												"type": "video",
+												"url": "https://t.co/1FyrDMxt16",
+												"additional_media_info": {
+													"monetizable": false
+												},
+												"mediaStats": {
+													"viewCount": 1767041
+												},
+												"ext_media_availability": {
+													"status": "Available"
+												},
+												"features": {},
+												"sizes": {
+													"large": {
+														"h": 720,
+														"w": 720,
+														"resize": "fit"
+													},
+													"medium": {
+														"h": 720,
+														"w": 720,
+														"resize": "fit"
+													},
+													"small": {
+														"h": 680,
+														"w": 680,
+														"resize": "fit"
+													},
+													"thumb": {
+														"h": 150,
+														"w": 150,
+														"resize": "crop"
+													}
+												},
+												"original_info": {
+													"height": 720,
+													"width": 720
+												},
+												"video_info": {
+													"aspect_ratio": [1, 1],
+													"duration_millis": 43877,
+													"variants": [{
+														"bitrate": 432000,
+														"content_type": "video/mp4",
+														"url": "https://video.twimg.com/amplify_video/1671753482821328896/vid/320x320/RlALwsvrj5xuvcY9.mp4?tag=14"
+													}, {
+														"bitrate": 1280000,
+														"content_type": "video/mp4",
+														"url": "https://video.twimg.com/amplify_video/1671753482821328896/vid/720x720/MORl_6SWAwSsAEuT.mp4?tag=14"
+													}, {
+														"bitrate": 832000,
+														"content_type": "video/mp4",
+														"url": "https://video.twimg.com/amplify_video/1671753482821328896/vid/540x540/T07VvzqecoseoJpN.mp4?tag=14"
+													}, {
+														"content_type": "application/x-mpegURL",
+														"url": "https://video.twimg.com/amplify_video/1671753482821328896/pl/W9E274M-YVAB--jZ.m3u8?tag=14&container=fmp4"
+													}]
+												}
+											}]
+										},
+										"favorite_count": 40178,
+										"favorited": false,
+										"full_text": "When you\u2019re over 40 and the movie starts.. https://t.co/1FyrDMxt16",
+										"is_quote_status": false,
+										"lang": "en",
+										"possibly_sensitive": false,
+										"possibly_sensitive_editable": true,
+										"quote_count": 428,
+										"reply_count": 349,
+										"retweet_count": 3569,
+										"retweeted": false,
+										"user_id_str": "1130021685351079938",
+										"id_str": "1671753569412820992"
+									},
+									"quick_promote_eligibility": {
+										"eligibility": "IneligibleNotProfessional"
+									}
+								}
+							},
+							"tweetDisplayType": "Tweet",
+							"hasModeratedReplies": false
+						}
+					}
+				}, {
+					"entryId": "conversationthread-1671754452045549572",
+					"sortIndex": "7551618467441954805",
+					"content": {
+						"entryType": "TimelineTimelineModule",
+						"__typename": "TimelineTimelineModule",
+						"items": [{
+							"entryId": "conversationthread-1671754452045549572-tweet-1671754452045549572",
+							"item": {
+								"itemContent": {
+									"itemType": "TimelineTweet",
+									"__typename": "TimelineTweet",
+									"tweet_results": {
+										"result": {
+											"__typename": "Tweet",
+											"rest_id": "1671754452045549572",
+											"has_birdwatch_notes": false,
+											"core": {
+												"user_results": {
+													"result": {
+														"__typename": "User",
+														"id": "VXNlcjozMzEzNTQ1Nzky",
+														"rest_id": "3313545792",
+														"affiliates_highlighted_label": {},
+														"has_graduated_access": true,
+														"is_blue_verified": true,
+														"legacy": {
+															"can_dm": false,
+															"can_media_tag": true,
+															"created_at": "Wed Aug 12 17:41:47 +0000 2015",
+															"default_profile": true,
+															"default_profile_image": false,
+															"description": "Sower of ideas, gatherer of the winds. I do not claim any titles; rather, I am an ordinary individual disseminating potent messages. Writing and drawing worlds.",
+															"entities": {
+																"description": {
+																	"urls": []
+																}
+															},
+															"fast_followers_count": 0,
+															"favourites_count": 857,
+															"followers_count": 549,
+															"friends_count": 27,
+															"has_custom_timelines": true,
+															"is_translator": false,
+															"listed_count": 3,
+															"location": "Deep in the South",
+															"media_count": 18,
+															"name": "Edward Fox",
+															"normal_followers_count": 549,
+															"pinned_tweet_ids_str": [],
+															"possibly_sensitive": false,
+															"profile_banner_url": "https://pbs.twimg.com/profile_banners/3313545792/1683306327",
+															"profile_image_url_https": "https://pbs.twimg.com/profile_images/1652099520921063425/2nwkvSct_normal.jpg",
+															"profile_interstitial_type": "",
+															"screen_name": "edward1993",
+															"statuses_count": 2089,
+															"translator_type": "none",
+															"verified": false,
+															"want_retweets": false,
+															"withheld_in_countries": []
+														},
+														"professional": {
+															"rest_id": "1591919000371564544",
+															"professional_type": "Creator",
+															"category": []
+														},
+														"business_account": {}
+													}
+												}
+											},
+											"edit_control": {
+												"edit_tweet_ids": ["1671754452045549572"],
+												"editable_until_msecs": "1687415895000",
+												"is_edit_eligible": false,
+												"edits_remaining": "5"
+											},
+											"edit_perspective": {
+												"favorited": false,
+												"retweeted": false
+											},
+											"is_translatable": false,
+											"views": {
+												"count": "3748",
+												"state": "EnabledWithCount"
+											},
+											"source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+											"legacy": {
+												"created_at": "Thu Jun 22 05:38:15 +0000 2023",
+												"conversation_id_str": "1671753569412820992",
+												"display_text_range": [16, 100],
+												"entities": {
+													"user_mentions": [{
+														"id_str": "1130021685351079938",
+														"name": "Buitengebieden",
+														"screen_name": "buitengebieden",
+														"indices": [0, 15]
+													}],
+													"urls": [],
+													"hashtags": [],
+													"symbols": []
+												},
+												"favorite_count": 18,
+												"favorited": false,
+												"full_text": "@buitengebieden You don't need to be 40; you only need to ask your mom to choose the movie to watch.",
+												"in_reply_to_screen_name": "buitengebieden",
+												"in_reply_to_status_id_str": "1671753569412820992",
+												"in_reply_to_user_id_str": "1130021685351079938",
+												"is_quote_status": false,
+												"lang": "en",
+												"quote_count": 0,
+												"reply_count": 3,
+												"retweet_count": 0,
+												"retweeted": false,
+												"user_id_str": "3313545792",
+												"id_str": "1671754452045549572"
+											},
+											"quick_promote_eligibility": {
+												"eligibility": "IneligibleNotProfessional"
+											}
+										}
+									},
+									"tweetDisplayType": "Tweet"
+								},
+								"clientEventInfo": {
+									"details": {
+										"conversationDetails": {
+											"conversationSection": "HighQuality"
+										},
+										"timelinesDetails": {
+											"controllerData": "DAACDAAEDAABCgABFQKJCGAHgBUKAAIAAAAAFUBACAAAAAA="
+										}
+									}
+								}
+							}
+						}, {
+							"entryId": "conversationthread-1671754452045549572-cursor-showmore-8797997536915982186",
+							"item": {
+								"itemContent": {
+									"itemType": "TimelineTimelineCursor",
+									"__typename": "TimelineTimelineCursor",
+									"value": "PAAAAPAtPBwcFojA0p2j9KGzLhUCAAAYJmNvbnZlcnNhdGlvbnRocmVhZC0xNjcxNzU0NDUyMDQ1NTQ5NTcyIgAA",
+									"cursorType": "ShowMore",
+									"displayTreatment": {
+										"actionText": "Show replies"
+									}
+								},
+								"clientEventInfo": {
+									"details": {
+										"conversationDetails": {
+											"conversationSection": "HighQuality"
+										}
+									}
+								}
+							}
+						}],
+						"displayType": "VerticalConversation",
+						"clientEventInfo": {
+							"details": {
+								"conversationDetails": {
+									"conversationSection": "HighQuality"
+								}
+							}
+						}
+					}
+				}, {
+					"entryId": "conversationthread-1671842739497889793",
+					"sortIndex": "7551618467441954795",
+					"content": {
+						"entryType": "TimelineTimelineModule",
+						"__typename": "TimelineTimelineModule",
+						"items": [{
+							"entryId": "conversationthread-1671842739497889793-tweet-1671842739497889793",
+							"item": {
+								"itemContent": {
+									"itemType": "TimelineTweet",
+									"__typename": "TimelineTweet",
+									"tweet_results": {
+										"result": {
+											"__typename": "Tweet",
+											"rest_id": "1671842739497889793",
+											"has_birdwatch_notes": false,
+											"core": {
+												"user_results": {
+													"result": {
+														"__typename": "User",
+														"id": "VXNlcjoxMTgxMzkyNjUyMTk5MjUxOTcw",
+														"rest_id": "1181392652199251970",
+														"affiliates_highlighted_label": {},
+														"has_graduated_access": true,
+														"is_blue_verified": true,
+														"legacy": {
+															"can_dm": false,
+															"can_media_tag": true,
+															"created_at": "Tue Oct 08 02:16:06 +0000 2019",
+															"default_profile": true,
+															"default_profile_image": false,
+															"description": "",
+															"entities": {
+																"description": {
+																	"urls": []
+																}
+															},
+															"fast_followers_count": 0,
+															"favourites_count": 62,
+															"followers_count": 414,
+															"friends_count": 204,
+															"has_custom_timelines": true,
+															"is_translator": false,
+															"listed_count": 3,
+															"location": "",
+															"media_count": 1111,
+															"name": "NoraHall@1978",
+															"normal_followers_count": 414,
+															"pinned_tweet_ids_str": ["1457933366548959232"],
+															"possibly_sensitive": false,
+															"profile_banner_url": "https://pbs.twimg.com/profile_banners/1181392652199251970/1671388580",
+															"profile_image_url_https": "https://pbs.twimg.com/profile_images/1636711917929611264/aNIaXZrr_normal.jpg",
+															"profile_interstitial_type": "",
+															"screen_name": "nori_hall",
+															"statuses_count": 10091,
+															"translator_type": "none",
+															"verified": false,
+															"want_retweets": false,
+															"withheld_in_countries": []
+														},
+														"business_account": {}
+													}
+												}
+											},
+											"edit_control": {
+												"edit_tweet_ids": ["1671842739497889793"],
+												"editable_until_msecs": "1687436945000",
+												"is_edit_eligible": false,
+												"edits_remaining": "5"
+											},
+											"edit_perspective": {
+												"favorited": false,
+												"retweeted": false
+											},
+											"is_translatable": false,
+											"views": {
+												"count": "2126",
+												"state": "EnabledWithCount"
+											},
+											"source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
+											"legacy": {
+												"created_at": "Thu Jun 22 11:29:05 +0000 2023",
+												"conversation_id_str": "1671753569412820992",
+												"display_text_range": [16, 95],
+												"entities": {
+													"user_mentions": [{
+														"id_str": "1130021685351079938",
+														"name": "Buitengebieden",
+														"screen_name": "buitengebieden",
+														"indices": [0, 15]
+													}],
+													"urls": [],
+													"hashtags": [],
+													"symbols": []
+												},
+												"favorite_count": 0,
+												"favorited": false,
+												"full_text": "@buitengebieden That is so true. He\u2019s waiting with a frown. Looks like my brother Dan. \u270d\ud83c\udffb\ud83e\udd37\u200d\u2640\ufe0f\u2639\ufe0f",
+												"in_reply_to_screen_name": "buitengebieden",
+												"in_reply_to_status_id_str": "1671753569412820992",
+												"in_reply_to_user_id_str": "1130021685351079938",
+												"is_quote_status": false,
+												"lang": "en",
+												"quote_count": 0,
+												"reply_count": 0,
+												"retweet_count": 0,
+												"retweeted": false,
+												"user_id_str": "1181392652199251970",
+												"id_str": "1671842739497889793"
+											},
+											"quick_promote_eligibility": {
+												"eligibility": "IneligibleNotProfessional"
+											}
+										}
+									},
+									"tweetDisplayType": "Tweet"
+								},
+								"clientEventInfo": {
+									"details": {
+										"conversationDetails": {
+											"conversationSection": "HighQuality"
+										},
+										"timelinesDetails": {
+											"controllerData": "DAACDAAEDAABCgABFQKJiKIDgAUKAAIAAAAAFEBACAAAAAA="
+										}
+									}
+								}
+							}
+						}],
+						"displayType": "VerticalConversation",
+						"clientEventInfo": {
+							"details": {
+								"conversationDetails": {
+									"conversationSection": "HighQuality"
+								}
+							}
+						}
+					}
+				}, {
+					"entryId": "conversationthread-1667220696295178240",
+					"sortIndex": "7551618467441954785",
+					"content": {
+						"entryType": "TimelineTimelineModule",
+						"__typename": "TimelineTimelineModule",
+						"items": [{
+							"entryId": "conversationthread-1667220696295178240-tweet-1667220696295178240-31c0bea61e034a00",
+							"item": {
+								"itemContent": {
+									"itemType": "TimelineTweet",
+									"__typename": "TimelineTweet",
+									"tweet_results": {
+										"result": {
+											"__typename": "TweetWithVisibilityResults",
+											"tweet": {
+												"rest_id": "1667220696295178240",
+												"has_birdwatch_notes": false,
+												"core": {
+													"user_results": {
+														"result": {
+															"__typename": "User",
+															"id": "VXNlcjoxNjQ3MDU1OTU1Mzg4MTcwMjQx",
+															"rest_id": "1647055955388170241",
+															"affiliates_highlighted_label": {},
+															"has_graduated_access": true,
+															"is_blue_verified": true,
+															"legacy": {
+																"can_dm": false,
+																"can_media_tag": true,
+																"created_at": "Sat Apr 15 01:55:21 +0000 2023",
+																"default_profile": true,
+																"default_profile_image": false,
+																"description": "Online store selling items for everyday household needs",
+																"entities": {
+																	"description": {
+																		"urls": []
+																	},
+																	"url": {
+																		"urls": [{
+																			"display_url": "tordosweet.com",
+																			"expanded_url": "http://tordosweet.com",
+																			"url": "https://t.co/RZx6n1p0Ek",
+																			"indices": [0, 23]
+																		}]
+																	}
+																},
+																"fast_followers_count": 0,
+																"favourites_count": 0,
+																"followers_count": 370,
+																"friends_count": 1,
+																"has_custom_timelines": false,
+																"is_translator": false,
+																"listed_count": 14,
+																"location": "",
+																"media_count": 0,
+																"name": "Tordo Sweet",
+																"normal_followers_count": 370,
+																"pinned_tweet_ids_str": [],
+																"possibly_sensitive": false,
+																"profile_banner_url": "https://pbs.twimg.com/profile_banners/1647055955388170241/1686034554",
+																"profile_image_url_https": "https://pbs.twimg.com/profile_images/1660933841668960258/k-x0fFHm_normal.jpg",
+																"profile_interstitial_type": "",
+																"screen_name": "tordosweet_co",
+																"statuses_count": 0,
+																"translator_type": "none",
+																"url": "https://t.co/RZx6n1p0Ek",
+																"verified": false,
+																"want_retweets": false,
+																"withheld_in_countries": []
+															},
+															"business_account": {}
+														}
+													}
+												},
+												"edit_control": {
+													"edit_tweet_ids": ["1667220696295178240"],
+													"editable_until_msecs": "1686334964000",
+													"is_edit_eligible": false,
+													"edits_remaining": "5"
+												},
+												"edit_perspective": {
+													"favorited": false,
+													"retweeted": false
+												},
+												"is_translatable": false,
+												"views": {
+													"count": "8812654",
+													"state": "EnabledWithCount"
+												},
+												"source": "<a href=\"https://ads.twitter.com\" rel=\"nofollow\">Twitter Ads</a>",
+												"legacy": {
+													"created_at": "Fri Jun 09 17:22:44 +0000 2023",
+													"conversation_control": {
+														"policy": "ByInvitation",
+														"conversation_owner_results": {
+															"result": {
+																"__typename": "User",
+																"legacy": {
+																	"screen_name": "tordosweet_co"
+																}
+															}
+														}
+													},
+													"conversation_id_str": "1667220696295178240",
+													"display_text_range": [0, 116],
+													"entities": {
+														"media": [{
+															"display_url": "pic.twitter.com/4XJ9F44Gxr",
+															"expanded_url": "https://twitter.com/tordosweet_co/status/1667220696295178240/video/1",
+															"id_str": "1667108665588080640",
+															"indices": [117, 140],
+															"media_url_https": "https://pbs.twimg.com/media/FyLC6_daYAA1aus.jpg",
+															"type": "photo",
+															"url": "https://t.co/4XJ9F44Gxr",
+															"features": {},
+															"sizes": {
+																"large": {
+																	"h": 622,
+																	"w": 623,
+																	"resize": "fit"
+																},
+																"medium": {
+																	"h": 622,
+																	"w": 623,
+																	"resize": "fit"
+																},
+																"small": {
+																	"h": 622,
+																	"w": 623,
+																	"resize": "fit"
+																},
+																"thumb": {
+																	"h": 150,
+																	"w": 150,
+																	"resize": "crop"
+																}
+															},
+															"original_info": {
+																"height": 622,
+																"width": 623
+															}
+														}],
+														"user_mentions": [],
+														"urls": [{
+															"display_url": "tordosweet.com/mosquitos-traps",
+															"expanded_url": "https://tordosweet.com/mosquitos-traps",
+															"url": "https://t.co/7HnVeK9nKO",
+															"indices": [93, 116]
+														}],
+														"hashtags": [],
+														"symbols": []
+													},
+													"extended_entities": {
+														"media": [{
+															"display_url": "pic.twitter.com/4XJ9F44Gxr",
+															"expanded_url": "https://twitter.com/tordosweet_co/status/1667220696295178240/video/1",
+															"id_str": "1667108665588080640",
+															"indices": [117, 140],
+															"media_key": "13_1667108665588080640",
+															"media_url_https": "https://pbs.twimg.com/media/FyLC6_daYAA1aus.jpg",
+															"type": "video",
+															"url": "https://t.co/4XJ9F44Gxr",
+															"additional_media_info": {
+																"title": "\ud83d\udd252023 NEW\ud83d\udd25Mosquitos And Flies Killer Lamp For Indoor And Outdoor",
+																"description": "\ud83d\ude0d Tag your friends who would be need it !",
+																"call_to_actions": {
+																	"visit_site": {
+																		"url": "https://tordosweet.com/mosquitos-lamp"
+																	}
+																},
+																"embeddable": true,
+																"monetizable": false
+															},
+															"mediaStats": {
+																"viewCount": 4265219
+															},
+															"ext_media_availability": {
+																"status": "Available"
+															},
+															"features": {},
+															"sizes": {
+																"large": {
+																	"h": 622,
+																	"w": 623,
+																	"resize": "fit"
+																},
+																"medium": {
+																	"h": 622,
+																	"w": 623,
+																	"resize": "fit"
+																},
+																"small": {
+																	"h": 622,
+																	"w": 623,
+																	"resize": "fit"
+																},
+																"thumb": {
+																	"h": 150,
+																	"w": 150,
+																	"resize": "crop"
+																}
+															},
+															"original_info": {
+																"height": 622,
+																"width": 623
+															},
+															"video_info": {
+																"aspect_ratio": [1, 1],
+																"duration_millis": 134293,
+																"variants": [{
+																	"bitrate": 832000,
+																	"content_type": "video/mp4",
+																	"url": "https://video.twimg.com/amplify_video/1667108665588080640/vid/540x540/_hEFFgGkmzxuu92N.mp4?tag=16"
+																}, {
+																	"content_type": "application/x-mpegURL",
+																	"url": "https://video.twimg.com/amplify_video/1667108665588080640/pl/TNjCt9dgdyljmePp.m3u8?tag=16&container=fmp4"
+																}, {
+																	"bitrate": 1280000,
+																	"content_type": "video/mp4",
+																	"url": "https://video.twimg.com/amplify_video/1667108665588080640/vid/640x640/EgYM1PGigEWl-QHg.mp4?tag=16"
+																}, {
+																	"bitrate": 432000,
+																	"content_type": "video/mp4",
+																	"url": "https://video.twimg.com/amplify_video/1667108665588080640/vid/320x320/Wg9zXddOKkyAsVpI.mp4?tag=16"
+																}]
+															}
+														}]
+													},
+													"favorite_count": 28986,
+													"favorited": false,
+													"full_text": "\ud83d\ude3217 Years Old Autistic College Student Builds a Device To Prevent Mosquito Bites\n\ud83d\uded2Get Yours\ud83d\udc49 https://t.co/7HnVeK9nKO https://t.co/4XJ9F44Gxr",
+													"is_quote_status": false,
+													"lang": "en",
+													"limited_actions": "limited_replies",
+													"possibly_sensitive": false,
+													"possibly_sensitive_editable": true,
+													"quote_count": 328,
+													"reply_count": 1175,
+													"retweet_count": 4395,
+													"retweeted": false,
+													"scopes": {
+														"followers": false
+													},
+													"user_id_str": "1647055955388170241",
+													"id_str": "1667220696295178240"
+												},
+												"quick_promote_eligibility": {
+													"eligibility": "IneligibleNotProfessional"
+												}
+											}
+										}
+									},
+									"tweetDisplayType": "Tweet",
+									"promotedMetadata": {
+										"advertiser_results": {
+											"result": {
+												"__typename": "User",
+												"id": "VXNlcjoxNjQ3MDU1OTU1Mzg4MTcwMjQx",
+												"rest_id": "1647055955388170241",
+												"affiliates_highlighted_label": {},
+												"has_graduated_access": true,
+												"is_blue_verified": true,
+												"legacy": {
+													"can_dm": false,
+													"can_media_tag": true,
+													"created_at": "Sat Apr 15 01:55:21 +0000 2023",
+													"default_profile": true,
+													"default_profile_image": false,
+													"description": "Online store selling items for everyday household needs",
+													"entities": {
+														"description": {
+															"urls": []
+														},
+														"url": {
+															"urls": [{
+																"display_url": "tordosweet.com",
+																"expanded_url": "http://tordosweet.com",
+																"url": "https://t.co/RZx6n1p0Ek",
+																"indices": [0, 23]
+															}]
+														}
+													},
+													"fast_followers_count": 0,
+													"favourites_count": 0,
+													"followers_count": 370,
+													"friends_count": 1,
+													"has_custom_timelines": false,
+													"is_translator": false,
+													"listed_count": 14,
+													"location": "",
+													"media_count": 0,
+													"name": "Tordo Sweet",
+													"normal_followers_count": 370,
+													"pinned_tweet_ids_str": [],
+													"possibly_sensitive": false,
+													"profile_banner_url": "https://pbs.twimg.com/profile_banners/1647055955388170241/1686034554",
+													"profile_image_url_https": "https://pbs.twimg.com/profile_images/1660933841668960258/k-x0fFHm_normal.jpg",
+													"profile_interstitial_type": "",
+													"screen_name": "tordosweet_co",
+													"statuses_count": 0,
+													"translator_type": "none",
+													"url": "https://t.co/RZx6n1p0Ek",
+													"verified": false,
+													"want_retweets": false,
+													"withheld_in_countries": []
+												},
+												"business_account": {}
+											}
+										},
+										"disclosureType": "NoDisclosure",
+										"experimentValues": [],
+										"impressionId": "31c0bea61e034a00",
+										"impressionString": "31c0bea61e034a00",
+										"clickTrackingInfo": {
+											"urlParams": [{
+												"key": "twclid",
+												"value": "2-2bqi64j4hp224tvv7dmvsy61r"
+											}]
+										}
+									}
+								},
+								"clientEventInfo": {
+									"details": {
+										"conversationDetails": {
+											"conversationSection": "HighQuality"
+										}
+									}
+								}
+							}
+						}],
+						"displayType": "VerticalConversation",
+						"clientEventInfo": {
+							"details": {
+								"conversationDetails": {
+									"conversationSection": "HighQuality"
+								}
+							}
+						}
+					}
+				}, {
+					"entryId": "conversationthread-1671849712490622977",
+					"sortIndex": "7551618467441954775",
+					"content": {
+						"entryType": "TimelineTimelineModule",
+						"__typename": "TimelineTimelineModule",
+						"items": [{
+							"entryId": "conversationthread-1671849712490622977-tweet-1671849712490622977",
+							"item": {
+								"itemContent": {
+									"itemType": "TimelineTweet",
+									"__typename": "TimelineTweet",
+									"tweet_results": {
+										"result": {
+											"__typename": "Tweet",
+											"rest_id": "1671849712490622977",
+											"has_birdwatch_notes": false,
+											"core": {
+												"user_results": {
+													"result": {
+														"__typename": "User",
+														"id": "VXNlcjoxMDY2NDUyNDI2",
+														"rest_id": "1066452426",
+														"affiliates_highlighted_label": {},
+														"has_graduated_access": true,
+														"is_blue_verified": true,
+														"legacy": {
+															"can_dm": false,
+															"can_media_tag": true,
+															"created_at": "Sun Jan 06 19:13:17 +0000 2013",
+															"default_profile": true,
+															"default_profile_image": false,
+															"description": "NFT Collector & Community Manager @grouchytigers \ud83d\udc49 https://t.co/oCzyhMEP3E \ud83d\udc2f \ud83d\udc49 https://t.co/o23WUZfxvL #GTSC $GTT",
+															"entities": {
+																"description": {
+																	"urls": [{
+																		"display_url": "opensea.io/collection/gro\u2026",
+																		"expanded_url": "http://opensea.io/collection/grouchy-tiger-social-club",
+																		"url": "https://t.co/oCzyhMEP3E",
+																		"indices": [51, 74]
+																	}, {
+																		"display_url": "discord.gg/yGHpTrVJpS",
+																		"expanded_url": "http://discord.gg/yGHpTrVJpS",
+																		"url": "https://t.co/o23WUZfxvL",
+																		"indices": [79, 102]
+																	}]
+																},
+																"url": {
+																	"urls": [{
+																		"display_url": "opensea.io/PhillyP87",
+																		"expanded_url": "https://opensea.io/PhillyP87",
+																		"url": "https://t.co/mfs7vVPySX",
+																		"indices": [0, 23]
+																	}]
+																}
+															},
+															"fast_followers_count": 0,
+															"favourites_count": 54900,
+															"followers_count": 3444,
+															"friends_count": 1369,
+															"has_custom_timelines": false,
+															"is_translator": false,
+															"listed_count": 13,
+															"location": "",
+															"media_count": 5158,
+															"name": "PhillyP87.eth\ud83d\udee1\ufe0f\ud83d\udc2f \ud83d\udc51 \ud83d\udc33",
+															"normal_followers_count": 3444,
+															"pinned_tweet_ids_str": ["1670051421226450944"],
+															"possibly_sensitive": false,
+															"profile_banner_url": "https://pbs.twimg.com/profile_banners/1066452426/1651940664",
+															"profile_image_url_https": "https://pbs.twimg.com/profile_images/1591597786906116101/_q42skwP_normal.png",
+															"profile_interstitial_type": "",
+															"screen_name": "Philly_P87",
+															"statuses_count": 36421,
+															"translator_type": "none",
+															"url": "https://t.co/mfs7vVPySX",
+															"verified": false,
+															"want_retweets": false,
+															"withheld_in_countries": []
+														},
+														"has_nft_avatar": true,
+														"business_account": {}
+													}
+												}
+											},
+											"edit_control": {
+												"edit_tweet_ids": ["1671849712490622977"],
+												"editable_until_msecs": "1687438607000",
+												"is_edit_eligible": false,
+												"edits_remaining": "5"
+											},
+											"edit_perspective": {
+												"favorited": false,
+												"retweeted": false
+											},
+											"is_translatable": false,
+											"views": {
+												"count": "1830",
+												"state": "EnabledWithCount"
+											},
+											"source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
+											"legacy": {
+												"created_at": "Thu Jun 22 11:56:47 +0000 2023",
+												"conversation_id_str": "1671753569412820992",
+												"display_text_range": [16, 17],
+												"entities": {
+													"user_mentions": [{
+														"id_str": "1130021685351079938",
+														"name": "Buitengebieden",
+														"screen_name": "buitengebieden",
+														"indices": [0, 15]
+													}],
+													"urls": [],
+													"hashtags": [],
+													"symbols": []
+												},
+												"favorite_count": 0,
+												"favorited": false,
+												"full_text": "@buitengebieden \ud83d\ude02",
+												"in_reply_to_screen_name": "buitengebieden",
+												"in_reply_to_status_id_str": "1671753569412820992",
+												"in_reply_to_user_id_str": "1130021685351079938",
+												"is_quote_status": false,
+												"lang": "qme",
+												"quote_count": 0,
+												"reply_count": 0,
+												"retweet_count": 0,
+												"retweeted": false,
+												"user_id_str": "1066452426",
+												"id_str": "1671849712490622977"
+											},
+											"quick_promote_eligibility": {
+												"eligibility": "IneligibleNotProfessional"
+											}
+										}
+									},
+									"tweetDisplayType": "Tweet"
+								},
+								"clientEventInfo": {
+									"details": {
+										"conversationDetails": {
+											"conversationSection": "HighQuality"
+										},
+										"timelinesDetails": {
+											"controllerData": "DAACDAAEDAABCgABFQGBiigDgAUKAAIAAAAAFEBACAAAAAA="
+										}
+									}
+								}
+							}
+						}],
+						"displayType": "VerticalConversation",
+						"clientEventInfo": {
+							"details": {
+								"conversationDetails": {
+									"conversationSection": "HighQuality"
+								}
+							}
+						}
+					}
+				}, {
+					"entryId": "conversationthread-1671768908020469760",
+					"sortIndex": "7551618467441954765",
+					"content": {
+						"entryType": "TimelineTimelineModule",
+						"__typename": "TimelineTimelineModule",
+						"items": [{
+							"entryId": "conversationthread-1671768908020469760-tweet-1671768908020469760",
+							"item": {
+								"itemContent": {
+									"itemType": "TimelineTweet",
+									"__typename": "TimelineTweet",
+									"tweet_results": {
+										"result": {
+											"__typename": "Tweet",
+											"rest_id": "1671768908020469760",
+											"has_birdwatch_notes": false,
+											"core": {
+												"user_results": {
+													"result": {
+														"__typename": "User",
+														"id": "VXNlcjoxNTk0MTMzMTU2ODkwMDMwMDgw",
+														"rest_id": "1594133156890030080",
+														"affiliates_highlighted_label": {},
+														"has_graduated_access": true,
+														"is_blue_verified": true,
+														"legacy": {
+															"can_dm": false,
+															"can_media_tag": true,
+															"created_at": "Sun Nov 20 00:59:45 +0000 2022",
+															"default_profile": true,
+															"default_profile_image": false,
+															"description": "Conservative \u2022 Trump Defender \u2022 Science Fan \u2022 Political Cartoonist \u2022 \nOwner of https://t.co/gKuCakPN6G #MAGA #StolenElection #Trump2024",
+															"entities": {
+																"description": {
+																	"urls": [{
+																		"display_url": "LeftyLiars.com",
+																		"expanded_url": "http://LeftyLiars.com",
+																		"url": "https://t.co/gKuCakPN6G",
+																		"indices": [79, 102]
+																	}]
+																},
+																"url": {
+																	"urls": [{
+																		"display_url": "leftyliars.com",
+																		"expanded_url": "https://www.leftyliars.com",
+																		"url": "https://t.co/TKTzGhARdx",
+																		"indices": [0, 23]
+																	}]
+																}
+															},
+															"fast_followers_count": 0,
+															"favourites_count": 1053,
+															"followers_count": 1390,
+															"friends_count": 80,
+															"has_custom_timelines": false,
+															"is_translator": false,
+															"listed_count": 6,
+															"location": "",
+															"media_count": 929,
+															"name": "Rob Larrikin",
+															"normal_followers_count": 1390,
+															"pinned_tweet_ids_str": ["1671141189402390528"],
+															"possibly_sensitive": false,
+															"profile_banner_url": "https://pbs.twimg.com/profile_banners/1594133156890030080/1673963952",
+															"profile_image_url_https": "https://pbs.twimg.com/profile_images/1615347901596839937/jKOSkjhJ_normal.jpg",
+															"profile_interstitial_type": "",
+															"screen_name": "RobLarrikin",
+															"statuses_count": 4206,
+															"translator_type": "none",
+															"url": "https://t.co/TKTzGhARdx",
+															"verified": false,
+															"want_retweets": false,
+															"withheld_in_countries": []
+														},
+														"professional": {
+															"rest_id": "1598938201665974272",
+															"professional_type": "Creator",
+															"category": []
+														},
+														"business_account": {}
+													}
+												}
+											},
+											"edit_control": {
+												"edit_tweet_ids": ["1671768908020469760"],
+												"editable_until_msecs": "1687419342000",
+												"is_edit_eligible": false,
+												"edits_remaining": "5"
+											},
+											"edit_perspective": {
+												"favorited": false,
+												"retweeted": false
+											},
+											"is_translatable": false,
+											"views": {
+												"count": "7358",
+												"state": "EnabledWithCount"
+											},
+											"source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+											"legacy": {
+												"created_at": "Thu Jun 22 06:35:42 +0000 2023",
+												"conversation_id_str": "1671753569412820992",
+												"display_text_range": [16, 57],
+												"entities": {
+													"user_mentions": [{
+														"id_str": "1130021685351079938",
+														"name": "Buitengebieden",
+														"screen_name": "buitengebieden",
+														"indices": [0, 15]
+													}],
+													"urls": [],
+													"hashtags": [],
+													"symbols": []
+												},
+												"favorite_count": 18,
+												"favorited": false,
+												"full_text": "@buitengebieden He was fine until woke Netflix came on. \ud83d\ude0e",
+												"in_reply_to_screen_name": "buitengebieden",
+												"in_reply_to_status_id_str": "1671753569412820992",
+												"in_reply_to_user_id_str": "1130021685351079938",
+												"is_quote_status": false,
+												"lang": "en",
+												"quote_count": 0,
+												"reply_count": 2,
+												"retweet_count": 1,
+												"retweeted": false,
+												"user_id_str": "1594133156890030080",
+												"id_str": "1671768908020469760"
+											},
+											"quick_promote_eligibility": {
+												"eligibility": "IneligibleNotProfessional"
+											}
+										}
+									},
+									"tweetDisplayType": "Tweet"
+								},
+								"clientEventInfo": {
+									"details": {
+										"conversationDetails": {
+											"conversationSection": "HighQuality"
+										},
+										"timelinesDetails": {
+											"controllerData": "DAACDAAEDAABCgABFQGJDDADgBUKAAIAAAAAFEBACAAAAAA="
+										}
+									}
+								}
+							}
+						}, {
+							"entryId": "conversationthread-1671768908020469760-cursor-showmore-4958815469336034700",
+							"item": {
+								"itemContent": {
+									"itemType": "TimelineTimelineCursor",
+									"__typename": "TimelineTimelineCursor",
+									"value": "PAAAAPAtPBwcFoDA0tHcvaizLhUCAAAYJmNvbnZlcnNhdGlvbnRocmVhZC0xNjcxNzY4OTA4MDIwNDY5NzYwIgAA",
+									"cursorType": "ShowMore",
+									"displayTreatment": {
+										"actionText": "Show replies"
+									}
+								},
+								"clientEventInfo": {
+									"details": {
+										"conversationDetails": {
+											"conversationSection": "HighQuality"
+										}
+									}
+								}
+							}
+						}],
+						"displayType": "VerticalConversation",
+						"clientEventInfo": {
+							"details": {
+								"conversationDetails": {
+									"conversationSection": "HighQuality"
+								}
+							}
+						}
+					}
+				}, {
+					"entryId": "conversationthread-1671874946589503488",
+					"sortIndex": "7551618467441954755",
+					"content": {
+						"entryType": "TimelineTimelineModule",
+						"__typename": "TimelineTimelineModule",
+						"items": [{
+							"entryId": "conversationthread-1671874946589503488-tweet-1671874946589503488",
+							"item": {
+								"itemContent": {
+									"itemType": "TimelineTweet",
+									"__typename": "TimelineTweet",
+									"tweet_results": {
+										"result": {
+											"__typename": "Tweet",
+											"rest_id": "1671874946589503488",
+											"has_birdwatch_notes": false,
+											"core": {
+												"user_results": {
+													"result": {
+														"__typename": "User",
+														"id": "VXNlcjoxNjA1NjI5ODg0NTkxNjM2NDkx",
+														"rest_id": "1605629884591636491",
+														"affiliates_highlighted_label": {},
+														"has_graduated_access": true,
+														"is_blue_verified": true,
+														"legacy": {
+															"can_dm": true,
+															"can_media_tag": true,
+															"created_at": "Wed Dec 21 18:23:28 +0000 2022",
+															"default_profile": true,
+															"default_profile_image": false,
+															"description": "happily married, mom, grandmom, animal lover. Patriot ,american loving . No Dems.",
+															"entities": {
+																"description": {
+																	"urls": []
+																}
+															},
+															"fast_followers_count": 0,
+															"favourites_count": 17368,
+															"followers_count": 1140,
+															"friends_count": 1146,
+															"has_custom_timelines": true,
+															"is_translator": false,
+															"listed_count": 8,
+															"location": "",
+															"media_count": 286,
+															"name": "QUEEN TITAN001",
+															"normal_followers_count": 1140,
+															"pinned_tweet_ids_str": ["1664293524844453891"],
+															"possibly_sensitive": false,
+															"profile_image_url_https": "https://pbs.twimg.com/profile_images/1605630047917834246/hQBjF_kV_normal.png",
+															"profile_interstitial_type": "",
+															"screen_name": "QTitan001",
+															"statuses_count": 18228,
+															"translator_type": "none",
+															"verified": false,
+															"want_retweets": false,
+															"withheld_in_countries": []
+														},
+														"business_account": {}
+													}
+												}
+											},
+											"edit_control": {
+												"edit_tweet_ids": ["1671874946589503488"],
+												"editable_until_msecs": "1687444623000",
+												"is_edit_eligible": false,
+												"edits_remaining": "5"
+											},
+											"edit_perspective": {
+												"favorited": false,
+												"retweeted": false
+											},
+											"is_translatable": false,
+											"views": {
+												"count": "421",
+												"state": "EnabledWithCount"
+											},
+											"source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
+											"legacy": {
+												"created_at": "Thu Jun 22 13:37:03 +0000 2023",
+												"conversation_id_str": "1671753569412820992",
+												"display_text_range": [16, 89],
+												"entities": {
+													"user_mentions": [{
+														"id_str": "1130021685351079938",
+														"name": "Buitengebieden",
+														"screen_name": "buitengebieden",
+														"indices": [0, 15]
+													}],
+													"urls": [],
+													"hashtags": [],
+													"symbols": []
+												},
+												"favorite_count": 1,
+												"favorited": false,
+												"full_text": "@buitengebieden That's so cute !\n Just love how interesting and intelligent animals are.\ud83d\ude0a",
+												"in_reply_to_screen_name": "buitengebieden",
+												"in_reply_to_status_id_str": "1671753569412820992",
+												"in_reply_to_user_id_str": "1130021685351079938",
+												"is_quote_status": false,
+												"lang": "en",
+												"quote_count": 0,
+												"reply_count": 0,
+												"retweet_count": 0,
+												"retweeted": false,
+												"user_id_str": "1605629884591636491",
+												"id_str": "1671874946589503488"
+											},
+											"quick_promote_eligibility": {
+												"eligibility": "IneligibleNotProfessional"
+											}
+										}
+									},
+									"tweetDisplayType": "Tweet"
+								},
+								"clientEventInfo": {
+									"details": {
+										"conversationDetails": {
+											"conversationSection": "HighQuality"
+										},
+										"timelinesDetails": {
+											"controllerData": "DAACDAAEDAABCgABFQGZiCADgAUKAAIAAAAAFEBACAAAAAA="
+										}
+									}
+								}
+							}
+						}],
+						"displayType": "VerticalConversation",
+						"clientEventInfo": {
+							"details": {
+								"conversationDetails": {
+									"conversationSection": "HighQuality"
+								}
+							}
+						}
+					}
+				}, {
+					"entryId": "conversationthread-1671787408415760385",
+					"sortIndex": "7551618467441954745",
+					"content": {
+						"entryType": "TimelineTimelineModule",
+						"__typename": "TimelineTimelineModule",
+						"items": [{
+							"entryId": "conversationthread-1671787408415760385-tweet-1671787408415760385",
+							"item": {
+								"itemContent": {
+									"itemType": "TimelineTweet",
+									"__typename": "TimelineTweet",
+									"tweet_results": {
+										"result": {
+											"__typename": "Tweet",
+											"rest_id": "1671787408415760385",
+											"has_birdwatch_notes": false,
+											"core": {
+												"user_results": {
+													"result": {
+														"__typename": "User",
+														"id": "VXNlcjoxNTM4Mjc0Mjc2NjE2MzA2Njg4",
+														"rest_id": "1538274276616306688",
+														"affiliates_highlighted_label": {},
+														"has_graduated_access": true,
+														"is_blue_verified": true,
+														"legacy": {
+															"can_dm": true,
+															"can_media_tag": false,
+															"created_at": "Sat Jun 18 21:36:04 +0000 2022",
+															"default_profile": true,
+															"default_profile_image": false,
+															"description": "We have art in order not to die of truth.",
+															"entities": {
+																"description": {
+																	"urls": []
+																}
+															},
+															"fast_followers_count": 0,
+															"favourites_count": 6458,
+															"followers_count": 143,
+															"friends_count": 142,
+															"has_custom_timelines": true,
+															"is_translator": false,
+															"listed_count": 0,
+															"location": "Jenseits von Gut und B\u00f6se",
+															"media_count": 425,
+															"name": "main_concept",
+															"normal_followers_count": 143,
+															"pinned_tweet_ids_str": ["1668176415156518913"],
+															"possibly_sensitive": false,
+															"profile_banner_url": "https://pbs.twimg.com/profile_banners/1538274276616306688/1657785671",
+															"profile_image_url_https": "https://pbs.twimg.com/profile_images/1547491377537323008/4ArrxiVM_normal.jpg",
+															"profile_interstitial_type": "",
+															"screen_name": "anarchopr",
+															"statuses_count": 15279,
+															"translator_type": "none",
+															"verified": false,
+															"want_retweets": false,
+															"withheld_in_countries": []
+														},
+														"business_account": {}
+													}
+												}
+											},
+											"edit_control": {
+												"edit_tweet_ids": ["1671787408415760385"],
+												"editable_until_msecs": "1687423753000",
+												"is_edit_eligible": false,
+												"edits_remaining": "5"
+											},
+											"edit_perspective": {
+												"favorited": false,
+												"retweeted": false
+											},
+											"is_translatable": false,
+											"views": {
+												"count": "3958",
+												"state": "EnabledWithCount"
+											},
+											"source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+											"legacy": {
+												"created_at": "Thu Jun 22 07:49:13 +0000 2023",
+												"conversation_id_str": "1671753569412820992",
+												"display_text_range": [16, 60],
+												"entities": {
+													"user_mentions": [{
+														"id_str": "1130021685351079938",
+														"name": "Buitengebieden",
+														"screen_name": "buitengebieden",
+														"indices": [0, 15]
+													}],
+													"urls": [],
+													"hashtags": [],
+													"symbols": []
+												},
+												"favorite_count": 33,
+												"favorited": false,
+												"full_text": "@buitengebieden Bro was fighting hard, but you always lose \ud83d\ude02",
+												"in_reply_to_screen_name": "buitengebieden",
+												"in_reply_to_status_id_str": "1671753569412820992",
+												"in_reply_to_user_id_str": "1130021685351079938",
+												"is_quote_status": false,
+												"lang": "en",
+												"quote_count": 0,
+												"reply_count": 0,
+												"retweet_count": 0,
+												"retweeted": false,
+												"user_id_str": "1538274276616306688",
+												"id_str": "1671787408415760385"
+											},
+											"quick_promote_eligibility": {
+												"eligibility": "IneligibleNotProfessional"
+											}
+										}
+									},
+									"tweetDisplayType": "Tweet"
+								},
+								"clientEventInfo": {
+									"details": {
+										"conversationDetails": {
+											"conversationSection": "HighQuality"
+										},
+										"timelinesDetails": {
+											"controllerData": "DAACDAAEDAABCgABFQGJiCADgAUKAAIAAAAAFEBACAAAAAA="
+										}
+									}
+								}
+							}
+						}],
+						"displayType": "VerticalConversation",
+						"clientEventInfo": {
+							"details": {
+								"conversationDetails": {
+									"conversationSection": "HighQuality"
+								}
+							}
+						}
+					}
+				}, {
+					"entryId": "conversationthread-1671773072746221568",
+					"sortIndex": "7551618467441954735",
+					"content": {
+						"entryType": "TimelineTimelineModule",
+						"__typename": "TimelineTimelineModule",
+						"items": [{
+							"entryId": "conversationthread-1671773072746221568-tweet-1671773072746221568",
+							"item": {
+								"itemContent": {
+									"itemType": "TimelineTweet",
+									"__typename": "TimelineTweet",
+									"tweet_results": {
+										"result": {
+											"__typename": "Tweet",
+											"rest_id": "1671773072746221568",
+											"has_birdwatch_notes": false,
+											"core": {
+												"user_results": {
+													"result": {
+														"__typename": "User",
+														"id": "VXNlcjoxNjIyNzExNzU5OTQ4NzA5OTAz",
+														"rest_id": "1622711759948709903",
+														"affiliates_highlighted_label": {},
+														"has_graduated_access": true,
+														"is_blue_verified": false,
+														"legacy": {
+															"can_dm": false,
+															"can_media_tag": true,
+															"created_at": "Mon Feb 06 21:40:37 +0000 2023",
+															"default_profile": true,
+															"default_profile_image": false,
+															"description": "\u0f36Discover the profound stories\n\u0f36Explore funny and heartwarming moments\n\u0f36Learn about animal behavior and understand our furry friends",
+															"entities": {
+																"description": {
+																	"urls": []
+																},
+																"url": {
+																	"urls": [{
+																		"display_url": "theepochtimes.com/c-animals-life",
+																		"expanded_url": "https://www.theepochtimes.com/c-animals-life",
+																		"url": "https://t.co/xRzcf4polO",
+																		"indices": [0, 23]
+																	}]
+																}
+															},
+															"fast_followers_count": 0,
+															"favourites_count": 12722,
+															"followers_count": 12343,
+															"friends_count": 229,
+															"has_custom_timelines": false,
+															"is_translator": false,
+															"listed_count": 43,
+															"location": "New York",
+															"media_count": 759,
+															"name": "Epoch Animal Lovers",
+															"normal_followers_count": 12343,
+															"pinned_tweet_ids_str": ["1671494776565420033"],
+															"possibly_sensitive": false,
+															"profile_banner_url": "https://pbs.twimg.com/profile_banners/1622711759948709903/1685019460",
+															"profile_image_url_https": "https://pbs.twimg.com/profile_images/1661718161627164673/p-xlon9L_normal.jpg",
+															"profile_interstitial_type": "",
+															"screen_name": "EP_AnimalLovers",
+															"statuses_count": 998,
+															"translator_type": "none",
+															"url": "https://t.co/xRzcf4polO",
+															"verified": false,
+															"verified_type": "Business",
+															"want_retweets": false,
+															"withheld_in_countries": []
+														},
+														"professional": {
+															"rest_id": "1660206925425041408",
+															"professional_type": "Creator",
+															"category": [{
+																"id": 580,
+																"name": "Media & News Company",
+																"icon_name": "IconBriefcaseStroke"
+															}]
+														},
+														"business_account": {}
+													}
+												}
+											},
+											"edit_control": {
+												"edit_tweet_ids": ["1671773072746221568"],
+												"editable_until_msecs": "1687420335000",
+												"is_edit_eligible": false,
+												"edits_remaining": "5"
+											},
+											"edit_perspective": {
+												"favorited": false,
+												"retweeted": false
+											},
+											"is_translatable": false,
+											"views": {
+												"count": "13005",
+												"state": "EnabledWithCount"
+											},
+											"source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+											"legacy": {
+												"created_at": "Thu Jun 22 06:52:15 +0000 2023",
+												"conversation_id_str": "1671753569412820992",
+												"display_text_range": [16, 82],
+												"entities": {
+													"media": [{
+														"display_url": "pic.twitter.com/JY8DIBB3JG",
+														"expanded_url": "https://twitter.com/EP_AnimalLovers/status/1666112712672247808/video/1",
+														"id_str": "1664943744788103170",
+														"indices": [59, 82],
+														"media_url_https": "https://pbs.twimg.com/ext_tw_video_thumb/1664943744788103170/pu/img/8NdRmNJ6DEKyzJUg.jpg",
+														"source_status_id_str": "1666112712672247808",
+														"source_user_id_str": "1622711759948709903",
+														"type": "photo",
+														"url": "https://t.co/JY8DIBB3JG",
+														"features": {},
+														"sizes": {
+															"large": {
+																"h": 1080,
+																"w": 910,
+																"resize": "fit"
+															},
+															"medium": {
+																"h": 1080,
+																"w": 910,
+																"resize": "fit"
+															},
+															"small": {
+																"h": 680,
+																"w": 573,
+																"resize": "fit"
+															},
+															"thumb": {
+																"h": 150,
+																"w": 150,
+																"resize": "crop"
+															}
+														},
+														"original_info": {
+															"height": 1080,
+															"width": 910
+														}
+													}],
+													"user_mentions": [{
+														"id_str": "1130021685351079938",
+														"name": "Buitengebieden",
+														"screen_name": "buitengebieden",
+														"indices": [0, 15]
+													}],
+													"urls": [],
+													"hashtags": [],
+													"symbols": []
+												},
+												"extended_entities": {
+													"media": [{
+														"display_url": "pic.twitter.com/JY8DIBB3JG",
+														"expanded_url": "https://twitter.com/EP_AnimalLovers/status/1666112712672247808/video/1",
+														"id_str": "1664943744788103170",
+														"indices": [59, 82],
+														"media_key": "7_1664943744788103170",
+														"media_url_https": "https://pbs.twimg.com/ext_tw_video_thumb/1664943744788103170/pu/img/8NdRmNJ6DEKyzJUg.jpg",
+														"source_status_id_str": "1666112712672247808",
+														"source_user_id_str": "1622711759948709903",
+														"type": "video",
+														"url": "https://t.co/JY8DIBB3JG",
+														"additional_media_info": {
+															"monetizable": false,
+															"source_user": {
+																"user_results": {
+																	"result": {
+																		"__typename": "User",
+																		"id": "VXNlcjoxNjIyNzExNzU5OTQ4NzA5OTAz",
+																		"rest_id": "1622711759948709903",
+																		"affiliates_highlighted_label": {},
+																		"has_graduated_access": true,
+																		"is_blue_verified": false,
+																		"legacy": {
+																			"can_dm": false,
+																			"can_media_tag": true,
+																			"created_at": "Mon Feb 06 21:40:37 +0000 2023",
+																			"default_profile": true,
+																			"default_profile_image": false,
+																			"description": "\u0f36Discover the profound stories\n\u0f36Explore funny and heartwarming moments\n\u0f36Learn about animal behavior and understand our furry friends",
+																			"entities": {
+																				"description": {
+																					"urls": []
+																				},
+																				"url": {
+																					"urls": [{
+																						"display_url": "theepochtimes.com/c-animals-life",
+																						"expanded_url": "https://www.theepochtimes.com/c-animals-life",
+																						"url": "https://t.co/xRzcf4polO",
+																						"indices": [0, 23]
+																					}]
+																				}
+																			},
+																			"fast_followers_count": 0,
+																			"favourites_count": 12722,
+																			"followers_count": 12343,
+																			"friends_count": 229,
+																			"has_custom_timelines": false,
+																			"is_translator": false,
+																			"listed_count": 43,
+																			"location": "New York",
+																			"media_count": 759,
+																			"name": "Epoch Animal Lovers",
+																			"normal_followers_count": 12343,
+																			"pinned_tweet_ids_str": ["1671494776565420033"],
+																			"possibly_sensitive": false,
+																			"profile_banner_url": "https://pbs.twimg.com/profile_banners/1622711759948709903/1685019460",
+																			"profile_image_url_https": "https://pbs.twimg.com/profile_images/1661718161627164673/p-xlon9L_normal.jpg",
+																			"profile_interstitial_type": "",
+																			"screen_name": "EP_AnimalLovers",
+																			"statuses_count": 998,
+																			"translator_type": "none",
+																			"url": "https://t.co/xRzcf4polO",
+																			"verified": false,
+																			"verified_type": "Business",
+																			"want_retweets": false,
+																			"withheld_in_countries": []
+																		},
+																		"professional": {
+																			"rest_id": "1660206925425041408",
+																			"professional_type": "Creator",
+																			"category": [{
+																				"id": 580,
+																				"name": "Media & News Company",
+																				"icon_name": "IconBriefcaseStroke"
+																			}]
+																		},
+																		"business_account": {}
+																	}
+																}
+															}
+														},
+														"mediaStats": {
+															"viewCount": 18545
+														},
+														"ext_media_availability": {
+															"status": "Available"
+														},
+														"features": {},
+														"sizes": {
+															"large": {
+																"h": 1080,
+																"w": 910,
+																"resize": "fit"
+															},
+															"medium": {
+																"h": 1080,
+																"w": 910,
+																"resize": "fit"
+															},
+															"small": {
+																"h": 680,
+																"w": 573,
+																"resize": "fit"
+															},
+															"thumb": {
+																"h": 150,
+																"w": 150,
+																"resize": "crop"
+															}
+														},
+														"original_info": {
+															"height": 1080,
+															"width": 910
+														},
+														"video_info": {
+															"aspect_ratio": [91, 108],
+															"duration_millis": 38015,
+															"variants": [{
+																"content_type": "application/x-mpegURL",
+																"url": "https://video.twimg.com/ext_tw_video/1664943744788103170/pu/pl/4AyH4w5O0VCV6sDb.m3u8?tag=12&container=fmp4"
+															}, {
+																"bitrate": 2176000,
+																"content_type": "video/mp4",
+																"url": "https://video.twimg.com/ext_tw_video/1664943744788103170/pu/vid/720x854/9gtlykWJPaOBXfhV.mp4?tag=12"
+															}, {
+																"bitrate": 950000,
+																"content_type": "video/mp4",
+																"url": "https://video.twimg.com/ext_tw_video/1664943744788103170/pu/vid/480x568/szGPbXEIcOAsVtyH.mp4?tag=12"
+															}, {
+																"bitrate": 632000,
+																"content_type": "video/mp4",
+																"url": "https://video.twimg.com/ext_tw_video/1664943744788103170/pu/vid/320x378/EmSlQZg_nbRHfn3k.mp4?tag=12"
+															}]
+														}
+													}]
+												},
+												"favorite_count": 102,
+												"favorited": false,
+												"full_text": "@buitengebieden When you\u2019re over 50 and the movie starts.. https://t.co/JY8DIBB3JG",
+												"in_reply_to_screen_name": "buitengebieden",
+												"in_reply_to_status_id_str": "1671753569412820992",
+												"in_reply_to_user_id_str": "1130021685351079938",
+												"is_quote_status": false,
+												"lang": "en",
+												"possibly_sensitive": false,
+												"possibly_sensitive_editable": true,
+												"quote_count": 3,
+												"reply_count": 0,
+												"retweet_count": 11,
+												"retweeted": false,
+												"user_id_str": "1622711759948709903",
+												"id_str": "1671773072746221568"
+											},
+											"quick_promote_eligibility": {
+												"eligibility": "IneligibleNotProfessional"
+											}
+										}
+									},
+									"tweetDisplayType": "Tweet"
+								},
+								"clientEventInfo": {
+									"details": {
+										"conversationDetails": {
+											"conversationSection": "HighQuality"
+										},
+										"timelinesDetails": {
+											"controllerData": "DAACDAAEDAABCgABFIGJiCBTgAUKAAIAAAAABUBACAAAAAA="
+										}
+									}
+								}
+							}
+						}],
+						"displayType": "VerticalConversation",
+						"clientEventInfo": {
+							"details": {
+								"conversationDetails": {
+									"conversationSection": "HighQuality"
+								}
+							}
+						}
+					}
+				}, {
+					"entryId": "conversationthread-1671755692091359234",
+					"sortIndex": "7551618467441954725",
+					"content": {
+						"entryType": "TimelineTimelineModule",
+						"__typename": "TimelineTimelineModule",
+						"items": [{
+							"entryId": "conversationthread-1671755692091359234-tweet-1671755692091359234",
+							"item": {
+								"itemContent": {
+									"itemType": "TimelineTweet",
+									"__typename": "TimelineTweet",
+									"tweet_results": {
+										"result": {
+											"__typename": "Tweet",
+											"rest_id": "1671755692091359234",
+											"has_birdwatch_notes": false,
+											"core": {
+												"user_results": {
+													"result": {
+														"__typename": "User",
+														"id": "VXNlcjoxNTk3NzAzNTcwNDAwNDE1NzQ1",
+														"rest_id": "1597703570400415745",
+														"affiliates_highlighted_label": {},
+														"has_graduated_access": true,
+														"is_blue_verified": true,
+														"legacy": {
+															"can_dm": false,
+															"can_media_tag": true,
+															"created_at": "Tue Nov 29 21:29:37 +0000 2022",
+															"default_profile": true,
+															"default_profile_image": false,
+															"description": "I stand up for what I believe in. All opinions are mine, but I\u2019m usually right. My mouth is big and so is my voice\u2026do not push me. \ud83d\ude09",
+															"entities": {
+																"description": {
+																	"urls": []
+																}
+															},
+															"fast_followers_count": 0,
+															"favourites_count": 3724,
+															"followers_count": 307,
+															"friends_count": 298,
+															"has_custom_timelines": true,
+															"is_translator": false,
+															"listed_count": 2,
+															"location": "Somewhere out there",
+															"media_count": 165,
+															"name": "janet",
+															"normal_followers_count": 307,
+															"pinned_tweet_ids_str": ["1667263506683514905"],
+															"possibly_sensitive": true,
+															"profile_banner_url": "https://pbs.twimg.com/profile_banners/1597703570400415745/1681267234",
+															"profile_image_url_https": "https://pbs.twimg.com/profile_images/1645982454442782720/nzD1kh-w_normal.jpg",
+															"profile_interstitial_type": "",
+															"screen_name": "janetmjennifer",
+															"statuses_count": 4385,
+															"translator_type": "none",
+															"verified": false,
+															"want_retweets": false,
+															"withheld_in_countries": []
+														},
+														"professional": {
+															"rest_id": "1656055235503161348",
+															"professional_type": "Creator",
+															"category": []
+														},
+														"business_account": {}
+													}
+												}
+											},
+											"edit_control": {
+												"edit_tweet_ids": ["1671755692091359234"],
+												"editable_until_msecs": "1687416191000",
+												"is_edit_eligible": false,
+												"edits_remaining": "5"
+											},
+											"edit_perspective": {
+												"favorited": false,
+												"retweeted": false
+											},
+											"is_translatable": false,
+											"views": {
+												"count": "6039",
+												"state": "EnabledWithCount"
+											},
+											"source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
+											"legacy": {
+												"created_at": "Thu Jun 22 05:43:11 +0000 2023",
+												"conversation_id_str": "1671753569412820992",
+												"display_text_range": [16, 59],
+												"entities": {
+													"user_mentions": [{
+														"id_str": "1130021685351079938",
+														"name": "Buitengebieden",
+														"screen_name": "buitengebieden",
+														"indices": [0, 15]
+													}],
+													"urls": [],
+													"hashtags": [],
+													"symbols": []
+												},
+												"favorite_count": 13,
+												"favorited": false,
+												"full_text": "@buitengebieden I have no idea what you\u2019re talking about. \ud83d\ude02",
+												"in_reply_to_screen_name": "buitengebieden",
+												"in_reply_to_status_id_str": "1671753569412820992",
+												"in_reply_to_user_id_str": "1130021685351079938",
+												"is_quote_status": false,
+												"lang": "en",
+												"quote_count": 0,
+												"reply_count": 0,
+												"retweet_count": 0,
+												"retweeted": false,
+												"user_id_str": "1597703570400415745",
+												"id_str": "1671755692091359234"
+											},
+											"quick_promote_eligibility": {
+												"eligibility": "IneligibleNotProfessional"
+											}
+										}
+									},
+									"tweetDisplayType": "Tweet"
+								},
+								"clientEventInfo": {
+									"details": {
+										"conversationDetails": {
+											"conversationSection": "HighQuality"
+										},
+										"timelinesDetails": {
+											"controllerData": "DAACDAAEDAABCgABFQGZiCADgAUKAAIAAAAAFEBACAAAAAA="
+										}
+									}
+								}
+							}
+						}],
+						"displayType": "VerticalConversation",
+						"clientEventInfo": {
+							"details": {
+								"conversationDetails": {
+									"conversationSection": "HighQuality"
+								}
+							}
+						}
+					}
+				}, {
+					"entryId": "conversationthread-1671758733767237636",
+					"sortIndex": "7551618467441954715",
+					"content": {
+						"entryType": "TimelineTimelineModule",
+						"__typename": "TimelineTimelineModule",
+						"items": [{
+							"entryId": "conversationthread-1671758733767237636-tweet-1671758733767237636",
+							"item": {
+								"itemContent": {
+									"itemType": "TimelineTweet",
+									"__typename": "TimelineTweet",
+									"tweet_results": {
+										"result": {
+											"__typename": "Tweet",
+											"rest_id": "1671758733767237636",
+											"has_birdwatch_notes": false,
+											"core": {
+												"user_results": {
+													"result": {
+														"__typename": "User",
+														"id": "VXNlcjoxNDI5OTUyMTY1Njc4NzcyMjQ0",
+														"rest_id": "1429952165678772244",
+														"affiliates_highlighted_label": {},
+														"has_graduated_access": true,
+														"is_blue_verified": true,
+														"legacy": {
+															"can_dm": false,
+															"can_media_tag": false,
+															"created_at": "Mon Aug 23 23:42:31 +0000 2021",
+															"default_profile": true,
+															"default_profile_image": false,
+															"description": "eat well, work hard, travel around",
+															"entities": {
+																"description": {
+																	"urls": []
+																}
+															},
+															"fast_followers_count": 0,
+															"favourites_count": 23512,
+															"followers_count": 2,
+															"friends_count": 39,
+															"has_custom_timelines": false,
+															"is_translator": false,
+															"listed_count": 4,
+															"location": "Neptune\ud83d\udef8 ",
+															"media_count": 355,
+															"name": "Sophia_Uma369",
+															"normal_followers_count": 2,
+															"pinned_tweet_ids_str": [],
+															"possibly_sensitive": false,
+															"profile_banner_url": "https://pbs.twimg.com/profile_banners/1429952165678772244/1632756833",
+															"profile_image_url_https": "https://pbs.twimg.com/profile_images/1642890862844870656/RM1PU1oc_normal.jpg",
+															"profile_interstitial_type": "",
+															"screen_name": "SophiaUma369",
+															"statuses_count": 1578,
+															"translator_type": "none",
+															"verified": false,
+															"want_retweets": false,
+															"withheld_in_countries": []
+														},
+														"professional": {
+															"rest_id": "1640636302260568066",
+															"professional_type": "Business",
+															"category": []
+														},
+														"business_account": {}
+													}
+												}
+											},
+											"edit_control": {
+												"edit_tweet_ids": ["1671758733767237636"],
+												"editable_until_msecs": "1687416916000",
+												"is_edit_eligible": false,
+												"edits_remaining": "5"
+											},
+											"edit_perspective": {
+												"favorited": false,
+												"retweeted": false
+											},
+											"is_translatable": false,
+											"views": {
+												"count": "6068",
+												"state": "EnabledWithCount"
+											},
+											"source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
+											"legacy": {
+												"created_at": "Thu Jun 22 05:55:16 +0000 2023",
+												"conversation_id_str": "1671753569412820992",
+												"display_text_range": [16, 26],
+												"entities": {
+													"user_mentions": [{
+														"id_str": "1130021685351079938",
+														"name": "Buitengebieden",
+														"screen_name": "buitengebieden",
+														"indices": [0, 15]
+													}],
+													"urls": [],
+													"hashtags": [],
+													"symbols": []
+												},
+												"favorite_count": 3,
+												"favorited": false,
+												"full_text": "@buitengebieden \ud83d\ude02\ud83d\ude02\ud83d\ude02\ud83d\ude02\ud83d\ude02\ud83d\ude02\ud83d\ude02\ud83d\ude02\ud83d\ude02\ud83d\ude02",
+												"in_reply_to_screen_name": "buitengebieden",
+												"in_reply_to_status_id_str": "1671753569412820992",
+												"in_reply_to_user_id_str": "1130021685351079938",
+												"is_quote_status": false,
+												"lang": "qme",
+												"quote_count": 0,
+												"reply_count": 0,
+												"retweet_count": 0,
+												"retweeted": false,
+												"user_id_str": "1429952165678772244",
+												"id_str": "1671758733767237636"
+											},
+											"quick_promote_eligibility": {
+												"eligibility": "IneligibleNotProfessional"
+											}
+										}
+									},
+									"tweetDisplayType": "Tweet"
+								},
+								"clientEventInfo": {
+									"details": {
+										"conversationDetails": {
+											"conversationSection": "HighQuality"
+										},
+										"timelinesDetails": {
+											"controllerData": "DAACDAAEDAABCgABFQGBiCADgAUKAAIAAAAAFEBACAAAAAA="
+										}
+									}
+								}
+							}
+						}],
+						"displayType": "VerticalConversation",
+						"clientEventInfo": {
+							"details": {
+								"conversationDetails": {
+									"conversationSection": "HighQuality"
+								}
+							}
+						}
+					}
+				}, {
+					"entryId": "conversationthread-1671754566898171904",
+					"sortIndex": "7551618467441954705",
+					"content": {
+						"entryType": "TimelineTimelineModule",
+						"__typename": "TimelineTimelineModule",
+						"items": [{
+							"entryId": "conversationthread-1671754566898171904-tweet-1671754566898171904",
+							"item": {
+								"itemContent": {
+									"itemType": "TimelineTweet",
+									"__typename": "TimelineTweet",
+									"tweet_results": {
+										"result": {
+											"__typename": "Tweet",
+											"rest_id": "1671754566898171904",
+											"has_birdwatch_notes": false,
+											"core": {
+												"user_results": {
+													"result": {
+														"__typename": "User",
+														"id": "VXNlcjoxMDI2NDgzOTA4NTU1MjIzMDQw",
+														"rest_id": "1026483908555223040",
+														"affiliates_highlighted_label": {},
+														"has_graduated_access": true,
+														"is_blue_verified": true,
+														"legacy": {
+															"can_dm": false,
+															"can_media_tag": false,
+															"created_at": "Mon Aug 06 15:03:29 +0000 2018",
+															"default_profile": true,
+															"default_profile_image": false,
+															"description": "Always April's mom.\nPhD, CAAB.\nIndependent thinker.\nBite Back was the name of my radio talk show, so curb your enthusiasm for jumping to conclusions.",
+															"entities": {
+																"description": {
+																	"urls": []
+																}
+															},
+															"fast_followers_count": 0,
+															"favourites_count": 47480,
+															"followers_count": 1942,
+															"friends_count": 1858,
+															"has_custom_timelines": true,
+															"is_translator": false,
+															"listed_count": 29,
+															"location": "New York, USA",
+															"media_count": 4951,
+															"name": "BiteBack",
+															"normal_followers_count": 1942,
+															"pinned_tweet_ids_str": ["1670272895002767360"],
+															"possibly_sensitive": false,
+															"profile_banner_url": "https://pbs.twimg.com/profile_banners/1026483908555223040/1620568591",
+															"profile_image_url_https": "https://pbs.twimg.com/profile_images/1623074711335759878/o6BJwPyD_normal.jpg",
+															"profile_interstitial_type": "",
+															"screen_name": "IHearTheShofar",
+															"statuses_count": 86514,
+															"translator_type": "none",
+															"verified": false,
+															"want_retweets": false,
+															"withheld_in_countries": []
+														},
+														"business_account": {}
+													}
+												}
+											},
+											"edit_control": {
+												"edit_tweet_ids": ["1671754566898171904"],
+												"editable_until_msecs": "1687415923000",
+												"is_edit_eligible": false,
+												"edits_remaining": "5"
+											},
+											"edit_perspective": {
+												"favorited": false,
+												"retweeted": false
+											},
+											"is_translatable": false,
+											"views": {
+												"count": "6213",
+												"state": "EnabledWithCount"
+											},
+											"source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
+											"legacy": {
+												"created_at": "Thu Jun 22 05:38:43 +0000 2023",
+												"conversation_id_str": "1671753569412820992",
+												"display_text_range": [16, 41],
+												"entities": {
+													"user_mentions": [{
+														"id_str": "1130021685351079938",
+														"name": "Buitengebieden",
+														"screen_name": "buitengebieden",
+														"indices": [0, 15]
+													}],
+													"urls": [],
+													"hashtags": [],
+													"symbols": []
+												},
+												"favorite_count": 7,
+												"favorited": false,
+												"full_text": "@buitengebieden uh....that'd be over 90 \ud83d\ude44",
+												"in_reply_to_screen_name": "buitengebieden",
+												"in_reply_to_status_id_str": "1671753569412820992",
+												"in_reply_to_user_id_str": "1130021685351079938",
+												"is_quote_status": false,
+												"lang": "en",
+												"quote_count": 0,
+												"reply_count": 1,
+												"retweet_count": 0,
+												"retweeted": false,
+												"user_id_str": "1026483908555223040",
+												"id_str": "1671754566898171904"
+											},
+											"quick_promote_eligibility": {
+												"eligibility": "IneligibleNotProfessional"
+											}
+										}
+									},
+									"tweetDisplayType": "Tweet"
+								},
+								"clientEventInfo": {
+									"details": {
+										"conversationDetails": {
+											"conversationSection": "HighQuality"
+										},
+										"timelinesDetails": {
+											"controllerData": "DAACDAAEDAABCgABFQGJCCADgBUKAAIAAAAAFEBACAAAAAA="
+										}
+									}
+								}
+							}
+						}, {
+							"entryId": "conversationthread-1671754566898171904-cursor-showmore-8444777112488329757",
+							"item": {
+								"itemContent": {
+									"itemType": "TimelineTimelineCursor",
+									"__typename": "TimelineTimelineCursor",
+									"value": "PAAAAPAtPBwcFoCA0vn6-qGzLhUCAAAYJmNvbnZlcnNhdGlvbnRocmVhZC0xNjcxNzU0NTY2ODk4MTcxOTA0IgAA",
+									"cursorType": "ShowMore",
+									"displayTreatment": {
+										"actionText": "Show replies"
+									}
+								},
+								"clientEventInfo": {
+									"details": {
+										"conversationDetails": {
+											"conversationSection": "HighQuality"
+										}
+									}
+								}
+							}
+						}],
+						"displayType": "VerticalConversation",
+						"clientEventInfo": {
+							"details": {
+								"conversationDetails": {
+									"conversationSection": "HighQuality"
+								}
+							}
+						}
+					}
+				}, {
+					"entryId": "cursor-bottom-1907869723383311964",
+					"sortIndex": "7551618467441954704",
+					"content": {
+						"entryType": "TimelineTimelineItem",
+						"__typename": "TimelineTimelineItem",
+						"itemContent": {
+							"itemType": "TimelineTimelineCursor",
+							"__typename": "TimelineTimelineCursor",
+							"value": "bQAAAPAxHBm2hIC-pbq8orMuiIDTxcDto7MugsC97ZSdzbMugIDS-fr6obMugMDS0dy9qLMuiMDSnaP0obMugoC9qcvysBsAUL3F_dnYLQDg1M36mJSjLoLAs4Gkh8obAODQoZKwqrMuJQISFQQAAA",
+							"cursorType": "Bottom"
+						}
+					}
+				}]
+			}, {
+				"type": "TimelineTerminateTimeline",
+				"direction": "Top"
+			}]
+		}
+	}
+}
