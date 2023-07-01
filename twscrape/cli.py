@@ -7,9 +7,12 @@ import json
 import sqlite3
 from importlib.metadata import version
 
+import httpx
+
 from .api import API, AccountsPool
 from .db import get_sqlite_version
 from .logger import logger, set_log_level
+from .models import Tweet, User
 from .utils import print_table
 
 
@@ -28,10 +31,9 @@ def get_fn_arg(args):
     exit(1)
 
 
-def to_str(doc):
-    # doc is httpx.Response or twscrape.User / twscrape.Tweet
-    # both have .json method but with different return type
-    return doc if isinstance(doc, str) else json.dumps(doc.json(), default=str)
+def to_str(doc: httpx.Response | Tweet | User) -> str:
+    tmp = doc.json()
+    return tmp if isinstance(tmp, str) else json.dumps(tmp, default=str)
 
 
 async def main(args):
