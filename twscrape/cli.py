@@ -109,14 +109,14 @@ def run():
     p.add_argument("--debug", action="store_true", help="Enable debug mode")
     subparsers = p.add_subparsers(dest="command")
 
-    def cone(name: str, msg: str, a_name: str, a_msg: str, a_type: type = str):
+    def c_one(name: str, msg: str, a_name: str, a_msg: str, a_type: type = str):
         p = subparsers.add_parser(name, help=msg)
         p.add_argument(a_name, help=a_msg, type=a_type)
         p.add_argument("--raw", action="store_true", help="Print raw response")
         return p
 
-    def clim(name: str, msg: str, a_name: str, a_msg: str, a_type: type = str):
-        p = cone(name, msg, a_name, a_msg, a_type)
+    def c_lim(name: str, msg: str, a_name: str, a_msg: str, a_type: type = str):
+        p = c_one(name, msg, a_name, a_msg, a_type)
         p.add_argument("--limit", type=int, default=-1, help="Max tweets to retrieve")
         return p
 
@@ -128,16 +128,16 @@ def run():
     add_accounts.add_argument("line_format", help="args of Pool.add_account splited by same delim")
     subparsers.add_parser("login_accounts", help="Login accounts")
 
-    clim("search", "Search for tweets", "query", "Search query")
-    cone("tweet_details", "Get tweet details", "tweet_id", "Tweet ID", int)
-    clim("retweeters", "Get retweeters of a tweet", "tweet_id", "Tweet ID", int)
-    clim("favoriters", "Get favoriters of a tweet", "tweet_id", "Tweet ID", int)
-    cone("user_by_id", "Get user data by ID", "user_id", "User ID", int)
-    clim("user_by_login", "Get user data by username", "username", "Username")
-    clim("followers", "Get user followers", "user_id", "User ID", int)
-    clim("following", "Get user following", "user_id", "User ID", int)
-    clim("user_tweets", "Get user tweets", "user_id", "User ID", int)
-    clim("user_tweets_and_replies", "Get user tweets and replies", "user_id", "User ID", int)
+    c_lim("search", "Search for tweets", "query", "Search query")
+    c_one("tweet_details", "Get tweet details", "tweet_id", "Tweet ID", int)
+    c_lim("retweeters", "Get retweeters of a tweet", "tweet_id", "Tweet ID", int)
+    c_lim("favoriters", "Get favoriters of a tweet", "tweet_id", "Tweet ID", int)
+    c_one("user_by_id", "Get user data by ID", "user_id", "User ID", int)
+    c_one("user_by_login", "Get user data by username", "username", "Username")
+    c_lim("followers", "Get user followers", "user_id", "User ID", int)
+    c_lim("following", "Get user following", "user_id", "User ID", int)
+    c_lim("user_tweets", "Get user tweets", "user_id", "User ID", int)
+    c_lim("user_tweets_and_replies", "Get user tweets and replies", "user_id", "User ID", int)
 
     args = p.parse_args()
     if args.command is None:
