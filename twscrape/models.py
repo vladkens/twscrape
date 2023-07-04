@@ -60,16 +60,19 @@ class TextLink(JSONTrait):
     url: str
     text: str | None
     tcourl: str | None
-    indices: tuple[int, int]
 
     @staticmethod
     def parse(obj: dict):
-        return TextLink(
-            url=obj["expanded_url"],
-            text=obj["display_url"],
-            tcourl=obj["url"],
-            indices=tuple(obj["indices"]),
+        tmp = TextLink(
+            url=obj.get("expanded_url", None),
+            text=obj.get("display_url", None),
+            tcourl=obj.get("url", None),
         )
+
+        if tmp.url is None or tmp.tcourl is None:
+            return None
+
+        return tmp
 
 
 @dataclass
@@ -113,9 +116,6 @@ class User(JSONTrait):
 
     @staticmethod
     def parse(obj: dict):
-        links = get_or(obj, "entities.description.urls", []) + get_or(obj, "entities.url.urls", [])
-        links = [TextLink.parse(x) for x in links]
-
         return User(
             id=int(obj["id_str"]),
             id_str=obj["id_str"],
@@ -135,7 +135,7 @@ class User(JSONTrait):
             profileBannerUrl=obj.get("profile_banner_url"),
             verified=obj.get("verified"),
             protected=obj.get("protected"),
-            descriptionLinks=links,
+            descriptionLinks=_parse_links(obj, ["entities.description.urls", "entities.url.urls"]),
         )
 
 
@@ -197,7 +197,7 @@ class Tweet(JSONTrait):
             hashtags=[x["text"] for x in get_or(obj, "entities.hashtags", [])],
             cashtags=[x["text"] for x in get_or(obj, "entities.symbols", [])],
             mentionedUsers=[UserRef.parse(x) for x in get_or(obj, "entities.user_mentions", [])],
-            links=[TextLink.parse(x) for x in get_or(obj, "entities.urls", [])],
+            links=_parse_links(obj, ["entities.urls"]),
             viewCount=int_or_none(obj, "ext_views.count"),
             retweetedTweet=Tweet.parse(rt_obj, res) if rt_obj else None,
             quotedTweet=Tweet.parse(qt_obj, res) if qt_obj else None,
@@ -335,3 +335,13 @@ def _get_source_label(tw_obj: dict):
     if source and (match := re.search(r">([^<]*)<", source)):
         return str(match.group(1))
     return None
+
+
+def _parse_links(obj: dict, paths: list[str]):
+    links = []
+    for x in paths:
+        links.extend(get_or(obj, x, []))
+
+    links = [TextLink.parse(x) for x in links]
+    links = [x for x in links if x is not None]
+    return links
