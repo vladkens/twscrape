@@ -1,7 +1,7 @@
 from httpx import Response
 
 from .accounts_pool import AccountsPool
-from .constants import GQL_FEATURES, GQL_URL, SEARCH_PARAMS, SEARCH_URL
+from .constants import GQL_FEATURES, GQL_URL
 from .logger import logger
 from .models import Tweet, User
 from .queue_client import QueueClient, req_id
@@ -36,12 +36,15 @@ class API:
 
     # gql helpers
 
-    async def _gql_items(self, op: str, kv: dict, limit=-1):
+    async def _gql_items(self, op: str, kv: dict, ft: dict | None = None, limit=-1):
         queue, cursor, count, active = op.split("/")[-1], None, 0, True
+        kv, ft = {**kv}, {**GQL_FEATURES, **(ft or {})}
 
         async with QueueClient(self.pool, queue, self.debug) as client:
             while active:
-                params = {"variables": {**kv, "cursor": cursor}, "features": GQL_FEATURES}
+                params = {"variables": {**kv, "cursor": cursor}, "features": ft}
+                if op.endswith("/SearchTimeline"):
+                    params["fieldToggles"] = {"withArticleRichContentState": False}
 
                 rep = await client.get(f"{GQL_URL}/{op}", params=encode_params(params))
                 obj = rep.json()
@@ -65,35 +68,35 @@ class API:
 
     # search
 
-    async def search_raw(self, q: str, limit=-1):
-        queue, cursor, count, active = "search", None, 0, True
+    async def search_raw(self, q: str, limit=-1, kv=None):
+        op = "nK1dw4oV3k4w5TdtcAdSww/SearchTimeline"
+        kv = {
+            "rawQuery": q,
+            "count": 20,
+            "product": "Latest",
+            "querySource": "typed_query",
+            **(kv or {}),
+        }
+        ft = {
+            "rweb_lists_timeline_redesign_enabled": True,
+            "creator_subscriptions_tweet_preview_api_enabled": True,
+            "responsive_web_twitter_article_tweet_consumption_enabled": False,
+            "tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled": True,
+            "responsive_web_media_download_video_enabled": False,
+            "longform_notetweets_inline_media_enabled": True,
+        }
+        async for x in self._gql_items(op, kv, ft, limit=limit):
+            yield x
 
-        async with QueueClient(self.pool, queue, self.debug) as client:
-            while active:
-                params = {**SEARCH_PARAMS, "q": q, "count": 20}
-                params["cursor" if cursor else "requestContext"] = cursor if cursor else "launch"
-
-                rep = await client.get(SEARCH_URL, params=params)
-                obj = rep.json()
-
-                tweets = obj.get("globalObjects", {}).get("tweets", [])
-                cursor = self._get_cursor(obj)
-
-                rep, count, active = self._is_end(rep, q, tweets, cursor, count, limit)
-                if rep is None:
-                    return
-
-                yield rep
-
-    async def search(self, q: str, limit=-1):
+    async def search(self, q: str, limit=-1, kv=None):
         twids = set()
-        async for rep in self.search_raw(q, limit=limit):
-            res = rep.json()
-            obj = res.get("globalObjects", {})
-            for x in list(obj.get("tweets", {}).values()):
-                if x["id_str"] not in twids:
-                    twids.add(x["id_str"])
-                    yield Tweet.parse(x, obj)
+        async for rep in self.search_raw(q, limit=limit, kv=kv):
+            obj = to_old_rep(rep.json())
+            for x in obj["tweets"].values():
+                tmp = Tweet.parse(x, obj)
+                if tmp.id not in twids:
+                    twids.add(tmp.id)
+                    yield tmp
 
     # user_by_id
 

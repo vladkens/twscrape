@@ -2,7 +2,6 @@ TOKEN = "Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Z
 
 GQL_URL = "https://twitter.com/i/api/graphql"
 LOGIN_URL = "https://api.twitter.com/1.1/onboarding/task.json"
-SEARCH_URL = "https://api.twitter.com/2/search/adaptive.json"
 
 GQL_FEATURES = {
     "blue_business_profile_image_shape_enabled": True,
@@ -24,43 +23,4 @@ GQL_FEATURES = {
     "responsive_web_text_conversations_enabled": False,
     "longform_notetweets_rich_text_read_enabled": True,
     "responsive_web_enhance_cards_enabled": False,
-}
-
-SEARCH_PARAMS = {
-    "include_profile_interstitial_type": "1",
-    "include_blocking": "1",
-    "include_blocked_by": "1",
-    "include_followed_by": "1",
-    "include_want_retweets": "1",
-    "include_mute_edge": "1",
-    "include_can_dm": "1",
-    "include_can_media_tag": "1",
-    "include_ext_has_nft_avatar": "1",
-    "include_ext_is_blue_verified": "1",
-    "include_ext_verified_type": "1",
-    "include_ext_profile_image_shape": "1",
-    "skip_status": "1",
-    "cards_platform": "Web-12",
-    "include_cards": "1",
-    "include_ext_alt_text": "true",
-    "include_ext_limited_action_results": "false",
-    "include_quote_count": "true",
-    "include_reply_count": "1",
-    "tweet_mode": "extended",
-    "include_ext_views": "true",
-    "include_entities": "true",
-    "include_user_entities": "true",
-    "include_ext_media_color": "true",
-    "include_ext_media_availability": "true",
-    "include_ext_sensitive_media_warning": "true",
-    "include_ext_trusted_friends_metadata": "true",
-    "send_error_codes": "true",
-    "simple_quoted_tweet": "true",
-    "tweet_search_mode": "live",
-    "query_source": "typed_query",
-    "count": "20",
-    "pc": "1",
-    "spelling_corrections": "1",
-    "include_ext_edit_control": "true",
-    "ext": "mediaStats,highlightedLabel,hasNftAvatar,voiceInfo,birdwatchPivot,enrichments,superFollowMetadata,unmentionInfo,editControl,vibe",  # noqa: E501
 }
