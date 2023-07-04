@@ -111,9 +111,9 @@ class QueueClient:
                     continue
 
                 # possible account banned
-                if rep.status_code == 403:
-                    logger.warning(f"403 for {log_id}")
+                if rep.status_code in (401, 403):
                     reset_ts = utc_ts() + 60 * 60  # + 1 hour
+                    logger.warning(f"Code {rep.status_code} for {log_id} – frozen for 1h")
                     await self.pool.lock_until(ctx.acc.username, self.queue, reset_ts)
                     continue
 
