@@ -104,6 +104,13 @@ def check_user(doc: User):
     assert doc.id == int(doc.id_str)
 
     assert doc.username is not None
+    assert doc.descriptionLinks is not None
+
+    if len(doc.descriptionLinks) > 0:
+        for x in doc.descriptionLinks:
+            assert x.url is not None
+            assert x.text is not None
+            assert x.tcourl is not None
 
     obj = doc.dict()
     assert doc.id == obj["id"]

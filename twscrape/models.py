@@ -104,15 +104,18 @@ class User(JSONTrait):
     profileBannerUrl: str | None = None
     protected: bool | None = None
     verified: bool | None = None
+    descriptionLinks: list[TextLink] = field(default_factory=list)
     _type: str = "snscrape.modules.twitter.User"
 
     # todo:
-    # descriptionLinks: typing.Optional[typing.List[TextLink]] = None
     # link: typing.Optional[TextLink] = None
     # label: typing.Optional["UserLabel"] = None
 
     @staticmethod
     def parse(obj: dict):
+        links = get_or(obj, "entities.description.urls", []) + get_or(obj, "entities.url.urls", [])
+        links = [TextLink.parse(x) for x in links]
+
         return User(
             id=int(obj["id_str"]),
             id_str=obj["id_str"],
@@ -132,6 +135,7 @@ class User(JSONTrait):
             profileBannerUrl=obj.get("profile_banner_url"),
             verified=obj.get("verified"),
             protected=obj.get("protected"),
+            descriptionLinks=links,
         )
 
 
