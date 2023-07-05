@@ -110,7 +110,7 @@ async def test_account_unlock(pool_mock: AccountsPool):
 
 
 async def test_get_stats(pool_mock: AccountsPool):
-    Q = "search"
+    Q = "SearchTimeline"
 
     # should return empty stats
     stats = await pool_mock.stats()
@@ -134,4 +134,4 @@ async def test_get_stats(pool_mock: AccountsPool):
     stats = await pool_mock.stats()
     assert stats["total"] == 1
     assert stats["active"] == 1
-    assert stats["locked_search"] == 1
+    assert stats["locked_SearchTimeline"] == 1

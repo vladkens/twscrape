@@ -166,7 +166,7 @@ def print_table(rows: list[dict]):
         line = [f"{row[k]:<{colw[i]}}" for i, k in enumerate(keys)]
         lines.append(" ".join(line))
 
-    max_len = max(len(x) for x in lines)
-    lines.insert(1, "─" * max_len)
-    lines.insert(0, "─" * max_len)
+    # max_len = max(len(x) for x in lines)
+    # lines.insert(1, "─" * max_len)
+    # lines.insert(0, "─" * max_len)
     print("\n".join(lines))

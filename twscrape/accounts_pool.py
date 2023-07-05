@@ -186,11 +186,12 @@ class AccountsPool:
         def by_queue(queue: str):
             return f"""
             SELECT COUNT(*) FROM accounts
-            WHERE json_extract(locks, '$.{queue}') IS NOT NULL AND json_extract(locks, '$.{queue}') > datetime('now')
+            WHERE json_extract(locks, '$.{queue}') IS NOT NULL
+                AND json_extract(locks, '$.{queue}') > datetime('now')
             """
 
         gql_ops = """
-        UserByRestId UserByScreenName TweetDetail Followers Following
+        SearchTimeline UserByRestId UserByScreenName TweetDetail Followers Following
         Retweeters Favoriters UserTweets UserTweetsAndReplies
         """
         gql_ops = [x.strip() for x in gql_ops.split(" ") if x.strip()]
@@ -199,7 +200,6 @@ class AccountsPool:
             ("total", "SELECT COUNT(*) FROM accounts"),
             ("active", "SELECT COUNT(*) FROM accounts WHERE active = true"),
             ("inactive", "SELECT COUNT(*) FROM accounts WHERE active = false"),
-            ("locked_search", by_queue("search")),
             *[(f"locked_{x}", by_queue(x)) for x in gql_ops],
         ]
 

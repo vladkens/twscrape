@@ -18,7 +18,7 @@ async def client_fixture(pool_mock: AccountsPool):
     await pool_mock.set_active("user1", True)
     await pool_mock.set_active("user2", True)
 
-    client = QueueClient(pool_mock, "search")
+    client = QueueClient(pool_mock, "SearchTimeline")
     yield pool_mock, client
 
 
