@@ -155,6 +155,9 @@ def print_table(rows: list[dict]):
         if isinstance(x, int):
             return f"{x:,}"
 
+        if isinstance(x, datetime):
+            return x.isoformat().split("+")[0].replace("T", " ")
+
         return str(x)
 
     keys = list(rows[0].keys())

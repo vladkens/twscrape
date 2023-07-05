@@ -242,7 +242,7 @@ class AccountsPool:
 
         old_time = datetime(1970, 1, 1).replace(tzinfo=timezone.utc)
         items = sorted(items, key=lambda x: x["username"].lower())
-        items = sorted(items, key=lambda x: x["last_used"] or old_time, reverse=True)
-        items = sorted(items, key=lambda x: x["total_req"], reverse=True)
         items = sorted(items, key=lambda x: x["active"], reverse=True)
+        items = sorted(items, key=lambda x: x["last_used"] or old_time, reverse=True)
+        # items = sorted(items, key=lambda x: x["total_req"], reverse=True)
         return items
