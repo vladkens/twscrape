@@ -3,6 +3,7 @@ import asyncio
 import sqlite3
 import uuid
 from datetime import datetime, timezone
+from typing import TypedDict
 
 from fake_useragent import UserAgent
 
@@ -13,12 +14,23 @@ from .login import login
 from .utils import utc_ts
 
 
+class AccountInfo(TypedDict):
+    username: str
+    logged_in: bool
+    active: bool
+    last_used: datetime | None
+    total_req: int
+    error_msg: str | None
+
+
 def guess_delim(line: str):
     lp, rp = tuple([x.strip() for x in line.split("username")])
     return rp[0] if not lp else lp[-1]
 
 
 class AccountsPool:
+    _order_by: str = "RANDOM()"
+
     def __init__(self, db_file="accounts.db"):
         self._db_file = db_file
 
@@ -123,7 +135,9 @@ class AccountsPool:
 
     async def lock_until(self, username: str, queue: str, unlock_at: int):
         qs = f"""
-        UPDATE accounts SET locks = json_set(locks, '$.{queue}', datetime({unlock_at}, 'unixepoch'))
+        UPDATE accounts SET
+            locks = json_set(locks, '$.{queue}', datetime({unlock_at}, 'unixepoch')),
+            last_used = datetime({utc_ts()}, 'unixepoch')
         WHERE username = :username
         """
         await execute(self._db_file, qs, {"username": username})
@@ -146,13 +160,15 @@ class AccountsPool:
             OR json_extract(locks, '$.{queue}') IS NULL
             OR json_extract(locks, '$.{queue}') < datetime('now')
         )
-        ORDER BY RANDOM()
+        ORDER BY {self._order_by}
         LIMIT 1
         """
 
         if int(sqlite3.sqlite_version_info[1]) >= 35:
             qs = f"""
-            UPDATE accounts SET locks = json_set(locks, '$.{queue}', datetime('now', '+15 minutes'))
+            UPDATE accounts SET
+                locks = json_set(locks, '$.{queue}', datetime('now', '+15 minutes')),
+                last_used = datetime({utc_ts()}, 'unixepoch')
             WHERE username = ({q1})
             RETURNING *
             """
@@ -160,8 +176,10 @@ class AccountsPool:
         else:
             tx = uuid.uuid4().hex
             qs = f"""
-            UPDATE accounts
-            SET locks = json_set(locks, '$.{queue}', datetime('now', '+15 minutes')), _tx = '{tx}'
+            UPDATE accounts SET
+                locks = json_set(locks, '$.{queue}', datetime('now', '+15 minutes')),
+                last_used = datetime({utc_ts()}, 'unixepoch'),
+                _tx = '{tx}'
             WHERE username = ({q1})
             """
             await execute(self._db_file, qs)
@@ -210,9 +228,9 @@ class AccountsPool:
     async def accounts_info(self):
         accounts = await self.get_all()
 
-        items = []
+        items: list[AccountInfo] = []
         for x in accounts:
-            item = {
+            item: AccountInfo = {
                 "username": x.username,
                 "logged_in": (x.headers or {}).get("authorization", "") != "",
                 "active": x.active,
