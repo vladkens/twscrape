@@ -186,7 +186,7 @@ The default output is in the console (stdout), one document per line. So it can 
 twscrape search "elon mask lang:es" --limit=20 > data.txt
 ```
 
-By default, parsed data is returned. The original tweet responses can be retrieved with `--raw`
+By default, parsed data is returned. The original tweet responses can be retrieved with `--raw` flag.
 
 ```sh
 twscrape search "elon mask lang:es" --limit=20 --raw
@@ -194,7 +194,7 @@ twscrape search "elon mask lang:es" --limit=20 --raw
 
 ## Limitations
 
-NOTE: After 1 July 2023 Twitter [introduced limits](https://twitter.com/elonmusk/status/1675187969420828672) on the number of tweets per day per account (and these continue to change), so the values below may not be fully correct.
+**NOTE:** After 1 July 2023 Twitter [introduced limits](https://twitter.com/elonmusk/status/1675187969420828672) on the number of tweets per day per account, so the values below may not be fully correct.
 
 API rate limits (per account):
 - Search API – 250 req / 15 min

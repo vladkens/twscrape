@@ -31,7 +31,10 @@ def get_fn_arg(args):
     exit(1)
 
 
-def to_str(doc: httpx.Response | Tweet | User) -> str:
+def to_str(doc: httpx.Response | Tweet | User | None) -> str:
+    if doc is None:
+        return "Not Found. See --raw for more details."
+
     tmp = doc.json()
     return tmp if isinstance(tmp, str) else json.dumps(tmp, default=str)
 

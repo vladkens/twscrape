@@ -152,7 +152,8 @@ class API:
     async def tweet_details(self, twid: int, kv=None):
         rep = await self.tweet_details_raw(twid, kv=kv)
         obj = to_old_rep(rep.json())
-        return Tweet.parse(obj["tweets"][str(twid)], obj)
+        doc = obj["tweets"].get(str(twid), None)
+        return Tweet.parse(doc, obj) if doc else None
 
     # followers
 
