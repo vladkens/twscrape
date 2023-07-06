@@ -151,9 +151,7 @@ Accounts and their sessions will be saved, so they can be reused for future requ
 twscrape accounts
 
 # Output:
-# ───────────────────────────────────────────────────────────────────────────────────
 # username  logged_in  active  last_used            total_req  error_msg
-# ───────────────────────────────────────────────────────────────────────────────────
 # user1     True       True    2023-05-20 03:20:40  100        None
 # user2     True       True    2023-05-20 03:25:45  120        None
 # user3     False      False   None                 120        Login error
