@@ -188,7 +188,7 @@ class Tweet(JSONTrait):
             date=email.utils.parsedate_to_datetime(obj["created_at"]),
             user=tw_usr,
             lang=obj["lang"],
-            rawContent=obj["full_text"],
+            rawContent=get_or(obj, "note_tweet.note_tweet_results.result.text", obj["full_text"]),
             replyCount=obj["reply_count"],
             retweetCount=obj["retweet_count"],
             likeCount=obj["favorite_count"],
