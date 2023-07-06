@@ -229,14 +229,14 @@ class AccountsPool:
             return account
 
     async def stats(self):
-        def by_queue(queue: str):
+        def locks_count(queue: str):
             return f"""
             SELECT COUNT(*) FROM accounts
             WHERE json_extract(locks, '$.{queue}') IS NOT NULL
                 AND json_extract(locks, '$.{queue}') > datetime('now')
             """
 
-        qs = "SELECT DISTINCT(f.key) as k from accounts, json_each(stats) f"
+        qs = "SELECT DISTINCT(f.key) as k from accounts, json_each(locks) f"
         rs = await fetchall(self._db_file, qs)
         gql_ops = [x["k"] for x in rs]
 
@@ -244,7 +244,7 @@ class AccountsPool:
             ("total", "SELECT COUNT(*) FROM accounts"),
             ("active", "SELECT COUNT(*) FROM accounts WHERE active = true"),
             ("inactive", "SELECT COUNT(*) FROM accounts WHERE active = false"),
-            *[(f"locked_{x}", by_queue(x)) for x in gql_ops],
+            *[(f"locked_{x}", locks_count(x)) for x in gql_ops],
         ]
 
         qs = f"SELECT {','.join([f'({q}) as {k}' for k, q in config])}"

@@ -130,8 +130,9 @@ async def test_get_stats(pool_mock: AccountsPool):
     assert stats["active"] == 1
 
     # should update queue stats
-    await pool_mock.get_for_queue(Q)
+    acc = await pool_mock.get_for_queue(Q)
+    assert acc is not None
     stats = await pool_mock.stats()
     assert stats["total"] == 1
     assert stats["active"] == 1
-    assert stats["locked_SearchTimeline"] == 1
+    assert stats[f"locked_{Q}"] == 1
