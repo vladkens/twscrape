@@ -101,6 +101,19 @@ if __name__ == "__main__":
     asyncio.run(main())
 ```
 
+### Stoping iteration with break
+
+In order to correctly release an account in case of `break` in loop, a special syntax must be used. Otherwise, Python's events loop will release lock on the account sometime in the future. See explanation [here](https://github.com/vladkens/twscrape/issues/27#issuecomment-1623395424).
+
+```python
+from contextlib import aclosing
+
+async with aclosing(api.search("elon musk")) as gen:
+    async for tweet in gen:
+        if tweet.id < 200:
+            break
+```
+
 ## CLI
 
 ### Get help on CLI commands
@@ -182,6 +195,8 @@ twscrape search "elon mask lang:es" --limit=20 --raw
 ```
 
 ## Limitations
+
+NOTE: After 1 July 2023 Twitter [introduced limits](https://twitter.com/elonmusk/status/1675187969420828672) on the number of tweets per day per account (and these continue to change), so the values below may not be fully correct.
 
 API rate limits (per account):
 - Search API – 250 req / 15 min

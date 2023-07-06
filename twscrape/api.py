@@ -9,8 +9,8 @@ from .utils import encode_params, find_obj, get_by_path, to_old_obj, to_old_rep
 
 
 class API:
-    def __init__(self, pool: AccountsPool, debug=False):
-        self.pool = pool
+    def __init__(self, pool: AccountsPool | None, debug=False):
+        self.pool = pool if pool is not None else AccountsPool()
         self.debug = debug
 
     # general helpers

@@ -1,3 +1,5 @@
+from contextlib import aclosing
+
 import httpx
 from pytest_httpx import HTTPXMock
 
@@ -92,7 +94,7 @@ async def test_switch_acc_on_http_error(httpx_mock: HTTPXMock, client_fixture: C
     assert locked1 == locked3  # failed account locked
 
 
-async def test_retry_with_same_acc_on_network_error(httpx_mock: HTTPXMock, client_fixture):
+async def test_retry_with_same_acc_on_network_error(httpx_mock: HTTPXMock, client_fixture: CF):
     pool, client = client_fixture
 
     # locked account on enter
@@ -113,3 +115,43 @@ async def test_retry_with_same_acc_on_network_error(httpx_mock: HTTPXMock, clien
     # check username added to request obj (for logging)
     username = getattr(rep, "__username", None)
     assert username is not None
+
+
+async def test_ctx_closed_on_break(httpx_mock: HTTPXMock, client_fixture: CF):
+    pool, client = client_fixture
+
+    async def get_data_stream():
+        async with client as c:
+            counter = 0
+            while True:
+                counter += 1
+                check_retry = counter == 2
+                before_ctx = c.ctx
+
+                if check_retry:
+                    httpx_mock.add_response(url=URL, json={"counter": counter}, status_code=403)
+                    httpx_mock.add_response(url=URL, json={"counter": counter}, status_code=200)
+                else:
+                    httpx_mock.add_response(url=URL, json={"counter": counter}, status_code=200)
+
+                rep = await c.get(URL)
+
+                if check_retry:
+                    assert before_ctx != c.ctx
+                elif before_ctx is not None:
+                    assert before_ctx == c.ctx
+
+                assert rep.json() == {"counter": counter}
+                yield rep.json()["counter"]
+
+                if counter == 9:
+                    return
+
+    # need to use async with to break to work
+    async with aclosing(get_data_stream()) as gen:
+        async for x in gen:
+            if x == 3:
+                break
+
+    # ctx should be None after break
+    assert client.ctx is None

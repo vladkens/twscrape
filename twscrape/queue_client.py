@@ -39,19 +39,22 @@ class QueueClient:
 
     async def __aexit__(self, exc_type, exc_val, exc_tb):
         await self._close_ctx()
-        return self
 
-    async def _close_ctx(self):
-        if self.ctx is not None:
-            await self.ctx.clt.aclose()
-            await self.pool.unlock(self.ctx.acc.username, self.queue, self.ctx.req_count)
+    async def _close_ctx(self, reset_at=-1):
+        if self.ctx is None:
+            return
+
+        ctx, self.ctx, self.req_count = self.ctx, None, 0
+        await ctx.clt.aclose()
+
+        if reset_at <= 0:
+            await self.pool.unlock(ctx.acc.username, self.queue, ctx.req_count)
+        else:
+            await self.pool.lock_until(ctx.acc.username, self.queue, reset_at, ctx.req_count)
 
     async def _get_ctx(self) -> Ctx:
         if self.ctx:
             return self.ctx
-
-        if self.ctx is not None:
-            await self._close_ctx()
 
         acc = await self.pool.get_for_queue_or_wait(self.queue)
         clt = acc.make_client()
@@ -105,16 +108,14 @@ class QueueClient:
                 if rep.status_code == 429:
                     logger.debug(f"Rate limit for {log_id}")
                     reset_ts = int(rep.headers.get("x-rate-limit-reset", 0))
-                    await self.pool.lock_until(ctx.acc.username, self.queue, reset_ts)
-                    self.ctx = None  # get next account
+                    await self._close_ctx(reset_ts)  # get next account on next iteration
                     continue
 
                 # possible account banned
                 if rep.status_code in (401, 403):
                     reset_ts = utc_ts() + 60 * 60  # + 1 hour
                     logger.warning(f"Code {rep.status_code} for {log_id} – frozen for 1h")
-                    await self.pool.lock_until(ctx.acc.username, self.queue, reset_ts)
-                    self.ctx = None  # get next account
+                    await self._close_ctx(reset_ts)  # get next account on next iteration
                     continue
 
                 # twitter can return different types of cursors that not transfers between accounts
