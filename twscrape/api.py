@@ -7,6 +7,15 @@ from .models import Tweet, User
 from .queue_client import QueueClient, req_id
 from .utils import encode_params, find_obj, get_by_path, to_old_obj, to_old_rep
 
+SEARCH_FEATURES = {
+    "rweb_lists_timeline_redesign_enabled": True,
+    "creator_subscriptions_tweet_preview_api_enabled": True,
+    "responsive_web_twitter_article_tweet_consumption_enabled": False,
+    "tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled": True,
+    "responsive_web_media_download_video_enabled": False,
+    "longform_notetweets_inline_media_enabled": True,
+}
+
 
 class API:
     def __init__(self, pool: AccountsPool | None, debug=False):
@@ -43,7 +52,7 @@ class API:
         async with QueueClient(self.pool, queue, self.debug) as client:
             while active:
                 params = {"variables": {**kv, "cursor": cursor}, "features": ft}
-                if op.endswith("/SearchTimeline"):
+                if queue in ("SearchTimeline", "ListLatestTweetsTimeline"):
                     params["fieldToggles"] = {"withArticleRichContentState": False}
 
                 rep = await client.get(f"{GQL_URL}/{op}", params=encode_params(params))
@@ -77,15 +86,7 @@ class API:
             "querySource": "typed_query",
             **(kv or {}),
         }
-        ft = {
-            "rweb_lists_timeline_redesign_enabled": True,
-            "creator_subscriptions_tweet_preview_api_enabled": True,
-            "responsive_web_twitter_article_tweet_consumption_enabled": False,
-            "tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled": True,
-            "responsive_web_media_download_video_enabled": False,
-            "longform_notetweets_inline_media_enabled": True,
-        }
-        async for x in self._gql_items(op, kv, ft, limit=limit):
+        async for x in self._gql_items(op, kv, ft=SEARCH_FEATURES, limit=limit):
             yield x
 
     async def search(self, q: str, limit=-1, kv=None):
@@ -254,3 +255,21 @@ class API:
             obj = to_old_rep(rep.json())
             for _, v in obj["tweets"].items():
                 yield Tweet.parse(v, obj)
+
+    # list timeline
+
+    async def list_timeline_raw(self, list_id: int, limit=-1, kv=None):
+        op = "2Vjeyo_L0nizAUhHe3fKyA/ListLatestTweetsTimeline"
+        kv = {
+            "listId": str(list_id),
+            "count": 20,
+            **(kv or {}),
+        }
+        async for x in self._gql_items(op, kv, ft=SEARCH_FEATURES, limit=limit):
+            yield x
+
+    async def list_timeline(self, list_id: int, limit=-1, kv=None):
+        async for rep in self.list_timeline_raw(list_id, limit=limit, kv=kv):
+            obj = to_old_rep(rep.json())
+            for x in obj["tweets"].values():
+                yield Tweet.parse(x, obj)
