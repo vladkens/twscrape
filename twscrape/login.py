@@ -154,7 +154,7 @@ async def next_login_task(client: AsyncClient, acc: Account, rep: Response):
 
     prev = rep.json()
     assert "flow_token" in prev, f"flow_token not in {rep.text}"
-    # logger.debug(f"login tasks: {[x['subtask_id'] for x in data['subtasks']]}")
+    logger.debug(f"login tasks: {[x['subtask_id'] for x in prev['subtasks']]}")
 
     for x in prev["subtasks"]:
         task_id = x["subtask_id"]

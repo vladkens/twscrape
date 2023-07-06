@@ -133,11 +133,11 @@ First add accounts from file:
 ```sh
 # twscrape add_accounts <file_path> <line_format>
 # line_format should have "username", "password", "email", "email_password" tokens
-# tokens delimeter should be same as an file
+# note: tokens delimeter should be same as an file
 twscrape add_accounts accounts.txt username:password:email:email_password
 ```
 
-The call login:
+Then call login:
 
 ```sh
 twscrape login_accounts
@@ -155,6 +155,20 @@ twscrape accounts
 # user1     True       True    2023-05-20 03:20:40  100        None
 # user2     True       True    2023-05-20 03:25:45  120        None
 # user3     False      False   None                 120        Login error
+```
+
+### Re-login accounts
+
+It is possible to re-login specific accounts:
+
+```sh
+twscrape relogin user1 user2
+```
+
+Or retry login for all failed logins:
+
+```sh
+twscrape relogin_failed
 ```
 
 ### Use different accounts file

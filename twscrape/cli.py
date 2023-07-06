@@ -69,6 +69,14 @@ async def main(args):
         await pool.login_all()
         return
 
+    if args.command == "relogin_failed":
+        await pool.relogin_failed()
+        return
+
+    if args.command == "relogin":
+        await pool.relogin(args.usernames)
+        return
+
     fn = args.command + "_raw" if args.raw else args.command
     fn = getattr(api, fn, None)
     if fn is None:
@@ -130,6 +138,9 @@ def run():
     add_accounts.add_argument("file_path", help="File with accounts")
     add_accounts.add_argument("line_format", help="args of Pool.add_account splited by same delim")
     subparsers.add_parser("login_accounts", help="Login accounts")
+    relogin = subparsers.add_parser("relogin", help="Re-login selected accounts")
+    relogin.add_argument("usernames", nargs="+", default=[], help="Usernames to re-login")
+    subparsers.add_parser("relogin_failed", help="Retry login for failed accounts")
 
     c_lim("search", "Search for tweets", "query", "Search query")
     c_one("tweet_details", "Get tweet details", "tweet_id", "Tweet ID", int)

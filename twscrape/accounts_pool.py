@@ -129,6 +129,33 @@ class AccountsPool:
             logger.info(f"[{i}/{len(accounts)}] Logging in {x.username} - {x.email}")
             await self.login(x)
 
+    async def relogin(self, usernames: str | list[str]):
+        usernames = usernames if isinstance(usernames, list) else [usernames]
+        usernames = list(set(usernames))
+        if not usernames:
+            logger.warning("No usernames provided")
+            return
+
+        qs = f"""
+        UPDATE accounts SET
+            active = false,
+            locks = json_object(),
+            last_used = NULL,
+            error_msg = NULL,
+            headers = json_object(),
+            cookies = json_object(),
+            user_agent = "{UserAgent().safari}"
+        WHERE username IN ({','.join([f'"{x}"' for x in usernames])})
+        """
+
+        await execute(self._db_file, qs)
+        await self.login_all()
+
+    async def relogin_failed(self):
+        qs = "SELECT username FROM accounts WHERE active = false AND error_msg IS NOT NULL"
+        rs = await fetchall(self._db_file, qs)
+        await self.relogin([x["username"] for x in rs])
+
     async def set_active(self, username: str, active: bool):
         qs = "UPDATE accounts SET active = :active WHERE username = :username"
         await execute(self._db_file, qs, {"username": username, "active": active})
@@ -244,6 +271,10 @@ class AccountsPool:
         old_time = datetime(1970, 1, 1).replace(tzinfo=timezone.utc)
         items = sorted(items, key=lambda x: x["username"].lower())
         items = sorted(items, key=lambda x: x["active"], reverse=True)
-        items = sorted(items, key=lambda x: x["last_used"] or old_time, reverse=True)
+        items = sorted(
+            items,
+            key=lambda x: x["last_used"] or old_time if x["total_req"] > 0 else old_time,
+            reverse=True,
+        )
         # items = sorted(items, key=lambda x: x["total_req"], reverse=True)
         return items
