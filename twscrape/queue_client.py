@@ -127,7 +127,7 @@ class QueueClient:
                 logger.error(f"[{rep.status_code}] {e.request.url}\n{rep.text}")
                 raise e
             except Exception as e:
-                logger.warning(f"Unknown error, retrying. Err: {e}")
+                logger.warning(f"Unknown error, retrying. Err ({type(e)}): {str(e)}")
 
     async def get(self, url: str, params: ReqParams = None):
         try:

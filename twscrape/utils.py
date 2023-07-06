@@ -144,7 +144,7 @@ def from_utciso(iso: str) -> datetime:
     return datetime.fromisoformat(iso).replace(tzinfo=timezone.utc)
 
 
-def print_table(rows: list[dict]):
+def print_table(rows: list[dict], hr_after=False):
     if not rows:
         return
 
@@ -169,7 +169,9 @@ def print_table(rows: list[dict]):
         line = [f"{row[k]:<{colw[i]}}" for i, k in enumerate(keys)]
         lines.append(" ".join(line))
 
-    # max_len = max(len(x) for x in lines)
+    max_len = max(len(x) for x in lines)
     # lines.insert(1, "─" * max_len)
     # lines.insert(0, "─" * max_len)
     print("\n".join(lines))
+    if hr_after:
+        print("-" * max_len)

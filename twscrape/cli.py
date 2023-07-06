@@ -58,7 +58,18 @@ async def main(args):
         return
 
     if args.command == "stats":
-        print(await pool.stats())
+        rep = await pool.stats()
+        total, active, inactive = rep["total"], rep["active"], rep["inactive"]
+
+        res = []
+        for k, v in rep.items():
+            if not k.startswith("locked") or v == 0:
+                continue
+            res.append({"queue": k, "locked": v, "available": max(active - v, 0)})
+
+        res = sorted(res, key=lambda x: x["locked"], reverse=True)
+        print_table(res, hr_after=True)
+        print(f"Total: {total} - Active: {active} - Inactive: {inactive}")
         return
 
     if args.command == "add_accounts":
@@ -141,6 +152,7 @@ def run():
     relogin = subparsers.add_parser("relogin", help="Re-login selected accounts")
     relogin.add_argument("usernames", nargs="+", default=[], help="Usernames to re-login")
     subparsers.add_parser("relogin_failed", help="Retry login for failed accounts")
+    subparsers.add_parser("stats", help="Get current usage stats")
 
     c_lim("search", "Search for tweets", "query", "Search query")
     c_one("tweet_details", "Get tweet details", "tweet_id", "Tweet ID", int)

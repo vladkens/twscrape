@@ -236,11 +236,9 @@ class AccountsPool:
                 AND json_extract(locks, '$.{queue}') > datetime('now')
             """
 
-        gql_ops = """
-        SearchTimeline UserByRestId UserByScreenName TweetDetail Followers Following
-        Retweeters Favoriters UserTweets UserTweetsAndReplies
-        """
-        gql_ops = [x.strip() for x in gql_ops.split(" ") if x.strip()]
+        qs = "SELECT DISTINCT(f.key) as k from accounts, json_each(stats) f"
+        rs = await fetchall(self._db_file, qs)
+        gql_ops = [x["k"] for x in rs]
 
         config = [
             ("total", "SELECT COUNT(*) FROM accounts"),
