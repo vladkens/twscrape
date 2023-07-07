@@ -51,7 +51,9 @@ class API:
 
         async with QueueClient(self.pool, queue, self.debug) as client:
             while active:
-                params = {"variables": {**kv, "cursor": cursor}, "features": ft}
+                params = {"variables": kv, "features": ft}
+                if cursor is not None:
+                    params["variables"]["cursor"] = cursor
                 if queue in ("SearchTimeline", "ListLatestTweetsTimeline"):
                     params["fieldToggles"] = {"withArticleRichContentState": False}
 
