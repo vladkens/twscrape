@@ -30,6 +30,12 @@ def fake_rep(fn: str, filename: str | None = None):
     if filename is None:
         filename = os.path.join(DATA_DIR, getattr(Files, fn))
 
+    if not filename.startswith("/"):
+        filename = os.path.join(DATA_DIR, filename)
+
+    if not filename.endswith(".json"):
+        filename += ".json"
+
     with open(filename) as fp:
         data = fp.read()
 
@@ -254,7 +260,7 @@ async def test_tweet_with_video():
     ]
 
     for file, twid in files:
-        mock_rep(api, "tweet_details_raw", os.path.join(DATA_DIR, file))
+        mock_rep(api, "tweet_details_raw", file)
         doc = await api.tweet_details(twid)
         assert doc is not None
         check_tweet(doc)
@@ -262,8 +268,8 @@ async def test_tweet_with_video():
 
 async def test_issue_28():
     api = API()
-    mock_rep(api, "issue_28")
 
+    mock_rep(api, "tweet_details_raw", "_issue_28")
     doc = await api.tweet_details(1658409412799737856)
     assert doc is not None
     check_tweet(doc)
@@ -277,7 +283,7 @@ async def test_issue_28():
     assert doc.viewCount == doc.retweetedTweet.viewCount
     check_tweet(doc.retweetedTweet)
 
-    mock_rep(api, "issue_28.2")
+    mock_rep(api, "tweet_details_raw", "_issue_28.2")
     doc = await api.tweet_details(1658421690001502208)
     assert doc is not None
     check_tweet(doc)
