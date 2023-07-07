@@ -1,0 +1,839 @@
+{
+  "data": {
+    "threaded_conversation_with_injections_v2": {
+      "instructions": [
+        {
+          "type": "TimelineAddEntries",
+          "entries": [
+            {
+              "entryId": "tweet-1658409412799737856",
+              "sortIndex": "7564962624055037951",
+              "content": {
+                "entryType": "TimelineTimelineItem",
+                "__typename": "TimelineTimelineItem",
+                "itemContent": {
+                  "itemType": "TimelineTweet",
+                  "__typename": "TimelineTweet",
+                  "tweet_results": {
+                    "result": {
+                      "__typename": "Tweet",
+                      "rest_id": "1658409412799737856",
+                      "has_birdwatch_notes": false,
+                      "core": {
+                        "user_results": {
+                          "result": {
+                            "__typename": "User",
+                            "id": "VXNlcjoxMjk2ODAxOTcwNzc1MzY3Njgw",
+                            "rest_id": "1296801970775367680",
+                            "affiliates_highlighted_label": {},
+                            "has_graduated_access": true,
+                            "is_blue_verified": false,
+                            "legacy": {
+                              "can_dm": true,
+                              "can_media_tag": true,
+                              "created_at": "Fri Aug 21 13:31:26 +0000 2020",
+                              "default_profile": true,
+                              "default_profile_image": false,
+                              "description": "Por una unidad de izquierdas real .Bienvenidos a la #RedRoja. Sigue a quien te siga . Red de seguridad: @RedRoj4  @REDROJA@mastodon.world",
+                              "entities": {
+                                "description": {
+                                  "urls": []
+                                },
+                                "url": {
+                                  "urls": [
+                                    {
+                                      "display_url": "instagram.com/redroja4?igshi…",
+                                      "expanded_url": "https://instagram.com/redroja4?igshid=1d8cfo0z5wf2t",
+                                      "url": "https://t.co/yLqbCaFwck",
+                                      "indices": [
+                                        0,
+                                        23
+                                      ]
+                                    }
+                                  ]
+                                }
+                              },
+                              "fast_followers_count": 0,
+                              "favourites_count": 60839,
+                              "followers_count": 43398,
+                              "friends_count": 31537,
+                              "has_custom_timelines": true,
+                              "is_translator": false,
+                              "listed_count": 100,
+                              "location": "Izquierda ",
+                              "media_count": 1469,
+                              "name": "RED ROJA 🔻",
+                              "normal_followers_count": 43398,
+                              "pinned_tweet_ids_str": [
+                                "1592141363050860546"
+                              ],
+                              "possibly_sensitive": false,
+                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/1296801970775367680/1618465956",
+                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1541282511816376322/4UQWhvwj_normal.jpg",
+                              "profile_interstitial_type": "",
+                              "screen_name": "REDROJA4",
+                              "statuses_count": 30422,
+                              "translator_type": "none",
+                              "url": "https://t.co/yLqbCaFwck",
+                              "verified": false,
+                              "want_retweets": false,
+                              "withheld_in_countries": []
+                            },
+                            "business_account": {}
+                          }
+                        }
+                      },
+                      "edit_control": {
+                        "edit_tweet_ids": [
+                          "1658409412799737856"
+                        ],
+                        "editable_until_msecs": "1684232390425",
+                        "is_edit_eligible": false,
+                        "edits_remaining": "5"
+                      },
+                      "edit_perspective": {
+                        "favorited": false,
+                        "retweeted": false
+                      },
+                      "is_translatable": true,
+                      "views": {
+                        "state": "Enabled"
+                      },
+                      "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
+                      "legacy": {
+                        "created_at": "Tue May 16 09:49:50 +0000 2023",
+                        "conversation_id_str": "1658409412799737856",
+                        "display_text_range": [
+                          0,
+                          140
+                        ],
+                        "entities": {
+                          "user_mentions": [
+                            {
+                              "id_str": "2949065723",
+                              "name": "SisuMisu",
+                              "screen_name": "SisuMisu3",
+                              "indices": [
+                                3,
+                                13
+                              ]
+                            },
+                            {
+                              "id_str": "1860300192",
+                              "name": "Alejandra Jacinto",
+                              "screen_name": "AleJacintoUrang",
+                              "indices": [
+                                96,
+                                112
+                              ]
+                            }
+                          ],
+                          "urls": [],
+                          "hashtags": [
+                            {
+                              "indices": [
+                                131,
+                                136
+                              ],
+                              "text": "Sisu"
+                            }
+                          ],
+                          "symbols": []
+                        },
+                        "favorite_count": 0,
+                        "favorited": false,
+                        "full_text": "RT @SisuMisu3: Esta noche el circo está asegurado 😂😂😂\nAyuso se presenta al único debate.\nVamos \n@AleJacintoUrang \nEstamos contigo.\n#Sisu ht…",
+                        "is_quote_status": false,
+                        "lang": "es",
+                        "quote_count": 0,
+                        "reply_count": 0,
+                        "retweet_count": 42,
+                        "retweeted": false,
+                        "user_id_str": "1296801970775367680",
+                        "id_str": "1658409412799737856",
+                        "retweeted_status_result": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "rest_id": "1658407192859492355",
+                            "has_birdwatch_notes": false,
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "id": "VXNlcjoyOTQ5MDY1NzIz",
+                                  "rest_id": "2949065723",
+                                  "affiliates_highlighted_label": {},
+                                  "has_graduated_access": true,
+                                  "is_blue_verified": false,
+                                  "legacy": {
+                                    "can_dm": true,
+                                    "can_media_tag": false,
+                                    "created_at": "Mon Dec 29 11:54:26 +0000 2014",
+                                    "default_profile": true,
+                                    "default_profile_image": false,
+                                    "description": "MI LUCHA ESTÁ EN TODAS PARTES. POR LOS DERECHOS DE LOS ANIMALES. POR UN MUNDO MEJOR.ACTIVISTA",
+                                    "entities": {
+                                      "description": {
+                                        "urls": []
+                                      }
+                                    },
+                                    "fast_followers_count": 0,
+                                    "favourites_count": 108021,
+                                    "followers_count": 15454,
+                                    "friends_count": 13032,
+                                    "has_custom_timelines": true,
+                                    "is_translator": false,
+                                    "listed_count": 34,
+                                    "location": "En donde me den amor ❤️😊🥰",
+                                    "media_count": 12985,
+                                    "name": "SisuMisu",
+                                    "normal_followers_count": 15454,
+                                    "pinned_tweet_ids_str": [
+                                      "1087440689368043520"
+                                    ],
+                                    "possibly_sensitive": false,
+                                    "profile_banner_url": "https://pbs.twimg.com/profile_banners/2949065723/1513372062",
+                                    "profile_image_url_https": "https://pbs.twimg.com/profile_images/1528038627317538817/wvoi8QLf_normal.jpg",
+                                    "profile_interstitial_type": "",
+                                    "screen_name": "SisuMisu3",
+                                    "statuses_count": 164333,
+                                    "translator_type": "none",
+                                    "verified": false,
+                                    "want_retweets": false,
+                                    "withheld_in_countries": []
+                                  },
+                                  "professional": {
+                                    "rest_id": "1490288411835523072",
+                                    "professional_type": "Creator",
+                                    "category": [
+                                      {
+                                        "id": 934,
+                                        "name": "Social Media Influencer",
+                                        "icon_name": "IconBriefcaseStroke"
+                                      }
+                                    ]
+                                  },
+                                  "business_account": {}
+                                }
+                              }
+                            },
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1658407192859492355"
+                              ],
+                              "editable_until_msecs": "1684231861000",
+                              "is_edit_eligible": true,
+                              "edits_remaining": "5"
+                            },
+                            "edit_perspective": {
+                              "favorited": false,
+                              "retweeted": false
+                            },
+                            "is_translatable": true,
+                            "views": {
+                              "count": "1110",
+                              "state": "EnabledWithCount"
+                            },
+                            "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
+                            "legacy": {
+                              "created_at": "Tue May 16 09:41:01 +0000 2023",
+                              "conversation_id_str": "1658407192859492355",
+                              "display_text_range": [
+                                0,
+                                121
+                              ],
+                              "entities": {
+                                "media": [
+                                  {
+                                    "display_url": "pic.twitter.com/apswi6Wwiw",
+                                    "expanded_url": "https://twitter.com/SisuMisu3/status/1658407192859492355/photo/1",
+                                    "id_str": "1658407190594453505",
+                                    "indices": [
+                                      122,
+                                      145
+                                    ],
+                                    "media_url_https": "https://pbs.twimg.com/media/FwPYjaBWAAETpRI.jpg",
+                                    "type": "photo",
+                                    "url": "https://t.co/apswi6Wwiw",
+                                    "features": {
+                                      "large": {
+                                        "faces": [
+                                          {
+                                            "x": 273,
+                                            "y": 253,
+                                            "h": 351,
+                                            "w": 351
+                                          }
+                                        ]
+                                      },
+                                      "medium": {
+                                        "faces": [
+                                          {
+                                            "x": 255,
+                                            "y": 237,
+                                            "h": 329,
+                                            "w": 329
+                                          }
+                                        ]
+                                      },
+                                      "small": {
+                                        "faces": [
+                                          {
+                                            "x": 145,
+                                            "y": 134,
+                                            "h": 186,
+                                            "w": 186
+                                          }
+                                        ]
+                                      },
+                                      "orig": {
+                                        "faces": [
+                                          {
+                                            "x": 273,
+                                            "y": 253,
+                                            "h": 351,
+                                            "w": 351
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "sizes": {
+                                      "large": {
+                                        "h": 1280,
+                                        "w": 1024,
+                                        "resize": "fit"
+                                      },
+                                      "medium": {
+                                        "h": 1200,
+                                        "w": 960,
+                                        "resize": "fit"
+                                      },
+                                      "small": {
+                                        "h": 680,
+                                        "w": 544,
+                                        "resize": "fit"
+                                      },
+                                      "thumb": {
+                                        "h": 150,
+                                        "w": 150,
+                                        "resize": "crop"
+                                      }
+                                    },
+                                    "original_info": {
+                                      "height": 1280,
+                                      "width": 1024,
+                                      "focus_rects": [
+                                        {
+                                          "x": 0,
+                                          "y": 642,
+                                          "w": 1024,
+                                          "h": 573
+                                        },
+                                        {
+                                          "x": 0,
+                                          "y": 256,
+                                          "w": 1024,
+                                          "h": 1024
+                                        },
+                                        {
+                                          "x": 0,
+                                          "y": 113,
+                                          "w": 1024,
+                                          "h": 1167
+                                        },
+                                        {
+                                          "x": 32,
+                                          "y": 0,
+                                          "w": 640,
+                                          "h": 1280
+                                        },
+                                        {
+                                          "x": 0,
+                                          "y": 0,
+                                          "w": 1024,
+                                          "h": 1280
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "user_mentions": [
+                                  {
+                                    "id_str": "1860300192",
+                                    "name": "Alejandra Jacinto",
+                                    "screen_name": "AleJacintoUrang",
+                                    "indices": [
+                                      81,
+                                      97
+                                    ]
+                                  }
+                                ],
+                                "urls": [],
+                                "hashtags": [
+                                  {
+                                    "indices": [
+                                      116,
+                                      121
+                                    ],
+                                    "text": "Sisu"
+                                  }
+                                ],
+                                "symbols": []
+                              },
+                              "extended_entities": {
+                                "media": [
+                                  {
+                                    "display_url": "pic.twitter.com/apswi6Wwiw",
+                                    "expanded_url": "https://twitter.com/SisuMisu3/status/1658407192859492355/photo/1",
+                                    "id_str": "1658407190594453505",
+                                    "indices": [
+                                      122,
+                                      145
+                                    ],
+                                    "media_key": "3_1658407190594453505",
+                                    "media_url_https": "https://pbs.twimg.com/media/FwPYjaBWAAETpRI.jpg",
+                                    "type": "photo",
+                                    "url": "https://t.co/apswi6Wwiw",
+                                    "ext_media_availability": {
+                                      "status": "Available"
+                                    },
+                                    "features": {
+                                      "large": {
+                                        "faces": [
+                                          {
+                                            "x": 273,
+                                            "y": 253,
+                                            "h": 351,
+                                            "w": 351
+                                          }
+                                        ]
+                                      },
+                                      "medium": {
+                                        "faces": [
+                                          {
+                                            "x": 255,
+                                            "y": 237,
+                                            "h": 329,
+                                            "w": 329
+                                          }
+                                        ]
+                                      },
+                                      "small": {
+                                        "faces": [
+                                          {
+                                            "x": 145,
+                                            "y": 134,
+                                            "h": 186,
+                                            "w": 186
+                                          }
+                                        ]
+                                      },
+                                      "orig": {
+                                        "faces": [
+                                          {
+                                            "x": 273,
+                                            "y": 253,
+                                            "h": 351,
+                                            "w": 351
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "sizes": {
+                                      "large": {
+                                        "h": 1280,
+                                        "w": 1024,
+                                        "resize": "fit"
+                                      },
+                                      "medium": {
+                                        "h": 1200,
+                                        "w": 960,
+                                        "resize": "fit"
+                                      },
+                                      "small": {
+                                        "h": 680,
+                                        "w": 544,
+                                        "resize": "fit"
+                                      },
+                                      "thumb": {
+                                        "h": 150,
+                                        "w": 150,
+                                        "resize": "crop"
+                                      }
+                                    },
+                                    "original_info": {
+                                      "height": 1280,
+                                      "width": 1024,
+                                      "focus_rects": [
+                                        {
+                                          "x": 0,
+                                          "y": 642,
+                                          "w": 1024,
+                                          "h": 573
+                                        },
+                                        {
+                                          "x": 0,
+                                          "y": 256,
+                                          "w": 1024,
+                                          "h": 1024
+                                        },
+                                        {
+                                          "x": 0,
+                                          "y": 113,
+                                          "w": 1024,
+                                          "h": 1167
+                                        },
+                                        {
+                                          "x": 32,
+                                          "y": 0,
+                                          "w": 640,
+                                          "h": 1280
+                                        },
+                                        {
+                                          "x": 0,
+                                          "y": 0,
+                                          "w": 1024,
+                                          "h": 1280
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ]
+                              },
+                              "favorite_count": 60,
+                              "favorited": false,
+                              "full_text": "Esta noche el circo está asegurado 😂😂😂\nAyuso se presenta al único debate.\nVamos \n@AleJacintoUrang \nEstamos contigo.\n#Sisu https://t.co/apswi6Wwiw",
+                              "is_quote_status": false,
+                              "lang": "es",
+                              "possibly_sensitive": false,
+                              "possibly_sensitive_editable": true,
+                              "quote_count": 2,
+                              "reply_count": 5,
+                              "retweet_count": 42,
+                              "retweeted": false,
+                              "user_id_str": "2949065723",
+                              "id_str": "1658407192859492355"
+                            }
+                          }
+                        }
+                      },
+                      "quick_promote_eligibility": {
+                        "eligibility": "IneligibleNotProfessional"
+                      }
+                    }
+                  },
+                  "tweetDisplayType": "Tweet",
+                  "hasModeratedReplies": false
+                }
+              }
+            },
+            {
+              "entryId": "tweetdetailrelatedtweets-1677037919880507392",
+              "sortIndex": "1",
+              "content": {
+                "entryType": "TimelineTimelineModule",
+                "__typename": "TimelineTimelineModule",
+                "items": [
+                  {
+                    "entryId": "tweetdetailrelatedtweets-1677037919880507392-tweet-1677037919880507392",
+                    "item": {
+                      "itemContent": {
+                        "itemType": "TimelineTweet",
+                        "__typename": "TimelineTweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "rest_id": "1677037919880507392",
+                            "has_birdwatch_notes": false,
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "id": "VXNlcjoyOTQ5MDY1NzIz",
+                                  "rest_id": "2949065723",
+                                  "affiliates_highlighted_label": {},
+                                  "has_graduated_access": true,
+                                  "is_blue_verified": false,
+                                  "legacy": {
+                                    "can_dm": true,
+                                    "can_media_tag": false,
+                                    "created_at": "Mon Dec 29 11:54:26 +0000 2014",
+                                    "default_profile": true,
+                                    "default_profile_image": false,
+                                    "description": "MI LUCHA ESTÁ EN TODAS PARTES. POR LOS DERECHOS DE LOS ANIMALES. POR UN MUNDO MEJOR.ACTIVISTA",
+                                    "entities": {
+                                      "description": {
+                                        "urls": []
+                                      }
+                                    },
+                                    "fast_followers_count": 0,
+                                    "favourites_count": 108021,
+                                    "followers_count": 15454,
+                                    "friends_count": 13032,
+                                    "has_custom_timelines": true,
+                                    "is_translator": false,
+                                    "listed_count": 34,
+                                    "location": "En donde me den amor ❤️😊🥰",
+                                    "media_count": 12985,
+                                    "name": "SisuMisu",
+                                    "normal_followers_count": 15454,
+                                    "pinned_tweet_ids_str": [
+                                      "1087440689368043520"
+                                    ],
+                                    "possibly_sensitive": false,
+                                    "profile_banner_url": "https://pbs.twimg.com/profile_banners/2949065723/1513372062",
+                                    "profile_image_url_https": "https://pbs.twimg.com/profile_images/1528038627317538817/wvoi8QLf_normal.jpg",
+                                    "profile_interstitial_type": "",
+                                    "screen_name": "SisuMisu3",
+                                    "statuses_count": 164333,
+                                    "translator_type": "none",
+                                    "verified": false,
+                                    "want_retweets": false,
+                                    "withheld_in_countries": []
+                                  },
+                                  "professional": {
+                                    "rest_id": "1490288411835523072",
+                                    "professional_type": "Creator",
+                                    "category": [
+                                      {
+                                        "id": 934,
+                                        "name": "Social Media Influencer",
+                                        "icon_name": "IconBriefcaseStroke"
+                                      }
+                                    ]
+                                  },
+                                  "business_account": {}
+                                }
+                              }
+                            },
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1677037919880507392"
+                              ],
+                              "editable_until_msecs": "1688675572000",
+                              "is_edit_eligible": true,
+                              "edits_remaining": "5"
+                            },
+                            "edit_perspective": {
+                              "favorited": false,
+                              "retweeted": false
+                            },
+                            "is_translatable": true,
+                            "views": {
+                              "count": "75",
+                              "state": "EnabledWithCount"
+                            },
+                            "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
+                            "quoted_status_result": {
+                              "result": {
+                                "__typename": "Tweet",
+                                "rest_id": "1677035434214412289",
+                                "has_birdwatch_notes": false,
+                                "core": {
+                                  "user_results": {
+                                    "result": {
+                                      "__typename": "User",
+                                      "id": "VXNlcjoxMzA1NDYwNDg5",
+                                      "rest_id": "1305460489",
+                                      "affiliates_highlighted_label": {},
+                                      "has_graduated_access": true,
+                                      "is_blue_verified": false,
+                                      "legacy": {
+                                        "can_dm": false,
+                                        "can_media_tag": false,
+                                        "created_at": "Tue Mar 26 19:56:20 +0000 2013",
+                                        "default_profile": false,
+                                        "default_profile_image": false,
+                                        "description": "Apartidario\n\"No puedo decir que no estoy en desacuerdo contigo\"\nMi humilde opinión . . .",
+                                        "entities": {
+                                          "description": {
+                                            "urls": []
+                                          }
+                                        },
+                                        "fast_followers_count": 0,
+                                        "favourites_count": 24976,
+                                        "followers_count": 3394,
+                                        "friends_count": 3386,
+                                        "has_custom_timelines": true,
+                                        "is_translator": false,
+                                        "listed_count": 35,
+                                        "location": "Madrid, Comunidad de Madrid",
+                                        "media_count": 5191,
+                                        "name": "P.S.V.",
+                                        "normal_followers_count": 3394,
+                                        "pinned_tweet_ids_str": [
+                                          "1075291506767003648"
+                                        ],
+                                        "possibly_sensitive": false,
+                                        "profile_banner_url": "https://pbs.twimg.com/profile_banners/1305460489/1437468007",
+                                        "profile_image_url_https": "https://pbs.twimg.com/profile_images/869271246885793794/6YZVDC_r_normal.jpg",
+                                        "profile_interstitial_type": "",
+                                        "screen_name": "PShermanV",
+                                        "statuses_count": 175081,
+                                        "translator_type": "none",
+                                        "verified": false,
+                                        "want_retweets": false,
+                                        "withheld_in_countries": []
+                                      },
+                                      "professional": {
+                                        "rest_id": "1580505200997138433",
+                                        "professional_type": "Business",
+                                        "category": [
+                                          {
+                                            "id": 15,
+                                            "name": "Entertainment & Recreation",
+                                            "icon_name": "IconBriefcaseStroke"
+                                          }
+                                        ]
+                                      },
+                                      "business_account": {}
+                                    }
+                                  }
+                                },
+                                "edit_control": {
+                                  "edit_tweet_ids": [
+                                    "1677035434214412289"
+                                  ],
+                                  "editable_until_msecs": "1688674979000",
+                                  "is_edit_eligible": false,
+                                  "edits_remaining": "5"
+                                },
+                                "edit_perspective": {
+                                  "favorited": false,
+                                  "retweeted": false
+                                },
+                                "is_translatable": false,
+                                "views": {
+                                  "count": "83",
+                                  "state": "EnabledWithCount"
+                                },
+                                "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+                                "legacy": {
+                                  "created_at": "Thu Jul 06 19:22:59 +0000 2023",
+                                  "conversation_id_str": "1676995076461821958",
+                                  "display_text_range": [
+                                    28,
+                                    99
+                                  ],
+                                  "entities": {
+                                    "user_mentions": [
+                                      {
+                                        "id_str": "2949065723",
+                                        "name": "SisuMisu",
+                                        "screen_name": "SisuMisu3",
+                                        "indices": [
+                                          0,
+                                          10
+                                        ]
+                                      },
+                                      {
+                                        "id_str": "888853157912227840",
+                                        "name": "Rosa Isabel",
+                                        "screen_name": "RosaIsa38309247",
+                                        "indices": [
+                                          11,
+                                          27
+                                        ]
+                                      }
+                                    ],
+                                    "urls": [],
+                                    "hashtags": [],
+                                    "symbols": []
+                                  },
+                                  "favorite_count": 1,
+                                  "favorited": false,
+                                  "full_text": "@SisuMisu3 @RosaIsa38309247 O ESPABILAMOS O A LIMPIAR LAS ESCOPETAS\nANTE AQUELLO DE LOS 26 MILLONES",
+                                  "in_reply_to_screen_name": "SisuMisu3",
+                                  "in_reply_to_status_id_str": "1676995076461821958",
+                                  "in_reply_to_user_id_str": "2949065723",
+                                  "is_quote_status": false,
+                                  "lang": "es",
+                                  "quote_count": 1,
+                                  "reply_count": 0,
+                                  "retweet_count": 0,
+                                  "retweeted": false,
+                                  "user_id_str": "1305460489",
+                                  "id_str": "1677035434214412289"
+                                }
+                              }
+                            },
+                            "legacy": {
+                              "created_at": "Thu Jul 06 19:32:52 +0000 2023",
+                              "conversation_id_str": "1677037919880507392",
+                              "display_text_range": [
+                                0,
+                                90
+                              ],
+                              "entities": {
+                                "user_mentions": [],
+                                "urls": [],
+                                "hashtags": [],
+                                "symbols": []
+                              },
+                              "favorite_count": 2,
+                              "favorited": false,
+                              "full_text": "Tengo fé en que todo saldrá bien.\nNi como esperamos pero nos librará de este sin sentido .",
+                              "is_quote_status": true,
+                              "lang": "es",
+                              "quote_count": 0,
+                              "quoted_status_id_str": "1677035434214412289",
+                              "quoted_status_permalink": {
+                                "url": "https://t.co/X6fr18ZfNN",
+                                "expanded": "https://twitter.com/PShermanV/status/1677035434214412289",
+                                "display": "twitter.com/PShermanV/stat…"
+                              },
+                              "reply_count": 0,
+                              "retweet_count": 0,
+                              "retweeted": false,
+                              "user_id_str": "2949065723",
+                              "id_str": "1677037919880507392"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotProfessional"
+                            }
+                          }
+                        },
+                        "tweetDisplayType": "Tweet"
+                      },
+                      "clientEventInfo": {
+                        "component": "related_tweet",
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "RelatedTweet"
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "displayType": "Vertical",
+                "header": {
+                  "displayType": "Classic",
+                  "text": "Discover more",
+                  "socialContext": {
+                    "type": "TimelineGeneralContext",
+                    "contextType": "TextOnly",
+                    "text": "Sourced from across Twitter"
+                  },
+                  "sticky": true
+                },
+                "clientEventInfo": {
+                  "component": "related_tweet",
+                  "details": {
+                    "conversationDetails": {
+                      "conversationSection": "RelatedTweet"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "TimelineTerminateTimeline",
+          "direction": "Top"
+        }
+      ]
+    }
+  }
+}

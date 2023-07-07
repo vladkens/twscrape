@@ -18,7 +18,7 @@ SEARCH_FEATURES = {
 
 
 class API:
-    def __init__(self, pool: AccountsPool | None, debug=False):
+    def __init__(self, pool: AccountsPool | None = None, debug=False):
         self.pool = pool if pool is not None else AccountsPool()
         self.debug = debug
 

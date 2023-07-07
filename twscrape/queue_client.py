@@ -114,7 +114,7 @@ class QueueClient:
                     logger.debug(f"Rate limit for {log_id}")
 
                 elif rep.status_code == 400:
-                    # twitter can return different types of cursors that not transfers between accounts
+                    # api can return different types of cursors that not transfers between accounts
                     # just take the next account, the current cursor can work in it
                     logger.debug(f"Cursor not valid for {log_id}")
 

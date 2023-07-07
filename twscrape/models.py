@@ -178,8 +178,19 @@ class Tweet(JSONTrait):
     @staticmethod
     def parse(obj: dict, res: dict):
         tw_usr = User.parse(res["users"][obj["user_id_str"]])
-        rt_obj = get_or(res, f"tweets.{obj.get('retweeted_status_id_str')}")
-        qt_obj = get_or(res, f"tweets.{obj.get('quoted_status_id_str')}")
+
+        rt_id = _first(obj, ["retweeted_status_id_str", "retweeted_status_result.result.rest_id"])
+        rt_obj = get_or(res, f"tweets.{rt_id}")
+
+        qt_id = _first(obj, ["quoted_status_id_str", "quoted_status_result.result.rest_id"])
+        qt_obj = get_or(res, f"tweets.{qt_id}")
+
+        # for development
+        # print()
+        # print("-" * 80)
+        # print(res["tweets"].keys())
+        # print(rt_id, rt_obj is not None)
+        # print(qt_id, qt_obj is not None)
 
         return Tweet(
             id=int(obj["id_str"]),
@@ -198,7 +209,7 @@ class Tweet(JSONTrait):
             cashtags=[x["text"] for x in get_or(obj, "entities.symbols", [])],
             mentionedUsers=[UserRef.parse(x) for x in get_or(obj, "entities.user_mentions", [])],
             links=_parse_links(obj, ["entities.urls"]),
-            viewCount=int_or_none(obj, "ext_views.count"),
+            viewCount=_get_views(obj, rt_obj or {}),
             retweetedTweet=Tweet.parse(rt_obj, res) if rt_obj else None,
             quotedTweet=Tweet.parse(qt_obj, res) if qt_obj else None,
             place=Place.parse(obj["place"]) if obj.get("place") else None,
@@ -345,3 +356,20 @@ def _parse_links(obj: dict, paths: list[str]):
     links = [TextLink.parse(x) for x in links]
     links = [x for x in links if x is not None]
     return links
+
+
+def _first(obj: dict, paths: list[str]):
+    for x in paths:
+        cid = get_or(obj, x, None)
+        if cid is not None:
+            return cid
+    return None
+
+
+def _get_views(obj: dict, rt_obj: dict):
+    for x in [obj, rt_obj]:
+        for y in ["ext_views.count", "views.count"]:
+            k = int_or_none(x, y)
+            if k is not None:
+                return k
+    return None

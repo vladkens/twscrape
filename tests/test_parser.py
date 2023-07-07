@@ -53,7 +53,8 @@ def mock_gen(obj, fn: str):
     setattr(obj, fn, cb_gen)
 
 
-def check_tweet(doc: Tweet):
+def check_tweet(doc: Tweet | None):
+    assert doc is not None
     assert doc.id is not None
     assert doc.id_str is not None
     assert isinstance(doc.id, int)
@@ -122,7 +123,7 @@ def check_user(doc: User):
 
 
 async def test_search():
-    api = API(AccountsPool())
+    api = API()
     mock_gen(api, "search_raw")
 
     items = await gather(api.search("elon musk lang:en", limit=20))
@@ -133,7 +134,7 @@ async def test_search():
 
 
 async def test_user_by_id():
-    api = API(AccountsPool())
+    api = API()
     mock_rep(api, "user_by_id_raw")
 
     doc = await api.user_by_id(2244994945)
@@ -150,7 +151,7 @@ async def test_user_by_id():
 
 
 async def test_user_by_login():
-    api = API(AccountsPool())
+    api = API()
     mock_rep(api, "user_by_login_raw")
 
     doc = await api.user_by_login("twitterdev")
@@ -167,17 +168,19 @@ async def test_user_by_login():
 
 
 async def test_tweet_details():
-    api = API(AccountsPool())
+    api = API()
     mock_rep(api, "tweet_details_raw")
 
     doc = await api.tweet_details(1649191520250245121)
+    assert doc is not None
     check_tweet(doc)
+
     assert doc.id == 1649191520250245121
     assert doc.user is not None
 
 
 async def test_followers():
-    api = API(AccountsPool())
+    api = API()
     mock_gen(api, "followers_raw")
 
     users = await gather(api.followers(2244994945))
@@ -188,7 +191,7 @@ async def test_followers():
 
 
 async def test_following():
-    api = API(AccountsPool())
+    api = API()
     mock_gen(api, "following_raw")
 
     users = await gather(api.following(2244994945))
@@ -199,7 +202,7 @@ async def test_following():
 
 
 async def test_retweters():
-    api = API(AccountsPool())
+    api = API()
     mock_gen(api, "retweeters_raw")
 
     users = await gather(api.retweeters(1649191520250245121))
@@ -210,7 +213,7 @@ async def test_retweters():
 
 
 async def test_favoriters():
-    api = API(AccountsPool())
+    api = API()
     mock_gen(api, "favoriters_raw")
 
     users = await gather(api.favoriters(1649191520250245121))
@@ -221,7 +224,7 @@ async def test_favoriters():
 
 
 async def test_user_tweets():
-    api = API(AccountsPool())
+    api = API()
     mock_gen(api, "user_tweets_raw")
 
     tweets = await gather(api.user_tweets(2244994945))
@@ -232,7 +235,7 @@ async def test_user_tweets():
 
 
 async def test_user_tweets_and_replies():
-    api = API(AccountsPool())
+    api = API()
     mock_gen(api, "user_tweets_and_replies_raw")
 
     tweets = await gather(api.user_tweets_and_replies(2244994945))
@@ -243,7 +246,7 @@ async def test_user_tweets_and_replies():
 
 
 async def test_tweet_with_video():
-    api = API(AccountsPool())
+    api = API()
 
     files = [
         ("manual_tweet_with_video_1.json", 1671508600538161153),
@@ -253,7 +256,38 @@ async def test_tweet_with_video():
     for file, twid in files:
         mock_rep(api, "tweet_details_raw", os.path.join(DATA_DIR, file))
         doc = await api.tweet_details(twid)
+        assert doc is not None
         check_tweet(doc)
+
+
+async def test_issue_28():
+    api = API()
+    mock_rep(api, "issue_28")
+
+    doc = await api.tweet_details(1658409412799737856)
+    assert doc is not None
+    check_tweet(doc)
+
+    assert doc.id == 1658409412799737856
+    assert doc.user is not None
+
+    assert doc.retweetedTweet is not None
+    assert doc.retweetedTweet.viewCount is not None
+    assert doc.viewCount is not None  # views should come from retweetedTweet
+    assert doc.viewCount == doc.retweetedTweet.viewCount
+    check_tweet(doc.retweetedTweet)
+
+    mock_rep(api, "issue_28.2")
+    doc = await api.tweet_details(1658421690001502208)
+    assert doc is not None
+    check_tweet(doc)
+    assert doc.id == 1658421690001502208
+    assert doc.viewCount is not None
+
+    assert doc.quotedTweet is not None
+    assert doc.quotedTweet.id != doc.id
+    check_tweet(doc.quotedTweet)
+    assert doc.quotedTweet.viewCount is not None
 
 
 async def main():
