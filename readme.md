@@ -18,7 +18,11 @@
   </a>
 </div>
 
-Twitter GraphQL and Search API implementation with [SNScrape](https://github.com/JustAnotherArchivist/snscrape) data models.
+Twitter GraphQL API implementation with [SNScrape](https://github.com/JustAnotherArchivist/snscrape) data models.
+
+<div align="center">
+  <img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*0erkeMBhl_qqRofIeU5jMQ.png" alt="example of cli usage" width="560px">
+</div>
 
 ## Install
 
@@ -50,42 +54,47 @@ Data models:
 
 ```python
 import asyncio
-from twscrape import AccountsPool, API, gather
+from twscrape import API, gather
 from twscrape.logger import set_log_level
 
 async def main():
-    pool = AccountsPool()  # or AccountsPool("path-to.db") - default is `accounts.db` 
-    await pool.add_account("user1", "pass1", "user1@example.com", "email_pass1")
-    await pool.add_account("user2", "pass2", "user2@example.com", "email_pass2")
+    api = API()  # or API("path-to.db") - default is `accounts.db`
 
-    # log in to all new accounts
-    await pool.login_all()
+    # add account & login (also availalbe from cli)
+    await api.pool.add_account("user1", "pass1", "user1@example.com", "email_pass1")
+    await api.pool.add_account("user2", "pass2", "user2@example.com", "email_pass2")
+    await api.pool.login_all()
 
-    api = API(pool)
-
-    # search api (latest tab)
+    # search (latest tab)
     await gather(api.search("elon musk", limit=20))  # list[Tweet]
 
-    # graphql api
-    tweet_id, user_id, user_login = 20, 2244994945, "twitterdev"
-
+    # tweet info
+    tweet_id = 20
     await api.tweet_details(tweet_id)  # Tweet
     await gather(api.retweeters(tweet_id, limit=20))  # list[User]
     await gather(api.favoriters(tweet_id, limit=20))  # list[User]
 
-    await api.user_by_id(user_id)  # User
+    # get user by login
+    user_login = "twitterdev"
     await api.user_by_login(user_login)  # User
+
+    # user info
+    user_id = 2244994945
+    await api.user_by_id(user_id)  # User
     await gather(api.followers(user_id, limit=20))  # list[User]
     await gather(api.following(user_id, limit=20))  # list[User]
     await gather(api.user_tweets(user_id, limit=20))  # list[Tweet]
     await gather(api.user_tweets_and_replies(user_id, limit=20))  # list[Tweet]
 
-    # note 1: limit is optional, default is -1 (no limit)
-    # note 2: all methods have `raw` version e.g.:
+    # list info
+    list_id = 123456789
+    await gather(api.list_timeline(list_id))
 
+    # NOTE 1: gather is a helper function to receive all data as list, FOR can be used as well:
     async for tweet in api.search("elon musk"):
         print(tweet.id, tweet.user.username, tweet.rawContent)  # tweet is `Tweet` object
 
+    # NOTE 2: all methods have `raw` version (returns `httpx.Response` object):
     async for rep in api.search_raw("elon musk"):
         print(rep.status_code, rep.json())  # rep is `httpx.Response` object
 
@@ -208,14 +217,18 @@ twscrape search "elon mask lang:es" --limit=20 --raw
 
 ## Limitations
 
-**NOTE:** After 1 July 2023 Twitter [introduced limits](https://twitter.com/elonmusk/status/1675187969420828672) on the number of tweets per day per account, so the values below may not be fully correct.
+After 1 July 2023 Twitter [introduced new limits](https://twitter.com/elonmusk/status/1675187969420828672) and still continue to update it periodically.
 
-API rate limits (per account):
-- Search API – 250 req / 15 min
-- GraphQL API – has individual rate limits per operation (in most cases this is 500 req / 15 min)
+The basic behaviour is as follows:
+- the reqest limit is updated every 15 minutes for each endpoint individually
+- e.g. each account have 50 search requests / 15 min, 50 profile requests / 15 min, etc.
 
 API data limits:
 - `user_tweets` & `user_tweets_and_replies` – can return ~3200 tweets maximum
+
+## Articles
+- [How to still scrape millions of tweets in 2023](https://medium.com/@vladkens/how-to-still-scrape-millions-of-tweets-in-2023-using-twscrape-97f5d3881434)
+- [_(Add Article)_](https://github.com/vladkens/twscrape/edit/main/readme.md)
 
 ## See also
 - [twitter-advanced-search](https://github.com/igorbrigadir/twitter-advanced-search) – guide on search filters
