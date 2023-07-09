@@ -77,7 +77,7 @@ async def main(args):
         return
 
     if args.command == "login_accounts":
-        await pool.login_all()
+        print(await pool.login_all())
         return
 
     if args.command == "relogin_failed":
@@ -143,14 +143,20 @@ def run():
         return p
 
     subparsers.add_parser("version", help="Show version")
-
     subparsers.add_parser("accounts", help="List all accounts")
+
     add_accounts = subparsers.add_parser("add_accounts", help="Add accounts")
     add_accounts.add_argument("file_path", help="File with accounts")
     add_accounts.add_argument("line_format", help="args of Pool.add_account splited by same delim")
+
+    del_accounts = subparsers.add_parser("del_accounts", help="Delete accounts")
+    del_accounts.add_argument("usernames", nargs="+", default=[], help="Usernames to delete")
+
     subparsers.add_parser("login_accounts", help="Login accounts")
+
     relogin = subparsers.add_parser("relogin", help="Re-login selected accounts")
     relogin.add_argument("usernames", nargs="+", default=[], help="Usernames to re-login")
+
     subparsers.add_parser("relogin_failed", help="Retry login for failed accounts")
     subparsers.add_parser("stats", help="Get current usage stats")
 

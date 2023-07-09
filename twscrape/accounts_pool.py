@@ -87,6 +87,16 @@ class AccountsPool:
         )
         await self.save(account)
 
+    async def delete_accounts(self, usernames: str | list[str]):
+        usernames = usernames if isinstance(usernames, list) else [usernames]
+        usernames = list(set(usernames))
+        if not usernames:
+            logger.warning("No usernames provided")
+            return
+
+        qs = f"""DELETE FROM accounts WHERE username IN ({','.join([f'"{x}"' for x in usernames])})"""
+        await execute(self._db_file, qs)
+
     async def get(self, username: str):
         qs = "SELECT * FROM accounts WHERE username = :username"
         rs = await fetchone(self._db_file, qs, {"username": username})
@@ -113,8 +123,10 @@ class AccountsPool:
         try:
             await login(account)
             logger.info(f"Logged in to {account.username} successfully")
+            return True
         except Exception as e:
             logger.error(f"Error logging in to {account.username}: {e}")
+            return False
         finally:
             await self.save(account)
 
@@ -125,9 +137,12 @@ class AccountsPool:
         accounts = [Account.from_rs(rs) for rs in rs]
         # await asyncio.gather(*[login(x) for x in self.accounts])
 
+        counter = {"total": len(accounts), "success": 0, "failed": 0}
         for i, x in enumerate(accounts, start=1):
             logger.info(f"[{i}/{len(accounts)}] Logging in {x.username} - {x.email}")
-            await self.login(x)
+            status = await self.login(x)
+            counter["success" if status else "failed"] += 1
+        return counter
 
     async def relogin(self, usernames: str | list[str]):
         usernames = usernames if isinstance(usernames, list) else [usernames]
