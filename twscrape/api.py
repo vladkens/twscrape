@@ -18,8 +18,16 @@ SEARCH_FEATURES = {
 
 
 class API:
-    def __init__(self, pool: AccountsPool | None = None, debug=False):
-        self.pool = pool if pool is not None else AccountsPool()
+    pool: AccountsPool
+
+    def __init__(self, pool: AccountsPool | str | None = None, debug=False):
+        if isinstance(pool, AccountsPool):
+            self.pool = pool
+        elif isinstance(pool, str):
+            self.pool = AccountsPool(pool)
+        else:
+            self.pool = AccountsPool()
+
         self.debug = debug
 
     # general helpers
@@ -34,7 +42,7 @@ class API:
 
         stats = f"{q} {new_total:,d} (+{new_count:,d})"
         flags = f"res={int(is_res)} cur={int(is_cur)} lim={int(is_lim)}"
-        logger.debug(" ".join([stats, flags, req_id(rep)]))
+        # logger.debug(" ".join([stats, flags, req_id(rep)]))
 
         return rep if is_res else None, new_total, is_cur and not is_lim
 
