@@ -76,6 +76,10 @@ async def main(args):
         await pool.load_from_file(args.file_path, args.line_format)
         return
 
+    if args.command == "del_accounts":
+        await pool.delete_accounts(args.usernames)
+        return
+
     if args.command == "login_accounts":
         print(await pool.login_all())
         return

@@ -2,9 +2,8 @@ from httpx import Response
 
 from .accounts_pool import AccountsPool
 from .constants import GQL_FEATURES, GQL_URL
-from .logger import logger
 from .models import Tweet, User
-from .queue_client import QueueClient, req_id
+from .queue_client import QueueClient
 from .utils import encode_params, find_obj, get_by_path, to_old_obj, to_old_rep
 
 SEARCH_FEATURES = {

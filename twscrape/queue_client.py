@@ -25,6 +25,16 @@ class Ctx:
         self.req_count = 0
 
 
+class ApiError(Exception):
+    def __init__(self, rep: httpx.Response, res: dict):
+        self.rep = rep
+        self.res = res
+        self.errors = [x["message"] for x in res["errors"]]
+
+    def __str__(self):
+        return f"ApiError ({self.rep.status_code}) {' ~ '.join(self.errors)}"
+
+
 class QueueClient:
     def __init__(self, pool: AccountsPool, queue: str, debug=False):
         self.pool = pool
@@ -98,7 +108,12 @@ class QueueClient:
                 rep = await ctx.clt.request(method, url, params=params)
                 setattr(rep, "__username", ctx.acc.username)
                 self._push_history(rep)
+
                 rep.raise_for_status()
+                res = rep.json()
+                if "errors" in res:
+                    raise ApiError(rep, res)
+
                 ctx.req_count += 1  # count only successful
                 retry_count = 0
                 return rep
@@ -125,11 +140,15 @@ class QueueClient:
 
                 else:
                     known_code = False
-                    logger.debug(f"HTTP Error {rep.status_code} {e.request.url}\n{rep.text}")
+                    logger.warning(f"HTTP Error {rep.status_code} {e.request.url}\n{rep.text}")
 
                 await self._close_ctx(reset_ts)
                 if not known_code:
                     raise e
+            except ApiError as e:
+                reset_ts = utc_ts() + 60 * 60 * 4  # 4 hours
+                await self._close_ctx(reset_ts)
+                logger.warning(e)
             except Exception as e:
                 logger.warning(f"Unknown error, retrying. Err ({type(e)}): {str(e)}")
                 retry_count += 1
