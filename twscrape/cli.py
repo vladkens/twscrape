@@ -92,6 +92,10 @@ async def main(args):
         await pool.relogin(args.usernames)
         return
 
+    if args.command == "reset_locks":
+        await pool.reset_locks()
+        return
+
     fn = args.command + "_raw" if args.raw else args.command
     fn = getattr(api, fn, None)
     if fn is None:
@@ -162,6 +166,7 @@ def run():
     relogin.add_argument("usernames", nargs="+", default=[], help="Usernames to re-login")
 
     subparsers.add_parser("relogin_failed", help="Retry login for failed accounts")
+    subparsers.add_parser("reset_locks", help="Reset all locks")
     subparsers.add_parser("stats", help="Get current usage stats")
 
     c_lim("search", "Search for tweets", "query", "Search query")

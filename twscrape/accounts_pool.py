@@ -171,6 +171,10 @@ class AccountsPool:
         rs = await fetchall(self._db_file, qs)
         await self.relogin([x["username"] for x in rs])
 
+    async def reset_locks(self):
+        qs = "UPDATE accounts SET locks = json_object()"
+        await execute(self._db_file, qs)
+
     async def set_active(self, username: str, active: bool):
         qs = "UPDATE accounts SET active = :active WHERE username = :username"
         await execute(self._db_file, qs, {"username": username, "active": active})
@@ -233,10 +237,13 @@ class AccountsPool:
         return Account.from_rs(rs) if rs else None
 
     async def get_for_queue_or_wait(self, queue: str) -> Account:
+        msg_show = False
         while True:
             account = await self.get_for_queue(queue)
             if not account:
-                logger.debug(f"No accounts available for queue '{queue}' (sleeping for 5 sec)")
+                if not msg_show:
+                    logger.info(f"No accounts available for queue '{queue}' (sleeping for 5 sec)")
+                    msg_show = True
                 await asyncio.sleep(5)
                 continue
 

@@ -1,5 +1,5 @@
 import json
-from datetime import datetime
+import os
 
 import httpx
 
@@ -35,12 +35,36 @@ class ApiError(Exception):
         return f"ApiError ({self.rep.status_code}) {' ~ '.join(self.errors)}"
 
 
+def dump_rep(rep: httpx.Response):
+    count = getattr(rep, "__count", -1) + 1
+    setattr(rep, "__count", count)
+
+    acc = getattr(rep, "__username", "<unknown>")
+    outfile = f"/tmp/twscrape/{count:05d}_{rep.status_code}_{acc}.txt"
+    os.makedirs(os.path.dirname(outfile), exist_ok=True)
+
+    msg = []
+    msg.append(f"{count:,d} - {req_id(rep)}")
+    msg.append(f"{rep.status_code} {rep.request.method} {rep.request.url}")
+    msg.append("\n")
+    msg.append("\n".join([str(x) for x in list(rep.request.headers.items())]))
+    msg.append("\n")
+
+    try:
+        msg.append(json.dumps(rep.json(), indent=2))
+    except json.JSONDecodeError:
+        msg.append(rep.text)
+
+    txt = "\n".join(msg)
+    with open(outfile, "w") as f:
+        f.write(txt)
+
+
 class QueueClient:
     def __init__(self, pool: AccountsPool, queue: str, debug=False):
         self.pool = pool
         self.queue = queue
         self.debug = debug
-        self.history: list[httpx.Response] = []
         self.ctx: Ctx | None = None
 
     async def __aenter__(self):
@@ -71,34 +95,6 @@ class QueueClient:
         self.ctx = Ctx(acc, clt)
         return self.ctx
 
-    def _push_history(self, rep: httpx.Response):
-        self.history.append(rep)
-        if len(self.history) > 3:
-            self.history.pop(0)
-
-    def _dump_history(self, extra: str = ""):
-        if not self.debug:
-            return
-
-        ts = str(datetime.now()).replace(":", "-").replace(" ", "_")
-        filename = f"/tmp/api_dump_{ts}.txt"
-        with open(filename, "w", encoding="utf-8") as fp:
-            txt = f"{extra}\n"
-            for rep in self.history:
-                res = json.dumps(rep.json(), indent=2)
-                hdr = "\n".join([str(x) for x in list(rep.request.headers.items())])
-                div = "-" * 20
-
-                msg = f"{div}\n{req_id(rep)}"
-                msg = f"{msg}\n{rep.request.method} {rep.request.url}"
-                msg = f"{msg}\n{rep.status_code}\n{div}"
-                msg = f"{msg}\n{hdr}\n{div}\n{res}\n\n"
-                txt += msg
-
-            fp.write(txt)
-
-        print(f"API dump ({len(self.history)}) dumped to {filename}")
-
     async def req(self, method: str, url: str, params: ReqParams = None):
         retry_count = 0
         while True:
@@ -107,12 +103,13 @@ class QueueClient:
             try:
                 rep = await ctx.clt.request(method, url, params=params)
                 setattr(rep, "__username", ctx.acc.username)
-                self._push_history(rep)
+                dump_rep(rep)
 
-                rep.raise_for_status()
                 res = rep.json()
                 if "errors" in res:
                     raise ApiError(rep, res)
+
+                rep.raise_for_status()
 
                 ctx.req_count += 1  # count only successful
                 retry_count = 0
@@ -146,7 +143,8 @@ class QueueClient:
                 if not known_code:
                     raise e
             except ApiError as e:
-                reset_ts = utc_ts() + 60 * 60 * 4  # 4 hours
+                # possible account banned
+                reset_ts = utc_ts() + 60 * 60 * 12  # 12 hours
                 await self._close_ctx(reset_ts)
                 logger.warning(e)
             except Exception as e:
@@ -159,5 +157,4 @@ class QueueClient:
         try:
             return await self.req("GET", url, params=params)
         except httpx.HTTPStatusError as e:
-            self._dump_history(f"GET {url} {json.dumps(params)}")
             raise e

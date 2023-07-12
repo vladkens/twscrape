@@ -1,7 +1,7 @@
 import json
 from collections import defaultdict
 from datetime import datetime, timezone
-from typing import Any, AsyncGenerator, Callable, TypeVar
+from typing import Any, AsyncGenerator, Callable, TypedDict, TypeVar
 
 from httpx import HTTPStatusError, Response
 
@@ -130,7 +130,7 @@ def to_old_obj(obj: dict):
     }
 
 
-def to_old_rep(obj: dict):
+def to_old_rep(obj: dict) -> dict[str, dict]:
     tmp = get_typed_object(obj, defaultdict(list))
 
     tweets = [x for x in tmp.get("Tweet", []) if "legacy" in x]
