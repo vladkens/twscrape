@@ -1,7 +1,7 @@
 from httpx import Response
 
 from .accounts_pool import AccountsPool
-from .constants import GQL_FEATURES, GQL_URL
+from .constants import *
 from .models import Tweet, User
 from .queue_client import QueueClient
 from .utils import encode_params, find_obj, get_by_path, to_old_obj, to_old_rep
@@ -38,10 +38,6 @@ class API:
         is_res = new_count > 0
         is_cur = cur is not None
         is_lim = lim > 0 and new_total >= lim
-
-        stats = f"{q} {new_total:,d} (+{new_count:,d})"
-        flags = f"res={int(is_res)} cur={int(is_cur)} lim={int(is_lim)}"
-        # logger.debug(" ".join([stats, flags, req_id(rep)]))
 
         return rep if is_res else None, new_total, is_cur and not is_lim
 
@@ -87,7 +83,7 @@ class API:
     # search
 
     async def search_raw(self, q: str, limit=-1, kv=None):
-        op = "nK1dw4oV3k4w5TdtcAdSww/SearchTimeline"
+        op = OP_SearchTimeline
         kv = {
             "rawQuery": q,
             "count": 20,
@@ -111,7 +107,7 @@ class API:
     # user_by_id
 
     async def user_by_id_raw(self, uid: int, kv=None):
-        op = "GazOglcBvgLigl3ywt6b3Q/UserByRestId"
+        op = OP_UserByRestId
         kv = {"userId": str(uid), "withSafetyModeUserFields": True, **(kv or {})}
         return await self._gql_item(op, kv)
 
@@ -123,7 +119,7 @@ class API:
     # user_by_login
 
     async def user_by_login_raw(self, login: str, kv=None):
-        op = "sLVLhk0bGj3MVFEKTdax1w/UserByScreenName"
+        op = OP_UserByScreenName
         kv = {"screen_name": login, "withSafetyModeUserFields": True, **(kv or {})}
         return await self._gql_item(op, kv)
 
@@ -135,7 +131,7 @@ class API:
     # tweet_details
 
     async def tweet_details_raw(self, twid: int, kv=None):
-        op = "zXaXQgfyR4GxE21uwYQSyA/TweetDetail"
+        op = OP_TweetDetail
         kv = {
             "focalTweetId": str(twid),
             "referrer": "tweet",  # tweet, profile
@@ -156,6 +152,7 @@ class API:
         ft = {
             "responsive_web_twitter_blue_verified_badge_is_enabled": True,
             "longform_notetweets_richtext_consumption_enabled": True,
+            **SEARCH_FEATURES,
         }
         return await self._gql_item(op, kv, ft)
 
@@ -168,7 +165,7 @@ class API:
     # followers
 
     async def followers_raw(self, uid: int, limit=-1, kv=None):
-        op = "djdTXDIk2qhd4OStqlUFeQ/Followers"
+        op = OP_Followers
         kv = {"userId": str(uid), "count": 20, "includePromotedContent": False, **(kv or {})}
         async for x in self._gql_items(op, kv, limit=limit):
             yield x
@@ -182,7 +179,7 @@ class API:
     # following
 
     async def following_raw(self, uid: int, limit=-1, kv=None):
-        op = "IWP6Zt14sARO29lJT35bBw/Following"
+        op = OP_Following
         kv = {"userId": str(uid), "count": 20, "includePromotedContent": False, **(kv or {})}
         async for x in self._gql_items(op, kv, limit=limit):
             yield x
@@ -196,7 +193,7 @@ class API:
     # retweeters
 
     async def retweeters_raw(self, twid: int, limit=-1, kv=None):
-        op = "U5f_jm0CiLmSfI1d4rGleQ/Retweeters"
+        op = OP_Retweeters
         kv = {"tweetId": str(twid), "count": 20, "includePromotedContent": True, **(kv or {})}
         async for x in self._gql_items(op, kv, limit=limit):
             yield x
@@ -210,7 +207,7 @@ class API:
     # favoriters
 
     async def favoriters_raw(self, twid: int, limit=-1, kv=None):
-        op = "vcTrPlh9ovFDQejz22q9vg/Favoriters"
+        op = OP_Favoriters
         kv = {"tweetId": str(twid), "count": 20, "includePromotedContent": True, **(kv or {})}
         async for x in self._gql_items(op, kv, limit=limit):
             yield x
@@ -224,7 +221,7 @@ class API:
     # user_tweets
 
     async def user_tweets_raw(self, uid: int, limit=-1, kv=None):
-        op = "CdG2Vuc1v6F5JyEngGpxVw/UserTweets"
+        op = OP_UserTweets
         kv = {
             "userId": str(uid),
             "count": 40,
@@ -246,7 +243,7 @@ class API:
     # user_tweets_and_replies
 
     async def user_tweets_and_replies_raw(self, uid: int, limit=-1, kv=None):
-        op = "zQxfEr5IFxQ2QZ-XMJlKew/UserTweetsAndReplies"
+        op = OP_UserTweetsAndReplies
         kv = {
             "userId": str(uid),
             "count": 40,
@@ -268,7 +265,7 @@ class API:
     # list timeline
 
     async def list_timeline_raw(self, list_id: int, limit=-1, kv=None):
-        op = "2Vjeyo_L0nizAUhHe3fKyA/ListLatestTweetsTimeline"
+        op = OP_ListLatestTweetsTimeline
         kv = {
             "listId": str(list_id),
             "count": 20,

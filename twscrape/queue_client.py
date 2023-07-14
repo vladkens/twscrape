@@ -1,5 +1,7 @@
 import json
 import os
+from datetime import datetime
+from typing import Any
 
 import httpx
 
@@ -8,14 +10,6 @@ from .logger import logger
 from .utils import utc_ts
 
 ReqParams = dict[str, str | int] | None
-
-
-def req_id(rep: httpx.Response):
-    lr = rep.headers.get("x-rate-limit-remaining", -1)
-    ll = rep.headers.get("x-rate-limit-limit", -1)
-
-    username = getattr(rep, "__username", "<UNKNOWN>")
-    return f"{username} {lr}/{ll}"
 
 
 class Ctx:
@@ -30,24 +24,39 @@ class ApiError(Exception):
         self.rep = rep
         self.res = res
         self.errors = [x["message"] for x in res["errors"]]
+        self.acc = getattr(rep, "__username", "<UNKNOWN>")
 
     def __str__(self):
-        return f"ApiError ({self.rep.status_code}) {' ~ '.join(self.errors)}"
+        msg = f"(code {self.rep.status_code}): {' ~ '.join(self.errors)}"
+        return f"ApiError on {req_id(self.rep)} {msg}"
+
+
+def req_id(rep: httpx.Response):
+    lr = str(rep.headers.get("x-rate-limit-remaining", -1))
+    ll = str(rep.headers.get("x-rate-limit-limit", -1))
+    sz = max(len(lr), len(ll))
+    lr, ll = lr.rjust(sz), ll.rjust(sz)
+
+    username = getattr(rep, "__username", "<UNKNOWN>")
+    return f"{lr}/{ll} - {username}"
 
 
 def dump_rep(rep: httpx.Response):
-    count = getattr(rep, "__count", -1) + 1
-    setattr(rep, "__count", count)
+    count = getattr(dump_rep, "__count", -1) + 1
+    setattr(dump_rep, "__count", count)
 
     acc = getattr(rep, "__username", "<unknown>")
-    outfile = f"/tmp/twscrape/{count:05d}_{rep.status_code}_{acc}.txt"
+    fts = datetime.utcnow().isoformat().split(".")[0].replace("T", "_").replace(":", "-")[0:16]
+    outfile = f"{count:05d}_{rep.status_code}_{acc}.txt"
+    outfile = f"/tmp/twscrape-{fts}/{outfile}"
     os.makedirs(os.path.dirname(outfile), exist_ok=True)
 
     msg = []
     msg.append(f"{count:,d} - {req_id(rep)}")
     msg.append(f"{rep.status_code} {rep.request.method} {rep.request.url}")
     msg.append("\n")
-    msg.append("\n".join([str(x) for x in list(rep.request.headers.items())]))
+    # msg.append("\n".join([str(x) for x in list(rep.request.headers.items())]))
+    msg.append("\n".join([str(x) for x in list(rep.headers.items())]))
     msg.append("\n")
 
     try:
@@ -95,6 +104,31 @@ class QueueClient:
         self.ctx = Ctx(acc, clt)
         return self.ctx
 
+    async def _check_rep(self, rep: httpx.Response):
+        dump_rep(rep)
+
+        try:
+            res = rep.json()
+        except json.JSONDecodeError:
+            res: Any = {"_raw": rep.text}
+
+        fn = logger.info if rep.status_code == 200 else logger.warning
+        fn(f"{rep.status_code:3d} - {req_id(rep)}")
+
+        if "errors" in res:
+            msg = "; ".join([x["message"] for x in res["errors"]])
+            if rep.status_code == 200 and "_Missing: No status found with that ID." in msg:
+                return  # ignore this error
+
+            raise ApiError(rep, res)
+
+        rep.raise_for_status()
+
+        ll = int(rep.headers.get("x-rate-limit-remaining", -1))
+        lr = int(rep.headers.get("x-rate-limit-reset", 0))
+        if ll == 0:
+            await self._close_ctx(lr)
+
     async def req(self, method: str, url: str, params: ReqParams = None):
         retry_count = 0
         while True:
@@ -103,13 +137,7 @@ class QueueClient:
             try:
                 rep = await ctx.clt.request(method, url, params=params)
                 setattr(rep, "__username", ctx.acc.username)
-                dump_rep(rep)
-
-                res = rep.json()
-                if "errors" in res:
-                    raise ApiError(rep, res)
-
-                rep.raise_for_status()
+                await self._check_rep(rep)
 
                 ctx.req_count += 1  # count only successful
                 retry_count = 0
@@ -146,7 +174,6 @@ class QueueClient:
                 # possible account banned
                 reset_ts = utc_ts() + 60 * 60 * 12  # 12 hours
                 await self._close_ctx(reset_ts)
-                logger.warning(e)
             except Exception as e:
                 logger.warning(f"Unknown error, retrying. Err ({type(e)}): {str(e)}")
                 retry_count += 1
