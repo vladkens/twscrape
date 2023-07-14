@@ -72,10 +72,8 @@ class AccountsPool:
         qs = "SELECT * FROM accounts WHERE username = :username"
         rs = await fetchone(self._db_file, qs, {"username": username})
         if rs:
-            logger.debug(f"Account {username} already exists")
+            logger.warning(f"Account {username} already exists")
             return
-
-        logger.debug(f"Adding account {username}")
 
         account = Account(
             username=username,
@@ -251,13 +249,34 @@ class AccountsPool:
             account = await self.get_for_queue(queue)
             if not account:
                 if not msg_show:
-                    logger.info(f"No accounts available for queue '{queue}' (sleeping for 5 sec)")
+                    nat = await self.next_available_at(queue)
+                    msg = f'No account available for queue "{queue}". Next available at {nat}'
+                    logger.info(msg)
                     msg_show = True
                 await asyncio.sleep(5)
                 continue
 
-            logger.debug(f"Using account {account.username} for queue '{queue}'")
             return account
+
+    async def next_available_at(self, queue: str):
+        qs = f"""
+        SELECT json_extract(locks, '$."{queue}"') as lock_until
+        FROM accounts
+        WHERE active = true AND json_extract(locks, '$."{queue}"') IS NOT NULL
+        ORDER BY lock_until ASC
+        LIMIT 1
+        """
+        rs = await fetchone(self._db_file, qs)
+        if rs:
+            now = datetime.utcnow().replace(tzinfo=timezone.utc)
+            trg = datetime.fromisoformat(rs[0]).replace(tzinfo=timezone.utc)
+            if trg < now:
+                return "now"
+
+            at_local = datetime.now() + (trg - now)
+            return at_local.strftime("%H:%M:%S")
+
+        return "none"
 
     async def stats(self):
         def locks_count(queue: str):

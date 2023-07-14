@@ -118,7 +118,7 @@ class QueueClient:
             msg = "; ".join([f'({x.get("code", -1)}) {x["message"]}' for x in res["errors"]])
 
         if self.debug:
-            fn = logger.info if rep.status_code == 200 else logger.warning
+            fn = logger.debug if rep.status_code == 200 else logger.warning
             fn(f"{rep.status_code:3d} - {req_id(rep)} - {msg}")
 
         if msg.startswith("The following features cannot be null"):

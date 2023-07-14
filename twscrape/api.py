@@ -2,6 +2,7 @@ from httpx import Response
 
 from .accounts_pool import AccountsPool
 from .constants import *
+from .logger import set_log_level
 from .models import Tweet, User
 from .queue_client import QueueClient
 from .utils import encode_params, find_obj, get_by_path, to_old_obj, to_old_rep
@@ -23,6 +24,8 @@ class API:
             self.pool = AccountsPool()
 
         self.debug = debug
+        if self.debug:
+            set_log_level("DEBUG")
 
     # general helpers
 

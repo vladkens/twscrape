@@ -49,7 +49,6 @@ async def main(args):
         print(f"SQLite runtime: {sqlite3.sqlite_version} ({await get_sqlite_version()})")
         return
 
-    logger.debug(f"Using database: {args.db}")
     pool = AccountsPool(args.db)
     api = API(pool, debug=args.debug)
 
