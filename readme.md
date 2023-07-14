@@ -60,10 +60,20 @@ from twscrape.logger import set_log_level
 async def main():
     api = API()  # or API("path-to.db") - default is `accounts.db`
 
-    # add account & login (also availalbe from cli)
-    await api.pool.add_account("user1", "pass1", "user1@example.com", "email_pass1")
-    await api.pool.add_account("user2", "pass2", "user2@example.com", "email_pass2")
+    # ADD ACCOUNTS (for CLI usage see BELOW)
+    await api.pool.add_account("user1", "pass1", "u1@example.com", "mail_pass1")
+    await api.pool.add_account("user2", "pass2", "u2@example.com", "mail_pass2")
     await api.pool.login_all()
+
+    # or add account with COOKIES (with cookies login not required)
+    cookies = "abc=12; ct0=xyz"  # or '{"abc": "12", "ct0": "xyz"}'
+    await api.pool.add_account("user3", "pass3", "u3@mail.com", "mail_pass3", cookies=cookies)
+
+    # add account with PROXY
+    proxy = "http://login:pass@example.com:8080"
+    await api.pool.add_account("user4", "pass4", "u4@mail.com", "mail_pass4", proxy=proxy)
+
+    # API USAGE
 
     # search (latest tab)
     await gather(api.search("elon musk", limit=20))  # list[Tweet]
@@ -143,7 +153,7 @@ First add accounts from file:
 # twscrape add_accounts <file_path> <line_format>
 # line_format should have "username", "password", "email", "email_password" tokens
 # note: tokens delimeter should be same as an file
-twscrape add_accounts accounts.txt username:password:email:email_password
+twscrape add_accounts ./accounts.txt username:password:email:email_password
 ```
 
 Then call login:
@@ -153,6 +163,18 @@ twscrape login_accounts
 ```
 
 Accounts and their sessions will be saved, so they can be reused for future requests
+
+Note: Possible to use `_` in `line_format` to skip some value
+
+### Add accounts with cookies
+
+Use `cookies` param in `line_format`, e.g.:
+
+```sh
+twscrape add_accounts ./accounts.txt username:password:email:email_password:cookies
+```
+
+In this case login not required.
 
 ### Get list of accounts and their statuses
 
