@@ -29,7 +29,8 @@ def guess_delim(line: str):
 
 
 class AccountsPool:
-    _order_by: str = "RANDOM()"
+    # _order_by: str = "RANDOM()"
+    _order_by: str = "username"
 
     def __init__(self, db_file="accounts.db"):
         self._db_file = db_file
@@ -102,6 +103,10 @@ class AccountsPool:
             return
 
         qs = f"""DELETE FROM accounts WHERE username IN ({','.join([f'"{x}"' for x in usernames])})"""
+        await execute(self._db_file, qs)
+
+    async def delete_inactive(self):
+        qs = "DELETE FROM accounts WHERE active = false"
         await execute(self._db_file, qs)
 
     async def get(self, username: str):
@@ -278,6 +283,13 @@ class AccountsPool:
 
         return "none"
 
+    async def mark_banned(self, username: str, error_msg: str):
+        qs = """
+        UPDATE accounts SET active = false, error_msg = :error_msg
+        WHERE username = :username
+        """
+        await execute(self._db_file, qs, {"username": username, "error_msg": error_msg})
+
     async def stats(self):
         def locks_count(queue: str):
             return f"""
@@ -312,17 +324,17 @@ class AccountsPool:
                 "active": x.active,
                 "last_used": x.last_used,
                 "total_req": sum(x.stats.values()),
-                "error_msg": x.error_msg,
+                "error_msg": str(x.error_msg)[0:60],
             }
             items.append(item)
 
         old_time = datetime(1970, 1, 1).replace(tzinfo=timezone.utc)
         items = sorted(items, key=lambda x: x["username"].lower())
-        items = sorted(items, key=lambda x: x["active"], reverse=True)
         items = sorted(
             items,
             key=lambda x: x["last_used"] or old_time if x["total_req"] > 0 else old_time,
             reverse=True,
         )
+        items = sorted(items, key=lambda x: x["active"], reverse=True)
         # items = sorted(items, key=lambda x: x["total_req"], reverse=True)
         return items

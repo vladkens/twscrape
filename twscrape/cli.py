@@ -95,6 +95,10 @@ async def main(args):
         await pool.reset_locks()
         return
 
+    if args.command == "delete_inactive":
+        await pool.delete_inactive()
+        return
+
     fn = args.command + "_raw" if args.raw else args.command
     fn = getattr(api, fn, None)
     if fn is None:
@@ -151,6 +155,7 @@ def run():
 
     subparsers.add_parser("version", help="Show version")
     subparsers.add_parser("accounts", help="List all accounts")
+    subparsers.add_parser("stats", help="Get current usage stats")
 
     add_accounts = subparsers.add_parser("add_accounts", help="Add accounts")
     add_accounts.add_argument("file_path", help="File with accounts")
@@ -166,7 +171,7 @@ def run():
 
     subparsers.add_parser("relogin_failed", help="Retry login for failed accounts")
     subparsers.add_parser("reset_locks", help="Reset all locks")
-    subparsers.add_parser("stats", help="Get current usage stats")
+    subparsers.add_parser("delete_inactive", help="Delete inactive accounts")
 
     c_lim("search", "Search for tweets", "query", "Search query")
     c_one("tweet_details", "Get tweet details", "tweet_id", "Tweet ID", int)
