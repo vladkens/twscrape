@@ -42,6 +42,7 @@ class AccountsPool:
         if not required.issubset(tokens):
             raise ValueError(f"Invalid line format: {line_format}")
 
+        accounts = []
         with open(filepath, "r") as f:
             lines = f.read().split("\n")
             lines = [x.strip() for x in lines if x.strip()]
@@ -49,12 +50,14 @@ class AccountsPool:
             for line in lines:
                 data = [x.strip() for x in line.split(line_delim)]
                 if len(data) < len(tokens):
-                    logger.warning(f"Invalid line format: {line}")
-                    continue
+                    raise ValueError(f"Invalid line: {line}")
 
                 data = data[: len(tokens)]
                 vals = {k: v for k, v in zip(tokens, data) if k != "_"}
-                await self.add_account(**vals)
+                accounts.append(vals)
+
+        for x in accounts:
+            await self.add_account(**x)
 
     async def add_account(
         self,

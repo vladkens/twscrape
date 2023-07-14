@@ -4,7 +4,7 @@ from httpx import AsyncClient, HTTPStatusError, Response
 
 from .account import Account
 from .constants import LOGIN_URL
-from .imap import get_email_code
+from .imap import imap_get_email_code, imap_try_login
 from .logger import logger
 from .utils import raise_for_status
 
@@ -100,7 +100,7 @@ async def login_duplication_check(client: AsyncClient, acc: Account, prev: dict)
     return rep
 
 
-async def login_confirm_email(client: AsyncClient, acc: Account, prev: dict) -> Response:
+async def login_confirm_email(client: AsyncClient, acc: Account, prev: dict, imap) -> Response:
     payload = {
         "flow_token": prev["flow_token"],
         "subtask_inputs": [
@@ -116,9 +116,9 @@ async def login_confirm_email(client: AsyncClient, acc: Account, prev: dict) -> 
     return rep
 
 
-async def login_confirm_email_code(client: AsyncClient, acc: Account, prev: dict):
+async def login_confirm_email_code(client: AsyncClient, acc: Account, prev: dict, imap):
     now_time = datetime.now(timezone.utc) - timedelta(seconds=30)
-    value = await get_email_code(acc.email, acc.email_password, now_time)
+    value = await imap_get_email_code(imap, acc.email, now_time)
 
     payload = {
         "flow_token": prev["flow_token"],
@@ -146,7 +146,7 @@ async def login_success(client: AsyncClient, acc: Account, prev: dict) -> Respon
     return rep
 
 
-async def next_login_task(client: AsyncClient, acc: Account, rep: Response):
+async def next_login_task(client: AsyncClient, acc: Account, rep: Response, imap):
     ct0 = client.cookies.get("ct0", None)
     if ct0:
         client.headers["x-csrf-token"] = ct0
@@ -164,9 +164,8 @@ async def next_login_task(client: AsyncClient, acc: Account, rep: Response):
                 return await login_success(client, acc, prev)
             if task_id == "LoginAcid":
                 is_code = x["enter_text"]["hint_text"].lower() == "confirmation code"
-                # logger.debug(f"is login code: {is_code}")
                 fn = login_confirm_email_code if is_code else login_confirm_email
-                return await fn(client, acc, prev)
+                return await fn(client, acc, prev, imap)
             if task_id == "AccountDuplicationCheck":
                 return await login_duplication_check(client, acc, prev)
             if task_id == "LoginEnterPassword":
@@ -186,10 +185,12 @@ async def next_login_task(client: AsyncClient, acc: Account, rep: Response):
 async def login(acc: Account, fresh=False) -> Account:
     log_id = f"{acc.username} - {acc.email}"
     if acc.active and not fresh:
-        logger.debug(f"account already active {log_id}")
+        logger.info(f"account already active {log_id}")
         return acc
 
-    logger.debug(f"logging in {log_id}")
+    # check if email is valid first
+    imap = await imap_try_login(acc.email, acc.email_password)
+
     client = acc.make_client()
     guest_token = await get_guest_token(client)
     client.headers["x-guest-token"] = guest_token
@@ -200,7 +201,7 @@ async def login(acc: Account, fresh=False) -> Account:
             break
 
         try:
-            rep = await next_login_task(client, acc, rep)
+            rep = await next_login_task(client, acc, rep, imap)
         except HTTPStatusError as e:
             if e.response.status_code == 403:
                 logger.error(f"403 error {log_id}")

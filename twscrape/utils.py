@@ -22,7 +22,7 @@ def raise_for_status(rep: Response, label: str):
     try:
         rep.raise_for_status()
     except HTTPStatusError as e:
-        logger.debug(f"{label} - {rep.status_code} - {rep.text}")
+        logger.info(f"{label} - {rep.status_code} - {rep.text}")
         raise e
 
 

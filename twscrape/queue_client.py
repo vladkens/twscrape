@@ -105,7 +105,8 @@ class QueueClient:
         return self.ctx
 
     async def _check_rep(self, rep: httpx.Response):
-        dump_rep(rep)
+        if self.debug:
+            dump_rep(rep)
 
         try:
             res = rep.json()
@@ -116,8 +117,9 @@ class QueueClient:
         if "errors" in res:
             msg = "; ".join([f'({x.get("code", -1)}) {x["message"]}' for x in res["errors"]])
 
-        fn = logger.info if rep.status_code == 200 else logger.warning
-        fn(f"{rep.status_code:3d} - {req_id(rep)} - {msg}")
+        if self.debug:
+            fn = logger.info if rep.status_code == 200 else logger.warning
+            fn(f"{rep.status_code:3d} - {req_id(rep)} - {msg}")
 
         if msg.startswith("The following features cannot be null"):
             logger.error(f"Invalid request: {msg}")
