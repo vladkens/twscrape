@@ -7,12 +7,7 @@ from .queue_client import QueueClient
 from .utils import encode_params, find_obj, get_by_path, to_old_obj, to_old_rep
 
 SEARCH_FEATURES = {
-    "rweb_lists_timeline_redesign_enabled": True,
-    "creator_subscriptions_tweet_preview_api_enabled": True,
-    "responsive_web_twitter_article_tweet_consumption_enabled": False,
     "tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled": True,
-    "responsive_web_media_download_video_enabled": False,
-    "longform_notetweets_inline_media_enabled": True,
 }
 
 
@@ -109,7 +104,12 @@ class API:
     async def user_by_id_raw(self, uid: int, kv=None):
         op = OP_UserByRestId
         kv = {"userId": str(uid), "withSafetyModeUserFields": True, **(kv or {})}
-        return await self._gql_item(op, kv)
+        ft = {
+            "hidden_profile_likes_enabled": True,
+            "highlights_tweets_tab_ui_enabled": True,
+            "creator_subscriptions_tweet_preview_api_enabled": True,
+        }
+        return await self._gql_item(op, kv, ft)
 
     async def user_by_id(self, uid: int, kv=None):
         rep = await self.user_by_id_raw(uid, kv=kv)
@@ -121,7 +121,13 @@ class API:
     async def user_by_login_raw(self, login: str, kv=None):
         op = OP_UserByScreenName
         kv = {"screen_name": login, "withSafetyModeUserFields": True, **(kv or {})}
-        return await self._gql_item(op, kv)
+        ft = {
+            "highlights_tweets_tab_ui_enabled": True,
+            "hidden_profile_likes_enabled": True,
+            "creator_subscriptions_tweet_preview_api_enabled": True,
+            "subscriptions_verification_info_verified_since_enabled": True,
+        }
+        return await self._gql_item(op, kv, ft)
 
     async def user_by_login(self, login: str, kv=None):
         rep = await self.user_by_login_raw(login, kv=kv)

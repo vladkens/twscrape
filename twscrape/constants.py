@@ -3,6 +3,18 @@ TOKEN = "Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Z
 GQL_URL = "https://twitter.com/i/api/graphql"
 LOGIN_URL = "https://api.twitter.com/1.1/onboarding/task.json"
 
+OP_SearchTimeline = "L1VfBERtzc3VkBBT0YAYHA/SearchTimeline"
+OP_UserByRestId = "Lxg1V9AiIzzXEiP2c8dRnw/UserByRestId"
+OP_UserByScreenName = "oUZZZ8Oddwxs8Cd3iW3UEA/UserByScreenName"
+OP_TweetDetail = "NmCeCgkVlsRGS1cAwqtgmw/TweetDetail"
+OP_Followers = "FKV1jfu4AawGapl2KCZbQw/Followers"
+OP_Following = "sKlU5dd_nanz9P2CxBt2sg/Following"
+OP_Retweeters = "Gnw_Swm60cS-biSLn2OWNw/Retweeters"
+OP_Favoriters = "rUyh8HWk8IXv_fvVKj3QjA/Favoriters"
+OP_UserTweets = "x8SpjuBpqoww-edf0aUUKA/UserTweets"
+OP_UserTweetsAndReplies = "RB2KVuVBRZe4GW8KkoVF2A/UserTweetsAndReplies"
+OP_ListLatestTweetsTimeline = "2Vjeyo_L0nizAUhHe3fKyA/ListLatestTweetsTimeline"
+
 GQL_FEATURES = {
     "blue_business_profile_image_shape_enabled": True,
     "responsive_web_graphql_exclude_directive_enabled": True,
@@ -23,16 +35,9 @@ GQL_FEATURES = {
     "responsive_web_text_conversations_enabled": False,
     "longform_notetweets_rich_text_read_enabled": True,
     "responsive_web_enhance_cards_enabled": False,
+    "creator_subscriptions_tweet_preview_api_enabled": True,
+    "longform_notetweets_inline_media_enabled": True,
+    "responsive_web_media_download_video_enabled": False,
+    "rweb_lists_timeline_redesign_enabled": True,
+    "responsive_web_twitter_article_tweet_consumption_enabled": False,
 }
-
-OP_SearchTimeline = "L1VfBERtzc3VkBBT0YAYHA/SearchTimeline"
-OP_UserByRestId = "Lxg1V9AiIzzXEiP2c8dRnw/UserByRestId"
-OP_UserByScreenName = "oUZZZ8Oddwxs8Cd3iW3UEA/UserByScreenName"
-OP_TweetDetail = "NmCeCgkVlsRGS1cAwqtgmw/TweetDetail"
-OP_Followers = "FKV1jfu4AawGapl2KCZbQw/Followers"
-OP_Following = "sKlU5dd_nanz9P2CxBt2sg/Following"
-OP_Retweeters = "Gnw_Swm60cS-biSLn2OWNw/Retweeters"
-OP_Favoriters = "rUyh8HWk8IXv_fvVKj3QjA/Favoriters"
-OP_UserTweets = "x8SpjuBpqoww-edf0aUUKA/UserTweets"
-OP_UserTweetsAndReplies = "RB2KVuVBRZe4GW8KkoVF2A/UserTweetsAndReplies"
-OP_ListLatestTweetsTimeline = "2Vjeyo_L0nizAUhHe3fKyA/ListLatestTweetsTimeline"

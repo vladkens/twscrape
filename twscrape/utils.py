@@ -1,7 +1,8 @@
+import base64
 import json
 from collections import defaultdict
 from datetime import datetime, timezone
-from typing import Any, AsyncGenerator, Callable, TypedDict, TypeVar
+from typing import Any, AsyncGenerator, Callable, TypeVar
 
 from httpx import HTTPStatusError, Response
 
@@ -181,3 +182,26 @@ def print_table(rows: list[dict], hr_after=False):
     print("\n".join(lines))
     if hr_after:
         print("-" * max_len)
+
+
+def parse_cookies(val: str) -> dict[str, str]:
+    try:
+        val = base64.b64decode(val).decode()
+    except Exception:
+        pass
+
+    try:
+        try:
+            res = json.loads(val)
+            if isinstance(res, list):
+                return {x["name"]: x["value"] for x in res}
+            if isinstance(res, dict):
+                return res
+        except json.JSONDecodeError:
+            res = val.split("; ")
+            res = [x.split("=") for x in res]
+            return {x[0]: x[1] for x in res}
+    except Exception:
+        pass
+
+    raise ValueError(f"Invalid cookie value: {val}")

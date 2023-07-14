@@ -11,7 +11,7 @@ from .account import Account
 from .db import execute, fetchall, fetchone
 from .logger import logger
 from .login import login
-from .utils import utc_ts
+from .utils import parse_cookies, utc_ts
 
 
 class AccountInfo(TypedDict):
@@ -35,17 +35,17 @@ class AccountsPool:
         self._db_file = db_file
 
     async def load_from_file(self, filepath: str, line_format: str):
-        assert "username" in line_format, "username is required"
-        assert "password" in line_format, "password is required"
-        assert "email" in line_format, "email is required"
-        assert "email_password" in line_format, "email_password is required"
-
         line_delim = guess_delim(line_format)
         tokens = line_format.split(line_delim)
+
+        required = set(["username", "password", "email", "email_password"])
+        if not required.issubset(tokens):
+            raise ValueError(f"Invalid line format: {line_format}")
 
         with open(filepath, "r") as f:
             lines = f.read().split("\n")
             lines = [x.strip() for x in lines if x.strip()]
+
             for line in lines:
                 data = [x.strip() for x in line.split(line_delim)]
                 if len(data) < len(tokens):
@@ -53,7 +53,8 @@ class AccountsPool:
                     continue
 
                 data = data[: len(tokens)]
-                await self.add_account(**{k: v for k, v in zip(tokens, data)})
+                vals = {k: v for k, v in zip(tokens, data) if k != "_"}
+                await self.add_account(**vals)
 
     async def add_account(
         self,
@@ -63,6 +64,7 @@ class AccountsPool:
         email_password: str,
         user_agent: str | None = None,
         proxy: str | None = None,
+        cookies: str | None = None,
     ):
         qs = "SELECT * FROM accounts WHERE username = :username"
         rs = await fetchone(self._db_file, qs, {"username": username})
@@ -82,9 +84,13 @@ class AccountsPool:
             locks={},
             stats={},
             headers={},
-            cookies={},
+            cookies=parse_cookies(cookies) if cookies else {},
             proxy=proxy,
         )
+
+        if "ct0" in account.cookies:
+            account.active = True
+
         await self.save(account)
 
     async def delete_accounts(self, usernames: str | list[str]):

@@ -112,14 +112,21 @@ class QueueClient:
         except json.JSONDecodeError:
             res: Any = {"_raw": rep.text}
 
-        fn = logger.info if rep.status_code == 200 else logger.warning
-        fn(f"{rep.status_code:3d} - {req_id(rep)}")
-
+        msg = "OK"
         if "errors" in res:
-            msg = "; ".join([x["message"] for x in res["errors"]])
-            if rep.status_code == 200 and "_Missing: No status found with that ID." in msg:
-                return  # ignore this error
+            msg = "; ".join([f'({x.get("code", -1)}) {x["message"]}' for x in res["errors"]])
 
+        fn = logger.info if rep.status_code == 200 else logger.warning
+        fn(f"{rep.status_code:3d} - {req_id(rep)} - {msg}")
+
+        if msg.startswith("The following features cannot be null"):
+            logger.error(f"Invalid request: {msg}")
+            exit(1)
+
+        if rep.status_code == 200 and "_Missing: No status found with that ID." in msg:
+            return  # ignore this error
+
+        if msg != "OK":
             raise ApiError(rep, res)
 
         rep.raise_for_status()
