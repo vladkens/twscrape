@@ -1,3 +1,4 @@
+# ruff: noqa: E501
 from twscrape.utils import parse_cookies
 
 

@@ -1,7 +1,8 @@
+# ruff: noqa: F405
 from httpx import Response
 
 from .accounts_pool import AccountsPool
-from .constants import *
+from .constants import *  # noqa: F403
 from .logger import set_log_level
 from .models import Tweet, User, get_tweets, get_users
 from .queue_client import QueueClient
