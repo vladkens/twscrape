@@ -3,10 +3,12 @@ import json
 import re
 from dataclasses import asdict, dataclass, field
 from datetime import datetime
-from typing import Optional
+from typing import Generator, Optional
+
+import httpx
 
 from .logger import logger
-from .utils import find_item, get_or, int_or_none
+from .utils import find_item, get_or, int_or_none, to_old_rep
 
 
 @dataclass
@@ -115,7 +117,7 @@ class User(JSONTrait):
     # label: typing.Optional["UserLabel"] = None
 
     @staticmethod
-    def parse(obj: dict):
+    def parse(obj: dict, res=None):
         return User(
             id=int(obj["id_str"]),
             id_str=obj["id_str"],
@@ -373,3 +375,36 @@ def _get_views(obj: dict, rt_obj: dict):
             if k is not None:
                 return k
     return None
+
+
+# reply parsing
+
+
+def get_items(rep: httpx.Response, kind: str, limit: int = -1):
+    if kind == "user":
+        Cls = User
+        key = "users"
+    elif kind == "tweet":
+        Cls = Tweet
+        key = "tweets"
+    else:
+        raise ValueError(f"Invalid kind: {kind}")
+
+    ids = set()
+    obj = to_old_rep(rep.json() if "json" in rep else rep)  # type: ignore
+    for x in obj[key].values():
+        if limit != -1 and len(ids) >= limit:
+            break
+
+        tmp = Cls.parse(x, obj)
+        if tmp.id not in ids:
+            ids.add(tmp.id)
+            yield tmp
+
+
+def get_tweets(rep: httpx.Response, limit: int = -1) -> Generator[Tweet, None, None]:
+    return get_items(rep, "tweet", limit)  # type: ignore
+
+
+def get_users(rep: httpx.Response, limit: int = -1) -> Generator[User, None, None]:
+    return get_items(rep, "user", limit)  # type: ignore

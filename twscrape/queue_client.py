@@ -155,6 +155,11 @@ class QueueClient:
             await self._close_ctx(-1, banned=True, msg=msg)
             raise BannedError(msg)
 
+        # possible banned by old api flow
+        if rep.status_code in (401, 403):
+            await self._close_ctx(utc_ts() + 60 * 60 * 12)  # lock for 12 hours
+            raise RateLimitError(msg)
+
         # content not found
         if rep.status_code == 200 and "_Missing: No status found with that ID." in msg:
             return  # ignore this error
