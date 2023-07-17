@@ -109,6 +109,8 @@ class User(JSONTrait):
     profileBannerUrl: str | None = None
     protected: bool | None = None
     verified: bool | None = None
+    blue: bool | None = None
+    blueType: str | None = None
     descriptionLinks: list[TextLink] = field(default_factory=list)
     _type: str = "snscrape.modules.twitter.User"
 
@@ -136,6 +138,8 @@ class User(JSONTrait):
             profileImageUrl=obj["profile_image_url_https"],
             profileBannerUrl=obj.get("profile_banner_url"),
             verified=obj.get("verified"),
+            blue=obj.get("is_blue_verified"),
+            blueType=obj.get("verified_type"),
             protected=obj.get("protected"),
             descriptionLinks=_parse_links(obj, ["entities.description.urls", "entities.url.urls"]),
         )
