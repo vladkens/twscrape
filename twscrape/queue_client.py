@@ -190,6 +190,9 @@ class QueueClient:
             except (RateLimitError, BannedError):
                 # already handled
                 continue
+            except (httpx.ReadTimeout, httpx.ProxyError):
+                # http transport failed, just retry
+                continue
             except Exception as e:
                 retry_count += 1
                 if retry_count >= 3:
