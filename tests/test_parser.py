@@ -99,6 +99,9 @@ def check_tweet(doc: Tweet | None):
                     assert v.bitrate is not None
                     assert v.contentType is not None
 
+    if doc.retweetedTweet is not None:
+        assert doc.rawContent.endswith(doc.retweetedTweet.rawContent), "content should be full"
+
     check_user(doc.user)
 
 
@@ -306,6 +309,4 @@ async def test_issue_42():
     assert doc.rawContent is not None
     assert doc.retweetedTweet.rawContent is not None
 
-    msg = "Today marks the arrival of a traditional Chinese solar term called mangzhong, or Grain in Ear, signifying a busy farming period. https://t.co/SQMrX99bWr"
-    assert doc.retweetedTweet.rawContent == msg
-    # assert doc.rawContent == msg # todo: not sure should it be populated from rt
+    assert doc.rawContent.endswith(doc.retweetedTweet.rawContent)

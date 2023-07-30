@@ -195,14 +195,7 @@ class Tweet(JSONTrait):
         qt_id = _first(obj, ["quoted_status_id_str", "quoted_status_result.result.rest_id"])
         qt_obj = get_or(res, f"tweets.{qt_id}")
 
-        # for development
-        # print()
-        # print("-" * 80)
-        # print(res["tweets"].keys())
-        # print(rt_id, rt_obj is not None)
-        # print(qt_id, qt_obj is not None)
-
-        return Tweet(
+        doc = Tweet(
             id=int(obj["id_str"]),
             id_str=obj["id_str"],
             url=f'https://twitter.com/{tw_usr.username}/status/{obj["id_str"]}',
@@ -232,6 +225,19 @@ class Tweet(JSONTrait):
             media=Media.parse(obj),
         )
 
+        # issue #42 – restore full rt text
+        rt = doc.retweetedTweet
+        if rt is not None and rt.user is not None and doc.rawContent.endswith("…"):
+            prefix = f"RT @{rt.user.username}: "
+            rt_msg = f"{prefix}{rt.rawContent}"
+            if doc.rawContent != rt_msg and doc.rawContent.startswith(prefix):
+                # was = doc.rawContent.replace("\n", "")
+                # now = rt_msg.replace("\n", "")
+                # print(f"\n{was}\n{now}\n")
+                doc.rawContent = rt_msg
+
+        return doc
+
 
 @dataclass
 class MediaPhoto(JSONTrait):
@@ -239,9 +245,7 @@ class MediaPhoto(JSONTrait):
 
     @staticmethod
     def parse(obj: dict):
-        return MediaPhoto(
-            url=obj["media_url_https"],
-        )
+        return MediaPhoto(url=obj["media_url_https"])
 
 
 @dataclass
