@@ -250,17 +250,20 @@ class AccountsPool:
         return Account.from_rs(rs) if rs else None
 
     async def get_for_queue_or_wait(self, queue: str) -> Account:
-        msg_show = False
+        msg_shown = False
         while True:
             account = await self.get_for_queue(queue)
             if not account:
-                if not msg_show:
+                if not msg_shown:
                     nat = await self.next_available_at(queue)
                     msg = f'No account available for queue "{queue}". Next available at {nat}'
                     logger.info(msg)
-                    msg_show = True
+                    msg_shown = True
                 await asyncio.sleep(5)
                 continue
+            else:
+                if msg_shown:
+                    logger.info(f"Account available for queue {queue}")
 
             return account
 
