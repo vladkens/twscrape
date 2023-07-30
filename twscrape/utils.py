@@ -193,6 +193,9 @@ def parse_cookies(val: str) -> dict[str, str]:
     try:
         try:
             res = json.loads(val)
+            if isinstance(res, dict) and "cookies" in res:
+                res = res["cookies"]
+
             if isinstance(res, list):
                 return {x["name"]: x["value"] for x in res}
             if isinstance(res, dict):

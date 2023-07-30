@@ -78,7 +78,7 @@ async def migrate(db: aiosqlite.Connection):
         3: v3,
     }
 
-    logger.debug(f"Current migration v{uv} (latest v{len(migrations)})")
+    # logger.debug(f"Current migration v{uv} (latest v{len(migrations)})")
     for i in range(uv + 1, len(migrations) + 1):
         logger.info(f"Running migration to v{i}")
         try:
