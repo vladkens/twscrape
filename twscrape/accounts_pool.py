@@ -94,6 +94,7 @@ class AccountsPool:
             account.active = True
 
         await self.save(account)
+        logger.info(f"Account {username} added successfully (active={account.active})")
 
     async def delete_accounts(self, usernames: str | list[str]):
         usernames = usernames if isinstance(usernames, list) else [usernames]
@@ -131,9 +132,9 @@ class AccountsPool:
         """
         await execute(self._db_file, qs, data)
 
-    async def login(self, account: Account):
+    async def login(self, account: Account, email_first: bool = False):
         try:
-            await login(account)
+            await login(account, email_first=email_first)
             logger.info(f"Logged in to {account.username} successfully")
             return True
         except Exception as e:
@@ -142,7 +143,7 @@ class AccountsPool:
         finally:
             await self.save(account)
 
-    async def login_all(self):
+    async def login_all(self, email_first=False):
         qs = "SELECT * FROM accounts WHERE active = false AND error_msg IS NULL"
         rs = await fetchall(self._db_file, qs)
 
@@ -152,11 +153,11 @@ class AccountsPool:
         counter = {"total": len(accounts), "success": 0, "failed": 0}
         for i, x in enumerate(accounts, start=1):
             logger.info(f"[{i}/{len(accounts)}] Logging in {x.username} - {x.email}")
-            status = await self.login(x)
+            status = await self.login(x, email_first=email_first)
             counter["success" if status else "failed"] += 1
         return counter
 
-    async def relogin(self, usernames: str | list[str]):
+    async def relogin(self, usernames: str | list[str], email_first=False):
         usernames = usernames if isinstance(usernames, list) else [usernames]
         usernames = list(set(usernames))
         if not usernames:
@@ -176,12 +177,12 @@ class AccountsPool:
         """
 
         await execute(self._db_file, qs)
-        await self.login_all()
+        await self.login_all(email_first=email_first)
 
-    async def relogin_failed(self):
+    async def relogin_failed(self, email_first=False):
         qs = "SELECT username FROM accounts WHERE active = false AND error_msg IS NOT NULL"
         rs = await fetchall(self._db_file, qs)
-        await self.relogin([x["username"] for x in rs])
+        await self.relogin([x["username"] for x in rs], email_first=email_first)
 
     async def reset_locks(self):
         qs = "UPDATE accounts SET locks = json_object()"

@@ -80,15 +80,16 @@ async def main(args):
         return
 
     if args.command == "login_accounts":
-        print(await pool.login_all())
+        stats = await pool.login_all(email_first=args.email_first)
+        print(stats)
         return
 
     if args.command == "relogin_failed":
-        await pool.relogin_failed()
+        await pool.relogin_failed(email_first=args.email_first)
         return
 
     if args.command == "relogin":
-        await pool.relogin(args.usernames)
+        await pool.relogin(args.usernames, email_first=args.email_first)
         return
 
     if args.command == "reset_locks":
@@ -164,12 +165,16 @@ def run():
     del_accounts = subparsers.add_parser("del_accounts", help="Delete accounts")
     del_accounts.add_argument("usernames", nargs="+", default=[], help="Usernames to delete")
 
-    subparsers.add_parser("login_accounts", help="Login accounts")
+    login_cmd = subparsers.add_parser("login_accounts", help="Login accounts")
+    login_cmd.add_argument("--email-first", type=bool, default=False, help="Check email first")
 
     relogin = subparsers.add_parser("relogin", help="Re-login selected accounts")
     relogin.add_argument("usernames", nargs="+", default=[], help="Usernames to re-login")
+    relogin.add_argument("--email-first", type=bool, default=False, help="Check email first")
 
-    subparsers.add_parser("relogin_failed", help="Retry login for failed accounts")
+    re_failed = subparsers.add_parser("relogin_failed", help="Retry login for failed accounts")
+    re_failed.add_argument("--email-first", type=bool, default=False, help="Check email first")
+
     subparsers.add_parser("reset_locks", help="Reset all locks")
     subparsers.add_parser("delete_inactive", help="Delete inactive accounts")
 

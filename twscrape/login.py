@@ -4,7 +4,7 @@ from httpx import AsyncClient, HTTPStatusError, Response
 
 from .account import Account
 from .constants import LOGIN_URL
-from .imap import imap_get_email_code, imap_try_login
+from .imap import imap_get_email_code, imap_login
 from .logger import logger
 from .utils import raise_for_status
 
@@ -117,6 +117,9 @@ async def login_confirm_email(client: AsyncClient, acc: Account, prev: dict, ima
 
 
 async def login_confirm_email_code(client: AsyncClient, acc: Account, prev: dict, imap):
+    if not imap:
+        imap = await imap_login(acc.email, acc.password)
+
     now_time = datetime.now(timezone.utc) - timedelta(seconds=30)
     value = await imap_get_email_code(imap, acc.email, now_time)
 
@@ -181,14 +184,16 @@ async def next_login_task(client: AsyncClient, acc: Account, rep: Response, imap
     return None
 
 
-async def login(acc: Account, fresh=False) -> Account:
+async def login(acc: Account, email_first=False) -> Account:
     log_id = f"{acc.username} - {acc.email}"
-    if acc.active and not fresh:
+    if acc.active:
         logger.info(f"account already active {log_id}")
         return acc
 
-    # check if email is valid first
-    imap = await imap_try_login(acc.email, acc.email_password)
+    if email_first:
+        imap = await imap_login(acc.email, acc.email_password)
+    else:
+        imap = None
 
     client = acc.make_client()
     guest_token = await get_guest_token(client)

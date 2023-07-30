@@ -33,14 +33,14 @@ def add_imap_mapping(email_domain: str, imap_domain: str):
     IMAP_MAPPING[email_domain] = imap_domain
 
 
-def get_imap_domain(email: str) -> str:
+def _get_imap_domain(email: str) -> str:
     email_domain = email.split("@")[1]
     if email_domain in IMAP_MAPPING:
         return IMAP_MAPPING[email_domain]
     return f"imap.{email_domain}"
 
 
-def search_email_code(imap: imaplib.IMAP4_SSL, count: int, min_t: datetime | None) -> str | None:
+def _wait_email_code(imap: imaplib.IMAP4_SSL, count: int, min_t: datetime | None) -> str | None:
     for i in range(count, 0, -1):
         _, rep = imap.fetch(str(i), "(RFC822)")
         for x in rep:
@@ -71,7 +71,7 @@ async def imap_get_email_code(
             _, rep = imap.select("INBOX")
             now_count = int(rep[0].decode("utf-8")) if len(rep) > 0 and rep[0] is not None else 0
             if now_count > was_count:
-                code = search_email_code(imap, now_count, min_t)
+                code = _wait_email_code(imap, now_count, min_t)
                 if code is not None:
                     return code
 
@@ -87,8 +87,8 @@ async def imap_get_email_code(
         raise e
 
 
-async def imap_try_login(email: str, password: str):
-    domain = get_imap_domain(email)
+async def imap_login(email: str, password: str):
+    domain = _get_imap_domain(email)
     imap = imaplib.IMAP4_SSL(domain)
 
     try:
