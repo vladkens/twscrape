@@ -1,6 +1,10 @@
 import email.utils
 import json
+import os
+import random
 import re
+import string
+import traceback
 from dataclasses import asdict, dataclass, field
 from datetime import datetime
 from typing import Generator, Optional
@@ -8,7 +12,7 @@ from typing import Generator, Optional
 import httpx
 
 from .logger import logger
-from .utils import find_item, get_or, int_or_none, to_old_rep
+from .utils import find_item, get_or, int_or_none, to_old_obj, to_old_rep
 
 
 @dataclass
@@ -323,6 +327,9 @@ class Media(JSONTrait):
         return Media(photos=photos, videos=videos, animated=animated)
 
 
+# internal helpers
+
+
 def _get_reply_user(tw_obj: dict, res: dict):
     user_id = tw_obj.get("in_reply_to_user_id_str", None)
     if user_id is None:
@@ -381,10 +388,25 @@ def _get_views(obj: dict, rt_obj: dict):
     return None
 
 
-# reply parsing
+def _write_dump(kind: str, e: Exception, x: dict, obj: dict):
+    uniq = "".join(random.choice(string.ascii_lowercase) for _ in range(5))
+    time = datetime.utcnow().strftime("%Y-%m-%d_%H-%M-%S")
+    dumpfile = f"/tmp/twscrape/twscrape_parse_error_{time}_{uniq}.txt"
+    os.makedirs(os.path.dirname(dumpfile), exist_ok=True)
+
+    with open(dumpfile, "w") as fp:
+        msg = [
+            f"Error parsing {kind}. Error: {type(e)}",
+            traceback.format_exc(),
+            json.dumps(x, default=str),
+            json.dumps(obj, default=str),
+        ]
+        fp.write("\n\n".join(msg))
+
+    logger.error(f"Failed to parse response of {kind}, writing dump to {dumpfile}")
 
 
-def get_items(rep: httpx.Response, kind: str, limit: int = -1):
+def _parse_items(rep: httpx.Response, kind: str, limit: int = -1):
     if kind == "user":
         Cls = User
         key = "users"
@@ -400,15 +422,39 @@ def get_items(rep: httpx.Response, kind: str, limit: int = -1):
         if limit != -1 and len(ids) >= limit:
             break
 
-        tmp = Cls.parse(x, obj)
-        if tmp.id not in ids:
-            ids.add(tmp.id)
-            yield tmp
+        try:
+            tmp = Cls.parse(x, obj)
+            if tmp.id not in ids:
+                ids.add(tmp.id)
+                yield tmp
+        except Exception as e:
+            _write_dump(kind, e, x, obj)
+            continue
 
 
-def get_tweets(rep: httpx.Response, limit: int = -1) -> Generator[Tweet, None, None]:
-    return get_items(rep, "tweet", limit)  # type: ignore
+# public helpers
 
 
-def get_users(rep: httpx.Response, limit: int = -1) -> Generator[User, None, None]:
-    return get_items(rep, "user", limit)  # type: ignore
+def parse_tweets(rep: httpx.Response, limit: int = -1) -> Generator[Tweet, None, None]:
+    return _parse_items(rep, "tweet", limit)  # type: ignore
+
+
+def parse_users(rep: httpx.Response, limit: int = -1) -> Generator[User, None, None]:
+    return _parse_items(rep, "user", limit)  # type: ignore
+
+
+def parse_user(rep: httpx.Response) -> User | None:
+    try:
+        res = rep.json()
+        return User.parse(to_old_obj(res["data"]["user"]["result"]))
+    except Exception:
+        return None
+
+
+def parse_tweet(rep: httpx.Response, twid: int) -> Tweet | None:
+    try:
+        obj = to_old_rep(rep.json())
+        doc = obj["tweets"].get(str(twid), None)
+        return Tweet.parse(doc, obj) if doc else None
+    except Exception:
+        return None

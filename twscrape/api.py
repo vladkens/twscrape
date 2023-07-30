@@ -4,9 +4,9 @@ from httpx import Response
 from .accounts_pool import AccountsPool
 from .constants import *  # noqa: F403
 from .logger import set_log_level
-from .models import Tweet, User, get_tweets, get_users
+from .models import parse_tweet, parse_tweets, parse_user, parse_users
 from .queue_client import QueueClient
-from .utils import encode_params, find_obj, get_by_path, to_old_obj, to_old_rep
+from .utils import encode_params, find_obj, get_by_path
 
 SEARCH_FEATURES = {
     "tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled": True,
@@ -95,7 +95,7 @@ class API:
 
     async def search(self, q: str, limit=-1, kv=None):
         async for rep in self.search_raw(q, limit=limit, kv=kv):
-            for x in get_tweets(rep.json(), limit):
+            for x in parse_tweets(rep.json(), limit):
                 yield x
 
     # user_by_id
@@ -112,8 +112,7 @@ class API:
 
     async def user_by_id(self, uid: int, kv=None):
         rep = await self.user_by_id_raw(uid, kv=kv)
-        res = rep.json()
-        return User.parse(to_old_obj(res["data"]["user"]["result"]))
+        return parse_user(rep)
 
     # user_by_login
 
@@ -130,8 +129,7 @@ class API:
 
     async def user_by_login(self, login: str, kv=None):
         rep = await self.user_by_login_raw(login, kv=kv)
-        res = rep.json()
-        return User.parse(to_old_obj(res["data"]["user"]["result"]))
+        return parse_user(rep)
 
     # tweet_details
 
@@ -163,9 +161,7 @@ class API:
 
     async def tweet_details(self, twid: int, kv=None):
         rep = await self.tweet_details_raw(twid, kv=kv)
-        obj = to_old_rep(rep.json())
-        doc = obj["tweets"].get(str(twid), None)
-        return Tweet.parse(doc, obj) if doc else None
+        return parse_tweet(rep, twid)
 
     # followers
 
@@ -177,7 +173,7 @@ class API:
 
     async def followers(self, uid: int, limit=-1, kv=None):
         async for rep in self.followers_raw(uid, limit=limit, kv=kv):
-            for x in get_users(rep.json(), limit):
+            for x in parse_users(rep.json(), limit):
                 yield x
 
     # following
@@ -190,7 +186,7 @@ class API:
 
     async def following(self, uid: int, limit=-1, kv=None):
         async for rep in self.following_raw(uid, limit=limit, kv=kv):
-            for x in get_users(rep.json(), limit):
+            for x in parse_users(rep.json(), limit):
                 yield x
 
     # retweeters
@@ -203,7 +199,7 @@ class API:
 
     async def retweeters(self, twid: int, limit=-1, kv=None):
         async for rep in self.retweeters_raw(twid, limit=limit, kv=kv):
-            for x in get_users(rep.json(), limit):
+            for x in parse_users(rep.json(), limit):
                 yield x
 
     # favoriters
@@ -216,7 +212,7 @@ class API:
 
     async def favoriters(self, twid: int, limit=-1, kv=None):
         async for rep in self.favoriters_raw(twid, limit=limit, kv=kv):
-            for x in get_users(rep.json(), limit):
+            for x in parse_users(rep.json(), limit):
                 yield x
 
     # user_tweets
@@ -237,7 +233,7 @@ class API:
 
     async def user_tweets(self, uid: int, limit=-1, kv=None):
         async for rep in self.user_tweets_raw(uid, limit=limit, kv=kv):
-            for x in get_tweets(rep.json(), limit):
+            for x in parse_tweets(rep.json(), limit):
                 yield x
 
     # user_tweets_and_replies
@@ -258,7 +254,7 @@ class API:
 
     async def user_tweets_and_replies(self, uid: int, limit=-1, kv=None):
         async for rep in self.user_tweets_and_replies_raw(uid, limit=limit, kv=kv):
-            for x in get_tweets(rep.json(), limit):
+            for x in parse_tweets(rep.json(), limit):
                 yield x
 
     # list timeline
@@ -275,5 +271,5 @@ class API:
 
     async def list_timeline(self, list_id: int, limit=-1, kv=None):
         async for rep in self.list_timeline_raw(list_id, limit=limit, kv=kv):
-            for x in get_tweets(rep, limit):
+            for x in parse_tweets(rep, limit):
                 yield x
