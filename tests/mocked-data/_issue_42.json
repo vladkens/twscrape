@@ -1,0 +1,376 @@
+{
+  "entryId": "tweet-1665951747842641921",
+  "sortIndex": "1682387836784869348",
+  "content": {
+      "entryType": "TimelineTimelineItem",
+      "__typename": "TimelineTimelineItem",
+      "itemContent": {
+          "itemType": "TimelineTweet",
+          "__typename": "TimelineTweet",
+          "tweet_results": {
+              "result": {
+                  "__typename": "Tweet",
+                  "rest_id": "1665951747842641921",
+                  "core": {
+                      "user_results": {
+                          "result": {
+                              "__typename": "User",
+                              "id": "VXNlcjoxNTM5Nzc0OTEzOTY3NzE0MzA0",
+                              "rest_id": "1539774913967714304",
+                              "affiliates_highlighted_label": {},
+                              "has_graduated_access": true,
+                              "is_blue_verified": false,
+                              "profile_image_shape": "Square",
+                              "legacy": {
+                                  "can_dm": false,
+                                  "can_media_tag": true,
+                                  "created_at": "Thu Jun 23 00:59:21 +0000 2022",
+                                  "default_profile": true,
+                                  "default_profile_image": false,
+                                  "description": "AVIC International Holding Corporation (AVIC INTL) is a global share-holding enterprise affiliated to Aviation Industry Corporation of China (AVIC).",
+                                  "entities": {
+                                      "description": {
+                                          "urls": []
+                                      }
+                                  },
+                                  "fast_followers_count": 0,
+                                  "favourites_count": 118,
+                                  "followers_count": 5911,
+                                  "friends_count": 110,
+                                  "has_custom_timelines": true,
+                                  "is_translator": false,
+                                  "listed_count": 3,
+                                  "location": "",
+                                  "media_count": 172,
+                                  "name": "AVIC INTL",
+                                  "normal_followers_count": 5911,
+                                  "pinned_tweet_ids_str": [],
+                                  "possibly_sensitive": false,
+                                  "profile_banner_url": "https://pbs.twimg.com/profile_banners/1539774913967714304/1656380265",
+                                  "profile_image_url_https": "https://pbs.twimg.com/profile_images/1542841676573466625/Twwv8q0a_normal.jpg",
+                                  "profile_interstitial_type": "",
+                                  "screen_name": "_AVICINTL",
+                                  "statuses_count": 244,
+                                  "translator_type": "none",
+                                  "verified": false,
+                                  "verified_type": "Business",
+                                  "want_retweets": false,
+                                  "withheld_in_countries": []
+                              },
+                              "professional": {
+                                  "rest_id": "1565386974147387392",
+                                  "professional_type": "Business",
+                                  "category": []
+                              }
+                          }
+                      }
+                  },
+                  "edit_control": {
+                      "edit_tweet_ids": [
+                          "1665951747842641921"
+                      ],
+                      "editable_until_msecs": "1686032423229",
+                      "is_edit_eligible": false,
+                      "edits_remaining": "5"
+                  },
+                  "edit_perspective": {
+                      "favorited": false,
+                      "retweeted": false
+                  },
+                  "is_translatable": false,
+                  "views": {
+                      "state": "Enabled"
+                  },
+                  "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+                  "legacy": {
+                      "bookmark_count": 0,
+                      "bookmarked": false,
+                      "created_at": "Tue Jun 06 05:20:23 +0000 2023",
+                      "conversation_id_str": "1665951747842641921",
+                      "display_text_range": [
+                          0,
+                          140
+                      ],
+                      "entities": {
+                          "user_mentions": [
+                              {
+                                  "id_str": "87775422",
+                                  "name": "China Daily",
+                                  "screen_name": "ChinaDaily",
+                                  "indices": [
+                                      3,
+                                      14
+                                  ]
+                              }
+                          ],
+                          "urls": [],
+                          "hashtags": [],
+                          "symbols": []
+                      },
+                      "favorite_count": 0,
+                      "favorited": false,
+                      "full_text": "RT @ChinaDaily: Today marks the arrival of a traditional Chinese solar term called mangzhong, or Grain in Ear, signifying a busy farming pe…",
+                      "is_quote_status": false,
+                      "lang": "en",
+                      "quote_count": 0,
+                      "reply_count": 0,
+                      "retweet_count": 10,
+                      "retweeted": false,
+                      "user_id_str": "1539774913967714304",
+                      "id_str": "1665951747842641921",
+                      "retweeted_status_result": {
+                          "result": {
+                              "__typename": "Tweet",
+                              "rest_id": "1665863576060575744",
+                              "core": {
+                                  "user_results": {
+                                      "result": {
+                                          "__typename": "User",
+                                          "id": "VXNlcjo4Nzc3NTQyMg==",
+                                          "rest_id": "87775422",
+                                          "affiliates_highlighted_label": {},
+                                          "has_graduated_access": true,
+                                          "is_blue_verified": true,
+                                          "profile_image_shape": "Circle",
+                                          "legacy": {
+                                              "can_dm": true,
+                                              "can_media_tag": true,
+                                              "created_at": "Thu Nov 05 20:30:10 +0000 2009",
+                                              "default_profile": false,
+                                              "default_profile_image": false,
+                                              "description": "Start a conversation as we share news and analysis from #China and beyond. \nFB: China Daily \nTelegram: https://t.co/7nB28KWLCr…\nIns: chinadailynews",
+                                              "entities": {
+                                                  "description": {
+                                                      "urls": [
+                                                          {
+                                                              "display_url": "t.me/chinadaily_off",
+                                                              "expanded_url": "http://t.me/chinadaily_off",
+                                                              "url": "https://t.co/7nB28KWLCr",
+                                                              "indices": [
+                                                                  103,
+                                                                  126
+                                                              ]
+                                                          }
+                                                      ]
+                                                  }
+                                              },
+                                              "fast_followers_count": 0,
+                                              "favourites_count": 1155,
+                                              "followers_count": 4161285,
+                                              "friends_count": 568,
+                                              "has_custom_timelines": false,
+                                              "is_translator": false,
+                                              "listed_count": 6975,
+                                              "location": "Beijing, China",
+                                              "media_count": 110028,
+                                              "name": "China Daily",
+                                              "normal_followers_count": 4161285,
+                                              "pinned_tweet_ids_str": [
+                                                  "1679729828105445377"
+                                              ],
+                                              "possibly_sensitive": false,
+                                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/87775422/1683168821",
+                                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1598185470353022976/-KlKi0WI_normal.jpg",
+                                              "profile_interstitial_type": "",
+                                              "screen_name": "ChinaDaily",
+                                              "statuses_count": 204098,
+                                              "translator_type": "none",
+                                              "verified": false,
+                                              "want_retweets": false,
+                                              "withheld_in_countries": []
+                                          },
+                                          "professional": {
+                                              "rest_id": "1473187902209536003",
+                                              "professional_type": "Creator",
+                                              "category": [
+                                                  {
+                                                      "id": 580,
+                                                      "name": "Media & News Company",
+                                                      "icon_name": "IconBriefcaseStroke"
+                                                  }
+                                              ]
+                                          }
+                                      }
+                                  }
+                              },
+                              "edit_control": {
+                                  "edit_tweet_ids": [
+                                      "1665863576060575744"
+                                  ],
+                                  "editable_until_msecs": "1686011401000",
+                                  "is_edit_eligible": true,
+                                  "edits_remaining": "5"
+                              },
+                              "edit_perspective": {
+                                  "favorited": false,
+                                  "retweeted": false
+                              },
+                              "is_translatable": false,
+                              "views": {
+                                  "count": "5188",
+                                  "state": "EnabledWithCount"
+                              },
+                              "source": "<a href=\"http://erased21340332_45IhsckRBy.com\" rel=\"nofollow\">erased21340332_45IhsckRBy</a>",
+                              "legacy": {
+                                  "bookmark_count": 0,
+                                  "bookmarked": false,
+                                  "created_at": "Mon Jun 05 23:30:01 +0000 2023",
+                                  "conversation_id_str": "1665863576060575744",
+                                  "display_text_range": [
+                                      0,
+                                      128
+                                  ],
+                                  "entities": {
+                                      "media": [
+                                          {
+                                              "display_url": "pic.twitter.com/SQMrX99bWr",
+                                              "expanded_url": "https://twitter.com/ChinaDaily/status/1665863576060575744/video/1",
+                                              "id_str": "1665861064259686400",
+                                              "indices": [
+                                                  129,
+                                                  152
+                                              ],
+                                              "media_url_https": "https://pbs.twimg.com/ext_tw_video_thumb/1665861064259686400/pu/img/D1qkMrHVMTV_ifFk.jpg",
+                                              "type": "photo",
+                                              "url": "https://t.co/SQMrX99bWr",
+                                              "features": {},
+                                              "sizes": {
+                                                  "large": {
+                                                      "h": 640,
+                                                      "w": 296,
+                                                      "resize": "fit"
+                                                  },
+                                                  "medium": {
+                                                      "h": 640,
+                                                      "w": 296,
+                                                      "resize": "fit"
+                                                  },
+                                                  "small": {
+                                                      "h": 640,
+                                                      "w": 296,
+                                                      "resize": "fit"
+                                                  },
+                                                  "thumb": {
+                                                      "h": 150,
+                                                      "w": 150,
+                                                      "resize": "crop"
+                                                  }
+                                              },
+                                              "original_info": {
+                                                  "height": 640,
+                                                  "width": 296
+                                              }
+                                          }
+                                      ],
+                                      "user_mentions": [],
+                                      "urls": [],
+                                      "hashtags": [],
+                                      "symbols": []
+                                  },
+                                  "extended_entities": {
+                                      "media": [
+                                          {
+                                              "display_url": "pic.twitter.com/SQMrX99bWr",
+                                              "expanded_url": "https://twitter.com/ChinaDaily/status/1665863576060575744/video/1",
+                                              "id_str": "1665861064259686400",
+                                              "indices": [
+                                                  129,
+                                                  152
+                                              ],
+                                              "media_key": "7_1665861064259686400",
+                                              "media_url_https": "https://pbs.twimg.com/ext_tw_video_thumb/1665861064259686400/pu/img/D1qkMrHVMTV_ifFk.jpg",
+                                              "type": "video",
+                                              "url": "https://t.co/SQMrX99bWr",
+                                              "additional_media_info": {
+                                                  "monetizable": false
+                                              },
+                                              "mediaStats": {
+                                                  "viewCount": 961
+                                              },
+                                              "ext_media_availability": {
+                                                  "status": "Available"
+                                              },
+                                              "features": {},
+                                              "sizes": {
+                                                  "large": {
+                                                      "h": 640,
+                                                      "w": 296,
+                                                      "resize": "fit"
+                                                  },
+                                                  "medium": {
+                                                      "h": 640,
+                                                      "w": 296,
+                                                      "resize": "fit"
+                                                  },
+                                                  "small": {
+                                                      "h": 640,
+                                                      "w": 296,
+                                                      "resize": "fit"
+                                                  },
+                                                  "thumb": {
+                                                      "h": 150,
+                                                      "w": 150,
+                                                      "resize": "crop"
+                                                  }
+                                              },
+                                              "original_info": {
+                                                  "height": 640,
+                                                  "width": 296
+                                              },
+                                              "video_info": {
+                                                  "aspect_ratio": [
+                                                      37,
+                                                      80
+                                                  ],
+                                                  "duration_millis": 16000,
+                                                  "variants": [
+                                                      {
+                                                          "content_type": "application/x-mpegURL",
+                                                          "url": "https://video.twimg.com/ext_tw_video/1665861064259686400/pu/pl/pPnoCo_jLID-udSS.m3u8?tag=12&container=fmp4"
+                                                      },
+                                                      {
+                                                          "bitrate": 632000,
+                                                          "content_type": "video/mp4",
+                                                          "url": "https://video.twimg.com/ext_tw_video/1665861064259686400/pu/vid/296x640/qQVrB3CenvchQsuP.mp4?tag=12"
+                                                      }
+                                                  ]
+                                              }
+                                          }
+                                      ]
+                                  },
+                                  "favorite_count": 27,
+                                  "favorited": false,
+                                  "full_text": "Today marks the arrival of a traditional Chinese solar term called mangzhong, or Grain in Ear, signifying a busy farming period. https://t.co/SQMrX99bWr",
+                                  "is_quote_status": false,
+                                  "lang": "en",
+                                  "possibly_sensitive": false,
+                                  "possibly_sensitive_editable": true,
+                                  "quote_count": 5,
+                                  "reply_count": 4,
+                                  "retweet_count": 10,
+                                  "retweeted": false,
+                                  "user_id_str": "87775422",
+                                  "id_str": "1665863576060575744"
+                              }
+                          }
+                      }
+                  },
+                  "quick_promote_eligibility": {
+                      "eligibility": "IneligibleNotProfessional"
+                  }
+              }
+          },
+          "tweetDisplayType": "Tweet"
+      },
+      "clientEventInfo": {
+          "component": "tweet",
+          "element": "tweet",
+          "details": {
+              "timelinesDetails": {
+                  "injectionType": "RankedOrganicTweet",
+                  "controllerData": "DAACDAABDAABCgABAAAAAAAAAAAKAAkPUKvlsZRgAAAAAAA="
+              }
+          }
+      }
+  }
+}

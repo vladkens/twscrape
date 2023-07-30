@@ -166,14 +166,13 @@ def run():
     del_accounts.add_argument("usernames", nargs="+", default=[], help="Usernames to delete")
 
     login_cmd = subparsers.add_parser("login_accounts", help="Login accounts")
-    login_cmd.add_argument("--email-first", type=bool, default=False, help="Check email first")
-
     relogin = subparsers.add_parser("relogin", help="Re-login selected accounts")
     relogin.add_argument("usernames", nargs="+", default=[], help="Usernames to re-login")
-    relogin.add_argument("--email-first", type=bool, default=False, help="Check email first")
-
     re_failed = subparsers.add_parser("relogin_failed", help="Retry login for failed accounts")
-    re_failed.add_argument("--email-first", type=bool, default=False, help="Check email first")
+
+    check_email = [login_cmd, relogin, re_failed]
+    for cmd in check_email:
+        cmd.add_argument("--email-first", action="store_true", help="Check email first")
 
     subparsers.add_parser("reset_locks", help="Reset all locks")
     subparsers.add_parser("delete_inactive", help="Delete inactive accounts")

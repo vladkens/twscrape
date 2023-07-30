@@ -408,16 +408,17 @@ def _write_dump(kind: str, e: Exception, x: dict, obj: dict):
 
 def _parse_items(rep: httpx.Response, kind: str, limit: int = -1):
     if kind == "user":
-        Cls = User
-        key = "users"
+        Cls, key = User, "users"
     elif kind == "tweet":
-        Cls = Tweet
-        key = "tweets"
+        Cls, key = Tweet, "tweets"
     else:
         raise ValueError(f"Invalid kind: {kind}")
 
+    # check for dict, because httpx.Response can be mocked in tests with different type
+    res = rep if isinstance(rep, dict) else rep.json()
+    obj = to_old_rep(res)
+
     ids = set()
-    obj = to_old_rep(rep.json() if "json" in rep else rep)  # type: ignore
     for x in obj[key].values():
         if limit != -1 and len(ids) >= limit:
             break
@@ -443,18 +444,24 @@ def parse_users(rep: httpx.Response, limit: int = -1) -> Generator[User, None, N
     return _parse_items(rep, "user", limit)  # type: ignore
 
 
-def parse_user(rep: httpx.Response) -> User | None:
+def parse_tweet(rep: httpx.Response, twid: int) -> Tweet | None:
     try:
-        res = rep.json()
-        return User.parse(to_old_obj(res["data"]["user"]["result"]))
-    except Exception:
+        docs = list(parse_tweets(rep))
+        for x in docs:
+            if x.id == twid:
+                return x
+        return None
+    except Exception as e:
+        logger.error(f"Failed to parse tweet {twid} - {type(e)}:\n{traceback.format_exc()}")
         return None
 
 
-def parse_tweet(rep: httpx.Response, twid: int) -> Tweet | None:
+def parse_user(rep: httpx.Response) -> User | None:
     try:
-        obj = to_old_rep(rep.json())
-        doc = obj["tweets"].get(str(twid), None)
-        return Tweet.parse(doc, obj) if doc else None
-    except Exception:
+        docs = list(parse_users(rep))
+        if len(docs) == 1:
+            return docs[0]
+        return None
+    except Exception as e:
+        logger.error(f"Failed to parse user - {type(e)}:\n{traceback.format_exc()}")
         return None

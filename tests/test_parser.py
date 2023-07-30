@@ -1,10 +1,9 @@
-import asyncio
 import json
 import os
 
-from twscrape import API, AccountsPool, gather
+from twscrape import API, gather
 from twscrape.logger import set_log_level
-from twscrape.models import Tweet, User
+from twscrape.models import Tweet, User, parse_tweet
 
 BASE_DIR = os.path.dirname(__file__)
 DATA_DIR = os.path.join(BASE_DIR, "mocked-data")
@@ -178,11 +177,11 @@ async def test_tweet_details():
     mock_rep(api, "tweet_details_raw")
 
     doc = await api.tweet_details(1649191520250245121)
-    assert doc is not None
+    assert doc is not None, "tweet should not be None"
     check_tweet(doc)
 
     assert doc.id == 1649191520250245121
-    assert doc.user is not None
+    assert doc.user is not None, "tweet.user should not be None"
 
 
 async def test_followers():
@@ -269,7 +268,7 @@ async def test_tweet_with_video():
 async def test_issue_28():
     api = API()
 
-    mock_rep(api, "tweet_details_raw", "_issue_28")
+    mock_rep(api, "tweet_details_raw", "_issue_28_1")
     doc = await api.tweet_details(1658409412799737856)
     assert doc is not None
     check_tweet(doc)
@@ -283,7 +282,7 @@ async def test_issue_28():
     assert doc.viewCount == doc.retweetedTweet.viewCount
     check_tweet(doc.retweetedTweet)
 
-    mock_rep(api, "tweet_details_raw", "_issue_28.2")
+    mock_rep(api, "tweet_details_raw", "_issue_28_2")
     doc = await api.tweet_details(1658421690001502208)
     assert doc is not None
     check_tweet(doc)
@@ -294,3 +293,19 @@ async def test_issue_28():
     assert doc.quotedTweet.id != doc.id
     check_tweet(doc.quotedTweet)
     assert doc.quotedTweet.viewCount is not None
+
+
+async def test_issue_42():
+    file = os.path.join(os.path.dirname(__file__), "mocked-data/_issue_42.json")
+    with open(file) as f:
+        data = json.load(f)
+
+    doc = parse_tweet(data, 1665951747842641921)
+    assert doc is not None
+    assert doc.retweetedTweet is not None
+    assert doc.rawContent is not None
+    assert doc.retweetedTweet.rawContent is not None
+
+    msg = "Today marks the arrival of a traditional Chinese solar term called mangzhong, or Grain in Ear, signifying a busy farming period. https://t.co/SQMrX99bWr"
+    assert doc.retweetedTweet.rawContent == msg
+    # assert doc.rawContent == msg # todo: not sure should it be populated from rt
