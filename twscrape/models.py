@@ -12,7 +12,7 @@ from typing import Generator, Optional
 import httpx
 
 from .logger import logger
-from .utils import find_item, get_or, int_or_none, to_old_obj, to_old_rep
+from .utils import find_item, get_or, int_or_none, to_old_rep
 
 
 @dataclass
@@ -231,9 +231,6 @@ class Tweet(JSONTrait):
             prefix = f"RT @{rt.user.username}: "
             rt_msg = f"{prefix}{rt.rawContent}"
             if doc.rawContent != rt_msg and doc.rawContent.startswith(prefix):
-                # was = doc.rawContent.replace("\n", "")
-                # now = rt_msg.replace("\n", "")
-                # print(f"\n{was}\n{now}\n")
                 doc.rawContent = rt_msg
 
         return doc
@@ -425,7 +422,10 @@ def _parse_items(rep: httpx.Response, kind: str, limit: int = -1):
     ids = set()
     for x in obj[key].values():
         if limit != -1 and len(ids) >= limit:
-            break
+            # todo: move somewhere in configuration like force_limit
+            # https://github.com/vladkens/twscrape/issues/26#issuecomment-1656875132
+            # break
+            pass
 
         try:
             tmp = Cls.parse(x, obj)
