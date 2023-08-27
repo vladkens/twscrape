@@ -118,7 +118,7 @@ async def login_confirm_email(client: AsyncClient, acc: Account, prev: dict, ima
 
 async def login_confirm_email_code(client: AsyncClient, acc: Account, prev: dict, imap):
     if not imap:
-        imap = await imap_login(acc.email, acc.password)
+        imap = await imap_login(acc.email, acc.email_password)
 
     now_time = datetime.now(timezone.utc) - timedelta(seconds=30)
     value = await imap_get_email_code(imap, acc.email, now_time)
