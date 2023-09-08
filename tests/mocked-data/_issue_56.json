@@ -1,0 +1,2433 @@
+{
+  "data": {
+    "threaded_conversation_with_injections_v2": {
+      "instructions": [
+        {
+          "type": "TimelineAddEntries",
+          "entries": [
+            {
+              "entryId": "tweet-1682072224013099008",
+              "sortIndex": "7541299812841676799",
+              "content": {
+                "entryType": "TimelineTimelineItem",
+                "__typename": "TimelineTimelineItem",
+                "itemContent": {
+                  "itemType": "TimelineTweet",
+                  "__typename": "TimelineTweet",
+                  "tweet_results": {
+                    "result": {
+                      "__typename": "Tweet",
+                      "rest_id": "1682072224013099008",
+                      "has_birdwatch_notes": false,
+                      "core": {
+                        "user_results": {
+                          "result": {
+                            "__typename": "User",
+                            "id": "VXNlcjoxMTgxNzI5MzkyNzU1NzA3OTA0",
+                            "rest_id": "1181729392755707904",
+                            "affiliates_highlighted_label": {
+                              "label": {
+                                "url": {
+                                  "url": "https://twitter.com/FortniteGame",
+                                  "urlType": "DeepLink"
+                                },
+                                "badge": {
+                                  "url": "https://pbs.twimg.com/profile_images/1692538143096856577/5XhWzBHb_bigger.jpg"
+                                },
+                                "description": "Fortnite",
+                                "userLabelType": "BusinessLabel",
+                                "userLabelDisplayType": "Badge"
+                              }
+                            },
+                            "has_graduated_access": true,
+                            "is_blue_verified": true,
+                            "profile_image_shape": "Square",
+                            "legacy": {
+                              "can_dm": true,
+                              "can_media_tag": true,
+                              "created_at": "Wed Oct 09 00:33:58 +0000 2019",
+                              "default_profile": true,
+                              "default_profile_image": false,
+                              "description": "Service updates for #Fortnite. Follow @FortniteGame for daily news, @FNCompetitive for all things competitive, and @FNCreate for everything UEFN and Creative!",
+                              "entities": {
+                                "description": {
+                                  "urls": []
+                                },
+                                "url": {
+                                  "urls": [
+                                    {
+                                      "display_url": "epicgames.com/site/customer-…",
+                                      "expanded_url": "https://www.epicgames.com/site/customer-service",
+                                      "url": "https://t.co/JGEu5fY7gk",
+                                      "indices": [
+                                        0,
+                                        23
+                                      ]
+                                    }
+                                  ]
+                                }
+                              },
+                              "fast_followers_count": 0,
+                              "favourites_count": 3,
+                              "followers_count": 2848620,
+                              "friends_count": 4,
+                              "has_custom_timelines": false,
+                              "is_translator": false,
+                              "listed_count": 3454,
+                              "location": "",
+                              "media_count": 2456,
+                              "name": "Fortnite Status",
+                              "normal_followers_count": 2848620,
+                              "pinned_tweet_ids_str": [
+                                "1682072224013099008"
+                              ],
+                              "possibly_sensitive": false,
+                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/1181729392755707904/1692984672",
+                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1182784466240135170/tTYzHFoe_normal.jpg",
+                              "profile_interstitial_type": "",
+                              "screen_name": "FortniteStatus",
+                              "statuses_count": 4288,
+                              "translator_type": "none",
+                              "url": "https://t.co/JGEu5fY7gk",
+                              "verified": false,
+                              "verified_type": "Business",
+                              "want_retweets": false,
+                              "withheld_in_countries": []
+                            }
+                          }
+                        }
+                      },
+                      "edit_control": {
+                        "edit_tweet_ids": [
+                          "1682072224013099008"
+                        ],
+                        "editable_until_msecs": "1689875844000",
+                        "is_edit_eligible": true,
+                        "edits_remaining": "5"
+                      },
+                      "is_translatable": false,
+                      "views": {
+                        "count": "1543491",
+                        "state": "EnabledWithCount"
+                      },
+                      "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+                      "note_tweet": {
+                        "is_expandable": true,
+                        "note_tweet_results": {
+                          "result": {
+                            "id": "Tm90ZVR3ZWV0OjE2ODIwNzIyMjM4MDc1OTg1OTg=",
+                            "text": "Your one-stop shop for everything live status for #Fortnite!\n\n🗣️ Tweet @FortniteStatus for help!\n\n💁 Reach out to Player Support with issues any time at https://t.co/5ih4hl5Y78 by opening a Live Chat or creating a ticket.\n\n📑 Articles for Common Account issues can be found at https://t.co/odE9qJiOg3\n\n🧩 Check out our Trello board for trending issues: https://t.co/CUfyetPlK8\n\n🚦 Visit the Status page for server status: https://t.co/X55I5IuFkk",
+                            "entity_set": {
+                              "user_mentions": [
+                                {
+                                  "id_str": "1181729392755707904",
+                                  "name": "Fortnite Status",
+                                  "screen_name": "FortniteStatus",
+                                  "indices": [
+                                    71,
+                                    86
+                                  ]
+                                }
+                              ],
+                              "urls": [
+                                {
+                                  "display_url": "fn.gg/support",
+                                  "expanded_url": "http://fn.gg/support",
+                                  "url": "https://t.co/5ih4hl5Y78",
+                                  "indices": [
+                                    152,
+                                    175
+                                  ]
+                                },
+                                {
+                                  "display_url": "fn.gg/accounts",
+                                  "expanded_url": "http://fn.gg/accounts",
+                                  "url": "https://t.co/odE9qJiOg3",
+                                  "indices": [
+                                    275,
+                                    298
+                                  ]
+                                },
+                                {
+                                  "display_url": "trello.com/b/Bs7hgkma/for…",
+                                  "expanded_url": "https://trello.com/b/Bs7hgkma/fortnite-community-issues",
+                                  "url": "https://t.co/CUfyetPlK8",
+                                  "indices": [
+                                    350,
+                                    373
+                                  ]
+                                },
+                                {
+                                  "display_url": "status.epicgames.com",
+                                  "expanded_url": "https://status.epicgames.com",
+                                  "url": "https://t.co/X55I5IuFkk",
+                                  "indices": [
+                                    418,
+                                    441
+                                  ]
+                                }
+                              ],
+                              "hashtags": [
+                                {
+                                  "indices": [
+                                    50,
+                                    59
+                                  ],
+                                  "text": "Fortnite"
+                                }
+                              ],
+                              "symbols": []
+                            },
+                            "richtext": {
+                              "richtext_tags": []
+                            },
+                            "media": {
+                              "inline_media": []
+                            }
+                          }
+                        }
+                      },
+                      "legacy": {
+                        "bookmark_count": 105,
+                        "bookmarked": false,
+                        "created_at": "Thu Jul 20 16:57:24 +0000 2023",
+                        "conversation_id_str": "1682072224013099008",
+                        "display_text_range": [
+                          0,
+                          275
+                        ],
+                        "entities": {
+                          "media": [
+                            {
+                              "display_url": "pic.twitter.com/DFggHwFYkw",
+                              "expanded_url": "https://twitter.com/FortniteStatus/status/1682072224013099008/photo/1",
+                              "id_str": "1682070498451296256",
+                              "indices": [
+                                276,
+                                299
+                              ],
+                              "media_url_https": "https://pbs.twimg.com/media/F1fqNNNakAANOVQ.jpg",
+                              "type": "photo",
+                              "url": "https://t.co/DFggHwFYkw",
+                              "features": {
+                                "large": {
+                                  "faces": [
+                                    {
+                                      "x": 851,
+                                      "y": 163,
+                                      "h": 138,
+                                      "w": 138
+                                    }
+                                  ]
+                                },
+                                "medium": {
+                                  "faces": [
+                                    {
+                                      "x": 531,
+                                      "y": 101,
+                                      "h": 86,
+                                      "w": 86
+                                    }
+                                  ]
+                                },
+                                "small": {
+                                  "faces": [
+                                    {
+                                      "x": 301,
+                                      "y": 57,
+                                      "h": 48,
+                                      "w": 48
+                                    }
+                                  ]
+                                },
+                                "orig": {
+                                  "faces": [
+                                    {
+                                      "x": 851,
+                                      "y": 163,
+                                      "h": 138,
+                                      "w": 138
+                                    }
+                                  ]
+                                }
+                              },
+                              "sizes": {
+                                "large": {
+                                  "h": 1080,
+                                  "w": 1920,
+                                  "resize": "fit"
+                                },
+                                "medium": {
+                                  "h": 675,
+                                  "w": 1200,
+                                  "resize": "fit"
+                                },
+                                "small": {
+                                  "h": 383,
+                                  "w": 680,
+                                  "resize": "fit"
+                                },
+                                "thumb": {
+                                  "h": 150,
+                                  "w": 150,
+                                  "resize": "crop"
+                                }
+                              },
+                              "original_info": {
+                                "height": 1080,
+                                "width": 1920,
+                                "focus_rects": [
+                                  {
+                                    "x": 0,
+                                    "y": 0,
+                                    "w": 1920,
+                                    "h": 1075
+                                  },
+                                  {
+                                    "x": 372,
+                                    "y": 0,
+                                    "w": 1080,
+                                    "h": 1080
+                                  },
+                                  {
+                                    "x": 439,
+                                    "y": 0,
+                                    "w": 947,
+                                    "h": 1080
+                                  },
+                                  {
+                                    "x": 642,
+                                    "y": 0,
+                                    "w": 540,
+                                    "h": 1080
+                                  },
+                                  {
+                                    "x": 0,
+                                    "y": 0,
+                                    "w": 1920,
+                                    "h": 1080
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "user_mentions": [
+                            {
+                              "id_str": "1181729392755707904",
+                              "name": "Fortnite Status",
+                              "screen_name": "FortniteStatus",
+                              "indices": [
+                                71,
+                                86
+                              ]
+                            }
+                          ],
+                          "urls": [
+                            {
+                              "display_url": "fn.gg/support",
+                              "expanded_url": "http://fn.gg/support",
+                              "url": "https://t.co/I1uF2iqjzX",
+                              "indices": [
+                                152,
+                                175
+                              ]
+                            }
+                          ],
+                          "hashtags": [
+                            {
+                              "indices": [
+                                50,
+                                59
+                              ],
+                              "text": "Fortnite"
+                            }
+                          ],
+                          "symbols": []
+                        },
+                        "extended_entities": {
+                          "media": [
+                            {
+                              "display_url": "pic.twitter.com/DFggHwFYkw",
+                              "expanded_url": "https://twitter.com/FortniteStatus/status/1682072224013099008/photo/1",
+                              "id_str": "1682070498451296256",
+                              "indices": [
+                                276,
+                                299
+                              ],
+                              "media_key": "3_1682070498451296256",
+                              "media_url_https": "https://pbs.twimg.com/media/F1fqNNNakAANOVQ.jpg",
+                              "type": "photo",
+                              "url": "https://t.co/DFggHwFYkw",
+                              "ext_media_availability": {
+                                "status": "Available"
+                              },
+                              "features": {
+                                "large": {
+                                  "faces": [
+                                    {
+                                      "x": 851,
+                                      "y": 163,
+                                      "h": 138,
+                                      "w": 138
+                                    }
+                                  ]
+                                },
+                                "medium": {
+                                  "faces": [
+                                    {
+                                      "x": 531,
+                                      "y": 101,
+                                      "h": 86,
+                                      "w": 86
+                                    }
+                                  ]
+                                },
+                                "small": {
+                                  "faces": [
+                                    {
+                                      "x": 301,
+                                      "y": 57,
+                                      "h": 48,
+                                      "w": 48
+                                    }
+                                  ]
+                                },
+                                "orig": {
+                                  "faces": [
+                                    {
+                                      "x": 851,
+                                      "y": 163,
+                                      "h": 138,
+                                      "w": 138
+                                    }
+                                  ]
+                                }
+                              },
+                              "sizes": {
+                                "large": {
+                                  "h": 1080,
+                                  "w": 1920,
+                                  "resize": "fit"
+                                },
+                                "medium": {
+                                  "h": 675,
+                                  "w": 1200,
+                                  "resize": "fit"
+                                },
+                                "small": {
+                                  "h": 383,
+                                  "w": 680,
+                                  "resize": "fit"
+                                },
+                                "thumb": {
+                                  "h": 150,
+                                  "w": 150,
+                                  "resize": "crop"
+                                }
+                              },
+                              "original_info": {
+                                "height": 1080,
+                                "width": 1920,
+                                "focus_rects": [
+                                  {
+                                    "x": 0,
+                                    "y": 0,
+                                    "w": 1920,
+                                    "h": 1075
+                                  },
+                                  {
+                                    "x": 372,
+                                    "y": 0,
+                                    "w": 1080,
+                                    "h": 1080
+                                  },
+                                  {
+                                    "x": 439,
+                                    "y": 0,
+                                    "w": 947,
+                                    "h": 1080
+                                  },
+                                  {
+                                    "x": 642,
+                                    "y": 0,
+                                    "w": 540,
+                                    "h": 1080
+                                  },
+                                  {
+                                    "x": 0,
+                                    "y": 0,
+                                    "w": 1920,
+                                    "h": 1080
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        },
+                        "favorite_count": 3101,
+                        "favorited": false,
+                        "full_text": "Your one-stop shop for everything live status for #Fortnite!\n\n🗣️ Tweet @FortniteStatus for help!\n\n💁 Reach out to Player Support with issues any time at https://t.co/I1uF2iqjzX by opening a Live Chat or creating a ticket.\n\n📑 Articles for Common Account issues can be found at… https://t.co/DFggHwFYkw",
+                        "is_quote_status": false,
+                        "lang": "en",
+                        "possibly_sensitive": false,
+                        "possibly_sensitive_editable": true,
+                        "quote_count": 58,
+                        "reply_count": 798,
+                        "retweet_count": 233,
+                        "retweeted": false,
+                        "user_id_str": "1181729392755707904",
+                        "id_str": "1682072224013099008"
+                      },
+                      "quick_promote_eligibility": {
+                        "eligibility": "IneligibleNotProfessional"
+                      }
+                    }
+                  },
+                  "tweetDisplayType": "Tweet",
+                  "hasModeratedReplies": false
+                }
+              }
+            },
+            {
+              "entryId": "conversationthread-1697284191950348589",
+              "sortIndex": "7541299812841676789",
+              "content": {
+                "entryType": "TimelineTimelineModule",
+                "__typename": "TimelineTimelineModule",
+                "items": [
+                  {
+                    "entryId": "conversationthread-1697284191950348589-tweet-1697284191950348589",
+                    "item": {
+                      "itemContent": {
+                        "itemType": "TimelineTweet",
+                        "__typename": "TimelineTweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "rest_id": "1697284191950348589",
+                            "has_birdwatch_notes": false,
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "id": "VXNlcjoxNTgyMjU5MDQ2ODIzOTg1MTUz",
+                                  "rest_id": "1582259046823985153",
+                                  "affiliates_highlighted_label": {},
+                                  "has_graduated_access": true,
+                                  "is_blue_verified": false,
+                                  "profile_image_shape": "Circle",
+                                  "legacy": {
+                                    "can_dm": false,
+                                    "can_media_tag": true,
+                                    "created_at": "Tue Oct 18 06:35:58 +0000 2022",
+                                    "default_profile": true,
+                                    "default_profile_image": false,
+                                    "description": "",
+                                    "entities": {
+                                      "description": {
+                                        "urls": []
+                                      }
+                                    },
+                                    "fast_followers_count": 0,
+                                    "favourites_count": 0,
+                                    "followers_count": 1,
+                                    "friends_count": 1,
+                                    "has_custom_timelines": false,
+                                    "is_translator": false,
+                                    "listed_count": 0,
+                                    "location": "",
+                                    "media_count": 0,
+                                    "name": "Chimichanga015",
+                                    "normal_followers_count": 1,
+                                    "pinned_tweet_ids_str": [],
+                                    "possibly_sensitive": false,
+                                    "profile_image_url_https": "https://pbs.twimg.com/profile_images/1582259174859210755/YgbwvShu_normal.jpg",
+                                    "profile_interstitial_type": "",
+                                    "screen_name": "Mike48702293",
+                                    "statuses_count": 2,
+                                    "translator_type": "none",
+                                    "verified": false,
+                                    "want_retweets": false,
+                                    "withheld_in_countries": []
+                                  }
+                                }
+                              }
+                            },
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1697284191950348589"
+                              ],
+                              "editable_until_msecs": "1693502660000",
+                              "is_edit_eligible": false,
+                              "edits_remaining": "5"
+                            },
+                            "is_translatable": false,
+                            "views": {
+                              "count": "306",
+                              "state": "EnabledWithCount"
+                            },
+                            "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "created_at": "Thu Aug 31 16:24:20 +0000 2023",
+                              "conversation_id_str": "1682072224013099008",
+                              "display_text_range": [
+                                16,
+                                214
+                              ],
+                              "entities": {
+                                "user_mentions": [
+                                  {
+                                    "id_str": "1181729392755707904",
+                                    "name": "Fortnite Status",
+                                    "screen_name": "FortniteStatus",
+                                    "indices": [
+                                      0,
+                                      15
+                                    ]
+                                  }
+                                ],
+                                "urls": [],
+                                "hashtags": [],
+                                "symbols": []
+                              },
+                              "favorite_count": 0,
+                              "favorited": false,
+                              "full_text": "@FortniteStatus Could you guys fix a problem for pc? Me and another friend have had this weird bug im which BattleEyeLauncher gets stuck on \"updating...\" and Fortnite just wont launch at all for atleast a whole day",
+                              "in_reply_to_screen_name": "FortniteStatus",
+                              "in_reply_to_status_id_str": "1682072224013099008",
+                              "in_reply_to_user_id_str": "1181729392755707904",
+                              "is_quote_status": false,
+                              "lang": "en",
+                              "quote_count": 0,
+                              "reply_count": 1,
+                              "retweet_count": 0,
+                              "retweeted": false,
+                              "user_id_str": "1582259046823985153",
+                              "id_str": "1697284191950348589"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotProfessional"
+                            }
+                          }
+                        },
+                        "tweetDisplayType": "Tweet"
+                      },
+                      "clientEventInfo": {
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABFKAJiGAHgAUKAAIAAAAABEAECAAAAAA="
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "entryId": "conversationthread-1697284191950348589-tweet-1697295406260953510",
+                    "item": {
+                      "itemContent": {
+                        "itemType": "TimelineTweet",
+                        "__typename": "TimelineTweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "rest_id": "1697295406260953510",
+                            "has_birdwatch_notes": false,
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "id": "VXNlcjoxMTgxNzI5MzkyNzU1NzA3OTA0",
+                                  "rest_id": "1181729392755707904",
+                                  "affiliates_highlighted_label": {
+                                    "label": {
+                                      "url": {
+                                        "url": "https://twitter.com/FortniteGame",
+                                        "urlType": "DeepLink"
+                                      },
+                                      "badge": {
+                                        "url": "https://pbs.twimg.com/profile_images/1692538143096856577/5XhWzBHb_bigger.jpg"
+                                      },
+                                      "description": "Fortnite",
+                                      "userLabelType": "BusinessLabel",
+                                      "userLabelDisplayType": "Badge"
+                                    }
+                                  },
+                                  "has_graduated_access": true,
+                                  "is_blue_verified": true,
+                                  "profile_image_shape": "Square",
+                                  "legacy": {
+                                    "can_dm": true,
+                                    "can_media_tag": true,
+                                    "created_at": "Wed Oct 09 00:33:58 +0000 2019",
+                                    "default_profile": true,
+                                    "default_profile_image": false,
+                                    "description": "Service updates for #Fortnite. Follow @FortniteGame for daily news, @FNCompetitive for all things competitive, and @FNCreate for everything UEFN and Creative!",
+                                    "entities": {
+                                      "description": {
+                                        "urls": []
+                                      },
+                                      "url": {
+                                        "urls": [
+                                          {
+                                            "display_url": "epicgames.com/site/customer-…",
+                                            "expanded_url": "https://www.epicgames.com/site/customer-service",
+                                            "url": "https://t.co/JGEu5fY7gk",
+                                            "indices": [
+                                              0,
+                                              23
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "fast_followers_count": 0,
+                                    "favourites_count": 3,
+                                    "followers_count": 2848620,
+                                    "friends_count": 4,
+                                    "has_custom_timelines": false,
+                                    "is_translator": false,
+                                    "listed_count": 3454,
+                                    "location": "",
+                                    "media_count": 2456,
+                                    "name": "Fortnite Status",
+                                    "normal_followers_count": 2848620,
+                                    "pinned_tweet_ids_str": [
+                                      "1682072224013099008"
+                                    ],
+                                    "possibly_sensitive": false,
+                                    "profile_banner_url": "https://pbs.twimg.com/profile_banners/1181729392755707904/1692984672",
+                                    "profile_image_url_https": "https://pbs.twimg.com/profile_images/1182784466240135170/tTYzHFoe_normal.jpg",
+                                    "profile_interstitial_type": "",
+                                    "screen_name": "FortniteStatus",
+                                    "statuses_count": 4288,
+                                    "translator_type": "none",
+                                    "url": "https://t.co/JGEu5fY7gk",
+                                    "verified": false,
+                                    "verified_type": "Business",
+                                    "want_retweets": false,
+                                    "withheld_in_countries": []
+                                  }
+                                }
+                              }
+                            },
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1697295406260953510"
+                              ],
+                              "editable_until_msecs": "1693505333000",
+                              "is_edit_eligible": false,
+                              "edits_remaining": "5"
+                            },
+                            "is_translatable": false,
+                            "views": {
+                              "count": "298",
+                              "state": "EnabledWithCount"
+                            },
+                            "source": "<a href=\"https://sproutsocial.com\" rel=\"nofollow\">Sprout Social</a>",
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "created_at": "Thu Aug 31 17:08:53 +0000 2023",
+                              "conversation_id_str": "1682072224013099008",
+                              "display_text_range": [
+                                14,
+                                187
+                              ],
+                              "entities": {
+                                "user_mentions": [
+                                  {
+                                    "id_str": "1582259046823985153",
+                                    "name": "Chimichanga015",
+                                    "screen_name": "Mike48702293",
+                                    "indices": [
+                                      0,
+                                      13
+                                    ]
+                                  }
+                                ],
+                                "urls": [
+                                  {
+                                    "display_url": "fn.gg/VerifyFiles",
+                                    "expanded_url": "http://fn.gg/VerifyFiles",
+                                    "url": "https://t.co/1odTH0sntj",
+                                    "indices": [
+                                      161,
+                                      184
+                                    ]
+                                  }
+                                ],
+                                "hashtags": [],
+                                "symbols": []
+                              },
+                              "favorite_count": 1,
+                              "favorited": false,
+                              "full_text": "@Mike48702293 Hey hey! 🙂 Could you please try verifying your Fortnite files and see if you can launch the game afterwards? Here's a handy guide on how to do it: https://t.co/1odTH0sntj. 🔧",
+                              "in_reply_to_screen_name": "Mike48702293",
+                              "in_reply_to_status_id_str": "1697284191950348589",
+                              "in_reply_to_user_id_str": "1582259046823985153",
+                              "is_quote_status": false,
+                              "lang": "en",
+                              "possibly_sensitive": false,
+                              "possibly_sensitive_editable": true,
+                              "quote_count": 1,
+                              "reply_count": 0,
+                              "retweet_count": 0,
+                              "retweeted": false,
+                              "user_id_str": "1181729392755707904",
+                              "id_str": "1697295406260953510"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotProfessional"
+                            }
+                          }
+                        },
+                        "tweetDisplayType": "Tweet"
+                      },
+                      "clientEventInfo": {
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABFOAJkKJDgYEKAAIAAAAAFkBACAAAAAA="
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "displayType": "VerticalConversation",
+                "clientEventInfo": {
+                  "details": {
+                    "conversationDetails": {
+                      "conversationSection": "HighQuality"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "entryId": "conversationthread-1696563126227947775",
+              "sortIndex": "7541299812841676779",
+              "content": {
+                "entryType": "TimelineTimelineModule",
+                "__typename": "TimelineTimelineModule",
+                "items": [
+                  {
+                    "entryId": "conversationthread-1696563126227947775-tweet-1696563126227947775",
+                    "item": {
+                      "itemContent": {
+                        "itemType": "TimelineTweet",
+                        "__typename": "TimelineTweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "rest_id": "1696563126227947775",
+                            "has_birdwatch_notes": false,
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "id": "VXNlcjoxNjI3NzU1ODkxNTQwNzgzMTI5",
+                                  "rest_id": "1627755891540783129",
+                                  "affiliates_highlighted_label": {},
+                                  "has_graduated_access": true,
+                                  "is_blue_verified": false,
+                                  "profile_image_shape": "Circle",
+                                  "legacy": {
+                                    "can_dm": false,
+                                    "can_media_tag": true,
+                                    "created_at": "Mon Feb 20 19:43:51 +0000 2023",
+                                    "default_profile": true,
+                                    "default_profile_image": false,
+                                    "description": "",
+                                    "entities": {
+                                      "description": {
+                                        "urls": []
+                                      }
+                                    },
+                                    "fast_followers_count": 0,
+                                    "favourites_count": 27,
+                                    "followers_count": 5,
+                                    "friends_count": 19,
+                                    "has_custom_timelines": false,
+                                    "is_translator": false,
+                                    "listed_count": 0,
+                                    "location": "",
+                                    "media_count": 1,
+                                    "name": "‏𓆩ℳ𓆪²⁹",
+                                    "normal_followers_count": 5,
+                                    "pinned_tweet_ids_str": [],
+                                    "possibly_sensitive": false,
+                                    "profile_banner_url": "https://pbs.twimg.com/profile_banners/1627755891540783129/1681229066",
+                                    "profile_image_url_https": "https://pbs.twimg.com/profile_images/1686486884665663488/cUf-bmJI_normal.jpg",
+                                    "profile_interstitial_type": "",
+                                    "screen_name": "MV5C_",
+                                    "statuses_count": 14,
+                                    "translator_type": "none",
+                                    "verified": false,
+                                    "want_retweets": false,
+                                    "withheld_in_countries": []
+                                  }
+                                }
+                              }
+                            },
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1696563126227947775"
+                              ],
+                              "editable_until_msecs": "1693330744000",
+                              "is_edit_eligible": false,
+                              "edits_remaining": "5"
+                            },
+                            "is_translatable": false,
+                            "views": {
+                              "count": "441",
+                              "state": "EnabledWithCount"
+                            },
+                            "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "created_at": "Tue Aug 29 16:39:04 +0000 2023",
+                              "conversation_id_str": "1682072224013099008",
+                              "display_text_range": [
+                                16,
+                                55
+                              ],
+                              "entities": {
+                                "media": [
+                                  {
+                                    "display_url": "pic.twitter.com/82pbNeu6Q9",
+                                    "expanded_url": "https://twitter.com/MV5C_/status/1696563126227947775/photo/1",
+                                    "id_str": "1696563117801590790",
+                                    "indices": [
+                                      56,
+                                      79
+                                    ],
+                                    "media_url_https": "https://pbs.twimg.com/media/F4tnKreX0AYJitt.jpg",
+                                    "type": "photo",
+                                    "url": "https://t.co/82pbNeu6Q9",
+                                    "features": {
+                                      "large": {
+                                        "faces": [
+                                          {
+                                            "x": 180,
+                                            "y": 1054,
+                                            "h": 152,
+                                            "w": 152
+                                          }
+                                        ]
+                                      },
+                                      "medium": {
+                                        "faces": [
+                                          {
+                                            "x": 105,
+                                            "y": 617,
+                                            "h": 89,
+                                            "w": 89
+                                          }
+                                        ]
+                                      },
+                                      "small": {
+                                        "faces": [
+                                          {
+                                            "x": 59,
+                                            "y": 350,
+                                            "h": 50,
+                                            "w": 50
+                                          }
+                                        ]
+                                      },
+                                      "orig": {
+                                        "faces": [
+                                          {
+                                            "x": 180,
+                                            "y": 1054,
+                                            "h": 152,
+                                            "w": 152
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "sizes": {
+                                      "large": {
+                                        "h": 2048,
+                                        "w": 945,
+                                        "resize": "fit"
+                                      },
+                                      "medium": {
+                                        "h": 1200,
+                                        "w": 554,
+                                        "resize": "fit"
+                                      },
+                                      "small": {
+                                        "h": 680,
+                                        "w": 314,
+                                        "resize": "fit"
+                                      },
+                                      "thumb": {
+                                        "h": 150,
+                                        "w": 150,
+                                        "resize": "crop"
+                                      }
+                                    },
+                                    "original_info": {
+                                      "height": 2048,
+                                      "width": 945,
+                                      "focus_rects": [
+                                        {
+                                          "x": 0,
+                                          "y": 1519,
+                                          "w": 945,
+                                          "h": 529
+                                        },
+                                        {
+                                          "x": 0,
+                                          "y": 1103,
+                                          "w": 945,
+                                          "h": 945
+                                        },
+                                        {
+                                          "x": 0,
+                                          "y": 971,
+                                          "w": 945,
+                                          "h": 1077
+                                        },
+                                        {
+                                          "x": 0,
+                                          "y": 158,
+                                          "w": 945,
+                                          "h": 1890
+                                        },
+                                        {
+                                          "x": 0,
+                                          "y": 0,
+                                          "w": 945,
+                                          "h": 2048
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "user_mentions": [
+                                  {
+                                    "id_str": "1181729392755707904",
+                                    "name": "Fortnite Status",
+                                    "screen_name": "FortniteStatus",
+                                    "indices": [
+                                      0,
+                                      15
+                                    ]
+                                  }
+                                ],
+                                "urls": [],
+                                "hashtags": [],
+                                "symbols": []
+                              },
+                              "extended_entities": {
+                                "media": [
+                                  {
+                                    "display_url": "pic.twitter.com/82pbNeu6Q9",
+                                    "expanded_url": "https://twitter.com/MV5C_/status/1696563126227947775/photo/1",
+                                    "id_str": "1696563117801590790",
+                                    "indices": [
+                                      56,
+                                      79
+                                    ],
+                                    "media_key": "3_1696563117801590790",
+                                    "media_url_https": "https://pbs.twimg.com/media/F4tnKreX0AYJitt.jpg",
+                                    "type": "photo",
+                                    "url": "https://t.co/82pbNeu6Q9",
+                                    "ext_media_availability": {
+                                      "status": "Available"
+                                    },
+                                    "features": {
+                                      "large": {
+                                        "faces": [
+                                          {
+                                            "x": 180,
+                                            "y": 1054,
+                                            "h": 152,
+                                            "w": 152
+                                          }
+                                        ]
+                                      },
+                                      "medium": {
+                                        "faces": [
+                                          {
+                                            "x": 105,
+                                            "y": 617,
+                                            "h": 89,
+                                            "w": 89
+                                          }
+                                        ]
+                                      },
+                                      "small": {
+                                        "faces": [
+                                          {
+                                            "x": 59,
+                                            "y": 350,
+                                            "h": 50,
+                                            "w": 50
+                                          }
+                                        ]
+                                      },
+                                      "orig": {
+                                        "faces": [
+                                          {
+                                            "x": 180,
+                                            "y": 1054,
+                                            "h": 152,
+                                            "w": 152
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "sizes": {
+                                      "large": {
+                                        "h": 2048,
+                                        "w": 945,
+                                        "resize": "fit"
+                                      },
+                                      "medium": {
+                                        "h": 1200,
+                                        "w": 554,
+                                        "resize": "fit"
+                                      },
+                                      "small": {
+                                        "h": 680,
+                                        "w": 314,
+                                        "resize": "fit"
+                                      },
+                                      "thumb": {
+                                        "h": 150,
+                                        "w": 150,
+                                        "resize": "crop"
+                                      }
+                                    },
+                                    "original_info": {
+                                      "height": 2048,
+                                      "width": 945,
+                                      "focus_rects": [
+                                        {
+                                          "x": 0,
+                                          "y": 1519,
+                                          "w": 945,
+                                          "h": 529
+                                        },
+                                        {
+                                          "x": 0,
+                                          "y": 1103,
+                                          "w": 945,
+                                          "h": 945
+                                        },
+                                        {
+                                          "x": 0,
+                                          "y": 971,
+                                          "w": 945,
+                                          "h": 1077
+                                        },
+                                        {
+                                          "x": 0,
+                                          "y": 158,
+                                          "w": 945,
+                                          "h": 1890
+                                        },
+                                        {
+                                          "x": 0,
+                                          "y": 0,
+                                          "w": 945,
+                                          "h": 2048
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ]
+                              },
+                              "favorite_count": 1,
+                              "favorited": false,
+                              "full_text": "@FortniteStatus When did you fix this problem days ago. https://t.co/82pbNeu6Q9",
+                              "in_reply_to_screen_name": "FortniteStatus",
+                              "in_reply_to_status_id_str": "1682072224013099008",
+                              "in_reply_to_user_id_str": "1181729392755707904",
+                              "is_quote_status": false,
+                              "lang": "en",
+                              "possibly_sensitive": false,
+                              "possibly_sensitive_editable": true,
+                              "quote_count": 0,
+                              "reply_count": 1,
+                              "retweet_count": 0,
+                              "retweeted": false,
+                              "user_id_str": "1627755891540783129",
+                              "id_str": "1696563126227947775"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotProfessional"
+                            }
+                          }
+                        },
+                        "tweetDisplayType": "Tweet"
+                      },
+                      "clientEventInfo": {
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABFKAJiSRjgAUKAAIAAAAABEAQCAAAAAA="
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "entryId": "conversationthread-1696563126227947775-tweet-1696590973185180136",
+                    "item": {
+                      "itemContent": {
+                        "itemType": "TimelineTweet",
+                        "__typename": "TimelineTweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "rest_id": "1696590973185180136",
+                            "has_birdwatch_notes": false,
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "id": "VXNlcjoxMTgxNzI5MzkyNzU1NzA3OTA0",
+                                  "rest_id": "1181729392755707904",
+                                  "affiliates_highlighted_label": {
+                                    "label": {
+                                      "url": {
+                                        "url": "https://twitter.com/FortniteGame",
+                                        "urlType": "DeepLink"
+                                      },
+                                      "badge": {
+                                        "url": "https://pbs.twimg.com/profile_images/1692538143096856577/5XhWzBHb_bigger.jpg"
+                                      },
+                                      "description": "Fortnite",
+                                      "userLabelType": "BusinessLabel",
+                                      "userLabelDisplayType": "Badge"
+                                    }
+                                  },
+                                  "has_graduated_access": true,
+                                  "is_blue_verified": true,
+                                  "profile_image_shape": "Square",
+                                  "legacy": {
+                                    "can_dm": true,
+                                    "can_media_tag": true,
+                                    "created_at": "Wed Oct 09 00:33:58 +0000 2019",
+                                    "default_profile": true,
+                                    "default_profile_image": false,
+                                    "description": "Service updates for #Fortnite. Follow @FortniteGame for daily news, @FNCompetitive for all things competitive, and @FNCreate for everything UEFN and Creative!",
+                                    "entities": {
+                                      "description": {
+                                        "urls": []
+                                      },
+                                      "url": {
+                                        "urls": [
+                                          {
+                                            "display_url": "epicgames.com/site/customer-…",
+                                            "expanded_url": "https://www.epicgames.com/site/customer-service",
+                                            "url": "https://t.co/JGEu5fY7gk",
+                                            "indices": [
+                                              0,
+                                              23
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "fast_followers_count": 0,
+                                    "favourites_count": 3,
+                                    "followers_count": 2848620,
+                                    "friends_count": 4,
+                                    "has_custom_timelines": false,
+                                    "is_translator": false,
+                                    "listed_count": 3454,
+                                    "location": "",
+                                    "media_count": 2456,
+                                    "name": "Fortnite Status",
+                                    "normal_followers_count": 2848620,
+                                    "pinned_tweet_ids_str": [
+                                      "1682072224013099008"
+                                    ],
+                                    "possibly_sensitive": false,
+                                    "profile_banner_url": "https://pbs.twimg.com/profile_banners/1181729392755707904/1692984672",
+                                    "profile_image_url_https": "https://pbs.twimg.com/profile_images/1182784466240135170/tTYzHFoe_normal.jpg",
+                                    "profile_interstitial_type": "",
+                                    "screen_name": "FortniteStatus",
+                                    "statuses_count": 4288,
+                                    "translator_type": "none",
+                                    "url": "https://t.co/JGEu5fY7gk",
+                                    "verified": false,
+                                    "verified_type": "Business",
+                                    "want_retweets": false,
+                                    "withheld_in_countries": []
+                                  }
+                                }
+                              }
+                            },
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1696590973185180136"
+                              ],
+                              "editable_until_msecs": "1693337383000",
+                              "is_edit_eligible": false,
+                              "edits_remaining": "5"
+                            },
+                            "is_translatable": false,
+                            "views": {
+                              "count": "554",
+                              "state": "EnabledWithCount"
+                            },
+                            "source": "<a href=\"https://sproutsocial.com\" rel=\"nofollow\">Sprout Social</a>",
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "created_at": "Tue Aug 29 18:29:43 +0000 2023",
+                              "conversation_id_str": "1682072224013099008",
+                              "display_text_range": [
+                                7,
+                                279
+                              ],
+                              "entities": {
+                                "user_mentions": [
+                                  {
+                                    "id_str": "1627755891540783129",
+                                    "name": "‏𓆩ℳ𓆪²⁹",
+                                    "screen_name": "MV5C_",
+                                    "indices": [
+                                      0,
+                                      6
+                                    ]
+                                  }
+                                ],
+                                "urls": [
+                                  {
+                                    "display_url": "fn.gg/support",
+                                    "expanded_url": "http://fn.gg/support",
+                                    "url": "https://t.co/I1uF2ipLKp",
+                                    "indices": [
+                                      101,
+                                      124
+                                    ]
+                                  }
+                                ],
+                                "hashtags": [],
+                                "symbols": []
+                              },
+                              "favorite_count": 3,
+                              "favorited": false,
+                              "full_text": "@MV5C_ Hey 👋 This is something that Player Support could check out for you. Please follow this link: https://t.co/I1uF2ipLKp. Next, select 'Fortnite', then scroll to the bottom of the page and click 'Contact Us'. \n\nBe sure to provide as much info as you can, please. Thank you! 😊",
+                              "in_reply_to_screen_name": "MV5C_",
+                              "in_reply_to_status_id_str": "1696563126227947775",
+                              "in_reply_to_user_id_str": "1627755891540783129",
+                              "is_quote_status": false,
+                              "lang": "en",
+                              "possibly_sensitive": false,
+                              "possibly_sensitive_editable": true,
+                              "quote_count": 1,
+                              "reply_count": 0,
+                              "retweet_count": 0,
+                              "retweeted": false,
+                              "user_id_str": "1181729392755707904",
+                              "id_str": "1696590973185180136"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotProfessional"
+                            }
+                          }
+                        },
+                        "tweetDisplayType": "Tweet"
+                      },
+                      "clientEventInfo": {
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABFOAJkihDgYEKAAIAAAAAFkBACAAAAAA="
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "displayType": "VerticalConversation",
+                "clientEventInfo": {
+                  "details": {
+                    "conversationDetails": {
+                      "conversationSection": "HighQuality"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "entryId": "conversationthread-1682074315682988045",
+              "sortIndex": "7541299812841676769",
+              "content": {
+                "entryType": "TimelineTimelineModule",
+                "__typename": "TimelineTimelineModule",
+                "items": [
+                  {
+                    "entryId": "conversationthread-1682074315682988045-tweet-1682074315682988045",
+                    "item": {
+                      "itemContent": {
+                        "itemType": "TimelineTweet",
+                        "__typename": "TimelineTweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "rest_id": "1682074315682988045",
+                            "has_birdwatch_notes": false,
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "id": "VXNlcjoxNDcyNTkzNzI0MDM5NDc5Mjk2",
+                                  "rest_id": "1472593724039479296",
+                                  "affiliates_highlighted_label": {},
+                                  "has_graduated_access": true,
+                                  "is_blue_verified": false,
+                                  "profile_image_shape": "Circle",
+                                  "legacy": {
+                                    "can_dm": false,
+                                    "can_media_tag": true,
+                                    "created_at": "Sun Dec 19 15:44:56 +0000 2021",
+                                    "default_profile": true,
+                                    "default_profile_image": false,
+                                    "description": "i love fortnite competive and use code jerian because he is goat",
+                                    "entities": {
+                                      "description": {
+                                        "urls": []
+                                      }
+                                    },
+                                    "fast_followers_count": 0,
+                                    "favourites_count": 186,
+                                    "followers_count": 61,
+                                    "friends_count": 289,
+                                    "has_custom_timelines": false,
+                                    "is_translator": false,
+                                    "listed_count": 1,
+                                    "location": "",
+                                    "media_count": 330,
+                                    "name": "VeDo Aleksi 2",
+                                    "normal_followers_count": 61,
+                                    "pinned_tweet_ids_str": [
+                                      "1666035113375793152"
+                                    ],
+                                    "possibly_sensitive": false,
+                                    "profile_image_url_https": "https://pbs.twimg.com/profile_images/1472593803546710020/gvP3WPF1_normal.jpg",
+                                    "profile_interstitial_type": "",
+                                    "screen_name": "2_vedo",
+                                    "statuses_count": 1731,
+                                    "translator_type": "none",
+                                    "verified": false,
+                                    "want_retweets": false,
+                                    "withheld_in_countries": []
+                                  },
+                                  "professional": {
+                                    "rest_id": "1568337532986818563",
+                                    "professional_type": "Creator",
+                                    "category": []
+                                  }
+                                }
+                              }
+                            },
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1682074315682988045"
+                              ],
+                              "editable_until_msecs": "1689876342000",
+                              "is_edit_eligible": false,
+                              "edits_remaining": "5"
+                            },
+                            "is_translatable": false,
+                            "views": {
+                              "count": "7153",
+                              "state": "EnabledWithCount"
+                            },
+                            "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "created_at": "Thu Jul 20 17:05:42 +0000 2023",
+                              "conversation_id_str": "1682072224013099008",
+                              "display_text_range": [
+                                16,
+                                74
+                              ],
+                              "entities": {
+                                "user_mentions": [
+                                  {
+                                    "id_str": "1181729392755707904",
+                                    "name": "Fortnite Status",
+                                    "screen_name": "FortniteStatus",
+                                    "indices": [
+                                      0,
+                                      15
+                                    ]
+                                  }
+                                ],
+                                "urls": [],
+                                "hashtags": [],
+                                "symbols": []
+                              },
+                              "favorite_count": 2,
+                              "favorited": false,
+                              "full_text": "@FortniteStatus fix fps issue i have 60 when my gpu is able to give 200fps",
+                              "in_reply_to_screen_name": "FortniteStatus",
+                              "in_reply_to_status_id_str": "1682072224013099008",
+                              "in_reply_to_user_id_str": "1181729392755707904",
+                              "is_quote_status": false,
+                              "lang": "en",
+                              "quote_count": 0,
+                              "reply_count": 1,
+                              "retweet_count": 0,
+                              "retweeted": false,
+                              "user_id_str": "1472593724039479296",
+                              "id_str": "1682074315682988045"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotProfessional"
+                            }
+                          }
+                        },
+                        "tweetDisplayType": "Tweet"
+                      },
+                      "clientEventInfo": {
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABFKABDDADgAUKAAIAAAAACEBACAAAAAA="
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "entryId": "conversationthread-1682074315682988045-tweet-1682076558897430540",
+                    "item": {
+                      "itemContent": {
+                        "itemType": "TimelineTweet",
+                        "__typename": "TimelineTweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "rest_id": "1682076558897430540",
+                            "has_birdwatch_notes": false,
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "id": "VXNlcjoxMTgxNzI5MzkyNzU1NzA3OTA0",
+                                  "rest_id": "1181729392755707904",
+                                  "affiliates_highlighted_label": {
+                                    "label": {
+                                      "url": {
+                                        "url": "https://twitter.com/FortniteGame",
+                                        "urlType": "DeepLink"
+                                      },
+                                      "badge": {
+                                        "url": "https://pbs.twimg.com/profile_images/1692538143096856577/5XhWzBHb_bigger.jpg"
+                                      },
+                                      "description": "Fortnite",
+                                      "userLabelType": "BusinessLabel",
+                                      "userLabelDisplayType": "Badge"
+                                    }
+                                  },
+                                  "has_graduated_access": true,
+                                  "is_blue_verified": true,
+                                  "profile_image_shape": "Square",
+                                  "legacy": {
+                                    "can_dm": true,
+                                    "can_media_tag": true,
+                                    "created_at": "Wed Oct 09 00:33:58 +0000 2019",
+                                    "default_profile": true,
+                                    "default_profile_image": false,
+                                    "description": "Service updates for #Fortnite. Follow @FortniteGame for daily news, @FNCompetitive for all things competitive, and @FNCreate for everything UEFN and Creative!",
+                                    "entities": {
+                                      "description": {
+                                        "urls": []
+                                      },
+                                      "url": {
+                                        "urls": [
+                                          {
+                                            "display_url": "epicgames.com/site/customer-…",
+                                            "expanded_url": "https://www.epicgames.com/site/customer-service",
+                                            "url": "https://t.co/JGEu5fY7gk",
+                                            "indices": [
+                                              0,
+                                              23
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "fast_followers_count": 0,
+                                    "favourites_count": 3,
+                                    "followers_count": 2848620,
+                                    "friends_count": 4,
+                                    "has_custom_timelines": false,
+                                    "is_translator": false,
+                                    "listed_count": 3454,
+                                    "location": "",
+                                    "media_count": 2456,
+                                    "name": "Fortnite Status",
+                                    "normal_followers_count": 2848620,
+                                    "pinned_tweet_ids_str": [
+                                      "1682072224013099008"
+                                    ],
+                                    "possibly_sensitive": false,
+                                    "profile_banner_url": "https://pbs.twimg.com/profile_banners/1181729392755707904/1692984672",
+                                    "profile_image_url_https": "https://pbs.twimg.com/profile_images/1182784466240135170/tTYzHFoe_normal.jpg",
+                                    "profile_interstitial_type": "",
+                                    "screen_name": "FortniteStatus",
+                                    "statuses_count": 4288,
+                                    "translator_type": "none",
+                                    "url": "https://t.co/JGEu5fY7gk",
+                                    "verified": false,
+                                    "verified_type": "Business",
+                                    "want_retweets": false,
+                                    "withheld_in_countries": []
+                                  }
+                                }
+                              }
+                            },
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1682076558897430540"
+                              ],
+                              "editable_until_msecs": "1689876877000",
+                              "is_edit_eligible": false,
+                              "edits_remaining": "5"
+                            },
+                            "is_translatable": false,
+                            "views": {
+                              "count": "6980",
+                              "state": "EnabledWithCount"
+                            },
+                            "source": "<a href=\"https://sproutsocial.com\" rel=\"nofollow\">Sprout Social</a>",
+                            "legacy": {
+                              "bookmark_count": 1,
+                              "bookmarked": false,
+                              "created_at": "Thu Jul 20 17:14:37 +0000 2023",
+                              "conversation_id_str": "1682072224013099008",
+                              "display_text_range": [
+                                8,
+                                287
+                              ],
+                              "entities": {
+                                "user_mentions": [
+                                  {
+                                    "id_str": "1472593724039479296",
+                                    "name": "VeDo Aleksi 2",
+                                    "screen_name": "2_vedo",
+                                    "indices": [
+                                      0,
+                                      7
+                                    ]
+                                  }
+                                ],
+                                "urls": [
+                                  {
+                                    "display_url": "fn.gg/LowFPS",
+                                    "expanded_url": "http://fn.gg/LowFPS",
+                                    "url": "https://t.co/TJpwSt7653",
+                                    "indices": [
+                                      231,
+                                      254
+                                    ]
+                                  }
+                                ],
+                                "hashtags": [],
+                                "symbols": []
+                              },
+                              "favorite_count": 15,
+                              "favorited": false,
+                              "full_text": "@2_vedo Hey there!👋\n\nPlease check your in-game settings to see if your FPS is set to 60. If it is, set it to your monitor's refresh rate, or Unlimited. Give this article a visit, it has many other great steps for you to look over: https://t.co/TJpwSt7653. \n\nIf it persists, let us know🖥️",
+                              "in_reply_to_screen_name": "2_vedo",
+                              "in_reply_to_status_id_str": "1682074315682988045",
+                              "in_reply_to_user_id_str": "1472593724039479296",
+                              "is_quote_status": false,
+                              "lang": "en",
+                              "possibly_sensitive": false,
+                              "possibly_sensitive_editable": true,
+                              "quote_count": 1,
+                              "reply_count": 4,
+                              "retweet_count": 0,
+                              "retweeted": false,
+                              "user_id_str": "1181729392755707904",
+                              "id_str": "1682076558897430540"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotProfessional"
+                            }
+                          }
+                        },
+                        "tweetDisplayType": "Tweet"
+                      },
+                      "clientEventInfo": {
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABFKABECADgYEKAAIAAAAAGEBACAAAAAA="
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "entryId": "conversationthread-1682074315682988045-cursor-showmore-6690257992786437144",
+                    "item": {
+                      "itemContent": {
+                        "itemType": "TimelineTimelineCursor",
+                        "__typename": "TimelineTimelineCursor",
+                        "value": "PAAAAPAtPBwcFpiAvqH87ffXLhUCAAAYJmNvbnZlcnNhdGlvbnRocmVhZC0xNjgyMDc0MzE1NjgyOTg4MDQ1IgAA",
+                        "cursorType": "ShowMore",
+                        "displayTreatment": {
+                          "actionText": "Show replies"
+                        }
+                      },
+                      "clientEventInfo": {
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "displayType": "VerticalConversation",
+                "clientEventInfo": {
+                  "details": {
+                    "conversationDetails": {
+                      "conversationSection": "HighQuality"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "entryId": "conversationthread-1683417497502973956",
+              "sortIndex": "7541299812841676759",
+              "content": {
+                "entryType": "TimelineTimelineModule",
+                "__typename": "TimelineTimelineModule",
+                "items": [
+                  {
+                    "entryId": "conversationthread-1683417497502973956-tweet-1683417497502973956",
+                    "item": {
+                      "itemContent": {
+                        "itemType": "TimelineTweet",
+                        "__typename": "TimelineTweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "rest_id": "1683417497502973956",
+                            "has_birdwatch_notes": false,
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "id": "VXNlcjo0NDQwNTI3MjQz",
+                                  "rest_id": "4440527243",
+                                  "affiliates_highlighted_label": {},
+                                  "has_graduated_access": true,
+                                  "is_blue_verified": false,
+                                  "profile_image_shape": "Circle",
+                                  "legacy": {
+                                    "can_dm": false,
+                                    "can_media_tag": true,
+                                    "created_at": "Thu Dec 10 19:16:37 +0000 2015",
+                                    "default_profile": true,
+                                    "default_profile_image": false,
+                                    "description": "vi main. love Stargate and Star trek\n😈Psycho_Squad😈 banner by @Ashlev_TikTok, pfp made by @Brkson_19\n\nKimiko Five-Tails main",
+                                    "entities": {
+                                      "description": {
+                                        "urls": []
+                                      }
+                                    },
+                                    "fast_followers_count": 0,
+                                    "favourites_count": 112,
+                                    "followers_count": 28,
+                                    "friends_count": 95,
+                                    "has_custom_timelines": true,
+                                    "is_translator": false,
+                                    "listed_count": 0,
+                                    "location": "",
+                                    "media_count": 5,
+                                    "name": "Psychofreak_Sam",
+                                    "normal_followers_count": 28,
+                                    "pinned_tweet_ids_str": [
+                                      "919759324716650496"
+                                    ],
+                                    "possibly_sensitive": false,
+                                    "profile_banner_url": "https://pbs.twimg.com/profile_banners/4440527243/1686340278",
+                                    "profile_image_url_https": "https://pbs.twimg.com/profile_images/1676251200365244417/c0gta-yB_normal.jpg",
+                                    "profile_interstitial_type": "",
+                                    "screen_name": "Evil_Queen2020",
+                                    "statuses_count": 385,
+                                    "translator_type": "none",
+                                    "verified": false,
+                                    "want_retweets": false,
+                                    "withheld_in_countries": []
+                                  }
+                                }
+                              }
+                            },
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1683417497502973956"
+                              ],
+                              "editable_until_msecs": "1690196582000",
+                              "is_edit_eligible": false,
+                              "edits_remaining": "5"
+                            },
+                            "is_translatable": false,
+                            "views": {
+                              "count": "3846",
+                              "state": "EnabledWithCount"
+                            },
+                            "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "created_at": "Mon Jul 24 10:03:02 +0000 2023",
+                              "conversation_id_str": "1682072224013099008",
+                              "display_text_range": [
+                                16,
+                                154
+                              ],
+                              "entities": {
+                                "user_mentions": [
+                                  {
+                                    "id_str": "1181729392755707904",
+                                    "name": "Fortnite Status",
+                                    "screen_name": "FortniteStatus",
+                                    "indices": [
+                                      0,
+                                      15
+                                    ]
+                                  },
+                                  {
+                                    "id_str": "1181729392755707904",
+                                    "name": "Fortnite Status",
+                                    "screen_name": "FortniteStatus",
+                                    "indices": [
+                                      16,
+                                      31
+                                    ]
+                                  }
+                                ],
+                                "urls": [],
+                                "hashtags": [],
+                                "symbols": []
+                              },
+                              "favorite_count": 2,
+                              "favorited": false,
+                              "full_text": "@FortniteStatus @FortniteStatus plz fix freestyle first style her hair goes wild when u emote. I love the skin but it looks weird when u emote plz fix plz",
+                              "in_reply_to_screen_name": "FortniteStatus",
+                              "in_reply_to_status_id_str": "1682072224013099008",
+                              "in_reply_to_user_id_str": "1181729392755707904",
+                              "is_quote_status": false,
+                              "lang": "en",
+                              "quote_count": 0,
+                              "reply_count": 1,
+                              "retweet_count": 0,
+                              "retweeted": false,
+                              "user_id_str": "4440527243",
+                              "id_str": "1683417497502973956"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotProfessional"
+                            }
+                          }
+                        },
+                        "tweetDisplayType": "Tweet"
+                      },
+                      "clientEventInfo": {
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABFKABCCADgAUKAAIAAAAACEAgCAAAAAA="
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "entryId": "conversationthread-1683417497502973956-tweet-1683538093448544278",
+                    "item": {
+                      "itemContent": {
+                        "itemType": "TimelineTweet",
+                        "__typename": "TimelineTweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "rest_id": "1683538093448544278",
+                            "has_birdwatch_notes": false,
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "id": "VXNlcjoxMTgxNzI5MzkyNzU1NzA3OTA0",
+                                  "rest_id": "1181729392755707904",
+                                  "affiliates_highlighted_label": {
+                                    "label": {
+                                      "url": {
+                                        "url": "https://twitter.com/FortniteGame",
+                                        "urlType": "DeepLink"
+                                      },
+                                      "badge": {
+                                        "url": "https://pbs.twimg.com/profile_images/1692538143096856577/5XhWzBHb_bigger.jpg"
+                                      },
+                                      "description": "Fortnite",
+                                      "userLabelType": "BusinessLabel",
+                                      "userLabelDisplayType": "Badge"
+                                    }
+                                  },
+                                  "has_graduated_access": true,
+                                  "is_blue_verified": true,
+                                  "profile_image_shape": "Square",
+                                  "legacy": {
+                                    "can_dm": true,
+                                    "can_media_tag": true,
+                                    "created_at": "Wed Oct 09 00:33:58 +0000 2019",
+                                    "default_profile": true,
+                                    "default_profile_image": false,
+                                    "description": "Service updates for #Fortnite. Follow @FortniteGame for daily news, @FNCompetitive for all things competitive, and @FNCreate for everything UEFN and Creative!",
+                                    "entities": {
+                                      "description": {
+                                        "urls": []
+                                      },
+                                      "url": {
+                                        "urls": [
+                                          {
+                                            "display_url": "epicgames.com/site/customer-…",
+                                            "expanded_url": "https://www.epicgames.com/site/customer-service",
+                                            "url": "https://t.co/JGEu5fY7gk",
+                                            "indices": [
+                                              0,
+                                              23
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "fast_followers_count": 0,
+                                    "favourites_count": 3,
+                                    "followers_count": 2848620,
+                                    "friends_count": 4,
+                                    "has_custom_timelines": false,
+                                    "is_translator": false,
+                                    "listed_count": 3454,
+                                    "location": "",
+                                    "media_count": 2456,
+                                    "name": "Fortnite Status",
+                                    "normal_followers_count": 2848620,
+                                    "pinned_tweet_ids_str": [
+                                      "1682072224013099008"
+                                    ],
+                                    "possibly_sensitive": false,
+                                    "profile_banner_url": "https://pbs.twimg.com/profile_banners/1181729392755707904/1692984672",
+                                    "profile_image_url_https": "https://pbs.twimg.com/profile_images/1182784466240135170/tTYzHFoe_normal.jpg",
+                                    "profile_interstitial_type": "",
+                                    "screen_name": "FortniteStatus",
+                                    "statuses_count": 4288,
+                                    "translator_type": "none",
+                                    "url": "https://t.co/JGEu5fY7gk",
+                                    "verified": false,
+                                    "verified_type": "Business",
+                                    "want_retweets": false,
+                                    "withheld_in_countries": []
+                                  }
+                                }
+                              }
+                            },
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1683538093448544278"
+                              ],
+                              "editable_until_msecs": "1690225334000",
+                              "is_edit_eligible": false,
+                              "edits_remaining": "5"
+                            },
+                            "is_translatable": false,
+                            "views": {
+                              "count": "3637",
+                              "state": "EnabledWithCount"
+                            },
+                            "source": "<a href=\"https://sproutsocial.com\" rel=\"nofollow\">Sprout Social</a>",
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "created_at": "Mon Jul 24 18:02:14 +0000 2023",
+                              "conversation_id_str": "1682072224013099008",
+                              "display_text_range": [
+                                16,
+                                232
+                              ],
+                              "entities": {
+                                "user_mentions": [
+                                  {
+                                    "id_str": "4440527243",
+                                    "name": "Psychofreak_Sam",
+                                    "screen_name": "Evil_Queen2020",
+                                    "indices": [
+                                      0,
+                                      15
+                                    ]
+                                  }
+                                ],
+                                "urls": [],
+                                "hashtags": [],
+                                "symbols": []
+                              },
+                              "favorite_count": 4,
+                              "favorited": false,
+                              "full_text": "@Evil_Queen2020 Hey there, Psychofreak_Sam! 😄 We'd like to take a look at this. Could you send us a screenshot or video of this bug happening? It would also be helpful if you could tell us which platform you play on. Thank you! 🎮 🖥️",
+                              "in_reply_to_screen_name": "Evil_Queen2020",
+                              "in_reply_to_status_id_str": "1683417497502973956",
+                              "in_reply_to_user_id_str": "4440527243",
+                              "is_quote_status": false,
+                              "lang": "en",
+                              "quote_count": 0,
+                              "reply_count": 2,
+                              "retweet_count": 0,
+                              "retweeted": false,
+                              "user_id_str": "1181729392755707904",
+                              "id_str": "1683538093448544278"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotProfessional"
+                            }
+                          }
+                        },
+                        "tweetDisplayType": "Tweet"
+                      },
+                      "clientEventInfo": {
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABFKABECADgYEKAAIAAAAAGEBACAAAAAA="
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "entryId": "conversationthread-1683417497502973956-cursor-showmore-1918512034894669825",
+                    "item": {
+                      "itemContent": {
+                        "itemType": "TimelineTimelineCursor",
+                        "__typename": "TimelineTimelineCursor",
+                        "value": "PAAAAPAtPBwcFqyAtp29vpDdLhUCAAAYJmNvbnZlcnNhdGlvbnRocmVhZC0xNjgzNDE3NDk3NTAyOTczOTU2IgAA",
+                        "cursorType": "ShowMore",
+                        "displayTreatment": {
+                          "actionText": "Show replies"
+                        }
+                      },
+                      "clientEventInfo": {
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "displayType": "VerticalConversation",
+                "clientEventInfo": {
+                  "details": {
+                    "conversationDetails": {
+                      "conversationSection": "HighQuality"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "entryId": "conversationthread-1694048154403148198",
+              "sortIndex": "7541299812841676749",
+              "content": {
+                "entryType": "TimelineTimelineModule",
+                "__typename": "TimelineTimelineModule",
+                "items": [
+                  {
+                    "entryId": "conversationthread-1694048154403148198-tweet-1694048154403148198",
+                    "item": {
+                      "itemContent": {
+                        "itemType": "TimelineTweet",
+                        "__typename": "TimelineTweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "rest_id": "1694048154403148198",
+                            "has_birdwatch_notes": false,
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "id": "VXNlcjoxNjg1Njc5MDk0NzMyODczNzI4",
+                                  "rest_id": "1685679094732873728",
+                                  "affiliates_highlighted_label": {},
+                                  "has_graduated_access": true,
+                                  "is_blue_verified": false,
+                                  "profile_image_shape": "Circle",
+                                  "legacy": {
+                                    "can_dm": false,
+                                    "can_media_tag": true,
+                                    "created_at": "Sun Jul 30 15:50:30 +0000 2023",
+                                    "default_profile": true,
+                                    "default_profile_image": true,
+                                    "description": "",
+                                    "entities": {
+                                      "description": {
+                                        "urls": []
+                                      }
+                                    },
+                                    "fast_followers_count": 0,
+                                    "favourites_count": 0,
+                                    "followers_count": 1,
+                                    "friends_count": 5,
+                                    "has_custom_timelines": false,
+                                    "is_translator": false,
+                                    "listed_count": 0,
+                                    "location": "",
+                                    "media_count": 1,
+                                    "name": "Alex Rodriguez",
+                                    "normal_followers_count": 1,
+                                    "pinned_tweet_ids_str": [],
+                                    "possibly_sensitive": false,
+                                    "profile_image_url_https": "https://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png",
+                                    "profile_interstitial_type": "",
+                                    "screen_name": "AlexRod1016",
+                                    "statuses_count": 3,
+                                    "translator_type": "none",
+                                    "verified": false,
+                                    "want_retweets": false,
+                                    "withheld_in_countries": []
+                                  }
+                                }
+                              }
+                            },
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1694048154403148198"
+                              ],
+                              "editable_until_msecs": "1692731128000",
+                              "is_edit_eligible": false,
+                              "edits_remaining": "5"
+                            },
+                            "is_translatable": false,
+                            "views": {
+                              "count": "852",
+                              "state": "EnabledWithCount"
+                            },
+                            "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "created_at": "Tue Aug 22 18:05:28 +0000 2023",
+                              "conversation_id_str": "1682072224013099008",
+                              "display_text_range": [
+                                16,
+                                217
+                              ],
+                              "entities": {
+                                "user_mentions": [
+                                  {
+                                    "id_str": "1181729392755707904",
+                                    "name": "Fortnite Status",
+                                    "screen_name": "FortniteStatus",
+                                    "indices": [
+                                      0,
+                                      15
+                                    ]
+                                  },
+                                  {
+                                    "id_str": "1181729392755707904",
+                                    "name": "Fortnite Status",
+                                    "screen_name": "FortniteStatus",
+                                    "indices": [
+                                      20,
+                                      35
+                                    ]
+                                  }
+                                ],
+                                "urls": [],
+                                "hashtags": [],
+                                "symbols": []
+                              },
+                              "favorite_count": 1,
+                              "favorited": false,
+                              "full_text": "@FortniteStatus Hey @FortniteStatus i bough the bioluminescence bundle yesterday i completed numerous daily quest yet my vbucks mission is stuck on 2 out of 3 stage one of 4 it wont move from there its really annoying",
+                              "in_reply_to_screen_name": "FortniteStatus",
+                              "in_reply_to_status_id_str": "1682072224013099008",
+                              "in_reply_to_user_id_str": "1181729392755707904",
+                              "is_quote_status": false,
+                              "lang": "en",
+                              "quote_count": 0,
+                              "reply_count": 1,
+                              "retweet_count": 0,
+                              "retweeted": false,
+                              "user_id_str": "1685679094732873728",
+                              "id_str": "1694048154403148198"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotProfessional"
+                            }
+                          }
+                        },
+                        "tweetDisplayType": "Tweet"
+                      },
+                      "clientEventInfo": {
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABFKABCCADgAUKAAIAAAAACEAgCAAAAAA="
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "entryId": "conversationthread-1694048154403148198-tweet-1694054280494227696",
+                    "item": {
+                      "itemContent": {
+                        "itemType": "TimelineTweet",
+                        "__typename": "TimelineTweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "rest_id": "1694054280494227696",
+                            "has_birdwatch_notes": false,
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "id": "VXNlcjoxMTgxNzI5MzkyNzU1NzA3OTA0",
+                                  "rest_id": "1181729392755707904",
+                                  "affiliates_highlighted_label": {
+                                    "label": {
+                                      "url": {
+                                        "url": "https://twitter.com/FortniteGame",
+                                        "urlType": "DeepLink"
+                                      },
+                                      "badge": {
+                                        "url": "https://pbs.twimg.com/profile_images/1692538143096856577/5XhWzBHb_bigger.jpg"
+                                      },
+                                      "description": "Fortnite",
+                                      "userLabelType": "BusinessLabel",
+                                      "userLabelDisplayType": "Badge"
+                                    }
+                                  },
+                                  "has_graduated_access": true,
+                                  "is_blue_verified": true,
+                                  "profile_image_shape": "Square",
+                                  "legacy": {
+                                    "can_dm": true,
+                                    "can_media_tag": true,
+                                    "created_at": "Wed Oct 09 00:33:58 +0000 2019",
+                                    "default_profile": true,
+                                    "default_profile_image": false,
+                                    "description": "Service updates for #Fortnite. Follow @FortniteGame for daily news, @FNCompetitive for all things competitive, and @FNCreate for everything UEFN and Creative!",
+                                    "entities": {
+                                      "description": {
+                                        "urls": []
+                                      },
+                                      "url": {
+                                        "urls": [
+                                          {
+                                            "display_url": "epicgames.com/site/customer-…",
+                                            "expanded_url": "https://www.epicgames.com/site/customer-service",
+                                            "url": "https://t.co/JGEu5fY7gk",
+                                            "indices": [
+                                              0,
+                                              23
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "fast_followers_count": 0,
+                                    "favourites_count": 3,
+                                    "followers_count": 2848620,
+                                    "friends_count": 4,
+                                    "has_custom_timelines": false,
+                                    "is_translator": false,
+                                    "listed_count": 3454,
+                                    "location": "",
+                                    "media_count": 2456,
+                                    "name": "Fortnite Status",
+                                    "normal_followers_count": 2848620,
+                                    "pinned_tweet_ids_str": [
+                                      "1682072224013099008"
+                                    ],
+                                    "possibly_sensitive": false,
+                                    "profile_banner_url": "https://pbs.twimg.com/profile_banners/1181729392755707904/1692984672",
+                                    "profile_image_url_https": "https://pbs.twimg.com/profile_images/1182784466240135170/tTYzHFoe_normal.jpg",
+                                    "profile_interstitial_type": "",
+                                    "screen_name": "FortniteStatus",
+                                    "statuses_count": 4288,
+                                    "translator_type": "none",
+                                    "url": "https://t.co/JGEu5fY7gk",
+                                    "verified": false,
+                                    "verified_type": "Business",
+                                    "want_retweets": false,
+                                    "withheld_in_countries": []
+                                  }
+                                }
+                              }
+                            },
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1694054280494227696"
+                              ],
+                              "editable_until_msecs": "1692732589000",
+                              "is_edit_eligible": false,
+                              "edits_remaining": "5"
+                            },
+                            "is_translatable": false,
+                            "views": {
+                              "count": "875",
+                              "state": "EnabledWithCount"
+                            },
+                            "source": "<a href=\"https://sproutsocial.com\" rel=\"nofollow\">Sprout Social</a>",
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "created_at": "Tue Aug 22 18:29:49 +0000 2023",
+                              "conversation_id_str": "1682072224013099008",
+                              "display_text_range": [
+                                13,
+                                244
+                              ],
+                              "entities": {
+                                "user_mentions": [
+                                  {
+                                    "id_str": "1685679094732873728",
+                                    "name": "Alex Rodriguez",
+                                    "screen_name": "AlexRod1016",
+                                    "indices": [
+                                      0,
+                                      12
+                                    ]
+                                  }
+                                ],
+                                "urls": [],
+                                "hashtags": [],
+                                "symbols": []
+                              },
+                              "favorite_count": 2,
+                              "favorited": false,
+                              "full_text": "@AlexRod1016 Hey there Alex 😀 Could you please send us a screenshot/image of your in-game Quest tab for us to take a closer look? Please ensure that the Daily Bonus Objectives and Daily Quests sections are visible in the same frame. \n\nThanks! 🙌",
+                              "in_reply_to_screen_name": "AlexRod1016",
+                              "in_reply_to_status_id_str": "1694048154403148198",
+                              "in_reply_to_user_id_str": "1685679094732873728",
+                              "is_quote_status": false,
+                              "lang": "en",
+                              "quote_count": 0,
+                              "reply_count": 2,
+                              "retweet_count": 0,
+                              "retweeted": false,
+                              "user_id_str": "1181729392755707904",
+                              "id_str": "1694054280494227696"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotProfessional"
+                            }
+                          }
+                        },
+                        "tweetDisplayType": "Tweet"
+                      },
+                      "clientEventInfo": {
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABFKABECADgYEKAAIAAAAAGEBACAAAAAA="
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "entryId": "conversationthread-1694048154403148198-cursor-showmore-6059656311785387252",
+                    "item": {
+                      "itemContent": {
+                        "itemType": "TimelineTimelineCursor",
+                        "__typename": "TimelineTimelineCursor",
+                        "value": "PAAAAPAtPBwcFuCDtbGQ2b6CLxUCAAAYJmNvbnZlcnNhdGlvbnRocmVhZC0xNjk0MDQ4MTU0NDAzMTQ4MTk4IgAA",
+                        "cursorType": "ShowMore",
+                        "displayTreatment": {
+                          "actionText": "Show replies"
+                        }
+                      },
+                      "clientEventInfo": {
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "displayType": "VerticalConversation",
+                "clientEventInfo": {
+                  "details": {
+                    "conversationDetails": {
+                      "conversationSection": "HighQuality"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "entryId": "cursor-bottom-4687105721728289611",
+              "sortIndex": "7541299812841676748",
+              "content": {
+                "entryType": "TimelineTimelineItem",
+                "__typename": "TimelineTimelineItem",
+                "itemContent": {
+                  "itemType": "TimelineTimelineCursor",
+                  "__typename": "TimelineTimelineCursor",
+                  "value": "NwAAAPAoHBlWmoC-gbPr9tcuzMbYucX0u4Iv_sO-3ZXLs4sv2oSxgdy--40viIC8te_S2dwuJQISFQQAAA",
+                  "cursorType": "Bottom"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "TimelineTerminateTimeline",
+          "direction": "Top"
+        }
+      ]
+    }
+  }
+}

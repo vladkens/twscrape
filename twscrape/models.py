@@ -211,7 +211,7 @@ class Tweet(JSONTrait):
             hashtags=[x["text"] for x in get_or(obj, "entities.hashtags", [])],
             cashtags=[x["text"] for x in get_or(obj, "entities.symbols", [])],
             mentionedUsers=[UserRef.parse(x) for x in get_or(obj, "entities.user_mentions", [])],
-            links=_parse_links(obj, ["entities.urls"]),
+            links=_parse_links(obj, ["entities.urls", "note_tweet.note_tweet_results.result.entity_set.urls"]),
             viewCount=_get_views(obj, rt_obj or {}),
             retweetedTweet=Tweet.parse(rt_obj, res) if rt_obj else None,
             quotedTweet=Tweet.parse(qt_obj, res) if qt_obj else None,
@@ -369,6 +369,7 @@ def _parse_links(obj: dict, paths: list[str]):
 
     links = [TextLink.parse(x) for x in links]
     links = [x for x in links if x is not None]
+
     return links
 
 

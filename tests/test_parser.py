@@ -12,23 +12,13 @@ os.makedirs(DATA_DIR, exist_ok=True)
 set_log_level("DEBUG")
 
 
-class Files:
-    search_raw = "search_raw.json"
-    user_by_id_raw = "user_by_id_raw.json"
-    user_by_login_raw = "user_by_login_raw.json"
-    tweet_details_raw = "tweet_details_raw.json"
-    followers_raw = "followers_raw.json"
-    following_raw = "following_raw.json"
-    retweeters_raw = "retweeters_raw.json"
-    favoriters_raw = "favoriters_raw.json"
-    user_tweets_raw = "user_tweets_raw.json"
-    user_tweets_and_replies_raw = "user_tweets_and_replies_raw.json"
+def load_mock(name: str):
+    file = os.path.join(os.path.dirname(__file__), f"mocked-data/{name}.json")
+    with open(file) as f:
+        return json.load(f)
 
 
-def fake_rep(fn: str, filename: str | None = None):
-    if filename is None:
-        filename = os.path.join(DATA_DIR, getattr(Files, fn))
-
+def fake_rep(fn: str, filename: str):
     if not filename.startswith("/"):
         filename = os.path.join(DATA_DIR, filename)
 
@@ -46,14 +36,14 @@ def fake_rep(fn: str, filename: str | None = None):
 
 def mock_rep(obj, fn: str, filename: str | None = None):
     async def cb_rep(*args, **kwargs):
-        return fake_rep(fn, filename)
+        return fake_rep(fn, filename or fn)
 
     setattr(obj, fn, cb_rep)
 
 
 def mock_gen(obj, fn: str):
     async def cb_gen(*args, **kwargs):
-        yield fake_rep(fn)
+        yield fake_rep(fn, fn)
 
     setattr(obj, fn, cb_gen)
 
@@ -146,6 +136,7 @@ async def test_user_by_id():
     mock_rep(api, "user_by_id_raw")
 
     doc = await api.user_by_id(2244994945)
+    assert doc is not None
     assert doc.id == 2244994945
     assert doc.username == "TwitterDev"
 
@@ -163,6 +154,7 @@ async def test_user_by_login():
     mock_rep(api, "user_by_login_raw")
 
     doc = await api.user_by_login("twitterdev")
+    assert doc is not None
     assert doc.id == 2244994945
     assert doc.username == "TwitterDev"
 
@@ -299,14 +291,18 @@ async def test_issue_28():
 
 
 async def test_issue_42():
-    file = os.path.join(os.path.dirname(__file__), "mocked-data/_issue_42.json")
-    with open(file) as f:
-        data = json.load(f)
-
-    doc = parse_tweet(data, 1665951747842641921)
+    raw = load_mock("_issue_42")
+    doc = parse_tweet(raw, 1665951747842641921)
     assert doc is not None
     assert doc.retweetedTweet is not None
     assert doc.rawContent is not None
     assert doc.retweetedTweet.rawContent is not None
-
     assert doc.rawContent.endswith(doc.retweetedTweet.rawContent)
+
+
+async def test_issue_56():
+    raw = load_mock("_issue_56")
+    doc = parse_tweet(raw, 1682072224013099008)
+    assert doc is not None
+    assert len(set([x.tcourl for x in doc.links])) == len(doc.links)
+    assert len(doc.links) == 5
