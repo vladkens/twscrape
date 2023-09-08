@@ -46,12 +46,12 @@ def get_or(obj: dict, key: str, default_value: T = None) -> Any | T:
     return obj
 
 
-def int_or_none(obj: dict, key: str):
+def int_or(obj: dict, key: str, default_value: int | None = None):
     try:
         val = get_or(obj, key)
-        return int(val) if val is not None else None
+        return int(val) if val is not None else default_value
     except Exception:
-        return None
+        return default_value
 
 
 # https://stackoverflow.com/a/43184871

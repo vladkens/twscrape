@@ -85,7 +85,7 @@ async def main():
     await gather(api.favoriters(tweet_id, limit=20))  # list[User]
 
     # get user by login
-    user_login = "twitterdev"
+    user_login = "xdevelopers"
     await api.user_by_login(user_login)  # User
 
     # user info

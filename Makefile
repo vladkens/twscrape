@@ -44,7 +44,7 @@ test34:
 
 update-mocks:
 	twscrape user_by_id --raw 2244994945 | jq > ./tests/mocked-data/user_by_id_raw.json
-	twscrape user_by_login --raw twitterdev | jq > ./tests/mocked-data/user_by_login_raw.json
+	twscrape user_by_login --raw xdevelopers | jq > ./tests/mocked-data/user_by_login_raw.json
 	twscrape followers --raw --limit 10 2244994945 | jq > ./tests/mocked-data/followers_raw.json
 	twscrape following --raw --limit 10  2244994945 | jq > ./tests/mocked-data/following_raw.json
 	twscrape tweet_details --raw 1649191520250245121 | jq > ./tests/mocked-data/tweet_details_raw.json
@@ -53,3 +53,5 @@ update-mocks:
 	twscrape user_tweets --raw --limit 10 2244994945 | jq > ./tests/mocked-data/user_tweets_raw.json
 	twscrape user_tweets_and_replies --raw --limit 10 2244994945 | jq > ./tests/mocked-data/user_tweets_and_replies_raw.json
 	twscrape search --raw --limit 10 "elon musk lang:en" | jq > ./tests/mocked-data/search_raw.json
+	
+	twscrape tweet_details --raw 1665951747842641921 | jq > ./tests/mocked-data/_issue_42_regr.json

@@ -12,7 +12,7 @@ from typing import Generator, Optional
 import httpx
 
 from .logger import logger
-from .utils import find_item, get_or, int_or_none, to_old_rep
+from .utils import find_item, get_or, int_or, to_old_rep
 
 
 @dataclass
@@ -217,7 +217,7 @@ class Tweet(JSONTrait):
             quotedTweet=Tweet.parse(qt_obj, res) if qt_obj else None,
             place=Place.parse(obj["place"]) if obj.get("place") else None,
             coordinates=Coordinates.parse(obj),
-            inReplyToTweetId=int_or_none(obj, "in_reply_to_status_id_str"),
+            inReplyToTweetId=int_or(obj, "in_reply_to_status_id_str"),
             inReplyToUser=_get_reply_user(obj, res),
             source=obj.get("source", None),
             sourceUrl=_get_source_url(obj),
@@ -228,7 +228,10 @@ class Tweet(JSONTrait):
         # issue #42 – restore full rt text
         rt = doc.retweetedTweet
         if rt is not None and rt.user is not None and doc.rawContent.endswith("…"):
-            prefix = f"RT @{rt.user.username}: "
+            # prefix = f"RT @{rt.user.username}: "
+            # if login changed, old login can be cached in rawContent, so use less strict check
+            prefix = f"RT @"
+            
             rt_msg = f"{prefix}{rt.rawContent}"
             if doc.rawContent != rt_msg and doc.rawContent.startswith(prefix):
                 doc.rawContent = rt_msg
@@ -260,7 +263,7 @@ class MediaVideo(JSONTrait):
                 MediaVideoVariant.parse(x) for x in obj["video_info"]["variants"] if "bitrate" in x
             ],
             duration=obj["video_info"]["duration_millis"],
-            views=int_or_none(obj, "mediaStats.viewCount"),
+            views=int_or(obj, "mediaStats.viewCount"),
         )
 
 
@@ -384,7 +387,7 @@ def _first(obj: dict, paths: list[str]):
 def _get_views(obj: dict, rt_obj: dict):
     for x in [obj, rt_obj]:
         for y in ["ext_views.count", "views.count"]:
-            k = int_or_none(x, y)
+            k = int_or(x, y)
             if k is not None:
                 return k
     return None

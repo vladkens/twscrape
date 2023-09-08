@@ -90,7 +90,15 @@ def check_tweet(doc: Tweet | None):
                     assert v.contentType is not None
 
     if doc.retweetedTweet is not None:
-        assert doc.rawContent.endswith(doc.retweetedTweet.rawContent), "content should be full"
+        try:
+            assert doc.rawContent.endswith(doc.retweetedTweet.rawContent), "content should be full"
+        except AssertionError as e:
+            print('\n' + '-' * 60)
+            print(doc.url)
+            print('1:', doc.rawContent)
+            print('2:', doc.retweetedTweet.rawContent)
+            print('-' * 60)
+            raise e
 
     check_user(doc.user)
 
@@ -138,7 +146,7 @@ async def test_user_by_id():
     doc = await api.user_by_id(2244994945)
     assert doc is not None
     assert doc.id == 2244994945
-    assert doc.username == "TwitterDev"
+    assert doc.username == "XDevelopers"
 
     obj = doc.dict()
     assert doc.id == obj["id"]
@@ -153,10 +161,10 @@ async def test_user_by_login():
     api = API()
     mock_rep(api, "user_by_login_raw")
 
-    doc = await api.user_by_login("twitterdev")
+    doc = await api.user_by_login("xdevelopers")
     assert doc is not None
     assert doc.id == 2244994945
-    assert doc.username == "TwitterDev"
+    assert doc.username == "XDevelopers"
 
     obj = doc.dict()
     assert doc.id == obj["id"]
@@ -291,13 +299,15 @@ async def test_issue_28():
 
 
 async def test_issue_42():
-    raw = load_mock("_issue_42")
-    doc = parse_tweet(raw, 1665951747842641921)
-    assert doc is not None
-    assert doc.retweetedTweet is not None
-    assert doc.rawContent is not None
-    assert doc.retweetedTweet.rawContent is not None
-    assert doc.rawContent.endswith(doc.retweetedTweet.rawContent)
+    files = ["_issue_42", "_issue_42_regr"]
+    for file in files:
+        raw = load_mock(file)
+        doc = parse_tweet(raw, 1665951747842641921)
+        assert doc is not None, f"on {file}"
+        assert doc.retweetedTweet is not None, f"on {file}"
+        assert doc.rawContent is not None, f"on {file}"
+        assert doc.retweetedTweet.rawContent is not None, f"on {file}"
+        assert doc.rawContent.endswith(doc.retweetedTweet.rawContent), f"on {file}"
 
 
 async def test_issue_56():
