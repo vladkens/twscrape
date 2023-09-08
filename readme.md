@@ -10,8 +10,8 @@
   <a href="https://github.com/vladkens/twscrape/actions">
     <img src="https://github.com/vladkens/twscrape/workflows/test/badge.svg" alt="test status" />
   </a>
-  <!-- <a href="https://npmjs.org/package/array-utils-ts">
-    <img src="https://badgen.net/npm/dm/array-utils-ts" alt="downloads" />
+  <!-- <a href="https://pypi.org/project/twscrape">
+    <img src="https://badgen.net/pypi/dm/twscrape" alt="downloads" />
   </a> -->
   <a href="https://github.com/vladkens/twscrape/blob/main/LICENSE">
     <img src="https://badgen.net/github/license/vladkens/twscrape" alt="license" />

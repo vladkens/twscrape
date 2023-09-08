@@ -1,7 +1,8 @@
 import httpx
 
 # update this url on next run
-url = "https://abs.twimg.com/responsive-web/client-web/api.f4ff3bfa.js"
+# url = "https://abs.twimg.com/responsive-web/client-web/api.f4ff3bfa.js"
+url = "https://abs.twimg.com/responsive-web/client-web/api.bb81931a.js"
 script = httpx.get(url).text
 
 ops = """

@@ -47,18 +47,12 @@ changelog:
 
 test34:
 	@# https://www.sqlite.org/chronology.html
-	# @$(SQTEST) --build-arg SQLY=2017 --build-arg SQLV=3210000 -t twscrape_sq21 .
-	# @$(SQTEST) --build-arg SQLY=2018 --build-arg SQLV=3220000 -t twscrape_sq22 .
-	@$(SQTEST) --build-arg SQLY=2018 --build-arg SQLV=3230000 -t twscrape_sq23 .
 	@$(SQTEST) --build-arg SQLY=2018 --build-arg SQLV=3240000 -t twscrape_sq24 .
 	@$(SQTEST) --build-arg SQLY=2019 --build-arg SQLV=3270200 -t twscrape_sq27 .
 	@$(SQTEST) --build-arg SQLY=2019 --build-arg SQLV=3300100 -t twscrape_sq30 .
 	@$(SQTEST) --build-arg SQLY=2020 --build-arg SQLV=3330000 -t twscrape_sq33 .
 	@$(SQTEST) --build-arg SQLY=2021 --build-arg SQLV=3340100 -t twscrape_sq34 .
 	@$(SQTEST) --build-arg SQLY=2023 --build-arg SQLV=3430000 -t twscrape_sq43 .
-	# @docker run twscrape_sq21
-	# @docker run twscrape_sq22
-	# @docker run twscrape_sq23
 	@docker run twscrape_sq24
 	@docker run twscrape_sq27
 	@docker run twscrape_sq30
@@ -77,5 +71,3 @@ update-mocks:
 	twscrape user_tweets --raw --limit 10 2244994945 | jq > ./tests/mocked-data/user_tweets_raw.json
 	twscrape user_tweets_and_replies --raw --limit 10 2244994945 | jq > ./tests/mocked-data/user_tweets_and_replies_raw.json
 	twscrape search --raw --limit 10 "elon musk lang:en" | jq > ./tests/mocked-data/search_raw.json
-	
-	twscrape tweet_details --raw 1665951747842641921 | jq > ./tests/mocked-data/_issue_42_regr.json

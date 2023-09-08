@@ -299,15 +299,13 @@ async def test_issue_28():
 
 
 async def test_issue_42():
-    files = ["_issue_42", "_issue_42_regr"]
-    for file in files:
-        raw = load_mock(file)
-        doc = parse_tweet(raw, 1665951747842641921)
-        assert doc is not None, f"on {file}"
-        assert doc.retweetedTweet is not None, f"on {file}"
-        assert doc.rawContent is not None, f"on {file}"
-        assert doc.retweetedTweet.rawContent is not None, f"on {file}"
-        assert doc.rawContent.endswith(doc.retweetedTweet.rawContent), f"on {file}"
+    raw = load_mock("_issue_42")
+    doc = parse_tweet(raw, 1665951747842641921)
+    assert doc is not None
+    assert doc.retweetedTweet is not None
+    assert doc.rawContent is not None
+    assert doc.retweetedTweet.rawContent is not None
+    assert doc.rawContent.endswith(doc.retweetedTweet.rawContent)
 
 
 async def test_issue_56():

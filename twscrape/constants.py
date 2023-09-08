@@ -3,17 +3,17 @@ TOKEN = "Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Z
 GQL_URL = "https://twitter.com/i/api/graphql"
 LOGIN_URL = "https://api.twitter.com/1.1/onboarding/task.json"
 
-OP_SearchTimeline = "L1VfBERtzc3VkBBT0YAYHA/SearchTimeline"
-OP_UserByRestId = "Lxg1V9AiIzzXEiP2c8dRnw/UserByRestId"
-OP_UserByScreenName = "oUZZZ8Oddwxs8Cd3iW3UEA/UserByScreenName"
-OP_TweetDetail = "NmCeCgkVlsRGS1cAwqtgmw/TweetDetail"
-OP_Followers = "FKV1jfu4AawGapl2KCZbQw/Followers"
-OP_Following = "sKlU5dd_nanz9P2CxBt2sg/Following"
-OP_Retweeters = "Gnw_Swm60cS-biSLn2OWNw/Retweeters"
-OP_Favoriters = "rUyh8HWk8IXv_fvVKj3QjA/Favoriters"
-OP_UserTweets = "x8SpjuBpqoww-edf0aUUKA/UserTweets"
-OP_UserTweetsAndReplies = "RB2KVuVBRZe4GW8KkoVF2A/UserTweetsAndReplies"
-OP_ListLatestTweetsTimeline = "2Vjeyo_L0nizAUhHe3fKyA/ListLatestTweetsTimeline"
+OP_SearchTimeline = "3Ej-6N7xXONuEp5eJa1TdQ/SearchTimeline"
+OP_UserByRestId = "QdS5LJDl99iL_KUzckdfNQ/UserByRestId"
+OP_UserByScreenName = "G3KGOASz96M-Qu0nwmGXNg/UserByScreenName"
+OP_TweetDetail = "xOhkmRac04YFZmOzU9PJHg/TweetDetail"
+OP_Followers = "rRXFSG5vR6drKr5M37YOTw/Followers"
+OP_Following = "iSicc7LrzWGBgDPL0tM_TQ/Following"
+OP_Retweeters = "9jBdme5U626ATWp01dvgrA/Retweeters"
+OP_Favoriters = "VIA2_af01oqZqBB6NvWi-Q/Favoriters"
+OP_UserTweets = "H8OOoI-5ZE4NxgRr8lfyWg/UserTweets"
+OP_UserTweetsAndReplies = "Q6aAvPw7azXZbqXzuqTALA/UserTweetsAndReplies"
+OP_ListLatestTweetsTimeline = "qHgwF5h2HLowIJ6dHmAP_A/ListLatestTweetsTimeline"
 
 GQL_FEATURES = {
     "blue_business_profile_image_shape_enabled": True,
