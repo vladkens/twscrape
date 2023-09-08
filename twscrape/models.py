@@ -211,7 +211,9 @@ class Tweet(JSONTrait):
             hashtags=[x["text"] for x in get_or(obj, "entities.hashtags", [])],
             cashtags=[x["text"] for x in get_or(obj, "entities.symbols", [])],
             mentionedUsers=[UserRef.parse(x) for x in get_or(obj, "entities.user_mentions", [])],
-            links=_parse_links(obj, ["entities.urls", "note_tweet.note_tweet_results.result.entity_set.urls"]),
+            links=_parse_links(
+                obj, ["entities.urls", "note_tweet.note_tweet_results.result.entity_set.urls"]
+            ),
             viewCount=_get_views(obj, rt_obj or {}),
             retweetedTweet=Tweet.parse(rt_obj, res) if rt_obj else None,
             quotedTweet=Tweet.parse(qt_obj, res) if qt_obj else None,
@@ -230,8 +232,8 @@ class Tweet(JSONTrait):
         if rt is not None and rt.user is not None and doc.rawContent.endswith("…"):
             # prefix = f"RT @{rt.user.username}: "
             # if login changed, old login can be cached in rawContent, so use less strict check
-            prefix = f"RT @"
-            
+            prefix = "RT @"
+
             rt_msg = f"{prefix}{rt.rawContent}"
             if doc.rawContent != rt_msg and doc.rawContent.startswith(prefix):
                 doc.rawContent = rt_msg

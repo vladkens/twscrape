@@ -134,13 +134,17 @@ def to_old_obj(obj: dict):
 def to_old_rep(obj: dict) -> dict[str, dict]:
     tmp = get_typed_object(obj, defaultdict(list))
 
-    tweets = [x for x in tmp.get("Tweet", []) if "legacy" in x]
-    tweets = {str(x["rest_id"]): to_old_obj(x) for x in tweets}
+    tw1 = [x for x in tmp.get("Tweet", []) if "legacy" in x]
+    tw1 = {str(x["rest_id"]): to_old_obj(x) for x in tw1}
+
+    # https://github.com/vladkens/twscrape/issues/53
+    tw2 = [x["tweet"] for x in tmp.get("TweetWithVisibilityResults", []) if "legacy" in x["tweet"]]
+    tw2 = {str(x["rest_id"]): to_old_obj(x) for x in tw2}
 
     users = [x for x in tmp.get("User", []) if "legacy" in x and "id" in x]
     users = {str(x["rest_id"]): to_old_obj(x) for x in users}
 
-    return {"tweets": tweets, "users": users}
+    return {"tweets": {**tw1, **tw2}, "users": users}
 
 
 def utc_ts() -> int:

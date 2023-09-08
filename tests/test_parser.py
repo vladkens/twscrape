@@ -93,11 +93,11 @@ def check_tweet(doc: Tweet | None):
         try:
             assert doc.rawContent.endswith(doc.retweetedTweet.rawContent), "content should be full"
         except AssertionError as e:
-            print('\n' + '-' * 60)
+            print("\n" + "-" * 60)
             print(doc.url)
-            print('1:', doc.rawContent)
-            print('2:', doc.retweetedTweet.rawContent)
-            print('-' * 60)
+            print("1:", doc.rawContent)
+            print("2:", doc.retweetedTweet.rawContent)
+            print("-" * 60)
             raise e
 
     check_user(doc.user)

@@ -10,8 +10,12 @@ build:
 	@python -m build
 
 ci:
+	@make format
 	@make lint
 	@make test
+
+format:
+	@black .
 
 lint:
 	@ruff check twscrape
