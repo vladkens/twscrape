@@ -6,7 +6,7 @@ import aiosqlite
 
 from .logger import logger
 
-MIN_SQLITE_VERSION = "3.34"
+MIN_SQLITE_VERSION = "3.24"
 
 
 def lock_retry(max_retries=5, delay=1):
@@ -38,9 +38,12 @@ async def check_version():
     ver = await get_sqlite_version()
     ver = ".".join(ver.split(".")[:2])
 
-    if ver < MIN_SQLITE_VERSION:
+    try:
         msg = f"SQLite version '{ver}' is too old, please upgrade to {MIN_SQLITE_VERSION}+"
-        raise SystemError(msg)
+        if float(ver) < float(MIN_SQLITE_VERSION):
+            raise SystemError(msg)
+    except ValueError:
+        pass
 
 
 async def migrate(db: aiosqlite.Connection):
