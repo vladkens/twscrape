@@ -1,7 +1,7 @@
 import base64
 import json
 from collections import defaultdict
-from datetime import datetime, timezone
+from datetime import datetime, timezone, date
 from typing import Any, AsyncGenerator, Callable, TypeVar
 
 from httpx import HTTPStatusError, Response
@@ -151,8 +151,17 @@ def utc_ts() -> int:
     return int(datetime.utcnow().replace(tzinfo=timezone.utc).timestamp())
 
 
+def utc_iso() -> str:
+    return datetime.utcnow().isoformat()
+
+
 def from_utciso(iso: str) -> datetime:
     return datetime.fromisoformat(iso).replace(tzinfo=timezone.utc)
+
+
+def default_json_dumps(o):
+    if isinstance(o, (date, datetime)):
+        return o.isoformat()
 
 
 def print_table(rows: list[dict], hr_after=False):

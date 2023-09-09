@@ -57,21 +57,22 @@ import asyncio
 from twscrape import API, gather
 from twscrape.logger import set_log_level
 
+
 async def main():
     api = API()  # or API("path-to.db") - default is `accounts.db`
 
     # ADD ACCOUNTS (for CLI usage see BELOW)
-    await api.pool.add_account("user1", "pass1", "u1@example.com", "mail_pass1")
-    await api.pool.add_account("user2", "pass2", "u2@example.com", "mail_pass2")
-    await api.pool.login_all()
+    await api.accounts_pool.add_account("user1", "pass1", "u1@example.com", "mail_pass1")
+    await api.accounts_pool.add_account("user2", "pass2", "u2@example.com", "mail_pass2")
+    await api.accounts_pool.login_all()
 
     # or add account with COOKIES (with cookies login not required)
     cookies = "abc=12; ct0=xyz"  # or '{"abc": "12", "ct0": "xyz"}'
-    await api.pool.add_account("user3", "pass3", "u3@mail.com", "mail_pass3", cookies=cookies)
+    await api.accounts_pool.add_account("user3", "pass3", "u3@mail.com", "mail_pass3", cookies=cookies)
 
     # add account with PROXY
     proxy = "http://login:pass@example.com:8080"
-    await api.pool.add_account("user4", "pass4", "u4@mail.com", "mail_pass4", proxy=proxy)
+    await api.accounts_pool.add_account("user4", "pass4", "u4@mail.com", "mail_pass4", proxy=proxy)
 
     # API USAGE
 
@@ -115,6 +116,7 @@ async def main():
     doc = await api.user_by_id(user_id)  # User
     doc.dict()  # -> python dict
     doc.json()  # -> json string
+
 
 if __name__ == "__main__":
     asyncio.run(main())
