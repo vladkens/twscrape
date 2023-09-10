@@ -1,7 +1,9 @@
 import json
 
+from loguru import logger
+
 from .models import Tweet
-from .db import execute, executemany
+from .db import execute, executemany, fetchone
 from .utils import utc_ts, utc_iso, default_json_dumps
 
 
@@ -23,10 +25,10 @@ class DatasetsPool:
             ))
         values = [(row["id"], row["tweet"], row["created_at"], row["updated_at"]) for row in data]
         qs = f"""
-        INSERT INTO tweets ({",".join(cols)})
-        VALUES ({','.join(['?'] * len(cols))})
-        ON CONFLICT(id) DO UPDATE SET updated_at = {utc_iso()}
-        """
+                INSERT INTO tweets ({",".join(cols)})
+                VALUES ({','.join(['?'] * len(cols))})
+                ON CONFLICT(id) DO UPDATE SET updated_at = '{utc_iso()}'
+                """
         await executemany(self._db_file, qs, values)
 
     async def save_keyword_tweets(self, tweets: list[Tweet], q: str):
@@ -41,8 +43,19 @@ class DatasetsPool:
             ))
         values = [(row["tweet_id"], row["keyword"]) for row in data]
         qs = f"""
-        INSERT INTO tweet_keywords ({",".join(cols)})
-        VALUES ({','.join(['?'] * len(cols))})
-        ON CONFLICT(tweet_id,keyword) DO NOTHING
-        """
+                INSERT INTO tweet_keywords ({",".join(cols)})
+                VALUES ({','.join(['?'] * len(cols))})
+                ON CONFLICT(tweet_id,keyword) DO NOTHING
+                """
         await executemany(self._db_file, qs, values)
+
+    async def get_stat(self):
+        qs = """
+        SELECT 
+        (SELECT COUNT(*) FROM tweets) AS count_tweets, 
+        (SELECT COUNT(*) FROM tweet_keywords) AS count_keywords
+        """
+        rs = await fetchone(self._db_file, qs)
+        if rs:
+            logger.info(f'{rs[0]} total tweets inserted')
+            logger.info(f'{rs[1]} total tweet_keywords inserted')

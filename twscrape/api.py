@@ -1,5 +1,6 @@
 # ruff: noqa: F405
 from httpx import Response
+from loguru import logger
 
 from .accounts_pool import AccountsPool
 from .constants import *  # noqa: F403
@@ -71,13 +72,11 @@ class API:
 
                 rep = await client.get(f"{GQL_URL}/{op}", params=encode_params(params))
                 obj = rep.json()
-                tweets = []
 
-                for tweet in parse_tweets(obj):
-                    tweets.append(tweet)
+                tweets = [tweet for tweet in parse_tweets(obj)]
                 await self.datasets_pool.save_tweets(tweets)
                 await self.datasets_pool.save_keyword_tweets(tweets, params["variables"]['rawQuery'])
-
+                await self.datasets_pool.get_stat()
                 entries = get_by_path(obj, "entries") or []
                 entries = [x for x in entries if not x["entryId"].startswith("cursor-")]
                 cursor = self._get_cursor(obj)
@@ -109,13 +108,13 @@ class API:
         }
         async for x in self._gql_items(op, kv, ft=SEARCH_FEATURES, limit=limit, with_result=with_result):
             if not with_result:
-                yield
+                yield ""
             yield x
 
     async def search(self, q: str, limit=-1, kv=None, with_result=True):
         async for rep in self.search_raw(q, limit=limit, kv=kv, with_result=with_result):
             if not with_result:
-                yield
+                yield ""
             for x in parse_tweets(rep.json(), limit):
                 yield x
 

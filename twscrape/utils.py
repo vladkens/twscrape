@@ -11,10 +11,11 @@ from .logger import logger
 T = TypeVar("T")
 
 
-async def gather(gen: AsyncGenerator[T, None]) -> list[T]:
+async def gather(gen: AsyncGenerator[T, None], with_result=False) -> list[T]:
     items = []
     async for x in gen:
-        items.append(x)
+        if with_result:
+            items.append(x)
     return items
 
 
