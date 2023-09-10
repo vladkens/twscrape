@@ -57,7 +57,7 @@ class API:
 
     # gql helpers
 
-    async def _gql_items(self, op: str, kv: dict, ft: dict | None = None, limit=-1):
+    async def _gql_items(self, op: str, kv: dict, ft: dict | None = None, limit=-1, with_result=True):
         queue, cursor, count, active = op.split("/")[-1], None, 0, True
         kv, ft = {**kv}, {**GQL_FEATURES, **(ft or {})}
 
@@ -72,10 +72,12 @@ class API:
                 rep = await client.get(f"{GQL_URL}/{op}", params=encode_params(params))
                 obj = rep.json()
                 tweets = []
+
                 for tweet in parse_tweets(obj):
                     tweets.append(tweet)
                 await self.datasets_pool.save_tweets(tweets)
                 await self.datasets_pool.save_keyword_tweets(tweets, params["variables"]['rawQuery'])
+
                 entries = get_by_path(obj, "entries") or []
                 entries = [x for x in entries if not x["entryId"].startswith("cursor-")]
                 cursor = self._get_cursor(obj)
@@ -83,7 +85,8 @@ class API:
                 rep, count, active = self._is_end(rep, queue, entries, cursor, count, limit)
                 if rep is None:
                     return
-
+                if not with_result:
+                    yield
                 yield rep
 
     async def _gql_item(self, op: str, kv: dict, ft: dict | None = None):
@@ -95,7 +98,7 @@ class API:
 
     # search
 
-    async def search_raw(self, q: str, limit=-1, kv=None):
+    async def search_raw(self, q: str, limit=-1, kv=None, with_result=True):
         op = OP_SearchTimeline
         kv = {
             "rawQuery": q,
@@ -104,11 +107,15 @@ class API:
             "querySource": "typed_query",
             **(kv or {}),
         }
-        async for x in self._gql_items(op, kv, ft=SEARCH_FEATURES, limit=limit):
+        async for x in self._gql_items(op, kv, ft=SEARCH_FEATURES, limit=limit, with_result=with_result):
+            if not with_result:
+                yield
             yield x
 
-    async def search(self, q: str, limit=-1, kv=None):
-        async for rep in self.search_raw(q, limit=limit, kv=kv):
+    async def search(self, q: str, limit=-1, kv=None, with_result=True):
+        async for rep in self.search_raw(q, limit=limit, kv=kv, with_result=with_result):
+            if not with_result:
+                yield
             for x in parse_tweets(rep.json(), limit):
                 yield x
 

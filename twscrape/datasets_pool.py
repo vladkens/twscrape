@@ -22,30 +22,27 @@ class DatasetsPool:
                 }
             ))
         values = [(row["id"], row["tweet"], row["created_at"], row["updated_at"]) for row in data]
-        placeholders = ','.join(['?'] * len(cols))
-        # VALUES({",".join([f":{x}" for x in cols])})
-
         qs = f"""
         INSERT INTO tweets ({",".join(cols)})
-        VALUES ({placeholders})
-        ON CONFLICT(id) DO UPDATE SET updated_at = datetime({utc_ts()}, 'unixepoch')
+        VALUES ({','.join(['?'] * len(cols))})
+        ON CONFLICT(id) DO UPDATE SET updated_at = {utc_iso()}
         """
         await executemany(self._db_file, qs, values)
-    async def save_keyword_tweets(self, tweets: list[Tweet], q:str):
+
+    async def save_keyword_tweets(self, tweets: list[Tweet], q: str):
         cols = ["tweet_id", "keyword"]
         data = []
         for tweet in tweets:
             data.append(dict(
                 {
                     "tweet_id": tweet.id,
-                    "keyword":q,
+                    "keyword": q,
                 }
             ))
         values = [(row["tweet_id"], row["keyword"]) for row in data]
-        placeholders = ','.join(['?'] * len(cols))
         qs = f"""
         INSERT INTO tweet_keywords ({",".join(cols)})
-        VALUES ({placeholders})
+        VALUES ({','.join(['?'] * len(cols))})
         ON CONFLICT(tweet_id,keyword) DO NOTHING
         """
         await executemany(self._db_file, qs, values)
