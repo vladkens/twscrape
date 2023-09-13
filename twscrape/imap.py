@@ -24,6 +24,9 @@ class EmailCodeTimeoutError(Exception):
 IMAP_MAPPING: dict[str, str] = {
     "yahoo.com": "imap.mail.yahoo.com",
     "icloud.com": "imap.mail.me.com",
+    "outlook.de": "imap-mail.outlook.com",
+    "outlook.es": "imap-mail.outlook.com",
+    "outlook.fr": "imap-mail.outlook.com",
     "outlook.com": "imap-mail.outlook.com",
     "hotmail.com": "imap-mail.outlook.com",
 }
