@@ -244,12 +244,8 @@ class Tweet(JSONTrait):
         # issue #42 – restore full rt text
         rt = doc.retweetedTweet
         if rt is not None and rt.user is not None and doc.rawContent.endswith("…"):
-            # prefix = f"RT @{rt.user.username}: "
-            # if login changed, old login can be cached in rawContent, so use less strict check
-            prefix = "RT @"
-
-            rt_msg = f"{prefix}{rt.rawContent}"
-            if doc.rawContent != rt_msg and doc.rawContent.startswith(prefix):
+            rt_msg = f"RT @{rt.user.username}: {rt.rawContent}"
+            if doc.rawContent != rt_msg:
                 doc.rawContent = rt_msg
 
         return doc
