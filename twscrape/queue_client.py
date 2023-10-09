@@ -39,6 +39,9 @@ class RateLimitError(Exception):
 class BannedError(Exception):
     pass
 
+class DependencyError(Exception):
+    pass
+
 
 def req_id(rep: httpx.Response):
     lr = str(rep.headers.get("x-rate-limit-remaining", -1))
@@ -155,6 +158,9 @@ class QueueClient:
             await self._close_ctx(-1, banned=True, msg=msg)
             raise BannedError(msg)
 
+        if msg.startswith("(131) Dependency: Internal error."):
+            raise DependencyError(msg)
+
         # possible banned by old api flow
         if rep.status_code in (401, 403):
             await self._close_ctx(utc_ts() + 60 * 60 * 12)  # lock for 12 hours
@@ -190,6 +196,9 @@ class QueueClient:
             except (RateLimitError, BannedError):
                 # already handled
                 continue
+            except (DependencyError):
+                logger.error(f"Dependency error, returnning: {url}")
+                return
             except (httpx.ReadTimeout, httpx.ProxyError):
                 # http transport failed, just retry
                 continue
