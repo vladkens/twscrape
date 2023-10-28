@@ -54,7 +54,7 @@ class Account(JSONTrait):
             key: None if url is None else Proxy(url=url)
             for key, url in get_environment_proxies().items()
         }
-        proxy = list(proxy_map.values())[0] if proxy_map else None
+        proxy = list(proxy_map.values())[0] if (proxy_map and not self.proxy) else None
         transport = AsyncHTTPTransport(retries=2, proxy=proxy)
         client = AsyncClient(proxies=self.proxy, follow_redirects=True, transport=transport)
 
