@@ -189,10 +189,24 @@ class Tweet(JSONTrait):
     def parse(obj: dict, res: dict):
         tw_usr = User.parse(res["users"][obj["user_id_str"]])
 
-        rt_id = _first(obj, ["retweeted_status_id_str", "retweeted_status_result.result.rest_id"])
+        rt_id = _first(
+            obj,
+            [
+                "retweeted_status_id_str",
+                "retweeted_status_result.result.rest_id",
+                "retweeted_status_result.result.tweet.rest_id"
+            ]
+        )
         rt_obj = get_or(res, f"tweets.{rt_id}")
 
-        qt_id = _first(obj, ["quoted_status_id_str", "quoted_status_result.result.rest_id"])
+        qt_id = _first(
+            obj,
+            [
+                "quoted_status_id_str",
+                "quoted_status_result.result.rest_id"
+                "quoted_status_result.result.tweet.rest_id"
+            ]
+        )
         qt_obj = get_or(res, f"tweets.{qt_id}")
 
         doc = Tweet(
@@ -230,12 +244,8 @@ class Tweet(JSONTrait):
         # issue #42 – restore full rt text
         rt = doc.retweetedTweet
         if rt is not None and rt.user is not None and doc.rawContent.endswith("…"):
-            # prefix = f"RT @{rt.user.username}: "
-            # if login changed, old login can be cached in rawContent, so use less strict check
-            prefix = "RT @"
-
-            rt_msg = f"{prefix}{rt.rawContent}"
-            if doc.rawContent != rt_msg and doc.rawContent.startswith(prefix):
+            rt_msg = f"RT @{rt.user.username}: {rt.rawContent}"
+            if doc.rawContent != rt_msg:
                 doc.rawContent = rt_msg
 
         return doc
