@@ -8,6 +8,8 @@ from .models import parse_tweet, parse_tweets, parse_user, parse_users
 from .queue_client import QueueClient
 from .utils import encode_params, find_obj, get_by_path
 
+# Note: kv is variables, ft is features from original GQL request
+
 SEARCH_FEATURES = {
     "tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled": True,
 }

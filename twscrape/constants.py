@@ -3,17 +3,18 @@ TOKEN = "Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Z
 GQL_URL = "https://twitter.com/i/api/graphql"
 LOGIN_URL = "https://api.twitter.com/1.1/onboarding/task.json"
 
-OP_SearchTimeline = "3Ej-6N7xXONuEp5eJa1TdQ/SearchTimeline"
+
+OP_SearchTimeline = "lZ0GCEojmtQfiUQa5oJSEw/SearchTimeline"
 OP_UserByRestId = "QdS5LJDl99iL_KUzckdfNQ/UserByRestId"
 OP_UserByScreenName = "G3KGOASz96M-Qu0nwmGXNg/UserByScreenName"
-OP_TweetDetail = "xOhkmRac04YFZmOzU9PJHg/TweetDetail"
-OP_Followers = "rRXFSG5vR6drKr5M37YOTw/Followers"
-OP_Following = "iSicc7LrzWGBgDPL0tM_TQ/Following"
-OP_Retweeters = "9jBdme5U626ATWp01dvgrA/Retweeters"
-OP_Favoriters = "VIA2_af01oqZqBB6NvWi-Q/Favoriters"
-OP_UserTweets = "H8OOoI-5ZE4NxgRr8lfyWg/UserTweets"
-OP_UserTweetsAndReplies = "Q6aAvPw7azXZbqXzuqTALA/UserTweetsAndReplies"
-OP_ListLatestTweetsTimeline = "qHgwF5h2HLowIJ6dHmAP_A/ListLatestTweetsTimeline"
+OP_TweetDetail = "BbmLpxKh8rX8LNe2LhVujA/TweetDetail"
+OP_Followers = "9LlZicVr2IBf4u2qW5n4-A/Followers"
+OP_Following = "8cyc0OKedV_XD62fBjzxUw/Following"
+OP_Retweeters = "Y2XHDEKtlJDA_ql2G3OZZQ/Retweeters"
+OP_Favoriters = "zXD9lMy1-V_N1OcON9JtEQ/Favoriters"
+OP_UserTweets = "VgitpdpNZ-RUIp5D1Z_D-A/UserTweets"
+OP_UserTweetsAndReplies = "YlkSUg0mRBx7-EkxCvc-bw/UserTweetsAndReplies"
+OP_ListLatestTweetsTimeline = "d1mUZHaqFMxe0xHI3rVc-w/ListLatestTweetsTimeline"
 
 GQL_FEATURES = {
     "blue_business_profile_image_shape_enabled": True,
@@ -40,4 +41,6 @@ GQL_FEATURES = {
     "responsive_web_media_download_video_enabled": False,
     "rweb_lists_timeline_redesign_enabled": True,
     "responsive_web_twitter_article_tweet_consumption_enabled": False,
+    "responsive_web_home_pinned_timelines_enabled": True,
+    "c9s_tweet_anatomy_moderator_badge_enabled": True,
 }

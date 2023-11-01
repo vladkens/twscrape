@@ -71,3 +71,4 @@ update-mocks:
 	twscrape user_tweets --raw --limit 10 2244994945 | jq > ./tests/mocked-data/user_tweets_raw.json
 	twscrape user_tweets_and_replies --raw --limit 10 2244994945 | jq > ./tests/mocked-data/user_tweets_and_replies_raw.json
 	twscrape search --raw --limit 10 "elon musk lang:en" | jq > ./tests/mocked-data/search_raw.json
+	twscrape list_timeline --raw --limit 10 1494877848087187461 | jq > ./tests/mocked-data/list_timeline_raw.json
