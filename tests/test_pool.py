@@ -1,5 +1,5 @@
 from twscrape.accounts_pool import AccountsPool
-from twscrape.utils import utc_ts
+from twscrape.utils import utc
 
 
 async def test_add_accounts(pool_mock: AccountsPool):
@@ -102,7 +102,7 @@ async def test_account_unlock(pool_mock: AccountsPool):
     assert acc.locks[Q] is not None
 
     # should update lock time
-    end_time = utc_ts() + 60  # + 1 minute
+    end_time = utc.ts() + 60  # + 1 minute
     await pool_mock.lock_until(acc.username, Q, end_time)
 
     acc = await pool_mock.get(acc.username)

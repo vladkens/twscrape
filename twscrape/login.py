@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta, timezone
+from datetime import timedelta
 
 from httpx import AsyncClient, HTTPStatusError, Response
 
@@ -6,7 +6,7 @@ from .account import Account
 from .constants import LOGIN_URL
 from .imap import imap_get_email_code, imap_login
 from .logger import logger
-from .utils import raise_for_status
+from .utils import raise_for_status, utc
 
 
 async def get_guest_token(client: AsyncClient):
@@ -120,7 +120,7 @@ async def login_confirm_email_code(client: AsyncClient, acc: Account, prev: dict
     if not imap:
         imap = await imap_login(acc.email, acc.email_password)
 
-    now_time = datetime.now(timezone.utc) - timedelta(seconds=30)
+    now_time = utc.now() - timedelta(seconds=30)
     value = await imap_get_email_code(imap, acc.email, now_time)
 
     payload = {

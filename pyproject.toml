@@ -16,22 +16,23 @@ classifiers = [
   'License :: OSI Approved :: MIT License',
   'Programming Language :: Python :: 3.10',
   'Programming Language :: Python :: 3.11',
+  'Programming Language :: Python :: 3.12',
 ]
 dependencies = [
-  "aiosqlite==0.17.0",
-  "fake-useragent==1.2.1",
-  "httpx==0.24.0",
-  "loguru==0.7.0",
+  "aiosqlite>=0.17.0",
+  "fake-useragent>=1.3.0",
+  "httpx>=0.24.0",
+  "loguru>=0.7.0",
 ]
 
 [project.optional-dependencies]
 dev = [
-  "pylint==2.17.3",
-  "pytest-asyncio==0.21.0",
-  "pytest-cov==4.0.0",
-  "pytest-httpx==0.22.0",
-  "pytest==7.3.1",
-  "ruff==0.0.263",
+  "pylint>=2.17.3",
+  "pytest-asyncio>=0.21.0",
+  "pytest-cov>=4.0.0",
+  "pytest-httpx>=0.22.0",
+  "pytest>=7.4.0",
+  "ruff"
 ]
 
 [project.urls]
@@ -46,13 +47,13 @@ packages = ['twscrape']
 [tool.pylint]
 max-line-length = 99
 disable = [
-    "C0103", # invalid-name
-    "C0114", # missing-module-docstring
-    "C0115", # missing-class-docstring
-    "C0116", # missing-function-docstring
-    "R0903", # too-few-public-methods
-    "R0913", # too-many-arguments
-    "W0105", # pointless-string-statement
+  "C0103", # invalid-name
+  "C0114", # missing-module-docstring
+  "C0115", # missing-class-docstring
+  "C0116", # missing-function-docstring
+  "R0903", # too-few-public-methods
+  "R0913", # too-many-arguments
+  "W0105", # pointless-string-statement
 ]
 
 [tool.pytest.ini_options]
@@ -67,3 +68,6 @@ line-length = 99
 
 [tool.ruff]
 line-length = 99
+
+[tool.hatch.metadata]
+allow-direct-references = true

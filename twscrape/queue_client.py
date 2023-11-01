@@ -1,16 +1,15 @@
 import json
 import os
-from datetime import datetime
 from typing import Any
 
 import httpx
 
 from .accounts_pool import Account, AccountsPool
 from .logger import logger
-from .utils import utc_ts
+from .utils import utc
 
 ReqParams = dict[str, str | int] | None
-TMP_TS = datetime.utcnow().isoformat().split(".")[0].replace("T", "_").replace(":", "-")[0:16]
+TMP_TS = utc.now().isoformat().split(".")[0].replace("T", "_").replace(":", "-")[0:16]
 
 
 class Ctx:
@@ -38,6 +37,7 @@ class RateLimitError(Exception):
 
 class BannedError(Exception):
     pass
+
 
 class DependencyError(Exception):
     pass
@@ -151,7 +151,7 @@ class QueueClient:
 
         # possible new limits for tweets view per account
         if msg.startswith("(88) Rate limit exceeded") or rep.status_code == 429:
-            await self._close_ctx(utc_ts() + 60 * 60 * 4)  # lock for 4 hours
+            await self._close_ctx(utc.ts() + 60 * 60 * 4)  # lock for 4 hours
             raise RateLimitError(msg)
 
         if msg.startswith("(326) Authorization: Denied by access control"):
@@ -163,7 +163,7 @@ class QueueClient:
 
         # possible banned by old api flow
         if rep.status_code in (401, 403):
-            await self._close_ctx(utc_ts() + 60 * 60 * 12)  # lock for 12 hours
+            await self._close_ctx(utc.ts() + 60 * 60 * 12)  # lock for 12 hours
             raise RateLimitError(msg)
 
         # content not found
@@ -196,7 +196,7 @@ class QueueClient:
             except (RateLimitError, BannedError):
                 # already handled
                 continue
-            except (DependencyError):
+            except DependencyError:
                 logger.error(f"Dependency error, returnning: {url}")
                 return
             except (httpx.ReadTimeout, httpx.ProxyError):
@@ -206,4 +206,4 @@ class QueueClient:
                 retry_count += 1
                 if retry_count >= 3:
                     logger.warning(f"Unknown error {type(e)}: {e}")
-                    await self._close_ctx(utc_ts() + 60 * 15)  # 15 minutes
+                    await self._close_ctx(utc.ts() + 60 * 15)  # 15 minutes

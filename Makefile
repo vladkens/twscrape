@@ -1,7 +1,5 @@
 .PHONY: all build
 
-SQTEST = docker -l warning build -f sqlite.dockerfile
-
 all:
 	@echo "hi"
 
@@ -38,27 +36,33 @@ show-cov:
 	@coverage html
 	@open htmlcov/index.html
 
-act:
-	@act --container-architecture linux/amd64
-
 changelog:
 	@git pull origin --tags > /dev/null
 	@git log $(shell git describe --tags --abbrev=0 HEAD)^..HEAD --pretty=format:'- %s'
 
-test34:
+test-py:
+	$(eval name=twscrape_py$(v))
+	@docker -l warning build -f Dockerfile.python --build-arg VER=$(v) -t $(name) .
+	@docker run $(name)
+
+test-sq:
+	$(eval name=twscrape_sq$(v))
+	@docker -l warning build -f Dockerfile.sqlite --build-arg SQLY=$(y) --build-arg SQLV=$(v) -t $(name) .
+	@docker run $(name)
+
+test-py-matrix:
+	@make test-py v=3.10
+	@make test-py v=3.11
+	@make test-py v=3.12
+
+test-sq-matrix:
 	@# https://www.sqlite.org/chronology.html
-	@$(SQTEST) --build-arg SQLY=2018 --build-arg SQLV=3240000 -t twscrape_sq24 .
-	@$(SQTEST) --build-arg SQLY=2019 --build-arg SQLV=3270200 -t twscrape_sq27 .
-	@$(SQTEST) --build-arg SQLY=2019 --build-arg SQLV=3300100 -t twscrape_sq30 .
-	@$(SQTEST) --build-arg SQLY=2020 --build-arg SQLV=3330000 -t twscrape_sq33 .
-	@$(SQTEST) --build-arg SQLY=2021 --build-arg SQLV=3340100 -t twscrape_sq34 .
-	@$(SQTEST) --build-arg SQLY=2023 --build-arg SQLV=3430000 -t twscrape_sq43 .
-	@docker run twscrape_sq24
-	@docker run twscrape_sq27
-	@docker run twscrape_sq30
-	@docker run twscrape_sq33
-	@docker run twscrape_sq34
-	@docker run twscrape_sq43
+	@make test-sq y=2018 v=3240000
+	@make test-sq y=2019 v=3270200
+	@make test-sq y=2019 v=3300100
+	@make test-sq y=2020 v=3330000
+	@make test-sq y=2021 v=3340100
+	@make test-sq y=2023 v=3430000
 
 update-mocks:
 	twscrape user_by_id --raw 2244994945 | jq > ./tests/mocked-data/user_by_id_raw.json

@@ -8,7 +8,7 @@
   },
   "[python]": {
     "editor.formatOnSave": true,
-    "editor.codeActionsOnSave": ["source.organizeImports"]
+    "editor.codeActionsOnSave": ["source.organizeImports"],
+    "editor.defaultFormatter": "ms-python.black-formatter"
   },
-  "python.formatting.provider": "black"
 }

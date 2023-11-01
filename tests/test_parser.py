@@ -252,6 +252,7 @@ async def test_user_tweets_and_replies():
     for doc in tweets:
         check_tweet(doc)
 
+
 async def test_list_timeline():
     api = API()
     mock_gen(api, "list_timeline_raw")

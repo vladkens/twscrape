@@ -11,7 +11,7 @@ from .account import Account
 from .db import execute, fetchall, fetchone
 from .logger import logger
 from .login import login
-from .utils import parse_cookies, utc_ts
+from .utils import parse_cookies, utc
 
 
 class AccountInfo(TypedDict):
@@ -197,7 +197,7 @@ class AccountsPool:
         UPDATE accounts SET
             locks = json_set(locks, '$.{queue}', datetime({unlock_at}, 'unixepoch')),
             stats = json_set(stats, '$.{queue}', COALESCE(json_extract(stats, '$.{queue}'), 0) + {req_count}),
-            last_used = datetime({utc_ts()}, 'unixepoch')
+            last_used = datetime({utc.ts()}, 'unixepoch')
         WHERE username = :username
         """
         await execute(self._db_file, qs, {"username": username})
@@ -207,7 +207,7 @@ class AccountsPool:
         UPDATE accounts SET
             locks = json_remove(locks, '$.{queue}'),
             stats = json_set(stats, '$.{queue}', COALESCE(json_extract(stats, '$.{queue}'), 0) + {req_count}),
-            last_used = datetime({utc_ts()}, 'unixepoch')
+            last_used = datetime({utc.ts()}, 'unixepoch')
         WHERE username = :username
         """
         await execute(self._db_file, qs, {"username": username})
@@ -228,7 +228,7 @@ class AccountsPool:
             qs = f"""
             UPDATE accounts SET
                 locks = json_set(locks, '$.{queue}', datetime('now', '+15 minutes')),
-                last_used = datetime({utc_ts()}, 'unixepoch')
+                last_used = datetime({utc.ts()}, 'unixepoch')
             WHERE username = ({q1})
             RETURNING *
             """
@@ -238,7 +238,7 @@ class AccountsPool:
             qs = f"""
             UPDATE accounts SET
                 locks = json_set(locks, '$.{queue}', datetime('now', '+15 minutes')),
-                last_used = datetime({utc_ts()}, 'unixepoch'),
+                last_used = datetime({utc.ts()}, 'unixepoch'),
                 _tx = '{tx}'
             WHERE username = ({q1})
             """
@@ -277,8 +277,7 @@ class AccountsPool:
         """
         rs = await fetchone(self._db_file, qs)
         if rs:
-            now = datetime.utcnow().replace(tzinfo=timezone.utc)
-            trg = datetime.fromisoformat(rs[0]).replace(tzinfo=timezone.utc)
+            now, trg = utc.now(), utc.from_iso(rs[0])
             if trg < now:
                 return "now"
 

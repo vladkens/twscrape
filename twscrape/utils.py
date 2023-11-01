@@ -11,6 +11,20 @@ from .logger import logger
 T = TypeVar("T")
 
 
+class utc:
+    @staticmethod
+    def now() -> datetime:
+        return datetime.now(timezone.utc)
+
+    @staticmethod
+    def from_iso(iso: str) -> datetime:
+        return datetime.fromisoformat(iso).replace(tzinfo=timezone.utc)
+
+    @staticmethod
+    def ts() -> int:
+        return int(utc.now().timestamp())
+
+
 async def gather(gen: AsyncGenerator[T, None]) -> list[T]:
     items = []
     async for x in gen:
@@ -145,14 +159,6 @@ def to_old_rep(obj: dict) -> dict[str, dict]:
     users = {str(x["rest_id"]): to_old_obj(x) for x in users}
 
     return {"tweets": {**tw1, **tw2}, "users": users}
-
-
-def utc_ts() -> int:
-    return int(datetime.utcnow().replace(tzinfo=timezone.utc).timestamp())
-
-
-def from_utciso(iso: str) -> datetime:
-    return datetime.fromisoformat(iso).replace(tzinfo=timezone.utc)
 
 
 def print_table(rows: list[dict], hr_after=False):

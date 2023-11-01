@@ -109,7 +109,7 @@ class API:
             "hidden_profile_likes_enabled": True,
             "highlights_tweets_tab_ui_enabled": True,
             "creator_subscriptions_tweet_preview_api_enabled": True,
-            "hidden_profile_subscriptions_enabled": True
+            "hidden_profile_subscriptions_enabled": True,
         }
         return await self._gql_item(op, kv, ft)
 
@@ -128,7 +128,7 @@ class API:
             "creator_subscriptions_tweet_preview_api_enabled": True,
             "subscriptions_verification_info_verified_since_enabled": True,
             "hidden_profile_subscriptions_enabled": True,
-            "subscriptions_verification_info_is_identity_verified_enabled": False
+            "subscriptions_verification_info_is_identity_verified_enabled": False,
         }
         return await self._gql_item(op, kv, ft)
 

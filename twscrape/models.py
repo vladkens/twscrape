@@ -12,7 +12,7 @@ from typing import Generator, Optional
 import httpx
 
 from .logger import logger
-from .utils import find_item, get_or, int_or, to_old_rep
+from .utils import find_item, get_or, int_or, to_old_rep, utc
 
 
 @dataclass
@@ -407,7 +407,7 @@ def _get_views(obj: dict, rt_obj: dict):
 
 def _write_dump(kind: str, e: Exception, x: dict, obj: dict):
     uniq = "".join(random.choice(string.ascii_lowercase) for _ in range(5))
-    time = datetime.utcnow().strftime("%Y-%m-%d_%H-%M-%S")
+    time = utc.now().strftime("%Y-%m-%d_%H-%M-%S")
     dumpfile = f"/tmp/twscrape/twscrape_parse_error_{time}_{uniq}.txt"
     os.makedirs(os.path.dirname(dumpfile), exist_ok=True)
 
