@@ -63,6 +63,7 @@ test-sq-matrix:
 	@make test-sq y=2020 v=3330000
 	@make test-sq y=2021 v=3340100
 	@make test-sq y=2023 v=3430000
+	@make test-sq y=2023 v=3440000
 
 update-mocks:
 	twscrape user_by_id --raw 2244994945 | jq > ./tests/mocked-data/user_by_id_raw.json

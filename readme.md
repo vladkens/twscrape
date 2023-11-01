@@ -77,6 +77,8 @@ async def main():
 
     # search (latest tab)
     await gather(api.search("elon musk", limit=20))  # list[Tweet]
+    # change search tab (product), can be: Top, Latest (default), Media
+    await gather(api.search("elon musk", limit=20, kv={"product": "Top"}))
 
     # tweet info
     tweet_id = 20
