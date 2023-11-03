@@ -10,6 +10,19 @@ from .logger import logger
 
 T = TypeVar("T")
 
+class utc:
+    @staticmethod
+    def now() -> datetime:
+        return datetime.now(timezone.utc)
+
+    @staticmethod
+    def from_iso(iso: str) -> datetime:
+        return datetime.fromisoformat(iso).replace(tzinfo=timezone.utc)
+
+    @staticmethod
+    def ts() -> int:
+        return int(utc.now().timestamp())
+
 
 async def gather(gen: AsyncGenerator[T, None], with_result=False) -> list[T]:
     items = []
@@ -163,8 +176,7 @@ def from_utciso(iso: str) -> datetime:
 def default_json_dumps(o):
     if isinstance(o, (date, datetime)):
         return o.isoformat()
-
-
+  
 def print_table(rows: list[dict], hr_after=False):
     if not rows:
         return

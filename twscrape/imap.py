@@ -55,7 +55,7 @@ def _wait_email_code(imap: imaplib.IMAP4_SSL, count: int, min_t: datetime | None
                 if min_t is not None and msg_time < min_t:
                     return None
 
-                if "info@twitter.com" in msg_from and "confirmation code is" in msg_subj:
+                if "info@x.com" in msg_from and "confirmation code is" in msg_subj:
                     # eg. Your Twitter confirmation code is XXX
                     return msg_subj.split(" ")[-1].strip()
 

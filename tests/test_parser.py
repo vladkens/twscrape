@@ -253,6 +253,17 @@ async def test_user_tweets_and_replies():
         check_tweet(doc)
 
 
+async def test_list_timeline():
+    api = API()
+    mock_gen(api, "list_timeline_raw")
+
+    tweets = await gather(api.list_timeline(1494877848087187461))
+    assert len(tweets) > 0
+
+    for doc in tweets:
+        check_tweet(doc)
+
+
 async def test_tweet_with_video():
     api = API()
 

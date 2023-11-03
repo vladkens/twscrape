@@ -7,7 +7,7 @@ from httpx import AsyncClient, AsyncHTTPTransport
 
 from .constants import TOKEN
 from .models import JSONTrait
-from .utils import from_utciso
+from .utils import utc
 
 
 @dataclass
@@ -30,12 +30,12 @@ class Account(JSONTrait):
     @staticmethod
     def from_rs(rs: sqlite3.Row):
         doc = dict(rs)
-        doc["locks"] = {k: from_utciso(v) for k, v in json.loads(doc["locks"]).items()}
+        doc["locks"] = {k: utc.from_iso(v) for k, v in json.loads(doc["locks"]).items()}
         doc["stats"] = {k: v for k, v in json.loads(doc["stats"]).items() if isinstance(v, int)}
         doc["headers"] = json.loads(doc["headers"])
         doc["cookies"] = json.loads(doc["cookies"])
         doc["active"] = bool(doc["active"])
-        doc["last_used"] = from_utciso(doc["last_used"]) if doc["last_used"] else None
+        doc["last_used"] = utc.from_iso(doc["last_used"]) if doc["last_used"] else None
         return Account(**doc)
 
     def to_rs(self):

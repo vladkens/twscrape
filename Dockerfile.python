@@ -1,0 +1,11 @@
+ARG VER=3.12
+
+FROM python:${VER}-alpine
+RUN apk add git
+
+WORKDIR /app
+COPY pyproject.toml readme.md /app/
+RUN pip install -e .[dev]
+COPY . /app
+
+CMD python --version; pytest tests/
