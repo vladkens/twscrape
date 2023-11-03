@@ -24,8 +24,8 @@ async def worker(queue: asyncio.Queue, api: twscrape.API):
 async def main():
     api = twscrape.API()
     # add accounts here or before from cli (see README.md for examples)
-    await api.pool.add_account("u1", "p1", "eu1", "ep1")
-    await api.pool.login_all()
+    await api.accounts_pool.add_account("u1", "p1", "eu1", "ep1")
+    await api.accounts_pool.login_all()
 
     queries = ["elon musk", "tesla", "spacex", "neuralink", "boring company"]
 

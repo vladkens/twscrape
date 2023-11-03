@@ -432,11 +432,11 @@ def _parse_items(rep: httpx.Response, kind: str, limit: int = -1):
 
     ids = set()
     for x in obj[key].values():
-        if limit != -1 and len(ids) >= limit:
-            # todo: move somewhere in configuration like force_limit
-            # https://github.com/vladkens/twscrape/issues/26#issuecomment-1656875132
-            # break
-            pass
+        # if limit != -1 and len(ids) >= limit:
+        #     # todo: move somewhere in configuration like force_limit
+        #     # https://github.com/vladkens/twscrape/issues/26#issuecomment-1656875132
+        #     # break
+        #     pass
 
         try:
             tmp = Cls.parse(x, obj)

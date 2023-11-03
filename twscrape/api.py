@@ -1,8 +1,11 @@
 # ruff: noqa: F405
 from httpx import Response
+from loguru import logger
 
 from .accounts_pool import AccountsPool
 from .constants import *  # noqa: F403
+from .datasets_pool import DatasetsPool
+from .db import execute
 from .logger import set_log_level
 from .models import parse_tweet, parse_tweets, parse_user, parse_users
 from .queue_client import QueueClient
@@ -16,15 +19,23 @@ SEARCH_FEATURES = {
 
 
 class API:
-    pool: AccountsPool
+    accounts_pool: AccountsPool
+    datasets_pool: DatasetsPool
 
-    def __init__(self, pool: AccountsPool | str | None = None, debug=False):
+    def __init__(self, pool: str | None = None, debug=False):
         if isinstance(pool, AccountsPool):
-            self.pool = pool
+            self.accounts_pool = pool
         elif isinstance(pool, str):
-            self.pool = AccountsPool(pool)
+            self.accounts_pool = AccountsPool(pool)
         else:
-            self.pool = AccountsPool()
+            self.accounts_pool = AccountsPool()
+
+        if isinstance(pool, DatasetsPool):
+            self.datasets_pool = pool
+        elif isinstance(pool, str):
+            self.datasets_pool = DatasetsPool(pool)
+        else:
+            self.datasets_pool = DatasetsPool()
 
         self.debug = debug
         if self.debug:
@@ -49,11 +60,11 @@ class API:
 
     # gql helpers
 
-    async def _gql_items(self, op: str, kv: dict, ft: dict | None = None, limit=-1):
+    async def _gql_items(self, op: str, kv: dict, ft: dict | None = None, limit=-1, with_result=True):
         queue, cursor, count, active = op.split("/")[-1], None, 0, True
         kv, ft = {**kv}, {**GQL_FEATURES, **(ft or {})}
 
-        async with QueueClient(self.pool, queue, self.debug) as client:
+        async with QueueClient(self.accounts_pool, queue, self.debug) as client:
             while active:
                 params = {"variables": kv, "features": ft}
                 if cursor is not None:
@@ -64,6 +75,10 @@ class API:
                 rep = await client.get(f"{GQL_URL}/{op}", params=encode_params(params))
                 obj = rep.json()
 
+                tweets = [tweet for tweet in parse_tweets(obj)]
+                await self.datasets_pool.save_tweets(tweets)
+                await self.datasets_pool.save_keyword_tweets(tweets, params["variables"]['rawQuery'])
+                await self.datasets_pool.get_stat()
                 entries = get_by_path(obj, "entries") or []
                 entries = [x for x in entries if not x["entryId"].startswith("cursor-")]
                 cursor = self._get_cursor(obj)
@@ -71,19 +86,20 @@ class API:
                 rep, count, active = self._is_end(rep, queue, entries, cursor, count, limit)
                 if rep is None:
                     return
-
+                if not with_result:
+                    yield
                 yield rep
 
     async def _gql_item(self, op: str, kv: dict, ft: dict | None = None):
         ft = ft or {}
         queue = op.split("/")[-1]
-        async with QueueClient(self.pool, queue, self.debug) as client:
+        async with QueueClient(self.accounts_pool, queue, self.debug) as client:
             params = {"variables": {**kv}, "features": {**GQL_FEATURES, **ft}}
             return await client.get(f"{GQL_URL}/{op}", params=encode_params(params))
 
     # search
 
-    async def search_raw(self, q: str, limit=-1, kv=None):
+    async def search_raw(self, q: str, limit=-1, kv=None, with_result=True):
         op = OP_SearchTimeline
         kv = {
             "rawQuery": q,
@@ -92,11 +108,15 @@ class API:
             "querySource": "typed_query",
             **(kv or {}),
         }
-        async for x in self._gql_items(op, kv, ft=SEARCH_FEATURES, limit=limit):
+        async for x in self._gql_items(op, kv, ft=SEARCH_FEATURES, limit=limit, with_result=with_result):
+            if not with_result:
+                yield ""
             yield x
 
-    async def search(self, q: str, limit=-1, kv=None):
-        async for rep in self.search_raw(q, limit=limit, kv=kv):
+    async def search(self, q: str, limit=-1, kv=None, with_result=True):
+        async for rep in self.search_raw(q, limit=limit, kv=kv, with_result=with_result):
+            if not with_result:
+                yield ""
             for x in parse_tweets(rep.json(), limit):
                 yield x
 

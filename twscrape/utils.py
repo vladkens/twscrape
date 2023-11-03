@@ -1,7 +1,7 @@
 import base64
 import json
 from collections import defaultdict
-from datetime import datetime, timezone
+from datetime import datetime, timezone, date
 from typing import Any, AsyncGenerator, Callable, TypeVar
 
 from httpx import HTTPStatusError, Response
@@ -9,7 +9,6 @@ from httpx import HTTPStatusError, Response
 from .logger import logger
 
 T = TypeVar("T")
-
 
 class utc:
     @staticmethod
@@ -25,10 +24,11 @@ class utc:
         return int(utc.now().timestamp())
 
 
-async def gather(gen: AsyncGenerator[T, None]) -> list[T]:
+async def gather(gen: AsyncGenerator[T, None], with_result=False) -> list[T]:
     items = []
     async for x in gen:
-        items.append(x)
+        if with_result:
+            items.append(x)
     return items
 
 
@@ -161,6 +161,22 @@ def to_old_rep(obj: dict) -> dict[str, dict]:
     return {"tweets": {**tw1, **tw2}, "users": users}
 
 
+def utc_ts() -> int:
+    return int(datetime.utcnow().replace(tzinfo=timezone.utc).timestamp())
+
+
+def utc_iso() -> str:
+    return datetime.utcnow().isoformat()
+
+
+def from_utciso(iso: str) -> datetime:
+    return datetime.fromisoformat(iso).replace(tzinfo=timezone.utc)
+
+
+def default_json_dumps(o):
+    if isinstance(o, (date, datetime)):
+        return o.isoformat()
+  
 def print_table(rows: list[dict], hr_after=False):
     if not rows:
         return

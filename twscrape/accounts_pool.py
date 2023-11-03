@@ -32,7 +32,7 @@ class AccountsPool:
     # _order_by: str = "RANDOM()"
     _order_by: str = "username"
 
-    def __init__(self, db_file="accounts.db"):
+    def __init__(self, db_file="database.db"):
         self._db_file = db_file
 
     async def load_from_file(self, filepath: str, line_format: str):
@@ -61,14 +61,14 @@ class AccountsPool:
             await self.add_account(**x)
 
     async def add_account(
-        self,
-        username: str,
-        password: str,
-        email: str,
-        email_password: str,
-        user_agent: str | None = None,
-        proxy: str | None = None,
-        cookies: str | None = None,
+            self,
+            username: str,
+            password: str,
+            email: str,
+            email_password: str,
+            user_agent: str | None = None,
+            proxy: str | None = None,
+            cookies: str | None = None,
     ):
         qs = "SELECT * FROM accounts WHERE username = :username"
         rs = await fetchone(self._db_file, qs, {"username": username})

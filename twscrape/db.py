@@ -75,10 +75,31 @@ async def migrate(db: aiosqlite.Connection):
     async def v3():
         await db.execute("ALTER TABLE accounts ADD COLUMN _tx TEXT DEFAULT NULL")
 
+    async def v4():
+        qs = """
+        CREATE TABLE IF NOT EXISTS tweets (
+            id TEXT PRIMARY KEY NOT NULL COLLATE NOCASE,
+            tweet TEXT NOT NULL,
+            created_at TEXT NOT NULL,
+            updated_at TEXT NOT NULL
+        );"""
+        await db.execute(qs)
+
+    async def v5():
+        qs = """
+        CREATE TABLE IF NOT EXISTS tweet_keywords (
+            tweet_id TEXT NOT NULL COLLATE NOCASE,
+            keyword TEXT NOT NULL,
+            PRIMARY KEY (tweet_id, keyword)
+        );"""
+        await db.execute(qs)
+
     migrations = {
         1: v1,
         2: v2,
         3: v3,
+        4: v4,
+        5: v5
     }
 
     # logger.debug(f"Current migration v{uv} (latest v{len(migrations)})")
@@ -146,3 +167,4 @@ async def fetchall(db_path: str, qs: str, params: dict | None = None):
 async def executemany(db_path: str, qs: str, params: list[dict]):
     async with DB(db_path) as db:
         await db.executemany(qs, params)
+
