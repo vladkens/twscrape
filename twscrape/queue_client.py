@@ -173,7 +173,8 @@ class QueueClient:
         if rep.status_code == 200 and "_Missing: No status found with that ID." in msg:
             return  # ignore this error
 
-        if rep.status_code == 200 and "Authorization: Denied by access control: unspecified reason" in msg:
+        if rep.status_code == 200 and "Authorization" in msg:
+            await self._close_ctx(-1, banned=True, msg=msg)
             raise UnknownAuthorizationError(msg)
 
         # todo: (32) Could not authenticate you
