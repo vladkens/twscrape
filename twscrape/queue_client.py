@@ -174,7 +174,6 @@ class QueueClient:
             return  # ignore this error
 
         if rep.status_code == 200 and "Authorization" in msg:
-            await self._close_ctx(-1, banned=True, msg=msg)
             raise UnknownAuthorizationError(msg)
 
         # todo: (32) Could not authenticate you
