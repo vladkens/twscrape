@@ -174,12 +174,15 @@ class QueueClient:
             return  # ignore this error
 
         if rep.status_code == 200 and "Authorization" in msg:
+            return  # ignore this error
             raise UnknownAuthorizationError(msg)
 
         # todo: (32) Could not authenticate you
 
         if msg != "OK":
-            raise ApiError(rep, res)
+            logger.error(f"Unknown error: {msg}")
+            return # ignore this error
+            #raise ApiError(rep, res)
 
         rep.raise_for_status()
 
