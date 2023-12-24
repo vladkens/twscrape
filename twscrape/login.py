@@ -117,11 +117,14 @@ async def login_confirm_email(client: AsyncClient, acc: Account, prev: dict, ima
 
 
 async def login_confirm_email_code(client: AsyncClient, acc: Account, prev: dict, imap):
-    if not imap:
-        imap = await imap_login(acc.email, acc.email_password)
+    if acc.email_password == None:
+        value = input(f"Twitter login code for {acc.username}: ")
+    else :
+        if not imap:
+            imap = await imap_login(acc.email, acc.email_password)
 
-    now_time = utc.now() - timedelta(seconds=30)
-    value = await imap_get_email_code(imap, acc.email, now_time)
+        now_time = utc.now() - timedelta(seconds=30)
+        value = await imap_get_email_code(imap, acc.email, now_time)
 
     payload = {
         "flow_token": prev["flow_token"],

@@ -39,7 +39,7 @@ class AccountsPool:
         line_delim = guess_delim(line_format)
         tokens = line_format.split(line_delim)
 
-        required = set(["username", "password", "email", "email_password"])
+        required = set(["username", "password"])
         if not required.issubset(tokens):
             raise ValueError(f"Invalid line format: {line_format}")
 
@@ -64,8 +64,8 @@ class AccountsPool:
         self,
         username: str,
         password: str,
-        email: str,
-        email_password: str,
+        email: str | None = None,
+        email_password: str | None = None,
         user_agent: str | None = None,
         proxy: str | None = None,
         cookies: str | None = None,

@@ -14,10 +14,10 @@ from .utils import utc
 class Account(JSONTrait):
     username: str
     password: str
-    email: str
-    email_password: str
     user_agent: str
     active: bool
+    email: str | None = None
+    email_password: str | None = None
     locks: dict[str, datetime] = field(default_factory=dict)  # queue: datetime
     stats: dict[str, int] = field(default_factory=dict)  # queue: requests
     headers: dict[str, str] = field(default_factory=dict)
