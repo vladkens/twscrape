@@ -1,12 +1,16 @@
 import asyncio
 import email as emaillib
 import imaplib
+import os
 import time
 from datetime import datetime
 
 from .logger import logger
+from .utils import int_or
 
-MAX_WAIT_SEC = 30
+_env = dict(os.environ)
+
+LOGIN_CODE_TIMEOUT = int_or(_env, "LOGIN_CODE_TIMEOUT") or 40
 
 
 class EmailLoginError(Exception):
@@ -46,10 +50,11 @@ def _wait_email_code(imap: imaplib.IMAP4_SSL, count: int, min_t: datetime | None
         for x in rep:
             if isinstance(x, tuple):
                 msg = emaillib.message_from_bytes(x[1])
-                try:
-                    msg_time = datetime.strptime(msg.get("Date", "").split(' (')[0], "%a, %d %b %Y %H:%M:%S %z")
-                except ValueError:
-                    msg_time = msg.get("Date", "")
+
+                # https://www.ietf.org/rfc/rfc9051.html#section-6.3.12-13
+                msg_time = msg.get("Date", "").split("(")[0].strip()
+                msg_time = datetime.strptime(msg_time, "%a, %d %b %Y %H:%M:%S %z")
+
                 msg_from = str(msg.get("From", "")).lower()
                 msg_subj = str(msg.get("Subject", "")).lower()
                 logger.info(f"({i} of {count}) {msg_from} - {msg_time} - {msg_subj}")
@@ -68,24 +73,22 @@ async def imap_get_email_code(
     imap: imaplib.IMAP4_SSL, email: str, min_t: datetime | None = None
 ) -> str:
     try:
-        start_time, was_count = time.time(), 0
+        logger.info(f"Waiting for confirmation code for {email}...")
+        start_time = time.time()
         while True:
             _, rep = imap.select("INBOX")
-            now_count = int(rep[0].decode("utf-8")) if len(rep) > 0 and rep[0] is not None else 0
-            if now_count > was_count:
-                code = _wait_email_code(imap, now_count, min_t)
-                if code is not None:
-                    return code
+            msg_count = int(rep[0].decode("utf-8")) if len(rep) > 0 and rep[0] is not None else 0
+            code = _wait_email_code(imap, msg_count, min_t)
+            if code is not None:
+                return code
 
-            logger.info(f"Waiting for confirmation code for {email}, msg_count: {now_count}")
-            if MAX_WAIT_SEC < time.time() - start_time:
-                logger.info(f"Timeout waiting for confirmation code for {email}")
-                raise EmailCodeTimeoutError()
+            if LOGIN_CODE_TIMEOUT < time.time() - start_time:
+                raise EmailCodeTimeoutError(f"Email code timeout ({LOGIN_CODE_TIMEOUT} sec)")
+
             await asyncio.sleep(5)
     except Exception as e:
         imap.select("INBOX")
         imap.close()
-        logger.error(f"Error getting confirmation code for {email}: {e}")
         raise e
 
 

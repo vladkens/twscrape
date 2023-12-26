@@ -1,5 +1,3 @@
-.PHONY: all build
-
 all:
 	@echo "hi"
 

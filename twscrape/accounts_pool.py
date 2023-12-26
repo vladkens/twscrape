@@ -138,7 +138,7 @@ class AccountsPool:
             logger.info(f"Logged in to {account.username} successfully")
             return True
         except Exception as e:
-            logger.error(f"Error logging in to {account.username}: {e}")
+            logger.error(f"Failed to login to {account.username}: {e}")
             return False
         finally:
             await self.save(account)

@@ -1,21 +1,13 @@
 # twscrape
 
-<div align="center" style="padding-bottom: 8px">
-  <a href="https://pypi.org/project/twscrape">
-    <img src="https://badgen.net/pypi/v/twscrape" alt="version" />
-  </a>
-  <a href="https://pypi.org/project/twscrape">
-    <img src="https://badgen.net/pypi/python/twscrape" alt="python versions" />
-  </a>
-  <a href="https://github.com/vladkens/twscrape/actions">
-    <img src="https://github.com/vladkens/twscrape/workflows/test/badge.svg" alt="test status" />
-  </a>
-  <a href="https://pypi.org/project/twscrape">
-    <img src="https://badgen.net/pypi/dm/twscrape" alt="downloads" />
-  </a>
-  <a href="https://github.com/vladkens/twscrape/blob/main/LICENSE">
-    <img src="https://badgen.net/github/license/vladkens/twscrape" alt="license" />
-  </a>
+<div align="center">
+
+[<img src="https://badgen.net/pypi/v/twscrape" alt="version" />](https://pypi.org/project/twscrape)
+[<img src="https://badgen.net/pypi/python/twscrape" alt="py versions" />](https://pypi.org/project/twscrape)
+[<img src="https://github.com/vladkens/twscrape/workflows/test/badge.svg" alt="test status" />](https://github.com/vladkens/twscrape/actions)
+[<img src="https://badgen.net/pypi/dm/twscrape" alt="downloads" />](https://pypi.org/project/twscrape)
+[<img src="https://badgen.net/github/license/vladkens/twscrape" alt="license" />](https://github.com/vladkens/twscrape/blob/main/LICENSE)
+
 </div>
 
 Twitter GraphQL API implementation with [SNScrape](https://github.com/JustAnotherArchivist/snscrape) data models.
@@ -238,6 +230,10 @@ By default, parsed data is returned. The original tweet responses can be retriev
 ```sh
 twscrape search "elon mask lang:es" --limit=20 --raw
 ```
+
+### Environment variables
+
+`LOGIN_CODE_TIMEOUT` - how long to wait for email code confirmation in seconds (default `40`)
 
 ## Limitations
 
