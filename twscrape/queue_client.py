@@ -181,7 +181,7 @@ class QueueClient:
     async def get(self, url: str, params: ReqParams = None):
         return await self.req("GET", url, params=params)
 
-    async def req(self, method: str, url: str, params: ReqParams = None):
+    async def req(self, method: str, url: str, params: ReqParams = None) -> httpx.Response | None:
         retry_count = 0
         while True:
             ctx = await self._get_ctx()
