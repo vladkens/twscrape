@@ -11,7 +11,7 @@ from .utils import raise_for_status, utc
 
 async def get_guest_token(client: AsyncClient):
     rep = await client.post("https://api.twitter.com/1.1/guest/activate.json")
-    raise_for_status(rep, "guest_token")
+    raise_for_status(rep, "guest_token (most likely ip ban)")
     return rep.json()["guest_token"]
 
 
@@ -189,10 +189,9 @@ async def login(acc: Account, email_first=False) -> Account:
         logger.info(f"account already active {log_id}")
         return acc
 
+    imap = None
     if email_first:
         imap = await imap_login(acc.email, acc.email_password)
-    else:
-        imap = None
 
     client = acc.make_client()
     guest_token = await get_guest_token(client)
