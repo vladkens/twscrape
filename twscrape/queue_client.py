@@ -19,18 +19,6 @@ class Ctx:
         self.req_count = 0
 
 
-class ApiError(Exception):
-    def __init__(self, rep: httpx.Response, res: dict):
-        self.rep = rep
-        self.res = res
-        self.errors = [x["message"] for x in res["errors"]]
-        self.acc = getattr(rep, "__username", "<UNKNOWN>")
-
-    def __str__(self):
-        msg = f"(code {self.rep.status_code}): {' ~ '.join(self.errors)}"
-        return f"ApiError on {req_id(self.rep)} {msg}"
-
-
 class RateLimitError(Exception):
     pass
 
@@ -38,11 +26,8 @@ class RateLimitError(Exception):
 class BannedError(Exception):
     pass
 
-class DependencyError(Exception):
-    pass
 
-
-class UnknownAuthorizationError(Exception):
+class AbortReqError(Exception):
     pass
 
 
@@ -124,7 +109,12 @@ class QueueClient:
         self.ctx = Ctx(acc, clt)
         return self.ctx
 
-    async def _check_rep(self, rep: httpx.Response):
+    async def _check_rep(self, rep: httpx.Response) -> None:
+        """
+        This function can raise Exception and request will be retried or aborted
+        Or if None is returned, response will passed to api parser as is
+        """
+
         if self.debug:
             dump_rep(rep)
 
@@ -133,56 +123,58 @@ class QueueClient:
         except json.JSONDecodeError:
             res: Any = {"_raw": rep.text}
 
-        msg = "OK"
+        err_msg = "OK"
         if "errors" in res:
-            msg = set([f'({x.get("code", -1)}) {x["message"]}' for x in res["errors"]])
-            msg = "; ".join(list(msg))
+            err_msg = set([f'({x.get("code", -1)}) {x["message"]}' for x in res["errors"]])
+            err_msg = "; ".join(list(err_msg))
 
         if self.debug:
             fn = logger.debug if rep.status_code == 200 else logger.warning
-            fn(f"{rep.status_code:3d} - {req_id(rep)} - {msg}")
+            fn(f"{rep.status_code:3d} - {req_id(rep)} - {err_msg}")
 
         # need to add some features in api.py
-        if msg.startswith("The following features cannot be null"):
-            logger.error(f"Invalid request: {msg}")
+        if err_msg.startswith("The following features cannot be null"):
+            logger.error(f"Invalid request: {err_msg}")
             exit(1)
 
         # general api rate limit
         if int(rep.headers.get("x-rate-limit-remaining", -1)) == 0:
             await self._close_ctx(int(rep.headers.get("x-rate-limit-reset", -1)))
-            raise RateLimitError(msg)
+            raise RateLimitError(err_msg)
 
         # possible new limits for tweets view per account
-        if msg.startswith("(88) Rate limit exceeded") or rep.status_code == 429:
+        if err_msg.startswith("(88) Rate limit exceeded") or rep.status_code == 429:
             await self._close_ctx(utc.ts() + 60 * 60 * 4)  # lock for 4 hours
-            raise RateLimitError(msg)
+            raise RateLimitError(err_msg)
 
-        if msg.startswith("(326) Authorization: Denied by access control"):
-            await self._close_ctx(-1, banned=True, msg=msg)
-            raise BannedError(msg)
+        if err_msg.startswith("(326) Authorization: Denied by access control"):
+            await self._close_ctx(-1, banned=True, msg=err_msg)
+            raise BannedError(err_msg)
 
-        if msg.startswith("(131) Dependency: Internal error."):
-            raise DependencyError(msg)
+        # Something from twitter side, abort request so it doesn't hang
+        # https://github.com/vladkens/twscrape/pull/80
+        if err_msg.startswith("(131) Dependency: Internal error."):
+            logger.warning(f"Dependency error (request skipped): {err_msg}")
+            raise AbortReqError()
 
         # possible banned by old api flow
         if rep.status_code in (401, 403):
             await self._close_ctx(utc.ts() + 60 * 60 * 12)  # lock for 12 hours
-            raise RateLimitError(msg)
+            raise RateLimitError(err_msg)
 
         # content not found
-        if rep.status_code == 200 and "_Missing: No status found with that ID." in msg:
+        if rep.status_code == 200 and "_Missing: No status found with that ID." in err_msg:
             return  # ignore this error
 
-        if rep.status_code == 200 and "Authorization" in msg:
-            return  # ignore this error
-            raise UnknownAuthorizationError(msg)
+        # Something from twitter side, just ignore it
+        # https://github.com/vladkens/twscrape/pull/95
+        if rep.status_code == 200 and "Authorization" in err_msg:
+            logger.warning(f"Unknown authorization error: {err_msg}")
+            return
 
-        # todo: (32) Could not authenticate you
-
-        if msg != "OK":
-            logger.error(f"Unknown error: {msg}")
-            return # ignore this error
-            #raise ApiError(rep, res)
+        if err_msg != "OK":
+            logger.warning(f"Unknown API error: {err_msg}")
+            return  # ignore any other unknown errors
 
         rep.raise_for_status()
 
@@ -205,11 +197,7 @@ class QueueClient:
             except (RateLimitError, BannedError):
                 # already handled
                 continue
-            except DependencyError:
-                logger.error(f"Dependency error, returning: {url}")
-                return
-            except UnknownAuthorizationError:
-                logger.error(f"Unknown authorization error, returning: {url}")
+            except AbortReqError:
                 return
             except (httpx.ReadTimeout, httpx.ProxyError):
                 # http transport failed, just retry
