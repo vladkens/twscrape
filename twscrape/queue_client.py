@@ -38,8 +38,11 @@ class RateLimitError(Exception):
 class BannedError(Exception):
     pass
 
-
 class DependencyError(Exception):
+    pass
+
+
+class UnknownAuthorizationError(Exception):
     pass
 
 
@@ -170,10 +173,16 @@ class QueueClient:
         if rep.status_code == 200 and "_Missing: No status found with that ID." in msg:
             return  # ignore this error
 
+        if rep.status_code == 200 and "Authorization" in msg:
+            return  # ignore this error
+            raise UnknownAuthorizationError(msg)
+
         # todo: (32) Could not authenticate you
 
         if msg != "OK":
-            raise ApiError(rep, res)
+            logger.error(f"Unknown error: {msg}")
+            return # ignore this error
+            #raise ApiError(rep, res)
 
         rep.raise_for_status()
 
@@ -197,7 +206,10 @@ class QueueClient:
                 # already handled
                 continue
             except DependencyError:
-                logger.error(f"Dependency error, returnning: {url}")
+                logger.error(f"Dependency error, returning: {url}")
+                return
+            except UnknownAuthorizationError:
+                logger.error(f"Unknown authorization error, returning: {url}")
                 return
             except (httpx.ReadTimeout, httpx.ProxyError):
                 # http transport failed, just retry
