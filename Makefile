@@ -29,7 +29,7 @@ pylint:
 test:
 	@pytest -s --cov=twscrape tests/
 
-show-cov:
+test-cov:
 	@pytest -s --cov=twscrape tests/
 	@coverage html
 	@open htmlcov/index.html

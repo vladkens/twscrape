@@ -133,8 +133,8 @@ class QueueClient:
             fn(f"{rep.status_code:3d} - {req_id(rep)} - {err_msg}")
 
         # need to add some features in api.py
-        if err_msg.startswith("The following features cannot be null"):
-            logger.error(f"Invalid request: {err_msg}")
+        if err_msg.startswith("(336) The following features cannot be null"):
+            logger.error(f"Update required: {err_msg}")
             exit(1)
 
         # general api rate limit
@@ -169,11 +169,11 @@ class QueueClient:
         # Something from twitter side, just ignore it
         # https://github.com/vladkens/twscrape/pull/95
         if rep.status_code == 200 and "Authorization" in err_msg:
-            logger.warning(f"Unknown authorization error: {err_msg}")
+            logger.warning(f"Authorization unknown error: {err_msg}")
             return
 
         if err_msg != "OK":
-            logger.warning(f"Unknown API error: {err_msg}")
+            logger.warning(f"API unknown error: {err_msg}")
             return  # ignore any other unknown errors
 
         rep.raise_for_status()
