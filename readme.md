@@ -4,9 +4,9 @@
 
 [<img src="https://badgen.net/pypi/v/twscrape" alt="version" />](https://pypi.org/project/twscrape)
 [<img src="https://badgen.net/pypi/python/twscrape" alt="py versions" />](https://pypi.org/project/twscrape)
-[<img src="https://github.com/vladkens/twscrape/workflows/test/badge.svg" alt="test status" />](https://github.com/vladkens/twscrape/actions)
 [<img src="https://badgen.net/pypi/dm/twscrape" alt="downloads" />](https://pypi.org/project/twscrape)
 [<img src="https://badgen.net/github/license/vladkens/twscrape" alt="license" />](https://github.com/vladkens/twscrape/blob/main/LICENSE)
+[<img src="https://badgen.net/static/-/buy%20me%20a%20coffee/ff813f?icon=buymeacoffee&label" alt="donate" />](https://buymeacoffee.com/vladkens)
 
 </div>
 
