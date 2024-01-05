@@ -193,4 +193,7 @@ def run():
     if args.command is None:
         return custom_help(p)
 
-    asyncio.run(main(args))
+    try:
+        asyncio.run(main(args))
+    except KeyboardInterrupt:
+        pass
