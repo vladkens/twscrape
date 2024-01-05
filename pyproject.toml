@@ -27,11 +27,12 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
+  "pyright>=1.1.344",
   "pytest-asyncio>=0.23.3",
   "pytest-cov>=4.1.0",
   "pytest-httpx>=0.28.0",
   "pytest>=7.4.4",
-  "ruff>=0.1.11"
+  "ruff>=0.1.11",
 ]
 
 [project.urls]
@@ -58,5 +59,3 @@ line-length = 99
 
 [tool.ruff.lint]
 ignore = ["E501"]
-
-[tool.ruff.format]

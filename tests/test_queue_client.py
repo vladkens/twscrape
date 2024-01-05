@@ -57,6 +57,7 @@ async def test_do_not_switch_account_on_200(httpx_mock: HTTPXMock, client_fixtur
     for x in range(1):
         httpx_mock.add_response(url=URL, json={"foo": x}, status_code=200)
         rep = await client.get(URL)
+        assert rep is not None
         assert rep.json() == {"foo": x}
 
     # account should not be switched
@@ -82,6 +83,7 @@ async def test_switch_acc_on_http_error(httpx_mock: HTTPXMock, client_fixture: C
     httpx_mock.add_response(url=URL, json={"foo": "2"}, status_code=200)
 
     rep = await client.get(URL)
+    assert rep is not None
     assert rep.json() == {"foo": "2"}
 
     locked2 = await get_locked(pool)
@@ -107,6 +109,7 @@ async def test_retry_with_same_acc_on_network_error(httpx_mock: HTTPXMock, clien
     httpx_mock.add_response(url=URL, json={"foo": "2"}, status_code=200)
 
     rep = await client.get(URL)
+    assert rep is not None
     assert rep.json() == {"foo": "2"}
 
     locked2 = await get_locked(pool)
@@ -141,6 +144,7 @@ async def test_ctx_closed_on_break(httpx_mock: HTTPXMock, client_fixture: CF):
                 elif before_ctx is not None:
                     assert before_ctx == c.ctx
 
+                assert rep is not None
                 assert rep.json() == {"counter": counter}
                 yield rep.json()["counter"]
 

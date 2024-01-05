@@ -53,7 +53,7 @@ async def main(args):
     api = API(pool, debug=args.debug)
 
     if args.command == "accounts":
-        print_table(await pool.accounts_info())
+        print_table([dict(x) for x in await pool.accounts_info()])
         return
 
     if args.command == "stats":

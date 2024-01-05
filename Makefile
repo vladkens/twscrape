@@ -12,9 +12,14 @@ lint:
 	@ruff check --select I --fix .
 	@ruff format .
 	@ruff check .
+	@pyright .
 
 test:
 	@pytest -s --cov=twscrape tests/
+
+check:
+	@make lint
+	@make test
 
 test-cov:
 	@pytest -s --cov=twscrape tests/

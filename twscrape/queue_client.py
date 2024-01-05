@@ -96,11 +96,14 @@ class QueueClient:
 
         await self.pool.unlock(ctx.acc.username, self.queue, ctx.req_count)
 
-    async def _get_ctx(self) -> Ctx:
+    async def _get_ctx(self):
         if self.ctx:
             return self.ctx
 
         acc = await self.pool.get_for_queue_or_wait(self.queue)
+        if acc is None:
+            return None
+
         clt = acc.make_client()
         self.ctx = Ctx(acc, clt)
         return self.ctx
@@ -129,7 +132,6 @@ class QueueClient:
             err_msg = "; ".join(list(err_msg))
 
         log_msg = f"{rep.status_code:3d} - {req_id(rep)} - {err_msg}"
-        print(log_msg)
         logger.trace(log_msg)
 
         # for dev: need to add some features in api.py

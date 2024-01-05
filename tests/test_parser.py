@@ -12,6 +12,16 @@ os.makedirs(DATA_DIR, exist_ok=True)
 set_log_level("DEBUG")
 
 
+class FakeRep:
+    text: str
+
+    def __init__(self, text: str):
+        self.text = text
+
+    def json(self):
+        return json.loads(self.text)
+
+
 def load_mock(name: str):
     file = os.path.join(os.path.dirname(__file__), f"mocked-data/{name}.json")
     with open(file) as f:
@@ -28,9 +38,7 @@ def fake_rep(fn: str, filename: str):
     with open(filename) as fp:
         data = fp.read()
 
-    rep = lambda: None  # noqa: E731
-    rep.text = data
-    rep.json = lambda: json.loads(data)
+    rep = FakeRep(data)
     return rep
 
 

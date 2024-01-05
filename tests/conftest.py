@@ -6,9 +6,9 @@ from twscrape.queue_client import QueueClient
 
 
 @pytest.fixture
-def pool_mock(tmp_path) -> AccountsPool:
+def pool_mock(tmp_path):
     db_path = tmp_path / "test.db"
-    yield AccountsPool(db_path)  # type: ignore
+    yield AccountsPool(db_path)
 
 
 @pytest.fixture
