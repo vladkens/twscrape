@@ -1,4 +1,5 @@
 import asyncio
+import random
 import sqlite3
 from collections import defaultdict
 
@@ -8,19 +9,24 @@ from .logger import logger
 
 MIN_SQLITE_VERSION = "3.24"
 
+_lock = asyncio.Lock()
 
-def lock_retry(max_retries=5, delay=1):
+
+def lock_retry(max_retries=10):
+    # this lock decorator has double nature:
+    # 1. it uses asyncio lock in same process
+    # 2. it retries when db locked by other process (eg. two cli instances running)
     def decorator(func):
         async def wrapper(*args, **kwargs):
             for i in range(max_retries):
                 try:
-                    return await func(*args, **kwargs)
+                    async with _lock:
+                        return await func(*args, **kwargs)
                 except sqlite3.OperationalError as e:
                     if i == max_retries - 1 or "database is locked" not in str(e):
                         raise e
 
-                    # print(f"Retrying in {delay} second(s) ({i+1}/{max_retries})")
-                    await asyncio.sleep(delay)
+                    await asyncio.sleep(random.uniform(0.5, 1.0))
 
         return wrapper
 
