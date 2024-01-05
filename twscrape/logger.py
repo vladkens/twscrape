@@ -3,7 +3,7 @@ from typing import Literal
 
 from loguru import logger
 
-_LEVELS = Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
+_LEVELS = Literal["TRACE", "DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
 _LOG_LEVEL: _LEVELS = "INFO"
 
 

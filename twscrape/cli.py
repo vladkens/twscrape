@@ -73,6 +73,7 @@ async def main(args):
 
     if args.command == "add_accounts":
         await pool.load_from_file(args.file_path, args.line_format)
+        print("\nNow run:\ntwscrape login_accounts")
         return
 
     if args.command == "del_accounts":

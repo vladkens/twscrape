@@ -19,11 +19,7 @@ class Ctx:
         self.req_count = 0
 
 
-class RateLimitError(Exception):
-    pass
-
-
-class BannedError(Exception):
+class HandledError(Exception):
     pass
 
 
@@ -82,7 +78,7 @@ class QueueClient:
     async def __aexit__(self, exc_type, exc_val, exc_tb):
         await self._close_ctx()
 
-    async def _close_ctx(self, reset_at=-1, banned=False, msg=""):
+    async def _close_ctx(self, reset_at=-1, inactive=False, msg: str | None = None):
         if self.ctx is None:
             return
 
@@ -90,8 +86,8 @@ class QueueClient:
         username = ctx.acc.username
         await ctx.clt.aclose()
 
-        if banned:
-            await self.pool.mark_banned(username, msg)
+        if inactive:
+            await self.pool.mark_inactive(username, msg)
             return
 
         if reset_at > 0:
@@ -123,60 +119,75 @@ class QueueClient:
         except json.JSONDecodeError:
             res: Any = {"_raw": rep.text}
 
+        limit_remaining = int(rep.headers.get("x-rate-limit-remaining", -1))
+        limit_reset = int(rep.headers.get("x-rate-limit-reset", -1))
+        # limit_max = int(rep.headers.get("x-rate-limit-limit", -1))
+
         err_msg = "OK"
         if "errors" in res:
             err_msg = set([f'({x.get("code", -1)}) {x["message"]}' for x in res["errors"]])
             err_msg = "; ".join(list(err_msg))
 
-        if self.debug:
-            fn = logger.debug if rep.status_code == 200 else logger.warning
-            fn(f"{rep.status_code:3d} - {req_id(rep)} - {err_msg}")
+        log_msg = f"{rep.status_code:3d} - {req_id(rep)} - {err_msg}"
+        print(log_msg)
+        logger.trace(log_msg)
 
-        # need to add some features in api.py
+        # for dev: need to add some features in api.py
         if err_msg.startswith("(336) The following features cannot be null"):
-            logger.error(f"Update required: {err_msg}")
+            logger.error(f"[DEV] Update required: {err_msg}")
             exit(1)
 
         # general api rate limit
-        if int(rep.headers.get("x-rate-limit-remaining", -1)) == 0:
-            await self._close_ctx(int(rep.headers.get("x-rate-limit-reset", -1)))
-            raise RateLimitError(err_msg)
+        if limit_remaining == 0 and limit_reset > 0:
+            logger.debug(f"Rate limited: {log_msg}")
+            await self._close_ctx(limit_reset)
+            raise HandledError()
 
-        # possible new limits for tweets view per account
-        if err_msg.startswith("(88) Rate limit exceeded") or rep.status_code == 429:
-            await self._close_ctx(utc.ts() + 60 * 60 * 4)  # lock for 4 hours
-            raise RateLimitError(err_msg)
+        # no way to check is account banned in direct way, but this check should work
+        if err_msg.startswith("(88) Rate limit exceeded") and limit_remaining > 0:
+            logger.warning(f"Ban detected: {log_msg}")
+            await self._close_ctx(-1, inactive=True, msg=err_msg)
+            raise HandledError()
 
         if err_msg.startswith("(326) Authorization: Denied by access control"):
-            await self._close_ctx(-1, banned=True, msg=err_msg)
-            raise BannedError(err_msg)
+            logger.warning(f"Ban detected: {log_msg}")
+            await self._close_ctx(-1, inactive=True, msg=err_msg)
+            raise HandledError()
 
-        # Something from twitter side, abort request so it doesn't hang
-        # https://github.com/vladkens/twscrape/pull/80
-        if err_msg.startswith("(131) Dependency: Internal error."):
+        if err_msg.startswith("(32) Could not authenticate you"):
+            logger.warning(f"Session expired or banned: {log_msg}")
+            await self._close_ctx(-1, inactive=True, msg=err_msg)
+            raise HandledError()
+
+        if err_msg == "OK" and rep.status_code == 403:
+            logger.warning(f"Session expired or banned: {log_msg}")
+            await self._close_ctx(-1, inactive=True, msg=None)
+            raise HandledError()
+
+        # something from twitter side - abort all queries, see: https://github.com/vladkens/twscrape/pull/80
+        if err_msg.startswith("(131) Dependency: Internal error"):
             logger.warning(f"Dependency error (request skipped): {err_msg}")
             raise AbortReqError()
 
-        # possible banned by old api flow
-        if rep.status_code in (401, 403):
-            await self._close_ctx(utc.ts() + 60 * 60 * 12)  # lock for 12 hours
-            raise RateLimitError(err_msg)
-
         # content not found
-        if rep.status_code == 200 and "_Missing: No status found with that ID." in err_msg:
+        if rep.status_code == 200 and "_Missing: No status found with that ID" in err_msg:
             return  # ignore this error
 
-        # Something from twitter side, just ignore it
-        # https://github.com/vladkens/twscrape/pull/95
+        # something from twitter side - just ignore it, see: https://github.com/vladkens/twscrape/pull/95
         if rep.status_code == 200 and "Authorization" in err_msg:
-            logger.warning(f"Authorization unknown error: {err_msg}")
+            logger.warning(f"Authorization unknown error: {log_msg}")
             return
 
         if err_msg != "OK":
-            logger.warning(f"API unknown error: {err_msg}")
+            logger.warning(f"API unknown error: {log_msg}")
             return  # ignore any other unknown errors
 
-        rep.raise_for_status()
+        try:
+            rep.raise_for_status()
+        except httpx.HTTPStatusError:
+            logger.error(f"Unhandled API response code: {log_msg}")
+            await self._close_ctx(utc.ts() + 60 * 15)  # 15 minutes
+            raise HandledError()
 
     async def get(self, url: str, params: ReqParams = None):
         return await self.req("GET", url, params=params)
@@ -185,6 +196,8 @@ class QueueClient:
         retry_count = 0
         while True:
             ctx = await self._get_ctx()
+            if ctx is None:
+                return None
 
             try:
                 rep = await ctx.clt.request(method, url, params=params)
@@ -194,16 +207,17 @@ class QueueClient:
                 ctx.req_count += 1  # count only successful
                 retry_count = 0
                 return rep
-            except (RateLimitError, BannedError):
-                # already handled
-                continue
             except AbortReqError:
+                # abort all queries
                 return
+            except HandledError:
+                # retry with new account
+                continue
             except (httpx.ReadTimeout, httpx.ProxyError):
-                # http transport failed, just retry
+                # http transport failed, just retry with same account
                 continue
             except Exception as e:
                 retry_count += 1
                 if retry_count >= 3:
-                    logger.warning(f"Unknown error {type(e)}: {e}")
+                    logger.warning(f"Unhandled error {type(e)}: {e}")
                     await self._close_ctx(utc.ts() + 60 * 15)  # 15 minutes

@@ -142,10 +142,14 @@ class AccountsPool:
         finally:
             await self.save(account)
 
-    async def login_all(self, email_first=False):
-        qs = "SELECT * FROM accounts WHERE active = false AND error_msg IS NULL"
-        rs = await fetchall(self._db_file, qs)
+    async def login_all(self, email_first=False, usernames: list[str] | None = None):
+        if usernames is None:
+            qs = "SELECT * FROM accounts WHERE active = false AND error_msg IS NULL"
+        else:
+            us = ",".join([f'"{x}"' for x in usernames])
+            qs = f"SELECT * FROM accounts WHERE username IN ({us})"
 
+        rs = await fetchall(self._db_file, qs)
         accounts = [Account.from_rs(rs) for rs in rs]
         # await asyncio.gather(*[login(x) for x in self.accounts])
 
@@ -176,7 +180,7 @@ class AccountsPool:
         """
 
         await execute(self._db_file, qs)
-        await self.login_all(email_first=email_first)
+        await self.login_all(email_first=email_first, usernames=usernames)
 
     async def relogin_failed(self, email_first=False):
         qs = "SELECT username FROM accounts WHERE active = false AND error_msg IS NOT NULL"
@@ -248,13 +252,17 @@ class AccountsPool:
 
         return Account.from_rs(rs) if rs else None
 
-    async def get_for_queue_or_wait(self, queue: str) -> Account:
+    async def get_for_queue_or_wait(self, queue: str) -> Account | None:
         msg_shown = False
         while True:
             account = await self.get_for_queue(queue)
             if not account:
                 if not msg_shown:
                     nat = await self.next_available_at(queue)
+                    if not nat:
+                        logger.warning("No active accounts. Stopping...")
+                        return None
+
                     msg = f'No account available for queue "{queue}". Next available at {nat}'
                     logger.info(msg)
                     msg_shown = True
@@ -283,9 +291,9 @@ class AccountsPool:
             at_local = datetime.now() + (trg - now)
             return at_local.strftime("%H:%M:%S")
 
-        return "none"
+        return None
 
-    async def mark_banned(self, username: str, error_msg: str):
+    async def mark_inactive(self, username: str, error_msg: str | None):
         qs = """
         UPDATE accounts SET active = false, error_msg = :error_msg
         WHERE username = :username

@@ -20,7 +20,7 @@ classifiers = [
 ]
 dependencies = [
   "aiosqlite>=0.17.0",
-  "fake-useragent>=1.3.0",
+  "fake-useragent>=1.4.0",
   "httpx>=0.24.0",
   "loguru>=0.7.0",
 ]

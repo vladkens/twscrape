@@ -10,7 +10,7 @@ from .utils import int_or
 
 _env = dict(os.environ)
 
-LOGIN_CODE_TIMEOUT = int_or(_env, "LOGIN_CODE_TIMEOUT") or 40
+LOGIN_CODE_TIMEOUT = int_or(_env, "LOGIN_CODE_TIMEOUT") or 30
 
 
 class EmailLoginError(Exception):
