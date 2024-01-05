@@ -121,6 +121,13 @@ class AccountsPool:
         rs = await fetchall(self._db_file, qs)
         return [Account.from_rs(x) for x in rs]
 
+    async def get_account(self, username: str):
+        qs = "SELECT * FROM accounts WHERE username = :username"
+        rs = await fetchone(self._db_file, qs, {"username": username})
+        if not rs:
+            return None
+        return Account.from_rs(rs)
+
     async def save(self, account: Account):
         data = account.to_rs()
         cols = list(data.keys())
