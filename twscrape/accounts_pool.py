@@ -9,7 +9,7 @@ from fake_useragent import UserAgent
 from .account import Account
 from .db import execute, fetchall, fetchone
 from .logger import logger
-from .login import login
+from .login import LoginConfig, login
 from .utils import parse_cookies, utc
 
 
@@ -31,8 +31,9 @@ class AccountsPool:
     # _order_by: str = "RANDOM()"
     _order_by: str = "username"
 
-    def __init__(self, db_file="accounts.db"):
+    def __init__(self, db_file="accounts.db", login_config: LoginConfig | None = None):
         self._db_file = db_file
+        self._login_config = login_config or LoginConfig()
 
     async def load_from_file(self, filepath: str, line_format: str):
         line_delim = guess_delim(line_format)
@@ -138,9 +139,9 @@ class AccountsPool:
         """
         await execute(self._db_file, qs, data)
 
-    async def login(self, account: Account, email_first: bool = False):
+    async def login(self, account: Account):
         try:
-            await login(account, email_first=email_first)
+            await login(account, cfg=self._login_config)
             logger.info(f"Logged in to {account.username} successfully")
             return True
         except Exception as e:
@@ -149,7 +150,7 @@ class AccountsPool:
         finally:
             await self.save(account)
 
-    async def login_all(self, email_first=False, usernames: list[str] | None = None):
+    async def login_all(self, usernames: list[str] | None = None):
         if usernames is None:
             qs = "SELECT * FROM accounts WHERE active = false AND error_msg IS NULL"
         else:
@@ -163,11 +164,11 @@ class AccountsPool:
         counter = {"total": len(accounts), "success": 0, "failed": 0}
         for i, x in enumerate(accounts, start=1):
             logger.info(f"[{i}/{len(accounts)}] Logging in {x.username} - {x.email}")
-            status = await self.login(x, email_first=email_first)
+            status = await self.login(x)
             counter["success" if status else "failed"] += 1
         return counter
 
-    async def relogin(self, usernames: str | list[str], email_first=False):
+    async def relogin(self, usernames: str | list[str]):
         usernames = usernames if isinstance(usernames, list) else [usernames]
         usernames = list(set(usernames))
         if not usernames:
@@ -187,12 +188,12 @@ class AccountsPool:
         """
 
         await execute(self._db_file, qs)
-        await self.login_all(email_first=email_first, usernames=usernames)
+        await self.login_all(usernames)
 
-    async def relogin_failed(self, email_first=False):
+    async def relogin_failed(self):
         qs = "SELECT username FROM accounts WHERE active = false AND error_msg IS NOT NULL"
         rs = await fetchall(self._db_file, qs)
-        await self.relogin([x["username"] for x in rs], email_first=email_first)
+        await self.relogin([x["username"] for x in rs])
 
     async def reset_locks(self):
         qs = "UPDATE accounts SET locks = json_object()"
@@ -277,7 +278,7 @@ class AccountsPool:
                 continue
             else:
                 if msg_shown:
-                    logger.info(f"Account available for queue {queue}")
+                    logger.info(f"Continuing with account {account.username} on queue {queue}")
 
             return account
 

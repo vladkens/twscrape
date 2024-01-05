@@ -12,6 +12,7 @@ import httpx
 from .api import API, AccountsPool
 from .db import get_sqlite_version
 from .logger import logger, set_log_level
+from .login import LoginConfig
 from .models import Tweet, User
 from .utils import print_table
 
@@ -49,7 +50,8 @@ async def main(args):
         print(f"SQLite runtime: {sqlite3.sqlite_version} ({await get_sqlite_version()})")
         return
 
-    pool = AccountsPool(args.db)
+    login_config = LoginConfig(getattr(args, "email_first", False), getattr(args, "manual", False))
+    pool = AccountsPool(args.db, login_config=login_config)
     api = API(pool, debug=args.debug)
 
     if args.command == "accounts":
@@ -81,16 +83,16 @@ async def main(args):
         return
 
     if args.command == "login_accounts":
-        stats = await pool.login_all(email_first=args.email_first)
+        stats = await pool.login_all()
         print(stats)
         return
 
     if args.command == "relogin_failed":
-        await pool.relogin_failed(email_first=args.email_first)
+        await pool.relogin_failed()
         return
 
     if args.command == "relogin":
-        await pool.relogin(args.usernames, email_first=args.email_first)
+        await pool.relogin(args.usernames)
         return
 
     if args.command == "reset_locks":
@@ -171,9 +173,10 @@ def run():
     relogin.add_argument("usernames", nargs="+", default=[], help="Usernames to re-login")
     re_failed = subparsers.add_parser("relogin_failed", help="Retry login for failed accounts")
 
-    check_email = [login_cmd, relogin, re_failed]
-    for cmd in check_email:
+    login_commands = [login_cmd, relogin, re_failed]
+    for cmd in login_commands:
         cmd.add_argument("--email-first", action="store_true", help="Check email first")
+        cmd.add_argument("--manual", action="store_true", help="Enter email code manually")
 
     subparsers.add_parser("reset_locks", help="Reset all locks")
     subparsers.add_parser("delete_inactive", help="Delete inactive accounts")
