@@ -2,9 +2,6 @@
 requires = ["hatchling>=1.9.1"]
 build-backend = "hatchling.build"
 
-[tool.hatch.build.targets.wheel]
-packages = ["twscrape"]
-
 [project]
 name = "twscrape"
 version = "0.9.0"
@@ -30,12 +27,11 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
-  "pylint>=2.17.3",
-  "pytest-asyncio>=0.21.0",
-  "pytest-cov>=4.0.0",
-  "pytest-httpx>=0.22.0",
-  "pytest>=7.4.0",
-  "ruff"
+  "pytest-asyncio>=0.23.3",
+  "pytest-cov>=4.1.0",
+  "pytest-httpx>=0.28.0",
+  "pytest>=7.4.4",
+  "ruff>=0.1.11"
 ]
 
 [project.urls]
@@ -47,30 +43,20 @@ twscrape = "twscrape.cli:run"
 [tool.setuptools]
 packages = ['twscrape']
 
-[tool.pylint]
-max-line-length = 99
-disable = [
-  "C0103", # invalid-name
-  "C0114", # missing-module-docstring
-  "C0115", # missing-class-docstring
-  "C0116", # missing-function-docstring
-  "R0903", # too-few-public-methods
-  "R0913", # too-many-arguments
-  "W0105", # pointless-string-statement
-]
+[tool.hatch.build.targets.wheel]
+packages = ["twscrape"]
+
+[tool.hatch.metadata]
+allow-direct-references = true
 
 [tool.pytest.ini_options]
 pythonpath = ["."]
 asyncio_mode = "auto"
 
-[tool.isort]
-profile = "black"
-
-[tool.black]
-line-length = 99
-
 [tool.ruff]
 line-length = 99
 
-[tool.hatch.metadata]
-allow-direct-references = true
+[tool.ruff.lint]
+ignore = ["E501"]
+
+[tool.ruff.format]

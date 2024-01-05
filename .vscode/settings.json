@@ -1,14 +1,14 @@
 {
-  "files.exclude": {
-    ".ruff_cache": true,
-    ".pytest_cache": true,
-    "*.egg-info": true,
-    "build": true,
-    ".coverage": true,
-  },
   "[python]": {
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": ["source.organizeImports"],
-    "editor.defaultFormatter": "ms-python.black-formatter"
+    "editor.defaultFormatter": "charliermarsh.ruff"
+  },
+  "files.exclude": {
+    ".ruff_cache": true,
+    ".pytest_cache": true,
+    ".coverage": true,
+    "htmlcov": true,
+    "dist": true
   },
 }

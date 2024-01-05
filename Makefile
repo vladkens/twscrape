@@ -7,24 +7,11 @@ install:
 build:
 	@python -m build
 
-ci:
-	@make format
-	@make lint
-	@make test
-
-format:
-	@black .
-
 lint:
-	@ruff check twscrape
-	@ruff check tests
-
-lint-fix:
-	@ruff check --fix twscrape
-	@ruff check --fix tests
-
-pylint:
-	@pylint --errors-only twscrape
+  # https://docs.astral.sh/ruff/settings/#sorting-imports
+	@ruff check --select I --fix .
+	@ruff format .
+	@ruff check .
 
 test:
 	@pytest -s --cov=twscrape tests/

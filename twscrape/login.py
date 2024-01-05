@@ -3,10 +3,11 @@ from datetime import timedelta
 from httpx import AsyncClient, HTTPStatusError, Response
 
 from .account import Account
-from .constants import LOGIN_URL
 from .imap import imap_get_email_code, imap_login
 from .logger import logger
 from .utils import raise_for_status, utc
+
+LOGIN_URL = "https://api.twitter.com/1.1/onboarding/task.json"
 
 
 async def get_guest_token(client: AsyncClient):

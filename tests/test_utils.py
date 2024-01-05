@@ -1,4 +1,5 @@
-# ruff: noqa: E501
+import pytest
+
 from twscrape.utils import parse_cookies
 
 
@@ -17,3 +18,10 @@ def test_cookies_parse():
 
     val = "W3sibmFtZSI6ICJhYmMiLCAidmFsdWUiOiAiMTIzIn0sIHsibmFtZSI6ICJkZWYiLCAidmFsdWUiOiAiNDU2In0sIHsibmFtZSI6ICJnaGkiLCAidmFsdWUiOiAiNzg5In1d"
     assert parse_cookies(val) == {"abc": "123", "def": "456", "ghi": "789"}
+
+    val = '{"cookies": {"abc": "123", "def": "456", "ghi": "789"}}'
+    assert parse_cookies(val) == {"abc": "123", "def": "456", "ghi": "789"}
+
+    with pytest.raises(ValueError, match=r"Invalid cookie value: .+"):
+        val = "{invalid}"
+        assert parse_cookies(val) == {}
