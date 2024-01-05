@@ -196,6 +196,16 @@ Or retry login for all failed logins:
 twscrape relogin_failed
 ```
 
+### Enter email verification code manually
+
+twscrape may not be able to access some emails (if imap is disabled or does not exist at all - eg in protonmail), in such cases you can use `--manual` flag, which allows to enter the verification code manually.
+
+```sh
+twscrape login_accounts --manual
+twscrape relogin user1 user2 --manual
+twscrape relogin_failed --manual
+```
+
 ### Use different accounts file
 
 Useful if using a different set of accounts for different actions
