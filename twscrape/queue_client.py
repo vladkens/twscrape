@@ -2,7 +2,7 @@ import json
 import os
 from typing import Any
 
-import httpx
+from httpx import AsyncClient, HTTPStatusError, ProxyError, ReadTimeout, Response
 
 from .accounts_pool import Account, AccountsPool
 from .logger import logger
@@ -13,7 +13,7 @@ TMP_TS = utc.now().isoformat().split(".")[0].replace("T", "_").replace(":", "-")
 
 
 class Ctx:
-    def __init__(self, acc: Account, clt: httpx.AsyncClient):
+    def __init__(self, acc: Account, clt: AsyncClient):
         self.acc = acc
         self.clt = clt
         self.req_count = 0
@@ -27,7 +27,7 @@ class AbortReqError(Exception):
     pass
 
 
-def req_id(rep: httpx.Response):
+def req_id(rep: Response):
     lr = str(rep.headers.get("x-rate-limit-remaining", -1))
     ll = str(rep.headers.get("x-rate-limit-limit", -1))
     sz = max(len(lr), len(ll))
@@ -37,7 +37,7 @@ def req_id(rep: httpx.Response):
     return f"{lr}/{ll} - {username}"
 
 
-def dump_rep(rep: httpx.Response):
+def dump_rep(rep: Response):
     count = getattr(dump_rep, "__count", -1) + 1
     setattr(dump_rep, "__count", count)
 
@@ -108,7 +108,7 @@ class QueueClient:
         self.ctx = Ctx(acc, clt)
         return self.ctx
 
-    async def _check_rep(self, rep: httpx.Response) -> None:
+    async def _check_rep(self, rep: Response) -> None:
         """
         This function can raise Exception and request will be retried or aborted
         Or if None is returned, response will passed to api parser as is
@@ -186,7 +186,7 @@ class QueueClient:
 
         try:
             rep.raise_for_status()
-        except httpx.HTTPStatusError:
+        except HTTPStatusError:
             logger.error(f"Unhandled API response code: {log_msg}")
             await self._close_ctx(utc.ts() + 60 * 15)  # 15 minutes
             raise HandledError()
@@ -194,10 +194,10 @@ class QueueClient:
     async def get(self, url: str, params: ReqParams = None):
         return await self.req("GET", url, params=params)
 
-    async def req(self, method: str, url: str, params: ReqParams = None) -> httpx.Response | None:
+    async def req(self, method: str, url: str, params: ReqParams = None) -> Response | None:
         retry_count = 0
         while True:
-            ctx = await self._get_ctx()
+            ctx = await self._get_ctx()  # not need to close client, class implements __aexit__
             if ctx is None:
                 return None
 
@@ -215,7 +215,7 @@ class QueueClient:
             except HandledError:
                 # retry with new account
                 continue
-            except (httpx.ReadTimeout, httpx.ProxyError):
+            except (ReadTimeout, ProxyError):
                 # http transport failed, just retry with same account
                 continue
             except Exception as e:

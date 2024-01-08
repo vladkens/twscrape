@@ -217,27 +217,27 @@ async def login(acc: Account, cfg: LoginConfig | None = None) -> Account:
     if cfg.email_first and not cfg.manual:
         imap = await imap_login(acc.email, acc.email_password)
 
-    client = acc.make_client()
-    guest_token = await get_guest_token(client)
-    client.headers["x-guest-token"] = guest_token
+    async with acc.make_client() as client:
+        guest_token = await get_guest_token(client)
+        client.headers["x-guest-token"] = guest_token
 
-    rep = await login_initiate(client)
-    ctx = TaskCtx(client, acc, cfg, None, imap)
-    while True:
-        if not rep:
-            break
+        rep = await login_initiate(client)
+        ctx = TaskCtx(client, acc, cfg, None, imap)
+        while True:
+            if not rep:
+                break
 
-        try:
-            rep = await next_login_task(ctx, rep)
-        except HTTPStatusError as e:
-            if e.response.status_code == 403:
-                logger.error(f"403 error {log_id}")
-                return acc
+            try:
+                rep = await next_login_task(ctx, rep)
+            except HTTPStatusError as e:
+                if e.response.status_code == 403:
+                    logger.error(f"403 error {log_id}")
+                    return acc
 
-    client.headers["x-csrf-token"] = client.cookies["ct0"]
-    client.headers["x-twitter-auth-type"] = "OAuth2Session"
+        client.headers["x-csrf-token"] = client.cookies["ct0"]
+        client.headers["x-twitter-auth-type"] = "OAuth2Session"
 
-    acc.active = True
-    acc.headers = {k: v for k, v in client.headers.items()}
-    acc.cookies = {k: v for k, v in client.cookies.items()}
-    return acc
+        acc.active = True
+        acc.headers = {k: v for k, v in client.headers.items()}
+        acc.cookies = {k: v for k, v in client.cookies.items()}
+        return acc
