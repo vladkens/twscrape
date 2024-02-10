@@ -6,18 +6,18 @@ from .models import Tweet, User, parse_tweet, parse_tweets, parse_user, parse_us
 from .queue_client import QueueClient
 from .utils import encode_params, find_obj, get_by_path
 
-OP_SearchTimeline = "Aj1nGkALq99Xg3XI0OZBtw/SearchTimeline"
-OP_UserByRestId = "CO4_gU4G_MRREoqfiTh6Hg/UserByRestId"
-OP_UserByScreenName = "NimuplG1OB7Fd2btCLdBOw/UserByScreenName"
-OP_TweetDetail = "-H4B_lJDEA-O_7_qWaRiyg/TweetDetail"
-OP_Followers = "3_7xfjmh897x8h_n6QBqTA/Followers"
-OP_Following = "0yD6Eiv23DKXRDU9VxlG2A/Following"
-OP_Retweeters = "sOBhVzDeJl4XGepvi5pHlg/Retweeters"
-OP_Favoriters = "E-ZTxvWWIkmOKwYdNTEefg/Favoriters"
-OP_UserTweets = "V1ze5q3ijDS1VeLwLY0m7g/UserTweets"
-OP_UserTweetsAndReplies = "16nOjYqEdV04vN6-rgg8KA/UserTweetsAndReplies"
-OP_ListLatestTweetsTimeline = "whF0_KH1fCkdLLoyNPMoEw/ListLatestTweetsTimeline"
-OP_Likes = "IohM3gxQHfvWePH5E3KuNA/Likes"
+OP_SearchTimeline = "fZK7JipRHWtiZsTodhsTfQ/SearchTimeline"
+OP_UserByRestId = "tD8zKvQzwY3kdx5yz6YmOw/UserByRestId"
+OP_UserByScreenName = "k5XapwcSikNsEsILW5FvgA/UserByScreenName"
+OP_TweetDetail = "B9_KmbkLhXt6jRwGjJrweg/TweetDetail"
+OP_Followers = "ZG1BQPaRSg04qo55kKaW2g/Followers"
+OP_Following = "PAnE9toEjRfE-4tozRcsfw/Following"
+OP_Retweeters = "X-XEqG5qHQSAwmvy00xfyQ/Retweeters"
+OP_Favoriters = "LLkw5EcVutJL6y-2gkz22A/Favoriters"
+OP_UserTweets = "5ICa5d9-AitXZrIA3H-4MQ/UserTweets"
+OP_UserTweetsAndReplies = "UtLStR_BnYUGD7Q453UXQg/UserTweetsAndReplies"
+OP_ListLatestTweetsTimeline = "HjsWc-nwwHKYwHenbHm-tw/ListLatestTweetsTimeline"
+OP_Likes = "9s8V6sUI8fZLDiN-REkAxA/Likes"
 
 
 GQL_URL = "https://twitter.com/i/api/graphql"
@@ -308,7 +308,8 @@ class API:
                 yield x
 
     # likes
-    async def likes_raw(self, uid: int, limit=-1, kv=None):
+
+    async def liked_tweets_raw(self, uid: int, limit=-1, kv=None):
         op = OP_Likes
         kv = {
             "userId": str(uid),
@@ -321,7 +322,7 @@ class API:
         async for x in self._gql_items(op, kv, limit=limit):
             yield x
 
-    async def likes(self, uid: int, limit=-1, kv=None):
-        async for rep in self.likes_raw(uid, limit=limit, kv=kv):
+    async def liked_tweets(self, uid: int, limit=-1, kv=None):
+        async for rep in self.liked_tweets_raw(uid, limit=limit, kv=kv):
             for x in parse_tweets(rep.json(), limit):
                 yield x

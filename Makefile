@@ -1,7 +1,7 @@
 all:
 	@echo "hi"
 
-install:
+deps:
 	@pip install -e .[dev]
 
 build:
@@ -56,14 +56,16 @@ test-sq-matrix:
 	@make test-sq y=2023 v=3440000
 
 update-mocks:
-	twscrape user_by_id --raw 2244994945 | jq > ./tests/mocked-data/user_by_id_raw.json
-	twscrape user_by_login --raw xdevelopers | jq > ./tests/mocked-data/user_by_login_raw.json
-	twscrape followers --raw --limit 10 2244994945 | jq > ./tests/mocked-data/followers_raw.json
-	twscrape following --raw --limit 10  2244994945 | jq > ./tests/mocked-data/following_raw.json
-	twscrape tweet_details --raw 1649191520250245121 | jq > ./tests/mocked-data/tweet_details_raw.json
-	twscrape retweeters --raw --limit 10 1649191520250245121 | jq > ./tests/mocked-data/retweeters_raw.json
-	twscrape favoriters --raw --limit 10 1649191520250245121 | jq > ./tests/mocked-data/favoriters_raw.json
-	twscrape user_tweets --raw --limit 10 2244994945 | jq > ./tests/mocked-data/user_tweets_raw.json
-	twscrape user_tweets_and_replies --raw --limit 10 2244994945 | jq > ./tests/mocked-data/user_tweets_and_replies_raw.json
-	twscrape search --raw --limit 10 "elon musk lang:en" | jq > ./tests/mocked-data/search_raw.json
-	twscrape list_timeline --raw --limit 10 1494877848087187461 | jq > ./tests/mocked-data/list_timeline_raw.json
+	@rm -rf ./tests/mocked-data/raw_*.json
+	twscrape user_by_id --raw 2244994945 | jq > ./tests/mocked-data/raw_user_by_id.json
+	twscrape user_by_login --raw xdevelopers | jq > ./tests/mocked-data/raw_user_by_login.json
+	twscrape followers --raw --limit 10 2244994945 | jq > ./tests/mocked-data/raw_followers.json
+	twscrape following --raw --limit 10  2244994945 | jq > ./tests/mocked-data/raw_following.json
+	twscrape tweet_details --raw 1649191520250245121 | jq > ./tests/mocked-data/raw_tweet_details.json
+	twscrape retweeters --raw --limit 10 1649191520250245121 | jq > ./tests/mocked-data/raw_retweeters.json
+	twscrape favoriters --raw --limit 10 1649191520250245121 | jq > ./tests/mocked-data/raw_favoriters.json
+	twscrape user_tweets --raw --limit 10 2244994945 | jq > ./tests/mocked-data/raw_user_tweets.json
+	twscrape user_tweets_and_replies --raw --limit 10 2244994945 | jq > ./tests/mocked-data/raw_user_tweets_and_replies.json
+	twscrape search --raw --limit 10 "elon musk lang:en" | jq > ./tests/mocked-data/raw_search.json
+	twscrape list_timeline --raw --limit 10 1494877848087187461 | jq > ./tests/mocked-data/raw_list_timeline.json
+	twscrape likes --raw --limit 10 2244994945 | jq > ./tests/mocked-data/raw_likes.json

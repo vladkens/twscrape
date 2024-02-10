@@ -192,7 +192,7 @@ def run():
     c_lim("user_tweets", "Get user tweets", "user_id", "User ID", int)
     c_lim("user_tweets_and_replies", "Get user tweets and replies", "user_id", "User ID", int)
     c_lim("list_timeline", "Get tweets from list", "list_id", "List ID", int)
-    c_lim("likes", "Get user's liked tweets", "user_id", "User ID", int)
+    c_lim("liked_tweets", "Get user's liked tweets", "user_id", "User ID", int)
 
     args = p.parse_args()
     if args.command is None:

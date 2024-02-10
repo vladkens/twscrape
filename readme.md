@@ -89,6 +89,7 @@ async def main():
     await gather(api.following(user_id, limit=20))  # list[User]
     await gather(api.user_tweets(user_id, limit=20))  # list[Tweet]
     await gather(api.user_tweets_and_replies(user_id, limit=20))  # list[Tweet]
+    await gather(api.liked_tweets(user_id, limit=20))  # list[Tweet]
 
     # list info
     list_id = 123456789
@@ -139,36 +140,60 @@ twscrape
 twscrape search --help
 ```
 
-### Add accounts & login
+### Add accounts
 
-First add accounts from file:
-
+To add accounts use `add_accounts` command. Command syntax is:
 ```sh
-# twscrape add_accounts <file_path> <line_format>
-# line_format should have "username", "password", "email", "email_password" tokens
-# note: tokens delimeter should be same as an file
-twscrape add_accounts ./accounts.txt username:password:email:email_password
+twscrape add_accounts <file_path> <line_format>
 ```
 
-Then call login:
+Where:
+`<line_format>` is format of line if accounts file splited by delimeter. Possible tokens:
+- `username` – required
+- `password` – required
+- `email` – required
+- `email_password` – to receive email code (you can use `--manual` mode to get code)
+- `cookies` – can be any parsable format (string, json, base64 string, etc)
+- `_` – skip column from parse
+
+Tokens should be splited by delimeter, usually "`:`" used.
+
+Example:
+
+I have account files named `order-12345.txt` with format:
+```text
+username:password:email:email password:user_agent:cookies
+```
+
+Command to add accounts will be (user_agent column skiped with `_`):
+```sh
+twscrape add_accounts ./order-12345.txt username:password:email:email_password:_:cookies
+```
+
+### Login accounts
+
+_Note: If you added accounts with cookies, login not required._
+
+Run:
 
 ```sh
 twscrape login_accounts
 ```
 
-Accounts and their sessions will be saved, so they can be reused for future requests
+`twscrape` will start login flow for each new account. If X will ask to verify email and you provided `email_password` in `add_account`, then `twscrape` will try to receive verification map by IMAP protocol. After success login account cookies will be saved to db file for future use.
 
-Note: Possible to use `_` in `line_format` to skip some value
+#### Manual email verefication
 
-### Add accounts with cookies
+In case your email provider not support IMAP protocol (ProtonMail, Tutanota, etc) or IMAP is disabled in settings, you can enter email verification code manually. To do this run login command with `--manual` flag.
 
-Use `cookies` param in `line_format`, e.g.:
+Example:
 
 ```sh
-twscrape add_accounts ./accounts.txt username:password:email:email_password:cookies
+twscrape login_accounts --manual
+twscrape relogin user1 user2 --manual
+twscrape relogin_failed --manual
 ```
 
-In this case login not required.
 
 ### Get list of accounts and their statuses
 
@@ -196,16 +221,6 @@ Or retry login for all failed logins:
 twscrape relogin_failed
 ```
 
-### Enter email verification code manually
-
-twscrape may not be able to access some emails (if imap is disabled or does not exist at all - eg in protonmail), in such cases you can use `--manual` flag, which allows to enter the verification code manually.
-
-```sh
-twscrape login_accounts --manual
-twscrape relogin user1 user2 --manual
-twscrape relogin_failed --manual
-```
-
 ### Use different accounts file
 
 Useful if using a different set of accounts for different actions
@@ -227,6 +242,7 @@ twscrape followers USER_ID --limit=20
 twscrape following USER_ID --limit=20
 twscrape user_tweets USER_ID --limit=20
 twscrape user_tweets_and_replies USER_ID --limit=20
+twscrape liked_tweets USER_ID --limit=20
 ```
 
 The default output is in the console (stdout), one document per line. So it can be redirected to the file.

@@ -7,21 +7,9 @@ from fake_useragent import UserAgent
 
 client = httpx.Client(headers={"user-agent": UserAgent().chrome})
 
-ops = """
-SearchTimeline
-UserByRestId
-UserByScreenName
-TweetDetail
-Followers
-Following
-Retweeters
-Favoriters
-UserTweets
-UserTweetsAndReplies
-ListLatestTweetsTimeline
-"""
-
-ops = [op.strip() for op in ops.split("\n") if op.strip()]
+with open("./twscrape/api.py") as fp:
+    ops = [x.strip() for x in fp.read().split("\n")]
+    ops = [x.split("=")[0].removeprefix("OP_").strip() for x in ops if x.startswith("OP_")]
 
 
 def script_url(k: str, v: str):
