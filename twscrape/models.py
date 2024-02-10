@@ -84,13 +84,19 @@ class TextLink(JSONTrait):
 @dataclass
 class UserRef(JSONTrait):
     id: int
+    id_str: str
     username: str
     displayname: str
     _type: str = "snscrape.modules.twitter.UserRef"
 
     @staticmethod
     def parse(obj: dict):
-        return UserRef(id=int(obj["id_str"]), username=obj["screen_name"], displayname=obj["name"])
+        return UserRef(
+            id=int(obj["id_str"]),
+            id_str=obj["id_str"],
+            username=obj["screen_name"],
+            displayname=obj["name"],
+        )
 
 
 @dataclass
@@ -163,6 +169,7 @@ class Tweet(JSONTrait):
     likeCount: int
     quoteCount: int
     conversationId: int
+    conversationIdStr: str
     hashtags: list[str]
     cashtags: list[str]
     mentionedUsers: list[UserRef]
@@ -173,6 +180,7 @@ class Tweet(JSONTrait):
     place: Optional[Place] = None
     coordinates: Optional[Coordinates] = None
     inReplyToTweetId: int | None = None
+    inReplyToTweetIdStr: str | None = None
     inReplyToUser: UserRef | None = None
     source: str | None = None
     sourceUrl: str | None = None
@@ -217,6 +225,7 @@ class Tweet(JSONTrait):
             likeCount=obj["favorite_count"],
             quoteCount=obj["quote_count"],
             conversationId=int(obj["conversation_id_str"]),
+            conversationIdStr=obj["conversation_id_str"],
             hashtags=[x["text"] for x in get_or(obj, "entities.hashtags", [])],
             cashtags=[x["text"] for x in get_or(obj, "entities.symbols", [])],
             mentionedUsers=[UserRef.parse(x) for x in get_or(obj, "entities.user_mentions", [])],
@@ -229,6 +238,7 @@ class Tweet(JSONTrait):
             place=Place.parse(obj["place"]) if obj.get("place") else None,
             coordinates=Coordinates.parse(obj),
             inReplyToTweetId=int_or(obj, "in_reply_to_status_id_str"),
+            inReplyToTweetIdStr=get_or(obj, "in_reply_to_status_id_str"),
             inReplyToUser=_get_reply_user(obj, res),
             source=obj.get("source", None),
             sourceUrl=_get_source_url(obj),

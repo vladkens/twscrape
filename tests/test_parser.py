@@ -4,7 +4,7 @@ from typing import Callable
 
 from twscrape import API, gather
 from twscrape.logger import set_log_level
-from twscrape.models import Tweet, User, parse_tweet
+from twscrape.models import Tweet, User, UserRef, parse_tweet
 
 BASE_DIR = os.path.dirname(__file__)
 DATA_DIR = os.path.join(BASE_DIR, "mocked-data")
@@ -49,18 +49,33 @@ def mock_rep(fn: Callable, filename: str, as_generator=False):
 
 def check_tweet(doc: Tweet | None):
     assert doc is not None
-    assert doc.id is not None
-    assert doc.id_str is not None
     assert isinstance(doc.id, int)
     assert isinstance(doc.id_str, str)
-    assert doc.id == int(doc.id_str)
+    assert str(doc.id) == doc.id_str
 
     assert doc.url is not None
     assert doc.id_str in doc.url
     assert doc.user is not None
 
+    assert isinstance(doc.conversationId, int)
+    assert isinstance(doc.conversationIdStr, str)
+    assert str(doc.conversationId) == doc.conversationIdStr
+
+    if doc.inReplyToTweetId is not None:
+        assert isinstance(doc.inReplyToTweetId, int)
+        assert isinstance(doc.inReplyToTweetIdStr, str)
+        assert str(doc.inReplyToTweetId) == doc.inReplyToTweetIdStr
+
+    if doc.inReplyToUser:
+        check_user_ref(doc.inReplyToUser)
+
+    if doc.mentionedUsers:
+        for x in doc.mentionedUsers:
+            check_user_ref(x)
+
     obj = doc.dict()
     assert doc.id == obj["id"]
+    assert doc.id_str == obj["id_str"]
     assert doc.user.id == obj["user"]["id"]
 
     assert "url" in obj
@@ -104,10 +119,9 @@ def check_tweet(doc: Tweet | None):
 
 def check_user(doc: User):
     assert doc.id is not None
-    assert doc.id_str is not None
     assert isinstance(doc.id, int)
     assert isinstance(doc.id_str, str)
-    assert doc.id == int(doc.id_str)
+    assert str(doc.id) == doc.id_str
 
     assert doc.username is not None
     assert doc.descriptionLinks is not None
@@ -125,6 +139,19 @@ def check_user(doc: User):
     txt = doc.json()
     assert isinstance(txt, str)
     assert str(doc.id) in txt
+
+
+def check_user_ref(doc: UserRef):
+    assert isinstance(doc.id, int)
+    assert isinstance(doc.id_str, str)
+    assert str(doc.id) == doc.id_str
+
+    assert doc.username is not None
+    assert doc.displayname is not None
+
+    obj = doc.dict()
+    assert doc.id == obj["id"]
+    assert doc.id_str == obj["id_str"]
 
 
 async def test_search():

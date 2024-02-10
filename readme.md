@@ -13,7 +13,7 @@
 Twitter GraphQL API implementation with [SNScrape](https://github.com/JustAnotherArchivist/snscrape) data models.
 
 <div align="center">
-  <img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*0erkeMBhl_qqRofIeU5jMQ.png" alt="example of cli usage" width="560px">
+  <img src=".github/example.png" alt="example of cli usage" width="560px">
 </div>
 
 ## Install
