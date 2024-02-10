@@ -49,7 +49,7 @@ class Account(JSONTrait):
         rs["last_used"] = rs["last_used"].isoformat() if rs["last_used"] else None
         return rs
 
-    def make_client(self, proxy: str | None) -> AsyncClient:
+    def make_client(self, proxy: str | None = None) -> AsyncClient:
         proxies = [proxy, os.getenv("TWS_PROXY"), self.proxy]
         proxies = [x for x in proxies if x is not None]
         proxy = proxies[0] if proxies else None

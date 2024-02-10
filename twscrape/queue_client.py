@@ -2,7 +2,8 @@ import json
 import os
 from typing import Any
 
-from httpx import AsyncClient, HTTPStatusError, ProxyError, ReadTimeout, Response
+import httpx
+from httpx import AsyncClient, Response
 
 from .accounts_pool import Account, AccountsPool
 from .logger import logger
@@ -187,7 +188,7 @@ class QueueClient:
 
         try:
             rep.raise_for_status()
-        except HTTPStatusError:
+        except httpx.HTTPStatusError:
             logger.error(f"Unhandled API response code: {log_msg}")
             await self._close_ctx(utc.ts() + 60 * 15)  # 15 minutes
             raise HandledError()
@@ -196,7 +197,8 @@ class QueueClient:
         return await self.req("GET", url, params=params)
 
     async def req(self, method: str, url: str, params: ReqParams = None) -> Response | None:
-        retry_count = 0
+        unknown_retry, connection_retry = 0, 0
+
         while True:
             ctx = await self._get_ctx()  # not need to close client, class implements __aexit__
             if ctx is None:
@@ -208,7 +210,7 @@ class QueueClient:
                 await self._check_rep(rep)
 
                 ctx.req_count += 1  # count only successful
-                retry_count = 0
+                unknown_retry, connection_retry = 0, 0
                 return rep
             except AbortReqError:
                 # abort all queries
@@ -216,11 +218,22 @@ class QueueClient:
             except HandledError:
                 # retry with new account
                 continue
-            except (ReadTimeout, ProxyError):
+            except (httpx.ReadTimeout, httpx.ProxyError):
                 # http transport failed, just retry with same account
                 continue
+            except httpx.ConnectError as e:
+                # if proxy missconfigured or ???
+                connection_retry += 1
+                if connection_retry >= 3:
+                    raise e
             except Exception as e:
-                retry_count += 1
-                if retry_count >= 3:
-                    logger.warning(f"Unhandled error {type(e)}: {e}")
+                unknown_retry += 1
+                if unknown_retry >= 3:
+                    msg = [
+                        "Unknown error. Account timeouted for 15 minutes.",
+                        "Create issue please: https://github.com/vladkens/twscrape/issues",
+                        f"If it mistake, you can unlock account now with `twscrape reset_locks`. Err: {type(e)}: {e}",
+                    ]
+
+                    logger.warning(" ".join(msg))
                     await self._close_ctx(utc.ts() + 60 * 15)  # 15 minutes
