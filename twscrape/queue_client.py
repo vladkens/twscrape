@@ -221,7 +221,7 @@ class QueueClient:
             except (httpx.ReadTimeout, httpx.ProxyError):
                 # http transport failed, just retry with same account
                 continue
-            except httpx.ConnectError as e:
+            except (httpx.ConnectError, httpx.ConnectTimeout) as e:
                 # if proxy missconfigured or ???
                 connection_retry += 1
                 if connection_retry >= 3:
