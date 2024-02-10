@@ -304,6 +304,8 @@ doc = await api.user_by_login("elonmusk")  # no proxy used
 
 So if you want to use proxy PER ACCOUNT, do NOT override proxy with env variable or by passing proxy param to API.
 
+_Note:_ If proxy not working, exception will be raised from API class.
+
 ## Limitations
 
 After 1 July 2023 Twitter [introduced new limits](https://twitter.com/elonmusk/status/1675187969420828672) and still continue to update it periodically.
