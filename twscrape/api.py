@@ -18,6 +18,8 @@ OP_UserTweets = "5ICa5d9-AitXZrIA3H-4MQ/UserTweets"
 OP_UserTweetsAndReplies = "UtLStR_BnYUGD7Q453UXQg/UserTweetsAndReplies"
 OP_ListLatestTweetsTimeline = "HjsWc-nwwHKYwHenbHm-tw/ListLatestTweetsTimeline"
 OP_Likes = "9s8V6sUI8fZLDiN-REkAxA/Likes"
+OP_BlueVerifiedFollowers = "mg4dFO4kMIKt6tpqPMmFeg/BlueVerifiedFollowers"
+OP_UserCreatorSubscriptions = "3IgWXBdSRADe5MkzziJV0A/UserCreatorSubscriptions"
 
 
 GQL_URL = "https://twitter.com/i/api/graphql"
@@ -235,6 +237,20 @@ class API:
             for x in parse_users(rep.json(), limit):
                 yield x
 
+    # verified_followers
+
+    async def verified_followers_raw(self, uid: int, limit=-1, kv=None):
+        op = OP_BlueVerifiedFollowers
+        kv = {"userId": str(uid), "count": 20, "includePromotedContent": False, **(kv or {})}
+        ft = {"responsive_web_twitter_article_notes_tab_enabled": True}
+        async for x in self._gql_items(op, kv, limit=limit, ft=ft):
+            yield x
+
+    async def verified_followers(self, uid: int, limit=-1, kv=None):
+        async for rep in self.verified_followers_raw(uid, limit=limit, kv=kv):
+            for x in parse_users(rep.json(), limit):
+                yield x
+
     # following
 
     async def following_raw(self, uid: int, limit=-1, kv=None):
@@ -245,6 +261,19 @@ class API:
 
     async def following(self, uid: int, limit=-1, kv=None):
         async for rep in self.following_raw(uid, limit=limit, kv=kv):
+            for x in parse_users(rep.json(), limit):
+                yield x
+
+    # subscriptions
+
+    async def subscriptions_raw(self, uid: int, limit=-1, kv=None):
+        op = OP_UserCreatorSubscriptions
+        kv = {"userId": str(uid), "count": 20, "includePromotedContent": False, **(kv or {})}
+        async for x in self._gql_items(op, kv, limit=limit):
+            yield x
+
+    async def subscriptions(self, uid: int, limit=-1, kv=None):
+        async for rep in self.subscriptions_raw(uid, limit=limit, kv=kv):
             for x in parse_users(rep.json(), limit):
                 yield x
 

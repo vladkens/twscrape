@@ -237,6 +237,29 @@ async def test_followers():
         check_user(doc)
 
 
+async def test_verified_followers():
+    api = API()
+    mock_rep(api.verified_followers_raw, "raw_verified_followers", as_generator=True)
+
+    users = await gather(api.verified_followers(2244994945))
+    assert len(users) > 0
+
+    for doc in users:
+        check_user(doc)
+        assert doc.blue is True, "snould be only Blue users"
+
+
+async def test_subscriptions():
+    api = API()
+    mock_rep(api.subscriptions_raw, "raw_subscriptions", as_generator=True)
+
+    users = await gather(api.subscriptions(44196397))
+    assert len(users) > 0
+
+    for doc in users:
+        check_user(doc)
+
+
 async def test_following():
     api = API()
     mock_rep(api.following_raw, "raw_following", as_generator=True)

@@ -59,8 +59,10 @@ update-mocks:
 	@rm -rf ./tests/mocked-data/raw_*.json
 	twscrape user_by_id --raw 2244994945 | jq > ./tests/mocked-data/raw_user_by_id.json
 	twscrape user_by_login --raw xdevelopers | jq > ./tests/mocked-data/raw_user_by_login.json
-	twscrape followers --raw --limit 10 2244994945 | jq > ./tests/mocked-data/raw_followers.json
 	twscrape following --raw --limit 10  2244994945 | jq > ./tests/mocked-data/raw_following.json
+	twscrape followers --raw --limit 10 2244994945 | jq > ./tests/mocked-data/raw_followers.json
+	twscrape verified_followers --raw --limit 10 2244994945 | jq > ./tests/mocked-data/raw_verified_followers.json
+	twscrape subscriptions --raw --limit 10 44196397 | jq > ./tests/mocked-data/raw_subscriptions.json
 	twscrape tweet_details --raw 1649191520250245121 | jq > ./tests/mocked-data/raw_tweet_details.json
 	twscrape tweet_replies --limit 1 --raw 1649191520250245121 | jq > ./tests/mocked-data/raw_tweet_replies.json
 	twscrape retweeters --raw --limit 10 1649191520250245121 | jq > ./tests/mocked-data/raw_retweeters.json
