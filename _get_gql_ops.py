@@ -5,6 +5,11 @@ import re
 import httpx
 from fake_useragent import UserAgent
 
+"""
+docker run --rm -p "3128:3128/tcp" -p "1080:1080/tcp" -e "PROXY_LOGIN=user" -e "PROXY_PASSWORD=pass" tarampampam/3proxy
+docker run --rm -p "3129:3128/tcp" -p "1081:1080/tcp" tarampampam/3proxy
+"""
+
 client = httpx.Client(headers={"user-agent": UserAgent().chrome})
 
 with open("./twscrape/api.py") as fp:

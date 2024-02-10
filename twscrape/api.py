@@ -52,7 +52,9 @@ class API:
     # Note: kv is variables, ft is features from original GQL request
     pool: AccountsPool
 
-    def __init__(self, pool: AccountsPool | str | None = None, debug=False):
+    def __init__(
+        self, pool: AccountsPool | str | None = None, debug=False, proxy: str | None = None
+    ):
         if isinstance(pool, AccountsPool):
             self.pool = pool
         elif isinstance(pool, str):
@@ -60,6 +62,7 @@ class API:
         else:
             self.pool = AccountsPool()
 
+        self.proxy = proxy
         self.debug = debug
         if self.debug:
             set_log_level("DEBUG")
@@ -89,7 +92,7 @@ class API:
         queue, cur, cnt, active = op.split("/")[-1], None, 0, True
         kv, ft = {**kv}, {**GQL_FEATURES, **(ft or {})}
 
-        async with QueueClient(self.pool, queue, self.debug) as client:
+        async with QueueClient(self.pool, queue, self.debug, proxy=self.proxy) as client:
             while active:
                 params = {"variables": kv, "features": ft}
                 if cur is not None:
@@ -115,7 +118,7 @@ class API:
     async def _gql_item(self, op: str, kv: dict, ft: dict | None = None):
         ft = ft or {}
         queue = op.split("/")[-1]
-        async with QueueClient(self.pool, queue, self.debug) as client:
+        async with QueueClient(self.pool, queue, self.debug, proxy=self.proxy) as client:
             params = {"variables": {**kv}, "features": {**GQL_FEATURES, **ft}}
             return await client.get(f"{GQL_URL}/{op}", params=encode_params(params))
 

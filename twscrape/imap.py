@@ -6,11 +6,9 @@ import time
 from datetime import datetime
 
 from .logger import logger
-from .utils import int_or
 
-_env = dict(os.environ)
-
-LOGIN_CODE_TIMEOUT = int_or(_env, "LOGIN_CODE_TIMEOUT") or 30
+TWS_WAIT_EMAIL_CODE = [os.getenv("TWS_WAIT_EMAIL_CODE"), os.getenv("LOGIN_CODE_TIMEOUT"), 30]
+TWS_WAIT_EMAIL_CODE = [int(x) for x in TWS_WAIT_EMAIL_CODE if x is not None][0]
 
 
 class EmailLoginError(Exception):
@@ -82,8 +80,8 @@ async def imap_get_email_code(
             if code is not None:
                 return code
 
-            if LOGIN_CODE_TIMEOUT < time.time() - start_time:
-                raise EmailCodeTimeoutError(f"Email code timeout ({LOGIN_CODE_TIMEOUT} sec)")
+            if TWS_WAIT_EMAIL_CODE < time.time() - start_time:
+                raise EmailCodeTimeoutError(f"Email code timeout ({TWS_WAIT_EMAIL_CODE} sec)")
 
             await asyncio.sleep(5)
     except Exception as e:

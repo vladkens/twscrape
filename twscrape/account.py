@@ -1,4 +1,5 @@
 import json
+import os
 import sqlite3
 from dataclasses import asdict, dataclass, field
 from datetime import datetime
@@ -48,9 +49,13 @@ class Account(JSONTrait):
         rs["last_used"] = rs["last_used"].isoformat() if rs["last_used"] else None
         return rs
 
-    def make_client(self) -> AsyncClient:
+    def make_client(self, proxy: str | None) -> AsyncClient:
+        proxies = [proxy, os.getenv("TWS_PROXY"), self.proxy]
+        proxies = [x for x in proxies if x is not None]
+        proxy = proxies[0] if proxies else None
+
         transport = AsyncHTTPTransport(retries=2)
-        client = AsyncClient(proxies=self.proxy, follow_redirects=True, transport=transport)
+        client = AsyncClient(proxy=proxy, follow_redirects=True, transport=transport)
 
         # saved from previous usage
         client.cookies.update(self.cookies)

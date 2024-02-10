@@ -61,10 +61,6 @@ async def main():
     cookies = "abc=12; ct0=xyz"  # or '{"abc": "12", "ct0": "xyz"}'
     await api.pool.add_account("user3", "pass3", "u3@mail.com", "mail_pass3", cookies=cookies)
 
-    # add account with PROXY
-    proxy = "http://login:pass@example.com:8080"
-    await api.pool.add_account("user4", "pass4", "u4@mail.com", "mail_pass4", proxy=proxy)
-
     # API USAGE
 
     # search (latest tab)
@@ -88,8 +84,10 @@ async def main():
     # user info
     user_id = 2244994945
     await api.user_by_id(user_id)  # User
-    await gather(api.followers(user_id, limit=20))  # list[User]
     await gather(api.following(user_id, limit=20))  # list[User]
+    await gather(api.followers(user_id, limit=20))  # list[User]
+    await gather(api.verified_followers(user_id, limit=20))  # list[User]
+    await gather(api.subscriptions(user_id, limit=20))  # list[User]
     await gather(api.user_tweets(user_id, limit=20))  # list[Tweet]
     await gather(api.user_tweets_and_replies(user_id, limit=20))  # list[Tweet]
     await gather(api.liked_tweets(user_id, limit=20))  # list[Tweet]
@@ -175,7 +173,7 @@ twscrape add_accounts ./order-12345.txt username:password:email:email_password:_
 
 ### Login accounts
 
-_Note: If you added accounts with cookies, login not required._
+_Note:_ If you added accounts with cookies, login not required.
 
 Run:
 
@@ -183,9 +181,11 @@ Run:
 twscrape login_accounts
 ```
 
-`twscrape` will start login flow for each new account. If X will ask to verify email and you provided `email_password` in `add_account`, then `twscrape` will try to receive verification map by IMAP protocol. After success login account cookies will be saved to db file for future use.
+`twscrape` will start login flow for each new account. If X will ask to verify email and you provided `email_password` in `add_account`, then `twscrape` will try to receive verification code by IMAP protocol. After success login account cookies will be saved to db file for future use.
 
-#### Manual email verefication
+_Note:_ You can increase timeout for verification code with `TWS_WAIT_EMAIL_CODE` environment variable (default: `40`, in seconds).
+
+#### Manual email verification
 
 In case your email provider not support IMAP protocol (ProtonMail, Tutanota, etc) or IMAP is disabled in settings, you can enter email verification code manually. To do this run login command with `--manual` flag.
 
@@ -196,7 +196,6 @@ twscrape login_accounts --manual
 twscrape relogin user1 user2 --manual
 twscrape relogin_failed --manual
 ```
-
 
 ### Get list of accounts and their statuses
 
@@ -242,8 +241,10 @@ twscrape retweeters TWEET_ID --limit=20
 twscrape favoriters TWEET_ID --limit=20
 twscrape user_by_id USER_ID
 twscrape user_by_login USERNAME
-twscrape followers USER_ID --limit=20
 twscrape following USER_ID --limit=20
+twscrape followers USER_ID --limit=20
+twscrape verified_followers USER_ID --limit=20
+twscrape subscriptions USER_ID --limit=20
 twscrape user_tweets USER_ID --limit=20
 twscrape user_tweets_and_replies USER_ID --limit=20
 twscrape liked_tweets USER_ID --limit=20
@@ -261,9 +262,47 @@ By default, parsed data is returned. The original tweet responses can be retriev
 twscrape search "elon mask lang:es" --limit=20 --raw
 ```
 
-### Environment variables
+## Proxy
 
-`LOGIN_CODE_TIMEOUT` - how long to wait for email code confirmation in seconds (default `40`)
+There are few options to use proxies.
+
+1. You can add proxy per account
+
+```py
+proxy = "http://login:pass@example.com:8080"
+await api.pool.add_account("user4", "pass4", "u4@mail.com", "mail_pass4", proxy=proxy)
+```
+
+2. You can use global proxy for all accounts
+
+```py
+proxy = "http://login:pass@example.com:8080"
+api = API(proxy=proxy)
+doc = await api.user_by_login("elonmusk")
+```
+
+3. Use can set proxy with environemt variable `TWS_RPOXY`:
+
+```sh
+TWS_PROXY=socks5://user:pass@127.0.0.1:1080 twscrape user_by_login elonmusk
+```
+
+4. You can change proxy any time like:
+
+```py
+api.proxy = "socks5://user:pass@127.0.0.1:1080"
+doc = await api.user_by_login("elonmusk")  # new proxy will be used
+api.proxy = None
+doc = await api.user_by_login("elonmusk")  # no proxy used
+```
+
+5. Proxy priorities
+
+- `api.proxy` have top priority
+- `env.proxy` will be used if `api.proxy` is None
+- `acc.proxy` have lowest priotity
+
+So if you want to use proxy PER ACCOUNT, do NOT override proxy with env variable or by passing proxy param to API.
 
 ## Limitations
 

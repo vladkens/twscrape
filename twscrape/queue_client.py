@@ -65,11 +65,12 @@ def dump_rep(rep: Response):
 
 
 class QueueClient:
-    def __init__(self, pool: AccountsPool, queue: str, debug=False):
+    def __init__(self, pool: AccountsPool, queue: str, debug=False, proxy: str | None = None):
         self.pool = pool
         self.queue = queue
         self.debug = debug
         self.ctx: Ctx | None = None
+        self.proxy = proxy
 
     async def __aenter__(self):
         await self._get_ctx()
@@ -104,7 +105,7 @@ class QueueClient:
         if acc is None:
             return None
 
-        clt = acc.make_client()
+        clt = acc.make_client(proxy=self.proxy)
         self.ctx = Ctx(acc, clt)
         return self.ctx
 
