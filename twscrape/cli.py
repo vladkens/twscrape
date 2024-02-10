@@ -183,6 +183,7 @@ def run():
 
     c_lim("search", "Search for tweets", "query", "Search query")
     c_one("tweet_details", "Get tweet details", "tweet_id", "Tweet ID", int)
+    c_lim("tweet_replies", "Get replies  of a tweet", "tweet_id", "Tweet ID", int)
     c_lim("retweeters", "Get retweeters of a tweet", "tweet_id", "Tweet ID", int)
     c_lim("favoriters", "Get favoriters of a tweet", "tweet_id", "Tweet ID", int)
     c_one("user_by_id", "Get user data by ID", "user_id", "User ID", int)

@@ -10,12 +10,16 @@ class MockedError(Exception):
 
 
 GQL_GEN = [
-    "followers",
-    "following",
+    "search",
+    "tweet_replies",
     "retweeters",
     "favoriters",
+    "followers",
+    "following",
     "user_tweets",
     "user_tweets_and_replies",
+    "list_timeline",
+    "liked_tweets",
 ]
 
 

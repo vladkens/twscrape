@@ -1,4 +1,5 @@
-name: 'Close stale issues and PRs'
+name: close stale issues
+
 on:
   workflow_dispatch:
   schedule:

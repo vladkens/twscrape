@@ -74,14 +74,16 @@ class API:
 
         return rep if is_res else None, new_total, is_cur and not is_lim
 
-    def _get_cursor(self, obj: dict):
-        if cur := find_obj(obj, lambda x: x.get("cursorType") == "Bottom"):
+    def _get_cursor(self, obj: dict, cursor_type="Bottom"):
+        if cur := find_obj(obj, lambda x: x.get("cursorType") == cursor_type):
             return cur.get("value")
         return None
 
     # gql helpers
 
-    async def _gql_items(self, op: str, kv: dict, ft: dict | None = None, limit=-1):
+    async def _gql_items(
+        self, op: str, kv: dict, ft: dict | None = None, limit=-1, cursor_type="Bottom"
+    ):
         queue, cur, cnt, active = op.split("/")[-1], None, 0, True
         kv, ft = {**kv}, {**GQL_FEATURES, **(ft or {})}
 
@@ -100,7 +102,7 @@ class API:
                 obj = rep.json()
                 els = get_by_path(obj, "entries") or []
                 els = [x for x in els if not x["entryId"].startswith("cursor-")]
-                cur = self._get_cursor(obj)
+                cur = self._get_cursor(obj, cursor_type)
 
                 rep, cnt, active = self._is_end(rep, queue, els, cur, cnt, limit)
                 if rep is None:
@@ -178,19 +180,13 @@ class API:
         op = OP_TweetDetail
         kv = {
             "focalTweetId": str(twid),
-            "referrer": "tweet",  # tweet, profile
-            "with_rux_injections": False,
+            "with_rux_injections": True,
             "includePromotedContent": True,
             "withCommunity": True,
             "withQuickPromoteEligibilityTweetFields": True,
             "withBirdwatchNotes": True,
             "withVoice": True,
             "withV2Timeline": True,
-            "withDownvotePerspective": False,
-            "withReactionsMetadata": False,
-            "withReactionsPerspective": False,
-            "withSuperFollowsTweetFields": False,
-            "withSuperFollowsUserFields": False,
             **(kv or {}),
         }
         return await self._gql_item(op, kv)
@@ -198,6 +194,32 @@ class API:
     async def tweet_details(self, twid: int, kv=None) -> Tweet | None:
         rep = await self.tweet_details_raw(twid, kv=kv)
         return parse_tweet(rep, twid) if rep else None
+
+    # tweet_replies
+    # note: uses same op as tweet_details, see: https://github.com/vladkens/twscrape/issues/104
+
+    async def tweet_replies_raw(self, twid: int, limit=-1, kv=None):
+        op = OP_TweetDetail
+        kv = {
+            "focalTweetId": str(twid),
+            "referrer": "tweet",
+            "with_rux_injections": True,
+            "includePromotedContent": True,
+            "withCommunity": True,
+            "withQuickPromoteEligibilityTweetFields": True,
+            "withBirdwatchNotes": True,
+            "withVoice": True,
+            "withV2Timeline": True,
+            **(kv or {}),
+        }
+        async for x in self._gql_items(op, kv, limit=limit, cursor_type="ShowMoreThreads"):
+            yield x
+
+    async def tweet_replies(self, twid: int, limit=-1, kv=None):
+        async for rep in self.tweet_replies_raw(twid, limit=limit, kv=kv):
+            for x in parse_tweets(rep.json(), limit):
+                if x.inReplyToTweetId == twid:
+                    yield x
 
     # followers
 

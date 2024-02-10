@@ -78,6 +78,9 @@ async def main():
     await gather(api.retweeters(tweet_id, limit=20))  # list[User]
     await gather(api.favoriters(tweet_id, limit=20))  # list[User]
 
+    # Note: this method have small pagination from X side, like 5 tweets per query
+    await gather(api.tweet_replies(tweet_id, limit=20))  # list[Tweet]
+
     # get user by login
     user_login = "xdevelopers"
     await api.user_by_login(user_login)  # User
@@ -234,6 +237,7 @@ twscrape --db test-accounts.db <command>
 ```sh
 twscrape search "QUERY" --limit=20
 twscrape tweet_details TWEET_ID
+twscrape tweet_replies TWEET_ID --limit=20
 twscrape retweeters TWEET_ID --limit=20
 twscrape favoriters TWEET_ID --limit=20
 twscrape user_by_id USER_ID

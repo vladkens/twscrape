@@ -213,6 +213,19 @@ async def test_tweet_details():
     assert doc.user is not None, "tweet.user should not be None"
 
 
+async def test_tweet_replies():
+    api = API()
+    mock_rep(api.tweet_replies_raw, "raw_tweet_replies", as_generator=True)
+
+    twid = 1649191520250245121
+    tweets = await gather(api.tweet_replies(twid, limit=20))
+    assert len(tweets) > 0
+
+    for doc in tweets:
+        check_tweet(doc)
+        assert doc.inReplyToTweetId == twid
+
+
 async def test_followers():
     api = API()
     mock_rep(api.followers_raw, "raw_followers", as_generator=True)
