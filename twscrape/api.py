@@ -17,6 +17,7 @@ OP_Favoriters = "E-ZTxvWWIkmOKwYdNTEefg/Favoriters"
 OP_UserTweets = "V1ze5q3ijDS1VeLwLY0m7g/UserTweets"
 OP_UserTweetsAndReplies = "16nOjYqEdV04vN6-rgg8KA/UserTweetsAndReplies"
 OP_ListLatestTweetsTimeline = "whF0_KH1fCkdLLoyNPMoEw/ListLatestTweetsTimeline"
+OP_Likes = "IohM3gxQHfvWePH5E3KuNA/Likes"
 
 
 GQL_URL = "https://twitter.com/i/api/graphql"
@@ -304,4 +305,23 @@ class API:
     async def list_timeline(self, list_id: int, limit=-1, kv=None):
         async for rep in self.list_timeline_raw(list_id, limit=limit, kv=kv):
             for x in parse_tweets(rep, limit):
+                yield x
+
+    # likes
+    async def likes_raw(self, uid: int, limit=-1, kv=None):
+        op = OP_Likes
+        kv = {
+            "userId": str(uid),
+            "count": 40,
+            "includePromotedContent": True,
+            "withVoice": True,
+            "withV2Timeline": True,
+            **(kv or {}),
+        }
+        async for x in self._gql_items(op, kv, limit=limit):
+            yield x
+
+    async def likes(self, uid: int, limit=-1, kv=None):
+        async for rep in self.likes_raw(uid, limit=limit, kv=kv):
+            for x in parse_tweets(rep.json(), limit):
                 yield x
