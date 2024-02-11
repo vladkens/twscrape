@@ -1,5 +1,9 @@
 name: close stale issues
 
+permissions:
+  issues: write
+  pull-requests: write
+
 on:
   workflow_dispatch:
   schedule:
