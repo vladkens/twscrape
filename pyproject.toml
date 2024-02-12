@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "twscrape"
-version = "0.11.0"
+version = "0.11.1"
 authors = [{name = "vladkens", email = "v.pronsky@gmail.com"}]
 description = "Twitter GraphQL and Search API implementation with SNScrape data models"
 readme = "readme.md"
@@ -21,7 +21,7 @@ classifiers = [
 dependencies = [
   "aiosqlite>=0.17.0",
   "fake-useragent>=1.4.0",
-  "httpx>=0.24.0",
+  "httpx>=0.26.0",
   "loguru>=0.7.0",
 ]
 
