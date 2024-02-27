@@ -20,6 +20,7 @@ OP_ListLatestTweetsTimeline = "HjsWc-nwwHKYwHenbHm-tw/ListLatestTweetsTimeline"
 OP_Likes = "9s8V6sUI8fZLDiN-REkAxA/Likes"
 OP_BlueVerifiedFollowers = "mg4dFO4kMIKt6tpqPMmFeg/BlueVerifiedFollowers"
 OP_UserCreatorSubscriptions = "3IgWXBdSRADe5MkzziJV0A/UserCreatorSubscriptions"
+OP_UserMedia = "C86A9b0nwmJW2lNz_-Ej4w/UserMedia"
 
 
 GQL_URL = "https://twitter.com/i/api/graphql"
@@ -47,6 +48,28 @@ GQL_FEATURES = {  # search values here (view source) https://twitter.com/
     "rweb_video_timestamps_enabled": True,
 }
 
+GQL_FEATURES_MEDIA = {
+    "responsive_web_graphql_exclude_directive_enabled":True,
+    "verified_phone_label_enabled":False,
+    "creator_subscriptions_tweet_preview_api_enabled":True,
+    "responsive_web_graphql_timeline_navigation_enabled":True,
+    "responsive_web_graphql_skip_user_profile_image_extensions_enabled":False,
+    "c9s_tweet_anatomy_moderator_badge_enabled":True,
+    "tweetypie_unmention_optimization_enabled":True,
+    "responsive_web_edit_tweet_api_enabled":True,
+    "graphql_is_translatable_rweb_tweet_is_translatable_enabled":True,
+    "view_counts_everywhere_api_enabled":True,
+    "longform_notetweets_consumption_enabled":True,
+    "responsive_web_twitter_article_tweet_consumption_enabled":True,
+    "tweet_awards_web_tipping_enabled":False,
+    "freedom_of_speech_not_reach_fetch_enabled":True,
+    "standardized_nudges_misinfo":True,
+    "tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":True,
+    "rweb_video_timestamps_enabled":True,
+    "longform_notetweets_rich_text_read_enabled":True,
+    "longform_notetweets_inline_media_enabled":True,
+    "responsive_web_enhance_cards_enabled":False
+}
 
 class API:
     # Note: kv is variables, ft is features from original GQL request
@@ -90,7 +113,10 @@ class API:
         self, op: str, kv: dict, ft: dict | None = None, limit=-1, cursor_type="Bottom"
     ):
         queue, cur, cnt, active = op.split("/")[-1], None, 0, True
-        kv, ft = {**kv}, {**GQL_FEATURES, **(ft or {})}
+        if queue == "UserMedia":
+            kv, ft = {**kv}, {**GQL_FEATURES_MEDIA, **(ft or {})}
+        else:
+            kv, ft = {**kv}, {**GQL_FEATURES, **(ft or {})}
 
         async with QueueClient(self.pool, queue, self.debug, proxy=self.proxy) as client:
             while active:
@@ -106,6 +132,13 @@ class API:
 
                 obj = rep.json()
                 els = get_by_path(obj, "entries") or []
+
+                if queue == "UserMedia" and els:
+                    try:
+                        els = els[0]["content"]["items"]
+                    except:
+                        els = get_by_path(obj, "moduleItems") or []
+                
                 els = [x for x in els if not x["entryId"].startswith("cursor-")]
                 cur = self._get_cursor(obj, cursor_type)
 
@@ -324,6 +357,28 @@ class API:
 
     async def user_tweets(self, uid: int, limit=-1, kv=None):
         async for rep in self.user_tweets_raw(uid, limit=limit, kv=kv):
+            for x in parse_tweets(rep.json(), limit):
+                yield x
+                
+    #user_media
+    
+    async def user_media_raw(self, uid: int, limit=-1, kv=None):
+        op = OP_UserMedia
+        kv = {
+            "userId": str(uid),
+            "count": 40,
+            "includePromotedContent": False,
+            "withClientEventToken":False,
+            "withBirdwatchNotes":False,
+            "withVoice": True,
+            "withV2Timeline": True,
+            **(kv or {}),
+        }
+        async for x in self._gql_items(op, kv, limit=limit):
+            yield x
+
+    async def user_media(self, uid: int, limit=-1, kv=None):
+        async for rep in self.user_media_raw(uid, limit=limit, kv=kv):
             for x in parse_tweets(rep.json(), limit):
                 yield x
 
