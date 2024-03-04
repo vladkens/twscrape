@@ -2,6 +2,7 @@ import imaplib
 from dataclasses import dataclass
 from datetime import timedelta
 from typing import Any
+import pyotp
 
 from httpx import AsyncClient, HTTPStatusError, Response
 
@@ -103,6 +104,23 @@ async def login_enter_password(ctx: TaskCtx) -> Response:
     return rep
 
 
+async def login_two_factor_auth_challenge(ctx: TaskCtx) -> Response:
+    totp = pyotp.TOTP(ctx.acc.mfa_code)
+    payload = {
+        "flow_token": ctx.prev["flow_token"],
+        "subtask_inputs": [
+            {
+                "subtask_id": "LoginTwoFactorAuthChallenge",
+                "enter_text": {"text": totp.now(), "link": "next_link"},
+            }
+        ],
+    }
+
+    rep = await ctx.client.post(LOGIN_URL, json=payload)
+    raise_for_status(rep, "login_two_factor_auth_challenge")
+    return rep
+
+
 async def login_duplication_check(ctx: TaskCtx) -> Response:
     payload = {
         "flow_token": ctx.prev["flow_token"],
@@ -196,6 +214,8 @@ async def next_login_task(ctx: TaskCtx, rep: Response):
                 return await login_duplication_check(ctx)
             if task_id == "LoginEnterPassword":
                 return await login_enter_password(ctx)
+            if task_id == "LoginTwoFactorAuthChallenge":
+                return await login_two_factor_auth_challenge(ctx)
             if task_id == "LoginEnterUserIdentifierSSO":
                 return await login_enter_username(ctx)
             if task_id == "LoginJsInstrumentationSubtask":

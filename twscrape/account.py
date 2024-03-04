@@ -24,6 +24,7 @@ class Account(JSONTrait):
     stats: dict[str, int] = field(default_factory=dict)  # queue: requests
     headers: dict[str, str] = field(default_factory=dict)
     cookies: dict[str, str] = field(default_factory=dict)
+    mfa_code: str | None = None
     proxy: str | None = None
     error_msg: str | None = None
     last_used: datetime | None = None
