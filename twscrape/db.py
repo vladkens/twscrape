@@ -81,10 +81,14 @@ async def migrate(db: aiosqlite.Connection):
     async def v3():
         await db.execute("ALTER TABLE accounts ADD COLUMN _tx TEXT DEFAULT NULL")
 
+    async def v4():
+        await db.execute("ALTER TABLE accounts ADD COLUMN mfa_code TEXT DEFAULT NULL")
+
     migrations = {
         1: v1,
         2: v2,
         3: v3,
+        4: v4,
     }
 
     # logger.debug(f"Current migration v{uv} (latest v{len(migrations)})")
