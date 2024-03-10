@@ -201,6 +201,7 @@ async def next_login_task(ctx: TaskCtx, rep: Response):
     assert "flow_token" in ctx.prev, f"flow_token not in {rep.text}"
 
     for x in ctx.prev["subtasks"]:
+        print('login task', x)
         task_id = x["subtask_id"]
 
         try:
