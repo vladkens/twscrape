@@ -186,7 +186,7 @@ class API:
         kv = {
             "focalTweetId": str(twid),
             "with_rux_injections": True,
-            "includePromotedContent": True,
+            "includePromotedContent": False,
             "withCommunity": True,
             "withQuickPromoteEligibilityTweetFields": True,
             "withBirdwatchNotes": True,
@@ -209,7 +209,7 @@ class API:
             "focalTweetId": str(twid),
             "referrer": "tweet",
             "with_rux_injections": True,
-            "includePromotedContent": True,
+            "includePromotedContent": False,
             "withCommunity": True,
             "withQuickPromoteEligibilityTweetFields": True,
             "withBirdwatchNotes": True,
@@ -284,7 +284,7 @@ class API:
 
     async def retweeters_raw(self, twid: int, limit=-1, kv=None):
         op = OP_Retweeters
-        kv = {"tweetId": str(twid), "count": 20, "includePromotedContent": True, **(kv or {})}
+        kv = {"tweetId": str(twid), "count": 20, "includePromotedContent": False, **(kv or {})}
         async for x in self._gql_items(op, kv, limit=limit):
             yield x
 
@@ -297,7 +297,7 @@ class API:
 
     async def favoriters_raw(self, twid: int, limit=-1, kv=None):
         op = OP_Favoriters
-        kv = {"tweetId": str(twid), "count": 20, "includePromotedContent": True, **(kv or {})}
+        kv = {"tweetId": str(twid), "count": 20, "includePromotedContent": False, **(kv or {})}
         async for x in self._gql_items(op, kv, limit=limit):
             yield x
 
@@ -313,7 +313,7 @@ class API:
         kv = {
             "userId": str(uid),
             "count": 40,
-            "includePromotedContent": True,
+            "includePromotedContent": False,
             "withQuickPromoteEligibilityTweetFields": True,
             "withVoice": True,
             "withV2Timeline": True,
@@ -334,7 +334,7 @@ class API:
         kv = {
             "userId": str(uid),
             "count": 40,
-            "includePromotedContent": True,
+            "includePromotedContent": False,
             "withCommunity": True,
             "withVoice": True,
             "withV2Timeline": True,
@@ -368,7 +368,7 @@ class API:
         kv = {
             "userId": str(uid),
             "count": 40,
-            "includePromotedContent": True,
+            "includePromotedContent": False,
             "withVoice": True,
             "withV2Timeline": True,
             **(kv or {}),
