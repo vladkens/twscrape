@@ -215,7 +215,7 @@ class QueueClient:
             except AbortReqError:
                 # abort all queries
                 return
-            except (HandledError, httpx.ConnectTimeout):
+            except (HandledError):
                 # retry with new account
                 continue
             except (httpx.ReadTimeout, httpx.ProxyError):
@@ -224,7 +224,7 @@ class QueueClient:
             except (httpx.ConnectError, httpx.ConnectTimeout) as e:
                 # if proxy missconfigured or ???
                 connection_retry += 1
-                if connection_retry >= 3:
+                if connection_retry >= 10:
                     raise e
             except Exception as e:
                 unknown_retry += 1
