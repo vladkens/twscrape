@@ -224,7 +224,7 @@ class QueueClient:
             except (httpx.ConnectError, httpx.ConnectTimeout) as e:
                 # if proxy missconfigured or ???
                 connection_retry += 1
-                if connection_retry >= 10:
+                if connection_retry >= 3:
                     raise e
             except Exception as e:
                 unknown_retry += 1
