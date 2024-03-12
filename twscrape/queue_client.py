@@ -215,7 +215,7 @@ class QueueClient:
             except AbortReqError:
                 # abort all queries
                 return
-            except HandledError:
+            except (HandledError, httpx.ConnectTimeout):
                 # retry with new account
                 continue
             except (httpx.ReadTimeout, httpx.ProxyError):
