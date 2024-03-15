@@ -1,6 +1,7 @@
 import asyncio
 import sqlite3
 import uuid
+import traceback
 from datetime import datetime, timezone
 from typing import TypedDict
 
