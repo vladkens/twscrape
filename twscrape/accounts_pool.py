@@ -148,6 +148,7 @@ class AccountsPool:
             return True
         except Exception as e:
             logger.error(f"Failed to login to {account.username}: {e}")
+            print(traceback.format_exc())
             return False
         finally:
             await self.save(account)
