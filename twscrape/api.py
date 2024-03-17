@@ -324,8 +324,8 @@ class API:
 
     async def user_tweets(self, uid: int, limit=-1, kv=None):
         async for rep in self.user_tweets_raw(uid, limit=limit, kv=kv):
-            for x in parse_tweets(rep.json(), limit):
-                yield x
+            async for tweet in self.read_tweet_timeline(res):
+                yield tweet
 
     # user_tweets_and_replies
 
@@ -345,8 +345,25 @@ class API:
 
     async def user_tweets_and_replies(self, uid: int, limit=-1, kv=None):
         async for rep in self.user_tweets_and_replies_raw(uid, limit=limit, kv=kv):
-            for x in parse_tweets(rep.json(), limit):
-                yield x
+            async for tweet in self.read_tweet_timeline(res):
+                yield tweet
+
+    async def read_tweet_timeline(self, res: httpx.Response):
+        json = res.json()
+        old_rep = to_old_rep(res.json())
+        for instruction in json["data"]["user"]["result"]["timeline_v2"]["timeline"][
+            "instructions"
+        ]:
+            if instruction["type"] != "TimelineAddEntries":
+                continue
+            for entry in instruction["entries"]:
+                if entry["content"]["__typename"] != "TimelineTimelineItem":
+                    continue
+                if entry["entryId"].startswith("promoted-tweet-"):
+                    continue
+                old = to_old_obj(entry["content"]["itemContent"]["tweet_results"]["result"])
+                tweet = Tweet.parse(old, old_rep)
+                yield tweet
 
     # list timeline
 
@@ -378,5 +395,5 @@ class API:
 
     async def liked_tweets(self, uid: int, limit=-1, kv=None):
         async for rep in self.liked_tweets_raw(uid, limit=limit, kv=kv):
-            for x in parse_tweets(rep.json(), limit):
-                yield x
+            async for tweet in self.read_tweet_timeline(res):
+                yield tweet
