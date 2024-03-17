@@ -324,7 +324,7 @@ class API:
 
     async def user_tweets(self, uid: int, limit=-1, kv=None):
         async for rep in self.user_tweets_raw(uid, limit=limit, kv=kv):
-            async for tweet in self.read_tweet_timeline(res):
+            async for tweet in self.read_tweet_timeline(rep):
                 yield tweet
 
     # user_tweets_and_replies
@@ -345,7 +345,7 @@ class API:
 
     async def user_tweets_and_replies(self, uid: int, limit=-1, kv=None):
         async for rep in self.user_tweets_and_replies_raw(uid, limit=limit, kv=kv):
-            async for tweet in self.read_tweet_timeline(res):
+            async for tweet in self.read_tweet_timeline(rep):
                 yield tweet
 
     async def read_tweet_timeline(self, res: Response):
@@ -395,5 +395,5 @@ class API:
 
     async def liked_tweets(self, uid: int, limit=-1, kv=None):
         async for rep in self.liked_tweets_raw(uid, limit=limit, kv=kv):
-            async for tweet in self.read_tweet_timeline(res):
+            async for tweet in self.read_tweet_timeline(rep):
                 yield tweet
