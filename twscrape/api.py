@@ -348,7 +348,7 @@ class API:
             async for tweet in self.read_tweet_timeline(res):
                 yield tweet
 
-    async def read_tweet_timeline(self, res: httpx.Response):
+    async def read_tweet_timeline(self, res: Response):
         json = res.json()
         old_rep = to_old_rep(res.json())
         for instruction in json["data"]["user"]["result"]["timeline_v2"]["timeline"][
