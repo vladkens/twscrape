@@ -136,13 +136,20 @@ def get_typed_object(obj: dict, res: defaultdict[str, list]):
 
 
 def to_old_obj(obj: dict):
-    return {
-        **obj,
-        **obj["legacy"],
-        "id_str": str(obj["rest_id"]),
-        "id": int(obj["rest_id"]),
-        "legacy": None,
-    }
+    try:
+        if "__typename" in obj and obj["__typename"] == "TweetWithVisibilityResults":
+            return to_old_obj(obj["tweet"])
+        return {
+            **obj,
+            **obj["legacy"],
+            "id_str": str(obj["rest_id"]),
+            "id": int(obj["rest_id"]),
+            "legacy": None,
+        }
+    except Exception as e:
+        logger.warning(e)
+        logger.warning('While decoding '+json.dumps(obj))
+        raise e
 
 
 def to_old_rep(obj: dict) -> dict[str, dict]:
