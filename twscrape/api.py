@@ -14,7 +14,7 @@ OP_Followers = "ZG1BQPaRSg04qo55kKaW2g/Followers"
 OP_Following = "PAnE9toEjRfE-4tozRcsfw/Following"
 OP_Retweeters = "X-XEqG5qHQSAwmvy00xfyQ/Retweeters"
 OP_Favoriters = "LLkw5EcVutJL6y-2gkz22A/Favoriters"
-OP_UserTweets = "5ICa5d9-AitXZrIA3H-4MQ/UserTweets"
+OP_UserTweets = "eS7LO5Jy3xgmd3dbL044EA/UserTweets"
 OP_UserTweetsAndReplies = "UtLStR_BnYUGD7Q453UXQg/UserTweetsAndReplies"
 OP_ListLatestTweetsTimeline = "HjsWc-nwwHKYwHenbHm-tw/ListLatestTweetsTimeline"
 OP_Likes = "9s8V6sUI8fZLDiN-REkAxA/Likes"
@@ -24,27 +24,26 @@ OP_UserCreatorSubscriptions = "3IgWXBdSRADe5MkzziJV0A/UserCreatorSubscriptions"
 
 GQL_URL = "https://twitter.com/i/api/graphql"
 GQL_FEATURES = {  # search values here (view source) https://twitter.com/
+    "c9s_tweet_anatomy_moderator_badge_enabled": True,
+    "creator_subscriptions_tweet_preview_api_enabled": True,
+    "freedom_of_speech_not_reach_fetch_enabled": True,
+    "graphql_is_translatable_rweb_tweet_is_translatable_enabled": True,
+    "longform_notetweets_consumption_enabled": True,
+    "longform_notetweets_inline_media_enabled": True,
+    "longform_notetweets_rich_text_read_enabled": True,
+    "responsive_web_edit_tweet_api_enabled": True,
+    "responsive_web_enhance_cards_enabled": False,
     "responsive_web_graphql_exclude_directive_enabled": True,
-    "verified_phone_label_enabled": False,
     "responsive_web_graphql_skip_user_profile_image_extensions_enabled": False,
     "responsive_web_graphql_timeline_navigation_enabled": True,
-    "tweetypie_unmention_optimization_enabled": True,
-    "responsive_web_edit_tweet_api_enabled": True,
-    "graphql_is_translatable_rweb_tweet_is_translatable_enabled": True,
-    "view_counts_everywhere_api_enabled": True,
-    "longform_notetweets_consumption_enabled": True,
-    "tweet_awards_web_tipping_enabled": False,
-    "freedom_of_speech_not_reach_fetch_enabled": True,
-    "standardized_nudges_misinfo": True,
-    "tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled": True,
-    "longform_notetweets_rich_text_read_enabled": True,
-    "responsive_web_enhance_cards_enabled": False,
-    "creator_subscriptions_tweet_preview_api_enabled": True,
-    "longform_notetweets_inline_media_enabled": True,
-    "responsive_web_media_download_video_enabled": False,
-    "responsive_web_twitter_article_tweet_consumption_enabled": False,
-    "c9s_tweet_anatomy_moderator_badge_enabled": True,
+    "responsive_web_twitter_article_tweet_consumption_enabled": True,
     "rweb_video_timestamps_enabled": True,
+    "standardized_nudges_misinfo": True,
+    "tweet_awards_web_tipping_enabled": False,
+    "tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled": True,
+    "tweetypie_unmention_optimization_enabled": True,
+    "verified_phone_label_enabled": False,
+    "view_counts_everywhere_api_enabled": True,
 }
 
 
@@ -312,7 +311,7 @@ class API:
         op = OP_UserTweets
         kv = {
             "userId": str(uid),
-            "count": 40,
+            "count": 20,
             "includePromotedContent": False,
             "withQuickPromoteEligibilityTweetFields": True,
             "withVoice": True,
