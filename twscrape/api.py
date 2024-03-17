@@ -4,7 +4,7 @@ from .accounts_pool import AccountsPool
 from .logger import set_log_level
 from .models import Tweet, User, parse_tweet, parse_tweets, parse_user, parse_users
 from .queue_client import QueueClient
-from .utils import encode_params, find_obj, get_by_path
+from .utils import encode_params, find_obj, get_by_path, to_old_obj, to_old_rep
 
 OP_SearchTimeline = "fZK7JipRHWtiZsTodhsTfQ/SearchTimeline"
 OP_UserByRestId = "tD8zKvQzwY3kdx5yz6YmOw/UserByRestId"
