@@ -1,6 +1,7 @@
 """
 This example shows how to use twscrape in parallel with concurrency limit.
 """
+
 import asyncio
 import time
 

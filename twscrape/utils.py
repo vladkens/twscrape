@@ -4,10 +4,6 @@ from collections import defaultdict
 from datetime import datetime, timezone
 from typing import Any, AsyncGenerator, Callable, TypeVar
 
-from httpx import HTTPStatusError, Response
-
-from .logger import logger
-
 T = TypeVar("T")
 
 
@@ -30,14 +26,6 @@ async def gather(gen: AsyncGenerator[T, None]) -> list[T]:
     async for x in gen:
         items.append(x)
     return items
-
-
-def raise_for_status(rep: Response, label: str):
-    try:
-        rep.raise_for_status()
-    except HTTPStatusError as e:
-        logger.warning(f"{label} - {rep.status_code} - {rep.text}")
-        raise e
 
 
 def encode_params(obj: dict):

@@ -2,6 +2,7 @@
 This example shows how to use twscrape to complete some queries in parallel.
 To limit the number of concurrent requests, see examples/parallel_search_with_limit.py
 """
+
 import asyncio
 
 import twscrape

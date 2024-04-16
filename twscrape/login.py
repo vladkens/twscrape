@@ -3,12 +3,12 @@ from dataclasses import dataclass
 from datetime import timedelta
 from typing import Any
 
-from httpx import AsyncClient, HTTPStatusError, Response
+from httpx import AsyncClient, Response
 
 from .account import Account
 from .imap import imap_get_email_code, imap_login
 from .logger import logger
-from .utils import raise_for_status, utc
+from .utils import utc
 
 LOGIN_URL = "https://api.twitter.com/1.1/onboarding/task.json"
 
@@ -30,7 +30,7 @@ class TaskCtx:
 
 async def get_guest_token(client: AsyncClient):
     rep = await client.post("https://api.twitter.com/1.1/guest/activate.json")
-    raise_for_status(rep, "guest_token (most likely ip ban)")
+    rep.raise_for_status()
     return rep.json()["guest_token"]
 
 
@@ -43,7 +43,7 @@ async def login_initiate(client: AsyncClient) -> Response:
     }
 
     rep = await client.post(LOGIN_URL, params={"flow_name": "login"}, json=payload)
-    raise_for_status(rep, "login_initiate")
+    rep.raise_for_status()
     return rep
 
 
@@ -59,7 +59,7 @@ async def login_alternate_identifier(ctx: TaskCtx, *, username: str) -> Response
     }
 
     rep = await ctx.client.post(LOGIN_URL, json=payload)
-    raise_for_status(rep, "login_alternate_identifier")
+    rep.raise_for_status()
     return rep
 
 
@@ -75,7 +75,7 @@ async def login_instrumentation(ctx: TaskCtx) -> Response:
     }
 
     rep = await ctx.client.post(LOGIN_URL, json=payload)
-    raise_for_status(rep, "login_instrumentation")
+    rep.raise_for_status()
     return rep
 
 
@@ -99,7 +99,7 @@ async def login_enter_username(ctx: TaskCtx) -> Response:
     }
 
     rep = await ctx.client.post(LOGIN_URL, json=payload)
-    raise_for_status(rep, "login_username")
+    rep.raise_for_status()
     return rep
 
 
@@ -115,7 +115,7 @@ async def login_enter_password(ctx: TaskCtx) -> Response:
     }
 
     rep = await ctx.client.post(LOGIN_URL, json=payload)
-    raise_for_status(rep, "login_password")
+    rep.raise_for_status()
     return rep
 
 
@@ -131,7 +131,7 @@ async def login_duplication_check(ctx: TaskCtx) -> Response:
     }
 
     rep = await ctx.client.post(LOGIN_URL, json=payload)
-    raise_for_status(rep, "login_duplication_check")
+    rep.raise_for_status()
     return rep
 
 
@@ -147,7 +147,7 @@ async def login_confirm_email(ctx: TaskCtx) -> Response:
     }
 
     rep = await ctx.client.post(LOGIN_URL, json=payload)
-    raise_for_status(rep, "login_confirm_email")
+    rep.raise_for_status()
     return rep
 
 
@@ -174,7 +174,7 @@ async def login_confirm_email_code(ctx: TaskCtx):
     }
 
     rep = await ctx.client.post(LOGIN_URL, json=payload)
-    raise_for_status(rep, "login_confirm_email")
+    rep.raise_for_status()
     return rep
 
 
@@ -185,7 +185,7 @@ async def login_success(ctx: TaskCtx) -> Response:
     }
 
     rep = await ctx.client.post(LOGIN_URL, json=payload)
-    raise_for_status(rep, "login_success")
+    rep.raise_for_status()
     return rep
 
 
@@ -245,12 +245,7 @@ async def login(acc: Account, cfg: LoginConfig | None = None) -> Account:
             if not rep:
                 break
 
-            try:
-                rep = await next_login_task(ctx, rep)
-            except HTTPStatusError as e:
-                if e.response.status_code == 403:
-                    logger.error(f"403 error {log_id}")
-                    return acc
+            rep = await next_login_task(ctx, rep)
 
         client.headers["x-csrf-token"] = client.cookies["ct0"]
         client.headers["x-twitter-auth-type"] = "OAuth2Session"
