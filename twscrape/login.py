@@ -242,11 +242,11 @@ async def login(acc: Account, cfg: LoginConfig | None = None) -> Account:
         rep = await login_initiate(client)
         ctx = TaskCtx(client, acc, cfg, None, imap)
         while True:
+            rep = await next_login_task(ctx, rep)
             if not rep:
                 break
 
-            rep = await next_login_task(ctx, rep)
-
+        assert "ct0" in client.cookies, "ct0 not in cookies (most likely ip ban)"
         client.headers["x-csrf-token"] = client.cookies["ct0"]
         client.headers["x-twitter-auth-type"] = "OAuth2Session"
 
