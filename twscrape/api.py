@@ -8,20 +8,20 @@ from .models import Tweet, User, parse_tweet, parse_tweets, parse_user, parse_us
 from .queue_client import QueueClient
 from .utils import encode_params, find_obj, get_by_path
 
-OP_SearchTimeline = "fZK7JipRHWtiZsTodhsTfQ/SearchTimeline"
-OP_UserByRestId = "tD8zKvQzwY3kdx5yz6YmOw/UserByRestId"
-OP_UserByScreenName = "k5XapwcSikNsEsILW5FvgA/UserByScreenName"
-OP_TweetDetail = "B9_KmbkLhXt6jRwGjJrweg/TweetDetail"
-OP_Followers = "ZG1BQPaRSg04qo55kKaW2g/Followers"
-OP_Following = "PAnE9toEjRfE-4tozRcsfw/Following"
-OP_Retweeters = "X-XEqG5qHQSAwmvy00xfyQ/Retweeters"
-OP_Favoriters = "LLkw5EcVutJL6y-2gkz22A/Favoriters"
-OP_UserTweets = "5ICa5d9-AitXZrIA3H-4MQ/UserTweets"
-OP_UserTweetsAndReplies = "UtLStR_BnYUGD7Q453UXQg/UserTweetsAndReplies"
-OP_ListLatestTweetsTimeline = "HjsWc-nwwHKYwHenbHm-tw/ListLatestTweetsTimeline"
-OP_Likes = "9s8V6sUI8fZLDiN-REkAxA/Likes"
-OP_BlueVerifiedFollowers = "mg4dFO4kMIKt6tpqPMmFeg/BlueVerifiedFollowers"
-OP_UserCreatorSubscriptions = "3IgWXBdSRADe5MkzziJV0A/UserCreatorSubscriptions"
+OP_SearchTimeline = "LcI5kBN8BLC7ovF7mBEBHg/SearchTimeline"
+OP_UserByRestId = "BNfUANkqWTZZdOE4xnhPiQ/UserByRestId"
+OP_UserByScreenName = "qW5u-DAuXpMEG0zA1F7UGQ/UserByScreenName"
+OP_TweetDetail = "EkeM9fkO6pJYXJpsn179ew/TweetDetail"
+OP_Followers = "waoYSYvWvt_7X2u3tEZiOw/Followers"
+OP_Following = "fV5QhxlYguIHPeHF3SKaqQ/Following"
+OP_Retweeters = "8fCe4VgB_5JPL93ibDfbZQ/Retweeters"
+OP_Favoriters = "mzkKRBd31Qp4aaSL7x1yCg/Favoriters"
+OP_UserTweets = "mpOyZuYdEfndVeVYdSZ6TQ/UserTweets"
+OP_UserTweetsAndReplies = "n4P5_Yd3EWl8yxEetceQ3A/UserTweetsAndReplies"
+OP_ListLatestTweetsTimeline = "K6vcpDvSthqScxuqR3vWcg/ListLatestTweetsTimeline"
+OP_Likes = "8HoylaIvSVEvJBg-xDfJ8Q/Likes"
+OP_BlueVerifiedFollowers = "9QKKJlC2l_v4uHmSTYXUVg/BlueVerifiedFollowers"
+OP_UserCreatorSubscriptions = "UpBsOX5xA4S6ay1rZpkySQ/UserCreatorSubscriptions"
 
 
 GQL_URL = "https://twitter.com/i/api/graphql"
@@ -47,6 +47,10 @@ GQL_FEATURES = {  # search values here (view source) https://twitter.com/
     "responsive_web_twitter_article_tweet_consumption_enabled": False,
     "c9s_tweet_anatomy_moderator_badge_enabled": True,
     "rweb_video_timestamps_enabled": True,
+    "rweb_tipjar_consumption_enabled": False,
+    "communities_web_enable_tweet_community_results_fetch": False,
+    "creator_subscriptions_quote_tweet_preview_enabled": False,
+    "tweet_with_visibility_results_prefer_gql_media_interstitial_enabled": False,
 }
 
 
@@ -405,6 +409,22 @@ class API:
 
     async def liked_tweets(self, uid: int, limit=-1, kv=None):
         async with aclosing(self.liked_tweets_raw(uid, limit=limit, kv=kv)) as gen:
+            async for rep in gen:
+                for x in parse_tweets(rep.json(), limit):
+                    yield x
+
+    # trends
+
+    async def trends_raw(self, _=None, limit=-1, kv=None):
+        op = OP_ExplorePage
+        kv = {**(kv or {})}
+        ft = {"articles_preview_enabled": False}
+        async with aclosing(self._gql_items(op, kv, limit=limit, ft=ft)) as gen:
+            async for x in gen:
+                yield x
+
+    async def trends(self, _=None, limit=-1, kv=None):
+        async with aclosing(self.trends_raw(_, limit=limit, kv=kv)) as gen:
             async for rep in gen:
                 for x in parse_tweets(rep.json(), limit):
                     yield x
