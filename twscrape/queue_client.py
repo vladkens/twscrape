@@ -170,8 +170,13 @@ class QueueClient:
 
         # something from twitter side - abort all queries, see: https://github.com/vladkens/twscrape/pull/80
         if err_msg.startswith("(131) Dependency: Internal error"):
-            logger.warning(f"Dependency error (request skipped): {err_msg}")
-            raise AbortReqError()
+            # looks like when data exists, we can ignore this error
+            # https://github.com/vladkens/twscrape/issues/166
+            if rep.status_code == 200 and "data" in res and "user" in res["data"]:
+                err_msg = "OK"
+            else:
+                logger.warning(f"Dependency error (request skipped): {err_msg}")
+                raise AbortReqError()
 
         # content not found
         if rep.status_code == 200 and "_Missing: No status found with that ID" in err_msg:
