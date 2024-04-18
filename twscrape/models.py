@@ -186,12 +186,12 @@ class Tweet(JSONTrait):
     sourceUrl: str | None = None
     sourceLabel: str | None = None
     media: Optional["Media"] = None
+    card: Optional["SummaryCard"] | Optional["PollCard"] = None
     _type: str = "snscrape.modules.twitter.Tweet"
 
     # todo:
     # renderedContent: str
-    # card: typing.Optional["Card"] = None
-    # vibe: typing.Optional["Vibe"] = None
+    # vibe: Optional["Vibe"] = None
 
     @staticmethod
     def parse(obj: dict, res: dict):
@@ -212,10 +212,11 @@ class Tweet(JSONTrait):
         rt_obj = get_or(res, f"tweets.{_first(obj, rt_id_path)}")
         qt_obj = get_or(res, f"tweets.{_first(obj, qt_id_path)}")
 
+        url = f'https://twitter.com/{tw_usr.username}/status/{obj["id_str"]}'
         doc = Tweet(
             id=int(obj["id_str"]),
             id_str=obj["id_str"],
-            url=f'https://twitter.com/{tw_usr.username}/status/{obj["id_str"]}',
+            url=url,
             date=email.utils.parsedate_to_datetime(obj["created_at"]),
             user=tw_usr,
             lang=obj["lang"],
@@ -244,6 +245,7 @@ class Tweet(JSONTrait):
             sourceUrl=_get_source_url(obj),
             sourceLabel=_get_source_label(obj),
             media=Media.parse(obj),
+            card=_parse_card(obj, url),
         )
 
         # issue #42 – restore full rt text
@@ -346,6 +348,159 @@ class Media(JSONTrait):
             logger.warning(f"Unknown media type: {x['type']}: {json.dumps(x)}")
 
         return Media(photos=photos, videos=videos, animated=animated)
+
+
+@dataclass
+class Card(JSONTrait):
+    pass
+
+
+@dataclass
+class SummaryCard(Card):
+    title: str
+    description: str
+    vanityUrl: str
+    url: str
+    photo: MediaPhoto | None = None
+    video: MediaVideo | None = None
+    _type: str = "summary"
+
+
+@dataclass
+class PollOption(JSONTrait):
+    label: str
+    votesCount: int
+
+
+@dataclass
+class PollCard(Card):
+    options: list[PollOption]
+    finished: bool
+    _type: str = "poll"
+
+
+def _parse_card_get_bool(values: list[dict], key: str):
+    for x in values:
+        if x["key"] == key:
+            return x["value"]["boolean_value"]
+    return False
+
+
+def _parse_card_get_str(values: list[dict], key: str, defaultVal=None):
+    for x in values:
+        if x["key"] == key:
+            return x["value"]["string_value"]
+    return defaultVal
+
+
+def _parse_card_extract_str(values: list[dict], key: str):
+    pretenders = [x["value"]["string_value"] for x in values if x["key"] == key]
+    new_values = [x for x in values if x["key"] != key]
+    return pretenders[0] if pretenders else "", new_values
+
+
+def _parse_card_extract_title(values: list[dict]):
+    new_values, pretenders = [], []
+    # title is trimmed to 70 chars, so try to find the longest text in alt_text
+    for x in values:
+        k = x["key"]
+        if k == "title" or k.endswith("_alt_text"):
+            pretenders.append(x["value"]["string_value"])
+        else:
+            new_values.append(x)
+
+    pretenders = sorted(pretenders, key=lambda x: len(x), reverse=True)
+    return pretenders[0] if pretenders else "", new_values
+
+
+def _parse_card_extract_largest_photo(values: list[dict]):
+    photos = [x for x in values if x["value"]["type"] == "IMAGE"]
+    photos = sorted(photos, key=lambda x: x["value"]["image_value"]["height"], reverse=True)
+    values = [x for x in values if x["value"]["type"] != "IMAGE"]
+    if photos:
+        return MediaPhoto(url=photos[0]["value"]["image_value"]["url"]), values
+    else:
+        return None, values
+
+
+def _parse_card_prepare_values(obj: dict):
+    values = get_or(obj, "card.legacy.binding_values", [])
+    # values = sorted(values, key=lambda x: x["key"])
+    # values = [x for x in values if x["key"] not in {"domain", "creator", "site"}]
+    values = [x for x in values if x["value"]["type"] != "IMAGE_COLOR"]
+    return values
+
+
+def _parse_card(obj: dict, url: str):
+    name = get_or(obj, "card.legacy.name", None)
+    if not name:
+        return None
+
+    if name == "summary" or name == "summary_large_image":
+        val = _parse_card_prepare_values(obj)
+        title, val = _parse_card_extract_title(val)
+        description, val = _parse_card_extract_str(val, "description")
+        vanity_url, val = _parse_card_extract_str(val, "vanity_url")
+        url, val = _parse_card_extract_str(val, "card_url")
+        photo, val = _parse_card_extract_largest_photo(val)
+
+        return SummaryCard(
+            title=title,
+            description=description,
+            vanityUrl=vanity_url,
+            url=url,
+            photo=photo,
+        )
+
+    if name == "unified_card":
+        val = _parse_card_prepare_values(obj)
+        val = [x for x in val if x["key"] == "unified_card"][0]["value"]["string_value"]
+        val = json.loads(val)
+
+        co = get_or(val, "component_objects", {})
+        do = get_or(val, "destination_objects", {})
+        me = list(get_or(val, "media_entities", {}).values())
+        if len(me) > 1:
+            logger.debug(f"[Card] Multiple media entities: {json.dumps(me, indent=2)}")
+
+        me = me[0] if me else {}
+
+        title = get_or(co, "details_1.data.title.content", "")
+        description = get_or(co, "details_1.data.subtitle.content", "")
+        vanity_url = get_or(do, "browser_with_docked_media_1.data.url_data.vanity", "")
+        url = get_or(do, "browser_with_docked_media_1.data.url_data.url", "")
+        video = MediaVideo.parse(me) if me and me["type"] == "video" else None
+        photo = MediaPhoto.parse(me) if me and me["type"] == "photo" else None
+
+        return SummaryCard(
+            title=title,
+            description=description,
+            vanityUrl=vanity_url,
+            url=url,
+            photo=photo,
+            video=video,
+        )
+
+    if name == "poll2choice_text_only":
+        val = _parse_card_prepare_values(obj)
+
+        options = []
+        for x in range(20):
+            label = _parse_card_get_str(val, f"choice{x+1}_label")
+            votes = _parse_card_get_str(val, f"choice{x+1}_count")
+            if label is None or votes is None:
+                break
+
+            options.append(PollOption(label=label, votesCount=int(votes)))
+
+        finished = _parse_card_get_bool(val, "counts_are_final")
+        # duration_minutes = int(_parse_card_get_str(val, "duration_minutes") or "0")
+        # end_datetime_utc = _parse_card_get_str(val, "end_datetime_utc")
+        # print(json.dumps(val, indent=2))
+        return PollCard(options=options, finished=finished)
+
+    # logger.warning(f"Unknown card type '{name}' on {url}")
+    print(f"Unknown card type '{name}' on {url}")
 
 
 # internal helpers

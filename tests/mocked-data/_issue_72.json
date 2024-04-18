@@ -1,0 +1,1013 @@
+{
+  "data": {
+    "threaded_conversation_with_injections_v2": {
+      "instructions": [
+        {
+          "type": "TimelineAddEntries",
+          "entries": [
+            {
+              "entryId": "tweet-1696922210588410217",
+              "sortIndex": "7526449826266365590",
+              "content": {
+                "entryType": "TimelineTimelineItem",
+                "__typename": "TimelineTimelineItem",
+                "itemContent": {
+                  "itemType": "TimelineTweet",
+                  "__typename": "TimelineTweet",
+                  "tweet_results": {
+                    "result": {
+                      "__typename": "Tweet",
+                      "rest_id": "1696922210588410217",
+                      "has_birdwatch_notes": false,
+                      "core": {
+                        "user_results": {
+                          "result": {
+                            "__typename": "User",
+                            "id": "VXNlcjo0MjU4NzEwNDA=",
+                            "rest_id": "425871040",
+                            "affiliates_highlighted_label": {},
+                            "has_graduated_access": true,
+                            "is_blue_verified": true,
+                            "profile_image_shape": "Square",
+                            "legacy": {
+                              "can_dm": false,
+                              "can_media_tag": true,
+                              "created_at": "Thu Dec 01 14:57:32 +0000 2011",
+                              "default_profile": false,
+                              "default_profile_image": false,
+                              "description": "Official Twitter account for #Fortnite; ESRB: Teen - Diverse Experiences. For status updates and service issues check out @FortniteStatus",
+                              "entities": {
+                                "description": {
+                                  "urls": []
+                                },
+                                "url": {
+                                  "urls": [
+                                    {
+                                      "display_url": "fortnite.com",
+                                      "expanded_url": "http://fortnite.com",
+                                      "url": "https://t.co/zoICf0CqGG",
+                                      "indices": [
+                                        0,
+                                        23
+                                      ]
+                                    }
+                                  ]
+                                }
+                              },
+                              "fast_followers_count": 0,
+                              "favourites_count": 2371,
+                              "followers_count": 18364225,
+                              "friends_count": 107,
+                              "has_custom_timelines": true,
+                              "is_translator": false,
+                              "listed_count": 10937,
+                              "location": "",
+                              "media_count": 6120,
+                              "name": "Fortnite",
+                              "normal_followers_count": 18364225,
+                              "pinned_tweet_ids_str": [
+                                "1778422983163281504"
+                              ],
+                              "possibly_sensitive": false,
+                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/425871040/1701590106",
+                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1738209520705486848/orBSQfO8_normal.jpg",
+                              "profile_interstitial_type": "",
+                              "screen_name": "FortniteGame",
+                              "statuses_count": 17415,
+                              "translator_type": "none",
+                              "url": "https://t.co/zoICf0CqGG",
+                              "verified": false,
+                              "verified_type": "Business",
+                              "want_retweets": false,
+                              "withheld_in_countries": []
+                            }
+                          }
+                        }
+                      },
+                      "card": {
+                        "rest_id": "card://1696922209367764993",
+                        "legacy": {
+                          "binding_values": [
+                            {
+                              "key": "unified_card",
+                              "value": {
+                                "string_value": "{\"type\":\"video_website\",\"component_objects\":{\"details_1\":{\"type\":\"details\",\"data\":{\"title\":{\"content\":\"Il colpo perfetto ha inizio!\",\"is_rtl\":false},\"subtitle\":{\"content\":\"fortnite.com\",\"is_rtl\":false},\"destination\":\"override_browser_with_docked_media_1\"}},\"media_1\":{\"type\":\"media\",\"data\":{\"id\":\"13_1696919248436670464\",\"destination\":\"browser_with_docked_media_1\"}}},\"destination_objects\":{\"browser_with_docked_media_1\":{\"type\":\"browser_with_docked_media\",\"data\":{\"url_data\":{\"url\":\"https://fortnite.com/b/chapter4-season4?utm_source=Twitter&utm_campaign=FNBR_RT_C4S4_Twitter_LINK-CLICKS_IT\",\"vanity\":\"fortnite.com\"},\"media_id\":\"13_1696919248436670464\"}},\"override_browser_with_docked_media_1\":{\"type\":\"browser\",\"data\":{\"url_data\":{\"url\":\"https://fortnite.com/b/chapter4-season4?utm_source=Twitter&utm_campaign=FNBR_RT_C4S4_Twitter_LINK-CLICKS_IT\",\"vanity\":\"fortnite.com\"}}}},\"components\":[\"media_1\",\"details_1\"],\"media_entities\":{\"13_1696919248436670464\":{\"id\":1696919248436670464,\"id_str\":\"1696919248436670464\",\"indices\":[0,0],\"media_url\":\"\",\"media_url_https\":\"https://pbs.twimg.com/amplify_video_thumb/1696919248436670464/img/esk-plpGUGbuPPZx.jpg\",\"url\":\"\",\"display_url\":\"\",\"expanded_url\":\"\",\"type\":\"video\",\"original_info\":{\"width\":1280,\"height\":720},\"sizes\":{\"large\":{\"w\":1280,\"h\":720,\"resize\":\"fit\"},\"medium\":{\"w\":1200,\"h\":675,\"resize\":\"fit\"},\"thumb\":{\"w\":150,\"h\":150,\"resize\":\"crop\"},\"small\":{\"w\":680,\"h\":383,\"resize\":\"fit\"}},\"source_user_id\":425871040,\"source_user_id_str\":\"425871040\",\"video_info\":{\"aspect_ratio\":[16,9],\"duration_millis\":15019,\"variants\":[{\"bitrate\":2176000,\"content_type\":\"video/mp4\",\"url\":\"https://video.twimg.com/amplify_video/1696919248436670464/vid/1280x720/JzyWcPQpTP-56i4V.mp4?tag=14\"},{\"bitrate\":288000,\"content_type\":\"video/mp4\",\"url\":\"https://video.twimg.com/amplify_video/1696919248436670464/vid/480x270/KKTv3Vz_GhI2Wwdr.mp4?tag=14\"},{\"bitrate\":832000,\"content_type\":\"video/mp4\",\"url\":\"https://video.twimg.com/amplify_video/1696919248436670464/vid/640x360/ebnYujcZUtnYZUEq.mp4?tag=14\"},{\"content_type\":\"application/x-mpegURL\",\"url\":\"https://video.twimg.com/amplify_video/1696919248436670464/pl/Td0HWYttDediM8Dv.m3u8?tag=14&container=cmaf\"}]},\"media_key\":\"13_1696919248436670464\",\"ext\":{\"mediaColor\":{\"r\":{\"ok\":{\"palette\":[{\"rgb\":{\"red\":31,\"green\":30,\"blue\":35},\"percentage\":77.26},{\"rgb\":{\"red\":217,\"green\":217,\"blue\":219},\"percentage\":9.34},{\"rgb\":{\"red\":81,\"green\":21,\"blue\":32},\"percentage\":6.71},{\"rgb\":{\"red\":161,\"green\":41,\"blue\":57},\"percentage\":2.31},{\"rgb\":{\"red\":244,\"green\":172,\"blue\":66},\"percentage\":0.51}]}},\"ttl\":-1}}}}}",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "card_url",
+                              "value": {
+                                "scribe_key": "card_url",
+                                "string_value": "https://twitter.com",
+                                "type": "STRING"
+                              }
+                            }
+                          ],
+                          "card_platform": {
+                            "platform": {
+                              "audience": {
+                                "name": "production"
+                              },
+                              "device": {
+                                "name": "Swift",
+                                "version": "12"
+                              }
+                            }
+                          },
+                          "name": "unified_card",
+                          "url": "card://1696922209367764993",
+                          "user_refs_results": []
+                        }
+                      },
+                      "unmention_data": {},
+                      "edit_control": {
+                        "edit_tweet_ids": [
+                          "1696922210588410217"
+                        ],
+                        "editable_until_msecs": "1693416356000",
+                        "is_edit_eligible": false,
+                        "edits_remaining": "5"
+                      },
+                      "is_translatable": true,
+                      "views": {
+                        "count": "1003602",
+                        "state": "EnabledWithCount"
+                      },
+                      "source": "<a href=\"https://twitter.com\" rel=\"nofollow\">Twitter for Advertisers</a>",
+                      "legacy": {
+                        "bookmark_count": 5,
+                        "bookmarked": false,
+                        "created_at": "Wed Aug 30 16:25:56 +0000 2023",
+                        "conversation_id_str": "1696922210588410217",
+                        "display_text_range": [
+                          0,
+                          129
+                        ],
+                        "entities": {
+                          "hashtags": [],
+                          "symbols": [],
+                          "timestamps": [],
+                          "urls": [],
+                          "user_mentions": []
+                        },
+                        "favorite_count": 184,
+                        "favorited": false,
+                        "full_text": "Il destino dell'isola è in gioco e il furto è l'ultima spiaggia! Recupera i tesori e restituisci all'isola ciò che le appartiene.",
+                        "is_quote_status": false,
+                        "lang": "it",
+                        "quote_count": 2,
+                        "reply_count": 4,
+                        "retweet_count": 2,
+                        "retweeted": false,
+                        "scopes": {
+                          "followers": false
+                        },
+                        "user_id_str": "425871040",
+                        "id_str": "1696922210588410217"
+                      },
+                      "quick_promote_eligibility": {
+                        "eligibility": "IneligibleNotProfessional"
+                      }
+                    }
+                  },
+                  "tweetDisplayType": "Tweet",
+                  "hasModeratedReplies": false
+                }
+              }
+            },
+            {
+              "entryId": "conversationthread-1697647115038601453",
+              "sortIndex": "7526449826266365580",
+              "content": {
+                "entryType": "TimelineTimelineModule",
+                "__typename": "TimelineTimelineModule",
+                "items": [
+                  {
+                    "entryId": "conversationthread-1697647115038601453-tweet-1697647115038601453",
+                    "item": {
+                      "itemContent": {
+                        "itemType": "TimelineTweet",
+                        "__typename": "TimelineTweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "rest_id": "1697647115038601453",
+                            "has_birdwatch_notes": false,
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "id": "VXNlcjoxMzc1OTc4MDc2MjMyOTQ5NzYx",
+                                  "rest_id": "1375978076232949761",
+                                  "affiliates_highlighted_label": {},
+                                  "has_graduated_access": true,
+                                  "is_blue_verified": true,
+                                  "profile_image_shape": "Circle",
+                                  "legacy": {
+                                    "can_dm": true,
+                                    "can_media_tag": true,
+                                    "created_at": "Sun Mar 28 01:08:46 +0000 2021",
+                                    "default_profile": true,
+                                    "default_profile_image": false,
+                                    "description": "Biz Dev 🌐",
+                                    "entities": {
+                                      "description": {
+                                        "urls": []
+                                      },
+                                      "url": {
+                                        "urls": [
+                                          {
+                                            "display_url": "Fractz.com",
+                                            "expanded_url": "http://Fractz.com",
+                                            "url": "https://t.co/eYQTyeElHv",
+                                            "indices": [
+                                              0,
+                                              23
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "fast_followers_count": 0,
+                                    "favourites_count": 183292,
+                                    "followers_count": 5153,
+                                    "friends_count": 3155,
+                                    "has_custom_timelines": true,
+                                    "is_translator": false,
+                                    "listed_count": 22,
+                                    "location": "Worldwide Webb",
+                                    "media_count": 814,
+                                    "name": "Varano",
+                                    "normal_followers_count": 5153,
+                                    "pinned_tweet_ids_str": [],
+                                    "possibly_sensitive": false,
+                                    "profile_banner_url": "https://pbs.twimg.com/profile_banners/1375978076232949761/1709883209",
+                                    "profile_image_url_https": "https://pbs.twimg.com/profile_images/1773319146702266368/u0lWa8hO_normal.jpg",
+                                    "profile_interstitial_type": "",
+                                    "screen_name": "0xVarano",
+                                    "statuses_count": 7993,
+                                    "translator_type": "none",
+                                    "url": "https://t.co/eYQTyeElHv",
+                                    "verified": false,
+                                    "want_retweets": false,
+                                    "withheld_in_countries": []
+                                  }
+                                }
+                              }
+                            },
+                            "unmention_data": {},
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1697647115038601453"
+                              ],
+                              "editable_until_msecs": "1693589187000",
+                              "is_edit_eligible": false,
+                              "edits_remaining": "5"
+                            },
+                            "is_translatable": false,
+                            "views": {
+                              "count": "1274",
+                              "state": "EnabledWithCount"
+                            },
+                            "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "created_at": "Fri Sep 01 16:26:27 +0000 2023",
+                              "conversation_id_str": "1696922210588410217",
+                              "display_text_range": [
+                                14,
+                                30
+                              ],
+                              "entities": {
+                                "hashtags": [],
+                                "symbols": [],
+                                "timestamps": [],
+                                "urls": [],
+                                "user_mentions": [
+                                  {
+                                    "id_str": "425871040",
+                                    "name": "Fortnite",
+                                    "screen_name": "FortniteGame",
+                                    "indices": [
+                                      0,
+                                      13
+                                    ]
+                                  }
+                                ]
+                              },
+                              "favorite_count": 2,
+                              "favorited": false,
+                              "full_text": "@FortniteGame Love this season",
+                              "in_reply_to_screen_name": "FortniteGame",
+                              "in_reply_to_status_id_str": "1696922210588410217",
+                              "in_reply_to_user_id_str": "425871040",
+                              "is_quote_status": false,
+                              "lang": "en",
+                              "quote_count": 0,
+                              "reply_count": 0,
+                              "retweet_count": 0,
+                              "retweeted": false,
+                              "user_id_str": "1375978076232949761",
+                              "id_str": "1697647115038601453"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotProfessional"
+                            }
+                          }
+                        },
+                        "tweetDisplayType": "Tweet"
+                      },
+                      "clientEventInfo": {
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABFSACCGAHgAUKAAIAAAAAGADACAAAAAA="
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "displayType": "VerticalConversation",
+                "clientEventInfo": {
+                  "details": {
+                    "conversationDetails": {
+                      "conversationSection": "HighQuality"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "entryId": "conversationthread-1700484666006847827",
+              "sortIndex": "7526449826266365570",
+              "content": {
+                "entryType": "TimelineTimelineModule",
+                "__typename": "TimelineTimelineModule",
+                "items": [
+                  {
+                    "entryId": "conversationthread-1700484666006847827-tweet-1700484666006847827",
+                    "item": {
+                      "itemContent": {
+                        "itemType": "TimelineTweet",
+                        "__typename": "TimelineTweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "rest_id": "1700484666006847827",
+                            "has_birdwatch_notes": false,
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "id": "VXNlcjoxNDU2NzI4NTE5OTEyOTE5MDUx",
+                                  "rest_id": "1456728519912919051",
+                                  "affiliates_highlighted_label": {},
+                                  "has_graduated_access": true,
+                                  "is_blue_verified": false,
+                                  "profile_image_shape": "Circle",
+                                  "legacy": {
+                                    "can_dm": true,
+                                    "can_media_tag": false,
+                                    "created_at": "Fri Nov 05 21:02:20 +0000 2021",
+                                    "default_profile": true,
+                                    "default_profile_image": false,
+                                    "description": "",
+                                    "entities": {
+                                      "description": {
+                                        "urls": []
+                                      }
+                                    },
+                                    "fast_followers_count": 0,
+                                    "favourites_count": 453,
+                                    "followers_count": 19,
+                                    "friends_count": 26,
+                                    "has_custom_timelines": false,
+                                    "is_translator": false,
+                                    "listed_count": 0,
+                                    "location": "",
+                                    "media_count": 17,
+                                    "name": "tony",
+                                    "normal_followers_count": 19,
+                                    "pinned_tweet_ids_str": [],
+                                    "possibly_sensitive": false,
+                                    "profile_image_url_https": "https://pbs.twimg.com/profile_images/1711716381987667968/1nhGh4HR_normal.jpg",
+                                    "profile_interstitial_type": "",
+                                    "screen_name": "tonyilpensante",
+                                    "statuses_count": 1337,
+                                    "translator_type": "none",
+                                    "verified": false,
+                                    "want_retweets": false,
+                                    "withheld_in_countries": []
+                                  }
+                                }
+                              }
+                            },
+                            "unmention_data": {},
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1700484666006847827"
+                              ],
+                              "editable_until_msecs": "1694265712000",
+                              "is_edit_eligible": false,
+                              "edits_remaining": "5"
+                            },
+                            "is_translatable": false,
+                            "views": {
+                              "count": "179",
+                              "state": "EnabledWithCount"
+                            },
+                            "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "created_at": "Sat Sep 09 12:21:52 +0000 2023",
+                              "conversation_id_str": "1696922210588410217",
+                              "display_text_range": [
+                                14,
+                                35
+                              ],
+                              "entities": {
+                                "hashtags": [],
+                                "symbols": [],
+                                "timestamps": [],
+                                "urls": [],
+                                "user_mentions": [
+                                  {
+                                    "id_str": "425871040",
+                                    "name": "Fortnite",
+                                    "screen_name": "FortniteGame",
+                                    "indices": [
+                                      0,
+                                      13
+                                    ]
+                                  }
+                                ]
+                              },
+                              "favorite_count": 0,
+                              "favorited": false,
+                              "full_text": "@FortniteGame Che gioco di mmmmerda",
+                              "in_reply_to_screen_name": "FortniteGame",
+                              "in_reply_to_status_id_str": "1696922210588410217",
+                              "in_reply_to_user_id_str": "425871040",
+                              "is_quote_status": false,
+                              "lang": "it",
+                              "quote_count": 0,
+                              "reply_count": 0,
+                              "retweet_count": 0,
+                              "retweeted": false,
+                              "user_id_str": "1456728519912919051",
+                              "id_str": "1700484666006847827"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotProfessional"
+                            }
+                          }
+                        },
+                        "tweetDisplayType": "Tweet"
+                      },
+                      "clientEventInfo": {
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABFSACCKIDgAUKAAIAAAAACADACAAAAAA="
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "displayType": "VerticalConversation",
+                "clientEventInfo": {
+                  "details": {
+                    "conversationDetails": {
+                      "conversationSection": "HighQuality"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "entryId": "conversationthread-1701331048762593620",
+              "sortIndex": "7526449826266365560",
+              "content": {
+                "entryType": "TimelineTimelineModule",
+                "__typename": "TimelineTimelineModule",
+                "items": [
+                  {
+                    "entryId": "conversationthread-1701331048762593620-tweet-1701331048762593620",
+                    "item": {
+                      "itemContent": {
+                        "itemType": "TimelineTweet",
+                        "__typename": "TimelineTweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "rest_id": "1701331048762593620",
+                            "has_birdwatch_notes": false,
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "id": "VXNlcjoxNDQ2NDc3ODk3NjE1Njg3Njg0",
+                                  "rest_id": "1446477897615687684",
+                                  "affiliates_highlighted_label": {},
+                                  "has_graduated_access": true,
+                                  "is_blue_verified": false,
+                                  "profile_image_shape": "Circle",
+                                  "legacy": {
+                                    "can_dm": true,
+                                    "can_media_tag": true,
+                                    "created_at": "Fri Oct 08 14:09:46 +0000 2021",
+                                    "default_profile": true,
+                                    "default_profile_image": false,
+                                    "description": "opinionista di opinioni non richieste.\nDecisamente #antifa, europeo, amante della musica.\nSide Account in DM",
+                                    "entities": {
+                                      "description": {
+                                        "urls": []
+                                      }
+                                    },
+                                    "fast_followers_count": 0,
+                                    "favourites_count": 16683,
+                                    "followers_count": 1051,
+                                    "friends_count": 409,
+                                    "has_custom_timelines": true,
+                                    "is_translator": false,
+                                    "listed_count": 0,
+                                    "location": "Napoli, Campania",
+                                    "media_count": 534,
+                                    "name": "estroil (sposatoh era)",
+                                    "normal_followers_count": 1051,
+                                    "pinned_tweet_ids_str": [
+                                      "1767459996290171275"
+                                    ],
+                                    "possibly_sensitive": true,
+                                    "profile_banner_url": "https://pbs.twimg.com/profile_banners/1446477897615687684/1669650589",
+                                    "profile_image_url_https": "https://pbs.twimg.com/profile_images/1699152360180752385/MNouAzJ8_normal.jpg",
+                                    "profile_interstitial_type": "",
+                                    "screen_name": "damechevvoi",
+                                    "statuses_count": 4057,
+                                    "translator_type": "none",
+                                    "verified": false,
+                                    "want_retweets": false,
+                                    "withheld_in_countries": []
+                                  },
+                                  "professional": {
+                                    "rest_id": "1477000339245125635",
+                                    "professional_type": "Creator",
+                                    "category": []
+                                  }
+                                }
+                              }
+                            },
+                            "unmention_data": {},
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1701331048762593620"
+                              ],
+                              "editable_until_msecs": "1694467505000",
+                              "is_edit_eligible": false,
+                              "edits_remaining": "5"
+                            },
+                            "is_translatable": false,
+                            "views": {
+                              "count": "192",
+                              "state": "EnabledWithCount"
+                            },
+                            "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "created_at": "Mon Sep 11 20:25:05 +0000 2023",
+                              "conversation_id_str": "1696922210588410217",
+                              "display_text_range": [
+                                14,
+                                21
+                              ],
+                              "entities": {
+                                "hashtags": [],
+                                "symbols": [],
+                                "timestamps": [],
+                                "urls": [],
+                                "user_mentions": [
+                                  {
+                                    "id_str": "425871040",
+                                    "name": "Fortnite",
+                                    "screen_name": "FortniteGame",
+                                    "indices": [
+                                      0,
+                                      13
+                                    ]
+                                  }
+                                ]
+                              },
+                              "favorite_count": 1,
+                              "favorited": false,
+                              "full_text": "@FortniteGame Cringe.",
+                              "in_reply_to_screen_name": "FortniteGame",
+                              "in_reply_to_status_id_str": "1696922210588410217",
+                              "in_reply_to_user_id_str": "425871040",
+                              "is_quote_status": false,
+                              "lang": "en",
+                              "quote_count": 0,
+                              "reply_count": 0,
+                              "retweet_count": 0,
+                              "retweeted": false,
+                              "user_id_str": "1446477897615687684",
+                              "id_str": "1701331048762593620"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotProfessional"
+                            }
+                          }
+                        },
+                        "tweetDisplayType": "Tweet"
+                      },
+                      "clientEventInfo": {
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABFSACCSQDgAUKAAIAAAAACADACAAAAAA="
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "displayType": "VerticalConversation",
+                "clientEventInfo": {
+                  "details": {
+                    "conversationDetails": {
+                      "conversationSection": "HighQuality"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "entryId": "cursor-showmorethreads-8296527357003681668",
+              "sortIndex": "7526449826266365559",
+              "content": {
+                "entryType": "TimelineTimelineItem",
+                "__typename": "TimelineTimelineItem",
+                "itemContent": {
+                  "itemType": "TimelineTimelineCursor",
+                  "__typename": "TimelineTimelineCursor",
+                  "value": "JQAAAPAWHBk22sO93c_DoI8vpoWy9enyqpkvqMWy7eTkq5wvJQISFQ4AAA",
+                  "cursorType": "ShowMoreThreads",
+                  "displayTreatment": {
+                    "actionText": "Show more replies"
+                  }
+                }
+              }
+            },
+            {
+              "entryId": "module-7526449826266355559",
+              "sortIndex": "7526449826266355559",
+              "content": {
+                "entryType": "TimelineTimelineModule",
+                "__typename": "TimelineTimelineModule",
+                "items": [
+                  {
+                    "entryId": "YouMightAlsoLike:1779861744510189910",
+                    "item": {
+                      "itemContent": {
+                        "itemType": "TimelineTweet",
+                        "__typename": "TimelineTweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "rest_id": "1779861744510189910",
+                            "has_birdwatch_notes": false,
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "id": "VXNlcjo0MjU4NzEwNDA=",
+                                  "rest_id": "425871040",
+                                  "affiliates_highlighted_label": {},
+                                  "has_graduated_access": true,
+                                  "is_blue_verified": true,
+                                  "profile_image_shape": "Square",
+                                  "legacy": {
+                                    "can_dm": false,
+                                    "can_media_tag": true,
+                                    "created_at": "Thu Dec 01 14:57:32 +0000 2011",
+                                    "default_profile": false,
+                                    "default_profile_image": false,
+                                    "description": "Official Twitter account for #Fortnite; ESRB: Teen - Diverse Experiences. For status updates and service issues check out @FortniteStatus",
+                                    "entities": {
+                                      "description": {
+                                        "urls": []
+                                      },
+                                      "url": {
+                                        "urls": [
+                                          {
+                                            "display_url": "fortnite.com",
+                                            "expanded_url": "http://fortnite.com",
+                                            "url": "https://t.co/zoICf0CqGG",
+                                            "indices": [
+                                              0,
+                                              23
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "fast_followers_count": 0,
+                                    "favourites_count": 2371,
+                                    "followers_count": 18364225,
+                                    "friends_count": 107,
+                                    "has_custom_timelines": true,
+                                    "is_translator": false,
+                                    "listed_count": 10937,
+                                    "location": "",
+                                    "media_count": 6120,
+                                    "name": "Fortnite",
+                                    "normal_followers_count": 18364225,
+                                    "pinned_tweet_ids_str": [
+                                      "1778422983163281504"
+                                    ],
+                                    "possibly_sensitive": false,
+                                    "profile_banner_url": "https://pbs.twimg.com/profile_banners/425871040/1701590106",
+                                    "profile_image_url_https": "https://pbs.twimg.com/profile_images/1738209520705486848/orBSQfO8_normal.jpg",
+                                    "profile_interstitial_type": "",
+                                    "screen_name": "FortniteGame",
+                                    "statuses_count": 17415,
+                                    "translator_type": "none",
+                                    "url": "https://t.co/zoICf0CqGG",
+                                    "verified": false,
+                                    "verified_type": "Business",
+                                    "want_retweets": false,
+                                    "withheld_in_countries": []
+                                  }
+                                }
+                              }
+                            },
+                            "unmention_data": {},
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1779861744510189910"
+                              ],
+                              "editable_until_msecs": "1713190682000",
+                              "is_edit_eligible": true,
+                              "edits_remaining": "5"
+                            },
+                            "is_translatable": false,
+                            "views": {
+                              "count": "4138589",
+                              "state": "EnabledWithCount"
+                            },
+                            "source": "<a href=\"https://sproutsocial.com\" rel=\"nofollow\">Sprout Social</a>",
+                            "legacy": {
+                              "bookmark_count": 1744,
+                              "bookmarked": false,
+                              "created_at": "Mon Apr 15 13:18:02 +0000 2024",
+                              "conversation_id_str": "1779861744510189910",
+                              "display_text_range": [
+                                0,
+                                47
+                              ],
+                              "entities": {
+                                "hashtags": [],
+                                "media": [
+                                  {
+                                    "display_url": "pic.twitter.com/qz0BOO5YP4",
+                                    "expanded_url": "https://twitter.com/FortniteGame/status/1779861744510189910/video/1",
+                                    "id_str": "1779861679020347392",
+                                    "indices": [
+                                      48,
+                                      71
+                                    ],
+                                    "media_key": "13_1779861679020347392",
+                                    "media_url_https": "https://pbs.twimg.com/media/GLNWzhLXAAEduIV.jpg",
+                                    "type": "video",
+                                    "url": "https://t.co/qz0BOO5YP4",
+                                    "additional_media_info": {
+                                      "monetizable": false
+                                    },
+                                    "ext_media_availability": {
+                                      "status": "Available"
+                                    },
+                                    "sizes": {
+                                      "large": {
+                                        "h": 720,
+                                        "w": 1280,
+                                        "resize": "fit"
+                                      },
+                                      "medium": {
+                                        "h": 675,
+                                        "w": 1200,
+                                        "resize": "fit"
+                                      },
+                                      "small": {
+                                        "h": 383,
+                                        "w": 680,
+                                        "resize": "fit"
+                                      },
+                                      "thumb": {
+                                        "h": 150,
+                                        "w": 150,
+                                        "resize": "crop"
+                                      }
+                                    },
+                                    "original_info": {
+                                      "height": 720,
+                                      "width": 1280,
+                                      "focus_rects": []
+                                    },
+                                    "video_info": {
+                                      "aspect_ratio": [
+                                        16,
+                                        9
+                                      ],
+                                      "duration_millis": 30000,
+                                      "variants": [
+                                        {
+                                          "content_type": "application/x-mpegURL",
+                                          "url": "https://video.twimg.com/amplify_video/1779861679020347392/pl/D1obfSw6OtP2EOx8.m3u8?tag=16&container=cmaf"
+                                        },
+                                        {
+                                          "bitrate": 288000,
+                                          "content_type": "video/mp4",
+                                          "url": "https://video.twimg.com/amplify_video/1779861679020347392/vid/avc1/480x270/X2cXZbFzbXoCM9xp.mp4?tag=16"
+                                        },
+                                        {
+                                          "bitrate": 832000,
+                                          "content_type": "video/mp4",
+                                          "url": "https://video.twimg.com/amplify_video/1779861679020347392/vid/avc1/640x360/dckVZ5MunEQmOcNw.mp4?tag=16"
+                                        },
+                                        {
+                                          "bitrate": 2176000,
+                                          "content_type": "video/mp4",
+                                          "url": "https://video.twimg.com/amplify_video/1779861679020347392/vid/avc1/1280x720/jXXV0YRFh9DcubIv.mp4?tag=16"
+                                        }
+                                      ]
+                                    },
+                                    "media_results": {
+                                      "result": {
+                                        "media_key": "13_1779861679020347392"
+                                      }
+                                    }
+                                  }
+                                ],
+                                "symbols": [],
+                                "timestamps": [],
+                                "urls": [],
+                                "user_mentions": []
+                              },
+                              "extended_entities": {
+                                "media": [
+                                  {
+                                    "display_url": "pic.twitter.com/qz0BOO5YP4",
+                                    "expanded_url": "https://twitter.com/FortniteGame/status/1779861744510189910/video/1",
+                                    "id_str": "1779861679020347392",
+                                    "indices": [
+                                      48,
+                                      71
+                                    ],
+                                    "media_key": "13_1779861679020347392",
+                                    "media_url_https": "https://pbs.twimg.com/media/GLNWzhLXAAEduIV.jpg",
+                                    "type": "video",
+                                    "url": "https://t.co/qz0BOO5YP4",
+                                    "additional_media_info": {
+                                      "monetizable": false
+                                    },
+                                    "ext_media_availability": {
+                                      "status": "Available"
+                                    },
+                                    "sizes": {
+                                      "large": {
+                                        "h": 720,
+                                        "w": 1280,
+                                        "resize": "fit"
+                                      },
+                                      "medium": {
+                                        "h": 675,
+                                        "w": 1200,
+                                        "resize": "fit"
+                                      },
+                                      "small": {
+                                        "h": 383,
+                                        "w": 680,
+                                        "resize": "fit"
+                                      },
+                                      "thumb": {
+                                        "h": 150,
+                                        "w": 150,
+                                        "resize": "crop"
+                                      }
+                                    },
+                                    "original_info": {
+                                      "height": 720,
+                                      "width": 1280,
+                                      "focus_rects": []
+                                    },
+                                    "video_info": {
+                                      "aspect_ratio": [
+                                        16,
+                                        9
+                                      ],
+                                      "duration_millis": 30000,
+                                      "variants": [
+                                        {
+                                          "content_type": "application/x-mpegURL",
+                                          "url": "https://video.twimg.com/amplify_video/1779861679020347392/pl/D1obfSw6OtP2EOx8.m3u8?tag=16&container=cmaf"
+                                        },
+                                        {
+                                          "bitrate": 288000,
+                                          "content_type": "video/mp4",
+                                          "url": "https://video.twimg.com/amplify_video/1779861679020347392/vid/avc1/480x270/X2cXZbFzbXoCM9xp.mp4?tag=16"
+                                        },
+                                        {
+                                          "bitrate": 832000,
+                                          "content_type": "video/mp4",
+                                          "url": "https://video.twimg.com/amplify_video/1779861679020347392/vid/avc1/640x360/dckVZ5MunEQmOcNw.mp4?tag=16"
+                                        },
+                                        {
+                                          "bitrate": 2176000,
+                                          "content_type": "video/mp4",
+                                          "url": "https://video.twimg.com/amplify_video/1779861679020347392/vid/avc1/1280x720/jXXV0YRFh9DcubIv.mp4?tag=16"
+                                        }
+                                      ]
+                                    },
+                                    "media_results": {
+                                      "result": {
+                                        "media_key": "13_1779861679020347392"
+                                      }
+                                    }
+                                  }
+                                ]
+                              },
+                              "favorite_count": 29017,
+                              "favorited": false,
+                              "full_text": "I've got a good feeling about this...\n\n5.3.2024 https://t.co/qz0BOO5YP4",
+                              "is_quote_status": false,
+                              "lang": "en",
+                              "possibly_sensitive": false,
+                              "possibly_sensitive_editable": true,
+                              "quote_count": 1950,
+                              "reply_count": 1991,
+                              "retweet_count": 3061,
+                              "retweeted": false,
+                              "user_id_str": "425871040",
+                              "id_str": "1779861744510189910"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotProfessional"
+                            }
+                          }
+                        },
+                        "tweetDisplayType": "Tweet"
+                      },
+                      "clientEventInfo": {
+                        "component": "you_might_also_like",
+                        "element": "tweet",
+                        "details": {
+                          "timelinesDetails": {
+                            "injectionType": "you_might_also_like",
+                            "sourceData": "74b1b17b-2d9a-47c7-b0b6-2ee10c905290"
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "displayType": "Vertical",
+                "header": {
+                  "displayType": "Classic",
+                  "text": "More Tweets",
+                  "sticky": true
+                },
+                "clientEventInfo": {
+                  "component": "you_might_also_like",
+                  "details": {
+                    "timelinesDetails": {
+                      "injectionType": "you_might_also_like",
+                      "sourceData": "74b1b17b-2d9a-47c7-b0b6-2ee10c905290"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "TimelineTerminateTimeline",
+          "direction": "Top"
+        }
+      ],
+      "responseObjects": {
+        "immediateReactions": []
+      }
+    }
+  }
+}

@@ -412,19 +412,3 @@ class API:
             async for rep in gen:
                 for x in parse_tweets(rep.json(), limit):
                     yield x
-
-    # trends
-
-    async def trends_raw(self, _=None, limit=-1, kv=None):
-        op = OP_ExplorePage
-        kv = {**(kv or {})}
-        ft = {"articles_preview_enabled": False}
-        async with aclosing(self._gql_items(op, kv, limit=limit, ft=ft)) as gen:
-            async for x in gen:
-                yield x
-
-    async def trends(self, _=None, limit=-1, kv=None):
-        async with aclosing(self.trends_raw(_, limit=limit, kv=kv)) as gen:
-            async for rep in gen:
-                for x in parse_tweets(rep.json(), limit):
-                    yield x
