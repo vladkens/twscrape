@@ -315,6 +315,20 @@ async def test_user_tweets_and_replies():
         check_tweet(doc)
 
 
+async def test_raw_user_media():
+    api = API()
+    mock_rep(api.user_media_raw, "raw_user_media", as_generator=True)
+
+    tweets = await gather(api.user_media(2244994945))
+    assert len(tweets) > 0
+
+    for doc in tweets:
+        check_tweet(doc)
+        assert doc.media is not None
+        media_count = len(doc.media.photos) + len(doc.media.videos) + len(doc.media.animated)
+        assert media_count > 0, f"{doc.url} should have media"
+
+
 async def test_list_timeline():
     api = API()
     mock_rep(api.list_timeline_raw, "raw_list_timeline", as_generator=True)

@@ -22,36 +22,37 @@ OP_ListLatestTweetsTimeline = "GX5ovLTwyoN1Td13GHvhIg/ListLatestTweetsTimeline"
 OP_Likes = "RaAkBb4XXis-atDL3rV-xw/Likes"
 OP_BlueVerifiedFollowers = "AXsZSOWx3FCvneEIzxDj6A/BlueVerifiedFollowers"
 OP_UserCreatorSubscriptions = "NHT8e7FjnCS3TP0QfP_OUQ/UserCreatorSubscriptions"
+OP_UserMedia = "aQQLnkexAl5z9ec_UgbEIA/UserMedia"
 
 
 GQL_URL = "https://twitter.com/i/api/graphql"
 GQL_FEATURES = {  # search values here (view source) https://twitter.com/
+    "articles_preview_enabled": False,
+    "c9s_tweet_anatomy_moderator_badge_enabled": True,
+    "communities_web_enable_tweet_community_results_fetch": True,
+    "creator_subscriptions_quote_tweet_preview_enabled": False,
+    "creator_subscriptions_tweet_preview_api_enabled": True,
+    "freedom_of_speech_not_reach_fetch_enabled": True,
+    "graphql_is_translatable_rweb_tweet_is_translatable_enabled": True,
+    "longform_notetweets_consumption_enabled": True,
+    "longform_notetweets_inline_media_enabled": True,
+    "longform_notetweets_rich_text_read_enabled": True,
+    "responsive_web_edit_tweet_api_enabled": True,
+    "responsive_web_enhance_cards_enabled": False,
     "responsive_web_graphql_exclude_directive_enabled": True,
-    "verified_phone_label_enabled": False,
     "responsive_web_graphql_skip_user_profile_image_extensions_enabled": False,
     "responsive_web_graphql_timeline_navigation_enabled": True,
-    "tweetypie_unmention_optimization_enabled": True,
-    "responsive_web_edit_tweet_api_enabled": True,
-    "graphql_is_translatable_rweb_tweet_is_translatable_enabled": True,
-    "view_counts_everywhere_api_enabled": True,
-    "longform_notetweets_consumption_enabled": True,
-    "tweet_awards_web_tipping_enabled": False,
-    "freedom_of_speech_not_reach_fetch_enabled": True,
-    "standardized_nudges_misinfo": True,
-    "tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled": True,
-    "longform_notetweets_rich_text_read_enabled": True,
-    "responsive_web_enhance_cards_enabled": False,
-    "creator_subscriptions_tweet_preview_api_enabled": True,
-    "longform_notetweets_inline_media_enabled": True,
     "responsive_web_media_download_video_enabled": False,
-    "responsive_web_twitter_article_tweet_consumption_enabled": False,
-    "c9s_tweet_anatomy_moderator_badge_enabled": True,
+    "responsive_web_twitter_article_tweet_consumption_enabled": True,
+    "rweb_tipjar_consumption_enabled": True,
     "rweb_video_timestamps_enabled": True,
-    "rweb_tipjar_consumption_enabled": False,
-    "communities_web_enable_tweet_community_results_fetch": False,
-    "creator_subscriptions_quote_tweet_preview_enabled": False,
+    "standardized_nudges_misinfo": True,
+    "tweet_awards_web_tipping_enabled": False,
+    "tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled": True,
     "tweet_with_visibility_results_prefer_gql_media_interstitial_enabled": False,
-    "articles_preview_enabled": False,
+    "tweetypie_unmention_optimization_enabled": True,
+    "verified_phone_label_enabled": False,
+    "view_counts_everywhere_api_enabled": True,
 }
 
 
@@ -110,6 +111,8 @@ class API:
                     params["variables"]["cursor"] = cur
                 if queue in ("SearchTimeline", "ListLatestTweetsTimeline"):
                     params["fieldToggles"] = {"withArticleRichContentState": False}
+                if queue in ("UserMedia",):
+                    params["fieldToggles"] = {"withArticlePlainText": False}
 
                 rep = await client.get(f"{GQL_URL}/{op}", params=encode_params(params))
                 if rep is None:
@@ -381,7 +384,40 @@ class API:
                 for x in parse_tweets(rep.json(), limit):
                     yield x
 
-    # list timeline
+    # user_media
+
+    async def user_media_raw(self, uid: int, limit=-1, kv=None):
+        op = OP_UserMedia
+        kv = {
+            "userId": str(uid),
+            "count": 40,
+            "includePromotedContent": False,
+            "withClientEventToken": False,
+            "withBirdwatchNotes": False,
+            "withVoice": True,
+            "withV2Timeline": True,
+            **(kv or {}),
+        }
+
+        async with aclosing(self._gql_items(op, kv, limit=limit)) as gen:
+            async for x in gen:
+                yield x
+
+    async def user_media(self, uid: int, limit=-1, kv=None):
+        async with aclosing(self.user_media_raw(uid, limit=limit, kv=kv)) as gen:
+            async for rep in gen:
+                for x in parse_tweets(rep, limit):
+                    # sometimes some tweets without media, so skip them
+                    media_count = (
+                        len(x.media.photos) + len(x.media.videos) + len(x.media.animated)
+                        if x.media
+                        else 0
+                    )
+
+                    if media_count > 0:
+                        yield x
+
+    # list_timeline
 
     async def list_timeline_raw(self, list_id: int, limit=-1, kv=None):
         op = OP_ListLatestTweetsTimeline

@@ -13,7 +13,7 @@
                 "type": "TimelinePinEntry",
                 "entry": {
                   "entryId": "tweet-1770153912013615285",
-                  "sortIndex": "1780786178174222336",
+                  "sortIndex": "1780970580711833600",
                   "content": {
                     "entryType": "TimelineTimelineItem",
                     "__typename": "TimelineTimelineItem",
@@ -74,15 +74,15 @@
                                   },
                                   "fast_followers_count": 0,
                                   "favourites_count": 2080,
-                                  "followers_count": 624531,
+                                  "followers_count": 624633,
                                   "friends_count": 1767,
                                   "has_custom_timelines": true,
                                   "is_translator": false,
-                                  "listed_count": 2648,
+                                  "listed_count": 2647,
                                   "location": "127.0.0.1",
                                   "media_count": 815,
                                   "name": "Developers",
-                                  "normal_followers_count": 624531,
+                                  "normal_followers_count": 624633,
                                   "pinned_tweet_ids_str": [
                                     "1770153912013615285"
                                   ],
@@ -109,7 +109,8 @@
                                       "icon_name": "IconBriefcaseStroke"
                                     }
                                   ]
-                                }
+                                },
+                                "tipjar_settings": {}
                               }
                             }
                           },
@@ -124,7 +125,7 @@
                           },
                           "is_translatable": false,
                           "views": {
-                            "count": "150366",
+                            "count": "151117",
                             "state": "EnabledWithCount"
                           },
                           "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
@@ -182,15 +183,15 @@
                                       },
                                       "fast_followers_count": 0,
                                       "favourites_count": 2080,
-                                      "followers_count": 624531,
+                                      "followers_count": 624633,
                                       "friends_count": 1767,
                                       "has_custom_timelines": true,
                                       "is_translator": false,
-                                      "listed_count": 2648,
+                                      "listed_count": 2647,
                                       "location": "127.0.0.1",
                                       "media_count": 815,
                                       "name": "Developers",
-                                      "normal_followers_count": 624531,
+                                      "normal_followers_count": 624633,
                                       "pinned_tweet_ids_str": [
                                         "1770153912013615285"
                                       ],
@@ -217,7 +218,8 @@
                                           "icon_name": "IconBriefcaseStroke"
                                         }
                                       ]
-                                    }
+                                    },
+                                    "tipjar_settings": {}
                                   }
                                 }
                               },
@@ -232,12 +234,83 @@
                               },
                               "is_translatable": false,
                               "views": {
-                                "count": "176793",
+                                "count": "177727",
                                 "state": "EnabledWithCount"
                               },
                               "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+                              "article": {
+                                "article_results": {
+                                  "result": {
+                                    "rest_id": "1765404096096309248",
+                                    "id": "QXJ0aWNsZUVudGl0eToxNzY1NDA0MDk2MDk2MzA5MjQ4",
+                                    "title": "Introducing Top Up",
+                                    "preview_text": "Announcing a Top-Up option for developers using Basic & Pro tiers.\nBased on feedback from our developer community, we are excited to share an update for developers regarding the Basic and Pro tiers",
+                                    "cover_media": {
+                                      "id": "QXBpTWVkaWE6DAAFCgABGH/8XomWcAAKAAIAAAAAhc/ngQAA",
+                                      "media_key": "3_1765407061917986816",
+                                      "media_id": "1765407061917986816",
+                                      "media_info": {
+                                        "__typename": "ApiImage",
+                                        "original_img_height": 1280,
+                                        "original_img_width": 3200,
+                                        "original_img_url": "https://pbs.twimg.com/media/GH_8XomWcAAejUc.jpg",
+                                        "color_info": {
+                                          "palette": [
+                                            {
+                                              "percentage": 78.28,
+                                              "rgb": {
+                                                "blue": 1,
+                                                "green": 1,
+                                                "red": 1
+                                              }
+                                            },
+                                            {
+                                              "percentage": 13.82,
+                                              "rgb": {
+                                                "blue": 210,
+                                                "green": 201,
+                                                "red": 213
+                                              }
+                                            },
+                                            {
+                                              "percentage": 4.52,
+                                              "rgb": {
+                                                "blue": 212,
+                                                "green": 179,
+                                                "red": 150
+                                              }
+                                            },
+                                            {
+                                              "percentage": 0.58,
+                                              "rgb": {
+                                                "blue": 138,
+                                                "green": 162,
+                                                "red": 221
+                                              }
+                                            },
+                                            {
+                                              "percentage": 0.35,
+                                              "rgb": {
+                                                "blue": 89,
+                                                "green": 63,
+                                                "red": 40
+                                              }
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    },
+                                    "lifecycle_state": {
+                                      "modified_at_secs": 1710872773
+                                    },
+                                    "metadata": {
+                                      "first_published_at_secs": 1710872283
+                                    }
+                                  }
+                                }
+                              },
                               "legacy": {
-                                "bookmark_count": 14,
+                                "bookmark_count": 15,
                                 "bookmarked": false,
                                 "created_at": "Tue Mar 19 18:21:36 +0000 2024",
                                 "conversation_id_str": "1770153665782808637",
@@ -262,7 +335,7 @@
                                   ],
                                   "user_mentions": []
                                 },
-                                "favorite_count": 178,
+                                "favorite_count": 179,
                                 "favorited": false,
                                 "full_text": "https://t.co/JJ8VVI0aeO",
                                 "is_quote_status": false,
@@ -271,7 +344,7 @@
                                 "possibly_sensitive_editable": true,
                                 "quote_count": 10,
                                 "reply_count": 17,
-                                "retweet_count": 21,
+                                "retweet_count": 22,
                                 "retweeted": false,
                                 "user_id_str": "2244994945",
                                 "id_str": "1770153665782808637"
@@ -279,7 +352,7 @@
                             }
                           },
                           "legacy": {
-                            "bookmark_count": 54,
+                            "bookmark_count": 55,
                             "bookmarked": false,
                             "created_at": "Tue Mar 19 18:22:35 +0000 2024",
                             "conversation_id_str": "1770153912013615285",
@@ -294,7 +367,7 @@
                               "urls": [],
                               "user_mentions": []
                             },
-                            "favorite_count": 1078,
+                            "favorite_count": 1087,
                             "favorited": false,
                             "full_text": "X API New Feature Announcement!\n\nIntroducing Top Up —  A new and simple way to boost your Basic or Pro subscription.\n\nArticle below for more info. Start today!",
                             "is_quote_status": true,
@@ -307,7 +380,7 @@
                               "display": "x.com/XDevelopers/st…"
                             },
                             "reply_count": 117,
-                            "retweet_count": 107,
+                            "retweet_count": 111,
                             "retweeted": false,
                             "user_id_str": "2244994945",
                             "id_str": "1770153912013615285"
@@ -333,7 +406,7 @@
                 "entries": [
                   {
                     "entryId": "tweet-1778121956828561901",
-                    "sortIndex": "1780786178174222335",
+                    "sortIndex": "1780970580711833599",
                     "content": {
                       "entryType": "TimelineTimelineItem",
                       "__typename": "TimelineTimelineItem",
@@ -394,15 +467,15 @@
                                     },
                                     "fast_followers_count": 0,
                                     "favourites_count": 2080,
-                                    "followers_count": 624531,
+                                    "followers_count": 624633,
                                     "friends_count": 1767,
                                     "has_custom_timelines": true,
                                     "is_translator": false,
-                                    "listed_count": 2648,
+                                    "listed_count": 2647,
                                     "location": "127.0.0.1",
                                     "media_count": 815,
                                     "name": "Developers",
-                                    "normal_followers_count": 624531,
+                                    "normal_followers_count": 624633,
                                     "pinned_tweet_ids_str": [
                                       "1770153912013615285"
                                     ],
@@ -429,7 +502,8 @@
                                         "icon_name": "IconBriefcaseStroke"
                                       }
                                     ]
-                                  }
+                                  },
+                                  "tipjar_settings": {}
                                 }
                               }
                             },
@@ -444,7 +518,7 @@
                             },
                             "is_translatable": false,
                             "views": {
-                              "count": "92126",
+                              "count": "92677",
                               "state": "EnabledWithCount"
                             },
                             "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
@@ -507,16 +581,16 @@
                                           }
                                         },
                                         "fast_followers_count": 0,
-                                        "favourites_count": 8879,
-                                        "followers_count": 313968,
+                                        "favourites_count": 8880,
+                                        "followers_count": 313953,
                                         "friends_count": 518,
                                         "has_custom_timelines": true,
                                         "is_translator": false,
                                         "listed_count": 2381,
                                         "location": "based in Paris, works globally",
-                                        "media_count": 107054,
+                                        "media_count": 107061,
                                         "name": "EMSC",
-                                        "normal_followers_count": 313968,
+                                        "normal_followers_count": 313953,
                                         "pinned_tweet_ids_str": [
                                           "1779873428549280195"
                                         ],
@@ -525,13 +599,14 @@
                                         "profile_image_url_https": "https://pbs.twimg.com/profile_images/669532787897147392/hQM844QV_normal.png",
                                         "profile_interstitial_type": "",
                                         "screen_name": "LastQuake",
-                                        "statuses_count": 174560,
+                                        "statuses_count": 174574,
                                         "translator_type": "none",
                                         "url": "https://t.co/Gqo1PffnsH",
                                         "verified": false,
                                         "want_retweets": false,
                                         "withheld_in_countries": []
-                                      }
+                                      },
+                                      "tipjar_settings": {}
                                     }
                                   }
                                 },
@@ -546,7 +621,7 @@
                                 },
                                 "is_translatable": false,
                                 "views": {
-                                  "count": "88930",
+                                  "count": "89380",
                                   "state": "EnabledWithCount"
                                 },
                                 "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
@@ -1006,7 +1081,7 @@
                                   }
                                 ]
                               },
-                              "favorite_count": 419,
+                              "favorite_count": 421,
                               "favorited": false,
                               "full_text": "X accelerates public access to real-time information! Our API enabled the first info on the NYC earthquake to be shared on @LastQuake within only 78 seconds of the event.",
                               "is_quote_status": true,
@@ -1042,7 +1117,7 @@
                   },
                   {
                     "entryId": "tweet-1772690302920233421",
-                    "sortIndex": "1780786178174222334",
+                    "sortIndex": "1780970580711833598",
                     "content": {
                       "entryType": "TimelineTimelineItem",
                       "__typename": "TimelineTimelineItem",
@@ -1103,15 +1178,15 @@
                                     },
                                     "fast_followers_count": 0,
                                     "favourites_count": 2080,
-                                    "followers_count": 624531,
+                                    "followers_count": 624633,
                                     "friends_count": 1767,
                                     "has_custom_timelines": true,
                                     "is_translator": false,
-                                    "listed_count": 2648,
+                                    "listed_count": 2647,
                                     "location": "127.0.0.1",
                                     "media_count": 815,
                                     "name": "Developers",
-                                    "normal_followers_count": 624531,
+                                    "normal_followers_count": 624633,
                                     "pinned_tweet_ids_str": [
                                       "1770153912013615285"
                                     ],
@@ -1138,7 +1213,8 @@
                                         "icon_name": "IconBriefcaseStroke"
                                       }
                                     ]
-                                  }
+                                  },
+                                  "tipjar_settings": {}
                                 }
                               }
                             },
@@ -1153,7 +1229,7 @@
                             },
                             "is_translatable": false,
                             "views": {
-                              "count": "55219",
+                              "count": "55525",
                               "state": "EnabledWithCount"
                             },
                             "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
@@ -1232,7 +1308,7 @@
                                         },
                                         "fast_followers_count": 0,
                                         "favourites_count": 3126,
-                                        "followers_count": 525953,
+                                        "followers_count": 525923,
                                         "friends_count": 4,
                                         "has_custom_timelines": true,
                                         "is_translator": false,
@@ -1240,7 +1316,7 @@
                                         "location": "",
                                         "media_count": 1139,
                                         "name": "Careers",
-                                        "normal_followers_count": 525953,
+                                        "normal_followers_count": 525923,
                                         "pinned_tweet_ids_str": [
                                           "1776019263708418258"
                                         ],
@@ -1256,7 +1332,8 @@
                                         "verified_type": "Business",
                                         "want_retweets": false,
                                         "withheld_in_countries": []
-                                      }
+                                      },
+                                      "tipjar_settings": {}
                                     }
                                   }
                                 },
@@ -1307,7 +1384,7 @@
                                 },
                                 "is_translatable": false,
                                 "views": {
-                                  "count": "6571694",
+                                  "count": "6572154",
                                   "state": "EnabledWithCount"
                                 },
                                 "source": "<a href=\"https://twitter.com\" rel=\"nofollow\">Twitter for Advertisers</a>",
@@ -1327,14 +1404,14 @@
                                     "urls": [],
                                     "user_mentions": []
                                   },
-                                  "favorite_count": 1135,
+                                  "favorite_count": 1133,
                                   "favorited": false,
                                   "full_text": "🚨 Attention engineering students 🚨 \n\nProve your dev skills at our X Developer Challenge &amp; compete with other teams to build exciting new features on top of powerful APIs.\n\nRegister below  👇",
                                   "is_quote_status": false,
                                   "lang": "en",
                                   "quote_count": 34,
-                                  "reply_count": 236,
-                                  "retweet_count": 133,
+                                  "reply_count": 235,
+                                  "retweet_count": 134,
                                   "retweeted": false,
                                   "scopes": {
                                     "followers": false
@@ -1360,7 +1437,7 @@
                                 "urls": [],
                                 "user_mentions": []
                               },
-                              "favorite_count": 324,
+                              "favorite_count": 327,
                               "favorited": false,
                               "full_text": "Calling all engineering students! 🗣️\n\nX Developer Challenge is a great way to compete and showcase your developer abilities. Those with the best prototypes that unlock strong utility will be announced as winners with special prizes.\n\nRegister &amp; build with our v2 API suite! \n\nMore…",
                               "is_quote_status": true,
@@ -1372,8 +1449,8 @@
                                 "expanded": "https://twitter.com/XCareers/status/1772674850278220227",
                                 "display": "x.com/XCareers/statu…"
                               },
-                              "reply_count": 32,
-                              "retweet_count": 40,
+                              "reply_count": 33,
+                              "retweet_count": 41,
                               "retweeted": false,
                               "user_id_str": "2244994945",
                               "id_str": "1772690302920233421"
@@ -1396,7 +1473,7 @@
                   },
                   {
                     "entryId": "tweet-1770240993335419300",
-                    "sortIndex": "1780786178174222333",
+                    "sortIndex": "1780970580711833597",
                     "content": {
                       "entryType": "TimelineTimelineItem",
                       "__typename": "TimelineTimelineItem",
@@ -1457,15 +1534,15 @@
                                     },
                                     "fast_followers_count": 0,
                                     "favourites_count": 2080,
-                                    "followers_count": 624531,
+                                    "followers_count": 624633,
                                     "friends_count": 1767,
                                     "has_custom_timelines": true,
                                     "is_translator": false,
-                                    "listed_count": 2648,
+                                    "listed_count": 2647,
                                     "location": "127.0.0.1",
                                     "media_count": 815,
                                     "name": "Developers",
-                                    "normal_followers_count": 624531,
+                                    "normal_followers_count": 624633,
                                     "pinned_tweet_ids_str": [
                                       "1770153912013615285"
                                     ],
@@ -1492,7 +1569,8 @@
                                         "icon_name": "IconBriefcaseStroke"
                                       }
                                     ]
-                                  }
+                                  },
+                                  "tipjar_settings": {}
                                 }
                               }
                             },
@@ -1550,7 +1628,7 @@
                                 "display": "x.com/XDevelopers/st…"
                               },
                               "reply_count": 0,
-                              "retweet_count": 107,
+                              "retweet_count": 111,
                               "retweeted": false,
                               "user_id_str": "2244994945",
                               "id_str": "1770240993335419300",
@@ -1608,15 +1686,15 @@
                                           },
                                           "fast_followers_count": 0,
                                           "favourites_count": 2080,
-                                          "followers_count": 624531,
+                                          "followers_count": 624633,
                                           "friends_count": 1767,
                                           "has_custom_timelines": true,
                                           "is_translator": false,
-                                          "listed_count": 2648,
+                                          "listed_count": 2647,
                                           "location": "127.0.0.1",
                                           "media_count": 815,
                                           "name": "Developers",
-                                          "normal_followers_count": 624531,
+                                          "normal_followers_count": 624633,
                                           "pinned_tweet_ids_str": [
                                             "1770153912013615285"
                                           ],
@@ -1643,7 +1721,8 @@
                                               "icon_name": "IconBriefcaseStroke"
                                             }
                                           ]
-                                        }
+                                        },
+                                        "tipjar_settings": {}
                                       }
                                     }
                                   },
@@ -1658,7 +1737,7 @@
                                   },
                                   "is_translatable": false,
                                   "views": {
-                                    "count": "150366",
+                                    "count": "151117",
                                     "state": "EnabledWithCount"
                                   },
                                   "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
@@ -1716,15 +1795,15 @@
                                               },
                                               "fast_followers_count": 0,
                                               "favourites_count": 2080,
-                                              "followers_count": 624531,
+                                              "followers_count": 624633,
                                               "friends_count": 1767,
                                               "has_custom_timelines": true,
                                               "is_translator": false,
-                                              "listed_count": 2648,
+                                              "listed_count": 2647,
                                               "location": "127.0.0.1",
                                               "media_count": 815,
                                               "name": "Developers",
-                                              "normal_followers_count": 624531,
+                                              "normal_followers_count": 624633,
                                               "pinned_tweet_ids_str": [
                                                 "1770153912013615285"
                                               ],
@@ -1751,7 +1830,8 @@
                                                   "icon_name": "IconBriefcaseStroke"
                                                 }
                                               ]
-                                            }
+                                            },
+                                            "tipjar_settings": {}
                                           }
                                         }
                                       },
@@ -1766,12 +1846,83 @@
                                       },
                                       "is_translatable": false,
                                       "views": {
-                                        "count": "176793",
+                                        "count": "177727",
                                         "state": "EnabledWithCount"
                                       },
                                       "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+                                      "article": {
+                                        "article_results": {
+                                          "result": {
+                                            "rest_id": "1765404096096309248",
+                                            "id": "QXJ0aWNsZUVudGl0eToxNzY1NDA0MDk2MDk2MzA5MjQ4",
+                                            "title": "Introducing Top Up",
+                                            "preview_text": "Announcing a Top-Up option for developers using Basic & Pro tiers.\nBased on feedback from our developer community, we are excited to share an update for developers regarding the Basic and Pro tiers",
+                                            "cover_media": {
+                                              "id": "QXBpTWVkaWE6DAAFCgABGH/8XomWcAAKAAIAAAAAhc/ngQAA",
+                                              "media_key": "3_1765407061917986816",
+                                              "media_id": "1765407061917986816",
+                                              "media_info": {
+                                                "__typename": "ApiImage",
+                                                "original_img_height": 1280,
+                                                "original_img_width": 3200,
+                                                "original_img_url": "https://pbs.twimg.com/media/GH_8XomWcAAejUc.jpg",
+                                                "color_info": {
+                                                  "palette": [
+                                                    {
+                                                      "percentage": 78.28,
+                                                      "rgb": {
+                                                        "blue": 1,
+                                                        "green": 1,
+                                                        "red": 1
+                                                      }
+                                                    },
+                                                    {
+                                                      "percentage": 13.82,
+                                                      "rgb": {
+                                                        "blue": 210,
+                                                        "green": 201,
+                                                        "red": 213
+                                                      }
+                                                    },
+                                                    {
+                                                      "percentage": 4.52,
+                                                      "rgb": {
+                                                        "blue": 212,
+                                                        "green": 179,
+                                                        "red": 150
+                                                      }
+                                                    },
+                                                    {
+                                                      "percentage": 0.58,
+                                                      "rgb": {
+                                                        "blue": 138,
+                                                        "green": 162,
+                                                        "red": 221
+                                                      }
+                                                    },
+                                                    {
+                                                      "percentage": 0.35,
+                                                      "rgb": {
+                                                        "blue": 89,
+                                                        "green": 63,
+                                                        "red": 40
+                                                      }
+                                                    }
+                                                  ]
+                                                }
+                                              }
+                                            },
+                                            "lifecycle_state": {
+                                              "modified_at_secs": 1710872773
+                                            },
+                                            "metadata": {
+                                              "first_published_at_secs": 1710872283
+                                            }
+                                          }
+                                        }
+                                      },
                                       "legacy": {
-                                        "bookmark_count": 14,
+                                        "bookmark_count": 15,
                                         "bookmarked": false,
                                         "created_at": "Tue Mar 19 18:21:36 +0000 2024",
                                         "conversation_id_str": "1770153665782808637",
@@ -1796,7 +1947,7 @@
                                           ],
                                           "user_mentions": []
                                         },
-                                        "favorite_count": 178,
+                                        "favorite_count": 179,
                                         "favorited": false,
                                         "full_text": "https://t.co/JJ8VVI0aeO",
                                         "is_quote_status": false,
@@ -1805,7 +1956,7 @@
                                         "possibly_sensitive_editable": true,
                                         "quote_count": 10,
                                         "reply_count": 17,
-                                        "retweet_count": 21,
+                                        "retweet_count": 22,
                                         "retweeted": false,
                                         "user_id_str": "2244994945",
                                         "id_str": "1770153665782808637"
@@ -1813,7 +1964,7 @@
                                     }
                                   },
                                   "legacy": {
-                                    "bookmark_count": 54,
+                                    "bookmark_count": 55,
                                     "bookmarked": false,
                                     "created_at": "Tue Mar 19 18:22:35 +0000 2024",
                                     "conversation_id_str": "1770153912013615285",
@@ -1828,7 +1979,7 @@
                                       "urls": [],
                                       "user_mentions": []
                                     },
-                                    "favorite_count": 1078,
+                                    "favorite_count": 1087,
                                     "favorited": false,
                                     "full_text": "X API New Feature Announcement!\n\nIntroducing Top Up —  A new and simple way to boost your Basic or Pro subscription.\n\nArticle below for more info. Start today!",
                                     "is_quote_status": true,
@@ -1841,7 +1992,7 @@
                                       "display": "x.com/XDevelopers/st…"
                                     },
                                     "reply_count": 117,
-                                    "retweet_count": 107,
+                                    "retweet_count": 111,
                                     "retweeted": false,
                                     "user_id_str": "2244994945",
                                     "id_str": "1770153912013615285"
@@ -1867,7 +2018,7 @@
                   },
                   {
                     "entryId": "tweet-1770240826079158785",
-                    "sortIndex": "1780786178174222332",
+                    "sortIndex": "1780970580711833596",
                     "content": {
                       "entryType": "TimelineTimelineItem",
                       "__typename": "TimelineTimelineItem",
@@ -1928,15 +2079,15 @@
                                     },
                                     "fast_followers_count": 0,
                                     "favourites_count": 2080,
-                                    "followers_count": 624531,
+                                    "followers_count": 624633,
                                     "friends_count": 1767,
                                     "has_custom_timelines": true,
                                     "is_translator": false,
-                                    "listed_count": 2648,
+                                    "listed_count": 2647,
                                     "location": "127.0.0.1",
                                     "media_count": 815,
                                     "name": "Developers",
-                                    "normal_followers_count": 624531,
+                                    "normal_followers_count": 624633,
                                     "pinned_tweet_ids_str": [
                                       "1770153912013615285"
                                     ],
@@ -1963,7 +2114,8 @@
                                         "icon_name": "IconBriefcaseStroke"
                                       }
                                     ]
-                                  }
+                                  },
+                                  "tipjar_settings": {}
                                 }
                               }
                             },
@@ -2014,7 +2166,7 @@
                               "lang": "en",
                               "quote_count": 0,
                               "reply_count": 0,
-                              "retweet_count": 460,
+                              "retweet_count": 459,
                               "retweeted": false,
                               "user_id_str": "2244994945",
                               "id_str": "1770240826079158785",
@@ -2072,15 +2224,15 @@
                                           },
                                           "fast_followers_count": 0,
                                           "favourites_count": 510,
-                                          "followers_count": 7385442,
+                                          "followers_count": 7385082,
                                           "friends_count": 19,
                                           "has_custom_timelines": true,
                                           "is_translator": false,
-                                          "listed_count": 15789,
+                                          "listed_count": 15788,
                                           "location": "X HQ",
                                           "media_count": 273,
                                           "name": "Support",
-                                          "normal_followers_count": 7385442,
+                                          "normal_followers_count": 7385082,
                                           "pinned_tweet_ids_str": [],
                                           "possibly_sensitive": false,
                                           "profile_banner_url": "https://pbs.twimg.com/profile_banners/17874544/1690214608",
@@ -2094,7 +2246,8 @@
                                           "verified_type": "Business",
                                           "want_retweets": false,
                                           "withheld_in_countries": []
-                                        }
+                                        },
+                                        "tipjar_settings": {}
                                       }
                                     }
                                   },
@@ -2109,7 +2262,7 @@
                                   },
                                   "is_translatable": false,
                                   "views": {
-                                    "count": "596284",
+                                    "count": "597100",
                                     "state": "EnabledWithCount"
                                   },
                                   "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
@@ -2129,14 +2282,14 @@
                                       "urls": [],
                                       "user_mentions": []
                                     },
-                                    "favorite_count": 2085,
+                                    "favorite_count": 2083,
                                     "favorited": false,
                                     "full_text": "We’re aware that some users are encountering an error when logging into X or creating a new account. We’re working on it and will share an update when things are back to normal. Thanks for sticking with us!",
                                     "is_quote_status": false,
                                     "lang": "en",
                                     "quote_count": 406,
-                                    "reply_count": 1197,
-                                    "retweet_count": 460,
+                                    "reply_count": 1201,
+                                    "retweet_count": 459,
                                     "retweeted": false,
                                     "user_id_str": "17874544",
                                     "id_str": "1770207298021143028"
@@ -2161,14 +2314,14 @@
                     }
                   },
                   {
-                    "entryId": "who-to-follow-1780786178174222341",
-                    "sortIndex": "1780786178174222331",
+                    "entryId": "who-to-follow-1780970580711833605",
+                    "sortIndex": "1780970580711833595",
                     "content": {
                       "entryType": "TimelineTimelineModule",
                       "__typename": "TimelineTimelineModule",
                       "items": [
                         {
-                          "entryId": "who-to-follow-1780786178174222341-user-6253282",
+                          "entryId": "who-to-follow-1780970580711833605-user-6253282",
                           "item": {
                             "itemContent": {
                               "itemType": "TimelineUser",
@@ -2222,7 +2375,7 @@
                                     },
                                     "fast_followers_count": 0,
                                     "favourites_count": 4,
-                                    "followers_count": 5922548,
+                                    "followers_count": 5922375,
                                     "friends_count": 11,
                                     "has_custom_timelines": false,
                                     "is_translator": false,
@@ -2230,7 +2383,7 @@
                                     "location": "",
                                     "media_count": 9,
                                     "name": "API",
-                                    "normal_followers_count": 5922548,
+                                    "normal_followers_count": 5922375,
                                     "pinned_tweet_ids_str": [],
                                     "possibly_sensitive": false,
                                     "profile_banner_url": "https://pbs.twimg.com/profile_banners/6253282/1690212094",
@@ -2244,7 +2397,8 @@
                                     "verified_type": "Business",
                                     "want_retweets": false,
                                     "withheld_in_countries": []
-                                  }
+                                  },
+                                  "tipjar_settings": {}
                                 }
                               },
                               "userDisplayType": "User"
@@ -2256,14 +2410,14 @@
                                 "timelinesDetails": {
                                   "injectionType": "WhoToFollow",
                                   "controllerData": "DAACDAACDAABCgABAAAAAAAAAAgAAAAA",
-                                  "sourceData": "DAABCgABEXmmz4kko8kKAAIAAAAAAAAAAAAIAAIAAACDCAADAAAAAgwABQwAAgwAAgwAAQoAAQAAAAAAAAAIAAAAAAA="
+                                  "sourceData": "DAABCgAB3GBgcHo3bqkKAAIAAAAAAAAAAAAIAAIAAACDCAADAAAAAgwABQwAAgwAAgwAAQoAAQAAAAAAAAAIAAAAAAA="
                                 }
                               }
                             }
                           }
                         },
                         {
-                          "entryId": "who-to-follow-1780786178174222341-user-31311757",
+                          "entryId": "who-to-follow-1780970580711833605-user-31311757",
                           "item": {
                             "itemContent": {
                               "itemType": "TimelineUser",
@@ -2304,29 +2458,30 @@
                                     },
                                     "fast_followers_count": 0,
                                     "favourites_count": 3444,
-                                    "followers_count": 4405515,
+                                    "followers_count": 4405326,
                                     "friends_count": 60,
                                     "has_custom_timelines": true,
                                     "is_translator": false,
-                                    "listed_count": 16965,
+                                    "listed_count": 16964,
                                     "location": "",
                                     "media_count": 2987,
                                     "name": "Google Maps",
-                                    "normal_followers_count": 4405515,
+                                    "normal_followers_count": 4405326,
                                     "pinned_tweet_ids_str": [],
                                     "possibly_sensitive": false,
                                     "profile_banner_url": "https://pbs.twimg.com/profile_banners/31311757/1635803694",
                                     "profile_image_url_https": "https://pbs.twimg.com/profile_images/1455292284958695424/SP3GFrPA_normal.jpg",
                                     "profile_interstitial_type": "",
                                     "screen_name": "googlemaps",
-                                    "statuses_count": 140914,
+                                    "statuses_count": 140935,
                                     "translator_type": "none",
                                     "url": "https://t.co/WEaDNM49BF",
                                     "verified": false,
                                     "verified_type": "Business",
                                     "want_retweets": false,
                                     "withheld_in_countries": []
-                                  }
+                                  },
+                                  "tipjar_settings": {}
                                 }
                               },
                               "userDisplayType": "User"
@@ -2338,14 +2493,14 @@
                                 "timelinesDetails": {
                                   "injectionType": "WhoToFollow",
                                   "controllerData": "DAACDAACDAABCgABAAAAAAAAAAgAAAAA",
-                                  "sourceData": "DAABCgABEXmmz4kko8kKAAIAAAAAAAAAAAAIAAIAAACDCAADAAAAAgwABQwAAgwAAgwAAQoAAQAAAAAAAAAIAAAAAAA="
+                                  "sourceData": "DAABCgAB3GBgcHo3bqkKAAIAAAAAAAAAAAAIAAIAAACDCAADAAAAAgwABQwAAgwAAgwAAQoAAQAAAAAAAAAIAAAAAAA="
                                 }
                               }
                             }
                           }
                         },
                         {
-                          "entryId": "who-to-follow-1780786178174222341-user-66780587",
+                          "entryId": "who-to-follow-1780970580711833605-user-1668100142",
                           "item": {
                             "itemContent": {
                               "itemType": "TimelineUser",
@@ -2353,19 +2508,19 @@
                               "user_results": {
                                 "result": {
                                   "__typename": "User",
-                                  "id": "VXNlcjo2Njc4MDU4Nw==",
-                                  "rest_id": "66780587",
+                                  "id": "VXNlcjoxNjY4MTAwMTQy",
+                                  "rest_id": "1668100142",
                                   "affiliates_highlighted_label": {},
                                   "has_graduated_access": true,
                                   "is_blue_verified": true,
-                                  "profile_image_shape": "Square",
+                                  "profile_image_shape": "Circle",
                                   "legacy": {
                                     "can_dm": false,
                                     "can_media_tag": true,
-                                    "created_at": "Tue Aug 18 19:52:16 +0000 2009",
+                                    "created_at": "Tue Aug 13 15:27:51 +0000 2013",
                                     "default_profile": false,
                                     "default_profile_image": false,
-                                    "description": "The official account for Amazon Web Services (#AWS). ☁️\nFor help, please contact: @AWSSupport",
+                                    "description": "We're a community of millions of people who are building new skills and getting new jobs together. A 501(c)(3) public charity. Tweets by @abbeyrenn.",
                                     "entities": {
                                       "description": {
                                         "urls": []
@@ -2373,9 +2528,9 @@
                                       "url": {
                                         "urls": [
                                           {
-                                            "display_url": "aws.amazon.com",
-                                            "expanded_url": "https://aws.amazon.com",
-                                            "url": "https://t.co/Ig9jO3qmIF",
+                                            "display_url": "freecodecamp.org",
+                                            "expanded_url": "https://www.freecodecamp.org",
+                                            "url": "https://t.co/LHs4dxj9fJ",
                                             "indices": [
                                               0,
                                               23
@@ -2385,43 +2540,30 @@
                                       }
                                     },
                                     "fast_followers_count": 0,
-                                    "favourites_count": 11640,
-                                    "followers_count": 2206562,
-                                    "friends_count": 465,
-                                    "has_custom_timelines": true,
+                                    "favourites_count": 77652,
+                                    "followers_count": 853547,
+                                    "friends_count": 162,
+                                    "has_custom_timelines": false,
                                     "is_translator": false,
-                                    "listed_count": 9712,
-                                    "location": "Seattle, WA",
-                                    "media_count": 30751,
-                                    "name": "Amazon Web Services",
-                                    "normal_followers_count": 2206562,
-                                    "pinned_tweet_ids_str": [
-                                      "1780246552151240717"
-                                    ],
+                                    "listed_count": 6915,
+                                    "location": "Just here on Earth... for now",
+                                    "media_count": 1221,
+                                    "name": "freeCodeCamp.org",
+                                    "normal_followers_count": 853547,
+                                    "pinned_tweet_ids_str": [],
                                     "possibly_sensitive": false,
-                                    "profile_banner_url": "https://pbs.twimg.com/profile_banners/66780587/1670264120",
-                                    "profile_image_url_https": "https://pbs.twimg.com/profile_images/1641476962362302464/K8lb6OtN_normal.jpg",
+                                    "profile_banner_url": "https://pbs.twimg.com/profile_banners/1668100142/1711032731",
+                                    "profile_image_url_https": "https://pbs.twimg.com/profile_images/1276770212927410176/qTgTIejk_normal.jpg",
                                     "profile_interstitial_type": "",
-                                    "screen_name": "awscloud",
-                                    "statuses_count": 40967,
+                                    "screen_name": "freeCodeCamp",
+                                    "statuses_count": 31391,
                                     "translator_type": "none",
-                                    "url": "https://t.co/Ig9jO3qmIF",
+                                    "url": "https://t.co/LHs4dxj9fJ",
                                     "verified": false,
-                                    "verified_type": "Business",
                                     "want_retweets": false,
                                     "withheld_in_countries": []
                                   },
-                                  "professional": {
-                                    "rest_id": "1534934528342446080",
-                                    "professional_type": "Business",
-                                    "category": [
-                                      {
-                                        "id": 714,
-                                        "name": "Technology Company",
-                                        "icon_name": "IconBriefcaseStroke"
-                                      }
-                                    ]
-                                  }
+                                  "tipjar_settings": {}
                                 }
                               },
                               "userDisplayType": "User"
@@ -2433,7 +2575,7 @@
                                 "timelinesDetails": {
                                   "injectionType": "WhoToFollow",
                                   "controllerData": "DAACDAACDAABCgABAAAAAAAAAAgAAAAA",
-                                  "sourceData": "DAABCgABEXmmz4kko8kKAAIAAAAAAAAAAAAIAAIAAACDCAADAAAAAgwABQwAAgwAAgwAAQoAAQAAAAAAAAAIAAAAAAA="
+                                  "sourceData": "DAABCgAB3GBgcHo3bqkKAAIAAAAAAAAAAAAIAAIAAACDCAADAAAAAgwABQwAAgwAAgwAAQoAAQAAAAAAAAAIAAAAAAA="
                                 }
                               }
                             }
@@ -2460,7 +2602,7 @@
                           "timelinesDetails": {
                             "injectionType": "WhoToFollow",
                             "controllerData": "DAACDAACDAABCgABAAAAAAAAAAgAAAAA",
-                            "sourceData": "DAABCgABEXmmz4kko8kKAAIAAAAAAAAAAAAIAAIAAACDCAADAAAAAgwABQwAAgwAAgwAAQoAAQAAAAAAAAAIAAAAAAA="
+                            "sourceData": "DAABCgAB3GBgcHo3bqkKAAIAAAAAAAAAAAAIAAIAAACDCAADAAAAAgwABQwAAgwAAgwAAQoAAQAAAAAAAAAIAAAAAAA="
                           }
                         }
                       }
@@ -2468,7 +2610,7 @@
                   },
                   {
                     "entryId": "tweet-1770153665782808637",
-                    "sortIndex": "1780786178174222330",
+                    "sortIndex": "1780970580711833594",
                     "content": {
                       "entryType": "TimelineTimelineItem",
                       "__typename": "TimelineTimelineItem",
@@ -2529,15 +2671,15 @@
                                     },
                                     "fast_followers_count": 0,
                                     "favourites_count": 2080,
-                                    "followers_count": 624531,
+                                    "followers_count": 624633,
                                     "friends_count": 1767,
                                     "has_custom_timelines": true,
                                     "is_translator": false,
-                                    "listed_count": 2648,
+                                    "listed_count": 2647,
                                     "location": "127.0.0.1",
                                     "media_count": 815,
                                     "name": "Developers",
-                                    "normal_followers_count": 624531,
+                                    "normal_followers_count": 624633,
                                     "pinned_tweet_ids_str": [
                                       "1770153912013615285"
                                     ],
@@ -2564,7 +2706,8 @@
                                         "icon_name": "IconBriefcaseStroke"
                                       }
                                     ]
-                                  }
+                                  },
+                                  "tipjar_settings": {}
                                 }
                               }
                             },
@@ -2579,12 +2722,83 @@
                             },
                             "is_translatable": false,
                             "views": {
-                              "count": "176793",
+                              "count": "177727",
                               "state": "EnabledWithCount"
                             },
                             "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+                            "article": {
+                              "article_results": {
+                                "result": {
+                                  "rest_id": "1765404096096309248",
+                                  "id": "QXJ0aWNsZUVudGl0eToxNzY1NDA0MDk2MDk2MzA5MjQ4",
+                                  "title": "Introducing Top Up",
+                                  "preview_text": "Announcing a Top-Up option for developers using Basic & Pro tiers.\nBased on feedback from our developer community, we are excited to share an update for developers regarding the Basic and Pro tiers",
+                                  "cover_media": {
+                                    "id": "QXBpTWVkaWE6DAAFCgABGH/8XomWcAAKAAIAAAAAhc/ngQAA",
+                                    "media_key": "3_1765407061917986816",
+                                    "media_id": "1765407061917986816",
+                                    "media_info": {
+                                      "__typename": "ApiImage",
+                                      "original_img_height": 1280,
+                                      "original_img_width": 3200,
+                                      "original_img_url": "https://pbs.twimg.com/media/GH_8XomWcAAejUc.jpg",
+                                      "color_info": {
+                                        "palette": [
+                                          {
+                                            "percentage": 78.28,
+                                            "rgb": {
+                                              "blue": 1,
+                                              "green": 1,
+                                              "red": 1
+                                            }
+                                          },
+                                          {
+                                            "percentage": 13.82,
+                                            "rgb": {
+                                              "blue": 210,
+                                              "green": 201,
+                                              "red": 213
+                                            }
+                                          },
+                                          {
+                                            "percentage": 4.52,
+                                            "rgb": {
+                                              "blue": 212,
+                                              "green": 179,
+                                              "red": 150
+                                            }
+                                          },
+                                          {
+                                            "percentage": 0.58,
+                                            "rgb": {
+                                              "blue": 138,
+                                              "green": 162,
+                                              "red": 221
+                                            }
+                                          },
+                                          {
+                                            "percentage": 0.35,
+                                            "rgb": {
+                                              "blue": 89,
+                                              "green": 63,
+                                              "red": 40
+                                            }
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  "lifecycle_state": {
+                                    "modified_at_secs": 1710872773
+                                  },
+                                  "metadata": {
+                                    "first_published_at_secs": 1710872283
+                                  }
+                                }
+                              }
+                            },
                             "legacy": {
-                              "bookmark_count": 14,
+                              "bookmark_count": 15,
                               "bookmarked": false,
                               "created_at": "Tue Mar 19 18:21:36 +0000 2024",
                               "conversation_id_str": "1770153665782808637",
@@ -2609,7 +2823,7 @@
                                 ],
                                 "user_mentions": []
                               },
-                              "favorite_count": 178,
+                              "favorite_count": 179,
                               "favorited": false,
                               "full_text": "https://t.co/JJ8VVI0aeO",
                               "is_quote_status": false,
@@ -2618,7 +2832,7 @@
                               "possibly_sensitive_editable": true,
                               "quote_count": 10,
                               "reply_count": 17,
-                              "retweet_count": 21,
+                              "retweet_count": 22,
                               "retweeted": false,
                               "user_id_str": "2244994945",
                               "id_str": "1770153665782808637"
@@ -2641,7 +2855,7 @@
                   },
                   {
                     "entryId": "tweet-1735357096777138304",
-                    "sortIndex": "1780786178174222329",
+                    "sortIndex": "1780970580711833593",
                     "content": {
                       "entryType": "TimelineTimelineItem",
                       "__typename": "TimelineTimelineItem",
@@ -2702,15 +2916,15 @@
                                     },
                                     "fast_followers_count": 0,
                                     "favourites_count": 2080,
-                                    "followers_count": 624531,
+                                    "followers_count": 624633,
                                     "friends_count": 1767,
                                     "has_custom_timelines": true,
                                     "is_translator": false,
-                                    "listed_count": 2648,
+                                    "listed_count": 2647,
                                     "location": "127.0.0.1",
                                     "media_count": 815,
                                     "name": "Developers",
-                                    "normal_followers_count": 624531,
+                                    "normal_followers_count": 624633,
                                     "pinned_tweet_ids_str": [
                                       "1770153912013615285"
                                     ],
@@ -2737,7 +2951,8 @@
                                         "icon_name": "IconBriefcaseStroke"
                                       }
                                     ]
-                                  }
+                                  },
+                                  "tipjar_settings": {}
                                 }
                               }
                             },
@@ -2891,7 +3106,7 @@
                             },
                             "is_translatable": false,
                             "views": {
-                              "count": "134821",
+                              "count": "134964",
                               "state": "EnabledWithCount"
                             },
                             "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
@@ -2921,7 +3136,7 @@
                                 ],
                                 "user_mentions": []
                               },
-                              "favorite_count": 660,
+                              "favorite_count": 662,
                               "favorited": false,
                               "full_text": "Users search and Trends lookup endpoints are now available in X API v2 -- exclusively on Pro &amp; Enterprise! \n\nWant to learn more about what these endpoints can do, visit here: https://t.co/iWVHGMWojH",
                               "is_quote_status": false,
@@ -2929,8 +3144,8 @@
                               "possibly_sensitive": false,
                               "possibly_sensitive_editable": true,
                               "quote_count": 18,
-                              "reply_count": 80,
-                              "retweet_count": 112,
+                              "reply_count": 79,
+                              "retweet_count": 111,
                               "retweeted": false,
                               "user_id_str": "2244994945",
                               "id_str": "1735357096777138304"
@@ -2952,14 +3167,14 @@
                     }
                   },
                   {
-                    "entryId": "profile-conversation-1780786178174222344",
-                    "sortIndex": "1780786178174222328",
+                    "entryId": "profile-conversation-1780970580711833608",
+                    "sortIndex": "1780970580711833592",
                     "content": {
                       "entryType": "TimelineTimelineModule",
                       "__typename": "TimelineTimelineModule",
                       "items": [
                         {
-                          "entryId": "profile-conversation-1780786178174222344-tweet-1724387618761351637",
+                          "entryId": "profile-conversation-1780970580711833608-tweet-1724387618761351637",
                           "item": {
                             "itemContent": {
                               "itemType": "TimelineTweet",
@@ -3001,16 +3216,16 @@
                                             }
                                           },
                                           "fast_followers_count": 0,
-                                          "favourites_count": 45483,
-                                          "followers_count": 280651,
-                                          "friends_count": 4265,
+                                          "favourites_count": 45502,
+                                          "followers_count": 280591,
+                                          "friends_count": 4266,
                                           "has_custom_timelines": true,
                                           "is_translator": false,
                                           "listed_count": 1555,
                                           "location": "X HQ",
                                           "media_count": 3587,
                                           "name": "X Daily News",
-                                          "normal_followers_count": 280651,
+                                          "normal_followers_count": 280591,
                                           "pinned_tweet_ids_str": [
                                             "1780674102820262082"
                                           ],
@@ -3019,7 +3234,7 @@
                                           "profile_image_url_https": "https://pbs.twimg.com/profile_images/1515124606583152648/4bZaW28-_normal.jpg",
                                           "profile_interstitial_type": "",
                                           "screen_name": "xDaily",
-                                          "statuses_count": 12376,
+                                          "statuses_count": 12377,
                                           "translator_type": "none",
                                           "verified": false,
                                           "want_retweets": false,
@@ -3035,6 +3250,9 @@
                                               "icon_name": "IconBriefcaseStroke"
                                             }
                                           ]
+                                        },
+                                        "tipjar_settings": {
+                                          "is_enabled": false
                                         },
                                         "super_follow_eligible": true
                                       }
@@ -3263,7 +3481,7 @@
                                         }
                                       ]
                                     },
-                                    "favorite_count": 702,
+                                    "favorite_count": 701,
                                     "favorited": false,
                                     "full_text": "NEWS: 𝕏's integration with Playstation consoles has now gone offline.\n\nIt seems whatever issue Sony has with X hasn't been resolved yet, though Elon stated last week he would look into the problem. https://t.co/BaoAhjRdDB",
                                     "is_quote_status": false,
@@ -3294,7 +3512,7 @@
                           }
                         },
                         {
-                          "entryId": "profile-conversation-1780786178174222344-tweet-1724511614206898410",
+                          "entryId": "profile-conversation-1780970580711833608-tweet-1724511614206898410",
                           "item": {
                             "itemContent": {
                               "itemType": "TimelineTweet",
@@ -3353,15 +3571,15 @@
                                           },
                                           "fast_followers_count": 0,
                                           "favourites_count": 2080,
-                                          "followers_count": 624531,
+                                          "followers_count": 624633,
                                           "friends_count": 1767,
                                           "has_custom_timelines": true,
                                           "is_translator": false,
-                                          "listed_count": 2648,
+                                          "listed_count": 2647,
                                           "location": "127.0.0.1",
                                           "media_count": 815,
                                           "name": "Developers",
-                                          "normal_followers_count": 624531,
+                                          "normal_followers_count": 624633,
                                           "pinned_tweet_ids_str": [
                                             "1770153912013615285"
                                           ],
@@ -3388,7 +3606,8 @@
                                               "icon_name": "IconBriefcaseStroke"
                                             }
                                           ]
-                                        }
+                                        },
+                                        "tipjar_settings": {}
                                       }
                                     }
                                   },
@@ -3403,7 +3622,7 @@
                                   },
                                   "is_translatable": false,
                                   "views": {
-                                    "count": "1188698",
+                                    "count": "1188703",
                                     "state": "EnabledWithCount"
                                   },
                                   "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
@@ -3433,7 +3652,7 @@
                                         }
                                       ]
                                     },
-                                    "favorite_count": 876,
+                                    "favorite_count": 875,
                                     "favorited": false,
                                     "full_text": "@xDaily To clarify, this is a legacy integration. We've reached out to explore new integrations including live-streaming. Stay tuned!",
                                     "in_reply_to_screen_name": "xDaily",
@@ -3488,7 +3707,7 @@
                   },
                   {
                     "entryId": "tweet-1720506615714213927",
-                    "sortIndex": "1780786178174222327",
+                    "sortIndex": "1780970580711833591",
                     "content": {
                       "entryType": "TimelineTimelineItem",
                       "__typename": "TimelineTimelineItem",
@@ -3549,15 +3768,15 @@
                                     },
                                     "fast_followers_count": 0,
                                     "favourites_count": 2080,
-                                    "followers_count": 624531,
+                                    "followers_count": 624633,
                                     "friends_count": 1767,
                                     "has_custom_timelines": true,
                                     "is_translator": false,
-                                    "listed_count": 2648,
+                                    "listed_count": 2647,
                                     "location": "127.0.0.1",
                                     "media_count": 815,
                                     "name": "Developers",
-                                    "normal_followers_count": 624531,
+                                    "normal_followers_count": 624633,
                                     "pinned_tweet_ids_str": [
                                       "1770153912013615285"
                                     ],
@@ -3584,7 +3803,8 @@
                                         "icon_name": "IconBriefcaseStroke"
                                       }
                                     ]
-                                  }
+                                  },
+                                  "tipjar_settings": {}
                                 }
                               }
                             },
@@ -3738,7 +3958,7 @@
                             },
                             "is_translatable": false,
                             "views": {
-                              "count": "181341",
+                              "count": "181471",
                               "state": "EnabledWithCount"
                             },
                             "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
@@ -3768,7 +3988,7 @@
                                 ],
                                 "user_mentions": []
                               },
-                              "favorite_count": 625,
+                              "favorite_count": 627,
                               "favorited": false,
                               "full_text": "You can now monitor your usage programmatically using the new Usage endpoint in the X API v2 🎉\n\nWe are working on new features that will be launched in the near future. Stay tuned! https://t.co/F3TbD440qA",
                               "is_quote_status": false,
@@ -3800,7 +4020,7 @@
                   },
                   {
                     "entryId": "tweet-1693760896856920167",
-                    "sortIndex": "1780786178174222326",
+                    "sortIndex": "1780970580711833590",
                     "content": {
                       "entryType": "TimelineTimelineItem",
                       "__typename": "TimelineTimelineItem",
@@ -3861,15 +4081,15 @@
                                     },
                                     "fast_followers_count": 0,
                                     "favourites_count": 2080,
-                                    "followers_count": 624531,
+                                    "followers_count": 624633,
                                     "friends_count": 1767,
                                     "has_custom_timelines": true,
                                     "is_translator": false,
-                                    "listed_count": 2648,
+                                    "listed_count": 2647,
                                     "location": "127.0.0.1",
                                     "media_count": 815,
                                     "name": "Developers",
-                                    "normal_followers_count": 624531,
+                                    "normal_followers_count": 624633,
                                     "pinned_tweet_ids_str": [
                                       "1770153912013615285"
                                     ],
@@ -3896,7 +4116,8 @@
                                         "icon_name": "IconBriefcaseStroke"
                                       }
                                     ]
-                                  }
+                                  },
+                                  "tipjar_settings": {}
                                 }
                               }
                             },
@@ -3948,7 +4169,7 @@
                               "lang": "en",
                               "quote_count": 0,
                               "reply_count": 0,
-                              "retweet_count": 173,
+                              "retweet_count": 172,
                               "retweeted": false,
                               "user_id_str": "2244994945",
                               "id_str": "1693760896856920167",
@@ -4006,7 +4227,7 @@
                                           },
                                           "fast_followers_count": 0,
                                           "favourites_count": 4,
-                                          "followers_count": 5922548,
+                                          "followers_count": 5922375,
                                           "friends_count": 11,
                                           "has_custom_timelines": false,
                                           "is_translator": false,
@@ -4014,7 +4235,7 @@
                                           "location": "",
                                           "media_count": 9,
                                           "name": "API",
-                                          "normal_followers_count": 5922548,
+                                          "normal_followers_count": 5922375,
                                           "pinned_tweet_ids_str": [],
                                           "possibly_sensitive": false,
                                           "profile_banner_url": "https://pbs.twimg.com/profile_banners/6253282/1690212094",
@@ -4028,7 +4249,8 @@
                                           "verified_type": "Business",
                                           "want_retweets": false,
                                           "withheld_in_countries": []
-                                        }
+                                        },
+                                        "tipjar_settings": {}
                                       }
                                     }
                                   },
@@ -4043,7 +4265,7 @@
                                   },
                                   "is_translatable": false,
                                   "views": {
-                                    "count": "240796",
+                                    "count": "241036",
                                     "state": "EnabledWithCount"
                                   },
                                   "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
@@ -4094,14 +4316,14 @@
                                       "urls": [],
                                       "user_mentions": []
                                     },
-                                    "favorite_count": 574,
+                                    "favorite_count": 575,
                                     "favorited": false,
                                     "full_text": "For those still using our v1.1 API endpoints 🗣️\n\nAs part of our ongoing effort to modernize and transform our API platform, we are deprecating some of our v1.1 endpoints and asking you to migrate to the v2 equivalents. These deprecations will allow us to continue building support…",
                                     "is_quote_status": false,
                                     "lang": "en",
                                     "quote_count": 20,
                                     "reply_count": 138,
-                                    "retweet_count": 173,
+                                    "retweet_count": 172,
                                     "retweeted": false,
                                     "user_id_str": "6253282",
                                     "id_str": "1693760591503266165"
@@ -4126,14 +4348,14 @@
                     }
                   },
                   {
-                    "entryId": "profile-conversation-1780786178174222347",
-                    "sortIndex": "1780786178174222325",
+                    "entryId": "profile-conversation-1780970580711833611",
+                    "sortIndex": "1780970580711833589",
                     "content": {
                       "entryType": "TimelineTimelineModule",
                       "__typename": "TimelineTimelineModule",
                       "items": [
                         {
-                          "entryId": "profile-conversation-1780786178174222347-tweet-1676414058583703552",
+                          "entryId": "profile-conversation-1780970580711833611-tweet-1676414058583703552",
                           "item": {
                             "itemContent": {
                               "itemType": "TimelineTweet",
@@ -4151,7 +4373,7 @@
                                         "affiliates_highlighted_label": {},
                                         "has_graduated_access": true,
                                         "is_blue_verified": false,
-                                        "profile_image_shape": "Square",
+                                        "profile_image_shape": "Circle",
                                         "legacy": {
                                           "can_dm": true,
                                           "can_media_tag": true,
@@ -4188,16 +4410,16 @@
                                             }
                                           },
                                           "fast_followers_count": 0,
-                                          "favourites_count": 8553,
-                                          "followers_count": 100746,
+                                          "favourites_count": 8555,
+                                          "followers_count": 100740,
                                           "friends_count": 236,
                                           "has_custom_timelines": true,
                                           "is_translator": false,
                                           "listed_count": 1461,
                                           "location": "Boulder Colorado",
-                                          "media_count": 26195,
+                                          "media_count": 26197,
                                           "name": "NWS Boulder",
-                                          "normal_followers_count": 100746,
+                                          "normal_followers_count": 100740,
                                           "pinned_tweet_ids_str": [
                                             "1187794881386864641"
                                           ],
@@ -4206,14 +4428,15 @@
                                           "profile_image_url_https": "https://pbs.twimg.com/profile_images/882143296239398912/tA_fYbDJ_normal.jpg",
                                           "profile_interstitial_type": "",
                                           "screen_name": "NWSBoulder",
-                                          "statuses_count": 39920,
+                                          "statuses_count": 39922,
                                           "translator_type": "none",
                                           "url": "https://t.co/RxMX2TvYHZ",
                                           "verified": false,
                                           "verified_type": "Government",
                                           "want_retweets": false,
                                           "withheld_in_countries": []
-                                        }
+                                        },
+                                        "tipjar_settings": {}
                                       }
                                     }
                                   },
@@ -4228,7 +4451,7 @@
                                   },
                                   "is_translatable": false,
                                   "views": {
-                                    "count": "501575",
+                                    "count": "501579",
                                     "state": "EnabledWithCount"
                                   },
                                   "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
@@ -4297,7 +4520,7 @@
                           }
                         },
                         {
-                          "entryId": "profile-conversation-1780786178174222347-tweet-1676650097566949377",
+                          "entryId": "profile-conversation-1780970580711833611-tweet-1676650097566949377",
                           "item": {
                             "itemContent": {
                               "itemType": "TimelineTweet",
@@ -4356,15 +4579,15 @@
                                           },
                                           "fast_followers_count": 0,
                                           "favourites_count": 2080,
-                                          "followers_count": 624531,
+                                          "followers_count": 624633,
                                           "friends_count": 1767,
                                           "has_custom_timelines": true,
                                           "is_translator": false,
-                                          "listed_count": 2648,
+                                          "listed_count": 2647,
                                           "location": "127.0.0.1",
                                           "media_count": 815,
                                           "name": "Developers",
-                                          "normal_followers_count": 624531,
+                                          "normal_followers_count": 624633,
                                           "pinned_tweet_ids_str": [
                                             "1770153912013615285"
                                           ],
@@ -4391,7 +4614,8 @@
                                               "icon_name": "IconBriefcaseStroke"
                                             }
                                           ]
-                                        }
+                                        },
+                                        "tipjar_settings": {}
                                       }
                                     }
                                   },
@@ -4490,14 +4714,14 @@
                     }
                   },
                   {
-                    "entryId": "profile-conversation-1780786178174222348",
-                    "sortIndex": "1780786178174222324",
+                    "entryId": "profile-conversation-1780970580711833612",
+                    "sortIndex": "1780970580711833588",
                     "content": {
                       "entryType": "TimelineTimelineModule",
                       "__typename": "TimelineTimelineModule",
                       "items": [
                         {
-                          "entryId": "profile-conversation-1780786178174222348-tweet-1674123761824550920",
+                          "entryId": "profile-conversation-1780970580711833612-tweet-1674123761824550920",
                           "item": {
                             "itemContent": {
                               "itemType": "TimelineTweet",
@@ -4539,16 +4763,16 @@
                                             }
                                           },
                                           "fast_followers_count": 0,
-                                          "favourites_count": 45483,
-                                          "followers_count": 280651,
-                                          "friends_count": 4265,
+                                          "favourites_count": 45502,
+                                          "followers_count": 280591,
+                                          "friends_count": 4266,
                                           "has_custom_timelines": true,
                                           "is_translator": false,
                                           "listed_count": 1555,
                                           "location": "X HQ",
                                           "media_count": 3587,
                                           "name": "X Daily News",
-                                          "normal_followers_count": 280651,
+                                          "normal_followers_count": 280591,
                                           "pinned_tweet_ids_str": [
                                             "1780674102820262082"
                                           ],
@@ -4557,7 +4781,7 @@
                                           "profile_image_url_https": "https://pbs.twimg.com/profile_images/1515124606583152648/4bZaW28-_normal.jpg",
                                           "profile_interstitial_type": "",
                                           "screen_name": "xDaily",
-                                          "statuses_count": 12376,
+                                          "statuses_count": 12377,
                                           "translator_type": "none",
                                           "verified": false,
                                           "want_retweets": false,
@@ -4574,6 +4798,9 @@
                                             }
                                           ]
                                         },
+                                        "tipjar_settings": {
+                                          "is_enabled": false
+                                        },
                                         "super_follow_eligible": true
                                       }
                                     }
@@ -4589,7 +4816,7 @@
                                   },
                                   "is_translatable": false,
                                   "views": {
-                                    "count": "169346",
+                                    "count": "169420",
                                     "state": "EnabledWithCount"
                                   },
                                   "source": "<a href=\"https://about.twitter.com/products/tweetdeck\" rel=\"nofollow\">TweetDeck</a>",
@@ -4801,7 +5028,7 @@
                                         }
                                       ]
                                     },
-                                    "favorite_count": 416,
+                                    "favorite_count": 415,
                                     "favorited": false,
                                     "full_text": "NEWS: The Twitter team are in the process of fixing API issues following the transition to the new API version. \n\nThis resulted in the incorrect suspensions of a number of low-volume automated accounts in the last few days. \n\nSome accounts affected have already been restored. https://t.co/oJxyIaWN9n",
                                     "is_quote_status": false,
@@ -4832,7 +5059,7 @@
                           }
                         },
                         {
-                          "entryId": "profile-conversation-1780786178174222348-tweet-1674125213968093184",
+                          "entryId": "profile-conversation-1780970580711833612-tweet-1674125213968093184",
                           "item": {
                             "itemContent": {
                               "itemType": "TimelineTweet",
@@ -4874,16 +5101,16 @@
                                             }
                                           },
                                           "fast_followers_count": 0,
-                                          "favourites_count": 45483,
-                                          "followers_count": 280651,
-                                          "friends_count": 4265,
+                                          "favourites_count": 45502,
+                                          "followers_count": 280591,
+                                          "friends_count": 4266,
                                           "has_custom_timelines": true,
                                           "is_translator": false,
                                           "listed_count": 1555,
                                           "location": "X HQ",
                                           "media_count": 3587,
                                           "name": "X Daily News",
-                                          "normal_followers_count": 280651,
+                                          "normal_followers_count": 280591,
                                           "pinned_tweet_ids_str": [
                                             "1780674102820262082"
                                           ],
@@ -4892,7 +5119,7 @@
                                           "profile_image_url_https": "https://pbs.twimg.com/profile_images/1515124606583152648/4bZaW28-_normal.jpg",
                                           "profile_interstitial_type": "",
                                           "screen_name": "xDaily",
-                                          "statuses_count": 12376,
+                                          "statuses_count": 12377,
                                           "translator_type": "none",
                                           "verified": false,
                                           "want_retweets": false,
@@ -4908,6 +5135,9 @@
                                               "icon_name": "IconBriefcaseStroke"
                                             }
                                           ]
+                                        },
+                                        "tipjar_settings": {
+                                          "is_enabled": false
                                         },
                                         "super_follow_eligible": true
                                       }
@@ -5022,7 +5252,7 @@
                           }
                         },
                         {
-                          "entryId": "profile-conversation-1780786178174222348-tweet-1674428537057726472",
+                          "entryId": "profile-conversation-1780970580711833612-tweet-1674428537057726472",
                           "item": {
                             "itemContent": {
                               "itemType": "TimelineTweet",
@@ -5081,15 +5311,15 @@
                                           },
                                           "fast_followers_count": 0,
                                           "favourites_count": 2080,
-                                          "followers_count": 624531,
+                                          "followers_count": 624633,
                                           "friends_count": 1767,
                                           "has_custom_timelines": true,
                                           "is_translator": false,
-                                          "listed_count": 2648,
+                                          "listed_count": 2647,
                                           "location": "127.0.0.1",
                                           "media_count": 815,
                                           "name": "Developers",
-                                          "normal_followers_count": 624531,
+                                          "normal_followers_count": 624633,
                                           "pinned_tweet_ids_str": [
                                             "1770153912013615285"
                                           ],
@@ -5116,7 +5346,8 @@
                                               "icon_name": "IconBriefcaseStroke"
                                             }
                                           ]
-                                        }
+                                        },
+                                        "tipjar_settings": {}
                                       }
                                     }
                                   },
@@ -5302,7 +5533,7 @@
                   },
                   {
                     "entryId": "tweet-1661790253886177280",
-                    "sortIndex": "1780786178174222323",
+                    "sortIndex": "1780970580711833587",
                     "content": {
                       "entryType": "TimelineTimelineItem",
                       "__typename": "TimelineTimelineItem",
@@ -5363,15 +5594,15 @@
                                     },
                                     "fast_followers_count": 0,
                                     "favourites_count": 2080,
-                                    "followers_count": 624531,
+                                    "followers_count": 624633,
                                     "friends_count": 1767,
                                     "has_custom_timelines": true,
                                     "is_translator": false,
-                                    "listed_count": 2648,
+                                    "listed_count": 2647,
                                     "location": "127.0.0.1",
                                     "media_count": 815,
                                     "name": "Developers",
-                                    "normal_followers_count": 624531,
+                                    "normal_followers_count": 624633,
                                     "pinned_tweet_ids_str": [
                                       "1770153912013615285"
                                     ],
@@ -5398,7 +5629,8 @@
                                         "icon_name": "IconBriefcaseStroke"
                                       }
                                     ]
-                                  }
+                                  },
+                                  "tipjar_settings": {}
                                 }
                               }
                             },
@@ -5413,7 +5645,7 @@
                             },
                             "is_translatable": false,
                             "views": {
-                              "count": "849147",
+                              "count": "849334",
                               "state": "EnabledWithCount"
                             },
                             "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
@@ -5471,7 +5703,7 @@
                               "lang": "en",
                               "quote_count": 197,
                               "reply_count": 599,
-                              "retweet_count": 373,
+                              "retweet_count": 371,
                               "retweeted": false,
                               "user_id_str": "2244994945",
                               "id_str": "1661790253886177280"
@@ -5493,14 +5725,14 @@
                     }
                   },
                   {
-                    "entryId": "profile-conversation-1780786178174222350",
-                    "sortIndex": "1780786178174222322",
+                    "entryId": "profile-conversation-1780970580711833614",
+                    "sortIndex": "1780970580711833586",
                     "content": {
                       "entryType": "TimelineTimelineModule",
                       "__typename": "TimelineTimelineModule",
                       "items": [
                         {
-                          "entryId": "profile-conversation-1780786178174222350-tweet-1649035925073063938",
+                          "entryId": "profile-conversation-1780970580711833614-tweet-1649035925073063938",
                           "item": {
                             "itemContent": {
                               "itemType": "TimelineTweet",
@@ -5564,16 +5796,16 @@
                                             }
                                           },
                                           "fast_followers_count": 0,
-                                          "favourites_count": 8879,
-                                          "followers_count": 313968,
+                                          "favourites_count": 8880,
+                                          "followers_count": 313953,
                                           "friends_count": 518,
                                           "has_custom_timelines": true,
                                           "is_translator": false,
                                           "listed_count": 2381,
                                           "location": "based in Paris, works globally",
-                                          "media_count": 107054,
+                                          "media_count": 107061,
                                           "name": "EMSC",
-                                          "normal_followers_count": 313968,
+                                          "normal_followers_count": 313953,
                                           "pinned_tweet_ids_str": [
                                             "1779873428549280195"
                                           ],
@@ -5582,13 +5814,14 @@
                                           "profile_image_url_https": "https://pbs.twimg.com/profile_images/669532787897147392/hQM844QV_normal.png",
                                           "profile_interstitial_type": "",
                                           "screen_name": "LastQuake",
-                                          "statuses_count": 174560,
+                                          "statuses_count": 174574,
                                           "translator_type": "none",
                                           "url": "https://t.co/Gqo1PffnsH",
                                           "verified": false,
                                           "want_retweets": false,
                                           "withheld_in_countries": []
-                                        }
+                                        },
+                                        "tipjar_settings": {}
                                       }
                                     }
                                   },
@@ -5603,7 +5836,7 @@
                                   },
                                   "is_translatable": false,
                                   "views": {
-                                    "count": "126567",
+                                    "count": "126572",
                                     "state": "EnabledWithCount"
                                   },
                                   "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
@@ -5865,7 +6098,7 @@
                           }
                         },
                         {
-                          "entryId": "profile-conversation-1780786178174222350-tweet-1653505446211211290",
+                          "entryId": "profile-conversation-1780970580711833614-tweet-1653505446211211290",
                           "item": {
                             "itemContent": {
                               "itemType": "TimelineTweet",
@@ -5924,15 +6157,15 @@
                                           },
                                           "fast_followers_count": 0,
                                           "favourites_count": 2080,
-                                          "followers_count": 624531,
+                                          "followers_count": 624633,
                                           "friends_count": 1767,
                                           "has_custom_timelines": true,
                                           "is_translator": false,
-                                          "listed_count": 2648,
+                                          "listed_count": 2647,
                                           "location": "127.0.0.1",
                                           "media_count": 815,
                                           "name": "Developers",
-                                          "normal_followers_count": 624531,
+                                          "normal_followers_count": 624633,
                                           "pinned_tweet_ids_str": [
                                             "1770153912013615285"
                                           ],
@@ -5959,7 +6192,8 @@
                                               "icon_name": "IconBriefcaseStroke"
                                             }
                                           ]
-                                        }
+                                        },
+                                        "tipjar_settings": {}
                                       }
                                     }
                                   },
@@ -6068,7 +6302,7 @@
                   },
                   {
                     "entryId": "tweet-1653492584176656384",
-                    "sortIndex": "1780786178174222321",
+                    "sortIndex": "1780970580711833585",
                     "content": {
                       "entryType": "TimelineTimelineItem",
                       "__typename": "TimelineTimelineItem",
@@ -6129,15 +6363,15 @@
                                     },
                                     "fast_followers_count": 0,
                                     "favourites_count": 2080,
-                                    "followers_count": 624531,
+                                    "followers_count": 624633,
                                     "friends_count": 1767,
                                     "has_custom_timelines": true,
                                     "is_translator": false,
-                                    "listed_count": 2648,
+                                    "listed_count": 2647,
                                     "location": "127.0.0.1",
                                     "media_count": 815,
                                     "name": "Developers",
-                                    "normal_followers_count": 624531,
+                                    "normal_followers_count": 624633,
                                     "pinned_tweet_ids_str": [
                                       "1770153912013615285"
                                     ],
@@ -6164,7 +6398,8 @@
                                         "icon_name": "IconBriefcaseStroke"
                                       }
                                     ]
-                                  }
+                                  },
+                                  "tipjar_settings": {}
                                 }
                               }
                             },
@@ -6179,7 +6414,7 @@
                             },
                             "is_translatable": false,
                             "views": {
-                              "count": "4426894",
+                              "count": "4427161",
                               "state": "EnabledWithCount"
                             },
                             "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
@@ -6205,8 +6440,8 @@
                               "is_quote_status": false,
                               "lang": "en",
                               "quote_count": 510,
-                              "reply_count": 453,
-                              "retweet_count": 618,
+                              "reply_count": 452,
+                              "retweet_count": 619,
                               "retweeted": false,
                               "user_id_str": "2244994945",
                               "id_str": "1653492584176656384"
@@ -6228,14 +6463,14 @@
                     }
                   },
                   {
-                    "entryId": "profile-conversation-1780786178174222352",
-                    "sortIndex": "1780786178174222320",
+                    "entryId": "profile-conversation-1780970580711833616",
+                    "sortIndex": "1780970580711833584",
                     "content": {
                       "entryType": "TimelineTimelineModule",
                       "__typename": "TimelineTimelineModule",
                       "items": [
                         {
-                          "entryId": "profile-conversation-1780786178174222352-tweet-1649191520250245121",
+                          "entryId": "profile-conversation-1780970580711833616-tweet-1649191520250245121",
                           "item": {
                             "itemContent": {
                               "itemType": "TimelineTweet",
@@ -6294,15 +6529,15 @@
                                           },
                                           "fast_followers_count": 0,
                                           "favourites_count": 2080,
-                                          "followers_count": 624531,
+                                          "followers_count": 624633,
                                           "friends_count": 1767,
                                           "has_custom_timelines": true,
                                           "is_translator": false,
-                                          "listed_count": 2648,
+                                          "listed_count": 2647,
                                           "location": "127.0.0.1",
                                           "media_count": 815,
                                           "name": "Developers",
-                                          "normal_followers_count": 624531,
+                                          "normal_followers_count": 624633,
                                           "pinned_tweet_ids_str": [
                                             "1770153912013615285"
                                           ],
@@ -6329,7 +6564,8 @@
                                               "icon_name": "IconBriefcaseStroke"
                                             }
                                           ]
-                                        }
+                                        },
+                                        "tipjar_settings": {}
                                       }
                                     }
                                   },
@@ -6344,7 +6580,7 @@
                                   },
                                   "is_translatable": false,
                                   "views": {
-                                    "count": "744078",
+                                    "count": "744324",
                                     "state": "EnabledWithCount"
                                   },
                                   "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
@@ -6364,7 +6600,7 @@
                                       "urls": [],
                                       "user_mentions": []
                                     },
-                                    "favorite_count": 459,
+                                    "favorite_count": 458,
                                     "favorited": false,
                                     "full_text": "Today, we are deprecating our Premium v1.1 API, including Premium Search and Account Activity API.",
                                     "is_quote_status": false,
@@ -6393,7 +6629,7 @@
                           }
                         },
                         {
-                          "entryId": "profile-conversation-1780786178174222352-tweet-1649191522485817345",
+                          "entryId": "profile-conversation-1780970580711833616-tweet-1649191522485817345",
                           "item": {
                             "itemContent": {
                               "itemType": "TimelineTweet",
@@ -6452,15 +6688,15 @@
                                           },
                                           "fast_followers_count": 0,
                                           "favourites_count": 2080,
-                                          "followers_count": 624531,
+                                          "followers_count": 624633,
                                           "friends_count": 1767,
                                           "has_custom_timelines": true,
                                           "is_translator": false,
-                                          "listed_count": 2648,
+                                          "listed_count": 2647,
                                           "location": "127.0.0.1",
                                           "media_count": 815,
                                           "name": "Developers",
-                                          "normal_followers_count": 624531,
+                                          "normal_followers_count": 624633,
                                           "pinned_tweet_ids_str": [
                                             "1770153912013615285"
                                           ],
@@ -6487,7 +6723,8 @@
                                               "icon_name": "IconBriefcaseStroke"
                                             }
                                           ]
-                                        }
+                                        },
+                                        "tipjar_settings": {}
                                       }
                                     }
                                   },
@@ -6502,7 +6739,7 @@
                                   },
                                   "is_translatable": false,
                                   "views": {
-                                    "count": "178247",
+                                    "count": "178357",
                                     "state": "EnabledWithCount"
                                   },
                                   "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
@@ -6566,7 +6803,7 @@
                           }
                         },
                         {
-                          "entryId": "profile-conversation-1780786178174222352-tweet-1649191523697979392",
+                          "entryId": "profile-conversation-1780970580711833616-tweet-1649191523697979392",
                           "item": {
                             "itemContent": {
                               "itemType": "TimelineTweet",
@@ -6625,15 +6862,15 @@
                                           },
                                           "fast_followers_count": 0,
                                           "favourites_count": 2080,
-                                          "followers_count": 624531,
+                                          "followers_count": 624633,
                                           "friends_count": 1767,
                                           "has_custom_timelines": true,
                                           "is_translator": false,
-                                          "listed_count": 2648,
+                                          "listed_count": 2647,
                                           "location": "127.0.0.1",
                                           "media_count": 815,
                                           "name": "Developers",
-                                          "normal_followers_count": 624531,
+                                          "normal_followers_count": 624633,
                                           "pinned_tweet_ids_str": [
                                             "1770153912013615285"
                                           ],
@@ -6660,7 +6897,8 @@
                                               "icon_name": "IconBriefcaseStroke"
                                             }
                                           ]
-                                        }
+                                        },
+                                        "tipjar_settings": {}
                                       }
                                     }
                                   },
@@ -6675,7 +6913,7 @@
                                   },
                                   "is_translatable": false,
                                   "views": {
-                                    "count": "147560",
+                                    "count": "147670",
                                     "state": "EnabledWithCount"
                                   },
                                   "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
@@ -6764,7 +7002,7 @@
                   },
                   {
                     "entryId": "tweet-1643373950930661377",
-                    "sortIndex": "1780786178174222319",
+                    "sortIndex": "1780970580711833583",
                     "content": {
                       "entryType": "TimelineTimelineItem",
                       "__typename": "TimelineTimelineItem",
@@ -6825,15 +7063,15 @@
                                     },
                                     "fast_followers_count": 0,
                                     "favourites_count": 2080,
-                                    "followers_count": 624531,
+                                    "followers_count": 624633,
                                     "friends_count": 1767,
                                     "has_custom_timelines": true,
                                     "is_translator": false,
-                                    "listed_count": 2648,
+                                    "listed_count": 2647,
                                     "location": "127.0.0.1",
                                     "media_count": 815,
                                     "name": "Developers",
-                                    "normal_followers_count": 624531,
+                                    "normal_followers_count": 624633,
                                     "pinned_tweet_ids_str": [
                                       "1770153912013615285"
                                     ],
@@ -6860,7 +7098,8 @@
                                         "icon_name": "IconBriefcaseStroke"
                                       }
                                     ]
-                                  }
+                                  },
+                                  "tipjar_settings": {}
                                 }
                               }
                             },
@@ -6879,14 +7118,14 @@
                             },
                             "previous_counts": {
                               "bookmark_count": 10,
-                              "favorite_count": 89,
+                              "favorite_count": 88,
                               "quote_count": 13,
                               "reply_count": 29,
                               "retweet_count": 27
                             },
                             "is_translatable": false,
                             "views": {
-                              "count": "289287",
+                              "count": "289456",
                               "state": "EnabledWithCount"
                             },
                             "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
@@ -6906,7 +7145,7 @@
                                 "urls": [],
                                 "user_mentions": []
                               },
-                              "favorite_count": 481,
+                              "favorite_count": 480,
                               "favorited": false,
                               "full_text": "🚨 If your developer account application was under review over the last few months, we kindly ask you to re-apply if you are interested in subscribing to our new Twitter API Free or Basic plans. \n\nOur new self-service process should enable you to get access in no time! 🙏",
                               "is_quote_status": false,
@@ -6935,22 +7174,22 @@
                     }
                   },
                   {
-                    "entryId": "cursor-top-1780786178174222337",
-                    "sortIndex": "1780786178174222337",
+                    "entryId": "cursor-top-1780970580711833601",
+                    "sortIndex": "1780970580711833601",
                     "content": {
                       "entryType": "TimelineTimelineCursor",
                       "__typename": "TimelineTimelineCursor",
-                      "value": "DAABCgABGLafmBMAJxEKAAIYrSh_tBbB7QgAAwAAAAEAAA",
+                      "value": "DAABCgABGLdHTqLAJxEKAAIYrSh_tBbB7QgAAwAAAAEAAA",
                       "cursorType": "Top"
                     }
                   },
                   {
-                    "entryId": "cursor-bottom-1780786178174222318",
-                    "sortIndex": "1780786178174222318",
+                    "entryId": "cursor-bottom-1780970580711833582",
+                    "sortIndex": "1780970580711833582",
                     "content": {
                       "entryType": "TimelineTimelineCursor",
                       "__typename": "TimelineTimelineCursor",
-                      "value": "DAABCgABGLafmBL__-wKAAIWzm_mwlowAQgAAwAAAAIAAA",
+                      "value": "DAABCgABGLdHTqK__-wKAAIWzm_mwlowAQgAAwAAAAIAAA",
                       "cursorType": "Bottom"
                     }
                   }
