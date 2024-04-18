@@ -8,20 +8,20 @@ from .models import Tweet, User, parse_tweet, parse_tweets, parse_user, parse_us
 from .queue_client import QueueClient
 from .utils import encode_params, find_obj, get_by_path
 
-OP_SearchTimeline = "LcI5kBN8BLC7ovF7mBEBHg/SearchTimeline"
+OP_SearchTimeline = "5yhbMCF0-WQ6M8UOAs1mAg/SearchTimeline"
 OP_UserByRestId = "BNfUANkqWTZZdOE4xnhPiQ/UserByRestId"
 OP_UserByScreenName = "qW5u-DAuXpMEG0zA1F7UGQ/UserByScreenName"
-OP_TweetDetail = "EkeM9fkO6pJYXJpsn179ew/TweetDetail"
-OP_Followers = "waoYSYvWvt_7X2u3tEZiOw/Followers"
-OP_Following = "fV5QhxlYguIHPeHF3SKaqQ/Following"
-OP_Retweeters = "8fCe4VgB_5JPL93ibDfbZQ/Retweeters"
-OP_Favoriters = "mzkKRBd31Qp4aaSL7x1yCg/Favoriters"
-OP_UserTweets = "mpOyZuYdEfndVeVYdSZ6TQ/UserTweets"
-OP_UserTweetsAndReplies = "n4P5_Yd3EWl8yxEetceQ3A/UserTweetsAndReplies"
-OP_ListLatestTweetsTimeline = "K6vcpDvSthqScxuqR3vWcg/ListLatestTweetsTimeline"
-OP_Likes = "8HoylaIvSVEvJBg-xDfJ8Q/Likes"
-OP_BlueVerifiedFollowers = "9QKKJlC2l_v4uHmSTYXUVg/BlueVerifiedFollowers"
-OP_UserCreatorSubscriptions = "UpBsOX5xA4S6ay1rZpkySQ/UserCreatorSubscriptions"
+OP_TweetDetail = "zJvfJs3gSbrVhC0MKjt_OQ/TweetDetail"
+OP_Followers = "o1YfmoGa-hb8Z6yQhoIBhg/Followers"
+OP_Following = "ZxuX4tC6kWz9M8pe1i-Gdg/Following"
+OP_Retweeters = "dCD2tXqLk_Et_arpgIfQEQ/Retweeters"
+OP_Favoriters = "tOsBp8iUJtPDcxme-Bgeuw/Favoriters"
+OP_UserTweets = "9zyyd1hebl7oNWIPdA8HRw/UserTweets"
+OP_UserTweetsAndReplies = "ImwMsY2nbn1qxRNcUNL2DA/UserTweetsAndReplies"
+OP_ListLatestTweetsTimeline = "GX5ovLTwyoN1Td13GHvhIg/ListLatestTweetsTimeline"
+OP_Likes = "RaAkBb4XXis-atDL3rV-xw/Likes"
+OP_BlueVerifiedFollowers = "AXsZSOWx3FCvneEIzxDj6A/BlueVerifiedFollowers"
+OP_UserCreatorSubscriptions = "NHT8e7FjnCS3TP0QfP_OUQ/UserCreatorSubscriptions"
 
 
 GQL_URL = "https://twitter.com/i/api/graphql"
@@ -51,6 +51,7 @@ GQL_FEATURES = {  # search values here (view source) https://twitter.com/
     "communities_web_enable_tweet_community_results_fetch": False,
     "creator_subscriptions_quote_tweet_preview_enabled": False,
     "tweet_with_visibility_results_prefer_gql_media_interstitial_enabled": False,
+    "articles_preview_enabled": False,
 }
 
 
