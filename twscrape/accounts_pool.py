@@ -80,6 +80,7 @@ class AccountsPool:
         user_agent: str | None = None,
         proxy: str | None = None,
         cookies: str | None = None,
+        mfa_code: str | None = None
     ):
         qs = "SELECT * FROM accounts WHERE username = :username"
         rs = await fetchone(self._db_file, qs, {"username": username})
@@ -99,6 +100,7 @@ class AccountsPool:
             headers={},
             cookies=parse_cookies(cookies) if cookies else {},
             proxy=proxy,
+            mfa_code=mfa_code,
         )
 
         if "ct0" in account.cookies:
