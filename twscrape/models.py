@@ -436,7 +436,7 @@ def _parse_card(obj: dict, url: str):
     if not name:
         return None
 
-    if name == "summary" or name == "summary_large_image":
+    if name in {"summary", "summary_large_image", "player"}:
         val = _parse_card_prepare_values(obj)
         title, val = _parse_card_extract_title(val)
         description, val = _parse_card_extract_str(val, "description")
@@ -500,6 +500,7 @@ def _parse_card(obj: dict, url: str):
         return PollCard(options=options, finished=finished)
 
     logger.warning(f"Unknown card type '{name}' on {url}")
+    # print(json.dumps(obj["card"]["legacy"], indent=2))
 
 
 # internal helpers
