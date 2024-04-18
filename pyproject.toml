@@ -23,6 +23,7 @@ dependencies = [
   "fake-useragent>=1.4.0",
   "httpx>=0.26.0",
   "loguru>=0.7.0",
+  "pyotp>=2.9.0",
 ]
 
 [project.optional-dependencies]
