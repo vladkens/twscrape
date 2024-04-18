@@ -1,5 +1,6 @@
 import base64
 import json
+import os
 from collections import defaultdict
 from datetime import datetime, timezone
 from typing import Any, AsyncGenerator, Callable, TypeVar
@@ -206,3 +207,10 @@ def parse_cookies(val: str) -> dict[str, str]:
         pass
 
     raise ValueError(f"Invalid cookie value: {val}")
+
+
+def get_env_bool(key: str, default_val: bool = False) -> bool:
+    val = os.getenv(key)
+    if val is None:
+        return default_val
+    return val.lower() in ("1", "true", "yes")

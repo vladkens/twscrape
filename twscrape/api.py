@@ -59,14 +59,18 @@ class API:
     pool: AccountsPool
 
     def __init__(
-        self, pool: AccountsPool | str | None = None, debug=False, proxy: str | None = None
+        self,
+        pool: AccountsPool | str | None = None,
+        debug=False,
+        proxy: str | None = None,
+        raise_when_no_account=False,
     ):
         if isinstance(pool, AccountsPool):
             self.pool = pool
         elif isinstance(pool, str):
-            self.pool = AccountsPool(pool)
+            self.pool = AccountsPool(db_file=pool, raise_when_no_account=raise_when_no_account)
         else:
-            self.pool = AccountsPool()
+            self.pool = AccountsPool(raise_when_no_account=raise_when_no_account)
 
         self.proxy = proxy
         self.debug = debug

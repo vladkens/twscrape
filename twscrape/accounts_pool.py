@@ -11,7 +11,11 @@ from .account import Account
 from .db import execute, fetchall, fetchone
 from .logger import logger
 from .login import LoginConfig, login
-from .utils import parse_cookies, utc
+from .utils import get_env_bool, parse_cookies, utc
+
+
+class NoAccountError(Exception):
+    pass
 
 
 class AccountInfo(TypedDict):
@@ -32,9 +36,15 @@ class AccountsPool:
     # _order_by: str = "RANDOM()"
     _order_by: str = "username"
 
-    def __init__(self, db_file="accounts.db", login_config: LoginConfig | None = None):
+    def __init__(
+        self,
+        db_file="accounts.db",
+        login_config: LoginConfig | None = None,
+        raise_when_no_account=False,
+    ):
         self._db_file = db_file
         self._login_config = login_config or LoginConfig()
+        self._raise_when_no_account = raise_when_no_account
 
     async def load_from_file(self, filepath: str, line_format: str):
         line_delim = guess_delim(line_format)
@@ -270,6 +280,9 @@ class AccountsPool:
         while True:
             account = await self.get_for_queue(queue)
             if not account:
+                if self._raise_when_no_account or get_env_bool("TWS_RAISE_WHEN_NO_ACCOUNT"):
+                    raise NoAccountError(f"No account available for queue {queue}")
+
                 if not msg_shown:
                     nat = await self.next_available_at(queue)
                     if not nat:
@@ -279,6 +292,7 @@ class AccountsPool:
                     msg = f'No account available for queue "{queue}". Next available at {nat}'
                     logger.info(msg)
                     msg_shown = True
+
                 await asyncio.sleep(5)
                 continue
             else:

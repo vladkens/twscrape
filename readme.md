@@ -183,8 +183,6 @@ twscrape login_accounts
 
 `twscrape` will start login flow for each new account. If X will ask to verify email and you provided `email_password` in `add_account`, then `twscrape` will try to receive verification code by IMAP protocol. After success login account cookies will be saved to db file for future use.
 
-_Note:_ You can increase timeout for verification code with `TWS_WAIT_EMAIL_CODE` environment variable (default: `40`, in seconds).
-
 #### Manual email verification
 
 In case your email provider not support IMAP protocol (ProtonMail, Tutanota, etc) or IMAP is disabled in settings, you can enter email verification code manually. To do this run login command with `--manual` flag.
@@ -305,6 +303,11 @@ doc = await api.user_by_login("elonmusk")  # no proxy used
 So if you want to use proxy PER ACCOUNT, do NOT override proxy with env variable or by passing proxy param to API.
 
 _Note:_ If proxy not working, exception will be raised from API class.
+
+## Environment variables
+
+- `TWS_WAIT_EMAIL_CODE` – timeout for email verification code during login (default: `30`, in seconds)
+- `TWS_RAISE_WHEN_NO_ACCOUNT` – raise `NoAccountError` exception when no available accounts right now, instead of waiting for availability (default: `false`, possible value: `false` / `0` / `true` / `1`)
 
 ## Limitations
 
