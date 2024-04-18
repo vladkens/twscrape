@@ -80,7 +80,7 @@ class AccountsPool:
         user_agent: str | None = None,
         proxy: str | None = None,
         cookies: str | None = None,
-        mfa_code: str | None = None
+        mfa_code: str | None = None,
     ):
         qs = "SELECT * FROM accounts WHERE username = :username"
         rs = await fetchone(self._db_file, qs, {"username": username})

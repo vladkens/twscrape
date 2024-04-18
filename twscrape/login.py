@@ -2,8 +2,8 @@ import imaplib
 from dataclasses import dataclass
 from datetime import timedelta
 from typing import Any
-import pyotp
 
+import pyotp
 from httpx import AsyncClient, Response
 
 from .account import Account
@@ -121,6 +121,9 @@ async def login_enter_password(ctx: TaskCtx) -> Response:
 
 
 async def login_two_factor_auth_challenge(ctx: TaskCtx) -> Response:
+    if ctx.acc.mfa_code is None:
+        raise ValueError("MFA code is required")
+
     totp = pyotp.TOTP(ctx.acc.mfa_code)
     payload = {
         "flow_token": ctx.prev["flow_token"],
@@ -133,7 +136,7 @@ async def login_two_factor_auth_challenge(ctx: TaskCtx) -> Response:
     }
 
     rep = await ctx.client.post(LOGIN_URL, json=payload)
-    raise_for_status(rep, "login_two_factor_auth_challenge")
+    rep.raise_for_status()
     return rep
 
 
