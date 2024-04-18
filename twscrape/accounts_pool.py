@@ -238,24 +238,16 @@ class AccountsPool:
         """
         await execute(self._db_file, qs, {"username": username})
 
-    async def get_for_queue(self, queue: str):
-        q1 = f"""
-        SELECT username FROM accounts
-        WHERE active = true AND (
-            locks IS NULL
-            OR json_extract(locks, '$.{queue}') IS NULL
-            OR json_extract(locks, '$.{queue}') < datetime('now')
-        )
-        ORDER BY {self._order_by}
-        LIMIT 1
-        """
+    async def _get_and_lock(self, queue: str, condition: str):
+        # if space in condition, it's a subquery, otherwise it's username
+        condition = f"({condition})" if " " in condition else f"'{condition}'"
 
         if int(sqlite3.sqlite_version_info[1]) >= 35:
             qs = f"""
             UPDATE accounts SET
                 locks = json_set(locks, '$.{queue}', datetime('now', '+15 minutes')),
                 last_used = datetime({utc.ts()}, 'unixepoch')
-            WHERE username = ({q1})
+            WHERE username = {condition}
             RETURNING *
             """
             rs = await fetchone(self._db_file, qs)
@@ -266,7 +258,7 @@ class AccountsPool:
                 locks = json_set(locks, '$.{queue}', datetime('now', '+15 minutes')),
                 last_used = datetime({utc.ts()}, 'unixepoch'),
                 _tx = '{tx}'
-            WHERE username = ({q1})
+            WHERE username = {condition}
             """
             await execute(self._db_file, qs)
 
@@ -274,6 +266,20 @@ class AccountsPool:
             rs = await fetchone(self._db_file, qs)
 
         return Account.from_rs(rs) if rs else None
+
+    async def get_for_queue(self, queue: str):
+        q = f"""
+        SELECT username FROM accounts
+        WHERE active = true AND (
+            locks IS NULL
+            OR json_extract(locks, '$.{queue}') IS NULL
+            OR json_extract(locks, '$.{queue}') < datetime('now')
+        )
+        ORDER BY {self._order_by}
+        LIMIT 1
+        """
+
+        return await self._get_and_lock(queue, q)
 
     async def get_for_queue_or_wait(self, queue: str) -> Account | None:
         msg_shown = False
