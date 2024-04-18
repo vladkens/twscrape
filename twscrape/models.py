@@ -481,7 +481,7 @@ def _parse_card(obj: dict, url: str):
             video=video,
         )
 
-    if name == "poll2choice_text_only":
+    if re.match(r"poll\d+choice_text_only", name):
         val = _parse_card_prepare_values(obj)
 
         options = []
@@ -499,8 +499,7 @@ def _parse_card(obj: dict, url: str):
         # print(json.dumps(val, indent=2))
         return PollCard(options=options, finished=finished)
 
-    # logger.warning(f"Unknown card type '{name}' on {url}")
-    print(f"Unknown card type '{name}' on {url}")
+    logger.warning(f"Unknown card type '{name}' on {url}")
 
 
 # internal helpers
