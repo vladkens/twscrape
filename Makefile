@@ -51,6 +51,7 @@ test-sq-matrix:
 	@make test-sq y=2021 v=3340100
 	@make test-sq y=2023 v=3430000
 	@make test-sq y=2023 v=3440000
+	@make test-sq y=2024 v=3450300
 
 update-mocks:
 	@rm -rf ./tests/mocked-data/raw_*.json
