@@ -1,11 +1,22 @@
+# Use an official Python runtime as the base image
 ARG VER=3.12
+FROM python:${VER}-slim-buster
 
-FROM python:${VER}-alpine
-RUN apk add git
-
+# Set the working directory to /app
 WORKDIR /app
-COPY pyproject.toml readme.md /app/
-RUN pip install -e .[dev]
-COPY . /app
 
-CMD python --version; pytest tests/
+# Copy the requirements file to the working directory
+COPY pyproject.toml readme.md ./
+
+# Install any needed packages specified in requirements.txt
+RUN apt-get update && apt-get install -y --no-install-recommends git
+RUN pip install --upgrade pip && pip install -e .[dev]
+
+# Copy the rest of the application to the working directory
+COPY . .
+
+# Run pytest when the container launches
+CMD ["pytest", "tests/"]
+
+# Display the Python version for informational purposes
+RUN python --version
