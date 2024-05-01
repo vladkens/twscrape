@@ -3,12 +3,16 @@ import json
 import os
 from collections import defaultdict
 from datetime import datetime, timezone
-from typing import Any, AsyncGenerator, Callable, TypeVar
+from typing import Any, AsyncGenerator, Callable, Dict, List, Optional, TypeVar
 
 T = TypeVar("T")
 
 
 class utc:
+    """
+    A class for working with UTC time.
+    """
+
     @staticmethod
     def now() -> datetime:
         return datetime.now(timezone.utc)
@@ -22,14 +26,14 @@ class utc:
         return int(utc.now().timestamp())
 
 
-async def gather(gen: AsyncGenerator[T, None]) -> list[T]:
+async def gather(gen: AsyncGenerator[T, None]) -> List[T]:
     items = []
     async for x in gen:
         items.append(x)
     return items
 
 
-def encode_params(obj: dict):
+def encode_params(obj: Dict[str, Any]) -> Dict[str, str]:
     res = {}
     for k, v in obj.items():
         if isinstance(v, dict):
@@ -41,7 +45,7 @@ def encode_params(obj: dict):
     return res
 
 
-def get_or(obj: dict, key: str, default_value: T = None) -> Any | T:
+def get_or(obj: Dict[str, Any], key: str, default_value: Optional[T] = None) -> Any | T:
     for part in key.split("."):
         if part not in obj:
             return default_value
@@ -49,7 +53,7 @@ def get_or(obj: dict, key: str, default_value: T = None) -> Any | T:
     return obj
 
 
-def int_or(obj: dict, key: str, default_value: int | None = None):
+def int_or(obj: Dict[str, Any], key: str, default_value: Optional[int] = None):
     try:
         val = get_or(obj, key)
         return int(val) if val is not None else default_value
@@ -58,7 +62,7 @@ def int_or(obj: dict, key: str, default_value: int | None = None):
 
 
 # https://stackoverflow.com/a/43184871
-def get_by_path(obj: dict, key: str, default=None):
+def get_by_path(obj: Dict[str, Any], key: str, default=None):
     stack = [iter(obj.items())]
     while stack:
         for k, v in stack[-1]:
@@ -75,21 +79,21 @@ def get_by_path(obj: dict, key: str, default=None):
     return default
 
 
-def find_item(lst: list[T], fn: Callable[[T], bool]) -> T | None:
+def find_item(lst: List[T], fn: Callable[[T], bool]) -> Optional[T]:
     for item in lst:
         if fn(item):
             return item
     return None
 
 
-def find_or_fail(lst: list[T], fn: Callable[[T], bool]) -> T:
+def find_or_fail(lst: List[T], fn: Callable[[T], bool]) -> T:
     item = find_item(lst, fn)
     if item is None:
         raise ValueError()
     return item
 
 
-def find_obj(obj: dict, fn: Callable[[dict], bool]) -> Any | None:
+def find_obj(obj: Dict[str, Any], fn: Callable[[Dict[str, Any]], bool]) -> Optional[Dict[str, Any]]:
     if not isinstance(obj, dict):
         return None
 
@@ -108,7 +112,7 @@ def find_obj(obj: dict, fn: Callable[[dict], bool]) -> Any | None:
     return None
 
 
-def get_typed_object(obj: dict, res: defaultdict[str, list]):
+def get_typed_object(obj: Dict[str, Any], res: defaultdict[str, List[Dict[str, Any]]]):
     obj_type = obj.get("__typename", None)
     if obj_type is not None:
         res[obj_type].append(obj)
@@ -124,17 +128,17 @@ def get_typed_object(obj: dict, res: defaultdict[str, list]):
     return res
 
 
-def to_old_obj(obj: dict):
+def to_old_obj(obj: Dict[str, Any]):
     return {
         **obj,
-        **obj["legacy"],
+        **obj.get("legacy", {}),
         "id_str": str(obj["rest_id"]),
         "id": int(obj["rest_id"]),
         "legacy": None,
     }
 
 
-def to_old_rep(obj: dict) -> dict[str, dict]:
+def to_old_rep(obj: Dict[str, Any]) -> Dict[str, Dict[str, Any]]:
     tmp = get_typed_object(obj, defaultdict(list))
 
     tw1 = [x for x in tmp.get("Tweet", []) if "legacy" in x]
@@ -150,7 +154,7 @@ def to_old_rep(obj: dict) -> dict[str, dict]:
     return {"tweets": {**tw1, **tw2}, "users": users}
 
 
-def print_table(rows: list[dict], hr_after=False):
+def print_table(rows: List[Dict[str, Any]], hr_after=False):
     if not rows:
         return
 
@@ -183,7 +187,7 @@ def print_table(rows: list[dict], hr_after=False):
         print("-" * max_len)
 
 
-def parse_cookies(val: str) -> dict[str, str]:
+def parse_cookies(val: str) -> Dict[str, str]:
     try:
         val = base64.b64decode(val).decode()
     except Exception:
@@ -205,6 +209,9 @@ def parse_cookies(val: str) -> dict[str, str]:
             return {x[0]: x[1] for x in res}
     except Exception:
         pass
+
+    if not val:
+        return {}
 
     raise ValueError(f"Invalid cookie value: {val}")
 
