@@ -2,7 +2,7 @@ import asyncio
 import imaplib
 from dataclasses import dataclass
 from datetime import timedelta
-from typing import Any
+from typing import Any, AsyncIterator, Callable, TypeVar
 
 import pyotp
 from httpx import AsyncClient, Response
@@ -31,6 +31,9 @@ class TaskCtx:
     imap: None | imaplib.IMAP4_SSL
 
 
+T = TypeVar("T")
+
+
 async def get_guest_token(client: AsyncClient) -> str:
     """Get a guest token from Twitter API."""
     rep = await client.post("https://api.twitter.com/1.1/guest/activate.json")
@@ -40,7 +43,9 @@ async def get_guest_token(client: AsyncClient) -> str:
 
 # ... (other function definitions)
 
-async def next_login_task(ctx: TaskCtx, rep: Response) -> Response | None:
+async def next_login_task(
+    ctx: TaskCtx, rep: Response
+) -> Response | None:
     """Handle the next login task."""
     # ... (function body)
 
@@ -62,11 +67,9 @@ async def login(acc: Account, cfg: LoginConfig | None = None) -> Account:
 
         rep = await login_initiate(client)
         ctx = TaskCtx(client, acc, cfg, None, imap)
-        while True:
+        while not rep:
             try:
                 rep = await next_login_task(ctx, rep)
-                if not rep:
-                    break
             except Exception as e:
                 acc.error_msg = f"login_step={ctx.prev['subtask_id']} err={e}"
                 break
@@ -74,6 +77,9 @@ async def login(acc: Account, cfg: LoginConfig | None = None) -> Account:
         assert "ct0" in client.cookies, "ct0 not in cookies (most likely ip ban)"
         client.headers["x-csrf-token"] = client.cookies["ct0"]
         client.headers["x-twitter-auth-type"] = "OAuth2Session"
+
+        if "x-twitter-auth-type" not in client.headers:
+            raise Exception("x-twitter-auth-type header not set")
 
         acc.active = True
         acc.headers = {k: v for k, v in client.headers.items()}
