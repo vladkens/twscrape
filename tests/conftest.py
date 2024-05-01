@@ -1,5 +1,6 @@
 import pytest
-
+import asyncio
+from unittest.mock import patch
 from twscrape.accounts_pool import AccountsPool
 from twscrape.api import API
 from twscrape.queue_client import QueueClient
@@ -7,12 +8,19 @@ from twscrape.queue_client import QueueClient
 
 @pytest.fixture
 def pool_mock(tmp_path):
+    """
+    Creates a temporary database and returns an instance of `AccountsPool`.
+    """
     db_path = tmp_path / "test.db"
-    yield AccountsPool(db_path)
+    return AccountsPool(db_path)
 
 
 @pytest.fixture
+@pytest.mark.asyncio(record_messages=True)
 async def client_fixture(pool_mock: AccountsPool):
+    """
+    Sets up the `AccountsPool` with some test data and returns an instance of `QueueClient`.
+    """
     pool_mock._order_by = "username"
 
     for x in range(1, 3):
@@ -20,13 +28,20 @@ async def client_fixture(pool_mock: AccountsPool):
         await pool_mock.set_active(f"user{x}", True)
 
     client = QueueClient(pool_mock, "SearchTimeline")
-    yield pool_mock, client
+    await client.start()
+    yield from asyncio.gather(client.run())
+    await client.stop()
 
 
 @pytest.fixture
+@pytest.mark.asyncio
 async def api_mock(pool_mock: AccountsPool):
+    """
+    Sets up the `AccountsPool` with some test data and returns an instance of `API`.
+    """
     await pool_mock.add_account("user1", "pass1", "email1", "email_pass1")
     await pool_mock.set_active("user1", True)
 
-    api = API(pool_mock)
-    yield api
+    with patch("twscrape.api.API.request") as mock_request:
+        api = API(pool_mock)
+        yield api
