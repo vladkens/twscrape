@@ -1,60 +1,31 @@
-check:
-	@make lint
-	@make test
+# Makefile
 
-deps:
-	@pip install -e .[dev]
+.PHONY: lint test test-cov build check deps update-mocks
 
-build:
-	@python -m build
+check: lint test
 
 lint:
-	# https://docs.astral.sh/ruff/settings/#sorting-imports
-	@ruff check --select I --fix .
-	@ruff format .
-	@ruff check .
-	@pyright .
+	ruff check --select I --fix .
+	ruff format .
+	ruff check .
+	pyright .
 
 test:
-	@pytest -s --cov=twscrape tests/
+	docker run --rm -v "$(PWD)":/app -w /app python:3.11-slim pytest -s --cov=twscrape tests/
 
 test-cov:
-	@pytest -s --cov=twscrape tests/
-	@coverage html
-	@open htmlcov/index.html
+	docker run --rm -v "$(PWD)":/app -w /app python:3.11-slim pytest -s --cov=twscrape tests/
+	docker run --rm -v "$(PWD)/htmlcov":/app/htmlcov python:3.11-slim coverage html
+	open htmlcov/index.html
 
-changelog:
-	@git pull origin --tags > /dev/null
-	@git log $(shell git describe --tags --abbrev=0 HEAD)^..HEAD --pretty=format:'- %s'
+build:
+	docker build -t twscrape .
 
-test-py:
-	$(eval name=twscrape_py$(v))
-	@docker -l warning build -f Dockerfile.python --build-arg VER=$(v) -t $(name) .
-	@docker run $(name)
-
-test-sq:
-	$(eval name=twscrape_sq$(v))
-	@docker -l warning build -f Dockerfile.sqlite --build-arg SQLY=$(y) --build-arg SQLV=$(v) -t $(name) .
-	@docker run $(name)
-
-test-py-matrix:
-	@make test-py v=3.10
-	@make test-py v=3.11
-	@make test-py v=3.12
-
-test-sq-matrix:
-	@# https://www.sqlite.org/chronology.html
-	@make test-sq y=2018 v=3240000
-	@make test-sq y=2019 v=3270200
-	@make test-sq y=2019 v=3300100
-	@make test-sq y=2020 v=3330000
-	@make test-sq y=2021 v=3340100
-	@make test-sq y=2023 v=3430000
-	@make test-sq y=2023 v=3440000
-	@make test-sq y=2024 v=3450300
+deps:
+	pip install -e .[dev]
 
 update-mocks:
-	@rm -rf ./tests/mocked-data/raw_*.json
+	rm -rf ./tests/mocked-data/raw_*.json
 	twscrape user_by_id --raw 2244994945 | jq > ./tests/mocked-data/raw_user_by_id.json
 	twscrape user_by_login --raw xdevelopers | jq > ./tests/mocked-data/raw_user_by_login.json
 	twscrape following --raw --limit 10  2244994945 | jq > ./tests/mocked-data/raw_following.json
@@ -71,3 +42,86 @@ update-mocks:
 	twscrape search --raw --limit 10 "elon musk lang:en" | jq > ./tests/mocked-data/raw_search.json
 	twscrape list_timeline --raw --limit 10 1494877848087187461 | jq > ./tests/mocked-data/raw_list_timeline.json
 	twscrape liked_tweets --raw --limit 10 2244994945 | jq > ./tests/mocked-data/raw_likes.json
+
+
+# .github/workflows/main.yml
+
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.11
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Lint
+      run: make lint
+
+    - name: Test
+      run: make test
+
+    - name: Build
+      run: make build
+
+
+twscrape
+pytest
+pytest-cov
+ruff
+pyright
+jq
+twint
+
+
+# Dockerfile
+
+FROM python:3.11-slim
+
+RUN pip install --no-cache-dir -U pip
+
+WORKDIR /app
+
+COPY requirements.txt requirements.txt
+RUN pip install -r requirements.txt
+
+COPY . .
+
+CMD [ "bash", "-l", "-c", "pytest -s --cov=twscrape tests/" ]
+
+
+# tox.ini
+
+[tox]
+envlist = py311
+
+[testenv]
+deps =
+    pytest
+    pytest-cov
+    ruff
+    pyright
+    jq
+    twint
+commands =
+    ruff check --select I --fix .
+    ruff format .
+    ruff check .
+    pytest -s --cov=twscrape tests/
