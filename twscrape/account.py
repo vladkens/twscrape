@@ -4,7 +4,7 @@ import sqlite3
 from dataclasses import asdict, dataclass, field
 from datetime import datetime
 from functools import lru_cache
-from typing import Any, Dict, Literal, Optional, TypedDict
+from typing import Any, Dict, Literal, Optional
 
 import httpx
 from httpx import AsyncClient, AsyncHTTPTransport, Timeout
@@ -29,15 +29,13 @@ class AccountAttributes(TypedDict):
     mfa_code: Optional[str]
     proxy: Optional[str]
     error_msg: Optional[str]
-    last_used: Optional[str]
+    last_used: Optional[datetime]
     _tx: Optional[str]
 
 
 @dataclass
 class Account(JSONTrait):
-    __slots__ = ()
-
-    attributes: AccountAttributes
+    attributes: AccountAttributes = field(default_factory=AccountAttributes)
 
     @staticmethod
     def from_rs(rs: sqlite3.Row) -> "Account":
@@ -67,8 +65,11 @@ class Account(JSONTrait):
         )
 
         # saved from previous usage
-        client.cookies.update(json.loads(self.attributes["cookies"]))
-        client.headers.update(json.loads(self.attributes["headers"]))
+        for cookie in self.attributes["cookies"].values():
+            client.set_cookie(cookie)
+
+        for header, value in self.attributes["headers"].items():
+            client.set_header(header, value)
 
         # default settings
         client.headers["user-agent"] = self.attributes["user-agent"]
