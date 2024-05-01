@@ -1,6 +1,6 @@
 import pytest
 import asyncio
-from unittest.mock import patch
+from unittest.mock import patch, AsyncMock
 from twscrape.accounts_pool import AccountsPool
 from twscrape.api import API
 from twscrape.queue_client import QueueClient
@@ -15,7 +15,7 @@ def pool_mock(tmp_path):
     return AccountsPool(db_path)
 
 
-@pytest.fixture
+@pytest.fixture(scope="module")
 @pytest.mark.asyncio(record_messages=True)
 async def client_fixture(pool_mock: AccountsPool):
     """
@@ -33,7 +33,7 @@ async def client_fixture(pool_mock: AccountsPool):
     await client.stop()
 
 
-@pytest.fixture
+@pytest.fixture(scope="function")
 @pytest.mark.asyncio
 async def api_mock(pool_mock: AccountsPool):
     """
@@ -42,6 +42,6 @@ async def api_mock(pool_mock: AccountsPool):
     await pool_mock.add_account("user1", "pass1", "email1", "email_pass1")
     await pool_mock.set_active("user1", True)
 
-    with patch("twscrape.api.API.request") as mock_request:
+    with patch("twscrape.api.API.request", new_callable=AsyncMock) as mock_request:
         api = API(pool_mock)
         yield api
