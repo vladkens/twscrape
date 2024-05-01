@@ -167,6 +167,11 @@ class QueueClient:
             logger.warning(f"Session expired or banned: {log_msg}")
             await self._close_ctx(-1, inactive=True, msg=err_msg)
             raise HandledError()
+        
+        if err_msg.startswith("(29) Timeout: Unspecified"):
+            logger.warning(f"Timeout: {log_msg}")
+            await self._close_ctx(-1, inactive=False, msg=err_msg)
+            raise HandledError()
 
         if err_msg == "OK" and rep.status_code == 403:
             logger.warning(f"Session expired or banned: {log_msg}")
