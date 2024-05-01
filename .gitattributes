@@ -1,1 +1,13 @@
-git checkout --ours -- tests/mocked-data/* && git add tests/mocked-data/
+#!/bin/bash
+
+# Check if the directory exists
+if [ -d "tests/mocked-data" ]; then
+  # Change to the directory
+  cd tests/mocked-data
+
+  # Checkout and add the files
+  git checkout --ours . && git add .
+else
+  # Print an error message
+  echo "Error: Directory 'tests/mocked-data' does not exist."
+fi
