@@ -39,22 +39,22 @@ GQL_GEN: List[str] = [
 ]
 
 
-async def test_gql_params(
-    api_mock: API, monkeypatch: MonkeyPatch
-) -> None:
+async def test_gql_params(api_mock: API, monkeypatch: MonkeyPatch) -> None:
+    calls: List[Tuple[Tuple[Any, Dict[str, Any]], Dict[str, Any]]] = []
+
     async def mock_gql_items(*args: Tuple[Any, Dict[str, Any]], **kwargs: Any) -> None:
         nonlocal calls
         calls.append((args, kwargs))
         raise MockedError()
 
-    calls: List[Tuple[Tuple[Any, Dict[str, Any]], Dict[str, Any]]] = []
-
     for func in GQL_GEN:
+        monkeypatch.setattr(api_mock, "_gql_items", mock_gql_items)
         try:
-            monkeypatch.setattr(api_mock, "_gql_items", mock_gql_items)
             await gather(getattr(api_mock, func)("user1", limit=100, kv={"count": 100}))
         except MockedError:
             pass
+
+    monkeypatch.undo()
 
     assert len(calls) == 1, f"{func} not called once"
     assert calls[0][1]["limit"] == 100, f"limit not changed in {func}"
@@ -78,15 +78,16 @@ async def api_session() -> AsyncContextManager[API]:
 
 
 async def test_raise_when_no_account(
-    api_session: API,
-    monkeypatch: MockerFixture,
+    api_session: API, monkeypatch: MockerFixture
 ) -> None:
     monkeypatch.setattr(api_session, "pool", MockPool())
     monkeypatch.setattr(api_session.pool, "get_all", lambda: [])
 
-    assert get_env_bool("TWS_RAISE_WHEN_NO_ACCOUNT") is False
-    monkeypatch.setenv("TWS_RAISE_WHEN_NO_ACCOUNT", "1")
-    assert get_env_bool("TWS_RAISE_WHEN_NO_ACCOUNT") is True
+    env_var_name = "TWS_RAISE_WHEN_NO_ACCOUNT"
+    assert get_env_bool(env_var_name) is False
+
+    monkeypatch.setenv(env_var_name, "1")
+    assert get_env_bool(env_var_name) is True
 
     with pytest.raises(NoAccountError):
         await gather(api_session.search("foo", limit=10))
@@ -94,8 +95,8 @@ async def test_raise_when_no_account(
     with pytest.raises(NoAccountError):
         await api_session.user_by_id(123)
 
-    monkeypatch.delenv("TWS_RAISE_WHEN_NO_ACCOUNT")
-    assert get_env_bool("TWS_RAISE_WHEN_NO_ACCOUNT") is False
+    monkeypatch.delenv(env_var_name)
+    assert get_env_bool(env_var_name) is False
 
 
 class MockPool:
