@@ -1,1 +1,1 @@
-tests/mocked-data/*   binary merge
+git checkout --ours -- tests/mocked-data/* && git add tests/mocked-data/
