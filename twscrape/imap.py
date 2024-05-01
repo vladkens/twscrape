@@ -42,41 +42,33 @@ def _get_imap_domain(email: str) -> str:
     return f"imap.{email_domain}"
 
 
-def _wait_email_code(imap: imaplib.IMAP4_SSL, count: int, min_t: datetime | None) -> str | None:
+def _wait_latest_email_code(imap: imaplib.IMAP4_SSL, count: int) -> str | None:
     for i in range(count, 0, -1):
         _, rep = imap.fetch(str(i), "(RFC822)")
         for x in rep:
             if isinstance(x, tuple):
                 msg = emaillib.message_from_bytes(x[1])
 
-                # https://www.ietf.org/rfc/rfc9051.html#section-6.3.12-13
-                msg_time = msg.get("Date", "").split("(")[0].strip()
-                msg_time = datetime.strptime(msg_time, "%a, %d %b %Y %H:%M:%S %z")
-
                 msg_from = str(msg.get("From", "")).lower()
                 msg_subj = str(msg.get("Subject", "")).lower()
-                logger.info(f"({i} of {count}) {msg_from} - {msg_time} - {msg_subj}")
-
-                if min_t is not None and msg_time < min_t:
-                    return None
+                logger.info(f"({i} of {count}) {msg_from} - {msg_subj}")
 
                 if "info@x.com" in msg_from and "confirmation code is" in msg_subj:
-                    # eg. Your Twitter confirmation code is XXX
-                    return msg_subj.split(" ")[-1].strip()
+                    return msg_subj.split()[-1].strip()
 
     return None
 
 
-async def imap_get_email_code(
-    imap: imaplib.IMAP4_SSL, email: str, min_t: datetime | None = None
-) -> str:
+async def imap_get_email_code(imap: imaplib.IMAP4_SSL, email: str) -> str:
     try:
         logger.info(f"Waiting for confirmation code for {email}...")
         start_time = time.time()
+        
         while True:
             _, rep = imap.select("INBOX")
             msg_count = int(rep[0].decode("utf-8")) if len(rep) > 0 and rep[0] is not None else 0
-            code = _wait_email_code(imap, msg_count, min_t)
+            code = _wait_latest_email_code(imap, msg_count)
+            
             if code is not None:
                 return code
 
@@ -84,6 +76,7 @@ async def imap_get_email_code(
                 raise EmailCodeTimeoutError(f"Email code timeout ({TWS_WAIT_EMAIL_CODE} sec)")
 
             await asyncio.sleep(5)
+            
     except Exception as e:
         imap.select("INBOX")
         imap.close()
