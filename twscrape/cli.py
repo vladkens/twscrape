@@ -6,9 +6,9 @@ import io
 import json
 import sqlite3
 from importlib.metadata import version
+from typing import Any, Callable, Coroutine, Dict, List, Optional, Type, Union
 
 import httpx
-
 from .api import API, AccountsPool
 from .db import get_sqlite_version
 from .logger import logger, set_log_level
@@ -22,7 +22,7 @@ class CustomHelpFormatter(argparse.HelpFormatter):
         super().__init__(prog, max_help_position=30, width=120)
 
 
-def get_fn_arg(args):
+def get_fn_arg(args: argparse.Namespace) -> tuple[str, Union[str, int]]:
     names = ["query", "tweet_id", "user_id", "username", "list_id"]
     for name in names:
         if name in args:
@@ -32,15 +32,15 @@ def get_fn_arg(args):
     exit(1)
 
 
-def to_str(doc: httpx.Response | Tweet | User | None) -> str:
+def to_str(doc: Union[httpx.Response, Tweet, User, None]) -> str:
     if doc is None:
         return "Not Found. See --raw for more details."
 
     tmp = doc.json()
-    return tmp if isinstance(tmp, str) else json.dumps(tmp, default=str)
+    return json.dumps(tmp, default=str) if isinstance(tmp, dict) else tmp
 
 
-async def main(args):
+async def main(args: argparse.Namespace) -> None:
     if args.debug:
         set_log_level("DEBUG")
 
@@ -104,7 +104,7 @@ async def main(args):
         return
 
     fn = args.command + "_raw" if args.raw else args.command
-    fn = getattr(api, fn, None)
+    fn: Optional[str] = getattr(api, fn, None)
     if fn is None:
         logger.error(f"Unknown command: {args.command}")
         exit(1)
@@ -119,7 +119,7 @@ async def main(args):
         print(to_str(doc))
 
 
-def custom_help(p):
+def custom_help(p: argparse.ArgumentParser) -> None:
     buffer = io.StringIO()
     p.print_help(buffer)
     msg = buffer.getvalue()
@@ -140,19 +140,19 @@ def custom_help(p):
     print("\n".join(msg))
 
 
-def run():
+def run() -> None:
     p = argparse.ArgumentParser(add_help=False, formatter_class=CustomHelpFormatter)
     p.add_argument("--db", default="accounts.db", help="Accounts database file")
     p.add_argument("--debug", action="store_true", help="Enable debug mode")
     subparsers = p.add_subparsers(dest="command")
 
-    def c_one(name: str, msg: str, a_name: str, a_msg: str, a_type: type = str):
+    def c_one(name: str, msg: str, a_name: str, a_msg: str, a_type: Type[Any] = str) -> argparse.ArgumentParser:
         p = subparsers.add_parser(name, help=msg)
         p.add_argument(a_name, help=a_msg, type=a_type)
         p.add_argument("--raw", action="store_true", help="Print raw response")
         return p
 
-    def c_lim(name: str, msg: str, a_name: str, a_msg: str, a_type: type = str):
+    def c_lim(name: str, msg: str, a_name: str, a_msg: str, a_type: Type[Any] = int) -> argparse.ArgumentParser:
         p = c_one(name, msg, a_name, a_msg, a_type)
         p.add_argument("--limit", type=int, default=-1, help="Max tweets to retrieve")
         return p
