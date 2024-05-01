@@ -1,23 +1,32 @@
-from typing import List, AsyncContextManager
+import pytest
 from unittest.mock import AsyncMock
 from twscrape.accounts_pool import AccountsPool
 from twscrape.utils import utc
+from typing import List, AsyncContextManager, Account
 
+@pytest.fixture
+async def pool_mock() -> AccountsPool:
+    """
+    A fixture to create an AccountsPool instance for testing.
+    """
+    return AccountsPool()
 
+@pytest.mark.asyncio
 async def test_add_accounts(pool_mock: AccountsPool):
     """
     Test adding accounts to the pool.
     """
-    # should add account
     account = Account(
         username="user1",
         password="pass1",
         email="email1",
         email_password="email_pass1",
     )
+
+    # should add account
     await pool_mock.add_account(**account.to_dict())
-    acc = await pool_mock.get(account.username)
-    assert acc == account
+    db_account = await pool_mock.get(account.username)
+    assert db_account == account
 
     # should not add account with same username
     account.password = "pass2"
@@ -32,10 +41,10 @@ async def test_add_accounts(pool_mock: AccountsPool):
     # should add account with different username
     account.username = "user2"
     await pool_mock.add_account(**account.to_dict())
-    acc = await pool_mock.get(account.username)
-    assert acc == account
+    db_account = await pool_mock.get(account.username)
+    assert db_account == account
 
-
+@pytest.mark.asyncio
 async def test_get_all(pool_mock: AccountsPool):
     """
     Test getting all accounts from the pool.
@@ -45,7 +54,7 @@ async def test_get_all(pool_mock: AccountsPool):
     assert len(accounts) == 0
 
     # should return all accounts
-    accounts = [
+    accounts_to_add = [
         Account(
             username="user1",
             password="pass1",
@@ -59,14 +68,14 @@ async def test_get_all(pool_mock: AccountsPool):
             email_password="email_pass2",
         ),
     ]
-    for account in accounts:
+    for account in accounts_to_add:
         await pool_mock.add_account(**account.to_dict())
     accounts = await pool_mock.get_all()
     assert len(accounts) == 2
-    for account, db_account in zip(accounts, accounts):
+    for account, db_account in zip(accounts_to_add, accounts):
         assert account == db_account
 
-
+@pytest.mark.asyncio
 async def test_save(pool_mock: AccountsPool):
     """
     Test saving changes to an account.
@@ -90,7 +99,7 @@ async def test_save(pool_mock: AccountsPool):
     with pytest.raises(ValueError):
         await pool_mock.save(db_account)
 
-
+@pytest.mark.asyncio
 async def test_get_for_queue(pool_mock: AccountsPool):
     """
     Test getting an account for a queue.
@@ -107,6 +116,7 @@ async def test_get_for_queue(pool_mock: AccountsPool):
     await pool_mock.add_account(**account.to_dict())
     await pool_mock.set_active(account.username, True)
     db_account = await pool_mock.get_for_queue(Q)
+    assert db_account is not None
     assert db_account == account
     assert db_account.active is True
     assert db_account.locks is not None
@@ -117,7 +127,7 @@ async def test_get_for_queue(pool_mock: AccountsPool):
     db_account = await pool_mock.get_for_queue(Q)
     assert db_account is None
 
-
+@pytest.mark.asyncio
 async def test_account_unlock(pool_mock: AccountsPool):
     """
     Test unlocking an account.
@@ -149,7 +159,7 @@ async def test_account_unlock(pool_mock: AccountsPool):
     db_account = await pool_mock.get(db_account.username)
     assert int(db_account.locks[Q].timestamp()) == end_time
 
-
+@pytest.mark.asyncio
 async def test_get_stats(pool_mock: AccountsPool):
     """
     Test getting stats from the pool.
