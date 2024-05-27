@@ -120,7 +120,7 @@ class API:
 
                 obj = rep.json()
                 els = get_by_path(obj, "entries") or []
-                els = [x for x in els if not x["entryId"].startswith("cursor-")]
+                els = [x for x in els if not (x["entryId"].startswith("cursor-") or x["entryId"].startswith("messageprompt-"))]
                 cur = self._get_cursor(obj, cursor_type)
 
                 rep, cnt, active = self._is_end(rep, queue, els, cur, cnt, limit)
