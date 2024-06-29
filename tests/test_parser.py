@@ -132,6 +132,10 @@ def check_user(doc: User):
 
     assert doc.username is not None
     assert doc.descriptionLinks is not None
+    assert doc.pinnedIds is not None
+    if doc.pinnedIds:
+        for x in doc.pinnedIds:
+            assert isinstance(x, int)
 
     if len(doc.descriptionLinks) > 0:
         for x in doc.descriptionLinks:
@@ -311,8 +315,12 @@ async def test_user_tweets():
     tweets = await gather(api.user_tweets(2244994945))
     assert len(tweets) > 0
 
+    is_any_pinned = False
     for doc in tweets:
         check_tweet(doc)
+        is_any_pinned = is_any_pinned or doc.id in doc.user.pinnedIds
+
+    assert is_any_pinned, "at least one tweet should be pinned (or bad luck with data)"
 
 
 async def test_user_tweets_and_replies():

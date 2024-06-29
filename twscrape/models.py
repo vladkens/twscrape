@@ -123,6 +123,7 @@ class User(JSONTrait):
     blue: bool | None = None
     blueType: str | None = None
     descriptionLinks: list[TextLink] = field(default_factory=list)
+    pinnedIds: list[int] = field(default_factory=list)
     _type: str = "snscrape.modules.twitter.User"
 
     # todo:
@@ -153,6 +154,7 @@ class User(JSONTrait):
             blueType=obj.get("verified_type"),
             protected=obj.get("protected"),
             descriptionLinks=_parse_links(obj, ["entities.description.urls", "entities.url.urls"]),
+            pinnedIds=[int(x) for x in obj.get("pinned_tweet_ids_str", [])],
         )
 
 

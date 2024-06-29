@@ -237,7 +237,7 @@ class QueueClient:
                     msg = [
                         "Unknown error. Account timeouted for 15 minutes.",
                         "Create issue please: https://github.com/vladkens/twscrape/issues",
-                        f"If it mistake, you can unlock account now with `twscrape reset_locks`. Err: {type(e)}: {e}",
+                        f"If it mistake, you can unlock accounts with `twscrape reset_locks`. Err: {type(e)}: {e}",
                     ]
 
                     logger.warning(" ".join(msg))
