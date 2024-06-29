@@ -7,8 +7,15 @@ from datetime import datetime
 
 from .logger import logger
 
-TWS_WAIT_EMAIL_CODE = [os.getenv("TWS_WAIT_EMAIL_CODE"), os.getenv("LOGIN_CODE_TIMEOUT"), 30]
-TWS_WAIT_EMAIL_CODE = [int(x) for x in TWS_WAIT_EMAIL_CODE if x is not None][0]
+
+def env_int(key: str | list[str], default: int) -> int:
+    key = [key] if isinstance(key, str) else key
+    val = [os.getenv(k) for k in key]
+    val = [int(x) for x in val if x is not None]
+    return val[0] if val else default
+
+
+TWS_WAIT_EMAIL_CODE = env_int(["TWS_WAIT_EMAIL_CODE", "LOGIN_CODE_TIMEOUT"], 30)
 
 
 class EmailLoginError(Exception):
