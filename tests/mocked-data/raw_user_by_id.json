@@ -23,7 +23,7 @@
         "is_blue_verified": true,
         "profile_image_shape": "Square",
         "legacy": {
-          "can_dm": false,
+          "can_dm": true,
           "can_media_tag": true,
           "created_at": "Sat Dec 14 04:35:55 +0000 2013",
           "default_profile": false,
@@ -48,16 +48,16 @@
             }
           },
           "fast_followers_count": 0,
-          "favourites_count": 2080,
-          "followers_count": 624633,
-          "friends_count": 1767,
+          "favourites_count": 2148,
+          "followers_count": 646174,
+          "friends_count": 1777,
           "has_custom_timelines": true,
           "is_translator": false,
-          "listed_count": 2647,
+          "listed_count": 2684,
           "location": "127.0.0.1",
-          "media_count": 815,
+          "media_count": 820,
           "name": "Developers",
-          "normal_followers_count": 624633,
+          "normal_followers_count": 646174,
           "pinned_tweet_ids_str": [
             "1770153912013615285"
           ],
@@ -66,7 +66,7 @@
           "profile_image_url_https": "https://pbs.twimg.com/profile_images/1683501992314798080/xl1POYLw_normal.jpg",
           "profile_interstitial_type": "",
           "screen_name": "XDevelopers",
-          "statuses_count": 4047,
+          "statuses_count": 4089,
           "translator_type": "regular",
           "url": "https://t.co/O13IfbuPqq",
           "verified": false,
@@ -94,7 +94,6 @@
           "highlighted_tweets": "1"
         },
         "creator_subscriptions_count": 0,
-        "has_hidden_likes_on_profile": false,
         "has_hidden_subscriptions_on_profile": false
       }
     }

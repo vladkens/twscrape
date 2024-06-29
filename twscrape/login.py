@@ -11,7 +11,7 @@ from .imap import imap_get_email_code, imap_login
 from .logger import logger
 from .utils import utc
 
-LOGIN_URL = "https://api.twitter.com/1.1/onboarding/task.json"
+LOGIN_URL = "https://api.x.com/1.1/onboarding/task.json"
 
 
 @dataclass
@@ -30,7 +30,7 @@ class TaskCtx:
 
 
 async def get_guest_token(client: AsyncClient):
-    rep = await client.post("https://api.twitter.com/1.1/guest/activate.json")
+    rep = await client.post("https://api.x.com/1.1/guest/activate.json")
     rep.raise_for_status()
     return rep.json()["guest_token"]
 

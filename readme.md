@@ -72,7 +72,6 @@ async def main():
     tweet_id = 20
     await api.tweet_details(tweet_id)  # Tweet
     await gather(api.retweeters(tweet_id, limit=20))  # list[User]
-    await gather(api.favoriters(tweet_id, limit=20))  # list[User]
 
     # Note: this method have small pagination from X side, like 5 tweets per query
     await gather(api.tweet_replies(tweet_id, limit=20))  # list[Tweet]
@@ -90,7 +89,6 @@ async def main():
     await gather(api.subscriptions(user_id, limit=20))  # list[User]
     await gather(api.user_tweets(user_id, limit=20))  # list[Tweet]
     await gather(api.user_tweets_and_replies(user_id, limit=20))  # list[Tweet]
-    await gather(api.liked_tweets(user_id, limit=20))  # list[Tweet]
 
     # list info
     list_id = 123456789
@@ -115,6 +113,11 @@ async def main():
 if __name__ == "__main__":
     asyncio.run(main())
 ```
+
+### Depraceted API methods (no more available in X)
+
+- favoriters ([ref](https://x.com/XDevelopers/status/1800675411086409765))
+- liked_tweets ([ref](https://x.com/XDevelopers/status/1800675411086409765))
 
 ### Stoping iteration with break
 
@@ -236,7 +239,6 @@ twscrape search "QUERY" --limit=20
 twscrape tweet_details TWEET_ID
 twscrape tweet_replies TWEET_ID --limit=20
 twscrape retweeters TWEET_ID --limit=20
-twscrape favoriters TWEET_ID --limit=20
 twscrape user_by_id USER_ID
 twscrape user_by_login USERNAME
 twscrape following USER_ID --limit=20
@@ -245,7 +247,6 @@ twscrape verified_followers USER_ID --limit=20
 twscrape subscriptions USER_ID --limit=20
 twscrape user_tweets USER_ID --limit=20
 twscrape user_tweets_and_replies USER_ID --limit=20
-twscrape liked_tweets USER_ID --limit=20
 ```
 
 The default output is in the console (stdout), one document per line. So it can be redirected to the file.
@@ -311,7 +312,7 @@ _Note:_ If proxy not working, exception will be raised from API class.
 
 ## Limitations
 
-After 1 July 2023 Twitter [introduced new limits](https://twitter.com/elonmusk/status/1675187969420828672) and still continue to update it periodically.
+After 1 July 2023 Twitter [introduced new limits](https://x.com/elonmusk/status/1675187969420828672) and still continue to update it periodically.
 
 The basic behaviour is as follows:
 - the request limit is updated every 15 minutes for each endpoint individually

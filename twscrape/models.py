@@ -133,7 +133,7 @@ class User(JSONTrait):
         return User(
             id=int(obj["id_str"]),
             id_str=obj["id_str"],
-            url=f'https://twitter.com/{obj["screen_name"]}',
+            url=f'https://x.com/{obj["screen_name"]}',
             username=obj["screen_name"],
             displayname=obj["name"],
             rawDescription=obj["description"],
@@ -213,7 +213,7 @@ class Tweet(JSONTrait):
         rt_obj = get_or(res, f"tweets.{_first(obj, rt_id_path)}")
         qt_obj = get_or(res, f"tweets.{_first(obj, qt_id_path)}")
 
-        url = f'https://twitter.com/{tw_usr.username}/status/{obj["id_str"]}'
+        url = f'https://x.com/{tw_usr.username}/status/{obj["id_str"]}'
         doc = Tweet(
             id=int(obj["id_str"]),
             id_str=obj["id_str"],
@@ -226,7 +226,7 @@ class Tweet(JSONTrait):
             retweetCount=obj["retweet_count"],
             likeCount=obj["favorite_count"],
             quoteCount=obj["quote_count"],
-            bookmarkedCount=obj["bookmark_count"],
+            bookmarkedCount=get_or(obj, "bookmark_count", 0),
             conversationId=int(obj["conversation_id_str"]),
             conversationIdStr=obj["conversation_id_str"],
             hashtags=[x["text"] for x in get_or(obj, "entities.hashtags", [])],

@@ -115,6 +115,7 @@ def check_tweet(doc: Tweet | None):
             raise e
 
     check_user(doc.user)
+    assert doc.bookmarkedCount is not None
 
 
 def check_user(doc: User):
@@ -161,8 +162,12 @@ async def test_search():
     items = await gather(api.search("elon musk lang:en", limit=20))
     assert len(items) > 0
 
+    bookmarks_count = 0
     for doc in items:
         check_tweet(doc)
+        bookmarks_count += doc.bookmarkedCount
+
+    assert bookmarks_count > 0, "the key is changed or bad luck with data?"
 
 
 async def test_user_by_id():
@@ -284,7 +289,7 @@ async def test_retweters():
 
 async def test_favoriters():
     api = API()
-    mock_rep(api.favoriters_raw, "raw_favoriters", as_generator=True)
+    mock_rep(api.favoriters_raw, "old_raw_favoriters", as_generator=True)
 
     users = await gather(api.favoriters(1649191520250245121))
     assert len(users) > 0
@@ -342,7 +347,7 @@ async def test_list_timeline():
 
 async def test_likes():
     api = API()
-    mock_rep(api.liked_tweets_raw, "raw_likes", as_generator=True)
+    mock_rep(api.liked_tweets_raw, "old_raw_likes", as_generator=True)
 
     tweets = await gather(api.liked_tweets(2244994945))
     assert len(tweets) > 0

@@ -64,10 +64,10 @@ update-mocks:
 	twscrape tweet_details --raw 1649191520250245121 | jq > ./tests/mocked-data/raw_tweet_details.json
 	twscrape tweet_replies --limit 1 --raw 1649191520250245121 | jq > ./tests/mocked-data/raw_tweet_replies.json
 	twscrape retweeters --raw --limit 10 1649191520250245121 | jq > ./tests/mocked-data/raw_retweeters.json
-	twscrape favoriters --raw --limit 10 1649191520250245121 | jq > ./tests/mocked-data/raw_favoriters.json
 	twscrape user_tweets --raw --limit 10 2244994945 | jq > ./tests/mocked-data/raw_user_tweets.json
 	twscrape user_tweets_and_replies --raw --limit 10 2244994945 | jq > ./tests/mocked-data/raw_user_tweets_and_replies.json
 	twscrape user_media --raw --limit 10 2244994945 | jq > ./tests/mocked-data/raw_user_media.json
 	twscrape search --raw --limit 10 "elon musk lang:en" | jq > ./tests/mocked-data/raw_search.json
 	twscrape list_timeline --raw --limit 10 1494877848087187461 | jq > ./tests/mocked-data/raw_list_timeline.json
-	twscrape liked_tweets --raw --limit 10 2244994945 | jq > ./tests/mocked-data/raw_likes.json
+	@# twscrape favoriters --raw --limit 10 1649191520250245121 | jq > ./tests/mocked-data/raw_favoriters.json
+	@# twscrape liked_tweets --raw --limit 10 2244994945 | jq > ./tests/mocked-data/raw_likes.json

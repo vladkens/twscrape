@@ -1,6 +1,7 @@
 from contextlib import aclosing
 
 from httpx import Response
+from typing_extensions import deprecated
 
 from .accounts_pool import AccountsPool
 from .logger import set_log_level
@@ -8,26 +9,27 @@ from .models import Tweet, User, parse_tweet, parse_tweets, parse_user, parse_us
 from .queue_client import QueueClient
 from .utils import encode_params, find_obj, get_by_path
 
-OP_SearchTimeline = "5yhbMCF0-WQ6M8UOAs1mAg/SearchTimeline"
-OP_UserByRestId = "BNfUANkqWTZZdOE4xnhPiQ/UserByRestId"
-OP_UserByScreenName = "qW5u-DAuXpMEG0zA1F7UGQ/UserByScreenName"
-OP_TweetDetail = "zJvfJs3gSbrVhC0MKjt_OQ/TweetDetail"
-OP_Followers = "o1YfmoGa-hb8Z6yQhoIBhg/Followers"
-OP_Following = "ZxuX4tC6kWz9M8pe1i-Gdg/Following"
-OP_Retweeters = "dCD2tXqLk_Et_arpgIfQEQ/Retweeters"
-OP_Favoriters = "tOsBp8iUJtPDcxme-Bgeuw/Favoriters"
-OP_UserTweets = "9zyyd1hebl7oNWIPdA8HRw/UserTweets"
-OP_UserTweetsAndReplies = "ImwMsY2nbn1qxRNcUNL2DA/UserTweetsAndReplies"
-OP_ListLatestTweetsTimeline = "GX5ovLTwyoN1Td13GHvhIg/ListLatestTweetsTimeline"
-OP_Likes = "RaAkBb4XXis-atDL3rV-xw/Likes"
-OP_BlueVerifiedFollowers = "AXsZSOWx3FCvneEIzxDj6A/BlueVerifiedFollowers"
-OP_UserCreatorSubscriptions = "NHT8e7FjnCS3TP0QfP_OUQ/UserCreatorSubscriptions"
-OP_UserMedia = "aQQLnkexAl5z9ec_UgbEIA/UserMedia"
-OP_UserBookmarks = "yzqS_xq0glDD7YZJ2YDaiA/Bookmarks"
+# OP_{NAME} – {NAME} should be same as second part of GQL ID (required to auto-update script)
+OP_SearchTimeline = "TQmyZ_haUqANuyBcFBLkUw/SearchTimeline"
+OP_UserByRestId = "xf3jd90KKBCUxdlI_tNHZw/UserByRestId"
+OP_UserByScreenName = "xmU6X_CKVnQ5lSrCbAmJsg/UserByScreenName"
+OP_TweetDetail = "VwKJcAd7zqlBOitPLUrB8A/TweetDetail"
+OP_Followers = "DMcBoZkXf9axSfV2XND0Ig/Followers"
+OP_Following = "7FEKOPNAvxWASt6v9gfCXw/Following"
+OP_Retweeters = "lR6N-4vjw47alP1RHfhxkg/Retweeters"
+OP_Favoriters = "arbFn-zD2IR_uDsOydGdgg/Favoriters"
+OP_UserTweets = "V7H0Ap3_Hh2FyS75OCDO3Q/UserTweets"
+OP_UserTweetsAndReplies = "E4wA5vo2sjVyvpliUffSCw/UserTweetsAndReplies"
+OP_ListLatestTweetsTimeline = "F9aW7tjdTWE9m5qHqzEpUA/ListLatestTweetsTimeline"
+OP_Likes = "ayhH-V7xvuv4nPZpkpuhFA/Likes"
+OP_BlueVerifiedFollowers = "BBHG1SUP_oNxDWJ40Y4ZRQ/BlueVerifiedFollowers"
+OP_UserCreatorSubscriptions = "VVNxHD4NVaSTU9Jtnb_n8Q/UserCreatorSubscriptions"
+OP_UserMedia = "MOLbHrtk8Ovu7DUNOLcXiA/UserMedia"
+OP_Bookmarks = "xLjCVTqYWz8CGSprLU349w/Bookmarks"
 
 
-GQL_URL = "https://twitter.com/i/api/graphql"
-GQL_FEATURES = {  # search values here (view source) https://twitter.com/
+GQL_URL = "https://x.com/i/api/graphql"
+GQL_FEATURES = {  # search values here (view source) https://x.com/
     "articles_preview_enabled": False,
     "c9s_tweet_anatomy_moderator_badge_enabled": True,
     "communities_web_enable_tweet_community_results_fetch": True,
@@ -176,6 +178,7 @@ class API:
             "creator_subscriptions_tweet_preview_api_enabled": True,
             "hidden_profile_subscriptions_enabled": True,
             "responsive_web_twitter_article_notes_tab_enabled": False,
+            "subscriptions_feature_can_gift_premium": False,
         }
         return await self._gql_item(op, kv, ft)
 
@@ -196,6 +199,7 @@ class API:
             "subscriptions_verification_info_verified_since_enabled": True,
             "subscriptions_verification_info_is_identity_verified_enabled": False,
             "responsive_web_twitter_article_notes_tab_enabled": False,
+            "subscriptions_feature_can_gift_premium": False,
         }
         return await self._gql_item(op, kv, ft)
 
@@ -333,6 +337,7 @@ class API:
 
     # favoriters
 
+    @deprecated("Likes is no longer available in X, see: https://x.com/XDevelopers/status/1800675411086409765")  # fmt: skip
     async def favoriters_raw(self, twid: int, limit=-1, kv=None):
         op = OP_Favoriters
         kv = {"tweetId": str(twid), "count": 20, "includePromotedContent": True, **(kv or {})}
@@ -340,6 +345,7 @@ class API:
             async for x in gen:
                 yield x
 
+    @deprecated("Likes is no longer available in X, see: https://x.com/XDevelopers/status/1800675411086409765")  # fmt: skip
     async def favoriters(self, twid: int, limit=-1, kv=None):
         async with aclosing(self.favoriters_raw(twid, limit=limit, kv=kv)) as gen:
             async for rep in gen:
@@ -442,6 +448,7 @@ class API:
 
     # likes
 
+    @deprecated("Likes is no longer available in X, see: https://x.com/XDevelopers/status/1800675411086409765")  # fmt: skip
     async def liked_tweets_raw(self, uid: int, limit=-1, kv=None):
         op = OP_Likes
         kv = {
@@ -456,6 +463,7 @@ class API:
             async for x in gen:
                 yield x
 
+    @deprecated("Likes is no longer available in X, see: https://x.com/XDevelopers/status/1800675411086409765")  # fmt: skip
     async def liked_tweets(self, uid: int, limit=-1, kv=None):
         async with aclosing(self.liked_tweets_raw(uid, limit=limit, kv=kv)) as gen:
             async for rep in gen:
@@ -465,7 +473,7 @@ class API:
     # Get current user bookmarks
 
     async def bookmarks_raw(self, limit=-1, kv=None):
-        op = OP_UserBookmarks
+        op = OP_Bookmarks
         kv = {
             "count": 20,
             "includePromotedContent": False,

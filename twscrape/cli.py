@@ -185,19 +185,20 @@ def run():
     c_one("tweet_details", "Get tweet details", "tweet_id", "Tweet ID", int)
     c_lim("tweet_replies", "Get replies  of a tweet", "tweet_id", "Tweet ID", int)
     c_lim("retweeters", "Get retweeters of a tweet", "tweet_id", "Tweet ID", int)
-    c_lim("favoriters", "Get favoriters of a tweet", "tweet_id", "Tweet ID", int)
     c_one("user_by_id", "Get user data by ID", "user_id", "User ID", int)
     c_one("user_by_login", "Get user data by username", "username", "Username")
     c_lim("following", "Get user following", "user_id", "User ID", int)
     c_lim("followers", "Get user followers", "user_id", "User ID", int)
-    # https://twitter.com/xDaily/status/1701694747767648500
+    # https://x.com/xDaily/status/1701694747767648500
     c_lim("verified_followers", "Get user verified followers", "user_id", "User ID", int)
     c_lim("subscriptions", "Get user subscriptions", "user_id", "User ID", int)
     c_lim("user_tweets", "Get user tweets", "user_id", "User ID", int)
     c_lim("user_tweets_and_replies", "Get user tweets and replies", "user_id", "User ID", int)
     c_lim("user_media", "Get user's media", "user_id", "User ID", int)
     c_lim("list_timeline", "Get tweets from list", "list_id", "List ID", int)
-    c_lim("liked_tweets", "Get user's liked tweets", "user_id", "User ID", int)
+
+    c_lim("favoriters", "(deprecated) Get favoriters of a tweet", "tweet_id", "Tweet ID", int)
+    c_lim("liked_tweets", "(deprecated) Get user's liked tweets", "user_id", "User ID", int)
 
     args = p.parse_args()
     if args.command is None:

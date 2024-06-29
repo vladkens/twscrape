@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "twscrape"
-version = "0.12"
+version = "0.13"
 authors = [{name = "vladkens", email = "v.pronsky@gmail.com"}]
 description = "Twitter GraphQL and Search API implementation with SNScrape data models"
 readme = "readme.md"
@@ -54,6 +54,7 @@ allow-direct-references = true
 [tool.pytest.ini_options]
 pythonpath = ["."]
 asyncio_mode = "auto"
+filterwarnings = ["ignore::DeprecationWarning"]
 
 [tool.ruff]
 line-length = 99

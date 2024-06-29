@@ -10,7 +10,7 @@ docker run --rm -p "3128:3128/tcp" -p "1080:1080/tcp" -e "PROXY_LOGIN=user" -e "
 docker run --rm -p "3129:3128/tcp" -p "1081:1080/tcp" tarampampam/3proxy
 """
 
-client = httpx.Client(headers={"user-agent": UserAgent().chrome})
+client = httpx.Client(headers={"user-agent": UserAgent().chrome}, follow_redirects=True)
 
 with open("./twscrape/api.py") as fp:
     ops = [x.strip() for x in fp.read().split("\n")]
@@ -21,15 +21,38 @@ def script_url(k: str, v: str):
     return f"https://abs.twimg.com/responsive-web/client-web/{k}.{v}.js"
 
 
+def get_page_text(url: str):
+    rep = client.get(url)
+    rep.raise_for_status()
+    if ">document.location =" not in rep.text:
+        return rep.text
+
+    url = rep.text.split('document.location = "')[1].split('"')[0]
+    rep = client.get(url)
+    rep.raise_for_status()
+    if 'action="https://x.com/x/migrate" method="post"' not in rep.text:
+        return rep.text
+
+    data = {}
+    for x in rep.text.split("<input")[1:]:
+        name = x.split('name="')[1].split('"')[0]
+        value = x.split('value="')[1].split('"')[0]
+        data[name] = value
+
+    rep = client.post("https://x.com/x/migrate", json=data)
+    rep.raise_for_status()
+
+    return rep.text
+
+
 def get_scripts():
     cache_dir = "/tmp/twscrape-ops"
     os.makedirs(cache_dir, exist_ok=True)
 
-    rep = client.get("https://twitter.com/elonmusk")
-    rep.raise_for_status()
+    text = get_page_text("https://x.com/elonmusk")
     urls = []
 
-    scripts = rep.text.split('e=>e+"."+')[1].split('[e]+"a.js"')[0]
+    scripts = text.split('e=>e+"."+')[1].split('[e]+"a.js"')[0]
     try:
         for k, v in json.loads(scripts).items():
             urls.append(script_url(k, f"{v}a"))
@@ -38,7 +61,7 @@ def get_scripts():
         print(e)
         exit(1)
 
-    v = rep.text.split("/client-web/main.")[1].split(".")[0]
+    v = text.split("/client-web/main.")[1].split(".")[0]
     urls.append(script_url("main", v))
 
     urls = [
