@@ -314,7 +314,7 @@ _Note:_ If proxy not working, exception will be raised from API class.
 After 1 July 2023 Twitter [introduced new limits](https://twitter.com/elonmusk/status/1675187969420828672) and still continue to update it periodically.
 
 The basic behaviour is as follows:
-- the reqest limit is updated every 15 minutes for each endpoint individually
+- the request limit is updated every 15 minutes for each endpoint individually
 - e.g. each account have 50 search requests / 15 min, 50 profile requests / 15 min, etc.
 
 API data limits:
