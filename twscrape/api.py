@@ -23,6 +23,7 @@ OP_Likes = "RaAkBb4XXis-atDL3rV-xw/Likes"
 OP_BlueVerifiedFollowers = "AXsZSOWx3FCvneEIzxDj6A/BlueVerifiedFollowers"
 OP_UserCreatorSubscriptions = "NHT8e7FjnCS3TP0QfP_OUQ/UserCreatorSubscriptions"
 OP_UserMedia = "aQQLnkexAl5z9ec_UgbEIA/UserMedia"
+OP_UserBookmarks = "yzqS_xq0glDD7YZJ2YDaiA/Bookmarks"
 
 
 GQL_URL = "https://twitter.com/i/api/graphql"
@@ -385,6 +386,30 @@ class API:
                     yield x
 
     # user_media
+                    
+    async def bookmarks_raw(self, limit=-1, kv=None):
+        op = OP_UserBookmarks
+        kv = {
+            "count": 20, 
+            "includePromotedContent": False,
+            "withClientEventToken": False,
+            "withBirdwatchNotes": False,
+            "withVoice": True,
+            "withV2Timeline": True,
+            **(kv or {}),
+        }
+        ft = {
+            'graphql_timeline_v2_bookmark_timeline': True,
+        }
+        async with aclosing(self._gql_items(op, kv, ft, limit=limit)) as gen:
+            async for x in gen:
+                yield x
+
+    async def bookmarks(self, limit=-1, kv=None):
+        async with aclosing(self.bookmarks_raw(limit=limit, kv=kv)) as gen:
+            async for rep in gen:
+                for x in parse_tweets(rep.json(), limit):
+                    yield x
 
     async def user_media_raw(self, uid: int, limit=-1, kv=None):
         op = OP_UserMedia
