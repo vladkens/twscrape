@@ -71,3 +71,7 @@ update-mocks:
 	twscrape list_timeline --raw --limit 10 1494877848087187461 | jq > ./tests/mocked-data/raw_list_timeline.json
 	@# twscrape favoriters --raw --limit 10 1649191520250245121 | jq > ./tests/mocked-data/raw_favoriters.json
 	@# twscrape liked_tweets --raw --limit 10 2244994945 | jq > ./tests/mocked-data/raw_likes.json
+
+x:
+	twscrape tweet_details --raw 1790441814857826439 | jq > ./tests/mocked-data/card_broadcast.json
+	twscrape tweet_details --raw 1789054061729173804 | jq > ./tests/mocked-data/card_audiospace.json

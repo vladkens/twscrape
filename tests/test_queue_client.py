@@ -4,10 +4,7 @@ import httpx
 from pytest_httpx import HTTPXMock
 
 from twscrape.accounts_pool import AccountsPool
-from twscrape.logger import set_log_level
 from twscrape.queue_client import QueueClient
-
-set_log_level("ERROR")
 
 DB_FILE = "/tmp/twscrape_test_queue_client.db"
 URL = "https://example.com/api"

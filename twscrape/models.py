@@ -4,10 +4,11 @@ import os
 import random
 import re
 import string
+import sys
 import traceback
 from dataclasses import asdict, dataclass, field
 from datetime import datetime
-from typing import Generator, Optional
+from typing import Generator, Optional, Union
 
 import httpx
 
@@ -187,7 +188,7 @@ class Tweet(JSONTrait):
     sourceUrl: str | None = None
     sourceLabel: str | None = None
     media: Optional["Media"] = None
-    card: Optional["SummaryCard"] | Optional["PollCard"] = None
+    card: Union[None, "SummaryCard", "PollCard", "BroadcastCard", "AudiospaceCard"] = None
     _type: str = "snscrape.modules.twitter.Tweet"
 
     # todo:
@@ -381,6 +382,20 @@ class PollCard(Card):
     _type: str = "poll"
 
 
+@dataclass
+class BroadcastCard(Card):
+    title: str
+    url: str
+    photo: MediaPhoto | None = None
+    _type: str = "broadcast"
+
+
+@dataclass
+class AudiospaceCard(Card):
+    url: str
+    _type: str = "audiospace"
+
+
 def _parse_card_get_bool(values: list[dict], key: str):
     for x in values:
         if x["key"] == key:
@@ -388,7 +403,7 @@ def _parse_card_get_bool(values: list[dict], key: str):
     return False
 
 
-def _parse_card_get_str(values: list[dict], key: str, defaultVal=None):
+def _parse_card_get_str(values: list[dict], key: str, defaultVal=None) -> str | None:
     for x in values:
         if x["key"] == key:
             return x["value"]["string_value"]
@@ -501,8 +516,31 @@ def _parse_card(obj: dict, url: str):
         # print(json.dumps(val, indent=2))
         return PollCard(options=options, finished=finished)
 
+    if name == "745291183405076480:broadcast":
+        val = _parse_card_prepare_values(obj)
+        card_url = _parse_card_get_str(val, "broadcast_url")
+        card_title = _parse_card_get_str(val, "broadcast_title")
+        photo, _ = _parse_card_extract_largest_photo(val)
+        if card_url is None or card_title is None:
+            return None
+
+        return BroadcastCard(title=card_title, url=card_url, photo=photo)
+
+    if name == "3691233323:audiospace":
+        # no more data in this object, possible extra api call needed to get card info
+        val = _parse_card_prepare_values(obj)
+        card_url = _parse_card_get_str(val, "card_url")
+        if card_url is None:
+            return None
+
+        # print(json.dumps(val, indent=2))
+        return AudiospaceCard(url=card_url)
+
     logger.warning(f"Unknown card type '{name}' on {url}")
-    # print(json.dumps(obj["card"]["legacy"], indent=2))
+    if "PYTEST_CURRENT_TEST" in os.environ:  # help debugging tests
+        print(f"Unknown card type '{name}' on {url}", file=sys.stderr)
+        # print(json.dumps(obj["card"]["legacy"], indent=2))
+    return None
 
 
 # internal helpers

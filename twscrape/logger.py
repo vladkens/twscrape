@@ -12,5 +12,9 @@ def set_log_level(level: _LEVELS):
     _LOG_LEVEL = level
 
 
+def _filter(r):
+    return r["level"].no >= logger.level(_LOG_LEVEL).no
+
+
 logger.remove()
-logger.add(sys.stderr, filter=lambda r: r["level"].no >= logger.level(_LOG_LEVEL).no)
+logger.add(sys.stderr, filter=_filter)

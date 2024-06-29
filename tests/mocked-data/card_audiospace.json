@@ -1,0 +1,433 @@
+{
+  "data": {
+    "threaded_conversation_with_injections_v2": {
+      "instructions": [
+        {
+          "type": "TimelineAddEntries",
+          "entries": [
+            {
+              "entryId": "tweet-1789054061729173804",
+              "sortIndex": "7434317975125602003",
+              "content": {
+                "entryType": "TimelineTimelineItem",
+                "__typename": "TimelineTimelineItem",
+                "itemContent": {
+                  "itemType": "TimelineTweet",
+                  "__typename": "TimelineTweet",
+                  "tweet_results": {
+                    "result": {
+                      "__typename": "Tweet",
+                      "rest_id": "1789054061729173804",
+                      "has_birdwatch_notes": false,
+                      "core": {
+                        "user_results": {
+                          "result": {
+                            "__typename": "User",
+                            "id": "VXNlcjoyMjQ0OTk0OTQ1",
+                            "rest_id": "2244994945",
+                            "affiliates_highlighted_label": {
+                              "label": {
+                                "url": {
+                                  "url": "https://twitter.com/X",
+                                  "urlType": "DeepLink"
+                                },
+                                "badge": {
+                                  "url": "https://pbs.twimg.com/profile_images/1683899100922511378/5lY42eHs_bigger.jpg"
+                                },
+                                "description": "X",
+                                "userLabelType": "BusinessLabel",
+                                "userLabelDisplayType": "Badge"
+                              }
+                            },
+                            "has_graduated_access": true,
+                            "is_blue_verified": true,
+                            "profile_image_shape": "Square",
+                            "legacy": {
+                              "can_dm": true,
+                              "can_media_tag": true,
+                              "created_at": "Sat Dec 14 04:35:55 +0000 2013",
+                              "default_profile": false,
+                              "default_profile_image": false,
+                              "description": "The voice of the X Dev team and your official source for updates, news, and events, related to the X API.",
+                              "entities": {
+                                "description": {
+                                  "urls": []
+                                },
+                                "url": {
+                                  "urls": [
+                                    {
+                                      "display_url": "developer.x.com",
+                                      "expanded_url": "https://developer.x.com/",
+                                      "url": "https://t.co/O13IfbuPqq",
+                                      "indices": [
+                                        0,
+                                        23
+                                      ]
+                                    }
+                                  ]
+                                }
+                              },
+                              "fast_followers_count": 0,
+                              "favourites_count": 2148,
+                              "followers_count": 646225,
+                              "friends_count": 1777,
+                              "has_custom_timelines": true,
+                              "is_translator": false,
+                              "listed_count": 2684,
+                              "location": "127.0.0.1",
+                              "media_count": 820,
+                              "name": "Developers",
+                              "normal_followers_count": 646225,
+                              "pinned_tweet_ids_str": [
+                                "1770153912013615285"
+                              ],
+                              "possibly_sensitive": false,
+                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/2244994945/1690213128",
+                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1683501992314798080/xl1POYLw_normal.jpg",
+                              "profile_interstitial_type": "",
+                              "screen_name": "XDevelopers",
+                              "statuses_count": 4089,
+                              "translator_type": "regular",
+                              "url": "https://t.co/O13IfbuPqq",
+                              "verified": false,
+                              "verified_type": "Business",
+                              "want_retweets": false,
+                              "withheld_in_countries": []
+                            },
+                            "professional": {
+                              "rest_id": "1516891231749517312",
+                              "professional_type": "Business",
+                              "category": [
+                                {
+                                  "id": 1009,
+                                  "name": "Community",
+                                  "icon_name": "IconBriefcaseStroke"
+                                }
+                              ]
+                            },
+                            "tipjar_settings": {}
+                          }
+                        }
+                      },
+                      "card": {
+                        "rest_id": "https://t.co/7ajX0RPmaj",
+                        "legacy": {
+                          "binding_values": [
+                            {
+                              "key": "narrow_cast_space_type",
+                              "value": {
+                                "string_value": "0",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "id",
+                              "value": {
+                                "string_value": "1vOxwjaWEbdJB",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "card_url",
+                              "value": {
+                                "scribe_key": "card_url",
+                                "string_value": "https://t.co/7ajX0RPmaj",
+                                "type": "STRING"
+                              }
+                            }
+                          ],
+                          "card_platform": {
+                            "platform": {
+                              "audience": {
+                                "name": "production"
+                              },
+                              "device": {
+                                "name": "Swift",
+                                "version": "12"
+                              }
+                            }
+                          },
+                          "name": "3691233323:audiospace",
+                          "url": "https://t.co/7ajX0RPmaj",
+                          "user_refs_results": []
+                        }
+                      },
+                      "unmention_data": {},
+                      "edit_control": {
+                        "edit_tweet_ids": [
+                          "1789054061729173804"
+                        ],
+                        "editable_until_msecs": "1715382301990",
+                        "is_edit_eligible": false,
+                        "edits_remaining": "5"
+                      },
+                      "is_translatable": false,
+                      "views": {
+                        "state": "Enabled"
+                      },
+                      "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
+                      "legacy": {
+                        "bookmark_count": 0,
+                        "bookmarked": false,
+                        "created_at": "Fri May 10 22:05:01 +0000 2024",
+                        "conversation_id_str": "1789054061729173804",
+                        "display_text_range": [
+                          0,
+                          140
+                        ],
+                        "entities": {
+                          "hashtags": [],
+                          "symbols": [],
+                          "timestamps": [],
+                          "urls": [],
+                          "user_mentions": [
+                            {
+                              "id_str": "857699969263964161",
+                              "name": "Suhem Parack",
+                              "screen_name": "suhemparack",
+                              "indices": [
+                                3,
+                                15
+                              ]
+                            },
+                            {
+                              "id_str": "2244994945",
+                              "name": "Developers",
+                              "screen_name": "XDevelopers",
+                              "indices": [
+                                109,
+                                121
+                              ]
+                            }
+                          ]
+                        },
+                        "favorite_count": 0,
+                        "favorited": false,
+                        "full_text": "RT @suhemparack: If you have an app that posts emergency services updates to X using the API, please join us @XDevelopers next week to lear…",
+                        "is_quote_status": false,
+                        "lang": "en",
+                        "quote_count": 0,
+                        "reply_count": 0,
+                        "retweet_count": 26,
+                        "retweeted": false,
+                        "user_id_str": "2244994945",
+                        "id_str": "1789054061729173804",
+                        "retweeted_status_result": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "rest_id": "1789053970587271232",
+                            "has_birdwatch_notes": false,
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "id": "VXNlcjo4NTc2OTk5NjkyNjM5NjQxNjE=",
+                                  "rest_id": "857699969263964161",
+                                  "affiliates_highlighted_label": {
+                                    "label": {
+                                      "url": {
+                                        "url": "https://twitter.com/X",
+                                        "urlType": "DeepLink"
+                                      },
+                                      "badge": {
+                                        "url": "https://pbs.twimg.com/profile_images/1683899100922511378/5lY42eHs_bigger.jpg"
+                                      },
+                                      "description": "X",
+                                      "userLabelType": "BusinessLabel",
+                                      "userLabelDisplayType": "Badge"
+                                    }
+                                  },
+                                  "has_graduated_access": true,
+                                  "is_blue_verified": true,
+                                  "profile_image_shape": "Circle",
+                                  "legacy": {
+                                    "can_dm": true,
+                                    "can_media_tag": false,
+                                    "created_at": "Thu Apr 27 20:56:22 +0000 2017",
+                                    "default_profile": true,
+                                    "default_profile_image": false,
+                                    "description": "Partner Engineering @ 𝕏 Opinions my own. RTs != endorsements etc",
+                                    "entities": {
+                                      "description": {
+                                        "urls": []
+                                      },
+                                      "url": {
+                                        "urls": [
+                                          {
+                                            "display_url": "developer.x.com",
+                                            "expanded_url": "https://developer.x.com",
+                                            "url": "https://t.co/Rh0kWC6xS8",
+                                            "indices": [
+                                              0,
+                                              23
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "fast_followers_count": 0,
+                                    "favourites_count": 141,
+                                    "followers_count": 4788,
+                                    "friends_count": 1577,
+                                    "has_custom_timelines": true,
+                                    "is_translator": false,
+                                    "listed_count": 67,
+                                    "location": "San Francisco, CA",
+                                    "media_count": 134,
+                                    "name": "Suhem Parack",
+                                    "normal_followers_count": 4788,
+                                    "pinned_tweet_ids_str": [
+                                      "1789053970587271232"
+                                    ],
+                                    "possibly_sensitive": false,
+                                    "profile_banner_url": "https://pbs.twimg.com/profile_banners/857699969263964161/1712432865",
+                                    "profile_image_url_https": "https://pbs.twimg.com/profile_images/1795573096063397892/HB6ShS6B_normal.jpg",
+                                    "profile_interstitial_type": "",
+                                    "screen_name": "suhemparack",
+                                    "statuses_count": 2214,
+                                    "translator_type": "none",
+                                    "url": "https://t.co/Rh0kWC6xS8",
+                                    "verified": false,
+                                    "want_retweets": false,
+                                    "withheld_in_countries": []
+                                  },
+                                  "professional": {
+                                    "rest_id": "1471588288142057479",
+                                    "professional_type": "Creator",
+                                    "category": []
+                                  },
+                                  "tipjar_settings": {}
+                                }
+                              }
+                            },
+                            "card": {
+                              "rest_id": "https://t.co/7ajX0RPmaj",
+                              "legacy": {
+                                "binding_values": [
+                                  {
+                                    "key": "narrow_cast_space_type",
+                                    "value": {
+                                      "string_value": "0",
+                                      "type": "STRING"
+                                    }
+                                  },
+                                  {
+                                    "key": "id",
+                                    "value": {
+                                      "string_value": "1vOxwjaWEbdJB",
+                                      "type": "STRING"
+                                    }
+                                  },
+                                  {
+                                    "key": "card_url",
+                                    "value": {
+                                      "scribe_key": "card_url",
+                                      "string_value": "https://t.co/7ajX0RPmaj",
+                                      "type": "STRING"
+                                    }
+                                  }
+                                ],
+                                "card_platform": {
+                                  "platform": {
+                                    "audience": {
+                                      "name": "production"
+                                    },
+                                    "device": {
+                                      "name": "Swift",
+                                      "version": "12"
+                                    }
+                                  }
+                                },
+                                "name": "3691233323:audiospace",
+                                "url": "https://t.co/7ajX0RPmaj",
+                                "user_refs_results": []
+                              }
+                            },
+                            "unmention_data": {},
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1789053970587271232"
+                              ],
+                              "editable_until_msecs": "1715382280000",
+                              "is_edit_eligible": false,
+                              "edits_remaining": "5"
+                            },
+                            "is_translatable": false,
+                            "views": {
+                              "count": "121718",
+                              "state": "EnabledWithCount"
+                            },
+                            "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
+                            "legacy": {
+                              "bookmark_count": 9,
+                              "bookmarked": false,
+                              "created_at": "Fri May 10 22:04:40 +0000 2024",
+                              "conversation_id_str": "1789053970587271232",
+                              "display_text_range": [
+                                0,
+                                200
+                              ],
+                              "entities": {
+                                "hashtags": [],
+                                "symbols": [],
+                                "timestamps": [],
+                                "urls": [
+                                  {
+                                    "display_url": "x.com/i/spaces/1voxw…",
+                                    "expanded_url": "https://twitter.com/i/spaces/1vOxwjaWEbdJB",
+                                    "url": "https://t.co/7ajX0RPmaj",
+                                    "indices": [
+                                      177,
+                                      200
+                                    ]
+                                  }
+                                ],
+                                "user_mentions": [
+                                  {
+                                    "id_str": "2244994945",
+                                    "name": "Developers",
+                                    "screen_name": "XDevelopers",
+                                    "indices": [
+                                      92,
+                                      104
+                                    ]
+                                  }
+                                ]
+                              },
+                              "favorite_count": 108,
+                              "favorited": false,
+                              "full_text": "If you have an app that posts emergency services updates to X using the API, please join us @XDevelopers next week to learn how you can quickly migrate your app to the X API v2 https://t.co/7ajX0RPmaj",
+                              "is_quote_status": false,
+                              "lang": "en",
+                              "possibly_sensitive": false,
+                              "possibly_sensitive_editable": true,
+                              "quote_count": 5,
+                              "reply_count": 16,
+                              "retweet_count": 26,
+                              "retweeted": false,
+                              "user_id_str": "857699969263964161",
+                              "id_str": "1789053970587271232"
+                            }
+                          }
+                        }
+                      },
+                      "quick_promote_eligibility": {
+                        "eligibility": "IneligibleNotProfessional"
+                      }
+                    }
+                  },
+                  "tweetDisplayType": "Tweet",
+                  "hasModeratedReplies": false
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "TimelineTerminateTimeline",
+          "direction": "Top"
+        }
+      ]
+    }
+  }
+}

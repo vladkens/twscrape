@@ -1,0 +1,1064 @@
+{
+  "data": {
+    "threaded_conversation_with_injections_v2": {
+      "instructions": [
+        {
+          "type": "TimelineAddEntries",
+          "entries": [
+            {
+              "entryId": "tweet-1790441814857826439",
+              "sortIndex": "7432930221996949368",
+              "content": {
+                "entryType": "TimelineTimelineItem",
+                "__typename": "TimelineTimelineItem",
+                "itemContent": {
+                  "itemType": "TimelineTweet",
+                  "__typename": "TimelineTweet",
+                  "tweet_results": {
+                    "result": {
+                      "__typename": "Tweet",
+                      "rest_id": "1790441814857826439",
+                      "has_birdwatch_notes": false,
+                      "core": {
+                        "user_results": {
+                          "result": {
+                            "__typename": "User",
+                            "id": "VXNlcjoyMjQ0OTk0OTQ1",
+                            "rest_id": "2244994945",
+                            "affiliates_highlighted_label": {
+                              "label": {
+                                "url": {
+                                  "url": "https://twitter.com/X",
+                                  "urlType": "DeepLink"
+                                },
+                                "badge": {
+                                  "url": "https://pbs.twimg.com/profile_images/1683899100922511378/5lY42eHs_bigger.jpg"
+                                },
+                                "description": "X",
+                                "userLabelType": "BusinessLabel",
+                                "userLabelDisplayType": "Badge"
+                              }
+                            },
+                            "has_graduated_access": true,
+                            "is_blue_verified": true,
+                            "profile_image_shape": "Square",
+                            "legacy": {
+                              "can_dm": true,
+                              "can_media_tag": true,
+                              "created_at": "Sat Dec 14 04:35:55 +0000 2013",
+                              "default_profile": false,
+                              "default_profile_image": false,
+                              "description": "The voice of the X Dev team and your official source for updates, news, and events, related to the X API.",
+                              "entities": {
+                                "description": {
+                                  "urls": []
+                                },
+                                "url": {
+                                  "urls": [
+                                    {
+                                      "display_url": "developer.x.com",
+                                      "expanded_url": "https://developer.x.com/",
+                                      "url": "https://t.co/O13IfbuPqq",
+                                      "indices": [
+                                        0,
+                                        23
+                                      ]
+                                    }
+                                  ]
+                                }
+                              },
+                              "fast_followers_count": 0,
+                              "favourites_count": 2148,
+                              "followers_count": 646209,
+                              "friends_count": 1777,
+                              "has_custom_timelines": true,
+                              "is_translator": false,
+                              "listed_count": 2684,
+                              "location": "127.0.0.1",
+                              "media_count": 820,
+                              "name": "Developers",
+                              "normal_followers_count": 646209,
+                              "pinned_tweet_ids_str": [
+                                "1770153912013615285"
+                              ],
+                              "possibly_sensitive": false,
+                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/2244994945/1690213128",
+                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1683501992314798080/xl1POYLw_normal.jpg",
+                              "profile_interstitial_type": "",
+                              "screen_name": "XDevelopers",
+                              "statuses_count": 4089,
+                              "translator_type": "regular",
+                              "url": "https://t.co/O13IfbuPqq",
+                              "verified": false,
+                              "verified_type": "Business",
+                              "want_retweets": false,
+                              "withheld_in_countries": []
+                            },
+                            "professional": {
+                              "rest_id": "1516891231749517312",
+                              "professional_type": "Business",
+                              "category": [
+                                {
+                                  "id": 1009,
+                                  "name": "Community",
+                                  "icon_name": "IconBriefcaseStroke"
+                                }
+                              ]
+                            },
+                            "tipjar_settings": {}
+                          }
+                        }
+                      },
+                      "card": {
+                        "rest_id": "https://t.co/Ooc4ZK2Yb3",
+                        "legacy": {
+                          "binding_values": [
+                            {
+                              "key": "broadcast_url",
+                              "value": {
+                                "string_value": "https://twitter.com/i/broadcasts/1BRJjPqnBqaKw",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "broadcast_width",
+                              "value": {
+                                "string_value": "1280",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "broadcast_state",
+                              "value": {
+                                "string_value": "ENDED",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "site",
+                              "value": {
+                                "scribe_key": "publisher_id",
+                                "type": "USER",
+                                "user_value": {
+                                  "id_str": "2244994945",
+                                  "path": []
+                                }
+                              }
+                            },
+                            {
+                              "key": "broadcast_title",
+                              "value": {
+                                "string_value": "Migrating developer apps to the X API 2",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "broadcast_source",
+                              "value": {
+                                "string_value": "Producer",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "broadcast_orientation",
+                              "value": {
+                                "string_value": "0",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "broadcast_id",
+                              "value": {
+                                "string_value": "1BRJjPqnBqaKw",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "broadcast_thumbnail_small",
+                              "value": {
+                                "image_value": {
+                                  "height": 202,
+                                  "width": 386,
+                                  "url": "https://pbs.twimg.com/card_img/1807101457176653824/7mhMDRKC?format=jpg&name=386x202"
+                                },
+                                "type": "IMAGE"
+                              }
+                            },
+                            {
+                              "key": "broadcaster_twitter_id",
+                              "value": {
+                                "string_value": "2244994945",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "broadcast_height",
+                              "value": {
+                                "string_value": "720",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "broadcast_thumbnail_original",
+                              "value": {
+                                "image_value": {
+                                  "height": 720,
+                                  "width": 1280,
+                                  "url": "https://pbs.twimg.com/card_img/1807101457176653824/7mhMDRKC?format=jpg&name=orig"
+                                },
+                                "type": "IMAGE"
+                              }
+                            },
+                            {
+                              "key": "broadcaster_username",
+                              "value": {
+                                "string_value": "XDevelopers",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "broadcast_media_key",
+                              "value": {
+                                "string_value": "28_1790441813079388161",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "broadcast_thumbnail_x_large",
+                              "value": {
+                                "image_value": {
+                                  "height": 720,
+                                  "width": 1280,
+                                  "url": "https://pbs.twimg.com/card_img/1807101457176653824/7mhMDRKC?format=png&name=2048x2048_2_exp"
+                                },
+                                "type": "IMAGE"
+                              }
+                            },
+                            {
+                              "key": "broadcaster_display_name",
+                              "value": {
+                                "string_value": "Developers",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "broadcast_is_high_latency",
+                              "value": {
+                                "boolean_value": true,
+                                "type": "BOOLEAN"
+                              }
+                            },
+                            {
+                              "key": "broadcast_thumbnail",
+                              "value": {
+                                "image_value": {
+                                  "height": 314,
+                                  "width": 600,
+                                  "url": "https://pbs.twimg.com/card_img/1807101457176653824/7mhMDRKC?format=jpg&name=600x314"
+                                },
+                                "type": "IMAGE"
+                              }
+                            },
+                            {
+                              "key": "broadcast_thumbnail_color",
+                              "value": {
+                                "image_color_value": {
+                                  "palette": [
+                                    {
+                                      "rgb": {
+                                        "blue": 190,
+                                        "green": 178,
+                                        "red": 174
+                                      },
+                                      "percentage": 28.86
+                                    },
+                                    {
+                                      "rgb": {
+                                        "blue": 49,
+                                        "green": 46,
+                                        "red": 55
+                                      },
+                                      "percentage": 26.58
+                                    },
+                                    {
+                                      "rgb": {
+                                        "blue": 55,
+                                        "green": 65,
+                                        "red": 105
+                                      },
+                                      "percentage": 7.75
+                                    },
+                                    {
+                                      "rgb": {
+                                        "blue": 154,
+                                        "green": 96,
+                                        "red": 67
+                                      },
+                                      "percentage": 4.95
+                                    },
+                                    {
+                                      "rgb": {
+                                        "blue": 125,
+                                        "green": 151,
+                                        "red": 188
+                                      },
+                                      "percentage": 4.16
+                                    }
+                                  ]
+                                },
+                                "type": "IMAGE_COLOR"
+                              }
+                            },
+                            {
+                              "key": "broadcast_media_id",
+                              "value": {
+                                "string_value": "1790441813079388161",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "card_url",
+                              "value": {
+                                "scribe_key": "card_url",
+                                "string_value": "https://t.co/Ooc4ZK2Yb3",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "broadcast_thumbnail_large",
+                              "value": {
+                                "image_value": {
+                                  "height": 419,
+                                  "width": 800,
+                                  "url": "https://pbs.twimg.com/card_img/1807101457176653824/7mhMDRKC?format=jpg&name=800x419"
+                                },
+                                "type": "IMAGE"
+                              }
+                            }
+                          ],
+                          "card_platform": {
+                            "platform": {
+                              "audience": {
+                                "name": "production"
+                              },
+                              "device": {
+                                "name": "Swift",
+                                "version": "12"
+                              }
+                            }
+                          },
+                          "name": "745291183405076480:broadcast",
+                          "url": "https://t.co/Ooc4ZK2Yb3",
+                          "user_refs_results": [
+                            {
+                              "result": {
+                                "__typename": "User",
+                                "id": "VXNlcjoyMjQ0OTk0OTQ1",
+                                "rest_id": "2244994945",
+                                "affiliates_highlighted_label": {
+                                  "label": {
+                                    "url": {
+                                      "url": "https://twitter.com/X",
+                                      "urlType": "DeepLink"
+                                    },
+                                    "badge": {
+                                      "url": "https://pbs.twimg.com/profile_images/1683899100922511378/5lY42eHs_bigger.jpg"
+                                    },
+                                    "description": "X",
+                                    "userLabelType": "BusinessLabel",
+                                    "userLabelDisplayType": "Badge"
+                                  }
+                                },
+                                "has_graduated_access": true,
+                                "is_blue_verified": true,
+                                "profile_image_shape": "Square",
+                                "legacy": {
+                                  "can_dm": true,
+                                  "can_media_tag": true,
+                                  "created_at": "Sat Dec 14 04:35:55 +0000 2013",
+                                  "default_profile": false,
+                                  "default_profile_image": false,
+                                  "description": "The voice of the X Dev team and your official source for updates, news, and events, related to the X API.",
+                                  "entities": {
+                                    "description": {
+                                      "urls": []
+                                    },
+                                    "url": {
+                                      "urls": [
+                                        {
+                                          "display_url": "developer.x.com",
+                                          "expanded_url": "https://developer.x.com/",
+                                          "url": "https://t.co/O13IfbuPqq",
+                                          "indices": [
+                                            0,
+                                            23
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "fast_followers_count": 0,
+                                  "favourites_count": 2148,
+                                  "followers_count": 646209,
+                                  "friends_count": 1777,
+                                  "has_custom_timelines": true,
+                                  "is_translator": false,
+                                  "listed_count": 2684,
+                                  "location": "127.0.0.1",
+                                  "media_count": 820,
+                                  "name": "Developers",
+                                  "normal_followers_count": 646209,
+                                  "pinned_tweet_ids_str": [
+                                    "1770153912013615285"
+                                  ],
+                                  "possibly_sensitive": false,
+                                  "profile_banner_url": "https://pbs.twimg.com/profile_banners/2244994945/1690213128",
+                                  "profile_image_url_https": "https://pbs.twimg.com/profile_images/1683501992314798080/xl1POYLw_normal.jpg",
+                                  "profile_interstitial_type": "",
+                                  "screen_name": "XDevelopers",
+                                  "statuses_count": 4089,
+                                  "translator_type": "regular",
+                                  "url": "https://t.co/O13IfbuPqq",
+                                  "verified": false,
+                                  "verified_type": "Business",
+                                  "want_retweets": false,
+                                  "withheld_in_countries": []
+                                },
+                                "professional": {
+                                  "rest_id": "1516891231749517312",
+                                  "professional_type": "Business",
+                                  "category": [
+                                    {
+                                      "id": 1009,
+                                      "name": "Community",
+                                      "icon_name": "IconBriefcaseStroke"
+                                    }
+                                  ]
+                                },
+                                "tipjar_settings": {}
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "unmention_data": {},
+                      "edit_control": {
+                        "edit_tweet_ids": [
+                          "1790441814857826439"
+                        ],
+                        "editable_until_msecs": "1715713168000",
+                        "is_edit_eligible": true,
+                        "edits_remaining": "5"
+                      },
+                      "is_translatable": false,
+                      "views": {
+                        "count": "256819",
+                        "state": "EnabledWithCount"
+                      },
+                      "source": "<a href=\"https://periscope.tv\" rel=\"nofollow\">Periscope</a>",
+                      "legacy": {
+                        "bookmark_count": 41,
+                        "bookmarked": false,
+                        "created_at": "Tue May 14 17:59:28 +0000 2024",
+                        "conversation_id_str": "1790441814857826439",
+                        "display_text_range": [
+                          0,
+                          63
+                        ],
+                        "entities": {
+                          "hashtags": [],
+                          "symbols": [],
+                          "timestamps": [],
+                          "urls": [
+                            {
+                              "display_url": "x.com/i/broadcasts/1…",
+                              "expanded_url": "https://twitter.com/i/broadcasts/1BRJjPqnBqaKw",
+                              "url": "https://t.co/Ooc4ZK2Yb3",
+                              "indices": [
+                                40,
+                                63
+                              ]
+                            }
+                          ],
+                          "user_mentions": []
+                        },
+                        "favorite_count": 240,
+                        "favorited": false,
+                        "full_text": "Migrating developer apps to the X API 2 https://t.co/Ooc4ZK2Yb3",
+                        "is_quote_status": false,
+                        "lang": "en",
+                        "possibly_sensitive": false,
+                        "possibly_sensitive_editable": true,
+                        "quote_count": 15,
+                        "reply_count": 49,
+                        "retweet_count": 61,
+                        "retweeted": false,
+                        "user_id_str": "2244994945",
+                        "id_str": "1790441814857826439"
+                      },
+                      "quick_promote_eligibility": {
+                        "eligibility": "IneligibleNotProfessional"
+                      }
+                    }
+                  },
+                  "tweetDisplayType": "Tweet",
+                  "hasModeratedReplies": false
+                }
+              }
+            },
+            {
+              "entryId": "conversationthread-1790442867787284562",
+              "sortIndex": "7432930221996949358",
+              "content": {
+                "entryType": "TimelineTimelineModule",
+                "__typename": "TimelineTimelineModule",
+                "items": [
+                  {
+                    "entryId": "conversationthread-1790442867787284562-tweet-1790442867787284562",
+                    "item": {
+                      "itemContent": {
+                        "itemType": "TimelineTweet",
+                        "__typename": "TimelineTweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "rest_id": "1790442867787284562",
+                            "has_birdwatch_notes": false,
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "id": "VXNlcjoxNDkwNjk0Nzg4MzU3NzA1NzM4",
+                                  "rest_id": "1490694788357705738",
+                                  "affiliates_highlighted_label": {},
+                                  "has_graduated_access": true,
+                                  "is_blue_verified": true,
+                                  "profile_image_shape": "Circle",
+                                  "legacy": {
+                                    "can_dm": true,
+                                    "can_media_tag": true,
+                                    "created_at": "Mon Feb 07 14:32:39 +0000 2022",
+                                    "default_profile": true,
+                                    "default_profile_image": false,
+                                    "description": "A Husband & Father | $TSLA investor | TEXAS MADE  Homeschooling Dad",
+                                    "entities": {
+                                      "description": {
+                                        "urls": []
+                                      }
+                                    },
+                                    "fast_followers_count": 0,
+                                    "favourites_count": 45613,
+                                    "followers_count": 5044,
+                                    "friends_count": 858,
+                                    "has_custom_timelines": true,
+                                    "is_translator": false,
+                                    "listed_count": 50,
+                                    "location": "In your head",
+                                    "media_count": 6809,
+                                    "name": "Oscar Herrera",
+                                    "normal_followers_count": 5044,
+                                    "pinned_tweet_ids_str": [
+                                      "1805244078570852806"
+                                    ],
+                                    "possibly_sensitive": false,
+                                    "profile_banner_url": "https://pbs.twimg.com/profile_banners/1490694788357705738/1711940140",
+                                    "profile_image_url_https": "https://pbs.twimg.com/profile_images/1792666714229858305/IR1ThxdT_normal.jpg",
+                                    "profile_interstitial_type": "",
+                                    "screen_name": "OscarEnjoylife",
+                                    "statuses_count": 36840,
+                                    "translator_type": "none",
+                                    "verified": false,
+                                    "want_retweets": false,
+                                    "withheld_in_countries": []
+                                  },
+                                  "professional": {
+                                    "rest_id": "1577700098775064576",
+                                    "professional_type": "Creator",
+                                    "category": []
+                                  },
+                                  "tipjar_settings": {
+                                    "is_enabled": true,
+                                    "cash_app_handle": "$Ooscar92"
+                                  },
+                                  "super_follow_eligible": true
+                                }
+                              }
+                            },
+                            "unmention_data": {},
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1790442867787284562"
+                              ],
+                              "editable_until_msecs": "1715713419000",
+                              "is_edit_eligible": false,
+                              "edits_remaining": "5"
+                            },
+                            "is_translatable": false,
+                            "views": {
+                              "count": "495",
+                              "state": "EnabledWithCount"
+                            },
+                            "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "created_at": "Tue May 14 18:03:39 +0000 2024",
+                              "conversation_id_str": "1790441814857826439",
+                              "display_text_range": [
+                                13,
+                                32
+                              ],
+                              "entities": {
+                                "hashtags": [],
+                                "symbols": [],
+                                "timestamps": [],
+                                "urls": [],
+                                "user_mentions": [
+                                  {
+                                    "id_str": "2244994945",
+                                    "name": "Developers",
+                                    "screen_name": "XDevelopers",
+                                    "indices": [
+                                      0,
+                                      12
+                                    ]
+                                  }
+                                ]
+                              },
+                              "favorite_count": 1,
+                              "favorited": false,
+                              "full_text": "@XDevelopers Emergency service?!",
+                              "in_reply_to_screen_name": "XDevelopers",
+                              "in_reply_to_status_id_str": "1790441814857826439",
+                              "in_reply_to_user_id_str": "2244994945",
+                              "is_quote_status": false,
+                              "lang": "en",
+                              "quote_count": 0,
+                              "reply_count": 1,
+                              "retweet_count": 0,
+                              "retweeted": false,
+                              "user_id_str": "1490694788357705738",
+                              "id_str": "1790442867787284562"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotProfessional"
+                            }
+                          }
+                        },
+                        "tweetDisplayType": "Tweet"
+                      },
+                      "clientEventInfo": {
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABFSACCGAHgAUKAAIAAAAAGADACAAAAAA="
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "displayType": "VerticalConversation",
+                "clientEventInfo": {
+                  "details": {
+                    "conversationDetails": {
+                      "conversationSection": "HighQuality"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "entryId": "conversationthread-1790443755352244377",
+              "sortIndex": "7432930221996949348",
+              "content": {
+                "entryType": "TimelineTimelineModule",
+                "__typename": "TimelineTimelineModule",
+                "items": [
+                  {
+                    "entryId": "conversationthread-1790443755352244377-tweet-1790443755352244377",
+                    "item": {
+                      "itemContent": {
+                        "itemType": "TimelineTweet",
+                        "__typename": "TimelineTweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "rest_id": "1790443755352244377",
+                            "has_birdwatch_notes": false,
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "id": "VXNlcjoyMTk0MzM3ODc=",
+                                  "rest_id": "219433787",
+                                  "affiliates_highlighted_label": {},
+                                  "has_graduated_access": true,
+                                  "is_blue_verified": true,
+                                  "profile_image_shape": "Circle",
+                                  "legacy": {
+                                    "can_dm": true,
+                                    "can_media_tag": true,
+                                    "created_at": "Wed Nov 24 21:20:24 +0000 2010",
+                                    "default_profile": true,
+                                    "default_profile_image": false,
+                                    "description": "🇱🇧\nMiddle East Analysis / History / Politics / Memes / reporting |\nOccasionally sarcastic |\nI'll *try* to be as objective as I can",
+                                    "entities": {
+                                      "description": {
+                                        "urls": []
+                                      },
+                                      "url": {
+                                        "urls": [
+                                          {
+                                            "display_url": "t.me/me_observer_TG",
+                                            "expanded_url": "https://t.me/me_observer_TG",
+                                            "url": "https://t.co/1r86iXEixd",
+                                            "indices": [
+                                              0,
+                                              23
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "fast_followers_count": 0,
+                                    "favourites_count": 20544,
+                                    "followers_count": 151299,
+                                    "friends_count": 1018,
+                                    "has_custom_timelines": false,
+                                    "is_translator": false,
+                                    "listed_count": 799,
+                                    "location": "",
+                                    "media_count": 8739,
+                                    "name": "Middle East Observer",
+                                    "normal_followers_count": 151299,
+                                    "pinned_tweet_ids_str": [
+                                      "1711626139704160621"
+                                    ],
+                                    "possibly_sensitive": false,
+                                    "profile_banner_url": "https://pbs.twimg.com/profile_banners/219433787/1697943368",
+                                    "profile_image_url_https": "https://pbs.twimg.com/profile_images/1741869681315627008/JhnYaNAp_normal.jpg",
+                                    "profile_interstitial_type": "",
+                                    "screen_name": "ME_Observer_",
+                                    "statuses_count": 46378,
+                                    "translator_type": "none",
+                                    "url": "https://t.co/1r86iXEixd",
+                                    "verified": false,
+                                    "want_retweets": false,
+                                    "withheld_in_countries": []
+                                  },
+                                  "professional": {
+                                    "rest_id": "1685064044837810177",
+                                    "professional_type": "Creator",
+                                    "category": [
+                                      {
+                                        "id": 580,
+                                        "name": "Media & News Company",
+                                        "icon_name": "IconBriefcaseStroke"
+                                      }
+                                    ]
+                                  },
+                                  "tipjar_settings": {
+                                    "is_enabled": true
+                                  }
+                                }
+                              }
+                            },
+                            "unmention_data": {},
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1790443755352244377"
+                              ],
+                              "editable_until_msecs": "1715713630000",
+                              "is_edit_eligible": false,
+                              "edits_remaining": "5"
+                            },
+                            "is_translatable": false,
+                            "views": {
+                              "count": "606",
+                              "state": "EnabledWithCount"
+                            },
+                            "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "created_at": "Tue May 14 18:07:10 +0000 2024",
+                              "conversation_id_str": "1790441814857826439",
+                              "display_text_range": [
+                                13,
+                                102
+                              ],
+                              "entities": {
+                                "hashtags": [],
+                                "symbols": [],
+                                "timestamps": [],
+                                "urls": [],
+                                "user_mentions": [
+                                  {
+                                    "id_str": "2244994945",
+                                    "name": "Developers",
+                                    "screen_name": "XDevelopers",
+                                    "indices": [
+                                      0,
+                                      12
+                                    ]
+                                  }
+                                ]
+                              },
+                              "favorite_count": 1,
+                              "favorited": false,
+                              "full_text": "@XDevelopers Please let the API allow the premium accounts to post more than 220 characters\n\nThank you",
+                              "in_reply_to_screen_name": "XDevelopers",
+                              "in_reply_to_status_id_str": "1790441814857826439",
+                              "in_reply_to_user_id_str": "2244994945",
+                              "is_quote_status": false,
+                              "lang": "en",
+                              "quote_count": 0,
+                              "reply_count": 0,
+                              "retweet_count": 0,
+                              "retweeted": false,
+                              "user_id_str": "219433787",
+                              "id_str": "1790443755352244377"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotProfessional"
+                            }
+                          }
+                        },
+                        "tweetDisplayType": "Tweet"
+                      },
+                      "clientEventInfo": {
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABFSACCKIDgAUKAAIAAAAAGADACAAAAAA="
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "displayType": "VerticalConversation",
+                "clientEventInfo": {
+                  "details": {
+                    "conversationDetails": {
+                      "conversationSection": "HighQuality"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "entryId": "conversationthread-1790448953940455519",
+              "sortIndex": "7432930221996949338",
+              "content": {
+                "entryType": "TimelineTimelineModule",
+                "__typename": "TimelineTimelineModule",
+                "items": [
+                  {
+                    "entryId": "conversationthread-1790448953940455519-tweet-1790448953940455519",
+                    "item": {
+                      "itemContent": {
+                        "itemType": "TimelineTweet",
+                        "__typename": "TimelineTweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "rest_id": "1790448953940455519",
+                            "has_birdwatch_notes": false,
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "id": "VXNlcjoxMzM3NzgyNjI3MzI4MjcwMzM3",
+                                  "rest_id": "1337782627328270337",
+                                  "affiliates_highlighted_label": {},
+                                  "has_graduated_access": true,
+                                  "is_blue_verified": true,
+                                  "profile_image_shape": "Circle",
+                                  "legacy": {
+                                    "can_dm": false,
+                                    "can_media_tag": false,
+                                    "created_at": "Sat Dec 12 15:33:38 +0000 2020",
+                                    "default_profile": true,
+                                    "default_profile_image": false,
+                                    "description": "🏒 Writer/ITR (#NJDevils) - NHL Clips-Replays-Highlights-Dabbleverse-Memes-Devils Media Caster for @PSF_App (If you don't get it you're being trolled) 🧌",
+                                    "entities": {
+                                      "description": {
+                                        "urls": []
+                                      },
+                                      "url": {
+                                        "urls": [
+                                          {
+                                            "display_url": "devilsjoint.creator-spring.com",
+                                            "expanded_url": "https://devilsjoint.creator-spring.com/",
+                                            "url": "https://t.co/A9LjetyxBC",
+                                            "indices": [
+                                              0,
+                                              23
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "fast_followers_count": 0,
+                                    "favourites_count": 24042,
+                                    "followers_count": 3186,
+                                    "friends_count": 4946,
+                                    "has_custom_timelines": true,
+                                    "is_translator": false,
+                                    "listed_count": 16,
+                                    "location": "Hell On Earth (NYC)",
+                                    "media_count": 9321,
+                                    "name": "Devils Joint",
+                                    "normal_followers_count": 3186,
+                                    "pinned_tweet_ids_str": [
+                                      "1800644025055166615"
+                                    ],
+                                    "possibly_sensitive": false,
+                                    "profile_banner_url": "https://pbs.twimg.com/profile_banners/1337782627328270337/1710748710",
+                                    "profile_image_url_https": "https://pbs.twimg.com/profile_images/1765653069629378560/hr1vaasJ_normal.jpg",
+                                    "profile_interstitial_type": "",
+                                    "screen_name": "DevilsJointX",
+                                    "statuses_count": 34135,
+                                    "translator_type": "none",
+                                    "url": "https://t.co/A9LjetyxBC",
+                                    "verified": false,
+                                    "want_retweets": false,
+                                    "withheld_in_countries": []
+                                  },
+                                  "professional": {
+                                    "rest_id": "1697945850041758131",
+                                    "professional_type": "Business",
+                                    "category": [
+                                      {
+                                        "id": 580,
+                                        "name": "Media & News Company",
+                                        "icon_name": "IconBriefcaseStroke"
+                                      }
+                                    ]
+                                  },
+                                  "tipjar_settings": {
+                                    "is_enabled": true,
+                                    "cash_app_handle": "$JJDevils"
+                                  }
+                                }
+                              }
+                            },
+                            "unmention_data": {},
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1790448953940455519"
+                              ],
+                              "editable_until_msecs": "1715714870000",
+                              "is_edit_eligible": false,
+                              "edits_remaining": "5"
+                            },
+                            "is_translatable": false,
+                            "views": {
+                              "count": "551",
+                              "state": "EnabledWithCount"
+                            },
+                            "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "created_at": "Tue May 14 18:27:50 +0000 2024",
+                              "conversation_id_str": "1790441814857826439",
+                              "display_text_range": [
+                                13,
+                                102
+                              ],
+                              "entities": {
+                                "hashtags": [],
+                                "symbols": [],
+                                "timestamps": [],
+                                "urls": [],
+                                "user_mentions": [
+                                  {
+                                    "id_str": "2244994945",
+                                    "name": "Developers",
+                                    "screen_name": "XDevelopers",
+                                    "indices": [
+                                      0,
+                                      12
+                                    ]
+                                  }
+                                ]
+                              },
+                              "favorite_count": 3,
+                              "favorited": false,
+                              "full_text": "@XDevelopers How can i get streaming back on my account? It won’t let me stream anymore. Can you help?",
+                              "in_reply_to_screen_name": "XDevelopers",
+                              "in_reply_to_status_id_str": "1790441814857826439",
+                              "in_reply_to_user_id_str": "2244994945",
+                              "is_quote_status": false,
+                              "lang": "en",
+                              "quote_count": 0,
+                              "reply_count": 10,
+                              "retweet_count": 1,
+                              "retweeted": false,
+                              "user_id_str": "1337782627328270337",
+                              "id_str": "1790448953940455519"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotProfessional"
+                            }
+                          }
+                        },
+                        "tweetDisplayType": "Tweet"
+                      },
+                      "clientEventInfo": {
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABFSACCSQDgAUKAAIAAAAAGADACAAAAAA="
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "displayType": "VerticalConversation",
+                "clientEventInfo": {
+                  "details": {
+                    "conversationDetails": {
+                      "conversationSection": "HighQuality"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "entryId": "cursor-showmorethreads-3106684343556454485",
+              "sortIndex": "7432930221996949337",
+              "content": {
+                "entryType": "TimelineTimelineItem",
+                "__typename": "TimelineTimelineItem",
+                "itemContent": {
+                  "itemType": "TimelineTimelineCursor",
+                  "__typename": "TimelineTimelineCursor",
+                  "value": "JQAAAPAWHBk2pIG-0aqT99gxsoKywf_G99gxvsG5gcz1-dgxJQISFQ4AAA",
+                  "cursorType": "ShowMoreThreads",
+                  "displayTreatment": {
+                    "actionText": "Show probable spam"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "TimelineTerminateTimeline",
+          "direction": "Top"
+        }
+      ]
+    }
+  }
+}

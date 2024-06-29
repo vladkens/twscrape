@@ -2,7 +2,10 @@ import pytest
 
 from twscrape.accounts_pool import AccountsPool
 from twscrape.api import API
+from twscrape.logger import set_log_level
 from twscrape.queue_client import QueueClient
+
+set_log_level("ERROR")
 
 
 @pytest.fixture

@@ -3,14 +3,20 @@ import os
 from typing import Callable
 
 from twscrape import API, gather
-from twscrape.logger import set_log_level
-from twscrape.models import PollCard, SummaryCard, Tweet, User, UserRef, parse_tweet
+from twscrape.models import (
+    AudiospaceCard,
+    BroadcastCard,
+    PollCard,
+    SummaryCard,
+    Tweet,
+    User,
+    UserRef,
+    parse_tweet,
+)
 
 BASE_DIR = os.path.dirname(__file__)
 DATA_DIR = os.path.join(BASE_DIR, "mocked-data")
 os.makedirs(DATA_DIR, exist_ok=True)
-
-set_log_level("DEBUG")
 
 
 class FakeRep:
@@ -419,9 +425,13 @@ async def test_issue_56():
     assert len(doc.links) == 5
 
 
-async def test_issue_72():
+async def test_cards():
+    # Issues:
+    # - https://github.com/vladkens/twscrape/issues/72
+    # - https://github.com/vladkens/twscrape/issues/191
+
     # Check SummaryCard
-    raw = fake_rep("_issue_72").json()
+    raw = fake_rep("card_summary").json()
     doc = parse_tweet(raw, 1696922210588410217)
     assert doc is not None
     assert doc.card is not None
@@ -431,8 +441,8 @@ async def test_issue_72():
     assert doc.card.description is not None
     assert doc.card.url is not None
 
-    # Check PoolCard
-    raw = fake_rep("_issue_72_poll").json()
+    # Check PollCard
+    raw = fake_rep("card_poll").json()
     doc = parse_tweet(raw, 1780666831310877100)
     assert doc is not None
     assert doc.card is not None
@@ -444,3 +454,21 @@ async def test_issue_72():
     for x in doc.card.options:
         assert x.label is not None
         assert x.votesCount is not None
+
+    # Check BrodcastCard
+    raw = fake_rep("card_broadcast").json()
+    doc = parse_tweet(raw, 1790441814857826439)
+    assert doc is not None and doc.card is not None
+    assert doc.card._type == "broadcast"
+    assert isinstance(doc.card, BroadcastCard)
+    assert doc.card.title is not None
+    assert doc.card.url is not None
+    assert doc.card.photo is not None
+
+    # Check AudiospaceCard
+    raw = fake_rep("card_audiospace").json()
+    doc = parse_tweet(raw, 1789054061729173804)
+    assert doc is not None and doc.card is not None
+    assert doc.card._type == "audiospace"
+    assert isinstance(doc.card, AudiospaceCard)
+    assert doc.card.url is not None

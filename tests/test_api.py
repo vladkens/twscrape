@@ -4,10 +4,7 @@ import pytest
 
 from twscrape.accounts_pool import NoAccountError
 from twscrape.api import API
-from twscrape.logger import set_log_level
 from twscrape.utils import gather, get_env_bool
-
-set_log_level("DEBUG")
 
 
 class MockedError(Exception):
