@@ -178,6 +178,7 @@ class Tweet(JSONTrait):
     cashtags: list[str]
     mentionedUsers: list[UserRef]
     links: list[TextLink]
+    media: "Media"
     viewCount: int | None = None
     retweetedTweet: Optional["Tweet"] = None
     quotedTweet: Optional["Tweet"] = None
@@ -189,7 +190,6 @@ class Tweet(JSONTrait):
     source: str | None = None
     sourceUrl: str | None = None
     sourceLabel: str | None = None
-    media: Optional["Media"] = None
     card: Union[None, "SummaryCard", "PollCard", "BroadcastCard", "AudiospaceCard"] = None
     possibly_sensitive: bool | None = None
     _type: str = "snscrape.modules.twitter.Tweet"

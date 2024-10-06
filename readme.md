@@ -89,6 +89,7 @@ async def main():
     await gather(api.subscriptions(user_id, limit=20))  # list[User]
     await gather(api.user_tweets(user_id, limit=20))  # list[Tweet]
     await gather(api.user_tweets_and_replies(user_id, limit=20))  # list[Tweet]
+    await gather(api.user_media(user_id, limit=20))  # list[Tweet]
 
     # list info
     list_id = 123456789
@@ -241,7 +242,7 @@ twscrape tweet_replies TWEET_ID --limit=20
 twscrape retweeters TWEET_ID --limit=20
 twscrape user_by_id USER_ID
 twscrape user_by_login USERNAME
-twscrape user_media USERNAME
+twscrape user_media USER_ID --limit=20
 twscrape following USER_ID --limit=20
 twscrape followers USER_ID --limit=20
 twscrape verified_followers USER_ID --limit=20
