@@ -241,6 +241,7 @@ twscrape tweet_replies TWEET_ID --limit=20
 twscrape retweeters TWEET_ID --limit=20
 twscrape user_by_id USER_ID
 twscrape user_by_login USERNAME
+twscrape user_media USERNAME
 twscrape following USER_ID --limit=20
 twscrape followers USER_ID --limit=20
 twscrape verified_followers USER_ID --limit=20

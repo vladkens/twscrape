@@ -177,7 +177,7 @@ async def test_search():
         check_tweet(doc)
         bookmarks_count += doc.bookmarkedCount
 
-    assert bookmarks_count > 0, "the key is changed or bad luck with data?"
+    assert bookmarks_count > 0, "`bookmark_fields` key is changed or unluck search data"
 
 
 async def test_user_by_id():

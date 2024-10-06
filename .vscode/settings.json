@@ -4,6 +4,9 @@
     "editor.codeActionsOnSave": ["source.organizeImports"],
     "editor.defaultFormatter": "charliermarsh.ruff"
   },
+  "[toml]": {
+    "editor.defaultFormatter": "tamasfe.even-better-toml"
+  },
   "files.exclude": {
     ".ruff_cache": true,
     ".pytest_cache": true,

@@ -2,14 +2,12 @@ check:
 	@make lint
 	@make test
 
-deps:
-	@pip install -e .[dev]
-
-build:
-	@python -m build
+install:
+	pip install -e .[dev]
+	python -m build
 
 lint:
-	# https://docs.astral.sh/ruff/settings/#sorting-imports
+	@# https://docs.astral.sh/ruff/settings/#sorting-imports
 	@ruff check --select I --fix .
 	@ruff format .
 	@ruff check .
@@ -41,6 +39,7 @@ test-py-matrix:
 	@make test-py v=3.10
 	@make test-py v=3.11
 	@make test-py v=3.12
+	@make test-py v=3.13-rc
 
 test-sq-matrix:
 	@# https://www.sqlite.org/chronology.html
