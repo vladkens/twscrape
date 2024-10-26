@@ -443,7 +443,7 @@ class API:
     async def list_timeline(self, list_id: int, limit=-1, kv=None):
         async with aclosing(self.list_timeline_raw(list_id, limit=limit, kv=kv)) as gen:
             async for rep in gen:
-                for x in parse_tweets(rep, limit):
+                for x in parse_tweets(rep.json(), limit):
                     yield x
 
     # likes

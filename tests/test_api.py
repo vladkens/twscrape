@@ -22,6 +22,7 @@ GQL_GEN = [
     "user_tweets_and_replies",
     "list_timeline",
     "liked_tweets",
+    "user_media",
 ]
 
 
