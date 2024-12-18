@@ -94,7 +94,7 @@ class API:
 
         return rep if is_res else None, new_total, is_cur and not is_lim
 
-    def _get_cursor(self, obj: dict, cursor_type="Bottom"):
+    def _get_cursor(self, obj: dict, cursor_type="Bottom") -> str | None:
         if cur := find_obj(obj, lambda x: x.get("cursorType") == cursor_type):
             return cur.get("value")
         return None
