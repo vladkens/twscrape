@@ -46,7 +46,6 @@ async def main(args):
 
     if args.command == "version":
         print(f"twscrape: {version('twscrape')}")
-        print(f"SQLite client: {sqlite3.version}")
         print(f"SQLite runtime: {sqlite3.sqlite_version} ({await get_sqlite_version()})")
         return
 
