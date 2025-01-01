@@ -10,22 +10,22 @@ from .queue_client import QueueClient
 from .utils import encode_params, find_obj, get_by_path
 
 # OP_{NAME} – {NAME} should be same as second part of GQL ID (required to auto-update script)
-OP_SearchTimeline = "UN1i3zUiCWa-6r-Uaho4fw/SearchTimeline"
-OP_UserByRestId = "Qw77dDjp9xCpUY-AXwt-yQ/UserByRestId"
-OP_UserByScreenName = "Yka-W8dz7RaEuQNkroPkYw/UserByScreenName"
-OP_TweetDetail = "QuBlQ6SxNAQCt6-kBiCXCQ/TweetDetail"
-OP_Followers = "OSXFkKmGvfw_6pGgGtkWFg/Followers"
-OP_Following = "7oQrdmth4zE3EtD42ZxgOA/Following"
-OP_Retweeters = "8019obfgnveiPiJuS2Rtow/Retweeters"
-OP_Favoriters = "vdCFYMdpzuRYY0zcio2a3Q/Favoriters"
-OP_UserTweets = "E3opETHurmVJflFsUBVuUQ/UserTweets"
-OP_UserTweetsAndReplies = "bt4TKuFz4T7Ckk-VvQVSow/UserTweetsAndReplies"
-OP_ListLatestTweetsTimeline = "Pa45JvqZuKcW1plybfgBlQ/ListLatestTweetsTimeline"
-OP_Likes = "aeJWz--kknVBOl7wQ7gh7Q/Likes"
-OP_BlueVerifiedFollowers = "cpPRJUmSz2Fiu1PpIYmEsw/BlueVerifiedFollowers"
-OP_UserCreatorSubscriptions = "qHaReNBi0rkhjAe14jrs6A/UserCreatorSubscriptions"
-OP_UserMedia = "dexO_2tohK86JDudXXG3Yw/UserMedia"
-OP_Bookmarks = "QUjXply7fA7fk05FRyajEg/Bookmarks"
+OP_SearchTimeline = "jiR2G5DAUAraqAYpcg9O-g/SearchTimeline"
+OP_UserByRestId = "LWxkCeL8Hlx0-f24DmPAJw/UserByRestId"
+OP_UserByScreenName = "QGIw94L0abhuohrr76cSbw/UserByScreenName"
+OP_TweetDetail = "GtcBtFhtQymrpxAs5MALVA/TweetDetail"
+OP_Followers = "r4fuEJKOqqzaYcvJU5ZWVA/Followers"
+OP_Following = "PgxzDG3JdZLoesQh41mcRw/Following"
+OP_Retweeters = "VCx3-p7GvELPtH0QHQcA0g/Retweeters"
+OP_Favoriters = "DDetc9RS4TZduc7kFfaFSA/Favoriters"
+OP_UserTweets = "bDGQZ9i975PnuFhihvzGug/UserTweets"
+OP_UserTweetsAndReplies = "bZ1YnUB32SSAfKXRwDM3jw/UserTweetsAndReplies"
+OP_ListLatestTweetsTimeline = "h-sxfUsIzy307vKGGTJR4g/ListLatestTweetsTimeline"
+OP_Likes = "8RCkxWhvFsJ8XZeNf_z5IQ/Likes"
+OP_BlueVerifiedFollowers = "srYtCtUs5BuBPbYj7agW6A/BlueVerifiedFollowers"
+OP_UserCreatorSubscriptions = "uFQJ--8sayYPxBqxav4W7A/UserCreatorSubscriptions"
+OP_UserMedia = "BGmkmGDG0kZPM-aoQtNTTw/UserMedia"
+OP_Bookmarks = "fa4kwoT3j5eDJCSKwFDXCw/Bookmarks"
 
 
 GQL_URL = "https://x.com/i/api/graphql"
@@ -56,6 +56,11 @@ GQL_FEATURES = {  # search values here (view source) https://x.com/
     "tweetypie_unmention_optimization_enabled": True,
     "verified_phone_label_enabled": False,
     "view_counts_everywhere_api_enabled": True,
+    "responsive_web_grok_analyze_button_fetch_trends_enabled": False,
+    "premium_content_api_read_enabled": False,
+    "profile_label_improvements_pcf_label_in_post_enabled": False,
+    "responsive_web_grok_share_attachment_enabled": False,
+    "responsive_web_grok_analyze_post_followups_enabled": False,
 }
 
 
@@ -179,6 +184,7 @@ class API:
             "hidden_profile_subscriptions_enabled": True,
             "responsive_web_twitter_article_notes_tab_enabled": False,
             "subscriptions_feature_can_gift_premium": False,
+            "profile_label_improvements_pcf_label_in_post_enabled": False,
         }
         return await self._gql_item(op, kv, ft)
 
@@ -200,6 +206,7 @@ class API:
             "subscriptions_verification_info_is_identity_verified_enabled": False,
             "responsive_web_twitter_article_notes_tab_enabled": False,
             "subscriptions_feature_can_gift_premium": False,
+            "profile_label_improvements_pcf_label_in_post_enabled": False,
         }
         return await self._gql_item(op, kv, ft)
 
@@ -279,7 +286,9 @@ class API:
     async def verified_followers_raw(self, uid: int, limit=-1, kv=None):
         op = OP_BlueVerifiedFollowers
         kv = {"userId": str(uid), "count": 20, "includePromotedContent": False, **(kv or {})}
-        ft = {"responsive_web_twitter_article_notes_tab_enabled": True}
+        ft = {
+            "responsive_web_twitter_article_notes_tab_enabled": True,
+        }
         async with aclosing(self._gql_items(op, kv, limit=limit, ft=ft)) as gen:
             async for x in gen:
                 yield x
