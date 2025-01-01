@@ -263,6 +263,10 @@ By default, parsed data is returned. The original tweet responses can be retriev
 twscrape search "elon mask lang:es" --limit=20 --raw
 ```
 
+### About `limit` param
+
+X API works through pagination, each API method can have different defaults for per page parameter (and this parameter can't be changed by caller). So `limit` param in `twscrape` is the desired number of objects (tweets or users, depending on the method). `twscrape` tries to return NO LESS objects than requested. If the X API returns less or more objects, `twscrape` will return whatever X gives.
+
 ## Proxy
 
 There are few options to use proxies.
