@@ -1,7 +1,9 @@
 from contextlib import aclosing
 
 from httpx import Response
+from json import loads
 from typing_extensions import deprecated
+from zstd import decompress
 
 from .accounts_pool import AccountsPool
 from .logger import set_log_level
@@ -126,7 +128,8 @@ class API:
                 if rep is None:
                     return
 
-                obj = rep.json()
+                encoding: str | None = rep.headers.get("content-encoding")
+                obj = loads(decompress(rep.content)) if encoding == "zstd" else rep.json()
                 els = get_by_path(obj, "entries") or []
                 els = [
                     x
@@ -138,7 +141,7 @@ class API:
                 ]
                 cur = self._get_cursor(obj, cursor_type)
 
-                rep, cnt, active = self._is_end(rep, queue, els, cur, cnt, limit)
+                rep, cnt, active = self._is_end(obj, queue, els, cur, cnt, limit)
                 if rep is None:
                     return
 
@@ -169,7 +172,7 @@ class API:
     async def search(self, q: str, limit=-1, kv=None):
         async with aclosing(self.search_raw(q, limit=limit, kv=kv)) as gen:
             async for rep in gen:
-                for x in parse_tweets(rep.json(), limit):
+                for x in parse_tweets(rep, limit):
                     yield x
 
     # user_by_id
@@ -261,7 +264,7 @@ class API:
     async def tweet_replies(self, twid: int, limit=-1, kv=None):
         async with aclosing(self.tweet_replies_raw(twid, limit=limit, kv=kv)) as gen:
             async for rep in gen:
-                for x in parse_tweets(rep.json(), limit):
+                for x in parse_tweets(rep, limit):
                     if x.inReplyToTweetId == twid:
                         yield x
 
@@ -278,7 +281,7 @@ class API:
     async def followers(self, uid: int, limit=-1, kv=None):
         async with aclosing(self.followers_raw(uid, limit=limit, kv=kv)) as gen:
             async for rep in gen:
-                for x in parse_users(rep.json(), limit):
+                for x in parse_users(rep, limit):
                     yield x
 
     # verified_followers
@@ -296,7 +299,7 @@ class API:
     async def verified_followers(self, uid: int, limit=-1, kv=None):
         async with aclosing(self.verified_followers_raw(uid, limit=limit, kv=kv)) as gen:
             async for rep in gen:
-                for x in parse_users(rep.json(), limit):
+                for x in parse_users(rep, limit):
                     yield x
 
     # following
@@ -311,7 +314,7 @@ class API:
     async def following(self, uid: int, limit=-1, kv=None):
         async with aclosing(self.following_raw(uid, limit=limit, kv=kv)) as gen:
             async for rep in gen:
-                for x in parse_users(rep.json(), limit):
+                for x in parse_users(rep, limit):
                     yield x
 
     # subscriptions
@@ -326,7 +329,7 @@ class API:
     async def subscriptions(self, uid: int, limit=-1, kv=None):
         async with aclosing(self.subscriptions_raw(uid, limit=limit, kv=kv)) as gen:
             async for rep in gen:
-                for x in parse_users(rep.json(), limit):
+                for x in parse_users(rep, limit):
                     yield x
 
     # retweeters
@@ -341,7 +344,7 @@ class API:
     async def retweeters(self, twid: int, limit=-1, kv=None):
         async with aclosing(self.retweeters_raw(twid, limit=limit, kv=kv)) as gen:
             async for rep in gen:
-                for x in parse_users(rep.json(), limit):
+                for x in parse_users(rep, limit):
                     yield x
 
     # favoriters
@@ -358,7 +361,7 @@ class API:
     async def favoriters(self, twid: int, limit=-1, kv=None):
         async with aclosing(self.favoriters_raw(twid, limit=limit, kv=kv)) as gen:
             async for rep in gen:
-                for x in parse_users(rep.json(), limit):
+                for x in parse_users(rep, limit):
                     yield x
 
     # user_tweets
@@ -381,7 +384,7 @@ class API:
     async def user_tweets(self, uid: int, limit=-1, kv=None):
         async with aclosing(self.user_tweets_raw(uid, limit=limit, kv=kv)) as gen:
             async for rep in gen:
-                for x in parse_tweets(rep.json(), limit):
+                for x in parse_tweets(rep, limit):
                     yield x
 
     # user_tweets_and_replies
@@ -404,7 +407,7 @@ class API:
     async def user_tweets_and_replies(self, uid: int, limit=-1, kv=None):
         async with aclosing(self.user_tweets_and_replies_raw(uid, limit=limit, kv=kv)) as gen:
             async for rep in gen:
-                for x in parse_tweets(rep.json(), limit):
+                for x in parse_tweets(rep, limit):
                     yield x
 
     # user_media
@@ -476,7 +479,7 @@ class API:
     async def liked_tweets(self, uid: int, limit=-1, kv=None):
         async with aclosing(self.liked_tweets_raw(uid, limit=limit, kv=kv)) as gen:
             async for rep in gen:
-                for x in parse_tweets(rep.json(), limit):
+                for x in parse_tweets(rep, limit):
                     yield x
 
     # Get current user bookmarks
@@ -502,5 +505,5 @@ class API:
     async def bookmarks(self, limit=-1, kv=None):
         async with aclosing(self.bookmarks_raw(limit=limit, kv=kv)) as gen:
             async for rep in gen:
-                for x in parse_tweets(rep.json(), limit):
+                for x in parse_tweets(rep, limit):
                     yield x

@@ -1,6 +1,7 @@
-import json
+from json import JSONDecodeError, dumps, loads
 import os
 from typing import Any
+from zstd import decompress
 
 import httpx
 from httpx import AsyncClient, Response
@@ -56,8 +57,10 @@ def dump_rep(rep: Response):
     msg.append("\n")
 
     try:
-        msg.append(json.dumps(rep.json(), indent=2))
-    except json.JSONDecodeError:
+        encoding: str | None = rep.headers.get("content-encoding")
+        obj = loads(decompress(rep.content)) if encoding == "zstd" else rep.json()
+        msg.append(dumps(obj, indent=2))
+    except JSONDecodeError:
         msg.append(rep.text)
 
     txt = "\n".join(msg)
@@ -120,8 +123,9 @@ class QueueClient:
             dump_rep(rep)
 
         try:
-            res = rep.json()
-        except json.JSONDecodeError:
+            encoding: str | None = rep.headers.get("content-encoding")
+            res = loads(decompress(rep.content)) if encoding == "zstd" else rep.json()
+        except JSONDecodeError:
             res: Any = {"_raw": rep.text}
 
         limit_remaining = int(rep.headers.get("x-rate-limit-remaining", -1))
