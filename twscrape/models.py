@@ -400,6 +400,59 @@ class AudiospaceCard(Card):
     _type: str = "audiospace"
 
 
+@dataclass
+class RequestParam(JSONTrait):
+    key: str
+    value: str
+
+
+@dataclass
+class UrtEndpointOption(JSONTrait):
+    requestParams: list[RequestParam]
+
+
+@dataclass
+class TrendUrl(JSONTrait):
+    url: str
+    urlType: str
+    urlEndpointOptions: list[RequestParam]
+
+
+@dataclass
+class TrendMetadata(JSONTrait):
+    domain_context: str
+    meta_description: str
+    url: TrendUrl
+
+
+@dataclass
+class GroupedTrend(JSONTrait):
+    name: str
+    url: TrendUrl
+
+
+@dataclass
+class TimelineTrend(JSONTrait):
+    id: Optional[str]
+    rank: Optional[str | int]
+    name: str
+    trend_url: TrendUrl
+    trend_metadata: TrendMetadata
+    grouped_trends: Optional[list[GroupedTrend]]
+    _type: str = "timelinetrend"
+
+    @staticmethod
+    def parse(obj: dict, res=None):
+        return TimelineTrend(
+            id=f"trend-{obj['name']}",
+            name=obj["name"],
+            rank=int(obj["rank"]) if "rank" in obj else None,
+            trend_url=obj["trend_url"],
+            trend_metadata=obj["trend_metadata"],
+            grouped_trends=obj["grouped_trends"] if "grouped_trends" in obj else None
+        )
+
+
 def _parse_card_get_bool(values: list[dict], key: str):
     for x in values:
         if x["key"] == key:
@@ -507,8 +560,8 @@ def _parse_card(obj: dict, url: str):
 
         options = []
         for x in range(20):
-            label = _parse_card_get_str(val, f"choice{x+1}_label")
-            votes = _parse_card_get_str(val, f"choice{x+1}_count")
+            label = _parse_card_get_str(val, f"choice{x + 1}_label")
+            votes = _parse_card_get_str(val, f"choice{x + 1}_count")
             if label is None or votes is None:
                 break
 
@@ -632,6 +685,8 @@ def _parse_items(rep: httpx.Response, kind: str, limit: int = -1):
         Cls, key = User, "users"
     elif kind == "tweet":
         Cls, key = Tweet, "tweets"
+    elif kind == "trends":
+        Cls, key = TimelineTrend, "trends"
     else:
         raise ValueError(f"Invalid kind: {kind}")
 
@@ -688,4 +743,19 @@ def parse_user(rep: httpx.Response) -> User | None:
         return None
     except Exception as e:
         logger.error(f"Failed to parse user - {type(e)}:\n{traceback.format_exc()}")
+        return None
+
+
+def parse_trends(rep: httpx.Response, limit: int = -1) -> Generator[TimelineTrend, None, None]:
+    return _parse_items(rep, kind="trends", limit=limit)
+
+
+def parse_trend(rep: httpx.Response) -> TimelineTrend | None:
+    try:
+        docs = list(parse_trends(rep))
+        if len(docs) == 1:
+            return docs[0]
+        return None
+    except Exception as e:
+        logger.error(f"Failed to parse trend - {type(e)}:\n{traceback.format_exc()}")
         return None

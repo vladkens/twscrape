@@ -147,7 +147,10 @@ def to_old_rep(obj: dict) -> dict[str, dict]:
     users = [x for x in tmp.get("User", []) if "legacy" in x and "id" in x]
     users = {str(x["rest_id"]): to_old_obj(x) for x in users}
 
-    return {"tweets": {**tw1, **tw2}, "users": users}
+    trends = [x for x in tmp.get("TimelineTrend", [])]
+    trends = {x["name"]: x for x in trends}
+
+    return {"tweets": {**tw1, **tw2}, "users": users, "trends": trends}
 
 
 def print_table(rows: list[dict], hr_after=False):
