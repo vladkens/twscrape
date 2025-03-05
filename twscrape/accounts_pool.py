@@ -116,7 +116,7 @@ class AccountsPool:
             logger.warning("No usernames provided")
             return
 
-        qs = f"""DELETE FROM accounts WHERE username IN ({','.join([f'"{x}"' for x in usernames])})"""
+        qs = f"""DELETE FROM accounts WHERE username IN ({",".join([f'"{x}"' for x in usernames])})"""
         await execute(self._db_file, qs)
 
     async def delete_inactive(self):
@@ -201,7 +201,7 @@ class AccountsPool:
             headers = json_object(),
             cookies = json_object(),
             user_agent = "{UserAgent().safari}"
-        WHERE username IN ({','.join([f'"{x}"' for x in usernames])})
+        WHERE username IN ({",".join([f'"{x}"' for x in usernames])})
         """
 
         await execute(self._db_file, qs)

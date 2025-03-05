@@ -135,7 +135,7 @@ class User(JSONTrait):
         return User(
             id=int(obj["id_str"]),
             id_str=obj["id_str"],
-            url=f'https://x.com/{obj["screen_name"]}',
+            url=f"https://x.com/{obj['screen_name']}",
             username=obj["screen_name"],
             displayname=obj["name"],
             rawDescription=obj["description"],
@@ -217,7 +217,7 @@ class Tweet(JSONTrait):
         rt_obj = get_or(res, f"tweets.{_first(obj, rt_id_path)}")
         qt_obj = get_or(res, f"tweets.{_first(obj, qt_id_path)}")
 
-        url = f'https://x.com/{tw_usr.username}/status/{obj["id_str"]}'
+        url = f"https://x.com/{tw_usr.username}/status/{obj['id_str']}"
         doc = Tweet(
             id=int(obj["id_str"]),
             id_str=obj["id_str"],
@@ -507,8 +507,8 @@ def _parse_card(obj: dict, url: str):
 
         options = []
         for x in range(20):
-            label = _parse_card_get_str(val, f"choice{x+1}_label")
-            votes = _parse_card_get_str(val, f"choice{x+1}_count")
+            label = _parse_card_get_str(val, f"choice{x + 1}_label")
+            votes = _parse_card_get_str(val, f"choice{x + 1}_count")
             if label is None or votes is None:
                 break
 

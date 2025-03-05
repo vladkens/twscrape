@@ -1,9 +1,9 @@
 from contextlib import aclosing
-
-from httpx import Response
 from json import loads
-from typing_extensions import deprecated
+
 import zstd
+from httpx import Response
+from typing_extensions import deprecated
 
 from .accounts_pool import AccountsPool
 from .logger import set_log_level

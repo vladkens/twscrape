@@ -1,9 +1,9 @@
-from json import JSONDecodeError, dumps, loads
 import os
+from json import JSONDecodeError, dumps, loads
 from typing import Any
-import zstd
 
 import httpx
+import zstd
 from httpx import AsyncClient, Response
 
 from .accounts_pool import Account, AccountsPool
@@ -134,7 +134,7 @@ class QueueClient:
 
         err_msg = "OK"
         if "errors" in res:
-            err_msg = set([f'({x.get("code", -1)}) {x["message"]}' for x in res["errors"]])
+            err_msg = set([f"({x.get('code', -1)}) {x['message']}" for x in res["errors"]])
             err_msg = "; ".join(list(err_msg))
 
         log_msg = f"{rep.status_code:3d} - {req_id(rep)} - {err_msg}"
