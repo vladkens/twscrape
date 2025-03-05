@@ -3,7 +3,7 @@ from contextlib import aclosing
 from httpx import Response
 from json import loads
 from typing_extensions import deprecated
-from zstd import decompress
+import zstd
 
 from .accounts_pool import AccountsPool
 from .logger import set_log_level
@@ -129,7 +129,7 @@ class API:
                     return
 
                 encoding: str | None = rep.headers.get("content-encoding")
-                obj = loads(decompress(rep.content)) if encoding == "zstd" else rep.json()
+                obj = loads(zstd.decompress(rep.content)) if encoding == "zstd" else rep.json()
                 els = get_by_path(obj, "entries") or []
                 els = [
                     x

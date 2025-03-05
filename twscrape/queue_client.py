@@ -1,7 +1,7 @@
 from json import JSONDecodeError, dumps, loads
 import os
 from typing import Any
-from zstd import decompress
+import zstd
 
 import httpx
 from httpx import AsyncClient, Response
@@ -58,7 +58,7 @@ def dump_rep(rep: Response):
 
     try:
         encoding: str | None = rep.headers.get("content-encoding")
-        obj = loads(decompress(rep.content)) if encoding == "zstd" else rep.json()
+        obj = loads(zstd.decompress(rep.content)) if encoding == "zstd" else rep.json()
         msg.append(dumps(obj, indent=2))
     except JSONDecodeError:
         msg.append(rep.text)
@@ -124,7 +124,7 @@ class QueueClient:
 
         try:
             encoding: str | None = rep.headers.get("content-encoding")
-            res = loads(decompress(rep.content)) if encoding == "zstd" else rep.json()
+            res = loads(zstd.decompress(rep.content)) if encoding == "zstd" else rep.json()
         except JSONDecodeError:
             res: Any = {"_raw": rep.text}
 
@@ -235,6 +235,9 @@ class QueueClient:
                 connection_retry += 1
                 if connection_retry >= 3:
                     raise e
+            except zstd.Error as e:
+                logger.error(f"Failed to decompress ZSTD: {e}")
+                return
             except Exception as e:
                 unknown_retry += 1
                 if unknown_retry >= 3:

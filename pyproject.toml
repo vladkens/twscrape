@@ -25,6 +25,7 @@ dependencies = [
   "httpx>=0.26.0",
   "loguru>=0.7.0",
   "pyotp>=2.9.0",
+  "zstd>=1.5.6.1",
 ]
 
 [project.optional-dependencies]
@@ -36,7 +37,6 @@ dev = [
   "pytest-httpx>=0.28.0",
   "pytest>=7.4.4",
   "ruff>=0.1.11",
-  "zstd>=1.5.6.1",
 ]
 
 [project.urls]
