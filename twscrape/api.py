@@ -168,8 +168,9 @@ class API:
 
     async def search(self, q: str, limit=-1, kv=None):
         async with aclosing(self.search_raw(q, limit=limit, kv=kv)) as gen:
+            parse_fn = parse_users if kv["product"] == "People" else parse_tweets
             async for rep in gen:
-                for x in parse_tweets(rep.json(), limit):
+                for x in parse_fn(rep.json(), limit):
                     yield x
 
     # user_by_id
