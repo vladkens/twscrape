@@ -5,7 +5,7 @@ from typing_extensions import deprecated
 
 from .accounts_pool import AccountsPool
 from .logger import set_log_level
-from .models import Tweet, User, parse_tweet, parse_tweets, parse_user, parse_users
+from .models import Tweet, User, parse_tweet, parse_tweets, parse_user, parse_users, parse_trends
 from .queue_client import QueueClient
 from .utils import encode_params, find_obj, get_by_path
 
@@ -26,7 +26,7 @@ OP_BlueVerifiedFollowers = "srYtCtUs5BuBPbYj7agW6A/BlueVerifiedFollowers"
 OP_UserCreatorSubscriptions = "uFQJ--8sayYPxBqxav4W7A/UserCreatorSubscriptions"
 OP_UserMedia = "BGmkmGDG0kZPM-aoQtNTTw/UserMedia"
 OP_Bookmarks = "fa4kwoT3j5eDJCSKwFDXCw/Bookmarks"
-
+OP_Explore = "5u36Lskx1dfACjC_WHmH3Q/GenericTimelineById"
 
 GQL_URL = "https://x.com/i/api/graphql"
 GQL_FEATURES = {  # search values here (view source) https://x.com/
@@ -69,11 +69,11 @@ class API:
     pool: AccountsPool
 
     def __init__(
-        self,
-        pool: AccountsPool | str | None = None,
-        debug=False,
-        proxy: str | None = None,
-        raise_when_no_account=False,
+            self,
+            pool: AccountsPool | str | None = None,
+            debug=False,
+            proxy: str | None = None,
+            raise_when_no_account=False,
     ):
         if isinstance(pool, AccountsPool):
             self.pool = pool
@@ -107,7 +107,7 @@ class API:
     # gql helpers
 
     async def _gql_items(
-        self, op: str, kv: dict, ft: dict | None = None, limit=-1, cursor_type="Bottom"
+            self, op: str, kv: dict, ft: dict | None = None, limit=-1, cursor_type="Bottom"
     ):
         queue, cur, cnt, active = op.split("/")[-1], None, 0, True
         kv, ft = {**kv}, {**GQL_FEATURES, **(ft or {})}
@@ -132,8 +132,8 @@ class API:
                     x
                     for x in els
                     if not (
-                        x["entryId"].startswith("cursor-")
-                        or x["entryId"].startswith("messageprompt-")
+                            x["entryId"].startswith("cursor-")
+                            or x["entryId"].startswith("messageprompt-")
                     )
                 ]
                 cur = self._get_cursor(obj, cursor_type)
@@ -254,7 +254,7 @@ class API:
             **(kv or {}),
         }
         async with aclosing(
-            self._gql_items(op, kv, limit=limit, cursor_type="ShowMoreThreads")
+                self._gql_items(op, kv, limit=limit, cursor_type="ShowMoreThreads")
         ) as gen:
             async for x in gen:
                 yield x
@@ -347,7 +347,8 @@ class API:
 
     # favoriters
 
-    @deprecated("Likes is no longer available in X, see: https://x.com/XDevelopers/status/1800675411086409765")  # fmt: skip
+    @deprecated(
+        "Likes is no longer available in X, see: https://x.com/XDevelopers/status/1800675411086409765")  # fmt: skip
     async def favoriters_raw(self, twid: int, limit=-1, kv=None):
         op = OP_Favoriters
         kv = {"tweetId": str(twid), "count": 20, "includePromotedContent": True, **(kv or {})}
@@ -355,7 +356,8 @@ class API:
             async for x in gen:
                 yield x
 
-    @deprecated("Likes is no longer available in X, see: https://x.com/XDevelopers/status/1800675411086409765")  # fmt: skip
+    @deprecated(
+        "Likes is no longer available in X, see: https://x.com/XDevelopers/status/1800675411086409765")  # fmt: skip
     async def favoriters(self, twid: int, limit=-1, kv=None):
         async with aclosing(self.favoriters_raw(twid, limit=limit, kv=kv)) as gen:
             async for rep in gen:
@@ -456,9 +458,48 @@ class API:
                 for x in parse_tweets(rep, limit):
                     yield x
 
+    async def list_explore_raw(self, timeline_id: str, kv: dict = None):
+        """
+        :param timeline_id: The ID of the trending timeline you wish to scrape
+                    * 'trending': VGltZWxpbmU6DAC2CwABAAAACHRyZW5kaW5nAAA
+                    * 'news': VGltZWxpbmU6DAC2CwABAAAABG5ld3MAAA
+                    * 'sports': VGltZWxpbmU6DAC2CwABAAAABnNwb3J0cwAA
+                    * 'entertainment': VGltZWxpbmU6DAC2CwABAAAADWVudGVydGFpbm1lbnQAAA
+        :type timeline_id: str
+        """
+        op = OP_Explore
+        kv = {
+            "timelineId": timeline_id,
+            "count": 20,
+            "withQuickPromoteEligibilityTweetFields": True,
+            **(kv or {}),
+        }
+        ft = {
+            "responsive_web_grok_analysis_button_from_backend": False,
+            "responsive_web_grok_image_annotation_enabled": False,
+            "responsive_web_jetfuel_frame": False
+        }
+        return await self._gql_item(op, kv, ft=ft)
+
+    async def list_explore(self, timeline_id: str = None, limit=-1, kv=None):
+        rep = await self.list_explore_raw(timeline_id, kv=kv)
+        for x in parse_trends(rep, limit=limit):
+            yield x
+
+    async def search_trend(self, q: str, limit: int = -1, kv=None):
+        kv = {
+            "querySource": "trend_click",
+            **(kv or {}),
+        }
+        async with aclosing(self.search_raw(q, limit=limit, kv=kv)) as gen:
+            async for rep in gen:
+                for x in parse_tweets(rep.json(), limit):
+                    yield x
+
     # likes
 
-    @deprecated("Likes is no longer available in X, see: https://x.com/XDevelopers/status/1800675411086409765")  # fmt: skip
+    @deprecated(
+        "Likes is no longer available in X, see: https://x.com/XDevelopers/status/1800675411086409765")  # fmt: skip
     async def liked_tweets_raw(self, uid: int, limit=-1, kv=None):
         op = OP_Likes
         kv = {
@@ -473,7 +514,8 @@ class API:
             async for x in gen:
                 yield x
 
-    @deprecated("Likes is no longer available in X, see: https://x.com/XDevelopers/status/1800675411086409765")  # fmt: skip
+    @deprecated(
+        "Likes is no longer available in X, see: https://x.com/XDevelopers/status/1800675411086409765")  # fmt: skip
     async def liked_tweets(self, uid: int, limit=-1, kv=None):
         async with aclosing(self.liked_tweets_raw(uid, limit=limit, kv=kv)) as gen:
             async for rep in gen:
