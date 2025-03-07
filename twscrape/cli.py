@@ -196,9 +196,6 @@ def run():
     c_lim("user_media", "Get user's media", "user_id", "User ID", int)
     c_lim("list_timeline", "Get tweets from list", "list_id", "List ID", int)
 
-    c_lim("favoriters", "(deprecated) Get favoriters of a tweet", "tweet_id", "Tweet ID", int)
-    c_lim("liked_tweets", "(deprecated) Get user's liked tweets", "user_id", "User ID", int)
-
     args = p.parse_args()
     if args.command is None:
         return custom_help(p)

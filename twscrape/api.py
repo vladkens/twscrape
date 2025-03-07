@@ -19,11 +19,9 @@ OP_TweetDetail = "GtcBtFhtQymrpxAs5MALVA/TweetDetail"
 OP_Followers = "r4fuEJKOqqzaYcvJU5ZWVA/Followers"
 OP_Following = "PgxzDG3JdZLoesQh41mcRw/Following"
 OP_Retweeters = "VCx3-p7GvELPtH0QHQcA0g/Retweeters"
-OP_Favoriters = "DDetc9RS4TZduc7kFfaFSA/Favoriters"
 OP_UserTweets = "bDGQZ9i975PnuFhihvzGug/UserTweets"
 OP_UserTweetsAndReplies = "bZ1YnUB32SSAfKXRwDM3jw/UserTweetsAndReplies"
 OP_ListLatestTweetsTimeline = "h-sxfUsIzy307vKGGTJR4g/ListLatestTweetsTimeline"
-OP_Likes = "8RCkxWhvFsJ8XZeNf_z5IQ/Likes"
 OP_BlueVerifiedFollowers = "srYtCtUs5BuBPbYj7agW6A/BlueVerifiedFollowers"
 OP_UserCreatorSubscriptions = "uFQJ--8sayYPxBqxav4W7A/UserCreatorSubscriptions"
 OP_UserMedia = "BGmkmGDG0kZPM-aoQtNTTw/UserMedia"
@@ -353,23 +351,6 @@ class API:
                 for x in parse_users(rep.json(), limit):
                     yield x
 
-    # favoriters
-
-    @deprecated("Likes is no longer available in X, see: https://x.com/XDevelopers/status/1800675411086409765")  # fmt: skip
-    async def favoriters_raw(self, twid: int, limit=-1, kv: KV = None):
-        op = OP_Favoriters
-        kv = {"tweetId": str(twid), "count": 20, "includePromotedContent": True, **(kv or {})}
-        async with aclosing(self._gql_items(op, kv, limit=limit)) as gen:
-            async for x in gen:
-                yield x
-
-    @deprecated("Likes is no longer available in X, see: https://x.com/XDevelopers/status/1800675411086409765")  # fmt: skip
-    async def favoriters(self, twid: int, limit=-1, kv: KV = None):
-        async with aclosing(self.favoriters_raw(twid, limit=limit, kv=kv)) as gen:
-            async for rep in gen:
-                for x in parse_users(rep.json(), limit):
-                    yield x
-
     # user_tweets
 
     async def user_tweets_raw(self, uid: int, limit=-1, kv: KV = None):
@@ -490,30 +471,6 @@ class API:
             **(kv or {}),
         }
         async with aclosing(self.search_raw(q, limit=limit, kv=kv)) as gen:
-            async for rep in gen:
-                for x in parse_tweets(rep.json(), limit):
-                    yield x
-
-    # likes
-
-    @deprecated("Likes is no longer available in X, see: https://x.com/XDevelopers/status/1800675411086409765")  # fmt: skip
-    async def liked_tweets_raw(self, uid: int, limit=-1, kv: KV = None):
-        op = OP_Likes
-        kv = {
-            "userId": str(uid),
-            "count": 40,
-            "includePromotedContent": True,
-            "withVoice": True,
-            "withV2Timeline": True,
-            **(kv or {}),
-        }
-        async with aclosing(self._gql_items(op, kv, limit=limit)) as gen:
-            async for x in gen:
-                yield x
-
-    @deprecated("Likes is no longer available in X, see: https://x.com/XDevelopers/status/1800675411086409765")  # fmt: skip
-    async def liked_tweets(self, uid: int, limit=-1, kv: KV = None):
-        async with aclosing(self.liked_tweets_raw(uid, limit=limit, kv=kv)) as gen:
             async for rep in gen:
                 for x in parse_tweets(rep.json(), limit):
                     yield x

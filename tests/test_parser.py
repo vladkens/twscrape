@@ -297,17 +297,6 @@ async def test_retweters():
         check_user(doc)
 
 
-async def test_favoriters():
-    api = API()
-    mock_rep(api.favoriters_raw, "old_raw_favoriters", as_generator=True)
-
-    users = await gather(api.favoriters(1649191520250245121))
-    assert len(users) > 0
-
-    for doc in users:
-        check_user(doc)
-
-
 async def test_user_tweets():
     api = API()
     mock_rep(api.user_tweets_raw, "raw_user_tweets", as_generator=True)
@@ -353,17 +342,6 @@ async def test_list_timeline():
     mock_rep(api.list_timeline_raw, "raw_list_timeline", as_generator=True)
 
     tweets = await gather(api.list_timeline(1494877848087187461))
-    assert len(tweets) > 0
-
-    for doc in tweets:
-        check_tweet(doc)
-
-
-async def test_likes():
-    api = API()
-    mock_rep(api.liked_tweets_raw, "old_raw_likes", as_generator=True)
-
-    tweets = await gather(api.liked_tweets(2244994945))
     assert len(tweets) > 0
 
     for doc in tweets:

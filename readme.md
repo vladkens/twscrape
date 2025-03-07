@@ -115,11 +115,6 @@ if __name__ == "__main__":
     asyncio.run(main())
 ```
 
-### Depraceted API methods (no more available in X)
-
-- favoriters ([ref](https://x.com/XDevelopers/status/1800675411086409765))
-- liked_tweets ([ref](https://x.com/XDevelopers/status/1800675411086409765))
-
 ### Stoping iteration with break
 
 In order to correctly release an account in case of `break` in loop, a special syntax must be used. Otherwise, Python's events loop will release lock on the account sometime in the future. See explanation [here](https://github.com/vladkens/twscrape/issues/27#issuecomment-1623395424).
