@@ -407,15 +407,21 @@ class RequestParam(JSONTrait):
 
 
 @dataclass
-class UrtEndpointOption(JSONTrait):
-    requestParams: list[RequestParam]
-
-
-@dataclass
 class TrendUrl(JSONTrait):
     url: str
     urlType: str
     urlEndpointOptions: list[RequestParam]
+
+    @staticmethod
+    def parse(obj: dict):
+        return TrendUrl(
+            url=obj["url"],
+            urlType=obj["urlType"],
+            urlEndpointOptions=[
+                RequestParam(key=x["key"], value=x["value"])
+                for x in obj["urtEndpointOptions"]["requestParams"]
+            ],
+        )
 
 
 @dataclass
@@ -424,32 +430,45 @@ class TrendMetadata(JSONTrait):
     meta_description: str
     url: TrendUrl
 
+    @staticmethod
+    def parse(obj: dict):
+        return TrendMetadata(
+            domain_context=obj["domain_context"],
+            meta_description=obj["meta_description"],
+            url=TrendUrl.parse(obj["url"]),
+        )
+
 
 @dataclass
 class GroupedTrend(JSONTrait):
     name: str
     url: TrendUrl
 
+    @staticmethod
+    def parse(obj: dict):
+        return GroupedTrend(name=obj["name"], url=TrendUrl.parse(obj["url"]))
+
 
 @dataclass
-class TimelineTrend(JSONTrait):
+class Trend(JSONTrait):
     id: Optional[str]
     rank: Optional[str | int]
     name: str
     trend_url: TrendUrl
     trend_metadata: TrendMetadata
-    grouped_trends: Optional[list[GroupedTrend]]
+    grouped_trends: list[GroupedTrend] = field(default_factory=list)
     _type: str = "timelinetrend"
 
     @staticmethod
     def parse(obj: dict, res=None):
-        return TimelineTrend(
+        grouped_trends = [GroupedTrend.parse(x) for x in obj.get("grouped_trends", [])]
+        return Trend(
             id=f"trend-{obj['name']}",
             name=obj["name"],
             rank=int(obj["rank"]) if "rank" in obj else None,
-            trend_url=obj["trend_url"],
-            trend_metadata=obj["trend_metadata"],
-            grouped_trends=obj["grouped_trends"] if "grouped_trends" in obj else None,
+            trend_url=TrendUrl.parse(obj["trend_url"]),
+            trend_metadata=TrendMetadata.parse(obj["trend_metadata"]),
+            grouped_trends=grouped_trends,
         )
 
 
@@ -686,7 +705,7 @@ def _parse_items(rep: httpx.Response, kind: str, limit: int = -1):
     elif kind == "tweet":
         Cls, key = Tweet, "tweets"
     elif kind == "trends":
-        Cls, key = TimelineTrend, "trends"
+        Cls, key = Trend, "trends"
     else:
         raise ValueError(f"Invalid kind: {kind}")
 
@@ -738,7 +757,7 @@ def parse_user(rep: httpx.Response) -> User | None:
         return None
 
 
-def parse_trend(rep: httpx.Response) -> TimelineTrend | None:
+def parse_trend(rep: httpx.Response) -> Trend | None:
     try:
         docs = list(parse_trends(rep))
         if len(docs) == 1:
@@ -757,5 +776,5 @@ def parse_users(rep: httpx.Response, limit: int = -1) -> Generator[User, None, N
     return _parse_items(rep, "user", limit)  # type: ignore
 
 
-def parse_trends(rep: httpx.Response, limit: int = -1) -> Generator[TimelineTrend, None, None]:
+def parse_trends(rep: httpx.Response, limit: int = -1) -> Generator[Trend, None, None]:
     return _parse_items(rep, kind="trends", limit=limit)  # type: ignore

@@ -198,7 +198,7 @@ class QueueClient:
             await self._close_ctx(utc.ts() + 60 * 15)  # 15 minutes
             raise HandledError()
 
-    async def get(self, url: str, params: ReqParams = None):
+    async def get(self, url: str, params: ReqParams = None) -> Response | None:
         return await self.req("GET", url, params=params)
 
     async def req(self, method: str, url: str, params: ReqParams = None) -> Response | None:

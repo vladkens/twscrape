@@ -92,8 +92,12 @@ async def main():
     await gather(api.user_media(user_id, limit=20))  # list[Tweet]
 
     # list info
-    list_id = 123456789
-    await gather(api.list_timeline(list_id))
+    await gather(api.list_timeline(list_id=123456789))
+
+    # trends
+    await gather(api.trends("news"))  # list[Trend]
+    await gather(api.trends("sport"))  # list[Trend]
+    await gather(api.trends("VGltZWxpbmU6DAC2CwABAAAACHRyZW5kaW5nAAA"))  # list[Trend]
 
     # NOTE 1: gather is a helper function to receive all data as list, FOR can be used as well:
     async for tweet in api.search("elon musk"):
@@ -244,6 +248,7 @@ twscrape verified_followers USER_ID --limit=20
 twscrape subscriptions USER_ID --limit=20
 twscrape user_tweets USER_ID --limit=20
 twscrape user_tweets_and_replies USER_ID --limit=20
+twscrape trends sport
 ```
 
 The default output is in the console (stdout), one document per line. So it can be redirected to the file.

@@ -1,4 +1,5 @@
 from contextlib import aclosing
+from typing import Literal
 
 from httpx import Response
 
@@ -7,8 +8,6 @@ from .logger import set_log_level
 from .models import Tweet, User, parse_trends, parse_tweet, parse_tweets, parse_user, parse_users
 from .queue_client import QueueClient
 from .utils import encode_params, find_obj, get_by_path
-
-KV = dict | None
 
 # OP_{NAME} – {NAME} should be same as second part of GQL ID (required to auto-update script)
 OP_SearchTimeline = "U3QTLwGF8sZCHDuWIMSAmg/SearchTimeline"
@@ -64,6 +63,9 @@ GQL_FEATURES = {  # search values here (view source) https://x.com/
     "responsive_web_grok_analysis_button_from_backend": False,
     "responsive_web_jetfuel_frame": False,
 }
+
+KV = dict | None
+TrendId = Literal["trending", "news", "sport", "entertainment"] | str
 
 
 class API:
@@ -447,27 +449,35 @@ class API:
                 for x in parse_tweets(rep, limit):
                     yield x
 
-    async def list_explore_raw(self, timeline_id: str, kv: KV = None):
+    # trends
+
+    async def trends_raw(self, trend_id: TrendId, limit=-1, kv: KV = None):
+        map = {
+            "trending": "VGltZWxpbmU6DAC2CwABAAAACHRyZW5kaW5nAAA",
+            "news": "VGltZWxpbmU6DAC2CwABAAAABG5ld3MAAA",
+            "sport": "VGltZWxpbmU6DAC2CwABAAAABnNwb3J0cwAA",
+            "entertainment": "VGltZWxpbmU6DAC2CwABAAAADWVudGVydGFpbm1lbnQAAA",
+        }
+        trend_id = map.get(trend_id, trend_id)
+
         op = OP_GenericTimelineById
         kv = {
-            "timelineId": timeline_id,
+            "timelineId": trend_id,
             "count": 20,
             "withQuickPromoteEligibilityTweetFields": True,
             **(kv or {}),
         }
-        ft = {
-            "responsive_web_grok_analysis_button_from_backend": False,
-            "responsive_web_grok_image_annotation_enabled": False,
-            "responsive_web_jetfuel_frame": False,
-        }
-        return await self._gql_item(op, kv, ft=ft)
-
-    async def list_explore(self, timeline_id: str, limit=-1, kv: KV = None):
-        if rep := await self.list_explore_raw(timeline_id, kv=kv):
-            for x in parse_trends(rep, limit=limit):
+        async with aclosing(self._gql_items(op, kv, limit=limit)) as gen:
+            async for x in gen:
                 yield x
 
-    async def search_trend(self, q: str, limit: int = -1, kv: KV = None):
+    async def trends(self, trend_id: TrendId, limit=-1, kv: KV = None):
+        async with aclosing(self.trends_raw(trend_id, limit=limit, kv=kv)) as gen:
+            async for rep in gen:
+                for x in parse_trends(rep, limit):
+                    yield x
+
+    async def search_trend(self, q: str, limit=-1, kv: KV = None):
         kv = {
             "querySource": "trend_click",
             **(kv or {}),

@@ -20,6 +20,7 @@ GQL_GEN = [
     "user_tweets",
     "user_tweets_and_replies",
     "list_timeline",
+    "trends",
 ]
 
 

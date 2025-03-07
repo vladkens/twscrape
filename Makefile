@@ -33,13 +33,13 @@ test-sq:
 	@docker -l warning build -f Dockerfile.sq-matrix --build-arg SQLY=$(y) --build-arg SQLV=$(v) -t $(name) .
 	@docker run $(name)
 
-test-py-matrix:
+test-matrix-py:
 	@make test-py v=3.10
 	@make test-py v=3.11
 	@make test-py v=3.12
 	@make test-py v=3.13
 
-test-sq-matrix:
+test-matrix-sq:
 	@# https://www.sqlite.org/chronology.html
 	@make test-sq y=2018 v=3240000
 	@make test-sq y=2019 v=3270200
@@ -66,3 +66,4 @@ update-mocks:
 	twscrape user_media --raw --limit 10 2244994945 | jq > ./tests/mocked-data/raw_user_media.json
 	twscrape search --raw --limit 5 "elon musk lang:en" | jq > ./tests/mocked-data/raw_search.json
 	twscrape list_timeline --raw --limit 10 1494877848087187461 | jq > ./tests/mocked-data/raw_list_timeline.json
+	twscrape trends --raw sport | jq > ./tests/mocked-data/raw_trends.json

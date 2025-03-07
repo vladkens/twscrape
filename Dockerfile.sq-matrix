@@ -1,7 +1,6 @@
-FROM python:3.10-alpine AS base
+FROM python:3.10-alpine
 RUN apk add build-base
 
-FROM base
 ARG SQLY=2021
 ARG SQLV=3340100
 
