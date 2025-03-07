@@ -10,32 +10,27 @@ build:
 	python -m build --sdist --wheel --outdir dist/ .
 
 lint:
-	@# https://docs.astral.sh/ruff/settings/#sorting-imports
-	@ruff check --select I --fix .
-	@ruff format .
-	@ruff check .
-	@pyright .
+	@python -m ruff check --select I --fix .
+	@python -m ruff format .
+	@python -m ruff check .
+	@python -m pyright .
 
 test:
-	@pytest -s --cov=twscrape tests/
+	@python -m pytest -s --cov=twscrape tests/
 
 test-cov:
-	@pytest -s --cov=twscrape tests/
+	@python -m pytest -s --cov=twscrape tests/
 	@coverage html
 	@open htmlcov/index.html
 
-changelog:
-	@git pull origin --tags > /dev/null
-	@git log $(shell git describe --tags --abbrev=0 HEAD)^..HEAD --pretty=format:'- %s'
-
 test-py:
 	$(eval name=twscrape_py$(v))
-	@docker -l warning build -f Dockerfile.python --build-arg VER=$(v) -t $(name) .
+	@docker -l warning build -f Dockerfile.py-matrix --build-arg VER=$(v) -t $(name) .
 	@docker run $(name)
 
 test-sq:
 	$(eval name=twscrape_sq$(v))
-	@docker -l warning build -f Dockerfile.sqlite --build-arg SQLY=$(y) --build-arg SQLV=$(v) -t $(name) .
+	@docker -l warning build -f Dockerfile.sq-matrix --build-arg SQLY=$(y) --build-arg SQLV=$(v) -t $(name) .
 	@docker run $(name)
 
 test-py-matrix:

@@ -135,7 +135,7 @@ class User(JSONTrait):
         return User(
             id=int(obj["id_str"]),
             id_str=obj["id_str"],
-            url=f'https://x.com/{obj["screen_name"]}',
+            url=f"https://x.com/{obj['screen_name']}",
             username=obj["screen_name"],
             displayname=obj["name"],
             rawDescription=obj["description"],
@@ -217,7 +217,7 @@ class Tweet(JSONTrait):
         rt_obj = get_or(res, f"tweets.{_first(obj, rt_id_path)}")
         qt_obj = get_or(res, f"tweets.{_first(obj, qt_id_path)}")
 
-        url = f'https://x.com/{tw_usr.username}/status/{obj["id_str"]}'
+        url = f"https://x.com/{tw_usr.username}/status/{obj['id_str']}"
         doc = Tweet(
             id=int(obj["id_str"]),
             id_str=obj["id_str"],
@@ -449,7 +449,7 @@ class TimelineTrend(JSONTrait):
             rank=int(obj["rank"]) if "rank" in obj else None,
             trend_url=obj["trend_url"],
             trend_metadata=obj["trend_metadata"],
-            grouped_trends=obj["grouped_trends"] if "grouped_trends" in obj else None
+            grouped_trends=obj["grouped_trends"] if "grouped_trends" in obj else None,
         )
 
 
@@ -715,14 +715,6 @@ def _parse_items(rep: httpx.Response, kind: str, limit: int = -1):
 # public helpers
 
 
-def parse_tweets(rep: httpx.Response, limit: int = -1) -> Generator[Tweet, None, None]:
-    return _parse_items(rep, "tweet", limit)  # type: ignore
-
-
-def parse_users(rep: httpx.Response, limit: int = -1) -> Generator[User, None, None]:
-    return _parse_items(rep, "user", limit)  # type: ignore
-
-
 def parse_tweet(rep: httpx.Response, twid: int) -> Tweet | None:
     try:
         docs = list(parse_tweets(rep))
@@ -746,10 +738,6 @@ def parse_user(rep: httpx.Response) -> User | None:
         return None
 
 
-def parse_trends(rep: httpx.Response, limit: int = -1) -> Generator[TimelineTrend, None, None]:
-    return _parse_items(rep, kind="trends", limit=limit)
-
-
 def parse_trend(rep: httpx.Response) -> TimelineTrend | None:
     try:
         docs = list(parse_trends(rep))
@@ -759,3 +747,15 @@ def parse_trend(rep: httpx.Response) -> TimelineTrend | None:
     except Exception as e:
         logger.error(f"Failed to parse trend - {type(e)}:\n{traceback.format_exc()}")
         return None
+
+
+def parse_tweets(rep: httpx.Response, limit: int = -1) -> Generator[Tweet, None, None]:
+    return _parse_items(rep, "tweet", limit)  # type: ignore
+
+
+def parse_users(rep: httpx.Response, limit: int = -1) -> Generator[User, None, None]:
+    return _parse_items(rep, "user", limit)  # type: ignore
+
+
+def parse_trends(rep: httpx.Response, limit: int = -1) -> Generator[TimelineTrend, None, None]:
+    return _parse_items(rep, kind="trends", limit=limit)  # type: ignore

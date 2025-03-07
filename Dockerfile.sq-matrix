@@ -1,4 +1,4 @@
-FROM python:3.10-alpine as base
+FROM python:3.10-alpine AS base
 RUN apk add build-base
 
 FROM base
@@ -19,4 +19,4 @@ COPY pyproject.toml readme.md /app/
 RUN pip install -e .[dev]
 COPY . /app
 
-CMD sqlite3 --version; python -c "import sqlite3;print(sqlite3.sqlite_version)"; pytest tests/
+CMD ["sh", "-c", "sqlite3 --version; python -c 'import sqlite3;print(sqlite3.sqlite_version)'; pytest tests/"]

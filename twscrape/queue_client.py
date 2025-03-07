@@ -130,7 +130,7 @@ class QueueClient:
 
         err_msg = "OK"
         if "errors" in res:
-            err_msg = set([f'({x.get("code", -1)}) {x["message"]}' for x in res["errors"]])
+            err_msg = set([f"({x.get('code', -1)}) {x['message']}" for x in res["errors"]])
             err_msg = "; ".join(list(err_msg))
 
         log_msg = f"{rep.status_code:3d} - {req_id(rep)} - {err_msg}"
