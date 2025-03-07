@@ -1,7 +1,6 @@
 from contextlib import aclosing
 
 from httpx import Response
-from typing_extensions import deprecated
 
 from .accounts_pool import AccountsPool
 from .logger import set_log_level
@@ -12,20 +11,20 @@ from .utils import encode_params, find_obj, get_by_path
 KV = dict | None
 
 # OP_{NAME} – {NAME} should be same as second part of GQL ID (required to auto-update script)
-OP_SearchTimeline = "jiR2G5DAUAraqAYpcg9O-g/SearchTimeline"
-OP_UserByRestId = "LWxkCeL8Hlx0-f24DmPAJw/UserByRestId"
-OP_UserByScreenName = "QGIw94L0abhuohrr76cSbw/UserByScreenName"
-OP_TweetDetail = "GtcBtFhtQymrpxAs5MALVA/TweetDetail"
-OP_Followers = "r4fuEJKOqqzaYcvJU5ZWVA/Followers"
-OP_Following = "PgxzDG3JdZLoesQh41mcRw/Following"
-OP_Retweeters = "VCx3-p7GvELPtH0QHQcA0g/Retweeters"
-OP_UserTweets = "bDGQZ9i975PnuFhihvzGug/UserTweets"
-OP_UserTweetsAndReplies = "bZ1YnUB32SSAfKXRwDM3jw/UserTweetsAndReplies"
-OP_ListLatestTweetsTimeline = "h-sxfUsIzy307vKGGTJR4g/ListLatestTweetsTimeline"
-OP_BlueVerifiedFollowers = "srYtCtUs5BuBPbYj7agW6A/BlueVerifiedFollowers"
-OP_UserCreatorSubscriptions = "uFQJ--8sayYPxBqxav4W7A/UserCreatorSubscriptions"
-OP_UserMedia = "BGmkmGDG0kZPM-aoQtNTTw/UserMedia"
-OP_Bookmarks = "fa4kwoT3j5eDJCSKwFDXCw/Bookmarks"
+OP_SearchTimeline = "U3QTLwGF8sZCHDuWIMSAmg/SearchTimeline"
+OP_UserByRestId = "5vdJ5sWkbSRDiiNZvwc2Yg/UserByRestId"
+OP_UserByScreenName = "32pL5BWe9WKeSK1MoPvFQQ/UserByScreenName"
+OP_TweetDetail = "Ez6kRPyXbqNlhBwcNMpU-Q/TweetDetail"
+OP_Followers = "OGScL-RC4DFMsRGOCjPR6g/Followers"
+OP_Following = "o5eNLkJb03ayTQa97Cpp7w/Following"
+OP_Retweeters = "niCJ2QyTuAgZWv01E7mqJQ/Retweeters"
+OP_UserTweets = "Y9WM4Id6UcGFE8Z-hbnixw/UserTweets"
+OP_UserTweetsAndReplies = "pZXwh96YGRqmBbbxu7Vk2Q/UserTweetsAndReplies"
+OP_ListLatestTweetsTimeline = "H_dAKg97dSn3FOMfrNS8nw/ListLatestTweetsTimeline"
+OP_BlueVerifiedFollowers = "WijS8Cwfqhtk5hDN9q7sgw/BlueVerifiedFollowers"
+OP_UserCreatorSubscriptions = "H4p-DZU4gYqcZulycazCZw/UserCreatorSubscriptions"
+OP_UserMedia = "ophTtKkfXcUKnXlxh9fU5w/UserMedia"
+OP_Bookmarks = "1vFR5f4iSCQZLzjdSsNYwA/Bookmarks"
 OP_GenericTimelineById = "5u36Lskx1dfACjC_WHmH3Q/GenericTimelineById"
 
 GQL_URL = "https://x.com/i/api/graphql"
@@ -61,6 +60,9 @@ GQL_FEATURES = {  # search values here (view source) https://x.com/
     "profile_label_improvements_pcf_label_in_post_enabled": False,
     "responsive_web_grok_share_attachment_enabled": False,
     "responsive_web_grok_analyze_post_followups_enabled": False,
+    "responsive_web_grok_image_annotation_enabled": False,
+    "responsive_web_grok_analysis_button_from_backend": False,
+    "responsive_web_jetfuel_frame": False,
 }
 
 
