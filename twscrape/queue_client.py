@@ -1,31 +1,72 @@
+import asyncio
 import json
 import os
 from typing import Any
 
 import httpx
 from httpx import AsyncClient, Response
+from urllib3.util import parse_url
 
 from .accounts_pool import Account, AccountsPool
 from .logger import logger
 from .utils import utc
+from .xclid import XClIdGen
 
 ReqParams = dict[str, str | int] | None
 TMP_TS = utc.now().isoformat().split(".")[0].replace("T", "_").replace(":", "-")[0:16]
 
 
+class HandledError(Exception): ...
+
+
+class AbortReqError(Exception): ...
+
+
+class XClIdGenStore:
+    items: dict[str, XClIdGen] = {}  # username -> XClIdGen
+
+    @classmethod
+    async def get(cls, username: str, fresh=False) -> XClIdGen:
+        if username in cls.items and not fresh:
+            return cls.items[username]
+
+        tries = 0
+        while tries < 3:
+            try:
+                clid_gen = await XClIdGen.create()
+                cls.items[username] = clid_gen
+                return clid_gen
+            except httpx.HTTPStatusError:
+                tries += 1
+                await asyncio.sleep(1)
+
+        raise Exception("Failed to create XClIdGen after 3 tries.")
+
+
 class Ctx:
     def __init__(self, acc: Account, clt: AsyncClient):
+        self.req_count = 0
         self.acc = acc
         self.clt = clt
-        self.req_count = 0
 
+    async def aclose(self):
+        await self.clt.aclose()
 
-class HandledError(Exception):
-    pass
+    async def req(self, method: str, url: str, params: ReqParams = None) -> Response:
+        # if code 404 on first try then generate new x-client-transaction-id and retry once
+        # https://github.com/vladkens/twscrape/issues/248
 
+        path = parse_url(url).path or "/"
 
-class AbortReqError(Exception):
-    pass
+        gen = await XClIdGenStore.get(self.acc.username)
+        hdr = {"x-client-transaction-id": gen.calc(method, path)}
+        rep = await self.clt.request(method, url, params=params, headers=hdr)
+        if rep.status_code != 404:
+            return rep
+
+        gen = await XClIdGenStore.get(self.acc.username, fresh=True)
+        hdr = {"x-client-transaction-id": gen.calc(method, path)}
+        return await self.clt.request(method, url, params=params, headers=hdr)
 
 
 def req_id(rep: Response):
@@ -86,7 +127,7 @@ class QueueClient:
 
         ctx, self.ctx, self.req_count = self.ctx, None, 0
         username = ctx.acc.username
-        await ctx.clt.aclose()
+        await ctx.aclose()
 
         if inactive:
             await self.pool.mark_inactive(username, msg)
@@ -210,7 +251,7 @@ class QueueClient:
                 return None
 
             try:
-                rep = await ctx.clt.request(method, url, params=params)
+                rep = await ctx.req(method, url, params=params)
                 setattr(rep, "__username", ctx.acc.username)
                 await self._check_rep(rep)
 
