@@ -135,7 +135,7 @@ class User(JSONTrait):
         return User(
             id=int(obj["id_str"]),
             id_str=obj["id_str"],
-            url=f'https://x.com/{obj["screen_name"]}',
+            url=f"https://x.com/{obj['screen_name']}",
             username=obj["screen_name"],
             displayname=obj["name"],
             rawDescription=obj["description"],
@@ -217,7 +217,7 @@ class Tweet(JSONTrait):
         rt_obj = get_or(res, f"tweets.{_first(obj, rt_id_path)}")
         qt_obj = get_or(res, f"tweets.{_first(obj, qt_id_path)}")
 
-        url = f'https://x.com/{tw_usr.username}/status/{obj["id_str"]}'
+        url = f"https://x.com/{tw_usr.username}/status/{obj['id_str']}"
         doc = Tweet(
             id=int(obj["id_str"]),
             id_str=obj["id_str"],
@@ -400,6 +400,78 @@ class AudiospaceCard(Card):
     _type: str = "audiospace"
 
 
+@dataclass
+class RequestParam(JSONTrait):
+    key: str
+    value: str
+
+
+@dataclass
+class TrendUrl(JSONTrait):
+    url: str
+    urlType: str
+    urlEndpointOptions: list[RequestParam]
+
+    @staticmethod
+    def parse(obj: dict):
+        return TrendUrl(
+            url=obj["url"],
+            urlType=obj["urlType"],
+            urlEndpointOptions=[
+                RequestParam(key=x["key"], value=x["value"])
+                for x in obj["urtEndpointOptions"]["requestParams"]
+            ],
+        )
+
+
+@dataclass
+class TrendMetadata(JSONTrait):
+    domain_context: str
+    meta_description: str
+    url: TrendUrl
+
+    @staticmethod
+    def parse(obj: dict):
+        return TrendMetadata(
+            domain_context=obj["domain_context"],
+            meta_description=obj["meta_description"],
+            url=TrendUrl.parse(obj["url"]),
+        )
+
+
+@dataclass
+class GroupedTrend(JSONTrait):
+    name: str
+    url: TrendUrl
+
+    @staticmethod
+    def parse(obj: dict):
+        return GroupedTrend(name=obj["name"], url=TrendUrl.parse(obj["url"]))
+
+
+@dataclass
+class Trend(JSONTrait):
+    id: Optional[str]
+    rank: Optional[str | int]
+    name: str
+    trend_url: TrendUrl
+    trend_metadata: TrendMetadata
+    grouped_trends: list[GroupedTrend] = field(default_factory=list)
+    _type: str = "timelinetrend"
+
+    @staticmethod
+    def parse(obj: dict, res=None):
+        grouped_trends = [GroupedTrend.parse(x) for x in obj.get("grouped_trends", [])]
+        return Trend(
+            id=f"trend-{obj['name']}",
+            name=obj["name"],
+            rank=int(obj["rank"]) if "rank" in obj else None,
+            trend_url=TrendUrl.parse(obj["trend_url"]),
+            trend_metadata=TrendMetadata.parse(obj["trend_metadata"]),
+            grouped_trends=grouped_trends,
+        )
+
+
 def _parse_card_get_bool(values: list[dict], key: str):
     for x in values:
         if x["key"] == key:
@@ -507,8 +579,8 @@ def _parse_card(obj: dict, url: str):
 
         options = []
         for x in range(20):
-            label = _parse_card_get_str(val, f"choice{x+1}_label")
-            votes = _parse_card_get_str(val, f"choice{x+1}_count")
+            label = _parse_card_get_str(val, f"choice{x + 1}_label")
+            votes = _parse_card_get_str(val, f"choice{x + 1}_count")
             if label is None or votes is None:
                 break
 
@@ -632,6 +704,8 @@ def _parse_items(rep: httpx.Response, kind: str, limit: int = -1):
         Cls, key = User, "users"
     elif kind == "tweet":
         Cls, key = Tweet, "tweets"
+    elif kind == "trends":
+        Cls, key = Trend, "trends"
     else:
         raise ValueError(f"Invalid kind: {kind}")
 
@@ -660,14 +734,6 @@ def _parse_items(rep: httpx.Response, kind: str, limit: int = -1):
 # public helpers
 
 
-def parse_tweets(rep: httpx.Response, limit: int = -1) -> Generator[Tweet, None, None]:
-    return _parse_items(rep, "tweet", limit)  # type: ignore
-
-
-def parse_users(rep: httpx.Response, limit: int = -1) -> Generator[User, None, None]:
-    return _parse_items(rep, "user", limit)  # type: ignore
-
-
 def parse_tweet(rep: httpx.Response, twid: int) -> Tweet | None:
     try:
         docs = list(parse_tweets(rep))
@@ -689,3 +755,26 @@ def parse_user(rep: httpx.Response) -> User | None:
     except Exception as e:
         logger.error(f"Failed to parse user - {type(e)}:\n{traceback.format_exc()}")
         return None
+
+
+def parse_trend(rep: httpx.Response) -> Trend | None:
+    try:
+        docs = list(parse_trends(rep))
+        if len(docs) == 1:
+            return docs[0]
+        return None
+    except Exception as e:
+        logger.error(f"Failed to parse trend - {type(e)}:\n{traceback.format_exc()}")
+        return None
+
+
+def parse_tweets(rep: httpx.Response, limit: int = -1) -> Generator[Tweet, None, None]:
+    return _parse_items(rep, "tweet", limit)  # type: ignore
+
+
+def parse_users(rep: httpx.Response, limit: int = -1) -> Generator[User, None, None]:
+    return _parse_items(rep, "user", limit)  # type: ignore
+
+
+def parse_trends(rep: httpx.Response, limit: int = -1) -> Generator[Trend, None, None]:
+    return _parse_items(rep, kind="trends", limit=limit)  # type: ignore

@@ -8,4 +8,4 @@ COPY pyproject.toml readme.md /app/
 RUN pip install -e .[dev]
 COPY . /app
 
-CMD python --version; pytest tests/
+CMD ["sh", "-c", "pytest tests/"]

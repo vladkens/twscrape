@@ -2,11 +2,11 @@
 
 <div align="center">
 
-[<img src="https://badgen.net/pypi/v/twscrape" alt="version" />](https://pypi.org/project/twscrape)
-[<img src="https://badgen.net/pypi/python/twscrape" alt="py versions" />](https://pypi.org/project/twscrape)
-[<img src="https://badgen.net/pypi/dm/twscrape" alt="downloads" />](https://pypi.org/project/twscrape)
-[<img src="https://badgen.net/github/license/vladkens/twscrape" alt="license" />](https://github.com/vladkens/twscrape/blob/main/LICENSE)
-[<img src="https://badgen.net/static/-/buy%20me%20a%20coffee/ff813f?icon=buymeacoffee&label" alt="donate" />](https://buymeacoffee.com/vladkens)
+[<img src="https://badges.ws/pypi/v/twscrape" alt="version" />](https://pypi.org/project/twscrape)
+[<img src="https://badges.ws/pypi/python/twscrape" alt="py versions" />](https://pypi.org/project/twscrape)
+[<img src="https://badges.ws/pypi/dm/twscrape" alt="downloads" />](https://pypi.org/project/twscrape)
+[<img src="https://badges.ws/github/license/vladkens/twscrape" alt="license" />](https://github.com/vladkens/twscrape/blob/main/LICENSE)
+[<img src="https://badges.ws/badge/-/buy%20me%20a%20coffee/ff813f?icon=buymeacoffee&label" alt="donate" />](https://buymeacoffee.com/vladkens)
 
 </div>
 
@@ -36,13 +36,15 @@ pip install git+https://github.com/vladkens/twscrape.git
 
 ## Usage
 
-Since this project works through an authorized API, accounts need to be added. You can register and add an account yourself. You can also google sites that provide these things.
+This project requires authorized X/Twitter accounts to work with the API. You have two options:
 
-The email password is needed to get the code to log in to the account automatically (via imap protocol).
+1. **Create Your Own Account**: While you can register a new account on X/Twitter yourself, it's can be difficult due to strict verification processes and high ban rates.
 
-Data models:
-- [User](https://github.com/vladkens/twscrape/blob/main/twscrape/models.py#L87)
-- [Tweet](https://github.com/vladkens/twscrape/blob/main/twscrape/models.py#L136)
+2. **Use Ready Accounts**: For immediate access, you can get ready-to-use accounts with cookies from [our recommended provider](https://kutt.it/ueeM5f). Cookie-based accounts typically have fewer login issues.
+
+For optimal performance and to avoid IP-based restrictions, we also recommend using proxies from [our provider](https://kutt.it/eb3rXk).
+
+**Disclaimer**: While X/Twitter's Terms of Service discourage using multiple accounts, this is a common practice for data collection and research purposes. Use responsibly and at your own discretion.
 
 ```python
 import asyncio
@@ -50,16 +52,20 @@ from twscrape import API, gather
 from twscrape.logger import set_log_level
 
 async def main():
-    api = API()  # or API("path-to.db") - default is `accounts.db`
+    api = API()  # or API("path-to.db") – default is `accounts.db`
 
-    # ADD ACCOUNTS (for CLI usage see BELOW)
-    await api.pool.add_account("user1", "pass1", "u1@example.com", "mail_pass1")
-    await api.pool.add_account("user2", "pass2", "u2@example.com", "mail_pass2")
-    await api.pool.login_all()
+    # ADD ACCOUNTS (for CLI usage see next readme section)
 
-    # or add account with COOKIES (with cookies login not required)
+    # Option 1. Adding account with cookies (more stable)
     cookies = "abc=12; ct0=xyz"  # or '{"abc": "12", "ct0": "xyz"}'
     await api.pool.add_account("user3", "pass3", "u3@mail.com", "mail_pass3", cookies=cookies)
+
+    # Option2. Adding account with login / password (less stable)
+    # email login / password required to receive the verification code via IMAP protocol
+    # (not all email providers are supported, e.g. ProtonMail)
+    await api.pool.add_account("user1", "pass1", "u1@example.com", "mail_pass1")
+    await api.pool.add_account("user2", "pass2", "u2@example.com", "mail_pass2")
+    await api.pool.login_all() # try to login to receive account cookies
 
     # API USAGE
 
@@ -92,8 +98,12 @@ async def main():
     await gather(api.user_media(user_id, limit=20))  # list[Tweet]
 
     # list info
-    list_id = 123456789
-    await gather(api.list_timeline(list_id))
+    await gather(api.list_timeline(list_id=123456789))
+
+    # trends
+    await gather(api.trends("news"))  # list[Trend]
+    await gather(api.trends("sport"))  # list[Trend]
+    await gather(api.trends("VGltZWxpbmU6DAC2CwABAAAACHRyZW5kaW5nAAA"))  # list[Trend]
 
     # NOTE 1: gather is a helper function to receive all data as list, FOR can be used as well:
     async for tweet in api.search("elon musk"):
@@ -114,11 +124,6 @@ async def main():
 if __name__ == "__main__":
     asyncio.run(main())
 ```
-
-### Depraceted API methods (no more available in X)
-
-- favoriters ([ref](https://x.com/XDevelopers/status/1800675411086409765))
-- liked_tweets ([ref](https://x.com/XDevelopers/status/1800675411086409765))
 
 ### Stoping iteration with break
 
@@ -249,6 +254,7 @@ twscrape verified_followers USER_ID --limit=20
 twscrape subscriptions USER_ID --limit=20
 twscrape user_tweets USER_ID --limit=20
 twscrape user_tweets_and_replies USER_ID --limit=20
+twscrape trends sport
 ```
 
 The default output is in the console (stdout), one document per line. So it can be redirected to the file.
@@ -262,6 +268,10 @@ By default, parsed data is returned. The original tweet responses can be retriev
 ```sh
 twscrape search "elon mask lang:es" --limit=20 --raw
 ```
+
+### About `limit` param
+
+X API works through pagination, each API method can have different defaults for per page parameter (and this parameter can't be changed by caller). So `limit` param in `twscrape` is the desired number of objects (tweets or users, depending on the method). `twscrape` tries to return NO LESS objects than requested. If the X API returns less or more objects, `twscrape` will return whatever X gives.
 
 ## Proxy
 
@@ -307,21 +317,21 @@ So if you want to use proxy PER ACCOUNT, do NOT override proxy with env variable
 
 _Note:_ If proxy not working, exception will be raised from API class.
 
-## Environment variables
+## Environment Variables
 
-- `TWS_WAIT_EMAIL_CODE` – timeout for email verification code during login (default: `30`, in seconds)
-- `TWS_RAISE_WHEN_NO_ACCOUNT` – raise `NoAccountError` exception when no available accounts right now, instead of waiting for availability (default: `false`, possible value: `false` / `0` / `true` / `1`)
+- `TWS_PROXY` - global proxy for all accounts (e.g. `socks5://user:pass@127.0.0.1:1080`)
+- `TWS_WAIT_EMAIL_CODE` - timeout for email verification code during login (default: `30`, in seconds)
+- `TWS_RAISE_WHEN_NO_ACCOUNT` - raise `NoAccountError` exception when no available accounts, instead of waiting (default: `false`, values: `false`/`0`/`true`/`1`)
 
 ## Limitations
 
-After 1 July 2023 Twitter [introduced new limits](https://x.com/elonmusk/status/1675187969420828672) and still continue to update it periodically.
+X/Twitter regularly [updates](https://x.com/elonmusk/status/1675187969420828672) their rate limits. Current basic behavior:
+- Request limits reset every 15 minutes for each endpoint individually
+- Each account has separate limits for different operations (search, profile views, etc.)
 
-The basic behaviour is as follows:
-- the request limit is updated every 15 minutes for each endpoint individually
-- e.g. each account have 50 search requests / 15 min, 50 profile requests / 15 min, etc.
-
-API data limits:
-- `user_tweets` & `user_tweets_and_replies` – can return ~3200 tweets maximum
+API data limitations:
+- `user_tweets` & `user_tweets_and_replies` - can return ~3200 tweets maximum
+- Rate limits may vary based on account age and status
 
 ## Articles
 - [How to still scrape millions of tweets in 2023](https://medium.com/@vladkens/how-to-still-scrape-millions-of-tweets-in-2023-using-twscrape-97f5d3881434)

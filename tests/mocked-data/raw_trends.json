@@ -1,0 +1,564 @@
+{
+  "data": {
+    "timeline": {
+      "timeline": {
+        "instructions": [
+          {
+            "type": "TimelineClearCache"
+          },
+          {
+            "type": "TimelineTerminateTimeline",
+            "direction": "Bottom"
+          },
+          {
+            "type": "TimelineAddEntries",
+            "entries": [
+              {
+                "entryId": "trend-Hield",
+                "sortIndex": "1897838079637454848",
+                "content": {
+                  "entryType": "TimelineTimelineItem",
+                  "__typename": "TimelineTimelineItem",
+                  "itemContent": {
+                    "itemType": "TimelineTrend",
+                    "__typename": "TimelineTrend",
+                    "name": "Hield",
+                    "trend_url": {
+                      "url": "twitter://search/?query=Hield&src=trend_click&pc=true&vertical=trends",
+                      "urlType": "DeepLink",
+                      "urtEndpointOptions": {
+                        "requestParams": [
+                          {
+                            "key": "cd",
+                            "value": "HBgFSGllbGQAAA=="
+                          }
+                        ]
+                      }
+                    },
+                    "trend_metadata": {
+                      "domain_context": "Trending in Sports",
+                      "meta_description": "1,699 posts",
+                      "url": {
+                        "url": "twitter://search/?query=Hield&src=trend_click&pc=true&vertical=trends",
+                        "urlType": "DeepLink",
+                        "urtEndpointOptions": {
+                          "requestParams": [
+                            {
+                              "key": "cd",
+                              "value": "HBgFSGllbGQAAA=="
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  },
+                  "feedbackInfo": {
+                    "clientEventInfo": {
+                      "action": "click",
+                      "component": "trends",
+                      "element": "feedback"
+                    },
+                    "feedbackKeys": [
+                      "-1336659320",
+                      "1628041751",
+                      "15718569",
+                      "-619311538",
+                      "-1457103155",
+                      "2103484841"
+                    ],
+                    "feedbackMetadata": "DwABCwAAAAEAAAAFSGllbGQGAAQAAQgABgAAAAMA"
+                  },
+                  "clientEventInfo": {
+                    "component": "unified_events",
+                    "element": "trend",
+                    "details": {
+                      "timelinesDetails": {
+                        "controllerData": "DAACDAAQDAABCgABo8eUwO2g7DYAAAAA"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "entryId": "trend-Marchand",
+                "sortIndex": "1897838079637454847",
+                "content": {
+                  "entryType": "TimelineTimelineItem",
+                  "__typename": "TimelineTimelineItem",
+                  "itemContent": {
+                    "itemType": "TimelineTrend",
+                    "__typename": "TimelineTrend",
+                    "name": "Marchand",
+                    "trend_url": {
+                      "url": "twitter://search/?query=Marchand&src=trend_click&pc=true&vertical=trends",
+                      "urlType": "DeepLink",
+                      "urtEndpointOptions": {
+                        "requestParams": [
+                          {
+                            "key": "cd",
+                            "value": "HBgITWFyY2hhbmQAAA=="
+                          }
+                        ]
+                      }
+                    },
+                    "trend_metadata": {
+                      "domain_context": "Trending in Sports",
+                      "meta_description": "3,157 posts",
+                      "url": {
+                        "url": "twitter://search/?query=Marchand&src=trend_click&pc=true&vertical=trends",
+                        "urlType": "DeepLink",
+                        "urtEndpointOptions": {
+                          "requestParams": [
+                            {
+                              "key": "cd",
+                              "value": "HBgITWFyY2hhbmQAAA=="
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  },
+                  "feedbackInfo": {
+                    "clientEventInfo": {
+                      "action": "click",
+                      "component": "trends",
+                      "element": "feedback"
+                    },
+                    "feedbackKeys": [
+                      "-1336659320",
+                      "1628041751",
+                      "15718569",
+                      "-619311538",
+                      "-1457103155",
+                      "2103484841"
+                    ],
+                    "feedbackMetadata": "DwABCwAAAAEAAAAITWFyY2hhbmQGAAQAAggABgAAAAMA"
+                  },
+                  "clientEventInfo": {
+                    "component": "unified_events",
+                    "element": "trend",
+                    "details": {
+                      "timelinesDetails": {
+                        "controllerData": "DAACDAAQDAABCgABo8eUwO2g7DYAAAAA"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "entryId": "trend-Draymond",
+                "sortIndex": "1897838079637454846",
+                "content": {
+                  "entryType": "TimelineTimelineItem",
+                  "__typename": "TimelineTimelineItem",
+                  "itemContent": {
+                    "itemType": "TimelineTrend",
+                    "__typename": "TimelineTrend",
+                    "name": "Draymond",
+                    "trend_url": {
+                      "url": "twitter://search/?query=Draymond&src=trend_click&pc=true&vertical=trends",
+                      "urlType": "DeepLink",
+                      "urtEndpointOptions": {
+                        "requestParams": [
+                          {
+                            "key": "cd",
+                            "value": "HBgIRHJheW1vbmQAAA=="
+                          }
+                        ]
+                      }
+                    },
+                    "trend_metadata": {
+                      "domain_context": "Trending in Sports",
+                      "meta_description": "9,409 posts",
+                      "url": {
+                        "url": "twitter://search/?query=Draymond&src=trend_click&pc=true&vertical=trends",
+                        "urlType": "DeepLink",
+                        "urtEndpointOptions": {
+                          "requestParams": [
+                            {
+                              "key": "cd",
+                              "value": "HBgIRHJheW1vbmQAAA=="
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  },
+                  "feedbackInfo": {
+                    "clientEventInfo": {
+                      "action": "click",
+                      "component": "trends",
+                      "element": "feedback"
+                    },
+                    "feedbackKeys": [
+                      "-1336659320",
+                      "1628041751",
+                      "15718569",
+                      "-619311538",
+                      "-1457103155",
+                      "2103484841"
+                    ],
+                    "feedbackMetadata": "DwABCwAAAAEAAAAIRHJheW1vbmQGAAQAAwgABgAAAAMA"
+                  },
+                  "clientEventInfo": {
+                    "component": "unified_events",
+                    "element": "trend",
+                    "details": {
+                      "timelinesDetails": {
+                        "controllerData": "DAACDAAQDAABCgABo8eUwO2g7DYAAAAA"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "entryId": "trend-Shaq",
+                "sortIndex": "1897838079637454845",
+                "content": {
+                  "entryType": "TimelineTimelineItem",
+                  "__typename": "TimelineTimelineItem",
+                  "itemContent": {
+                    "itemType": "TimelineTrend",
+                    "__typename": "TimelineTrend",
+                    "name": "Shaq",
+                    "trend_url": {
+                      "url": "twitter://search/?query=Shaq&src=trend_click&pc=true&vertical=trends",
+                      "urlType": "DeepLink",
+                      "urtEndpointOptions": {
+                        "requestParams": [
+                          {
+                            "key": "cd",
+                            "value": "HBgEU2hhcQAA"
+                          }
+                        ]
+                      }
+                    },
+                    "trend_metadata": {
+                      "domain_context": "Trending in Sports",
+                      "meta_description": "12K posts",
+                      "url": {
+                        "url": "twitter://search/?query=Shaq&src=trend_click&pc=true&vertical=trends",
+                        "urlType": "DeepLink",
+                        "urtEndpointOptions": {
+                          "requestParams": [
+                            {
+                              "key": "cd",
+                              "value": "HBgEU2hhcQAA"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  },
+                  "feedbackInfo": {
+                    "clientEventInfo": {
+                      "action": "click",
+                      "component": "trends",
+                      "element": "feedback"
+                    },
+                    "feedbackKeys": [
+                      "-1336659320",
+                      "1628041751",
+                      "15718569",
+                      "-619311538",
+                      "-1457103155",
+                      "2103484841"
+                    ],
+                    "feedbackMetadata": "DwABCwAAAAEAAAAEU2hhcQYABAAECAAGAAAAAwA="
+                  },
+                  "clientEventInfo": {
+                    "component": "unified_events",
+                    "element": "trend",
+                    "details": {
+                      "timelinesDetails": {
+                        "controllerData": "DAACDAAQDAABCgABo8eUwO2g7DYAAAAA"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "entryId": "trend-Chuck",
+                "sortIndex": "1897838079637454844",
+                "content": {
+                  "entryType": "TimelineTimelineItem",
+                  "__typename": "TimelineTimelineItem",
+                  "itemContent": {
+                    "itemType": "TimelineTrend",
+                    "__typename": "TimelineTrend",
+                    "name": "Chuck",
+                    "trend_url": {
+                      "url": "twitter://search/?query=Chuck&src=trend_click&pc=true&vertical=trends",
+                      "urlType": "DeepLink",
+                      "urtEndpointOptions": {
+                        "requestParams": [
+                          {
+                            "key": "cd",
+                            "value": "HBgFQ2h1Y2sAAA=="
+                          }
+                        ]
+                      }
+                    },
+                    "trend_metadata": {
+                      "domain_context": "Trending in Sports",
+                      "meta_description": "37.6K posts",
+                      "url": {
+                        "url": "twitter://search/?query=Chuck&src=trend_click&pc=true&vertical=trends",
+                        "urlType": "DeepLink",
+                        "urtEndpointOptions": {
+                          "requestParams": [
+                            {
+                              "key": "cd",
+                              "value": "HBgFQ2h1Y2sAAA=="
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  },
+                  "feedbackInfo": {
+                    "clientEventInfo": {
+                      "action": "click",
+                      "component": "trends",
+                      "element": "feedback"
+                    },
+                    "feedbackKeys": [
+                      "-1336659320",
+                      "1628041751",
+                      "15718569",
+                      "-619311538",
+                      "-1457103155",
+                      "2103484841"
+                    ],
+                    "feedbackMetadata": "DwABCwAAAAEAAAAFQ2h1Y2sGAAQABQgABgAAAAMA"
+                  },
+                  "clientEventInfo": {
+                    "component": "unified_events",
+                    "element": "trend",
+                    "details": {
+                      "timelinesDetails": {
+                        "controllerData": "DAACDAAQDAABCgABo8eUwO2g7DYAAAAA"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "entryId": "trend-Nets",
+                "sortIndex": "1897838079637454843",
+                "content": {
+                  "entryType": "TimelineTimelineItem",
+                  "__typename": "TimelineTimelineItem",
+                  "itemContent": {
+                    "itemType": "TimelineTrend",
+                    "__typename": "TimelineTrend",
+                    "name": "Nets",
+                    "trend_url": {
+                      "url": "twitter://search/?query=Nets&src=trend_click&pc=true&vertical=trends",
+                      "urlType": "DeepLink",
+                      "urtEndpointOptions": {
+                        "requestParams": [
+                          {
+                            "key": "cd",
+                            "value": "HBgETmV0cwAA"
+                          }
+                        ]
+                      }
+                    },
+                    "trend_metadata": {
+                      "domain_context": "Trending in Sports",
+                      "meta_description": "12K posts",
+                      "url": {
+                        "url": "twitter://search/?query=Nets&src=trend_click&pc=true&vertical=trends",
+                        "urlType": "DeepLink",
+                        "urtEndpointOptions": {
+                          "requestParams": [
+                            {
+                              "key": "cd",
+                              "value": "HBgETmV0cwAA"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  },
+                  "feedbackInfo": {
+                    "clientEventInfo": {
+                      "action": "click",
+                      "component": "trends",
+                      "element": "feedback"
+                    },
+                    "feedbackKeys": [
+                      "-1336659320",
+                      "1628041751",
+                      "15718569",
+                      "-619311538",
+                      "-1457103155",
+                      "2103484841"
+                    ],
+                    "feedbackMetadata": "DwABCwAAAAEAAAAETmV0cwYABAAGCAAGAAAAAwA="
+                  },
+                  "clientEventInfo": {
+                    "component": "unified_events",
+                    "element": "trend",
+                    "details": {
+                      "timelinesDetails": {
+                        "controllerData": "DAACDAAQDAABCgABo8eUwO2g7DYAAAAA"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "entryId": "trend-Bengals",
+                "sortIndex": "1897838079637454842",
+                "content": {
+                  "entryType": "TimelineTimelineItem",
+                  "__typename": "TimelineTimelineItem",
+                  "itemContent": {
+                    "itemType": "TimelineTrend",
+                    "__typename": "TimelineTrend",
+                    "name": "Bengals",
+                    "trend_url": {
+                      "url": "twitter://search/?query=Bengals&src=trend_click&pc=true&vertical=trends",
+                      "urlType": "DeepLink",
+                      "urtEndpointOptions": {
+                        "requestParams": [
+                          {
+                            "key": "cd",
+                            "value": "HBgHQmVuZ2FscwAA"
+                          }
+                        ]
+                      }
+                    },
+                    "trend_metadata": {
+                      "domain_context": "Trending in Sports",
+                      "meta_description": "21.9K posts",
+                      "url": {
+                        "url": "twitter://search/?query=Bengals&src=trend_click&pc=true&vertical=trends",
+                        "urlType": "DeepLink",
+                        "urtEndpointOptions": {
+                          "requestParams": [
+                            {
+                              "key": "cd",
+                              "value": "HBgHQmVuZ2FscwAA"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  },
+                  "feedbackInfo": {
+                    "clientEventInfo": {
+                      "action": "click",
+                      "component": "trends",
+                      "element": "feedback"
+                    },
+                    "feedbackKeys": [
+                      "-1336659320",
+                      "1628041751",
+                      "15718569",
+                      "-619311538",
+                      "-1457103155",
+                      "2103484841"
+                    ],
+                    "feedbackMetadata": "DwABCwAAAAEAAAAHQmVuZ2FscwYABAAHCAAGAAAAAwA="
+                  },
+                  "clientEventInfo": {
+                    "component": "unified_events",
+                    "element": "trend",
+                    "details": {
+                      "timelinesDetails": {
+                        "controllerData": "DAACDAAQDAABCgABo8eUwO2g7DYAAAAA"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "entryId": "cursor-top-1897838079637454849",
+                "sortIndex": "1897838079637454849",
+                "content": {
+                  "entryType": "TimelineTimelineCursor",
+                  "__typename": "TimelineTimelineCursor",
+                  "value": "DAAJAAA",
+                  "cursorType": "Top"
+                }
+              }
+            ]
+          }
+        ],
+        "responseObjects": {
+          "feedbackActions": [
+            {
+              "key": "-619311538",
+              "value": {
+                "feedbackType": "SeeFewer",
+                "prompt": "Not interested in this",
+                "confirmation": "Thanks. Refresh this page to update these trends.",
+                "feedbackUrl": "/2/guide/insert_feedback/trend_not_interested_in_this_feedback_key.json",
+                "hasUndoAction": false,
+                "confirmationDisplayType": "Inline"
+              }
+            },
+            {
+              "key": "15718569",
+              "value": {
+                "feedbackType": "SeeFewer",
+                "prompt": "This trend is abusive or harmful",
+                "confirmation": "Thanks. Refresh this page to update these trends.",
+                "feedbackUrl": "/2/guide/insert_feedback/trend_abusive_feedback_key.json",
+                "hasUndoAction": false,
+                "confirmationDisplayType": "Inline"
+              }
+            },
+            {
+              "key": "-1457103155",
+              "value": {
+                "feedbackType": "SeeFewer",
+                "prompt": "This trend is a duplicate",
+                "confirmation": "Thanks. Refresh this page to update these trends.",
+                "feedbackUrl": "/2/guide/insert_feedback/trend_duplicate_feedback_key.json",
+                "hasUndoAction": false,
+                "confirmationDisplayType": "Inline"
+              }
+            },
+            {
+              "key": "-1336659320",
+              "value": {
+                "feedbackType": "SeeFewer",
+                "prompt": "The associated content is not relevant",
+                "confirmation": "Thanks. Refresh this page to update these trends.",
+                "feedbackUrl": "/2/guide/insert_feedback/trend_irrelevant_content_feedback_key.json",
+                "hasUndoAction": false,
+                "confirmationDisplayType": "BottomSheet"
+              }
+            },
+            {
+              "key": "1628041751",
+              "value": {
+                "feedbackType": "SeeFewer",
+                "prompt": "This trend is spam",
+                "confirmation": "Thanks. Refresh this page to update these trends.",
+                "feedbackUrl": "/2/guide/insert_feedback/trend_spam_feedback_key.json",
+                "hasUndoAction": false,
+                "confirmationDisplayType": "Inline"
+              }
+            },
+            {
+              "key": "2103484841",
+              "value": {
+                "feedbackType": "SeeFewer",
+                "prompt": "This trend is harmful or spammy",
+                "confirmation": "Thanks. Refresh this page to update these trends.",
+                "feedbackUrl": "/2/guide/insert_feedback/trend_abusive_or_harmful_feedback_key.json",
+                "hasUndoAction": false,
+                "confirmationDisplayType": "BottomSheet"
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

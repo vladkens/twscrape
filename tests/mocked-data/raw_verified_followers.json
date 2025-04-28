@@ -21,8 +21,8 @@
                 "type": "TimelineAddEntries",
                 "entries": [
                   {
-                    "entryId": "user-787064935",
-                    "sortIndex": "1842759076463771648",
+                    "entryId": "user-1116561834",
+                    "sortIndex": "1897829016367267840",
                     "content": {
                       "entryType": "TimelineTimelineItem",
                       "__typename": "TimelineTimelineItem",
@@ -32,8 +32,8 @@
                         "user_results": {
                           "result": {
                             "__typename": "User",
-                            "id": "VXNlcjo3ODcwNjQ5MzU=",
-                            "rest_id": "787064935",
+                            "id": "VXNlcjoxMTE2NTYxODM0",
+                            "rest_id": "1116561834",
                             "affiliates_highlighted_label": {},
                             "has_graduated_access": true,
                             "is_blue_verified": true,
@@ -41,11 +41,11 @@
                             "legacy": {
                               "following": false,
                               "can_dm": true,
-                              "can_media_tag": false,
-                              "created_at": "Tue Aug 28 13:52:53 +0000 2012",
-                              "default_profile": false,
+                              "can_media_tag": true,
+                              "created_at": "Thu Jan 24 11:40:33 +0000 2013",
+                              "default_profile": true,
                               "default_profile_image": false,
-                              "description": "🇮🇩 | #Bitcoin not crypto. | ⚡️: taufiq@walletofsatoshi.com || @PintuID Referral: 0xtaufiq || 📝 post are fully my own. Not an financial advice at all. DYOR!🧡",
+                              "description": "Covering fintech, finance, and innovation. Exploring how technology reshapes financial markets, banking, and investments worldwide.\nReporter @WSJ",
                               "entities": {
                                 "description": {
                                   "urls": []
@@ -53,9 +53,9 @@
                                 "url": {
                                   "urls": [
                                     {
-                                      "display_url": "bitcoin.org",
-                                      "expanded_url": "https://bitcoin.org",
-                                      "url": "https://t.co/8dReJ1Ason",
+                                      "display_url": "wsj.com/news/author/ro…",
+                                      "expanded_url": "https://www.wsj.com/news/author/rod-james",
+                                      "url": "https://t.co/i8rhXyTH91",
                                       "indices": [
                                         0,
                                         23
@@ -65,199 +65,40 @@
                                 }
                               },
                               "fast_followers_count": 0,
-                              "favourites_count": 20701,
-                              "followers_count": 27042,
-                              "friends_count": 3543,
-                              "has_custom_timelines": true,
+                              "favourites_count": 1553,
+                              "followers_count": 3008,
+                              "friends_count": 630,
+                              "has_custom_timelines": false,
                               "is_translator": false,
-                              "listed_count": 12,
-                              "location": "Indonesia",
-                              "media_count": 3426,
-                              "name": "Taufiq ₿⚡️",
-                              "normal_followers_count": 27042,
-                              "pinned_tweet_ids_str": [
-                                "1833035497406444018"
-                              ],
+                              "listed_count": 1,
+                              "location": "New York, United States",
+                              "media_count": 13,
+                              "name": "Rod James",
+                              "normal_followers_count": 3008,
+                              "pinned_tweet_ids_str": [],
                               "possibly_sensitive": false,
-                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/787064935/1724784779",
-                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1819927913975992320/W--TUpbM_normal.jpg",
+                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/1116561834/1740706827",
+                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1895035591202390016/Ljm7qwXB_normal.jpg",
                               "profile_interstitial_type": "",
-                              "screen_name": "bitcoinfiq",
-                              "statuses_count": 130386,
-                              "translator_type": "regular",
-                              "url": "https://t.co/8dReJ1Ason",
+                              "screen_name": "RodJamesPE",
+                              "statuses_count": 1465,
+                              "translator_type": "none",
+                              "url": "https://t.co/i8rhXyTH91",
                               "verified": false,
                               "want_retweets": false,
                               "withheld_in_countries": []
                             },
                             "professional": {
-                              "rest_id": "1498551292930957315",
+                              "rest_id": "1879262959379325263",
                               "professional_type": "Creator",
                               "category": [
                                 {
-                                  "id": 958,
-                                  "name": "Entrepreneur",
+                                  "id": 1067,
+                                  "name": "Researcher",
                                   "icon_name": "IconBriefcaseStroke"
                                 }
                               ]
                             },
-                            "tipjar_settings": {
-                              "is_enabled": true,
-                              "bitcoin_handle": "3EDTRfUqTbqzWh5fXcf3f4ZvkZz1KKSDnz",
-                              "ethereum_handle": "0xD63b59D3A54b325db78f697FD5a52384258f0E2D"
-                            }
-                          }
-                        },
-                        "userDisplayType": "User"
-                      },
-                      "clientEventInfo": {
-                        "component": "BlueVerifiedFollowersSgs",
-                        "element": "user"
-                      }
-                    }
-                  },
-                  {
-                    "entryId": "user-845839664976035841",
-                    "sortIndex": "1842759076463771647",
-                    "content": {
-                      "entryType": "TimelineTimelineItem",
-                      "__typename": "TimelineTimelineItem",
-                      "itemContent": {
-                        "itemType": "TimelineUser",
-                        "__typename": "TimelineUser",
-                        "user_results": {
-                          "result": {
-                            "__typename": "User",
-                            "id": "VXNlcjo4NDU4Mzk2NjQ5NzYwMzU4NDE=",
-                            "rest_id": "845839664976035841",
-                            "affiliates_highlighted_label": {},
-                            "has_graduated_access": true,
-                            "is_blue_verified": true,
-                            "profile_image_shape": "Circle",
-                            "legacy": {
-                              "following": false,
-                              "can_dm": false,
-                              "can_media_tag": false,
-                              "created_at": "Sun Mar 26 03:27:45 +0000 2017",
-                              "default_profile": false,
-                              "default_profile_image": false,
-                              "description": "Anyone else remember where I parked my car?",
-                              "entities": {
-                                "description": {
-                                  "urls": []
-                                }
-                              },
-                              "fast_followers_count": 0,
-                              "favourites_count": 195949,
-                              "followers_count": 1007,
-                              "friends_count": 727,
-                              "has_custom_timelines": true,
-                              "is_translator": false,
-                              "listed_count": 6,
-                              "location": "Ask",
-                              "media_count": 719,
-                              "name": "Batmantis",
-                              "normal_followers_count": 1007,
-                              "pinned_tweet_ids_str": [
-                                "1814159342523867220"
-                              ],
-                              "possibly_sensitive": false,
-                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/845839664976035841/1687242791",
-                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1842364142038249473/4zux41Gc_normal.jpg",
-                              "profile_interstitial_type": "",
-                              "screen_name": "BatMantisRises",
-                              "statuses_count": 27308,
-                              "translator_type": "none",
-                              "verified": false,
-                              "want_retweets": false,
-                              "withheld_in_countries": []
-                            },
-                            "professional": {
-                              "rest_id": "1606166958109777921",
-                              "professional_type": "Creator",
-                              "category": []
-                            },
-                            "tipjar_settings": {
-                              "is_enabled": false
-                            }
-                          }
-                        },
-                        "userDisplayType": "User"
-                      },
-                      "clientEventInfo": {
-                        "component": "BlueVerifiedFollowersSgs",
-                        "element": "user"
-                      }
-                    }
-                  },
-                  {
-                    "entryId": "user-4768362923",
-                    "sortIndex": "1842759076463771646",
-                    "content": {
-                      "entryType": "TimelineTimelineItem",
-                      "__typename": "TimelineTimelineItem",
-                      "itemContent": {
-                        "itemType": "TimelineUser",
-                        "__typename": "TimelineUser",
-                        "user_results": {
-                          "result": {
-                            "__typename": "User",
-                            "id": "VXNlcjo0NzY4MzYyOTIz",
-                            "rest_id": "4768362923",
-                            "affiliates_highlighted_label": {},
-                            "has_graduated_access": true,
-                            "is_blue_verified": true,
-                            "profile_image_shape": "Circle",
-                            "legacy": {
-                              "following": false,
-                              "can_dm": false,
-                              "can_media_tag": true,
-                              "created_at": "Sun Jan 10 22:29:55 +0000 2016",
-                              "default_profile": true,
-                              "default_profile_image": false,
-                              "description": "",
-                              "entities": {
-                                "description": {
-                                  "urls": []
-                                },
-                                "url": {
-                                  "urls": [
-                                    {
-                                      "display_url": "opensea.io/terryhyery",
-                                      "expanded_url": "https://opensea.io/terryhyery",
-                                      "url": "https://t.co/7wL5nNWNMb",
-                                      "indices": [
-                                        0,
-                                        23
-                                      ]
-                                    }
-                                  ]
-                                }
-                              },
-                              "fast_followers_count": 0,
-                              "favourites_count": 23,
-                              "followers_count": 28941,
-                              "friends_count": 13,
-                              "has_custom_timelines": false,
-                              "is_translator": false,
-                              "listed_count": 0,
-                              "location": "USA",
-                              "media_count": 4,
-                              "name": "WlLFl",
-                              "normal_followers_count": 28941,
-                              "pinned_tweet_ids_str": [],
-                              "possibly_sensitive": false,
-                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/4768362923/1717778933",
-                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1841089588653408257/QsTfJ2NC_normal.jpg",
-                              "profile_interstitial_type": "",
-                              "screen_name": "worIdIiberty_fi",
-                              "statuses_count": 46,
-                              "translator_type": "none",
-                              "url": "https://t.co/7wL5nNWNMb",
-                              "verified": false,
-                              "want_retweets": false,
-                              "withheld_in_countries": []
-                            },
                             "tipjar_settings": {}
                           }
                         },
@@ -270,8 +111,8 @@
                     }
                   },
                   {
-                    "entryId": "user-1354287406145531904",
-                    "sortIndex": "1842759076463771645",
+                    "entryId": "user-1270752248",
+                    "sortIndex": "1897829016367267839",
                     "content": {
                       "entryType": "TimelineTimelineItem",
                       "__typename": "TimelineTimelineItem",
@@ -281,143 +122,8 @@
                         "user_results": {
                           "result": {
                             "__typename": "User",
-                            "id": "VXNlcjoxMzU0Mjg3NDA2MTQ1NTMxOTA0",
-                            "rest_id": "1354287406145531904",
-                            "affiliates_highlighted_label": {},
-                            "has_graduated_access": true,
-                            "is_blue_verified": true,
-                            "profile_image_shape": "Circle",
-                            "legacy": {
-                              "following": false,
-                              "can_dm": false,
-                              "can_media_tag": true,
-                              "created_at": "Wed Jan 27 04:37:45 +0000 2021",
-                              "default_profile": true,
-                              "default_profile_image": false,
-                              "description": "Send it with ME\n\n$SCS | $degod",
-                              "entities": {
-                                "description": {
-                                  "urls": []
-                                }
-                              },
-                              "fast_followers_count": 0,
-                              "favourites_count": 5899,
-                              "followers_count": 1350,
-                              "friends_count": 2173,
-                              "has_custom_timelines": true,
-                              "is_translator": false,
-                              "listed_count": 4,
-                              "location": "",
-                              "media_count": 327,
-                              "name": "Haste",
-                              "normal_followers_count": 1350,
-                              "pinned_tweet_ids_str": [],
-                              "possibly_sensitive": false,
-                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/1354287406145531904/1644623152",
-                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1840951659058331660/KUeYiB68_normal.jpg",
-                              "profile_interstitial_type": "",
-                              "screen_name": "HasteDOTsol",
-                              "statuses_count": 2406,
-                              "translator_type": "none",
-                              "verified": false,
-                              "want_retweets": false,
-                              "withheld_in_countries": []
-                            },
-                            "professional": {
-                              "rest_id": "1493284381674328070",
-                              "professional_type": "Creator",
-                              "category": []
-                            },
-                            "tipjar_settings": {}
-                          }
-                        },
-                        "userDisplayType": "User"
-                      },
-                      "clientEventInfo": {
-                        "component": "BlueVerifiedFollowersSgs",
-                        "element": "user"
-                      }
-                    }
-                  },
-                  {
-                    "entryId": "user-1436328642011746310",
-                    "sortIndex": "1842759076463771644",
-                    "content": {
-                      "entryType": "TimelineTimelineItem",
-                      "__typename": "TimelineTimelineItem",
-                      "itemContent": {
-                        "itemType": "TimelineUser",
-                        "__typename": "TimelineUser",
-                        "user_results": {
-                          "result": {
-                            "__typename": "User",
-                            "id": "VXNlcjoxNDM2MzI4NjQyMDExNzQ2MzEw",
-                            "rest_id": "1436328642011746310",
-                            "affiliates_highlighted_label": {},
-                            "has_graduated_access": true,
-                            "is_blue_verified": true,
-                            "profile_image_shape": "Circle",
-                            "legacy": {
-                              "following": false,
-                              "can_dm": false,
-                              "can_media_tag": true,
-                              "created_at": "Fri Sep 10 14:00:20 +0000 2021",
-                              "default_profile": true,
-                              "default_profile_image": false,
-                              "description": "💯 𝑭𝒐𝒍𝒍𝒐𝒘 ❤️‍🔥\n💯 𝟏𝟖+ 𝐏𝐚𝐫𝐚𝐝𝐢𝐬𝐞 𝐈𝐬 𝐇𝐞𝐫𝐞,𝐋𝐞𝐭'𝐬 𝐑𝐞𝐥𝐚𝐱 𝐀𝐧𝐝 𝐄𝐧𝐣𝐨𝐲  💕 \n @thanh_huyen2000\n@chudaimeme\n@thuhoai_2000",
-                              "entities": {
-                                "description": {
-                                  "urls": []
-                                }
-                              },
-                              "fast_followers_count": 0,
-                              "favourites_count": 2053,
-                              "followers_count": 5209,
-                              "friends_count": 216,
-                              "has_custom_timelines": false,
-                              "is_translator": false,
-                              "listed_count": 5,
-                              "location": "",
-                              "media_count": 107,
-                              "name": "Miss_Hoai",
-                              "normal_followers_count": 5209,
-                              "pinned_tweet_ids_str": [],
-                              "possibly_sensitive": false,
-                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/1436328642011746310/1701402323",
-                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1730478608739872768/kLiOCdli_normal.jpg",
-                              "profile_interstitial_type": "",
-                              "screen_name": "thuhoai_2000",
-                              "statuses_count": 1569,
-                              "translator_type": "none",
-                              "verified": false,
-                              "want_retweets": false,
-                              "withheld_in_countries": []
-                            },
-                            "tipjar_settings": {}
-                          }
-                        },
-                        "userDisplayType": "User"
-                      },
-                      "clientEventInfo": {
-                        "component": "BlueVerifiedFollowersSgs",
-                        "element": "user"
-                      }
-                    }
-                  },
-                  {
-                    "entryId": "user-1834757385065246721",
-                    "sortIndex": "1842759076463771643",
-                    "content": {
-                      "entryType": "TimelineTimelineItem",
-                      "__typename": "TimelineTimelineItem",
-                      "itemContent": {
-                        "itemType": "TimelineUser",
-                        "__typename": "TimelineUser",
-                        "user_results": {
-                          "result": {
-                            "__typename": "User",
-                            "id": "VXNlcjoxODM0NzU3Mzg1MDY1MjQ2NzIx",
-                            "rest_id": "1834757385065246721",
+                            "id": "VXNlcjoxMjcwNzUyMjQ4",
+                            "rest_id": "1270752248",
                             "affiliates_highlighted_label": {},
                             "has_graduated_access": true,
                             "is_blue_verified": true,
@@ -426,20 +132,30 @@
                               "following": false,
                               "can_dm": true,
                               "can_media_tag": true,
-                              "created_at": "Sat Sep 14 00:53:59 +0000 2024",
-                              "default_profile": true,
+                              "created_at": "Fri Mar 15 21:28:40 +0000 2013",
+                              "default_profile": false,
                               "default_profile_image": false,
-                              "description": "Pure traits from No-Punks and a little sauce from based punks ✊🏻 Created by Mike ✊🏻 basedmints.base.eth",
+                              "description": "SE, FinTech; Financial Analyst. Making Bill payments fun. Everything Finance, investment & Automation. Updates NFA. Channel👉 https://t.co/POK5cHHj5q",
                               "entities": {
                                 "description": {
-                                  "urls": []
+                                  "urls": [
+                                    {
+                                      "display_url": "t.me/Phonyz1000x",
+                                      "expanded_url": "https://t.me/Phonyz1000x",
+                                      "url": "https://t.co/POK5cHHj5q",
+                                      "indices": [
+                                        125,
+                                        148
+                                      ]
+                                    }
+                                  ]
                                 },
                                 "url": {
                                   "urls": [
                                     {
-                                      "display_url": "nobased.com",
-                                      "expanded_url": "https://www.nobased.com",
-                                      "url": "https://t.co/QIqkvo3Eyh",
+                                      "display_url": "linktr.ee/philips.o",
+                                      "expanded_url": "https://linktr.ee/philips.o",
+                                      "url": "https://t.co/lCm6rFfFNK",
                                       "indices": [
                                         0,
                                         23
@@ -449,100 +165,33 @@
                                 }
                               },
                               "fast_followers_count": 0,
-                              "favourites_count": 2532,
-                              "followers_count": 1297,
-                              "friends_count": 130,
-                              "has_custom_timelines": false,
+                              "favourites_count": 18522,
+                              "followers_count": 2574,
+                              "friends_count": 577,
+                              "has_custom_timelines": true,
                               "is_translator": false,
-                              "listed_count": 3,
-                              "location": "Base",
-                              "media_count": 689,
-                              "name": "No-Based",
-                              "normal_followers_count": 1297,
+                              "listed_count": 20,
+                              "location": "NaN, Global !OFF Notis",
+                              "media_count": 2200,
+                              "name": "Photons of Philips🧊🇦🇺🇯🇵🇳🇿",
+                              "normal_followers_count": 2574,
                               "pinned_tweet_ids_str": [
-                                "1842749046944874788"
+                                "1614119868487303170"
                               ],
                               "possibly_sensitive": false,
-                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/1834757385065246721/1726944531",
-                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1834954321751953408/x0YXqRPa_normal.jpg",
+                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/1270752248/1674754666",
+                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1896506148771012608/bEFCtJmy_normal.jpg",
                               "profile_interstitial_type": "",
-                              "screen_name": "NoBaseism",
-                              "statuses_count": 2475,
+                              "screen_name": "JoinPhotonPhill",
+                              "statuses_count": 14780,
                               "translator_type": "none",
-                              "url": "https://t.co/QIqkvo3Eyh",
-                              "verified": false,
-                              "want_retweets": false,
-                              "withheld_in_countries": []
-                            },
-                            "tipjar_settings": {}
-                          }
-                        },
-                        "userDisplayType": "User"
-                      },
-                      "clientEventInfo": {
-                        "component": "BlueVerifiedFollowersSgs",
-                        "element": "user"
-                      }
-                    }
-                  },
-                  {
-                    "entryId": "user-1754647754171879424",
-                    "sortIndex": "1842759076463771642",
-                    "content": {
-                      "entryType": "TimelineTimelineItem",
-                      "__typename": "TimelineTimelineItem",
-                      "itemContent": {
-                        "itemType": "TimelineUser",
-                        "__typename": "TimelineUser",
-                        "user_results": {
-                          "result": {
-                            "__typename": "User",
-                            "id": "VXNlcjoxNzU0NjQ3NzU0MTcxODc5NDI0",
-                            "rest_id": "1754647754171879424",
-                            "affiliates_highlighted_label": {},
-                            "has_graduated_access": true,
-                            "is_blue_verified": true,
-                            "profile_image_shape": "Circle",
-                            "legacy": {
-                              "following": false,
-                              "can_dm": false,
-                              "can_media_tag": true,
-                              "created_at": "Mon Feb 05 23:27:34 +0000 2024",
-                              "default_profile": true,
-                              "default_profile_image": false,
-                              "description": "A New Matrix Awakens ✨| Connecting All The Dots 🚀 | Wisdom From Beyond🪐 | #MAGA🇺🇸 | Guiding Humanity & Expanding The Scope Of Knowledge 💫|",
-                              "entities": {
-                                "description": {
-                                  "urls": []
-                                }
-                              },
-                              "fast_followers_count": 0,
-                              "favourites_count": 1007,
-                              "followers_count": 4617,
-                              "friends_count": 7497,
-                              "has_custom_timelines": false,
-                              "is_translator": false,
-                              "listed_count": 1,
-                              "location": "Deep South Massachusetts, USA",
-                              "media_count": 561,
-                              "name": "👁️MATRIX🇺🇸",
-                              "normal_followers_count": 4617,
-                              "pinned_tweet_ids_str": [
-                                "1842073916270915602"
-                              ],
-                              "possibly_sensitive": false,
-                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/1754647754171879424/1727799803",
-                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1782490510650646528/DIZL0sL9_normal.jpg",
-                              "profile_interstitial_type": "",
-                              "screen_name": "MATRIXNEWSX",
-                              "statuses_count": 6069,
-                              "translator_type": "none",
+                              "url": "https://t.co/lCm6rFfFNK",
                               "verified": false,
                               "want_retweets": false,
                               "withheld_in_countries": []
                             },
                             "professional": {
-                              "rest_id": "1782515815876645005",
+                              "rest_id": "1467554770739023872",
                               "professional_type": "Creator",
                               "category": [
                                 {
@@ -554,10 +203,8 @@
                             },
                             "tipjar_settings": {
                               "is_enabled": true,
-                              "bitcoin_handle": "bc1qmu89x9r07pt8qldlpmgygnmv4kmxhf9d5etkyx",
-                              "cash_app_handle": "juicewrlddid",
-                              "ethereum_handle": "0x741B31F9f6A91a3B12F8e89D0D22c1e76B041e1F",
-                              "venmo_handle": "illuminateme369"
+                              "bitcoin_handle": "18Hv9ZaCeW7A9LsXAGk4h8ygfPYxzQ8jbE",
+                              "ethereum_handle": "0x30ecc7fdb5a1f59d8990fdbefbda986d100cb7cd"
                             }
                           }
                         },
@@ -570,8 +217,8 @@
                     }
                   },
                   {
-                    "entryId": "user-1001041302",
-                    "sortIndex": "1842759076463771641",
+                    "entryId": "user-1712950172873809920",
+                    "sortIndex": "1897829016367267838",
                     "content": {
                       "entryType": "TimelineTimelineItem",
                       "__typename": "TimelineTimelineItem",
@@ -581,20 +228,20 @@
                         "user_results": {
                           "result": {
                             "__typename": "User",
-                            "id": "VXNlcjoxMDAxMDQxMzAy",
-                            "rest_id": "1001041302",
+                            "id": "VXNlcjoxNzEyOTUwMTcyODczODA5OTIw",
+                            "rest_id": "1712950172873809920",
                             "affiliates_highlighted_label": {},
                             "has_graduated_access": true,
                             "is_blue_verified": true,
                             "profile_image_shape": "Circle",
                             "legacy": {
                               "following": false,
-                              "can_dm": false,
-                              "can_media_tag": true,
-                              "created_at": "Mon Dec 10 06:17:50 +0000 2012",
+                              "can_dm": true,
+                              "can_media_tag": false,
+                              "created_at": "Fri Oct 13 21:55:47 +0000 2023",
                               "default_profile": true,
                               "default_profile_image": false,
-                              "description": "🇺🇸🇺🇸 I am a Canadian living in the United States, I love my job and my life. International trade export career.",
+                              "description": "OSS Crypto Contributor",
                               "entities": {
                                 "description": {
                                   "urls": []
@@ -602,9 +249,9 @@
                                 "url": {
                                   "urls": [
                                     {
-                                      "display_url": "morningbridge.com",
-                                      "expanded_url": "http://www.morningbridge.com",
-                                      "url": "https://t.co/9FgkwcRekQ",
+                                      "display_url": "github.com/0xmatt11",
+                                      "expanded_url": "http://github.com/0xmatt11",
+                                      "url": "https://t.co/7D6yZA0enu",
                                       "indices": [
                                         0,
                                         23
@@ -614,296 +261,35 @@
                                 }
                               },
                               "fast_followers_count": 0,
-                              "favourites_count": 217,
-                              "followers_count": 249,
-                              "friends_count": 125,
+                              "favourites_count": 19359,
+                              "followers_count": 1448,
+                              "friends_count": 3178,
                               "has_custom_timelines": false,
                               "is_translator": false,
-                              "listed_count": 0,
-                              "location": "Los Angeles, California",
-                              "media_count": 2,
-                              "name": "Lesica",
-                              "normal_followers_count": 249,
+                              "listed_count": 7,
+                              "location": "📐 NC",
+                              "media_count": 501,
+                              "name": "Matt",
+                              "normal_followers_count": 1448,
                               "pinned_tweet_ids_str": [
-                                "1842033420307923061"
+                                "1744369864091779078"
                               ],
                               "possibly_sensitive": false,
-                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/1001041302/1727713208",
-                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1840788721601581057/gL3qWKNv_normal.jpg",
+                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/1712950172873809920/1725329073",
+                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1871384314572677121/4PwahgXk_normal.jpg",
                               "profile_interstitial_type": "",
-                              "screen_name": "jerkey5150",
-                              "statuses_count": 201,
+                              "screen_name": "0xMatt6669420",
+                              "statuses_count": 10156,
                               "translator_type": "none",
-                              "url": "https://t.co/9FgkwcRekQ",
-                              "verified": false,
-                              "want_retweets": false,
-                              "withheld_in_countries": []
-                            },
-                            "tipjar_settings": {}
-                          }
-                        },
-                        "userDisplayType": "User"
-                      },
-                      "clientEventInfo": {
-                        "component": "BlueVerifiedFollowersSgs",
-                        "element": "user"
-                      }
-                    }
-                  },
-                  {
-                    "entryId": "user-1537194312",
-                    "sortIndex": "1842759076463771640",
-                    "content": {
-                      "entryType": "TimelineTimelineItem",
-                      "__typename": "TimelineTimelineItem",
-                      "itemContent": {
-                        "itemType": "TimelineUser",
-                        "__typename": "TimelineUser",
-                        "user_results": {
-                          "result": {
-                            "__typename": "User",
-                            "id": "VXNlcjoxNTM3MTk0MzEy",
-                            "rest_id": "1537194312",
-                            "affiliates_highlighted_label": {},
-                            "has_graduated_access": true,
-                            "is_blue_verified": true,
-                            "profile_image_shape": "Circle",
-                            "legacy": {
-                              "following": false,
-                              "can_dm": true,
-                              "can_media_tag": false,
-                              "created_at": "Fri Jun 21 19:49:04 +0000 2013",
-                              "default_profile": false,
-                              "default_profile_image": false,
-                              "description": "ADALET!! “K.A..!!”",
-                              "entities": {
-                                "description": {
-                                  "urls": []
-                                }
-                              },
-                              "fast_followers_count": 0,
-                              "favourites_count": 330831,
-                              "followers_count": 2214,
-                              "friends_count": 2622,
-                              "has_custom_timelines": true,
-                              "is_translator": false,
-                              "listed_count": 1,
-                              "location": "Dünya-World",
-                              "media_count": 4397,
-                              "name": "Çınar Özyılmaz ✌️",
-                              "normal_followers_count": 2214,
-                              "pinned_tweet_ids_str": [
-                                "1676260684403814400"
-                              ],
-                              "possibly_sensitive": true,
-                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/1537194312/1716592267",
-                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1817316242681638912/MKOOUGyV_normal.jpg",
-                              "profile_interstitial_type": "",
-                              "screen_name": "CinarOzyilmaz",
-                              "statuses_count": 126199,
-                              "translator_type": "regular",
-                              "verified": false,
-                              "want_retweets": false,
-                              "withheld_in_countries": []
-                            },
-                            "professional": {
-                              "rest_id": "1566801085544775683",
-                              "professional_type": "Business",
-                              "category": [
-                                {
-                                  "id": 966,
-                                  "name": "Public Garden",
-                                  "icon_name": "IconBriefcaseStroke"
-                                }
-                              ]
-                            },
-                            "tipjar_settings": {}
-                          }
-                        },
-                        "userDisplayType": "User"
-                      },
-                      "clientEventInfo": {
-                        "component": "BlueVerifiedFollowersSgs",
-                        "element": "user"
-                      }
-                    }
-                  },
-                  {
-                    "entryId": "user-1529566871359569921",
-                    "sortIndex": "1842759076463771639",
-                    "content": {
-                      "entryType": "TimelineTimelineItem",
-                      "__typename": "TimelineTimelineItem",
-                      "itemContent": {
-                        "itemType": "TimelineUser",
-                        "__typename": "TimelineUser",
-                        "user_results": {
-                          "result": {
-                            "__typename": "User",
-                            "id": "VXNlcjoxNTI5NTY2ODcxMzU5NTY5OTIx",
-                            "rest_id": "1529566871359569921",
-                            "affiliates_highlighted_label": {},
-                            "has_graduated_access": true,
-                            "is_blue_verified": true,
-                            "profile_image_shape": "Circle",
-                            "legacy": {
-                              "following": false,
-                              "can_dm": true,
-                              "can_media_tag": true,
-                              "created_at": "Wed May 25 20:56:08 +0000 2022",
-                              "default_profile": true,
-                              "default_profile_image": false,
-                              "description": "Turning stacks into crypto stacks 📱💸 50% AI / 50% Human",
-                              "entities": {
-                                "description": {
-                                  "urls": []
-                                },
-                                "url": {
-                                  "urls": [
-                                    {
-                                      "display_url": "app.odinbot.io/join?code=bnqd…",
-                                      "expanded_url": "https://app.odinbot.io/join?code=bnqdlt",
-                                      "url": "https://t.co/IXQyDjY7tv",
-                                      "indices": [
-                                        0,
-                                        23
-                                      ]
-                                    }
-                                  ]
-                                }
-                              },
-                              "fast_followers_count": 0,
-                              "favourites_count": 23,
-                              "followers_count": 249,
-                              "friends_count": 512,
-                              "has_custom_timelines": true,
-                              "is_translator": false,
-                              "listed_count": 0,
-                              "location": "web3",
-                              "media_count": 10,
-                              "name": "J0hnRage.sol",
-                              "normal_followers_count": 249,
-                              "pinned_tweet_ids_str": [
-                                "1840143010203611453"
-                              ],
-                              "possibly_sensitive": false,
-                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/1529566871359569921/1704121194",
-                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1741836595634823168/iJnO2jmb_normal.jpg",
-                              "profile_interstitial_type": "",
-                              "screen_name": "JohnRage6120",
-                              "statuses_count": 68,
-                              "translator_type": "none",
-                              "url": "https://t.co/IXQyDjY7tv",
-                              "verified": false,
-                              "want_retweets": false,
-                              "withheld_in_countries": []
-                            },
-                            "professional": {
-                              "rest_id": "1529600352886173696",
-                              "professional_type": "Creator",
-                              "category": [
-                                {
-                                  "id": 477,
-                                  "name": "Professional Services",
-                                  "icon_name": "IconBriefcaseStroke"
-                                }
-                              ]
-                            },
-                            "tipjar_settings": {}
-                          }
-                        },
-                        "userDisplayType": "User"
-                      },
-                      "clientEventInfo": {
-                        "component": "BlueVerifiedFollowersSgs",
-                        "element": "user"
-                      }
-                    }
-                  },
-                  {
-                    "entryId": "user-1448931861493731328",
-                    "sortIndex": "1842759076463771638",
-                    "content": {
-                      "entryType": "TimelineTimelineItem",
-                      "__typename": "TimelineTimelineItem",
-                      "itemContent": {
-                        "itemType": "TimelineUser",
-                        "__typename": "TimelineUser",
-                        "user_results": {
-                          "result": {
-                            "__typename": "User",
-                            "id": "VXNlcjoxNDQ4OTMxODYxNDkzNzMxMzI4",
-                            "rest_id": "1448931861493731328",
-                            "affiliates_highlighted_label": {},
-                            "has_graduated_access": true,
-                            "is_blue_verified": true,
-                            "profile_image_shape": "Circle",
-                            "legacy": {
-                              "following": false,
-                              "can_dm": true,
-                              "can_media_tag": false,
-                              "created_at": "Fri Oct 15 08:41:01 +0000 2021",
-                              "default_profile": true,
-                              "default_profile_image": false,
-                              "description": "Founder https://t.co/4DEfVmYFNH | Taiwanese BoltzMilady Niche Internet Micro-celebrity bolonizing Japan | SciFi ARG Timestamp server LARP | @soboltoshi or @chineseremilio",
-                              "entities": {
-                                "description": {
-                                  "urls": [
-                                    {
-                                      "display_url": "GenDelve.com",
-                                      "expanded_url": "http://GenDelve.com",
-                                      "url": "https://t.co/4DEfVmYFNH",
-                                      "indices": [
-                                        8,
-                                        31
-                                      ]
-                                    }
-                                  ]
-                                },
-                                "url": {
-                                  "urls": [
-                                    {
-                                      "display_url": "gendelve.com",
-                                      "expanded_url": "https://gendelve.com/",
-                                      "url": "https://t.co/Yq5gkRcxLS",
-                                      "indices": [
-                                        0,
-                                        23
-                                      ]
-                                    }
-                                  ]
-                                }
-                              },
-                              "fast_followers_count": 0,
-                              "favourites_count": 9863,
-                              "followers_count": 965,
-                              "friends_count": 4256,
-                              "has_custom_timelines": true,
-                              "is_translator": false,
-                              "listed_count": 2,
-                              "location": "Milky Way St. Toronto",
-                              "media_count": 5879,
-                              "name": "UwU MOG 🫷🏾😏🫸🏾 Bol Delve 🦄🫵",
-                              "normal_followers_count": 965,
-                              "pinned_tweet_ids_str": [
-                                "1841311856658432465"
-                              ],
-                              "possibly_sensitive": true,
-                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/1448931861493731328/1727839318",
-                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1842037445552148480/3_UHxZXz_normal.jpg",
-                              "profile_interstitial_type": "",
-                              "screen_name": "UwUMogBol",
-                              "statuses_count": 10276,
-                              "translator_type": "none",
-                              "url": "https://t.co/Yq5gkRcxLS",
+                              "url": "https://t.co/7D6yZA0enu",
                               "verified": false,
                               "want_retweets": false,
                               "withheld_in_countries": []
                             },
                             "tipjar_settings": {
-                              "is_enabled": true,
-                              "bitcoin_handle": "32S3khXyUwLH6BTweghtr9K63kwxYCjRti",
-                              "ethereum_handle": "0xabf379283374dcb4af8585212f4afc9215bc2699"
+                              "is_enabled": false,
+                              "bitcoin_handle": "",
+                              "ethereum_handle": ""
                             }
                           }
                         },
@@ -916,8 +302,8 @@
                     }
                   },
                   {
-                    "entryId": "user-1055562098405560320",
-                    "sortIndex": "1842759076463771637",
+                    "entryId": "user-1649571578",
+                    "sortIndex": "1897829016367267837",
                     "content": {
                       "entryType": "TimelineTimelineItem",
                       "__typename": "TimelineTimelineItem",
@@ -927,8 +313,8 @@
                         "user_results": {
                           "result": {
                             "__typename": "User",
-                            "id": "VXNlcjoxMDU1NTYyMDk4NDA1NTYwMzIw",
-                            "rest_id": "1055562098405560320",
+                            "id": "VXNlcjoxNjQ5NTcxNTc4",
+                            "rest_id": "1649571578",
                             "affiliates_highlighted_label": {},
                             "has_graduated_access": true,
                             "is_blue_verified": true,
@@ -937,32 +323,33 @@
                               "following": false,
                               "can_dm": false,
                               "can_media_tag": true,
-                              "created_at": "Thu Oct 25 20:49:50 +0000 2018",
+                              "created_at": "Tue Aug 06 05:40:16 +0000 2013",
                               "default_profile": true,
-                              "default_profile_image": true,
-                              "description": "US Marine Corp vet and Donald Trump fan. I live in New Mexico and am happily married for 50 years . I dont do DMs. or reply to any . I am 84 yrs old.",
+                              "default_profile_image": false,
+                              "description": "cryptounicorn",
                               "entities": {
                                 "description": {
                                   "urls": []
                                 }
                               },
                               "fast_followers_count": 0,
-                              "favourites_count": 16897,
-                              "followers_count": 3523,
-                              "friends_count": 7501,
-                              "has_custom_timelines": true,
+                              "favourites_count": 8,
+                              "followers_count": 5,
+                              "friends_count": 7,
+                              "has_custom_timelines": false,
                               "is_translator": false,
-                              "listed_count": 2,
-                              "location": "New Mexico",
-                              "media_count": 1,
-                              "name": "Steve Lind",
-                              "normal_followers_count": 3523,
+                              "listed_count": 0,
+                              "location": " Lewistown, PA ",
+                              "media_count": 0,
+                              "name": "OVERBORNE",
+                              "normal_followers_count": 5,
                               "pinned_tweet_ids_str": [],
                               "possibly_sensitive": false,
-                              "profile_image_url_https": "https://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png",
+                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/1649571578/1740483268",
+                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1894350176854138881/qxCiu08n_normal.jpg",
                               "profile_interstitial_type": "",
-                              "screen_name": "SteveLind17",
-                              "statuses_count": 16549,
+                              "screen_name": "CamachoDarien",
+                              "statuses_count": 8,
                               "translator_type": "none",
                               "verified": false,
                               "want_retweets": false,
@@ -980,8 +367,8 @@
                     }
                   },
                   {
-                    "entryId": "user-92376289",
-                    "sortIndex": "1842759076463771636",
+                    "entryId": "user-2899311553",
+                    "sortIndex": "1897829016367267836",
                     "content": {
                       "entryType": "TimelineTimelineItem",
                       "__typename": "TimelineTimelineItem",
@@ -991,8 +378,8 @@
                         "user_results": {
                           "result": {
                             "__typename": "User",
-                            "id": "VXNlcjo5MjM3NjI4OQ==",
-                            "rest_id": "92376289",
+                            "id": "VXNlcjoyODk5MzExNTUz",
+                            "rest_id": "2899311553",
                             "affiliates_highlighted_label": {},
                             "has_graduated_access": true,
                             "is_blue_verified": true,
@@ -1000,9 +387,9 @@
                             "legacy": {
                               "following": false,
                               "can_dm": false,
-                              "can_media_tag": false,
-                              "created_at": "Tue Nov 24 21:58:07 +0000 2009",
-                              "default_profile": false,
+                              "can_media_tag": true,
+                              "created_at": "Fri Nov 14 10:55:03 +0000 2014",
+                              "default_profile": true,
                               "default_profile_image": false,
                               "description": "",
                               "entities": {
@@ -1011,37 +398,36 @@
                                 }
                               },
                               "fast_followers_count": 0,
-                              "favourites_count": 27739,
-                              "followers_count": 850,
-                              "friends_count": 5407,
-                              "has_custom_timelines": true,
+                              "favourites_count": 2,
+                              "followers_count": 1088,
+                              "friends_count": 55,
+                              "has_custom_timelines": false,
                               "is_translator": false,
-                              "listed_count": 4,
-                              "location": "London, England",
-                              "media_count": 2710,
-                              "name": "Effo Mêrro Erotîk",
-                              "normal_followers_count": 850,
+                              "listed_count": 0,
+                              "location": "United States",
+                              "media_count": 4,
+                              "name": "Eliana",
+                              "normal_followers_count": 1088,
                               "pinned_tweet_ids_str": [
-                                "1798220571999891833"
+                                "1896028739743728041"
                               ],
                               "possibly_sensitive": false,
-                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/92376289/1719407646",
-                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1841604179795615744/Sto6yrg-_normal.jpg",
+                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1896622968932847616/QUQLI4Ni_normal.jpg",
                               "profile_interstitial_type": "",
-                              "screen_name": "asena199103",
-                              "statuses_count": 43245,
+                              "screen_name": "Eliana10_84",
+                              "statuses_count": 28,
                               "translator_type": "none",
                               "verified": false,
                               "want_retweets": false,
                               "withheld_in_countries": []
                             },
                             "professional": {
-                              "rest_id": "1629594464506335232",
-                              "professional_type": "Creator",
+                              "rest_id": "1890897563903291417",
+                              "professional_type": "Business",
                               "category": [
                                 {
-                                  "id": 1065,
-                                  "name": "Academic",
+                                  "id": 920,
+                                  "name": "Other",
                                   "icon_name": "IconBriefcaseStroke"
                                 }
                               ]
@@ -1058,8 +444,8 @@
                     }
                   },
                   {
-                    "entryId": "user-1350210270329769985",
-                    "sortIndex": "1842759076463771635",
+                    "entryId": "user-1638335264333393920",
+                    "sortIndex": "1897829016367267835",
                     "content": {
                       "entryType": "TimelineTimelineItem",
                       "__typename": "TimelineTimelineItem",
@@ -1069,60 +455,44 @@
                         "user_results": {
                           "result": {
                             "__typename": "User",
-                            "id": "VXNlcjoxMzUwMjEwMjcwMzI5NzY5OTg1",
-                            "rest_id": "1350210270329769985",
+                            "id": "VXNlcjoxNjM4MzM1MjY0MzMzMzkzOTIw",
+                            "rest_id": "1638335264333393920",
                             "affiliates_highlighted_label": {},
                             "has_graduated_access": true,
                             "is_blue_verified": true,
                             "profile_image_shape": "Circle",
                             "legacy": {
                               "following": false,
-                              "can_dm": true,
+                              "can_dm": false,
                               "can_media_tag": true,
-                              "created_at": "Fri Jan 15 22:36:40 +0000 2021",
+                              "created_at": "Wed Mar 22 00:23:15 +0000 2023",
                               "default_profile": true,
                               "default_profile_image": false,
-                              "description": "POB (Proof Of Buidl) maxi @dorahacks @dorafactory, shill me your best trance/melodic dubstep track",
+                              "description": "Software developer, nerd, geek and baseball and college football fan, proudly not gay.",
                               "entities": {
                                 "description": {
                                   "urls": []
-                                },
-                                "url": {
-                                  "urls": [
-                                    {
-                                      "display_url": "dorahacks.io",
-                                      "expanded_url": "http://dorahacks.io",
-                                      "url": "https://t.co/IXGiFZwlA8",
-                                      "indices": [
-                                        0,
-                                        23
-                                      ]
-                                    }
-                                  ]
                                 }
                               },
                               "fast_followers_count": 0,
-                              "favourites_count": 14500,
-                              "followers_count": 1047,
-                              "friends_count": 3041,
-                              "has_custom_timelines": true,
+                              "favourites_count": 374,
+                              "followers_count": 125,
+                              "friends_count": 138,
+                              "has_custom_timelines": false,
                               "is_translator": false,
-                              "listed_count": 12,
-                              "location": "NYC",
-                              "media_count": 36,
-                              "name": "bad_dora",
-                              "normal_followers_count": 1047,
-                              "pinned_tweet_ids_str": [
-                                "1830465373637947489"
-                              ],
-                              "possibly_sensitive": true,
-                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/1350210270329769985/1712728382",
-                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1709453355935055872/fEgBQ2-Z_normal.jpg",
+                              "listed_count": 0,
+                              "location": "South Carolina, USA",
+                              "media_count": 8,
+                              "name": "Damon DeCoste",
+                              "normal_followers_count": 125,
+                              "pinned_tweet_ids_str": [],
+                              "possibly_sensitive": false,
+                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/1638335264333393920/1679444768",
+                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1638336105144635394/31Jhm37-_normal.jpg",
                               "profile_interstitial_type": "",
-                              "screen_name": "4lili_lili4",
-                              "statuses_count": 4397,
+                              "screen_name": "DamonDecoste",
+                              "statuses_count": 227,
                               "translator_type": "none",
-                              "url": "https://t.co/IXGiFZwlA8",
                               "verified": false,
                               "want_retweets": false,
                               "withheld_in_countries": []
@@ -1139,8 +509,8 @@
                     }
                   },
                   {
-                    "entryId": "user-1507057102967099393",
-                    "sortIndex": "1842759076463771634",
+                    "entryId": "user-2368878901",
+                    "sortIndex": "1897829016367267834",
                     "content": {
                       "entryType": "TimelineTimelineItem",
                       "__typename": "TimelineTimelineItem",
@@ -1150,8 +520,8 @@
                         "user_results": {
                           "result": {
                             "__typename": "User",
-                            "id": "VXNlcjoxNTA3MDU3MTAyOTY3MDk5Mzkz",
-                            "rest_id": "1507057102967099393",
+                            "id": "VXNlcjoyMzY4ODc4OTAx",
+                            "rest_id": "2368878901",
                             "affiliates_highlighted_label": {},
                             "has_graduated_access": true,
                             "is_blue_verified": true,
@@ -1159,11 +529,11 @@
                             "legacy": {
                               "following": false,
                               "can_dm": true,
-                              "can_media_tag": true,
-                              "created_at": "Thu Mar 24 18:10:06 +0000 2022",
+                              "can_media_tag": false,
+                              "created_at": "Sun Mar 02 13:21:16 +0000 2014",
                               "default_profile": true,
                               "default_profile_image": false,
-                              "description": "Information Technology Consultant at Phenicie Business Management",
+                              "description": "Living in USA Free Women, aspiring to a better life.\nTraveling is my great passion, love beaches and waves all over the world!✈️🌊👙",
                               "entities": {
                                 "description": {
                                   "urls": []
@@ -1171,9 +541,9 @@
                                 "url": {
                                   "urls": [
                                     {
-                                      "display_url": "phenicie.com",
-                                      "expanded_url": "http://phenicie.com",
-                                      "url": "https://t.co/bSiLmi6ShL",
+                                      "display_url": "aliceandolivia.com",
+                                      "expanded_url": "http://www.aliceandolivia.com",
+                                      "url": "https://t.co/VLJttx9Y1T",
                                       "indices": [
                                         0,
                                         23
@@ -1183,44 +553,258 @@
                                 }
                               },
                               "fast_followers_count": 0,
-                              "favourites_count": 460,
-                              "followers_count": 2487,
-                              "friends_count": 5587,
+                              "favourites_count": 8206,
+                              "followers_count": 252,
+                              "friends_count": 7,
                               "has_custom_timelines": false,
                               "is_translator": false,
                               "listed_count": 1,
-                              "location": "United States",
-                              "media_count": 300,
-                              "name": "Brady Phenicie 🇺🇸",
-                              "normal_followers_count": 2487,
+                              "location": "Houston, Texas",
+                              "media_count": 42,
+                              "name": "Seraphina.Jankauskas",
+                              "normal_followers_count": 252,
                               "pinned_tweet_ids_str": [
-                                "1829527247461515371"
+                                "1897812332681871671"
                               ],
                               "possibly_sensitive": false,
-                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/1507057102967099393/1708213258",
-                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1615768822467956737/Baa5xNOI_normal.jpg",
+                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/2368878901/1740946958",
+                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1896295093990248448/pT7KqIzP_normal.jpg",
                               "profile_interstitial_type": "",
-                              "screen_name": "PhenicieBrady",
-                              "statuses_count": 496,
+                              "screen_name": "M_otoymknd",
+                              "statuses_count": 936,
                               "translator_type": "none",
-                              "url": "https://t.co/bSiLmi6ShL",
+                              "url": "https://t.co/VLJttx9Y1T",
+                              "verified": false,
+                              "want_retweets": false,
+                              "withheld_in_countries": []
+                            },
+                            "tipjar_settings": {}
+                          }
+                        },
+                        "userDisplayType": "User"
+                      },
+                      "clientEventInfo": {
+                        "component": "BlueVerifiedFollowersSgs",
+                        "element": "user"
+                      }
+                    }
+                  },
+                  {
+                    "entryId": "user-1277524574335205376",
+                    "sortIndex": "1897829016367267833",
+                    "content": {
+                      "entryType": "TimelineTimelineItem",
+                      "__typename": "TimelineTimelineItem",
+                      "itemContent": {
+                        "itemType": "TimelineUser",
+                        "__typename": "TimelineUser",
+                        "user_results": {
+                          "result": {
+                            "__typename": "User",
+                            "id": "VXNlcjoxMjc3NTI0NTc0MzM1MjA1Mzc2",
+                            "rest_id": "1277524574335205376",
+                            "affiliates_highlighted_label": {},
+                            "has_graduated_access": true,
+                            "is_blue_verified": true,
+                            "profile_image_shape": "Circle",
+                            "legacy": {
+                              "following": false,
+                              "can_dm": false,
+                              "can_media_tag": true,
+                              "created_at": "Mon Jun 29 08:49:40 +0000 2020",
+                              "default_profile": true,
+                              "default_profile_image": false,
+                              "description": "Fitness/Reading/Free Investor\nEvery effort you make is a step closer to your dream. Don’t be afraid of falling.",
+                              "entities": {
+                                "description": {
+                                  "urls": []
+                                }
+                              },
+                              "fast_followers_count": 0,
+                              "favourites_count": 168,
+                              "followers_count": 59,
+                              "friends_count": 273,
+                              "has_custom_timelines": false,
+                              "is_translator": false,
+                              "listed_count": 0,
+                              "location": "Earth",
+                              "media_count": 14,
+                              "name": "Lily",
+                              "normal_followers_count": 59,
+                              "pinned_tweet_ids_str": [],
+                              "possibly_sensitive": false,
+                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/1277524574335205376/1739633389",
+                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1890785585863983104/gS0ASjp0_normal.jpg",
+                              "profile_interstitial_type": "",
+                              "screen_name": "Lily_Stewart1",
+                              "statuses_count": 102,
+                              "translator_type": "none",
+                              "verified": false,
+                              "want_retweets": false,
+                              "withheld_in_countries": []
+                            },
+                            "tipjar_settings": {}
+                          }
+                        },
+                        "userDisplayType": "User"
+                      },
+                      "clientEventInfo": {
+                        "component": "BlueVerifiedFollowersSgs",
+                        "element": "user"
+                      }
+                    }
+                  },
+                  {
+                    "entryId": "user-418213955",
+                    "sortIndex": "1897829016367267832",
+                    "content": {
+                      "entryType": "TimelineTimelineItem",
+                      "__typename": "TimelineTimelineItem",
+                      "itemContent": {
+                        "itemType": "TimelineUser",
+                        "__typename": "TimelineUser",
+                        "user_results": {
+                          "result": {
+                            "__typename": "User",
+                            "id": "VXNlcjo0MTgyMTM5NTU=",
+                            "rest_id": "418213955",
+                            "affiliates_highlighted_label": {},
+                            "has_graduated_access": true,
+                            "is_blue_verified": true,
+                            "profile_image_shape": "Circle",
+                            "legacy": {
+                              "following": false,
+                              "can_dm": false,
+                              "can_media_tag": false,
+                              "created_at": "Mon Nov 21 22:11:47 +0000 2011",
+                              "default_profile": false,
+                              "default_profile_image": false,
+                              "description": "Science Writer, Naturalist, Philosophizer, Opinionator, Cat Feeder, Comedian\nμολὼν λαβέ\nAmerican Patriot Seeker & Speaker of Truth",
+                              "entities": {
+                                "description": {
+                                  "urls": []
+                                }
+                              },
+                              "fast_followers_count": 0,
+                              "favourites_count": 13712,
+                              "followers_count": 1298,
+                              "friends_count": 2407,
+                              "has_custom_timelines": true,
+                              "is_translator": false,
+                              "listed_count": 10,
+                              "location": "Terra Firma",
+                              "media_count": 1804,
+                              "name": "Nick McGinley",
+                              "normal_followers_count": 1298,
+                              "pinned_tweet_ids_str": [
+                                "1141618716121161728"
+                              ],
+                              "possibly_sensitive": false,
+                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/418213955/1671369158",
+                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1438693271614677009/vs97vJk__normal.jpg",
+                              "profile_interstitial_type": "",
+                              "screen_name": "NickMcGinley1",
+                              "statuses_count": 20746,
+                              "translator_type": "none",
+                              "verified": false,
+                              "want_retweets": false,
+                              "withheld_in_countries": []
+                            },
+                            "tipjar_settings": {}
+                          }
+                        },
+                        "userDisplayType": "User"
+                      },
+                      "clientEventInfo": {
+                        "component": "BlueVerifiedFollowersSgs",
+                        "element": "user"
+                      }
+                    }
+                  },
+                  {
+                    "entryId": "user-17934850",
+                    "sortIndex": "1897829016367267831",
+                    "content": {
+                      "entryType": "TimelineTimelineItem",
+                      "__typename": "TimelineTimelineItem",
+                      "itemContent": {
+                        "itemType": "TimelineUser",
+                        "__typename": "TimelineUser",
+                        "user_results": {
+                          "result": {
+                            "__typename": "User",
+                            "id": "VXNlcjoxNzkzNDg1MA==",
+                            "rest_id": "17934850",
+                            "affiliates_highlighted_label": {},
+                            "has_graduated_access": true,
+                            "is_blue_verified": true,
+                            "profile_image_shape": "Circle",
+                            "legacy": {
+                              "following": false,
+                              "can_dm": true,
+                              "can_media_tag": false,
+                              "created_at": "Sun Dec 07 03:15:55 +0000 2008",
+                              "default_profile": false,
+                              "default_profile_image": false,
+                              "description": "🇬🇧 🇺🇸 Follow me for content on : Tech, AI, Politics, Family, Current Affairs and belly aching laughter 😁 • Dad • Husband •",
+                              "entities": {
+                                "description": {
+                                  "urls": []
+                                },
+                                "url": {
+                                  "urls": [
+                                    {
+                                      "display_url": "MyGrok.app",
+                                      "expanded_url": "https://MyGrok.app",
+                                      "url": "https://t.co/1ZJNd2rAOd",
+                                      "indices": [
+                                        0,
+                                        23
+                                      ]
+                                    }
+                                  ]
+                                }
+                              },
+                              "fast_followers_count": 0,
+                              "favourites_count": 7649,
+                              "followers_count": 2628,
+                              "friends_count": 1847,
+                              "has_custom_timelines": true,
+                              "is_translator": false,
+                              "listed_count": 20,
+                              "location": "United Earth",
+                              "media_count": 4487,
+                              "name": "Nicky 🇬🇧",
+                              "normal_followers_count": 2628,
+                              "pinned_tweet_ids_str": [
+                                "1895899711225413670"
+                              ],
+                              "possibly_sensitive": false,
+                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/17934850/1740499351",
+                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1895664093333221376/LCJInvNt_normal.jpg",
+                              "profile_interstitial_type": "",
+                              "screen_name": "NickyThomas",
+                              "statuses_count": 18157,
+                              "translator_type": "none",
+                              "url": "https://t.co/1ZJNd2rAOd",
                               "verified": false,
                               "want_retweets": false,
                               "withheld_in_countries": []
                             },
                             "professional": {
-                              "rest_id": "1648370189803884545",
-                              "professional_type": "Business",
+                              "rest_id": "1590462816946888712",
+                              "professional_type": "Creator",
                               "category": [
                                 {
-                                  "id": 718,
-                                  "name": "Information Technology Company",
+                                  "id": 1042,
+                                  "name": "Content Creator",
                                   "icon_name": "IconBriefcaseStroke"
                                 }
                               ]
                             },
                             "tipjar_settings": {
-                              "is_enabled": false
+                              "is_enabled": true,
+                              "bitcoin_handle": "164765SMASBYd9w7wcSBtyfcxY2K44VGSM"
                             }
                           }
                         },
@@ -1233,8 +817,8 @@
                     }
                   },
                   {
-                    "entryId": "user-1791894143406342144",
-                    "sortIndex": "1842759076463771633",
+                    "entryId": "user-1804959957462216704",
+                    "sortIndex": "1897829016367267830",
                     "content": {
                       "entryType": "TimelineTimelineItem",
                       "__typename": "TimelineTimelineItem",
@@ -1244,8 +828,132 @@
                         "user_results": {
                           "result": {
                             "__typename": "User",
-                            "id": "VXNlcjoxNzkxODk0MTQzNDA2MzQyMTQ0",
-                            "rest_id": "1791894143406342144",
+                            "id": "VXNlcjoxODA0OTU5OTU3NDYyMjE2NzA0",
+                            "rest_id": "1804959957462216704",
+                            "affiliates_highlighted_label": {
+                              "label": {
+                                "badge": {
+                                  "url": "https://pbs.twimg.com/semantic_core_img/1428827730364096519/4ZXpTBhS?format=png&name=orig"
+                                },
+                                "description": "Automated",
+                                "longDescription": {
+                                  "text": "Automated by @OpuaYTReal",
+                                  "entities": [
+                                    {
+                                      "fromIndex": 13,
+                                      "toIndex": 24,
+                                      "ref": {
+                                        "type": "TimelineRichTextMention",
+                                        "screen_name": "OpuaYTReal",
+                                        "mention_results": {
+                                          "result": {
+                                            "__typename": "UserUnavailable",
+                                            "reason": "Suspended",
+                                            "message": "User is suspended"
+                                          }
+                                        }
+                                      }
+                                    }
+                                  ]
+                                },
+                                "userLabelType": "AutomatedLabel"
+                              }
+                            },
+                            "has_graduated_access": true,
+                            "is_blue_verified": true,
+                            "profile_image_shape": "Circle",
+                            "legacy": {
+                              "following": false,
+                              "can_dm": true,
+                              "can_media_tag": true,
+                              "created_at": "Sun Jun 23 19:29:30 +0000 2024",
+                              "default_profile": true,
+                              "default_profile_image": false,
+                              "description": "46 46 46 46 46 46 46 46 46 46 46 46 46 46 46 46 46 46 46 46 46 46 46 46 46 46 46 46  | #46twt | Ran By @OpuaYT | Follows Back on both accounts | Satire | Minor",
+                              "entities": {
+                                "description": {
+                                  "urls": []
+                                },
+                                "url": {
+                                  "urls": [
+                                    {
+                                      "display_url": "opuadm.com",
+                                      "expanded_url": "https://opuadm.com/",
+                                      "url": "https://t.co/hZErkwOOZr",
+                                      "indices": [
+                                        0,
+                                        23
+                                      ]
+                                    }
+                                  ]
+                                }
+                              },
+                              "fast_followers_count": 0,
+                              "favourites_count": 28495,
+                              "followers_count": 1486,
+                              "friends_count": 2576,
+                              "has_custom_timelines": false,
+                              "is_translator": false,
+                              "listed_count": 21,
+                              "location": "",
+                              "media_count": 2058,
+                              "name": "46 46 46 46 46 46 46 46 46 46 46 46 (Follows Back)",
+                              "normal_followers_count": 1486,
+                              "pinned_tweet_ids_str": [
+                                "1837784046060884282"
+                              ],
+                              "possibly_sensitive": false,
+                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/1804959957462216704/1740920105",
+                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1896182476159991809/2AidplFz_normal.jpg",
+                              "profile_interstitial_type": "",
+                              "screen_name": "46officials",
+                              "statuses_count": 11909,
+                              "translator_type": "none",
+                              "url": "https://t.co/hZErkwOOZr",
+                              "verified": false,
+                              "want_retweets": false,
+                              "withheld_in_countries": []
+                            },
+                            "professional": {
+                              "rest_id": "1872357677378019776",
+                              "professional_type": "Creator",
+                              "category": [
+                                {
+                                  "id": 15,
+                                  "name": "Entertainment & Recreation",
+                                  "icon_name": "IconBriefcaseStroke"
+                                }
+                              ]
+                            },
+                            "tipjar_settings": {
+                              "is_enabled": true,
+                              "bitcoin_handle": "bc1q6ffu4c2ly3fzdrs3t8j33234kme03ysyuzgce9",
+                              "ethereum_handle": "0xba94D1B156826F6Bc0b2eDD850c72331daBd95b5"
+                            }
+                          }
+                        },
+                        "userDisplayType": "User"
+                      },
+                      "clientEventInfo": {
+                        "component": "BlueVerifiedFollowersSgs",
+                        "element": "user"
+                      }
+                    }
+                  },
+                  {
+                    "entryId": "user-21433980",
+                    "sortIndex": "1897829016367267829",
+                    "content": {
+                      "entryType": "TimelineTimelineItem",
+                      "__typename": "TimelineTimelineItem",
+                      "itemContent": {
+                        "itemType": "TimelineUser",
+                        "__typename": "TimelineUser",
+                        "user_results": {
+                          "result": {
+                            "__typename": "User",
+                            "id": "VXNlcjoyMTQzMzk4MA==",
+                            "rest_id": "21433980",
                             "affiliates_highlighted_label": {},
                             "has_graduated_access": true,
                             "is_blue_verified": true,
@@ -1254,170 +962,32 @@
                               "following": false,
                               "can_dm": true,
                               "can_media_tag": true,
-                              "created_at": "Sat May 18 18:10:41 +0000 2024",
+                              "created_at": "Fri Feb 20 21:07:26 +0000 2009",
                               "default_profile": true,
                               "default_profile_image": false,
-                              "description": "Techie #iPhone16Pro | Ex HVAC Installer & Service Technician | Love God, Nature & Animals",
+                              "description": "Into all things Techno",
                               "entities": {
                                 "description": {
                                   "urls": []
                                 }
                               },
                               "fast_followers_count": 0,
-                              "favourites_count": 1459,
-                              "followers_count": 10,
-                              "friends_count": 106,
+                              "favourites_count": 140,
+                              "followers_count": 21,
+                              "friends_count": 52,
                               "has_custom_timelines": false,
                               "is_translator": false,
                               "listed_count": 0,
-                              "location": "Winston-Salem, NC",
-                              "media_count": 41,
-                              "name": "Mark",
-                              "normal_followers_count": 10,
-                              "pinned_tweet_ids_str": [],
-                              "possibly_sensitive": false,
-                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/1791894143406342144/1727826808",
-                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1839199498154729472/qfJUjDgU_normal.jpg",
-                              "profile_interstitial_type": "",
-                              "screen_name": "marklx77",
-                              "statuses_count": 129,
-                              "translator_type": "none",
-                              "verified": false,
-                              "want_retweets": false,
-                              "withheld_in_countries": []
-                            },
-                            "professional": {
-                              "rest_id": "1791973080207626670",
-                              "professional_type": "Business",
-                              "category": []
-                            },
-                            "tipjar_settings": {}
-                          }
-                        },
-                        "userDisplayType": "User"
-                      },
-                      "clientEventInfo": {
-                        "component": "BlueVerifiedFollowersSgs",
-                        "element": "user"
-                      }
-                    }
-                  },
-                  {
-                    "entryId": "user-1003461628241895427",
-                    "sortIndex": "1842759076463771632",
-                    "content": {
-                      "entryType": "TimelineTimelineItem",
-                      "__typename": "TimelineTimelineItem",
-                      "itemContent": {
-                        "itemType": "TimelineUser",
-                        "__typename": "TimelineUser",
-                        "user_results": {
-                          "result": {
-                            "__typename": "User",
-                            "id": "VXNlcjoxMDAzNDYxNjI4MjQxODk1NDI3",
-                            "rest_id": "1003461628241895427",
-                            "affiliates_highlighted_label": {},
-                            "has_graduated_access": true,
-                            "is_blue_verified": true,
-                            "profile_image_shape": "Circle",
-                            "legacy": {
-                              "protected": true,
-                              "following": false,
-                              "can_dm": true,
-                              "can_media_tag": false,
-                              "created_at": "Mon Jun 04 02:21:10 +0000 2018",
-                              "default_profile": true,
-                              "default_profile_image": false,
-                              "description": "Student @UofT",
-                              "entities": {
-                                "description": {
-                                  "urls": []
-                                }
-                              },
-                              "fast_followers_count": 0,
-                              "favourites_count": 527,
-                              "followers_count": 5,
-                              "friends_count": 94,
-                              "has_custom_timelines": true,
-                              "is_translator": false,
-                              "listed_count": 0,
-                              "location": "Toronto, Ontario",
-                              "media_count": 4,
-                              "name": "Jitong Zhang",
-                              "normal_followers_count": 5,
-                              "pinned_tweet_ids_str": [],
-                              "possibly_sensitive": false,
-                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/1003461628241895427/1606061421",
-                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1330544150626906119/Vk2jxa6K_normal.jpg",
-                              "profile_interstitial_type": "",
-                              "screen_name": "Morgan__Z",
-                              "statuses_count": 34,
-                              "translator_type": "none",
-                              "verified": false,
-                              "want_retweets": false,
-                              "withheld_in_countries": []
-                            },
-                            "tipjar_settings": {}
-                          }
-                        },
-                        "userDisplayType": "User"
-                      },
-                      "clientEventInfo": {
-                        "component": "BlueVerifiedFollowersSgs",
-                        "element": "user"
-                      }
-                    }
-                  },
-                  {
-                    "entryId": "user-834519168603025408",
-                    "sortIndex": "1842759076463771631",
-                    "content": {
-                      "entryType": "TimelineTimelineItem",
-                      "__typename": "TimelineTimelineItem",
-                      "itemContent": {
-                        "itemType": "TimelineUser",
-                        "__typename": "TimelineUser",
-                        "user_results": {
-                          "result": {
-                            "__typename": "User",
-                            "id": "VXNlcjo4MzQ1MTkxNjg2MDMwMjU0MDg=",
-                            "rest_id": "834519168603025408",
-                            "affiliates_highlighted_label": {},
-                            "has_graduated_access": true,
-                            "is_blue_verified": true,
-                            "profile_image_shape": "Circle",
-                            "legacy": {
-                              "protected": true,
-                              "following": false,
-                              "can_dm": true,
-                              "can_media_tag": false,
-                              "created_at": "Wed Feb 22 21:44:09 +0000 2017",
-                              "default_profile": false,
-                              "default_profile_image": false,
-                              "description": "qr code spec/mods",
-                              "entities": {
-                                "description": {
-                                  "urls": []
-                                }
-                              },
-                              "fast_followers_count": 0,
-                              "favourites_count": 1989,
-                              "followers_count": 51,
-                              "friends_count": 332,
-                              "has_custom_timelines": false,
-                              "is_translator": false,
-                              "listed_count": 0,
-                              "location": "",
+                              "location": "Sydney",
                               "media_count": 0,
-                              "name": "Jacob Pflug",
-                              "normal_followers_count": 51,
+                              "name": "Eddie Lim",
+                              "normal_followers_count": 21,
                               "pinned_tweet_ids_str": [],
                               "possibly_sensitive": false,
-                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/834519168603025408/1727158366",
-                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1823286142738878464/Ma-6SQO8_normal.jpg",
+                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1874684576360169472/uh5PCqzS_normal.jpg",
                               "profile_interstitial_type": "",
-                              "screen_name": "pflug_jacob",
-                              "statuses_count": 1,
+                              "screen_name": "therealeddielim",
+                              "statuses_count": 86,
                               "translator_type": "none",
                               "verified": false,
                               "want_retweets": false,
@@ -1435,8 +1005,8 @@
                     }
                   },
                   {
-                    "entryId": "user-1821515768611422208",
-                    "sortIndex": "1842759076463771630",
+                    "entryId": "user-1897198650457272320",
+                    "sortIndex": "1897829016367267828",
                     "content": {
                       "entryType": "TimelineTimelineItem",
                       "__typename": "TimelineTimelineItem",
@@ -1446,8 +1016,8 @@
                         "user_results": {
                           "result": {
                             "__typename": "User",
-                            "id": "VXNlcjoxODIxNTE1NzY4NjExNDIyMjA4",
-                            "rest_id": "1821515768611422208",
+                            "id": "VXNlcjoxODk3MTk4NjUwNDU3MjcyMzIw",
+                            "rest_id": "1897198650457272320",
                             "affiliates_highlighted_label": {},
                             "has_graduated_access": true,
                             "is_blue_verified": true,
@@ -1456,48 +1026,33 @@
                               "following": false,
                               "can_dm": false,
                               "can_media_tag": true,
-                              "created_at": "Thu Aug 08 11:56:26 +0000 2024",
+                              "created_at": "Wed Mar 05 08:13:24 +0000 2025",
                               "default_profile": true,
                               "default_profile_image": false,
-                              "description": "our gateway to extraordinary journeys and unforgettable experiences",
+                              "description": "",
                               "entities": {
                                 "description": {
                                   "urls": []
-                                },
-                                "url": {
-                                  "urls": [
-                                    {
-                                      "display_url": "travelsavvyexplorer.com",
-                                      "expanded_url": "http://travelsavvyexplorer.com",
-                                      "url": "https://t.co/P7A6leK7L6",
-                                      "indices": [
-                                        0,
-                                        23
-                                      ]
-                                    }
-                                  ]
                                 }
                               },
                               "fast_followers_count": 0,
-                              "favourites_count": 235,
-                              "followers_count": 106,
-                              "friends_count": 67,
+                              "favourites_count": 0,
+                              "followers_count": 0,
+                              "friends_count": 3,
                               "has_custom_timelines": false,
                               "is_translator": false,
                               "listed_count": 0,
-                              "location": "US",
+                              "location": "",
                               "media_count": 0,
-                              "name": "Gian Mccelson",
-                              "normal_followers_count": 106,
+                              "name": "TheWash app",
+                              "normal_followers_count": 0,
                               "pinned_tweet_ids_str": [],
                               "possibly_sensitive": false,
-                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/1821515768611422208/1723118563",
-                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1821516377884073984/Rzsm9MF6_normal.jpg",
+                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1897198977642037248/ZyWpoBJU_normal.jpg",
                               "profile_interstitial_type": "",
-                              "screen_name": "mccelson26022",
-                              "statuses_count": 26,
+                              "screen_name": "Thewashapp_bcn",
+                              "statuses_count": 0,
                               "translator_type": "none",
-                              "url": "https://t.co/P7A6leK7L6",
                               "verified": false,
                               "want_retweets": false,
                               "withheld_in_countries": []
@@ -1514,8 +1069,8 @@
                     }
                   },
                   {
-                    "entryId": "user-1002257962205884416",
-                    "sortIndex": "1842759076463771629",
+                    "entryId": "user-848635117836873728",
+                    "sortIndex": "1897829016367267827",
                     "content": {
                       "entryType": "TimelineTimelineItem",
                       "__typename": "TimelineTimelineItem",
@@ -1525,8 +1080,8 @@
                         "user_results": {
                           "result": {
                             "__typename": "User",
-                            "id": "VXNlcjoxMDAyMjU3OTYyMjA1ODg0NDE2",
-                            "rest_id": "1002257962205884416",
+                            "id": "VXNlcjo4NDg2MzUxMTc4MzY4NzM3Mjg=",
+                            "rest_id": "848635117836873728",
                             "affiliates_highlighted_label": {},
                             "has_graduated_access": true,
                             "is_blue_verified": true,
@@ -1534,11 +1089,11 @@
                             "legacy": {
                               "following": false,
                               "can_dm": true,
-                              "can_media_tag": true,
-                              "created_at": "Thu May 31 18:38:14 +0000 2018",
+                              "can_media_tag": false,
+                              "created_at": "Sun Apr 02 20:35:53 +0000 2017",
                               "default_profile": true,
                               "default_profile_image": false,
-                              "description": "Cinematography and Wedding Film @creativeuart\nMy Creat @UIDENUX",
+                              "description": "computer programmer | car enthusiast",
                               "entities": {
                                 "description": {
                                   "urls": []
@@ -1546,9 +1101,9 @@
                                 "url": {
                                   "urls": [
                                     {
-                                      "display_url": "uart.com.tr",
-                                      "expanded_url": "http://uart.com.tr",
-                                      "url": "https://t.co/SiFQxVuiox",
+                                      "display_url": "dominicthomas.me",
+                                      "expanded_url": "https://dominicthomas.me",
+                                      "url": "https://t.co/JwjrTtEWtY",
                                       "indices": [
                                         0,
                                         23
@@ -1558,39 +1113,101 @@
                                 }
                               },
                               "fast_followers_count": 0,
-                              "favourites_count": 6326,
-                              "followers_count": 111,
-                              "friends_count": 343,
+                              "favourites_count": 7458,
+                              "followers_count": 196,
+                              "friends_count": 1291,
                               "has_custom_timelines": true,
                               "is_translator": false,
-                              "listed_count": 0,
+                              "listed_count": 4,
                               "location": "",
-                              "media_count": 38,
-                              "name": "Uğur AVCI",
-                              "normal_followers_count": 111,
+                              "media_count": 33,
+                              "name": "Dom",
+                              "normal_followers_count": 196,
                               "pinned_tweet_ids_str": [],
                               "possibly_sensitive": false,
-                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/1002257962205884416/1708985165",
-                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1792454811704508416/rNgA1TJD_normal.jpg",
+                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/848635117836873728/1741121795",
+                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1486778896850862081/KnQLzuw-_normal.jpg",
                               "profile_interstitial_type": "",
-                              "screen_name": "uguravciuart",
-                              "statuses_count": 1056,
+                              "screen_name": "domtomthedev",
+                              "statuses_count": 2224,
                               "translator_type": "none",
-                              "url": "https://t.co/SiFQxVuiox",
+                              "url": "https://t.co/JwjrTtEWtY",
+                              "verified": false,
+                              "want_retweets": false,
+                              "withheld_in_countries": []
+                            },
+                            "tipjar_settings": {
+                              "is_enabled": true,
+                              "cash_app_handle": "d0mt0m"
+                            }
+                          }
+                        },
+                        "userDisplayType": "User"
+                      },
+                      "clientEventInfo": {
+                        "component": "BlueVerifiedFollowersSgs",
+                        "element": "user"
+                      }
+                    }
+                  },
+                  {
+                    "entryId": "user-1229765584901955584",
+                    "sortIndex": "1897829016367267826",
+                    "content": {
+                      "entryType": "TimelineTimelineItem",
+                      "__typename": "TimelineTimelineItem",
+                      "itemContent": {
+                        "itemType": "TimelineUser",
+                        "__typename": "TimelineUser",
+                        "user_results": {
+                          "result": {
+                            "__typename": "User",
+                            "id": "VXNlcjoxMjI5NzY1NTg0OTAxOTU1NTg0",
+                            "rest_id": "1229765584901955584",
+                            "affiliates_highlighted_label": {},
+                            "has_graduated_access": true,
+                            "is_blue_verified": true,
+                            "profile_image_shape": "Circle",
+                            "legacy": {
+                              "following": false,
+                              "can_dm": true,
+                              "can_media_tag": true,
+                              "created_at": "Tue Feb 18 13:52:25 +0000 2020",
+                              "default_profile": true,
+                              "default_profile_image": false,
+                              "description": "Software Engineer / Backend, DevOps",
+                              "entities": {
+                                "description": {
+                                  "urls": []
+                                }
+                              },
+                              "fast_followers_count": 0,
+                              "favourites_count": 2357,
+                              "followers_count": 133,
+                              "friends_count": 495,
+                              "has_custom_timelines": true,
+                              "is_translator": false,
+                              "listed_count": 6,
+                              "location": "Tokyo",
+                              "media_count": 60,
+                              "name": "Sho",
+                              "normal_followers_count": 133,
+                              "pinned_tweet_ids_str": [],
+                              "possibly_sensitive": false,
+                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/1229765584901955584/1733191555",
+                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1897260805302968325/TnCUWlZd_normal.jpg",
+                              "profile_interstitial_type": "",
+                              "screen_name": "00sht_",
+                              "statuses_count": 481,
+                              "translator_type": "none",
                               "verified": false,
                               "want_retweets": false,
                               "withheld_in_countries": []
                             },
                             "professional": {
-                              "rest_id": "1561756540306063362",
+                              "rest_id": "1525532640019095552",
                               "professional_type": "Creator",
-                              "category": [
-                                {
-                                  "id": 958,
-                                  "name": "Entrepreneur",
-                                  "icon_name": "IconBriefcaseStroke"
-                                }
-                              ]
+                              "category": []
                             },
                             "tipjar_settings": {
                               "is_enabled": true
@@ -1606,22 +1223,393 @@
                     }
                   },
                   {
-                    "entryId": "cursor-bottom-1842759076463771628",
-                    "sortIndex": "1842759076463771628",
+                    "entryId": "user-991756998",
+                    "sortIndex": "1897829016367267825",
+                    "content": {
+                      "entryType": "TimelineTimelineItem",
+                      "__typename": "TimelineTimelineItem",
+                      "itemContent": {
+                        "itemType": "TimelineUser",
+                        "__typename": "TimelineUser",
+                        "user_results": {
+                          "result": {
+                            "__typename": "User",
+                            "id": "VXNlcjo5OTE3NTY5OTg=",
+                            "rest_id": "991756998",
+                            "affiliates_highlighted_label": {},
+                            "has_graduated_access": true,
+                            "is_blue_verified": true,
+                            "profile_image_shape": "Circle",
+                            "legacy": {
+                              "following": false,
+                              "can_dm": true,
+                              "can_media_tag": true,
+                              "created_at": "Wed Dec 05 21:00:56 +0000 2012",
+                              "default_profile": true,
+                              "default_profile_image": false,
+                              "description": "@THC_Labz | @LunardollzNft | @lucky_dogs2025 | @GAINZNFTS",
+                              "entities": {
+                                "description": {
+                                  "urls": []
+                                },
+                                "url": {
+                                  "urls": [
+                                    {
+                                      "display_url": "linktr.ee/Shimmy0802",
+                                      "expanded_url": "https://linktr.ee/Shimmy0802",
+                                      "url": "https://t.co/dv7AmA309k",
+                                      "indices": [
+                                        0,
+                                        23
+                                      ]
+                                    }
+                                  ]
+                                }
+                              },
+                              "fast_followers_count": 0,
+                              "favourites_count": 3203,
+                              "followers_count": 615,
+                              "friends_count": 1833,
+                              "has_custom_timelines": false,
+                              "is_translator": false,
+                              "listed_count": 0,
+                              "location": "Chicago, Illinois",
+                              "media_count": 729,
+                              "name": "Shimmy",
+                              "normal_followers_count": 615,
+                              "pinned_tweet_ids_str": [],
+                              "possibly_sensitive": false,
+                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/991756998/1737866107",
+                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1889881338183856129/Ae0gm9SD_normal.jpg",
+                              "profile_interstitial_type": "",
+                              "screen_name": "jason_shimmy",
+                              "statuses_count": 4724,
+                              "translator_type": "none",
+                              "url": "https://t.co/dv7AmA309k",
+                              "verified": false,
+                              "want_retweets": false,
+                              "withheld_in_countries": []
+                            },
+                            "professional": {
+                              "rest_id": "1825674610311913787",
+                              "professional_type": "Creator",
+                              "category": []
+                            },
+                            "tipjar_settings": {}
+                          }
+                        },
+                        "userDisplayType": "User"
+                      },
+                      "clientEventInfo": {
+                        "component": "BlueVerifiedFollowersSgs",
+                        "element": "user"
+                      }
+                    }
+                  },
+                  {
+                    "entryId": "user-933121477666332672",
+                    "sortIndex": "1897829016367267824",
+                    "content": {
+                      "entryType": "TimelineTimelineItem",
+                      "__typename": "TimelineTimelineItem",
+                      "itemContent": {
+                        "itemType": "TimelineUser",
+                        "__typename": "TimelineUser",
+                        "user_results": {
+                          "result": {
+                            "__typename": "User",
+                            "id": "VXNlcjo5MzMxMjE0Nzc2NjYzMzI2NzI=",
+                            "rest_id": "933121477666332672",
+                            "affiliates_highlighted_label": {},
+                            "has_graduated_access": true,
+                            "is_blue_verified": true,
+                            "profile_image_shape": "Circle",
+                            "legacy": {
+                              "following": false,
+                              "can_dm": true,
+                              "can_media_tag": true,
+                              "created_at": "Tue Nov 21 23:54:31 +0000 2017",
+                              "default_profile": true,
+                              "default_profile_image": false,
+                              "description": "“Pionero del #Bitcoin ⚡ | Creyente en la libertad financiera y el poder de la descentralización | HODLer a largo plazo | Transformando el futuro 🟠",
+                              "entities": {
+                                "description": {
+                                  "urls": []
+                                }
+                              },
+                              "fast_followers_count": 0,
+                              "favourites_count": 4336,
+                              "followers_count": 113,
+                              "friends_count": 881,
+                              "has_custom_timelines": false,
+                              "is_translator": false,
+                              "listed_count": 5,
+                              "location": "La Libertad, El Salvador",
+                              "media_count": 35,
+                              "name": "TheReal Bitmage⚡",
+                              "normal_followers_count": 113,
+                              "pinned_tweet_ids_str": [],
+                              "possibly_sensitive": true,
+                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/933121477666332672/1736017894",
+                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1875621103466352640/amezrBHI_normal.jpg",
+                              "profile_interstitial_type": "",
+                              "screen_name": "DLegend76",
+                              "statuses_count": 315,
+                              "translator_type": "none",
+                              "verified": false,
+                              "want_retweets": false,
+                              "withheld_in_countries": []
+                            },
+                            "tipjar_settings": {}
+                          }
+                        },
+                        "userDisplayType": "User"
+                      },
+                      "clientEventInfo": {
+                        "component": "BlueVerifiedFollowersSgs",
+                        "element": "user"
+                      }
+                    }
+                  },
+                  {
+                    "entryId": "user-1260805702932725770",
+                    "sortIndex": "1897829016367267823",
+                    "content": {
+                      "entryType": "TimelineTimelineItem",
+                      "__typename": "TimelineTimelineItem",
+                      "itemContent": {
+                        "itemType": "TimelineUser",
+                        "__typename": "TimelineUser",
+                        "user_results": {
+                          "result": {
+                            "__typename": "User",
+                            "id": "VXNlcjoxMjYwODA1NzAyOTMyNzI1Nzcw",
+                            "rest_id": "1260805702932725770",
+                            "affiliates_highlighted_label": {},
+                            "has_graduated_access": true,
+                            "is_blue_verified": true,
+                            "profile_image_shape": "Circle",
+                            "legacy": {
+                              "following": false,
+                              "can_dm": true,
+                              "can_media_tag": true,
+                              "created_at": "Thu May 14 05:35:05 +0000 2020",
+                              "default_profile": true,
+                              "default_profile_image": false,
+                              "description": "Be yourself, everyone else is already taken.",
+                              "entities": {
+                                "description": {
+                                  "urls": []
+                                }
+                              },
+                              "fast_followers_count": 0,
+                              "favourites_count": 664,
+                              "followers_count": 140,
+                              "friends_count": 322,
+                              "has_custom_timelines": false,
+                              "is_translator": false,
+                              "listed_count": 0,
+                              "location": "UK 🇬🇧",
+                              "media_count": 0,
+                              "name": "Emily",
+                              "normal_followers_count": 140,
+                              "pinned_tweet_ids_str": [],
+                              "possibly_sensitive": false,
+                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/1260805702932725770/1736445397",
+                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1877413834308116481/Mzzguam7_normal.jpg",
+                              "profile_interstitial_type": "",
+                              "screen_name": "MarionnEmily",
+                              "statuses_count": 1912,
+                              "translator_type": "none",
+                              "verified": false,
+                              "want_retweets": false,
+                              "withheld_in_countries": []
+                            },
+                            "tipjar_settings": {}
+                          }
+                        },
+                        "userDisplayType": "User"
+                      },
+                      "clientEventInfo": {
+                        "component": "BlueVerifiedFollowersSgs",
+                        "element": "user"
+                      }
+                    }
+                  },
+                  {
+                    "entryId": "user-846432643579330560",
+                    "sortIndex": "1897829016367267822",
+                    "content": {
+                      "entryType": "TimelineTimelineItem",
+                      "__typename": "TimelineTimelineItem",
+                      "itemContent": {
+                        "itemType": "TimelineUser",
+                        "__typename": "TimelineUser",
+                        "user_results": {
+                          "result": {
+                            "__typename": "User",
+                            "id": "VXNlcjo4NDY0MzI2NDM1NzkzMzA1NjA=",
+                            "rest_id": "846432643579330560",
+                            "affiliates_highlighted_label": {},
+                            "has_graduated_access": true,
+                            "is_blue_verified": true,
+                            "profile_image_shape": "Circle",
+                            "legacy": {
+                              "following": false,
+                              "can_dm": true,
+                              "can_media_tag": true,
+                              "created_at": "Mon Mar 27 18:44:02 +0000 2017",
+                              "default_profile": false,
+                              "default_profile_image": false,
+                              "description": "Frontend/full-stack engineer, mostly React, Next.js, TypeScript, TailwindCSS, tRPC nowadays. Building https://t.co/stofpZtt8r",
+                              "entities": {
+                                "description": {
+                                  "urls": [
+                                    {
+                                      "display_url": "easyinvoicepdf.com",
+                                      "expanded_url": "https://easyinvoicepdf.com",
+                                      "url": "https://t.co/stofpZtt8r",
+                                      "indices": [
+                                        102,
+                                        125
+                                      ]
+                                    }
+                                  ]
+                                },
+                                "url": {
+                                  "urls": [
+                                    {
+                                      "display_url": "vladsazon.com",
+                                      "expanded_url": "https://vladsazon.com",
+                                      "url": "https://t.co/4orvRCRMvO",
+                                      "indices": [
+                                        0,
+                                        23
+                                      ]
+                                    }
+                                  ]
+                                }
+                              },
+                              "fast_followers_count": 0,
+                              "favourites_count": 31420,
+                              "followers_count": 86,
+                              "friends_count": 1662,
+                              "has_custom_timelines": true,
+                              "is_translator": false,
+                              "listed_count": 0,
+                              "location": "",
+                              "media_count": 19,
+                              "name": "Vlad Sazonau",
+                              "normal_followers_count": 86,
+                              "pinned_tweet_ids_str": [
+                                "1893642883229519970"
+                              ],
+                              "possibly_sensitive": false,
+                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1893812331525685248/38FDw5Pu_normal.jpg",
+                              "profile_interstitial_type": "",
+                              "screen_name": "vlad_sazon",
+                              "statuses_count": 156,
+                              "translator_type": "none",
+                              "url": "https://t.co/4orvRCRMvO",
+                              "verified": false,
+                              "want_retweets": false,
+                              "withheld_in_countries": []
+                            },
+                            "tipjar_settings": {}
+                          }
+                        },
+                        "userDisplayType": "User"
+                      },
+                      "clientEventInfo": {
+                        "component": "BlueVerifiedFollowersSgs",
+                        "element": "user"
+                      }
+                    }
+                  },
+                  {
+                    "entryId": "user-1137892568010776576",
+                    "sortIndex": "1897829016367267821",
+                    "content": {
+                      "entryType": "TimelineTimelineItem",
+                      "__typename": "TimelineTimelineItem",
+                      "itemContent": {
+                        "itemType": "TimelineUser",
+                        "__typename": "TimelineUser",
+                        "user_results": {
+                          "result": {
+                            "__typename": "User",
+                            "id": "VXNlcjoxMTM3ODkyNTY4MDEwNzc2NTc2",
+                            "rest_id": "1137892568010776576",
+                            "affiliates_highlighted_label": {},
+                            "has_graduated_access": true,
+                            "is_blue_verified": true,
+                            "profile_image_shape": "Circle",
+                            "legacy": {
+                              "following": false,
+                              "can_dm": false,
+                              "can_media_tag": true,
+                              "created_at": "Mon Jun 10 01:21:44 +0000 2019",
+                              "default_profile": true,
+                              "default_profile_image": false,
+                              "description": "Sou um Homem/Menino com um Grande Sonho!\nVou lutar pra alcançar meus Objetivos.\n\nFé em Deus 🙌\n\n24 y",
+                              "entities": {
+                                "description": {
+                                  "urls": []
+                                }
+                              },
+                              "fast_followers_count": 0,
+                              "favourites_count": 330,
+                              "followers_count": 8,
+                              "friends_count": 245,
+                              "has_custom_timelines": false,
+                              "is_translator": false,
+                              "listed_count": 0,
+                              "location": "",
+                              "media_count": 4,
+                              "name": "LZN",
+                              "normal_followers_count": 8,
+                              "pinned_tweet_ids_str": [],
+                              "possibly_sensitive": false,
+                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/1137892568010776576/1590395616",
+                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1525286788822179840/MO3m0wCm_normal.jpg",
+                              "profile_interstitial_type": "",
+                              "screen_name": "lzngod",
+                              "statuses_count": 139,
+                              "translator_type": "none",
+                              "verified": false,
+                              "want_retweets": false,
+                              "withheld_in_countries": []
+                            },
+                            "tipjar_settings": {
+                              "is_enabled": true
+                            }
+                          }
+                        },
+                        "userDisplayType": "User"
+                      },
+                      "clientEventInfo": {
+                        "component": "BlueVerifiedFollowersSgs",
+                        "element": "user"
+                      }
+                    }
+                  },
+                  {
+                    "entryId": "cursor-bottom-1897829016367267820",
+                    "sortIndex": "1897829016367267820",
                     "content": {
                       "entryType": "TimelineTimelineCursor",
                       "__typename": "TimelineTimelineCursor",
-                      "value": "1812098755816433261|1842759076463771626",
+                      "value": "1825886428817458253|1897829016367267818",
                       "cursorType": "Bottom"
                     }
                   },
                   {
-                    "entryId": "cursor-top-1842759076463771649",
-                    "sortIndex": "1842759076463771649",
+                    "entryId": "cursor-top-1897829016367267841",
+                    "sortIndex": "1897829016367267841",
                     "content": {
                       "entryType": "TimelineTimelineCursor",
                       "__typename": "TimelineTimelineCursor",
-                      "value": "-1|1842759076463771649",
+                      "value": "-1|1897829016367267841",
                       "cursorType": "Top"
                     }
                   }

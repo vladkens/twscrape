@@ -15,13 +15,12 @@ GQL_GEN = [
     "search",
     "tweet_replies",
     "retweeters",
-    "favoriters",
     "followers",
     "following",
     "user_tweets",
     "user_tweets_and_replies",
     "list_timeline",
-    "liked_tweets",
+    "trends",
 ]
 
 

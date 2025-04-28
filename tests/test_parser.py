@@ -8,6 +8,7 @@ from twscrape.models import (
     BroadcastCard,
     PollCard,
     SummaryCard,
+    Trend,
     Tweet,
     User,
     UserRef,
@@ -17,6 +18,13 @@ from twscrape.models import (
 BASE_DIR = os.path.dirname(__file__)
 DATA_DIR = os.path.join(BASE_DIR, "mocked-data")
 os.makedirs(DATA_DIR, exist_ok=True)
+
+
+def get_api():
+    api = API()
+    # To be sure all tests are mocked
+    api.pool = None  # type: ignore
+    return api
 
 
 class FakeRep:
@@ -165,8 +173,19 @@ def check_user_ref(doc: UserRef):
     assert doc.id_str == obj["id_str"]
 
 
+def check_trend(doc: Trend):
+    assert doc.name is not None
+    assert doc.trend_url is not None
+    assert doc.trend_metadata is not None
+    assert isinstance(doc.grouped_trends, list) or doc.grouped_trends is None
+
+    assert doc.trend_url.url is not None
+    assert doc.trend_url.urlType is not None
+    assert doc.trend_url.urlEndpointOptions
+
+
 async def test_search():
-    api = API()
+    api = get_api()
     mock_rep(api.search_raw, "raw_search", as_generator=True)
 
     items = await gather(api.search("elon musk lang:en", limit=20))
@@ -181,7 +200,7 @@ async def test_search():
 
 
 async def test_user_by_id():
-    api = API()
+    api = get_api()
     mock_rep(api.user_by_id_raw, "raw_user_by_id")
 
     doc = await api.user_by_id(2244994945)
@@ -199,7 +218,7 @@ async def test_user_by_id():
 
 
 async def test_user_by_login():
-    api = API()
+    api = get_api()
     mock_rep(api.user_by_login_raw, "raw_user_by_login")
 
     doc = await api.user_by_login("xdevelopers")
@@ -217,7 +236,7 @@ async def test_user_by_login():
 
 
 async def test_tweet_details():
-    api = API()
+    api = get_api()
     mock_rep(api.tweet_details_raw, "raw_tweet_details")
 
     doc = await api.tweet_details(1649191520250245121)
@@ -229,7 +248,7 @@ async def test_tweet_details():
 
 
 async def test_tweet_replies():
-    api = API()
+    api = get_api()
     mock_rep(api.tweet_replies_raw, "raw_tweet_replies", as_generator=True)
 
     twid = 1649191520250245121
@@ -242,7 +261,7 @@ async def test_tweet_replies():
 
 
 async def test_followers():
-    api = API()
+    api = get_api()
     mock_rep(api.followers_raw, "raw_followers", as_generator=True)
 
     users = await gather(api.followers(2244994945))
@@ -253,7 +272,7 @@ async def test_followers():
 
 
 async def test_verified_followers():
-    api = API()
+    api = get_api()
     mock_rep(api.verified_followers_raw, "raw_verified_followers", as_generator=True)
 
     users = await gather(api.verified_followers(2244994945))
@@ -265,7 +284,7 @@ async def test_verified_followers():
 
 
 async def test_subscriptions():
-    api = API()
+    api = get_api()
     mock_rep(api.subscriptions_raw, "raw_subscriptions", as_generator=True)
 
     users = await gather(api.subscriptions(44196397))
@@ -276,7 +295,7 @@ async def test_subscriptions():
 
 
 async def test_following():
-    api = API()
+    api = get_api()
     mock_rep(api.following_raw, "raw_following", as_generator=True)
 
     users = await gather(api.following(2244994945))
@@ -287,7 +306,7 @@ async def test_following():
 
 
 async def test_retweters():
-    api = API()
+    api = get_api()
     mock_rep(api.retweeters_raw, "raw_retweeters", as_generator=True)
 
     users = await gather(api.retweeters(1649191520250245121))
@@ -297,19 +316,8 @@ async def test_retweters():
         check_user(doc)
 
 
-async def test_favoriters():
-    api = API()
-    mock_rep(api.favoriters_raw, "old_raw_favoriters", as_generator=True)
-
-    users = await gather(api.favoriters(1649191520250245121))
-    assert len(users) > 0
-
-    for doc in users:
-        check_user(doc)
-
-
 async def test_user_tweets():
-    api = API()
+    api = get_api()
     mock_rep(api.user_tweets_raw, "raw_user_tweets", as_generator=True)
 
     tweets = await gather(api.user_tweets(2244994945))
@@ -324,7 +332,7 @@ async def test_user_tweets():
 
 
 async def test_user_tweets_and_replies():
-    api = API()
+    api = get_api()
     mock_rep(api.user_tweets_and_replies_raw, "raw_user_tweets_and_replies", as_generator=True)
 
     tweets = await gather(api.user_tweets_and_replies(2244994945))
@@ -335,7 +343,7 @@ async def test_user_tweets_and_replies():
 
 
 async def test_raw_user_media():
-    api = API()
+    api = get_api()
     mock_rep(api.user_media_raw, "raw_user_media", as_generator=True)
 
     tweets = await gather(api.user_media(2244994945))
@@ -349,7 +357,7 @@ async def test_raw_user_media():
 
 
 async def test_list_timeline():
-    api = API()
+    api = get_api()
     mock_rep(api.list_timeline_raw, "raw_list_timeline", as_generator=True)
 
     tweets = await gather(api.list_timeline(1494877848087187461))
@@ -359,19 +367,19 @@ async def test_list_timeline():
         check_tweet(doc)
 
 
-async def test_likes():
-    api = API()
-    mock_rep(api.liked_tweets_raw, "old_raw_likes", as_generator=True)
+async def test_trends():
+    api = get_api()
+    mock_rep(api.trends_raw, "raw_trends", as_generator=True)
 
-    tweets = await gather(api.liked_tweets(2244994945))
-    assert len(tweets) > 0
+    items = await gather(api.trends("sport"))
+    assert len(items) > 0
 
-    for doc in tweets:
-        check_tweet(doc)
+    for doc in items:
+        check_trend(doc)
 
 
 async def test_tweet_with_video():
-    api = API()
+    api = get_api()
 
     files = [
         ("manual_tweet_with_video_1.json", 1671508600538161153),
@@ -386,7 +394,7 @@ async def test_tweet_with_video():
 
 
 async def test_issue_28():
-    api = API()
+    api = get_api()
 
     mock_rep(api.tweet_details_raw, "_issue_28_1")
     doc = await api.tweet_details(1658409412799737856)

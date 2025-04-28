@@ -130,7 +130,7 @@ class QueueClient:
 
         err_msg = "OK"
         if "errors" in res:
-            err_msg = set([f'({x.get("code", -1)}) {x["message"]}' for x in res["errors"]])
+            err_msg = set([f"({x.get('code', -1)}) {x['message']}" for x in res["errors"]])
             err_msg = "; ".join(list(err_msg))
 
         log_msg = f"{rep.status_code:3d} - {req_id(rep)} - {err_msg}"
@@ -198,7 +198,7 @@ class QueueClient:
             await self._close_ctx(utc.ts() + 60 * 15)  # 15 minutes
             raise HandledError()
 
-    async def get(self, url: str, params: ReqParams = None):
+    async def get(self, url: str, params: ReqParams = None) -> Response | None:
         return await self.req("GET", url, params=params)
 
     async def req(self, method: str, url: str, params: ReqParams = None) -> Response | None:
