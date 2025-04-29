@@ -2,10 +2,10 @@ import asyncio
 import json
 import os
 from typing import Any
+from urllib.parse import urlparse
 
 import httpx
 from httpx import AsyncClient, Response
-from urllib3.util import parse_url
 
 from .accounts_pool import Account, AccountsPool
 from .logger import logger
@@ -55,8 +55,7 @@ class Ctx:
     async def req(self, method: str, url: str, params: ReqParams = None) -> Response:
         # if code 404 on first try then generate new x-client-transaction-id and retry once
         # https://github.com/vladkens/twscrape/issues/248
-
-        path = parse_url(url).path or "/"
+        path = urlparse(url).path or "/"
 
         gen = await XClIdGenStore.get(self.acc.username)
         hdr = {"x-client-transaction-id": gen.calc(method, path)}
