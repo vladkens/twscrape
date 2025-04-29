@@ -40,7 +40,9 @@ class XClIdGenStore:
                 tries += 1
                 await asyncio.sleep(1)
 
-        raise Exception("Failed to create XClIdGen after 3 tries.")
+        raise AbortReqError(
+            "Faield to create XClIdGen. See: https://github.com/vladkens/twscrape/issues/248"
+        )
 
 
 class Ctx:
@@ -53,21 +55,25 @@ class Ctx:
         await self.clt.aclose()
 
     async def req(self, method: str, url: str, params: ReqParams = None) -> Response:
-        # if code 404 on first try then generate new x-client-transaction-id and retry once
+        # if code 404 on first try then generate new x-client-transaction-id and retry
         # https://github.com/vladkens/twscrape/issues/248
         path = urlparse(url).path or "/"
 
-        gen = await XClIdGenStore.get(self.acc.username)
-        hdr = {"x-client-transaction-id": gen.calc(method, path)}
-        rep = await self.clt.request(method, url, params=params, headers=hdr)
-        if rep.status_code != 404:
-            return rep
+        tries = 0
+        while tries < 3:
+            gen = await XClIdGenStore.get(self.acc.username, fresh=tries > 0)
+            hdr = {"x-client-transaction-id": gen.calc(method, path)}
+            rep = await self.clt.request(method, url, params=params, headers=hdr)
+            if rep.status_code != 404:
+                return rep
 
-        logger.debug(f"Retrying request with new x-client-transaction-id: {url}")
+            tries += 1
+            logger.debug(f"Retrying request with new x-client-transaction-id: {url}")
+            await asyncio.sleep(1)
 
-        gen = await XClIdGenStore.get(self.acc.username, fresh=True)
-        hdr = {"x-client-transaction-id": gen.calc(method, path)}
-        return await self.clt.request(method, url, params=params, headers=hdr)
+        raise AbortReqError(
+            "Faield to get XClIdGen. See: https://github.com/vladkens/twscrape/issues/248"
+        )
 
 
 def req_id(rep: Response):
