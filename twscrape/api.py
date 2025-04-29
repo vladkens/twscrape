@@ -10,21 +10,21 @@ from .queue_client import QueueClient
 from .utils import encode_params, find_obj, get_by_path
 
 # OP_{NAME} – {NAME} should be same as second part of GQL ID (required to auto-update script)
-OP_SearchTimeline = "U3QTLwGF8sZCHDuWIMSAmg/SearchTimeline"
-OP_UserByRestId = "5vdJ5sWkbSRDiiNZvwc2Yg/UserByRestId"
-OP_UserByScreenName = "32pL5BWe9WKeSK1MoPvFQQ/UserByScreenName"
-OP_TweetDetail = "Ez6kRPyXbqNlhBwcNMpU-Q/TweetDetail"
-OP_Followers = "OGScL-RC4DFMsRGOCjPR6g/Followers"
-OP_Following = "o5eNLkJb03ayTQa97Cpp7w/Following"
-OP_Retweeters = "niCJ2QyTuAgZWv01E7mqJQ/Retweeters"
-OP_UserTweets = "Y9WM4Id6UcGFE8Z-hbnixw/UserTweets"
-OP_UserTweetsAndReplies = "pZXwh96YGRqmBbbxu7Vk2Q/UserTweetsAndReplies"
-OP_ListLatestTweetsTimeline = "H_dAKg97dSn3FOMfrNS8nw/ListLatestTweetsTimeline"
-OP_BlueVerifiedFollowers = "WijS8Cwfqhtk5hDN9q7sgw/BlueVerifiedFollowers"
-OP_UserCreatorSubscriptions = "H4p-DZU4gYqcZulycazCZw/UserCreatorSubscriptions"
-OP_UserMedia = "ophTtKkfXcUKnXlxh9fU5w/UserMedia"
-OP_Bookmarks = "1vFR5f4iSCQZLzjdSsNYwA/Bookmarks"
-OP_GenericTimelineById = "5u36Lskx1dfACjC_WHmH3Q/GenericTimelineById"
+OP_SearchTimeline = "AIdc203rPpK_k_2KWSdm7g/SearchTimeline"
+OP_UserByRestId = "WJ7rCtezBVT6nk6VM5R8Bw/UserByRestId"
+OP_UserByScreenName = "1VOOyvKkiI3FMmkeDNxM9A/UserByScreenName"
+OP_TweetDetail = "_8aYOgEDz35BrBcBal1-_w/TweetDetail"
+OP_Followers = "Elc_-qTARceHpztqhI9PQA/Followers"
+OP_Following = "C1qZ6bs-L3oc_TKSZyxkXQ/Following"
+OP_Retweeters = "i-CI8t2pJD15euZJErEDrg/Retweeters"
+OP_UserTweets = "HeWHY26ItCfUmm1e6ITjeA/UserTweets"
+OP_UserTweetsAndReplies = "OAx9yEcW3JA9bPo63pcYlA/UserTweetsAndReplies"
+OP_ListLatestTweetsTimeline = "BkauSnPUDQTeeJsxq17opA/ListLatestTweetsTimeline"
+OP_BlueVerifiedFollowers = "ZpmVpf_fBIUgdPErpq2wWg/BlueVerifiedFollowers"
+OP_UserCreatorSubscriptions = "7qcGrVKpcooih_VvJLA1ng/UserCreatorSubscriptions"
+OP_UserMedia = "vFPc2LVIu7so2uA_gHQAdg/UserMedia"
+OP_Bookmarks = "-LGfdImKeQz0xS_jjUwzlA/Bookmarks"
+OP_GenericTimelineById = "CT0YFEFf5GOYa5DJcxM91w/GenericTimelineById"
 
 GQL_URL = "https://x.com/i/api/graphql"
 GQL_FEATURES = {  # search values here (view source) https://x.com/
@@ -62,6 +62,8 @@ GQL_FEATURES = {  # search values here (view source) https://x.com/
     "responsive_web_grok_image_annotation_enabled": False,
     "responsive_web_grok_analysis_button_from_backend": False,
     "responsive_web_jetfuel_frame": False,
+    "rweb_video_screen_enabled": True,
+    "responsive_web_grok_show_grok_translated_post": True,
 }
 
 KV = dict | None

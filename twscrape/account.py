@@ -55,7 +55,7 @@ class Account(JSONTrait):
         proxies = [x for x in proxies if x is not None]
         proxy = proxies[0] if proxies else None
 
-        transport = AsyncHTTPTransport(retries=2)
+        transport = AsyncHTTPTransport(retries=3)
         client = AsyncClient(proxy=proxy, follow_redirects=True, transport=transport)
 
         # saved from previous usage

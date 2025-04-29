@@ -3,9 +3,22 @@ import pytest
 from twscrape.accounts_pool import AccountsPool
 from twscrape.api import API
 from twscrape.logger import set_log_level
-from twscrape.queue_client import QueueClient
+from twscrape.queue_client import QueueClient, XClIdGenStore
 
 set_log_level("ERROR")
+
+
+class ClIdGenMock:
+    def calc(*args, **kwargs):
+        return "mocked-clid"
+
+
+@pytest.fixture(autouse=True)
+def mock_xclidgenstore(monkeypatch):
+    async def mock_get(*args, **kwargs):
+        return ClIdGenMock()
+
+    monkeypatch.setattr(XClIdGenStore, "get", classmethod(mock_get))
 
 
 @pytest.fixture

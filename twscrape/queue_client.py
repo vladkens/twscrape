@@ -64,6 +64,8 @@ class Ctx:
         if rep.status_code != 404:
             return rep
 
+        logger.debug(f"Retrying request with new x-client-transaction-id: {url}")
+
         gen = await XClIdGenStore.get(self.acc.username, fresh=True)
         hdr = {"x-client-transaction-id": gen.calc(method, path)}
         return await self.clt.request(method, url, params=params, headers=hdr)

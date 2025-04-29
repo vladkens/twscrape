@@ -70,16 +70,14 @@ class TextLink(JSONTrait):
 
     @staticmethod
     def parse(obj: dict):
-        tmp = TextLink(
-            url=obj.get("expanded_url", None),
-            text=obj.get("display_url", None),
-            tcourl=obj.get("url", None),
-        )
+        url1 = obj.get("expanded_url", None)
+        url2 = obj.get("url", None)
+        text = obj.get("display_url", None)
 
-        if tmp.url is None or tmp.tcourl is None:
+        if not isinstance(url1, str) or not isinstance(url2, str):
             return None
 
-        return tmp
+        return TextLink(url=url1, text=text, tcourl=url2)
 
 
 @dataclass

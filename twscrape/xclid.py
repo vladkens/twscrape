@@ -11,37 +11,46 @@ import httpx
 from fake_useragent import UserAgent
 
 
-async def get_tw_page_text(url: str):
+def _make_client() -> httpx.AsyncClient:
     headers = {"user-agent": UserAgent().chrome}
-    async with httpx.AsyncClient(headers=headers, follow_redirects=True) as client:
-        rep = await client.get(url)
-        rep.raise_for_status()
-        if ">document.location =" not in rep.text:
-            return rep.text
+    return httpx.AsyncClient(headers=headers, follow_redirects=True)
 
-        url = rep.text.split('document.location = "')[1].split('"')[0]
-        rep = await client.get(url)
-        rep.raise_for_status()
-        if 'action="https://x.com/x/migrate" method="post"' not in rep.text:
-            return rep.text
 
-        data = {}
-        for x in rep.text.split("<input")[1:]:
-            name = x.split('name="')[1].split('"')[0]
-            value = x.split('value="')[1].split('"')[0]
-            data[name] = value
+async def get_tw_page_text(url: str, clt: httpx.AsyncClient | None = None):
+    clt = clt or _make_client()
+    rep = await clt.get(url)
 
-        rep = await client.post("https://x.com/x/migrate", json=data)
-        rep.raise_for_status()
-
+    rep.raise_for_status()
+    if ">document.location =" not in rep.text:
         return rep.text
+
+    url = rep.text.split('document.location = "')[1].split('"')[0]
+    rep = await clt.get(url)
+    rep.raise_for_status()
+    if 'action="https://x.com/x/migrate" method="post"' not in rep.text:
+        return rep.text
+
+    data = {}
+    for x in rep.text.split("<input")[1:]:
+        name = x.split('name="')[1].split('"')[0]
+        value = x.split('value="')[1].split('"')[0]
+        data[name] = value
+
+    rep = await clt.post("https://x.com/x/migrate", json=data)
+    rep.raise_for_status()
+
+    return rep.text
+
+
+def script_url(k: str, v: str):
+    return f"https://abs.twimg.com/responsive-web/client-web/{k}.{v}.js"
 
 
 def get_scripts_list(text: str):
     scripts = text.split('e=>e+"."+')[1].split('[e]+"a.js"')[0]
     try:
         for k, v in json.loads(scripts).items():
-            yield f"https://abs.twimg.com/responsive-web/client-web/{k}.{v}a.js"
+            yield script_url(k, f"{v}a")
     except json.decoder.JSONDecodeError as e:
         raise Exception("Failed to parse scripts") from e
 
@@ -99,20 +108,7 @@ class Cubic:  # cubic_curve.py
 
 def interpolate(from_list: list[float], to_list: list[float], f: float):
     assert len(from_list) == len(to_list), f"Mismatched interpolation args {from_list}: {to_list}"
-
-    out = []
-    for i in range(len(from_list)):
-        out.append(interpolate_num(from_list[i], to_list[i], f))
-    return out
-
-
-def interpolate_num(from_val: float, to_val: float, f: float):
-    # todo: abc
-    if all([isinstance(number, (int, float)) for number in [from_val, to_val]]):
-        return from_val * (1 - f) + to_val * f
-
-    if all([isinstance(number, bool) for number in [from_val, to_val]]):
-        return from_val if f < 0.5 else to_val
+    return [a * (1 - f) + b * f for a, b in zip(from_list, to_list)]
 
 
 def get_rotation_matrix(rotation: float):
@@ -230,14 +226,8 @@ def parse_anim_arr(soup: bs4.BeautifulSoup, vk_bytes: list[int]) -> list[list[fl
     return arr
 
 
-async def load_keys(soup: bs4.BeautifulSoup | None = None) -> tuple[list[int], str]:
-    if soup is None:
-        text = await get_tw_page_text("https://x.com/elonmusk")
-        soup = bs4.BeautifulSoup(text, "html.parser")
-    else:
-        text = str(soup)
-
-    anim_idx = await parse_anim_idx(text)
+async def load_keys(soup: bs4.BeautifulSoup) -> tuple[list[int], str]:
+    anim_idx = await parse_anim_idx(str(soup))
     vk_bytes = parse_vk_bytes(soup)
     anim_arr = parse_anim_arr(soup, vk_bytes)
 
@@ -255,8 +245,8 @@ async def load_keys(soup: bs4.BeautifulSoup | None = None) -> tuple[list[int], s
 
 class XClIdGen:
     @staticmethod
-    async def create():
-        text = await get_tw_page_text("https://x.com/elonmusk")
+    async def create(clt: httpx.AsyncClient | None = None) -> "XClIdGen":
+        text = await get_tw_page_text("https://x.com/tesla", clt=clt)
         soup = bs4.BeautifulSoup(text, "html.parser")
 
         vk_bytes, anim_key = await load_keys(soup)
