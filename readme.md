@@ -339,6 +339,5 @@ API data limitations:
 
 ## See also
 - [twitter-advanced-search](https://github.com/igorbrigadir/twitter-advanced-search) – guide on search filters
+- [TweeterPy](https://github.com/iSarabjitDhiman/TweeterPy) - Another X client
 - [twitter-api-client](https://github.com/trevorhobenshield/twitter-api-client) – Implementation of Twitter's v1, v2, and GraphQL APIs
-- [snscrape](https://github.com/JustAnotherArchivist/snscrape) – is a scraper for social networking services (SNS)
-- [twint](https://github.com/twintproject/twint) – Twitter Intelligence Tool
