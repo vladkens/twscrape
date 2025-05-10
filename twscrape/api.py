@@ -14,6 +14,7 @@ OP_SearchTimeline = "AIdc203rPpK_k_2KWSdm7g/SearchTimeline"
 OP_UserByRestId = "WJ7rCtezBVT6nk6VM5R8Bw/UserByRestId"
 OP_UserByScreenName = "1VOOyvKkiI3FMmkeDNxM9A/UserByScreenName"
 OP_TweetDetail = "_8aYOgEDz35BrBcBal1-_w/TweetDetail"
+OP_ConversationTweetDetail = "INsneb6y78uXRviWsuA-Rw/TweetDetail"
 OP_Followers = "Elc_-qTARceHpztqhI9PQA/Followers"
 OP_Following = "C1qZ6bs-L3oc_TKSZyxkXQ/Following"
 OP_Retweeters = "i-CI8t2pJD15euZJErEDrg/Retweeters"
@@ -276,6 +277,67 @@ class API:
             async for rep in gen:
                 for x in parse_tweets(rep.json(), limit):
                     if x.inReplyToTweetId == twid:
+                        yield x
+
+    # conversation_tweets
+    # Gets all tweets in a conversation thread
+
+    async def conversation_tweets_raw(self, conversation_id: int, limit=-1, kv: KV = None):
+        op = OP_ConversationTweetDetail
+        kv = {
+            "focalTweetId": str(conversation_id),
+            "referrer": "profile",
+            "with_rux_injections": False,
+            "includePromotedContent": True,
+            "withCommunity": True,
+            "withQuickPromoteEligibilityTweetFields": True,
+            "withBirdwatchNotes": True,
+            "withVoice": True,
+            "withV2Timeline": True,
+            **(kv or {}),
+        }
+        ft = {
+            "rweb_video_screen_enabled": False,
+            "profile_label_improvements_pcf_label_in_post_enabled": True,
+            "rweb_tipjar_consumption_enabled": True,
+            "verified_phone_label_enabled": False,
+            "creator_subscriptions_tweet_preview_api_enabled": True,
+            "responsive_web_graphql_timeline_navigation_enabled": True,
+            "responsive_web_graphql_skip_user_profile_image_extensions_enabled": False,
+            "premium_content_api_read_enabled": False,
+            "communities_web_enable_tweet_community_results_fetch": True,
+            "c9s_tweet_anatomy_moderator_badge_enabled": True,
+            "responsive_web_grok_analyze_button_fetch_trends_enabled": False,
+            "responsive_web_grok_analyze_post_followups_enabled": True,
+            "responsive_web_jetfuel_frame": False,
+            "responsive_web_grok_share_attachment_enabled": True,
+            "articles_preview_enabled": True,
+            "responsive_web_edit_tweet_api_enabled": True,
+            "graphql_is_translatable_rweb_tweet_is_translatable_enabled": True,
+            "view_counts_everywhere_api_enabled": True,
+            "longform_notetweets_consumption_enabled": True,
+            "responsive_web_twitter_article_tweet_consumption_enabled": True,
+            "tweet_awards_web_tipping_enabled": False,
+            "responsive_web_grok_show_grok_translated_post": False,
+            "responsive_web_grok_analysis_button_from_backend": True,
+            "creator_subscriptions_quote_tweet_preview_enabled": False,
+            "freedom_of_speech_not_reach_fetch_enabled": True,
+            "standardized_nudges_misinfo": True,
+            "tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled": True,
+            "longform_notetweets_rich_text_read_enabled": True,
+            "longform_notetweets_inline_media_enabled": True,
+            "responsive_web_grok_image_annotation_enabled": True,
+            "responsive_web_enhance_cards_enabled": False,
+        }
+        async with aclosing(self._gql_items(op, kv, ft=ft, limit=limit)) as gen:
+            async for x in gen:
+                yield x
+
+    async def conversation_tweets(self, conversation_id: int, limit=-1, kv: KV = None):
+        async with aclosing(self.conversation_tweets_raw(conversation_id, limit=limit, kv=kv)) as gen:
+            async for rep in gen:
+                for x in parse_tweets(rep.json(), limit):
+                    if x.conversationId == conversation_id:
                         yield x
 
     # followers
