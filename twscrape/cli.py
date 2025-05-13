@@ -196,6 +196,7 @@ def run():
     c_lim("user_media", "Get user's media", "user_id", "User ID", int)
     c_lim("list_timeline", "Get tweets from list", "list_id", "List ID", int)
     c_lim("trends", "Get trends", "trend_id", "Trend ID or name", str)
+    c_lim("list_members", "Get List members by list ID", "list_id", "List ID", int)
 
     args = p.parse_args()
     if args.command is None:

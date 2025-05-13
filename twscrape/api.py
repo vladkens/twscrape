@@ -25,6 +25,7 @@ OP_UserCreatorSubscriptions = "7qcGrVKpcooih_VvJLA1ng/UserCreatorSubscriptions"
 OP_UserMedia = "vFPc2LVIu7so2uA_gHQAdg/UserMedia"
 OP_Bookmarks = "-LGfdImKeQz0xS_jjUwzlA/Bookmarks"
 OP_GenericTimelineById = "CT0YFEFf5GOYa5DJcxM91w/GenericTimelineById"
+OP_ListMembers = "CDYIXKGINDLWntNdeXVUgQ"
 
 GQL_URL = "https://x.com/i/api/graphql"
 GQL_FEATURES = {  # search values here (view source) https://x.com/
@@ -514,3 +515,20 @@ class API:
             async for rep in gen:
                 for x in parse_tweets(rep.json(), limit):
                     yield x
+
+    # list members of a List
+
+    async def list_members_raw(self, list_id: int, limit: int = -1, kv: KV = None):
+        # Raw query for list members
+        op = OP_ListMembers
+        kv = {"listId": str(list_id), "count": 20, **(kv or {})}
+        async with aclosing(self._gql_items(op, kv, limit=limit)) as gen:
+            async for page in gen:
+                yield page
+
+    async def list_members(self, list_id: int, limit: int = -1, kv: KV = None):
+        # Parse the list members from the raw query
+        async with aclosing(self.list_members_raw(list_id, limit=limit, kv=kv)) as gen:
+            async for page in gen:
+                for user in parse_users(page.json(), limit):
+                    yield user
