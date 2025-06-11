@@ -24,29 +24,30 @@ async def get_scripts():
     ]
 
     scripts = []
-    for i, x in enumerate(urls, 1):
-        cache_path = os.path.join(cache_dir, x.split("/")[-1].split("?")[0])
-        if os.path.exists(cache_path):
-            with open(cache_path) as fp:
-                scripts.append(fp.read())
-            continue
+    async with httpx.AsyncClient() as clit: 
+        for i, x in enumerate(urls, 1):
+            cache_path = os.path.join(cache_dir, x.split("/")[-1].split("?")[0])
+            if os.path.exists(cache_path):
+                with open(cache_path) as fp:
+                    scripts.append(fp.read())
+                continue
 
-        print(f"({i:3d} / {len(urls):3d}) {x}")
-        rep = await httpx.AsyncClient().get(x)
-        rep.raise_for_status()
+            print(f"({i:3d} / {len(urls):3d}) {x}")
+            rep = await clit.get(x)
+            rep.raise_for_status()
 
-        with open(cache_path, "w") as fp:
-            fp.write(rep.text)
-        scripts.append(rep.text)
+            with open(cache_path, "w") as fp:
+                fp.write(rep.text)
+            scripts.append(rep.text)
 
     return scripts
 
 
 async def main():
-    with open("./twscrape/api.py") as fp:
+    
+ with open("./twscrape/api.py") as fp:
         ops = [x.strip() for x in fp.read().split("\n")]
         ops = [x.split("=")[0].removeprefix("OP_").strip() for x in ops if x.startswith("OP_")]
-
     all_pairs = {}
     for txt in await get_scripts():
         pairs = re.findall(r'queryId:"(.+?)".+?operationName:"(.+?)"', txt)
