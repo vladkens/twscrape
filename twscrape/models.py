@@ -427,12 +427,13 @@ class TrendMetadata(JSONTrait):
     domain_context: str
     meta_description: str
     url: TrendUrl
+    meta_description: str = ""
 
     @staticmethod
     def parse(obj: dict):
         return TrendMetadata(
-            domain_context=obj["domain_context"],
-            meta_description=obj["meta_description"],
+            domain_context=obj.get("domain_context", ""),
+            meta_description=obj.get("meta_description", ""),
             url=TrendUrl.parse(obj["url"]),
         )
 
