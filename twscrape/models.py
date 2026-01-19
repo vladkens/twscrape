@@ -408,33 +408,38 @@ class RequestParam(JSONTrait):
 class TrendUrl(JSONTrait):
     url: str
     urlType: str
-    urlEndpointOptions: list[RequestParam]
+    urlEndpointOptions: list[RequestParam] = field(default_factory=list)
 
     @staticmethod
     def parse(obj: dict):
+        url_endpoint_options = []
+        if "urtEndpointOptions" in obj and "requestParams" in obj["urtEndpointOptions"]:
+            url_endpoint_options = [
+                RequestParam(key=x["key"], value=x["value"])
+                for x in obj["urtEndpointOptions"]["requestParams"]
+            ]
         return TrendUrl(
             url=obj["url"],
             urlType=obj["urlType"],
-            urlEndpointOptions=[
-                RequestParam(key=x["key"], value=x["value"])
-                for x in obj["urtEndpointOptions"]["requestParams"]
-            ],
+            urlEndpointOptions=url_endpoint_options,
         )
 
 
 @dataclass
 class TrendMetadata(JSONTrait):
-    domain_context: str
-    meta_description: str
-    url: TrendUrl
+    url: Optional[TrendUrl] = None
+    domain_context: str = ""
     meta_description: str = ""
 
     @staticmethod
     def parse(obj: dict):
+        url = None
+        if "url" in obj:
+            url = TrendUrl.parse(obj["url"])
         return TrendMetadata(
+            url=url,
             domain_context=obj.get("domain_context", ""),
             meta_description=obj.get("meta_description", ""),
-            url=TrendUrl.parse(obj["url"]),
         )
 
 
@@ -455,18 +460,32 @@ class Trend(JSONTrait):
     name: str
     trend_url: TrendUrl
     trend_metadata: TrendMetadata
+    social_context: Optional[str] = None
+    is_ai_trend: bool = False
     grouped_trends: list[GroupedTrend] = field(default_factory=list)
     _type: str = "timelinetrend"
 
     @staticmethod
     def parse(obj: dict, res=None):
         grouped_trends = [GroupedTrend.parse(x) for x in obj.get("grouped_trends", [])]
+        
+        # Parse trend_metadata and enhance with social_context if available
+        trend_metadata = TrendMetadata.parse(obj["trend_metadata"])
+        social_context_text = None
+        if "social_context" in obj and "text" in obj["social_context"]:
+            social_context_text = obj["social_context"]["text"]
+            # If meta_description is empty, use social_context text
+            if not trend_metadata.meta_description:
+                trend_metadata.meta_description = social_context_text
+        
         return Trend(
             id=f"trend-{obj['name']}",
             name=obj["name"],
             rank=int(obj["rank"]) if "rank" in obj else None,
             trend_url=TrendUrl.parse(obj["trend_url"]),
-            trend_metadata=TrendMetadata.parse(obj["trend_metadata"]),
+            trend_metadata=trend_metadata,
+            social_context=social_context_text,
+            is_ai_trend=obj.get("is_ai_trend", False),
             grouped_trends=grouped_trends,
         )
 
