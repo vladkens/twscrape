@@ -182,7 +182,7 @@ async def login_confirm_email_code(ctx: TaskCtx):
             ctx.imap = await imap_login(ctx.acc.email, ctx.acc.email_password)
 
         now_time = utc.now() - timedelta(seconds=30)
-        value = await imap_get_email_code(ctx.imap, ctx.acc.email, now_time)
+        value = await imap_get_email_code(ctx.imap, ctx.acc.email)
 
     payload = {
         "flow_token": ctx.prev["flow_token"],
