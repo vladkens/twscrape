@@ -180,6 +180,24 @@ Command to add accounts will be (user_agent column skiped with `_`):
 twscrape add_accounts ./order-12345.txt username:password:email:email_password:_:cookies
 ```
 
+### Add account with cookies (easiest)
+
+If you have browser cookies, you can add an account directly without a file:
+
+```sh
+twscrape add_cookie <username> "auth_token=xxx; ct0=yyy"
+```
+
+Or omit the cookies to be prompted interactively:
+
+```sh
+twscrape add_cookie <username>
+```
+
+To get cookies: open x.com → DevTools (F12) → Application → Cookies → copy `auth_token` and `ct0` values.
+
+Cookie-based accounts are activated immediately — no `login_accounts` step needed.
+
 ### Login accounts
 
 _Note:_ If you added accounts with cookies, login not required.
