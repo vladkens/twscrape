@@ -5,6 +5,7 @@ import math
 import random
 import re
 import time
+from typing import Iterator
 
 import bs4
 import httpx
@@ -46,12 +47,30 @@ def script_url(k: str, v: str):
     return f"https://abs.twimg.com/responsive-web/client-web/{k}.{v}.js"
 
 
-def get_scripts_list(text: str):
-    scripts = text.split('e=>e+"."+')[1].split('[e]+"a.js"')[0]
+def _js_obj_to_dict(s: str) -> dict:
+    """
+    Parse a JavaScript object literal with unquoted numeric keys into a Python dict.
+    Handles both plain integers (20113) and scientific notation (88e3 → 88000).
+    """
+    # Scientific notation first so the plain-int pass does not consume only the mantissa
+    s = re.sub(r'\b(\d+e\d+)(?=\s*:)', lambda m: '"' + str(int(float(m.group(1)))) + '"', s)
+    # Plain integer keys
+    s = re.sub(r'\b(\d+)(?=\s*:)', r'"\1"', s)
+    return json.loads('{' + s + '}')
+
+
+def get_scripts_list(text: str) -> Iterator[str]:
+    # u.u = e => "" + (({name_map})[e] || e) + "." + ({hash_map})[e] + "a.js"
+    # Two separate maps: chunk_id → chunk_name, chunk_id → hash.
     try:
-        for k, v in json.loads(scripts).items():
-            yield script_url(k, f"{v}a")
-    except json.decoder.JSONDecodeError as e:
+        name_raw = text.split('u.u=e=>""+(({')[1].split('})[e]||e)')[0]
+        hash_raw = text.split('|e)+"."+({')[1].split('})[e]+"a.js"')[0]
+        names  = _js_obj_to_dict(name_raw)
+        hashes = _js_obj_to_dict(hash_raw)
+        for k, hash_val in hashes.items():
+            name = names.get(k, k)
+            yield script_url(name, f"{hash_val}a")
+    except (json.JSONDecodeError, IndexError) as e:
         raise Exception("Failed to parse scripts") from e
 
 
