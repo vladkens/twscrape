@@ -246,6 +246,15 @@ async def load_keys(soup: bs4.BeautifulSoup) -> tuple[list[int], str]:
 class XClIdGen:
     @staticmethod
     async def create(clt: httpx.AsyncClient | None = None) -> "XClIdGen":
+        # issue #306: since 2026-04 the bundle no longer contains the
+        # e=>e+"."+ script-list pattern, so get_scripts_list() fails.
+        # Use the upstream XClientTransaction lib when available; fall back
+        # to the native implementation otherwise.
+        try:
+            return await _XClIdGenExternal.create(clt)
+        except ImportError:
+            pass
+
         text = await get_tw_page_text("https://x.com/tesla", clt=clt)
         soup = bs4.BeautifulSoup(text, "html.parser")
 
@@ -270,6 +279,36 @@ class XClIdGen:
         pld = bytearray([num, *[x ^ num for x in pld]])
         out = base64.b64encode(pld).decode("utf-8").strip("=")
         return out
+
+
+class _XClIdGenExternal:
+    # Adapter over the optional XClientTransaction PyPI package.
+    # Install with: pip install XClientTransaction
+    # The lib is sync (uses requests), so the bootstrap runs in a thread.
+
+    def __init__(self, ct):
+        self._ct = ct
+
+    def calc(self, method: str, path: str) -> str:
+        return self._ct.generate_transaction_id(method=method, path=path)
+
+    @staticmethod
+    async def create(clt: httpx.AsyncClient | None = None) -> "_XClIdGenExternal":
+        import asyncio
+        return await asyncio.to_thread(_XClIdGenExternal._create_sync)
+
+    @staticmethod
+    def _create_sync() -> "_XClIdGenExternal":
+        import requests
+        from x_client_transaction import ClientTransaction
+        from x_client_transaction.utils import get_ondemand_file_url, handle_x_migration
+
+        sess = requests.Session()
+        sess.headers["User-Agent"] = UserAgent().chrome
+        home = handle_x_migration(sess)
+        ondemand = sess.get(get_ondemand_file_url(response=home), timeout=30)
+        ct = ClientTransaction(home_page_response=home, ondemand_file_response=ondemand)
+        return _XClIdGenExternal(ct)
 
 
 # MARK: Demo code
