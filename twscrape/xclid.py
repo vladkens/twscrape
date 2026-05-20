@@ -264,6 +264,11 @@ async def load_keys(soup: bs4.BeautifulSoup, clt: httpx.AsyncClient) -> tuple[li
 class XClIdGen:
     @staticmethod
     async def create() -> "XClIdGen":
+        try:
+            return await _XClIdGenExternal.create()
+        except ImportError:
+            pass
+
         clt = _make_client()
         try:
             text = await get_tw_page_text("https://x.com/tesla", clt)
@@ -290,6 +295,36 @@ class XClIdGen:
         pld = bytearray([num, *[x ^ num for x in pld]])
         out = base64.b64encode(pld).decode("utf-8").strip("=")
         return out
+
+
+class _XClIdGenExternal:
+    # Adapter over the optional XClientTransaction PyPI package.
+    # Install with: pip install XClientTransaction
+    # The lib is sync (uses requests), so the bootstrap runs in a thread.
+
+    def __init__(self, ct):
+        self._ct = ct
+
+    def calc(self, method: str, path: str) -> str:
+        return self._ct.generate_transaction_id(method=method, path=path)
+
+    @staticmethod
+    async def create() -> "_XClIdGenExternal":
+        import asyncio
+        return await asyncio.to_thread(_XClIdGenExternal._create_sync)
+
+    @staticmethod
+    def _create_sync() -> "_XClIdGenExternal":
+        import requests
+        from x_client_transaction import ClientTransaction
+        from x_client_transaction.utils import get_ondemand_file_url, handle_x_migration
+
+        sess = requests.Session()
+        sess.headers["User-Agent"] = UserAgent().chrome
+        home = handle_x_migration(sess)
+        ondemand = sess.get(get_ondemand_file_url(response=home), timeout=30)
+        ct = ClientTransaction(home_page_response=home, ondemand_file_response=ondemand)
+        return _XClIdGenExternal(ct)
 
 
 # MARK: Demo code
