@@ -1,6 +1,5 @@
 import base64
 import hashlib
-import json
 import math
 import random
 import re
@@ -47,31 +46,32 @@ def script_url(k: str, v: str):
     return f"https://abs.twimg.com/responsive-web/client-web/{k}.{v}.js"
 
 
-def _js_obj_to_dict(s: str) -> dict:
-    """
-    Parse a JavaScript object literal with unquoted numeric keys into a Python dict.
-    Handles both plain integers (20113) and scientific notation (88e3 → 88000).
-    """
-    # Scientific notation first so the plain-int pass does not consume only the mantissa
-    s = re.sub(r'\b(\d+e\d+)(?=\s*:)', lambda m: '"' + str(int(float(m.group(1)))) + '"', s)
-    # Plain integer keys
-    s = re.sub(r'\b(\d+)(?=\s*:)', r'"\1"', s)
-    return json.loads('{' + s + '}')
-
-
 def get_scripts_list(text: str) -> Iterator[str]:
-    # u.u = e => "" + (({name_map})[e] || e) + "." + ({hash_map})[e] + "a.js"
-    # Two separate maps: chunk_id → chunk_name, chunk_id → hash.
-    try:
-        name_raw = text.split('u.u=e=>""+(({')[1].split('})[e]||e)')[0]
-        hash_raw = text.split('|e)+"."+({')[1].split('})[e]+"a.js"')[0]
-        names  = _js_obj_to_dict(name_raw)
-        hashes = _js_obj_to_dict(hash_raw)
-        for k, hash_val in hashes.items():
-            name = names.get(k, k)
-            yield script_url(name, f"{hash_val}a")
-    except (json.JSONDecodeError, IndexError) as e:
-        raise Exception("Failed to parse scripts") from e
+    """
+    Extract chunk script URLs from the X homepage HTML.
+
+    As of 2026-05, X embeds two separate maps directly in the page HTML:
+      - Hash map  {chunk_id: "7hexchars"}            values are exactly 7 lowercase hex digits
+      - Name map  {chunk_id: "human_readable_name"}  values contain non-hex characters
+
+    URL format: https://abs.twimg.com/responsive-web/client-web/{name}.{hash}a.js
+    """
+    # Hash map: values are exactly 7 lowercase hex digits (distinguishes them from name-map values)
+    hash_map = {m.group(1): m.group(2) for m in re.finditer(r'(\d+):"([0-9a-f]{7})"', text)}
+
+    if not hash_map:
+        raise Exception("Failed to parse scripts")
+
+    # Name map: values that are NOT exactly 7 hex digits (i.e. human-readable chunk names)
+    name_map: dict[str, str] = {}
+    for m in re.finditer(r'(\d+):"([^"]+)"', text):
+        val = m.group(2)
+        if not re.fullmatch(r'[0-9a-f]{7}', val):
+            name_map[m.group(1)] = val
+
+    for chunk_id, hash_val in hash_map.items():
+        name = name_map.get(chunk_id, chunk_id)
+        yield script_url(name, hash_val + "a")
 
 
 # MARK: XClientTxId parsing
