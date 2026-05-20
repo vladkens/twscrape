@@ -65,7 +65,7 @@ def get_scripts_list(text: str) -> Iterator[str]:
     name_map: dict[str, str] = {}
     for m in re.finditer(r'(\d+):"([^"]+)"', text):
         val = m.group(2)
-        if not re.fullmatch(r'[0-9a-f]{7}', val):
+        if not re.fullmatch(r"[0-9a-f]{7}", val):
             name_map[m.group(1)] = val
 
     for chunk_id, hash_val in hash_map.items():
@@ -265,7 +265,7 @@ class XClIdGen:
     @staticmethod
     async def create() -> "XClIdGen":
         try:
-            return await _XClIdGenExternal.create()
+            return await _XClIdGenExternal.create()  # type: ignore[return-value]
         except ImportError:
             pass
 
@@ -311,13 +311,17 @@ class _XClIdGenExternal:
     @staticmethod
     async def create() -> "_XClIdGenExternal":
         import asyncio
+
         return await asyncio.to_thread(_XClIdGenExternal._create_sync)
 
     @staticmethod
     def _create_sync() -> "_XClIdGenExternal":
-        import requests
-        from x_client_transaction import ClientTransaction
-        from x_client_transaction.utils import get_ondemand_file_url, handle_x_migration
+        import requests  # type: ignore[import-untyped]
+        from x_client_transaction import ClientTransaction  # type: ignore[import-not-found]
+        from x_client_transaction.utils import (  # type: ignore[import-not-found]
+            get_ondemand_file_url,
+            handle_x_migration,
+        )
 
         sess = requests.Session()
         sess.headers["User-Agent"] = UserAgent().chrome

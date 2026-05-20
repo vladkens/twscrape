@@ -1,10 +1,15 @@
-FROM python:3.10-alpine
-RUN apk add build-base
-
+# ARGs before FROM are not available in RUN — must be redeclared after FROM
 ARG SQLY=2021
 ARG SQLV=3340100
 
-RUN wget https://sqlite.org/${SQLY}/sqlite-autoconf-${SQLV}.tar.gz -O sqlite.tar.gz \
+FROM python:3.10-alpine
+
+ARG SQLY
+ARG SQLV
+
+RUN apk add build-base uv
+
+RUN wget https://www.sqlite.org/${SQLY}/sqlite-autoconf-${SQLV}.tar.gz -O sqlite.tar.gz \
     && tar xvfz sqlite.tar.gz \
     && cd sqlite-autoconf-${SQLV} \
     && ./configure --prefix=/usr/local --build=aarch64-unknown-linux-gnu \
@@ -14,8 +19,8 @@ RUN wget https://sqlite.org/${SQLY}/sqlite-autoconf-${SQLV}.tar.gz -O sqlite.tar
     && rm -rf sqlite*
 
 WORKDIR /app
-COPY pyproject.toml readme.md /app/
-RUN pip install -e .[dev]
+COPY pyproject.toml readme.md uv.lock /app/
+RUN uv sync --frozen
 COPY . /app
 
-CMD ["sh", "-c", "sqlite3 --version; python -c 'import sqlite3;print(sqlite3.sqlite_version)'; pytest tests/"]
+CMD ["sh", "-c", "sqlite3 --version; python -c 'import sqlite3;print(sqlite3.sqlite_version)'; uv run pytest tests/"]

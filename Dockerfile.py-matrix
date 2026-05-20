@@ -1,11 +1,11 @@
 ARG VER=3.12
 
 FROM python:${VER}-alpine
-RUN apk add git
+RUN apk add git uv
 
 WORKDIR /app
-COPY pyproject.toml readme.md /app/
-RUN pip install -e .[dev]
+COPY pyproject.toml readme.md uv.lock /app/
+RUN uv sync --frozen
 COPY . /app
 
-CMD ["sh", "-c", "pytest tests/"]
+CMD ["sh", "-c", "uv run pytest tests/"]

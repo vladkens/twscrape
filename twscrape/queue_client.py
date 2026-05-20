@@ -38,7 +38,9 @@ class XClIdGenStore:
                 return clid_gen
             except Exception as e:
                 tries += 1
-                logger.warning(f"XClIdGen creation attempt {tries}/3 failed: {type(e).__name__}: {e}")
+                logger.warning(
+                    f"XClIdGen creation attempt {tries}/3 failed: {type(e).__name__}: {e}"
+                )
                 await asyncio.sleep(1)
 
         raise AbortReqError(

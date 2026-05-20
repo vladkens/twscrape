@@ -11,7 +11,8 @@ async def get_scripts():
     cache_dir = "/tmp/twscrape-ops"
     os.makedirs(cache_dir, exist_ok=True)
 
-    text = await get_tw_page_text("https://x.com/elonmusk")
+    async with httpx.AsyncClient(follow_redirects=True) as clt:
+        text = await get_tw_page_text("https://x.com/elonmusk", clt)
     urls = list(get_scripts_list(text))
 
     v = text.split("/client-web/main.")[1].split(".")[0]

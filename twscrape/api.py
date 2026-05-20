@@ -10,22 +10,21 @@ from .queue_client import QueueClient
 from .utils import encode_params, find_obj, get_by_path
 
 # OP_{NAME} – {NAME} should be same as second part of GQL ID (required to auto-update script)
-# Updated 2026-05-10 (issue #306): old IDs started returning 404.
-OP_SearchTimeline = "AwDeXt15G08TTkW198-eUA/SearchTimeline"
+OP_SearchTimeline = "Yw6L66Pw54NHKuq4Dp7b4Q/SearchTimeline"
 OP_UserByRestId = "VQfQ9wwYdk6j_u2O4vt64Q/UserByRestId"
 OP_UserByScreenName = "IGgvgiOx4QZndDHuD3x9TQ/UserByScreenName"
-OP_TweetDetail = "_i0BBmP_dK_ZLFa2Y-ei9Q/TweetDetail"
-OP_Followers = "EIcD9sh3tSzxPgvVCU3ebw/Followers"
-OP_Following = "8-yNqgAGituOpu_D5wQb0g/Following"
-OP_Retweeters = "i-CI8t2pJD15euZJErEDrg/Retweeters"
-OP_UserTweets = "lrMzG9qPQHpqJdP3AbM-bQ/UserTweets"
-OP_UserTweetsAndReplies = "3YJONShMAajim63A8iF-sw/UserTweetsAndReplies"
-OP_ListLatestTweetsTimeline = "us9jUxCKI9355JaG6q7sVw/ListLatestTweetsTimeline"
-OP_BlueVerifiedFollowers = "mtFzhZWVIMar04RMPbXn0Q/BlueVerifiedFollowers"
-OP_UserCreatorSubscriptions = "zeEJ3MaWVmy_4m8uyPPijg/UserCreatorSubscriptions"
-OP_UserMedia = "grLxZULbmdPQ7LlCKtG_jQ/UserMedia"
-OP_Bookmarks = "-LGfdImKeQz0xS_jjUwzlA/Bookmarks"
-OP_GenericTimelineById = "IEvM-wlV9dG9bH1CppaUcg/GenericTimelineById"
+OP_TweetDetail = "oCon7R-cgWRFy6EfZjaKfg/TweetDetail"
+OP_Followers = "_orfRBQae57vylFPH0Huhg/Followers"
+OP_Following = "F42cDX8PDFxkbjjq6JrM2w/Following"
+OP_Retweeters = "TZsWuSj7vGmncVnq7KWDUQ/Retweeters"
+OP_UserTweets = "36rb3Xj3iJ64Q-9wKDjCcQ/UserTweets"
+OP_UserTweetsAndReplies = "D5eKzDa5ZoJuC1TCeAXbWA/UserTweetsAndReplies"
+OP_ListLatestTweetsTimeline = "7UuJsFvnWuZo0HmxrzU42Q/ListLatestTweetsTimeline"
+OP_BlueVerifiedFollowers = "crKOXrAHR3W3aPuKEJG8GA/BlueVerifiedFollowers"
+OP_UserCreatorSubscriptions = "-9O4xZ8ykY_Hf6kyHJX30A/UserCreatorSubscriptions"
+OP_UserMedia = "9EovraBTXJYGSEQXZqlLmQ/UserMedia"
+OP_Bookmarks = "XD0ViOeSOW4YoeNTGjVaYw/Bookmarks"
+OP_GenericTimelineById = "_dGVIf1cY6xFanFNPsAzPQ/GenericTimelineById"
 
 GQL_URL = "https://x.com/i/api/graphql"
 GQL_FEATURES = {  # search values here (view source) https://x.com/

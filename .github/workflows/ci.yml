@@ -4,9 +4,6 @@ on:
   push:
   pull_request:
 
-env:
-  PIP_ROOT_USER_ACTION: ignore
-
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -18,9 +15,15 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-      
+
+      - name: install uv
+        run: pip install uv
+
       - name: install dependencies
-        run: pip install -e .[dev]
+        run: uv sync --frozen
+
+      - name: audit
+        run: uv audit
 
       - run: make lint
       - run: make test
@@ -37,8 +40,10 @@ jobs:
         with:
           python-version: "3.x"
 
-      - run: python -m pip install build
-      - run: python -m build --sdist --wheel --outdir dist/ .
+      - name: install uv
+        run: pip install uv
+
+      - run: uv build
 
       - uses: pypa/gh-action-pypi-publish@release/v1
         with:
