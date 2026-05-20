@@ -16,8 +16,7 @@ def _make_client() -> httpx.AsyncClient:
     return httpx.AsyncClient(headers=headers, follow_redirects=True)
 
 
-async def get_tw_page_text(url: str, clt: httpx.AsyncClient | None = None):
-    clt = clt or _make_client()
+async def get_tw_page_text(url: str, clt: httpx.AsyncClient):
     rep = await clt.get(url)
 
     rep.raise_for_status()
@@ -217,13 +216,13 @@ def parse_vk_bytes(soup: bs4.BeautifulSoup) -> list[int]:
     return list(base64.b64decode(bytes(el, "utf-8")))
 
 
-async def parse_anim_idx(text: str) -> list[int]:
+async def parse_anim_idx(text: str, clt: httpx.AsyncClient) -> list[int]:
     scripts = list(get_scripts_list(text))
     scripts = [x for x in scripts if "/ondemand.s." in x]
     if not scripts:
         raise Exception("Couldn't get XClientTxId scripts")
 
-    text = await get_tw_page_text(scripts[0])
+    text = await get_tw_page_text(scripts[0], clt)
 
     items = [int(x.group(2)) for x in INDICES_REGEX.finditer(text)]
     if not items:
@@ -245,8 +244,8 @@ def parse_anim_arr(soup: bs4.BeautifulSoup, vk_bytes: list[int]) -> list[list[fl
     return arr
 
 
-async def load_keys(soup: bs4.BeautifulSoup) -> tuple[list[int], str]:
-    anim_idx = await parse_anim_idx(str(soup))
+async def load_keys(soup: bs4.BeautifulSoup, clt: httpx.AsyncClient) -> tuple[list[int], str]:
+    anim_idx = await parse_anim_idx(str(soup), clt)
     vk_bytes = parse_vk_bytes(soup)
     anim_arr = parse_anim_arr(soup, vk_bytes)
 
@@ -264,13 +263,15 @@ async def load_keys(soup: bs4.BeautifulSoup) -> tuple[list[int], str]:
 
 class XClIdGen:
     @staticmethod
-    async def create(clt: httpx.AsyncClient | None = None) -> "XClIdGen":
-        text = await get_tw_page_text("https://x.com/tesla", clt=clt)
-        soup = bs4.BeautifulSoup(text, "html.parser")
-
-        vk_bytes, anim_key = await load_keys(soup)
-        clid_gen = XClIdGen(vk_bytes, anim_key)
-        return clid_gen
+    async def create() -> "XClIdGen":
+        clt = _make_client()
+        try:
+            text = await get_tw_page_text("https://x.com/tesla", clt)
+            soup = bs4.BeautifulSoup(text, "html.parser")
+            vk_bytes, anim_key = await load_keys(soup, clt)
+            return XClIdGen(vk_bytes, anim_key)
+        finally:
+            await clt.aclose()
 
     def __init__(self, vk_bytes: list[int], anim_key: str):
         self.vk_bytes = vk_bytes
@@ -295,10 +296,13 @@ class XClIdGen:
 
 
 async def main():
-    text = await get_tw_page_text("https://x.com/elonmusk")
-    soup = bs4.BeautifulSoup(text, "html.parser")
-
-    vk_bytes, anim_key = await load_keys(soup)
+    clt = _make_client()
+    try:
+        text = await get_tw_page_text("https://x.com/elonmusk", clt)
+        soup = bs4.BeautifulSoup(text, "html.parser")
+        vk_bytes, anim_key = await load_keys(soup, clt)
+    finally:
+        await clt.aclose()
     clid_gen = XClIdGen(vk_bytes, anim_key)
 
     method = "GET"
