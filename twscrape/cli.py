@@ -2,6 +2,7 @@
 
 import argparse
 import asyncio
+import getpass
 import io
 import json
 import sqlite3
@@ -83,15 +84,8 @@ async def main(args):
     if args.command == "add_cookie":
         cookies = args.cookies
         if not cookies:
-            cookies = input("cookies (e.g. auth_token=xxx; ct0=yyy): ")
-        await pool.add_account(
-            username=args.username,
-            password="_",
-            email="_",
-            email_password="_",
-            cookies=cookies,
-        )
-        print(f"Account @{args.username} added and activated.")
+            cookies = getpass.getpass("cookies (e.g. auth_token=xxx; ct0=yyy): ")
+        await pool.add_account_cookies(args.username, cookies)
         return
 
     if args.command == "del_accounts":
@@ -182,9 +176,9 @@ def run():
     add_accounts.add_argument("file_path", help="File with accounts")
     add_accounts.add_argument("line_format", help="args of Pool.add_account splited by same delim")
 
-    add_cookie = subparsers.add_parser("add_cookie", help="Add account with browser cookies (no login needed)")
+    add_cookie = subparsers.add_parser("add_cookie", help="Add account with cookies")
     add_cookie.add_argument("username", help="Twitter/X username")
-    add_cookie.add_argument("cookies", nargs="?", default=None, help="Cookies string (e.g. 'auth_token=xxx; ct0=yyy')")
+    add_cookie.add_argument("cookies", nargs="?", default=None, help="Cookie string")
 
     del_accounts = subparsers.add_parser("del_accounts", help="Delete accounts")
     del_accounts.add_argument("usernames", nargs="+", default=[], help="Usernames to delete")

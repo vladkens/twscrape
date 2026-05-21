@@ -109,6 +109,16 @@ class AccountsPool:
         await self.save(account)
         logger.info(f"Account {username} added successfully (active={account.active})")
 
+    async def add_account_cookies(self, username: str, cookies: str):
+        existing = await self.get_account(username)
+        if existing is not None:
+            logger.warning(f"Account {username} already exists (active={existing.active})")
+            return
+
+        await self.add_account(
+            username=username, password="_", email="_", email_password="_", cookies=cookies
+        )
+
     async def delete_accounts(self, usernames: str | list[str]):
         usernames = usernames if isinstance(usernames, list) else [usernames]
         usernames = list(set(usernames))
