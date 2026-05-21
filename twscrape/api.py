@@ -21,8 +21,12 @@ from .models import (
 from .queue_client import QueueClient
 from .utils import encode_params, find_obj, get_by_path
 
-# Stored as `OP_{NAME}`, where `{NAME}` matches the second segment of the GQL ID.
-# Update to the latest values with: `uv run scripts/update_gql_ops.py --apply`
+# GraphQL operation IDs used by this module.
+# If you add a new endpoint, add it here manually.
+# Update this block with: `uv run scripts/update_gql_ops.py`
+# This script rewrites the whole block automatically.
+
+# GQL_OPS_CODEGEN
 OP_AboutAccountQuery = "zUnx-DLN9dkwOkNhTLySjg/AboutAccountQuery"
 OP_BlueVerifiedFollowers = "crKOXrAHR3W3aPuKEJG8GA/BlueVerifiedFollowers"
 OP_Bookmarks = "XD0ViOeSOW4YoeNTGjVaYw/Bookmarks"
@@ -33,8 +37,7 @@ OP_Following = "F42cDX8PDFxkbjjq6JrM2w/Following"
 OP_GenericTimelineById = "_dGVIf1cY6xFanFNPsAzPQ/GenericTimelineById"
 OP_ListLatestTweetsTimeline = "7UuJsFvnWuZo0HmxrzU42Q/ListLatestTweetsTimeline"
 OP_ListMembers = "oIetCo19avgStX4mOnGsPg/ListMembers"
-OP_MembersSliceTimeline_Query = "WSbJGJjZaVasSj9bnqSZSA/membersSliceTimeline_Query"
-OP_ModeratorsSliceTimeline_Query = "GBMT3GOWy5dYsYC4XJfvow/moderatorsSliceTimeline_Query"
+OP_ListMembers = "oIetCo19avgStX4mOnGsPg/ListMembers"
 OP_Retweeters = "TZsWuSj7vGmncVnq7KWDUQ/Retweeters"
 OP_SearchTimeline = "Yw6L66Pw54NHKuq4Dp7b4Q/SearchTimeline"
 OP_TweetDetail = "oCon7R-cgWRFy6EfZjaKfg/TweetDetail"
@@ -44,6 +47,9 @@ OP_UserCreatorSubscriptions = "-9O4xZ8ykY_Hf6kyHJX30A/UserCreatorSubscriptions"
 OP_UserMedia = "9EovraBTXJYGSEQXZqlLmQ/UserMedia"
 OP_UserTweets = "36rb3Xj3iJ64Q-9wKDjCcQ/UserTweets"
 OP_UserTweetsAndReplies = "D5eKzDa5ZoJuC1TCeAXbWA/UserTweetsAndReplies"
+OP_membersSliceTimeline_Query = "WSbJGJjZaVasSj9bnqSZSA/membersSliceTimeline_Query"
+OP_moderatorsSliceTimeline_Query = "GBMT3GOWy5dYsYC4XJfvow/moderatorsSliceTimeline_Query"
+# GQL_OPS_CODEGEN
 
 GQL_URL = "https://x.com/i/api/graphql"
 GQL_FEATURES = {  # search values here (view source) https://x.com/
@@ -128,9 +134,25 @@ class API:
         return rep if is_res else None, new_total, is_cur and not is_lim
 
     def _get_cursor(self, obj: dict, cursor_type="Bottom") -> str | None:
+        # standard timeline cursor: {cursorType: "Bottom", value: "..."}
+        # fallback: community endpoints use slice_info.next_cursor (plain string)
         if cur := find_obj(obj, lambda x: x.get("cursorType") == cursor_type):
             return cur.get("value")
-        return None
+        return get_by_path(obj, "next_cursor")
+
+    def _gql_entries(self, obj: dict) -> list:
+        # standard timelines put items in "entries"; community endpoints use "items_results"
+        els = get_by_path(obj, "entries") or get_by_path(obj, "items_results") or []
+        if els and "entryId" in (els[0] or {}):
+            # filter out pagination cursors and non-content module entries
+            els = [
+                x
+                for x in els
+                if not x["entryId"].startswith(
+                    ("cursor-", "messageprompt-", "module-", "who-to-follow-")
+                )
+            ]
+        return els
 
     # gql helpers
 
@@ -155,15 +177,7 @@ class API:
                     return
 
                 obj = rep.json()
-                els = get_by_path(obj, "entries") or []
-                els = [
-                    x
-                    for x in els
-                    if not (
-                        x["entryId"].startswith("cursor-")
-                        or x["entryId"].startswith("messageprompt-")
-                    )
-                ]
+                els = self._gql_entries(obj)
                 cur = self._get_cursor(obj, cursor_type)
 
                 rep, cnt, active = self._is_end(rep, queue, els, cur, cnt, limit)
@@ -608,7 +622,7 @@ class API:
     # Community members
 
     async def community_members_raw(self, community_id: int, limit=-1, kv: KV = None):
-        op = OP_MembersSliceTimeline_Query
+        op = OP_membersSliceTimeline_Query
         kv = {
             "communityId": str(community_id),
             "count": 20,
@@ -628,7 +642,7 @@ class API:
     # Community moderators
 
     async def community_moderators_raw(self, community_id: int, limit=-1, kv: KV = None):
-        op = OP_ModeratorsSliceTimeline_Query
+        op = OP_moderatorsSliceTimeline_Query
         kv = {
             "communityId": str(community_id),
             "count": 20,
@@ -675,10 +689,7 @@ class API:
 
     async def community_info_raw(self, community_id: int, kv: KV = None):
         op = OP_CommunityQuery
-        kv = {
-            "communityId": str(community_id),
-            **(kv or {}),
-        }
+        kv = {"communityId": str(community_id), **(kv or {})}
         ft = {
             "c9s_list_members_action_api_enabled": False,
             "c9s_superc9s_indication_enabled": False,

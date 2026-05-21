@@ -3,35 +3,47 @@
 Usage:
   uv run scripts/update_mocked_data.py           # skip files updated within last 7 days
   uv run scripts/update_mocked_data.py --force   # update all regardless of age
-  uv run scripts/update_mocked_data.py --ttl 1   # custom TTL in days
 """
 
 import asyncio
+import inspect
 import json
+import os
+import re
 import sys
 import time
 from datetime import datetime
-from pathlib import Path
-
-from rich.console import Console
-from rich.table import Table
+from typing import TypeAlias
 
 from twscrape import API, AccountsPool
+from twscrape import api as api_mod
 from twscrape.logger import set_log_level
 
-OUT = Path("tests/mocked-data")
-META = OUT / ".meta.json"
+OUT = "tests/mocked-data"
+META = f"{OUT}/__meta.json"
 DEFAULT_TTL_DAYS = 7
 
-
-def load_meta() -> dict:
-    if META.exists():
-        return json.loads(META.read_text())
-    return {}
+MetaEntry: TypeAlias = tuple[int, str]  # (fetched_at_unix, gql_op_id)
 
 
-def save_meta(meta: dict):
-    META.write_text(json.dumps(meta, indent=2))
+def load_meta() -> dict[str, MetaEntry]:
+    try:
+        if not os.path.exists(META):
+            return {}
+        with open(META, encoding="utf-8") as fp:
+            raw = json.load(fp)
+        result: dict[str, MetaEntry] = {}
+        for k, v in raw.items():
+            if isinstance(v, list) and len(v) == 2:
+                result[k] = (int(v[0]), str(v[1]))
+        return result
+    except Exception:
+        return {}
+
+
+def save_meta(meta: dict[str, MetaEntry]):
+    with open(META, "w", encoding="utf-8") as fp:
+        json.dump({k: list(v) for k, v in sorted(meta.items())}, fp, indent=2)
 
 
 _UID = 2244994945  # https://x.com/xdevelopers
@@ -67,8 +79,6 @@ COMMANDS = [
     ("community_tweets", lambda api: _first(api.community_tweets_raw(_CID, limit=10))),
 ]
 
-console = Console()
-
 
 async def _first(gen):
     async for x in gen:
@@ -76,94 +86,130 @@ async def _first(gen):
     return None
 
 
-def is_stale(name: str, meta: dict, ttl_days: int) -> bool:
-    path = OUT / f"raw_{name}.json"
-    if not path.exists() or name not in meta:
-        return True
-    return (time.time() - meta[name]) > ttl_days * 86400
-
-
-def print_table(meta: dict, ttl_days: int):
-    table = Table(show_lines=False, box=None, pad_edge=False)
-    table.add_column("name", style="bold", min_width=26)
-    table.add_column("updated at", justify="right", min_width=16)
-    table.add_column("next update in", justify="right", min_width=14)
-    table.add_column("", justify="center")
-
+def get_ops() -> dict[str, str]:
+    # For each command, extract the GQL operation ID used by its *_raw method.
+    # We do this by reading the method source and finding the single OP_* constant reference.
+    # This lets us detect when an op ID changes in api.py and mark the cached file as stale.
+    res = {}
+    missing = []
     for name, _ in COMMANDS:
-        path = OUT / f"raw_{name}.json"
-        if not path.exists() or name not in meta:
-            table.add_row(name, "—", "—", "[red]missing[/red]")
+        method = f"{name}_raw"
+        fn = getattr(API, method, None)
+        if fn is None:
+            missing.append(method)
+            continue
+        src = inspect.getsource(fn)
+        names = set(re.findall(r"\bOP_\w+\b", src))
+        if len(names) != 1:  # require exactly one OP_* per method
+            missing.append(method)
+            continue
+        value = getattr(api_mod, names.pop(), None)
+        if not isinstance(value, str):
+            missing.append(method)
+            continue
+        res[method] = value
+
+    if missing:
+        names = ", ".join(missing)
+        raise ValueError(f"Expected exactly one OP_* in: {names}")
+
+    return res
+
+
+def is_stale(name: str, op: str, meta: dict, ttl_days: int) -> bool:
+    return get_state(name, op, meta, ttl_days) != "ok"
+
+
+def get_state(name: str, op: str, meta: dict[str, MetaEntry], ttl_days: int) -> str:
+    if not os.path.exists(f"{OUT}/raw_{name}.json"):
+        return "missing"
+    item = meta.get(name)
+    if item is None:
+        return "op"
+    if item[1] != op:
+        return "op"
+    if (time.time() - item[0]) > ttl_days * 86400:
+        return "ttl"
+    return "ok"
+
+
+def print_table(meta: dict[str, MetaEntry], ops: dict[str, str], ttl_days: int):
+    print(f"{'name':<28}  {'updated at':>16}  {'next in':>12}  status")
+    for name, _ in COMMANDS:
+        op = ops[f"{name}_raw"]
+        state = get_state(name, op, meta, ttl_days)
+        item = meta.get(name)
+
+        if state == "missing":
+            print(f"{name:<28}  {'—':>16}  {'—':>12}  missing")
             continue
 
-        fetched_at = meta[name]
-        updated_at = datetime.fromtimestamp(fetched_at).strftime("%Y-%m-%d %H:%M")
-        due_days = ttl_days - (time.time() - fetched_at) / 86400
+        if state == "op":
+            updated_at = (
+                datetime.fromtimestamp(item[0]).strftime("%Y-%m-%d %H:%M") if item else "—"
+            )
+            print(f"{name:<28}  {updated_at:>16}  {'op changed':>12}  stale")
+            continue
+
+        assert item is not None
+        updated_at = datetime.fromtimestamp(item[0]).strftime("%Y-%m-%d %H:%M")
+        due_days = ttl_days - (time.time() - item[0]) / 86400
 
         if due_days < 0:
-            next_in = f"{abs(due_days):.1f}d overdue"
-            status = "[red]stale[/red]"
-            next_style = "red"
+            next_in, status = f"{abs(due_days):.1f}d overdue", "stale"
         elif due_days < 1:
-            next_in = f"{due_days * 24:.0f}h"
-            status = "[yellow]soon[/yellow]"
-            next_style = "yellow"
+            next_in, status = f"{due_days * 24:.0f}h", "soon"
         else:
-            next_in = f"{due_days:.1f}d"
-            status = "[green]ok[/green]"
-            next_style = "green"
+            next_in, status = f"{due_days:.1f}d", "ok"
 
-        table.add_row(name, updated_at, f"[{next_style}]{next_in}[/{next_style}]", status)
-
-    console.print(table)
+        print(f"{name:<28}  {updated_at:>16}  {next_in:>12}  {status}")
 
 
 async def main() -> int:
     force = "--force" in sys.argv
     ttl = DEFAULT_TTL_DAYS
-    if "--ttl" in sys.argv:
-        ttl = int(sys.argv[sys.argv.index("--ttl") + 1])
 
     set_log_level("WARNING")
-    OUT.mkdir(parents=True, exist_ok=True)
+    os.makedirs(OUT, exist_ok=True)
     meta = load_meta()
+    ops = get_ops()
 
-    print_table(meta, ttl)
+    print_table(meta, ops, ttl)
 
-    to_update = [(n, fn) for n, fn in COMMANDS if force or is_stale(n, meta, ttl)]
+    to_update = [
+        (n, f"{n}_raw", fn)
+        for n, fn in COMMANDS
+        if force or is_stale(n, ops[f"{n}_raw"], meta, ttl)
+    ]
     if not to_update:
-        console.print("\n[green]All files are up to date.[/green]")
+        print("\nAll files are up to date.")
         return 0
 
-    console.print()
+    print()
     pool = AccountsPool()
     api = API(pool, debug=True)
 
     ok, fail = 0, 0
-    for name, fn in to_update:
-        outfile = OUT / f"raw_{name}.json"
+    for name, method, fn in to_update:
+        outfile = f"{OUT}/raw_{name}.json"
         try:
             rep = await fn(api)
             if rep is None:
-                console.print(f"[red]FAIL[/red]  {name}  (check logs above)")
+                print(f"fail  {name}  (no response)")
                 fail += 1
                 continue
-            with open(outfile, "w") as fp:
+            with open(outfile, "w", encoding="utf-8") as fp:
                 json.dump(rep.json(), fp, indent=2)
-            meta[name] = time.time()
+            meta[name] = (int(time.time()), ops[method])
             save_meta(meta)
-            console.print(f"[green]OK[/green]    {name}")
+            print(f"ok    {name}")
             ok += 1
         except Exception as e:
-            console.print(f"[red]FAIL[/red]  {name}  →  {type(e).__name__}: {e}")
+            print(f"fail  {name}  ({type(e).__name__}: {e})")
             fail += 1
 
     skipped = len(COMMANDS) - len(to_update)
-    console.print(f"\n{ok} updated, {skipped} skipped, {fail} failed")
-
-    if ok:
-        console.print()
-        print_table(meta, ttl)
+    print(f"\n{ok} updated, {skipped} skipped, {fail} failed")
 
     return 1 if fail else 0
 

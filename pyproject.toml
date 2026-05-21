@@ -36,7 +36,6 @@ dev = [
   "pytest-cov>=4.1.0",
   "pytest-httpx>=0.28.0",
   "pytest>=7.4.4",
-  "rich>=15.0.0",
   "ruff>=0.1.11",
 ]
 
@@ -54,6 +53,9 @@ pythonpath = ["."]
 asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "session"
 filterwarnings = ["ignore::DeprecationWarning"]
+
+[tool.uv]
+exclude-newer = "7 days"
 
 [tool.ruff]
 line-length = 99

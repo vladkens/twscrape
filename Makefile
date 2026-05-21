@@ -6,9 +6,12 @@ install:
 	uv sync
 
 update:
-	uv run scripts/update_gql_ops.py --apply
+	uv run scripts/update_gql_ops.py
 	uv run scripts/update_mocked_data.py
-# 	uv sync --upgrade --all-groups
+
+update-deps:
+	uv sync --upgrade --all-groups
+	uv --preview-features audit audit
 
 lint:
 	uv run ruff check --select I --fix .

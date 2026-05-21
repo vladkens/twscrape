@@ -23,21 +23,15 @@ class CustomHelpFormatter(argparse.HelpFormatter):
 
 
 def get_fn_arg(args):
-    names = [
-        "query",
-        "tweet_id",
-        "conversation_id",
-        "user_id",
-        "username",
-        "list_id",
-        "trend_id",
-        "community_id",
-    ]
-    for name in names:
-        if name in args:
-            return name, getattr(args, name)
+    if not hasattr(args, "arg_name"):
+        logger.error(f"Missing argument name for command: {args.command}")
+        exit(1)
 
-    logger.error(f"Missing argument: {names}")
+    value = getattr(args, args.arg_name, None)
+    if value is not None:
+        return args.arg_name, value
+
+    logger.error(f"Missing argument value: {args.arg_name}")
     exit(1)
 
 
@@ -157,6 +151,7 @@ def run():
     def c_one(name: str, msg: str, a_name: str, a_msg: str, a_type: type = str):
         p = subparsers.add_parser(name, help=msg)
         p.add_argument(a_name, help=a_msg, type=a_type)
+        p.set_defaults(arg_name=a_name)
         p.add_argument("--raw", action="store_true", help="Print raw response")
         return p
 
