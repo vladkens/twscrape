@@ -10,21 +10,20 @@ from .queue_client import QueueClient
 from .utils import encode_params, find_obj, get_by_path
 
 # OP_{NAME} – {NAME} should be same as second part of GQL ID (required to auto-update script)
-OP_SearchTimeline = "AIdc203rPpK_k_2KWSdm7g/SearchTimeline"
-OP_UserByRestId = "WJ7rCtezBVT6nk6VM5R8Bw/UserByRestId"
-OP_UserByScreenName = "1VOOyvKkiI3FMmkeDNxM9A/UserByScreenName"
-OP_TweetDetail = "_8aYOgEDz35BrBcBal1-_w/TweetDetail"
-OP_Followers = "Elc_-qTARceHpztqhI9PQA/Followers"
-OP_Following = "C1qZ6bs-L3oc_TKSZyxkXQ/Following"
-OP_Retweeters = "i-CI8t2pJD15euZJErEDrg/Retweeters"
-OP_UserTweets = "HeWHY26ItCfUmm1e6ITjeA/UserTweets"
-OP_UserTweetsAndReplies = "OAx9yEcW3JA9bPo63pcYlA/UserTweetsAndReplies"
-OP_ListLatestTweetsTimeline = "BkauSnPUDQTeeJsxq17opA/ListLatestTweetsTimeline"
-OP_BlueVerifiedFollowers = "ZpmVpf_fBIUgdPErpq2wWg/BlueVerifiedFollowers"
-OP_UserCreatorSubscriptions = "7qcGrVKpcooih_VvJLA1ng/UserCreatorSubscriptions"
-OP_UserMedia = "vFPc2LVIu7so2uA_gHQAdg/UserMedia"
-OP_Bookmarks = "-LGfdImKeQz0xS_jjUwzlA/Bookmarks"
-OP_GenericTimelineById = "CT0YFEFf5GOYa5DJcxM91w/GenericTimelineById"
+OP_SearchTimeline = "Yw6L66Pw54NHKuq4Dp7b4Q/SearchTimeline"
+OP_UserByScreenName = "IGgvgiOx4QZndDHuD3x9TQ/UserByScreenName"
+OP_TweetDetail = "oCon7R-cgWRFy6EfZjaKfg/TweetDetail"
+OP_Followers = "_orfRBQae57vylFPH0Huhg/Followers"
+OP_Following = "F42cDX8PDFxkbjjq6JrM2w/Following"
+OP_Retweeters = "TZsWuSj7vGmncVnq7KWDUQ/Retweeters"
+OP_UserTweets = "36rb3Xj3iJ64Q-9wKDjCcQ/UserTweets"
+OP_UserTweetsAndReplies = "D5eKzDa5ZoJuC1TCeAXbWA/UserTweetsAndReplies"
+OP_ListLatestTweetsTimeline = "7UuJsFvnWuZo0HmxrzU42Q/ListLatestTweetsTimeline"
+OP_BlueVerifiedFollowers = "crKOXrAHR3W3aPuKEJG8GA/BlueVerifiedFollowers"
+OP_UserCreatorSubscriptions = "-9O4xZ8ykY_Hf6kyHJX30A/UserCreatorSubscriptions"
+OP_UserMedia = "9EovraBTXJYGSEQXZqlLmQ/UserMedia"
+OP_Bookmarks = "XD0ViOeSOW4YoeNTGjVaYw/Bookmarks"
+OP_GenericTimelineById = "_dGVIf1cY6xFanFNPsAzPQ/GenericTimelineById"
 
 GQL_URL = "https://x.com/i/api/graphql"
 GQL_FEATURES = {  # search values here (view source) https://x.com/
@@ -184,26 +183,6 @@ class API:
             async for rep in gen:
                 for x in parse_users(rep.json(), limit):
                     yield x
-
-    # user_by_id
-
-    async def user_by_id_raw(self, uid: int, kv: KV = None):
-        op = OP_UserByRestId
-        kv = {"userId": str(uid), "withSafetyModeUserFields": True, **(kv or {})}
-        ft = {
-            "hidden_profile_likes_enabled": True,
-            "highlights_tweets_tab_ui_enabled": True,
-            "creator_subscriptions_tweet_preview_api_enabled": True,
-            "hidden_profile_subscriptions_enabled": True,
-            "responsive_web_twitter_article_notes_tab_enabled": False,
-            "subscriptions_feature_can_gift_premium": False,
-            "profile_label_improvements_pcf_label_in_post_enabled": False,
-        }
-        return await self._gql_item(op, kv, ft)
-
-    async def user_by_id(self, uid: int, kv: KV = None) -> User | None:
-        rep = await self.user_by_id_raw(uid, kv=kv)
-        return parse_user(rep) if rep else None
 
     # user_by_login
 

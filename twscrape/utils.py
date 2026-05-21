@@ -124,19 +124,109 @@ def get_typed_object(obj: dict, res: defaultdict[str, list]):
     return res
 
 
+def _merge_legacy(base: dict, legacy) -> dict:
+    # top-level wins, missing keys filled from legacy if it is a dict
+    out = dict(base)
+    if isinstance(legacy, dict):
+        for k, v in legacy.items():
+            out.setdefault(k, v)
+    return out
+
+
+def _flatten_user_v2(obj: dict) -> dict:
+    flat = _merge_legacy(obj, obj.get("legacy"))
+    rest_id = obj.get("rest_id") or flat.get("rest_id") or flat.get("id_str")
+    flat["rest_id"] = rest_id
+    flat["id_str"] = str(rest_id) if rest_id is not None else flat.get("id_str", "")
+    flat["id"] = int(rest_id) if rest_id is not None and str(rest_id).isdigit() else 0
+    flat["legacy"] = None
+
+    core = obj.get("core") or {}
+    if isinstance(core, dict):
+        for k in ("screen_name", "name", "created_at"):
+            if k not in flat and k in core:
+                flat[k] = core[k]
+
+    if "profile_image_url_https" not in flat:
+        avatar_url = (obj.get("avatar") or {}).get("image_url")
+        if avatar_url:
+            flat["profile_image_url_https"] = avatar_url
+
+    if not isinstance(flat.get("location"), str):
+        loc = (obj.get("location") or {}).get("location")
+        if loc is not None:
+            flat["location"] = loc
+
+    if "protected" not in flat:
+        prot = (obj.get("privacy") or {}).get("protected")
+        if prot is not None:
+            flat["protected"] = prot
+
+    if "verified" not in flat:
+        ver = (obj.get("verification") or {}).get("verified")
+        if ver is not None:
+            flat["verified"] = ver
+
+    if "is_blue_verified" not in flat and "is_blue_verified" in obj:
+        flat["is_blue_verified"] = obj["is_blue_verified"]
+
+    if not flat.get("description"):
+        bio = (obj.get("profile_bio") or {}).get("description")
+        if bio is not None:
+            flat["description"] = bio
+
+    flat.setdefault("description", "")
+    flat.setdefault("location", "")
+    flat.setdefault("followers_count", 0)
+    flat.setdefault("friends_count", 0)
+    flat.setdefault("statuses_count", 0)
+    flat.setdefault("favourites_count", 0)
+    flat.setdefault("listed_count", 0)
+    flat.setdefault("media_count", 0)
+    flat.setdefault("profile_image_url_https", "")
+    flat.setdefault("entities", {})
+    flat.setdefault("pinned_tweet_ids_str", [])
+    return flat
+
+
+def _flatten_tweet_v2(obj: dict) -> dict:
+    flat = _merge_legacy(obj, obj.get("legacy"))
+    rest_id = obj.get("rest_id") or flat.get("rest_id") or flat.get("id_str")
+    flat["rest_id"] = rest_id
+    flat["id_str"] = str(rest_id) if rest_id is not None else flat.get("id_str", "")
+    flat["id"] = int(rest_id) if rest_id is not None and str(rest_id).isdigit() else 0
+    flat["legacy"] = None
+    if "source" not in flat and "source" in obj:
+        flat["source"] = obj["source"]
+    flat.setdefault("full_text", "")
+    flat.setdefault("lang", "")
+    flat.setdefault("reply_count", 0)
+    flat.setdefault("retweet_count", 0)
+    flat.setdefault("favorite_count", 0)
+    flat.setdefault("quote_count", 0)
+    flat.setdefault("bookmark_count", 0)
+    flat.setdefault("entities", {})
+    flat.setdefault("conversation_id_str", flat["id_str"])
+    return flat
+
+
 def to_old_obj(obj: dict):
-    return {
-        **obj,
-        **obj["legacy"],
-        "id_str": str(obj["rest_id"]),
-        "id": int(obj["rest_id"]),
-        "legacy": None,
-    }
+    # Since 2026-05 X serves Tweet/User with legacy=null. Tweet fields moved
+    # to the top level; User fields are split between top-level and the
+    # sub-objects core/avatar/location/privacy/verification/profile_bio.
+    # Always rebuild a flat dict; works on the old schema too.
+    if not isinstance(obj, dict):
+        return obj
+    if obj.get("__typename") == "User":
+        return _flatten_user_v2(obj)
+    return _flatten_tweet_v2(obj)
 
 
 def to_old_rep(obj: dict) -> dict[str, dict]:
     tmp = get_typed_object(obj, defaultdict(list))
 
+    # "legacy" in x still matches under the new schema: the key is present
+    # with value None, so membership tests keep working.
     tw1 = [x for x in tmp.get("Tweet", []) if "legacy" in x]
     tw1 = {str(x["rest_id"]): to_old_obj(x) for x in tw1}
 
@@ -203,13 +293,34 @@ def parse_cookies(val: str) -> dict[str, str]:
             if isinstance(res, dict):
                 return res
         except json.JSONDecodeError:
-            res = val.split("; ")
-            res = [x.split("=") for x in res]
+            res = [x.strip() for x in val.split(";")]
+            res = [x.split("=", 1) for x in res if "=" in x]
+            if not res:
+                raise ValueError(f"Invalid cookie value: {val}")
             return {x[0]: x[1] for x in res}
     except Exception:
         pass
 
     raise ValueError(f"Invalid cookie value: {val}")
+
+
+def parse_proxy(proxy: str | None) -> str | None:
+    if not proxy:
+        return None
+    if "://" in proxy:
+        return proxy
+    if "@" in proxy:
+        # user:pass@host:port — missing scheme
+        return f"http://{proxy}"
+    parts = proxy.split(":")
+    if len(parts) == 2:
+        # host:port
+        return f"http://{parts[0]}:{parts[1]}"
+    if len(parts) == 4:
+        # host:port:user:pass
+        host, port, user, password = parts
+        return f"http://{user}:{password}@{host}:{port}"
+    return proxy
 
 
 def get_env_bool(key: str, default_val: bool = False) -> bool:

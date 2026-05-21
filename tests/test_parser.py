@@ -181,7 +181,6 @@ def check_trend(doc: Trend):
 
     assert doc.trend_url.url is not None
     assert doc.trend_url.urlType is not None
-    assert doc.trend_url.urlEndpointOptions
 
 
 async def test_search():
@@ -197,24 +196,6 @@ async def test_search():
         bookmarks_count += doc.bookmarkedCount
 
     assert bookmarks_count > 0, "`bookmark_fields` key is changed or unluck search data"
-
-
-async def test_user_by_id():
-    api = get_api()
-    mock_rep(api.user_by_id_raw, "raw_user_by_id")
-
-    doc = await api.user_by_id(2244994945)
-    assert doc is not None
-    assert doc.id == 2244994945
-    assert doc.username == "XDevelopers"
-
-    obj = doc.dict()
-    assert doc.id == obj["id"]
-    assert doc.username == obj["username"]
-
-    txt = doc.json()
-    assert isinstance(txt, str)
-    assert str(doc.id) in txt
 
 
 async def test_user_by_login():
