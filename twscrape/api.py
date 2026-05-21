@@ -28,7 +28,6 @@ OP_BlueVerifiedFollowers = "crKOXrAHR3W3aPuKEJG8GA/BlueVerifiedFollowers"
 OP_Bookmarks = "XD0ViOeSOW4YoeNTGjVaYw/Bookmarks"
 OP_CommunityQuery = "uBpODvS60xZ1q2L88d-W2A/CommunityQuery"
 OP_CommunityTweetsTimeline = "gabM2RYROuhItXzDYUdjyA/CommunityTweetsTimeline"
-OP_ConversationTweetDetail = "INsneb6y78uXRviWsuA-Rw/TweetDetail"
 OP_Followers = "_orfRBQae57vylFPH0Huhg/Followers"
 OP_Following = "F42cDX8PDFxkbjjq6JrM2w/Following"
 OP_GenericTimelineById = "_dGVIf1cY6xFanFNPsAzPQ/GenericTimelineById"
@@ -291,13 +290,15 @@ class API:
                     if x.inReplyToTweetId == twid:
                         yield x
 
-    # conversation_tweets
-    # Gets all tweets in a conversation thread
+    # tweet_thread
+    # Same TweetDetail family as tweet_replies, but configured to return the
+    # full thread timeline and then filtered by conversationId instead of
+    # only direct replies via inReplyToTweetId.
 
-    async def conversation_tweets_raw(self, conversation_id: int, limit=-1, kv: KV = None):
-        op = OP_ConversationTweetDetail
+    async def tweet_thread_raw(self, twid: int, limit=-1, kv: KV = None):
+        op = OP_TweetDetail
         kv = {
-            "focalTweetId": str(conversation_id),
+            "focalTweetId": str(twid),
             "referrer": "profile",
             "with_rux_injections": False,
             "includePromotedContent": True,
@@ -345,13 +346,11 @@ class API:
             async for x in gen:
                 yield x
 
-    async def conversation_tweets(self, conversation_id: int, limit=-1, kv: KV = None):
-        async with aclosing(
-            self.conversation_tweets_raw(conversation_id, limit=limit, kv=kv)
-        ) as gen:
+    async def tweet_thread(self, twid: int, limit=-1, kv: KV = None):
+        async with aclosing(self.tweet_thread_raw(twid, limit=limit, kv=kv)) as gen:
             async for rep in gen:
                 for x in parse_tweets(rep.json(), limit):
-                    if x.conversationId == conversation_id:
+                    if x.conversationId == twid:
                         yield x
 
     # followers

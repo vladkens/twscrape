@@ -14,6 +14,7 @@ class MockedError(Exception):
 GQL_GEN = [
     "search",
     "tweet_replies",
+    "tweet_thread",
     "retweeters",
     "followers",
     "following",

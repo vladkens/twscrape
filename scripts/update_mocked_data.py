@@ -49,6 +49,7 @@ COMMANDS = [
     ("subscriptions", lambda api: _first(api.subscriptions_raw(58579942, limit=10))),
     ("tweet_details", lambda api: api.tweet_details_raw(_TID)),
     ("tweet_replies", lambda api: _first(api.tweet_replies_raw(_TID, limit=1))),
+    ("tweet_thread", lambda api: _first(api.tweet_thread_raw(_TID, limit=10))),
     ("retweeters", lambda api: _first(api.retweeters_raw(_TID, limit=10))),
     ("user_tweets", lambda api: _first(api.user_tweets_raw(_UID, limit=10))),
     (
