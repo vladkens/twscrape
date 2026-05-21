@@ -102,6 +102,13 @@ async def main():
     await gather(api.list_timeline(list_id))  # list[Tweet]
     await gather(api.list_members(list_id))  # list[User]
 
+    # community info
+    community_id = 1501272736215322629
+    await api.community_info(community_id)  # Community
+    await gather(api.community_members(community_id, limit=20))  # list[User]
+    await gather(api.community_moderators(community_id, limit=20))  # list[User]
+    await gather(api.community_tweets(community_id, limit=20))  # list[Tweet]
+
     # trends
     await gather(api.trends("news"))  # list[Trend]
     await gather(api.trends("sport"))  # list[Trend]
@@ -258,6 +265,10 @@ twscrape user_tweets USER_ID --limit=20
 twscrape user_tweets_and_replies USER_ID --limit=20
 twscrape list_timeline LIST_ID --limit=20
 twscrape list_members LIST_ID --limit=20
+twscrape community_info COMMUNITY_ID
+twscrape community_members COMMUNITY_ID --limit=20
+twscrape community_moderators COMMUNITY_ID --limit=20
+twscrape community_tweets COMMUNITY_ID --limit=20
 twscrape trends sport
 ```
 

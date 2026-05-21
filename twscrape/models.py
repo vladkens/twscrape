@@ -7,7 +7,7 @@ import string
 import sys
 import traceback
 from dataclasses import asdict, dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Generator, Optional, Union
 
 import httpx
@@ -118,6 +118,53 @@ class AccountAbout(JSONTrait):
 
 
 @dataclass
+class CommunityRule(JSONTrait):
+    id_str: str
+    name: str
+    description: str
+
+    @staticmethod
+    def parse(obj: dict):
+        return CommunityRule(
+            id_str=str(obj.get("rest_id", obj.get("id_str", ""))),
+            name=obj.get("name", ""),
+            description=obj.get("description", ""),
+        )
+
+
+@dataclass
+class Community(JSONTrait):
+    id: int
+    id_str: str
+    name: str
+    description: str | None
+    memberCount: int
+    moderatorCount: int
+    rules: list[CommunityRule]
+    topicId: str | None = None
+    topicName: str | None = None
+    isNsfw: bool | None = None
+
+    @staticmethod
+    def parse(obj: dict):
+        id_str = str(obj.get("rest_id") or obj.get("id_str") or "")
+        topic = obj.get("primary_community_topic") or {}
+        rules = [CommunityRule.parse(x) for x in obj.get("rules", [])]
+        return Community(
+            id=int(id_str),
+            id_str=id_str,
+            name=obj.get("name", ""),
+            description=obj.get("description"),
+            memberCount=obj.get("member_count", 0),
+            moderatorCount=obj.get("moderator_count", 0),
+            rules=rules,
+            topicId=topic.get("topic_id"),
+            topicName=topic.get("topic_name"),
+            isNsfw=obj.get("is_nsfw"),
+        )
+
+
+@dataclass
 class UserRef(JSONTrait):
     id: int
     id_str: str
@@ -174,7 +221,9 @@ class User(JSONTrait):
             username=obj["screen_name"],
             displayname=obj["name"],
             rawDescription=obj["description"],
-            created=email.utils.parsedate_to_datetime(obj["created_at"]),
+            created=email.utils.parsedate_to_datetime(obj["created_at"])
+            if obj.get("created_at")
+            else datetime(1970, 1, 1, tzinfo=timezone.utc),
             followersCount=obj["followers_count"],
             friendsCount=obj["friends_count"],
             statusesCount=obj["statuses_count"],
@@ -815,6 +864,18 @@ def parse_about(rep: httpx.Response | dict) -> AccountAbout | None:
         return AccountAbout.parse(obj)
     except Exception as e:
         logger.error(f"Failed to parse about profile - {type(e)}:\n{traceback.format_exc()}")
+        return None
+
+
+def parse_community(rep: httpx.Response | dict) -> Community | None:
+    try:
+        res = rep if isinstance(rep, dict) else rep.json()
+        community = get_or(res, "data.communityResults.result")
+        if not community:
+            return None
+        return Community.parse(community)
+    except Exception as e:
+        logger.error(f"Failed to parse community - {type(e)}:\n{traceback.format_exc()}")
         return None
 
 

@@ -23,7 +23,7 @@ class CustomHelpFormatter(argparse.HelpFormatter):
 
 
 def get_fn_arg(args):
-    names = ["query", "tweet_id", "user_id", "username", "list_id", "trend_id"]
+    names = ["query", "tweet_id", "user_id", "username", "list_id", "trend_id", "community_id"]
     for name in names:
         if name in args:
             return name, getattr(args, name)
@@ -195,8 +195,12 @@ def run():
     c_lim("user_tweets_and_replies", "Get user tweets and replies", "user_id", "User ID", int)
     c_lim("user_media", "Get user's media", "user_id", "User ID", int)
     c_lim("list_timeline", "Get tweets from list", "list_id", "List ID", int)
-    c_lim("trends", "Get trends", "trend_id", "Trend ID or name", str)
     c_lim("list_members", "Get List members by list ID", "list_id", "List ID", int)
+    c_one("community_info", "Get community info", "community_id", "Community ID", str)
+    c_lim("community_members", "Get community members", "community_id", "Community ID", str)
+    c_lim("community_moderators", "Get community moderators", "community_id", "Community ID", str)
+    c_lim("community_tweets", "Get community tweets", "community_id", "Community ID", str)
+    c_lim("trends", "Get trends", "trend_id", "Trend ID or name", str)
 
     args = p.parse_args()
     if args.command is None:

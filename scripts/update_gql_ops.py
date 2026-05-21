@@ -64,7 +64,11 @@ async def main():
     apply = "--apply" in sys.argv
 
     content = API_FILE.read_text()
-    current_ops = dict(re.findall(r'^OP_(\w+)\s*=\s*"([^/]+)/\w+"', content, re.MULTILINE))
+    # key=GQL operation name (after /), value=(var_suffix, hash_id)
+    current_ops: dict[str, tuple[str, str]] = {}
+    for m in re.finditer(r'^OP_(\w+)\s*=\s*"([^/]+)/(\w+)"', content, re.MULTILINE):
+        var_suffix, hash_id, gql_name = m.groups()
+        current_ops[gql_name] = (var_suffix, hash_id)
     print(f"Found {len(current_ops)} operations in {API_FILE}\n")
 
     print("Fetching Twitter JS bundle...")
@@ -99,13 +103,13 @@ async def main():
     updated = content
     changed, missing = [], []
 
-    for n, old_id in current_ops.items():
-        new_id = all_pairs.get(n)
+    for gql_name, (var_suffix, old_id) in current_ops.items():
+        new_id = all_pairs.get(gql_name)
         if new_id is None:
-            missing.append(n)
+            missing.append(f"OP_{var_suffix}")
         elif new_id != old_id:
-            changed.append((n, old_id, new_id))
-            updated = updated.replace(f'"{old_id}/{n}"', f'"{new_id}/{n}"')
+            changed.append((var_suffix, old_id, new_id))
+            updated = updated.replace(f'"{old_id}/{gql_name}"', f'"{new_id}/{gql_name}"')
 
     if changed:
         print("Changed:")
@@ -117,7 +121,7 @@ async def main():
     if missing:
         print("\nNot found in bundle (possibly removed):")
         for n in missing:
-            print(f"  OP_{n}")
+            print(f"  {n}")
 
     if changed and apply:
         API_FILE.write_text(updated)

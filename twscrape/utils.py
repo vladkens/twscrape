@@ -234,8 +234,42 @@ def to_old_rep(obj: dict) -> dict[str, dict]:
     tw2 = [x["tweet"] for x in tmp.get("TweetWithVisibilityResults", []) if "legacy" in x["tweet"]]
     tw2 = {str(x["rest_id"]): to_old_obj(x) for x in tw2}
 
-    users = [x for x in tmp.get("User", []) if "legacy" in x and "id" in x]
-    users = {str(x["rest_id"]): to_old_obj(x) for x in users}
+    def _to_old_user(obj: dict) -> dict | None:
+        legacy = obj.get("legacy") or {}
+        core = obj.get("core") or {}
+
+        # fill required fields for legacy-based parser
+        for k in ("screen_name", "name", "created_at"):
+            if k not in legacy and k in core:
+                legacy[k] = core[k]
+
+        if not legacy.get("screen_name"):
+            return None
+
+        defaults = {
+            "description": "",
+            "followers_count": 0,
+            "friends_count": 0,
+            "statuses_count": 0,
+            "favourites_count": 0,
+            "listed_count": 0,
+            "media_count": 0,
+            "location": "",
+            "profile_image_url_https": "",
+        }
+        for k, v in defaults.items():
+            legacy.setdefault(k, v)
+
+        obj = {**obj, "legacy": legacy, "rest_id": obj.get("rest_id") or obj.get("id_str")}
+        try:
+            return to_old_obj(obj)
+        except Exception:
+            return None
+
+    users = {}
+    for x in tmp.get("User", []):
+        if res := _to_old_user(x):
+            users[str(res["id_str"])] = res
 
     trends = [x for x in tmp.get("TimelineTrend", [])]
     trends = {x["name"]: x for x in trends}

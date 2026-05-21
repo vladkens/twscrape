@@ -1,0 +1,665 @@
+{
+  "data": {
+    "communityResults": {
+      "id": "Q29tbXVuaXR5UmVzdWx0czoxNTAxMjcyNzM2MjE1MzIyNjI5",
+      "result": {
+        "__typename": "Community",
+        "id": "Q29tbXVuaXR5OjE1MDEyNzI3MzYyMTUzMjI2Mjk=",
+        "members_slice": {
+          "items_results": [
+            {
+              "id": "VXNlclJlc3VsdHM6MTExODU3NTk3ODE2OTczNzIxNw==",
+              "result": {
+                "__typename": "User",
+                "affiliates_highlighted_label": {
+                  "label": {
+                    "user_label_type": "BusinessLabel"
+                  }
+                },
+                "avatar": {
+                  "image_url": "https://pbs.twimg.com/profile_images/1603588679385190400/K1cF1Y4R_normal.jpg"
+                },
+                "community_role": "Admin",
+                "core": {
+                  "name": "We Gotta Believe",
+                  "screen_name": "GottaBelievePod"
+                },
+                "id": "VXNlcjoxMTE4NTc1OTc4MTY5NzM3MjE3",
+                "identity_profile_labels_highlighted_label": {
+                  "label": {
+                    "badge": {
+                      "url": "https://pbs.twimg.com/profile_images/1222128514624892935/zC0ABl3m_bigger.jpg"
+                    },
+                    "description": "Barstool Sports",
+                    "url": {
+                      "url": "https://twitter.com/barstoolsports",
+                      "urlType": "DeepLink"
+                    },
+                    "userLabelDisplayType": "Badge",
+                    "userLabelType": "BusinessLabel"
+                  }
+                },
+                "is_blue_verified": true,
+                "legacy": {
+                  "follow_request_sent": false
+                },
+                "privacy": {
+                  "protected": false
+                },
+                "relationship_perspectives": {
+                  "blocking": false,
+                  "followed_by": false,
+                  "following": false
+                },
+                "rest_id": "1118575978169737217",
+                "super_follow_eligible": false,
+                "super_followed_by": false,
+                "super_following": false,
+                "verification": {
+                  "verified": false,
+                  "verified_type": "Business"
+                }
+              }
+            },
+            {
+              "id": "VXNlclJlc3VsdHM6MTA4MTQzNTI5Ng==",
+              "result": {
+                "__typename": "User",
+                "affiliates_highlighted_label": {},
+                "avatar": {
+                  "image_url": "https://pbs.twimg.com/profile_images/2035168540056068096/iQICoHK3_normal.jpg"
+                },
+                "community_role": "Moderator",
+                "core": {
+                  "name": "Phill",
+                  "screen_name": "MeekPhill_"
+                },
+                "id": "VXNlcjoxMDgxNDM1Mjk2",
+                "identity_profile_labels_highlighted_label": {},
+                "is_blue_verified": true,
+                "legacy": {
+                  "follow_request_sent": false
+                },
+                "privacy": {
+                  "protected": false
+                },
+                "relationship_perspectives": {
+                  "blocking": false,
+                  "followed_by": false,
+                  "following": false
+                },
+                "rest_id": "1081435296",
+                "super_follow_eligible": true,
+                "super_followed_by": false,
+                "super_following": false,
+                "verification": {
+                  "verified": false
+                }
+              }
+            },
+            {
+              "id": "VXNlclJlc3VsdHM6MjI1MTgzNTkz",
+              "result": {
+                "__typename": "User",
+                "affiliates_highlighted_label": {},
+                "avatar": {
+                  "image_url": "https://pbs.twimg.com/profile_images/1635764693485731840/xy99SM_j_normal.jpg"
+                },
+                "community_role": "Moderator",
+                "core": {
+                  "name": "Kyle Gelling",
+                  "screen_name": "KyleGelling"
+                },
+                "id": "VXNlcjoyMjUxODM1OTM=",
+                "identity_profile_labels_highlighted_label": {},
+                "is_blue_verified": true,
+                "legacy": {
+                  "follow_request_sent": false
+                },
+                "privacy": {
+                  "protected": false
+                },
+                "relationship_perspectives": {
+                  "blocking": false,
+                  "followed_by": false,
+                  "following": false
+                },
+                "rest_id": "225183593",
+                "super_follow_eligible": false,
+                "super_followed_by": false,
+                "super_following": false,
+                "verification": {
+                  "verified": false
+                }
+              }
+            },
+            {
+              "id": "VXNlclJlc3VsdHM6Mzg3MjY5Mzc=",
+              "result": {
+                "__typename": "User",
+                "affiliates_highlighted_label": {
+                  "label": {
+                    "user_label_type": "BusinessLabel"
+                  }
+                },
+                "avatar": {
+                  "image_url": "https://pbs.twimg.com/profile_images/1416668373140844545/leQlw7B5_normal.jpg"
+                },
+                "community_role": "Member",
+                "core": {
+                  "name": "Clem",
+                  "screen_name": "TheClemReport"
+                },
+                "id": "VXNlcjozODcyNjkzNw==",
+                "identity_profile_labels_highlighted_label": {
+                  "label": {
+                    "badge": {
+                      "url": "https://pbs.twimg.com/profile_images/1222128514624892935/zC0ABl3m_bigger.jpg"
+                    },
+                    "description": "Barstool Sports",
+                    "url": {
+                      "url": "https://twitter.com/barstoolsports",
+                      "urlType": "DeepLink"
+                    },
+                    "userLabelDisplayType": "Badge",
+                    "userLabelType": "BusinessLabel"
+                  }
+                },
+                "is_blue_verified": true,
+                "legacy": {
+                  "follow_request_sent": false
+                },
+                "privacy": {
+                  "protected": false
+                },
+                "relationship_perspectives": {
+                  "blocking": false,
+                  "followed_by": false,
+                  "following": false
+                },
+                "rest_id": "38726937",
+                "super_follow_eligible": true,
+                "super_followed_by": false,
+                "super_following": false,
+                "verification": {
+                  "verified": false
+                }
+              }
+            },
+            {
+              "id": "VXNlclJlc3VsdHM6MTA0NDY2NzcxNTI4ODQ2OTUwNA==",
+              "result": {
+                "__typename": "User",
+                "affiliates_highlighted_label": {},
+                "avatar": {
+                  "image_url": "https://pbs.twimg.com/profile_images/1790419414145454080/MUMVHS9i_normal.jpg"
+                },
+                "community_role": "Member",
+                "core": {
+                  "name": "jacob",
+                  "screen_name": "enjoyerofmets"
+                },
+                "id": "VXNlcjoxMDQ0NjY3NzE1Mjg4NDY5NTA0",
+                "identity_profile_labels_highlighted_label": {},
+                "is_blue_verified": false,
+                "legacy": {
+                  "follow_request_sent": false
+                },
+                "privacy": {
+                  "protected": true
+                },
+                "relationship_perspectives": {
+                  "blocking": false,
+                  "followed_by": false,
+                  "following": false
+                },
+                "rest_id": "1044667715288469504",
+                "super_follow_eligible": false,
+                "super_followed_by": false,
+                "super_following": false,
+                "verification": {
+                  "verified": false
+                }
+              }
+            },
+            {
+              "id": "VXNlclJlc3VsdHM6MTQyMDA2NDM0NTY5NDgxODMxNQ==",
+              "result": {
+                "__typename": "User",
+                "affiliates_highlighted_label": {},
+                "avatar": {
+                  "image_url": "https://pbs.twimg.com/profile_images/1502018179106807810/_Q7sv6KL_normal.jpg"
+                },
+                "community_role": "Member",
+                "core": {
+                  "name": "James",
+                  "screen_name": "itzJamezsz"
+                },
+                "id": "VXNlcjoxNDIwMDY0MzQ1Njk0ODE4MzE1",
+                "identity_profile_labels_highlighted_label": {},
+                "is_blue_verified": false,
+                "legacy": {
+                  "follow_request_sent": false
+                },
+                "privacy": {
+                  "protected": false
+                },
+                "relationship_perspectives": {
+                  "blocking": false,
+                  "followed_by": false,
+                  "following": false
+                },
+                "rest_id": "1420064345694818315",
+                "super_follow_eligible": false,
+                "super_followed_by": false,
+                "super_following": false,
+                "verification": {
+                  "verified": false
+                }
+              }
+            },
+            {
+              "id": "VXNlclJlc3VsdHM6NzgwODI5MDcyODg4NzgyODQ5",
+              "result": {
+                "__typename": "User",
+                "affiliates_highlighted_label": {},
+                "avatar": {
+                  "image_url": "https://pbs.twimg.com/profile_images/1644465442537238531/uJgSw5ru_normal.jpg"
+                },
+                "community_role": "Member",
+                "core": {
+                  "name": "George",
+                  "screen_name": "Georgemonokrou2"
+                },
+                "id": "VXNlcjo3ODA4MjkwNzI4ODg3ODI4NDk=",
+                "identity_profile_labels_highlighted_label": {},
+                "is_blue_verified": false,
+                "legacy": {
+                  "follow_request_sent": false
+                },
+                "privacy": {
+                  "protected": false
+                },
+                "relationship_perspectives": {
+                  "blocking": false,
+                  "followed_by": false,
+                  "following": false
+                },
+                "rest_id": "780829072888782849",
+                "super_follow_eligible": false,
+                "super_followed_by": false,
+                "super_following": false,
+                "verification": {
+                  "verified": false
+                }
+              }
+            },
+            {
+              "id": "VXNlclJlc3VsdHM6MTAzOTY0MjAxMTQ1MDcxNjE2Ng==",
+              "result": {
+                "__typename": "User",
+                "affiliates_highlighted_label": {},
+                "avatar": {
+                  "image_url": "https://pbs.twimg.com/profile_images/1132072810220806145/yDNhhxOk_normal.jpg"
+                },
+                "community_role": "Member",
+                "core": {
+                  "name": "Josh Otis",
+                  "screen_name": "JoshOtis9"
+                },
+                "id": "VXNlcjoxMDM5NjQyMDExNDUwNzE2MTY2",
+                "identity_profile_labels_highlighted_label": {},
+                "is_blue_verified": false,
+                "legacy": {
+                  "follow_request_sent": false
+                },
+                "privacy": {
+                  "protected": false
+                },
+                "relationship_perspectives": {
+                  "blocking": false,
+                  "followed_by": false,
+                  "following": false
+                },
+                "rest_id": "1039642011450716166",
+                "super_follow_eligible": false,
+                "super_followed_by": false,
+                "super_following": false,
+                "verification": {
+                  "verified": false
+                }
+              }
+            },
+            {
+              "id": "VXNlclJlc3VsdHM6MTQ1NTU5MTQxNjY5NzA4NTk2MQ==",
+              "result": {
+                "__typename": "User",
+                "affiliates_highlighted_label": {},
+                "avatar": {
+                  "image_url": "https://pbs.twimg.com/profile_images/1455592208225251328/_r1xyR-x_normal.png"
+                },
+                "community_role": "Member",
+                "core": {
+                  "name": "JD717",
+                  "screen_name": "JamesDiDomenic8"
+                },
+                "id": "VXNlcjoxNDU1NTkxNDE2Njk3MDg1OTYx",
+                "identity_profile_labels_highlighted_label": {},
+                "is_blue_verified": false,
+                "legacy": {
+                  "follow_request_sent": false
+                },
+                "privacy": {
+                  "protected": false
+                },
+                "relationship_perspectives": {
+                  "blocking": false,
+                  "followed_by": false,
+                  "following": false
+                },
+                "rest_id": "1455591416697085961",
+                "super_follow_eligible": false,
+                "super_followed_by": false,
+                "super_following": false,
+                "verification": {
+                  "verified": false
+                }
+              }
+            },
+            {
+              "id": "VXNlclJlc3VsdHM6NDcyNTE1MzI4",
+              "result": {
+                "__typename": "User",
+                "affiliates_highlighted_label": {},
+                "avatar": {
+                  "image_url": "https://pbs.twimg.com/profile_images/935698149989117952/sfyuX6iu_normal.jpg"
+                },
+                "community_role": "Member",
+                "core": {
+                  "name": "Metsrulein2k",
+                  "screen_name": "metsrulein2k"
+                },
+                "id": "VXNlcjo0NzI1MTUzMjg=",
+                "identity_profile_labels_highlighted_label": {},
+                "is_blue_verified": false,
+                "legacy": {
+                  "follow_request_sent": false
+                },
+                "privacy": {
+                  "protected": false
+                },
+                "relationship_perspectives": {
+                  "blocking": false,
+                  "followed_by": false,
+                  "following": false
+                },
+                "rest_id": "472515328",
+                "super_follow_eligible": false,
+                "super_followed_by": false,
+                "super_following": false,
+                "verification": {
+                  "verified": false
+                }
+              }
+            },
+            {
+              "id": "VXNlclJlc3VsdHM6NTQ3NTQ5MDk=",
+              "result": {
+                "__typename": "User",
+                "affiliates_highlighted_label": {},
+                "avatar": {
+                  "image_url": "https://pbs.twimg.com/profile_images/1639698085805785089/Dl1Uyq3d_normal.jpg"
+                },
+                "community_role": "Member",
+                "core": {
+                  "name": "Rashid\ud83c\udf53",
+                  "screen_name": "rashidmcdonald"
+                },
+                "id": "VXNlcjo1NDc1NDkwOQ==",
+                "identity_profile_labels_highlighted_label": {},
+                "is_blue_verified": true,
+                "legacy": {
+                  "follow_request_sent": false
+                },
+                "privacy": {
+                  "protected": false
+                },
+                "relationship_perspectives": {
+                  "blocking": false,
+                  "followed_by": false,
+                  "following": false
+                },
+                "rest_id": "54754909",
+                "super_follow_eligible": false,
+                "super_followed_by": false,
+                "super_following": false,
+                "verification": {
+                  "verified": false
+                }
+              }
+            },
+            {
+              "id": "VXNlclJlc3VsdHM6NDUwMjEzODYz",
+              "result": {
+                "__typename": "User",
+                "affiliates_highlighted_label": {},
+                "avatar": {
+                  "image_url": "https://pbs.twimg.com/profile_images/1976716406524633088/26XvriAs_normal.jpg"
+                },
+                "community_role": "Member",
+                "core": {
+                  "name": "Dan Scalley",
+                  "screen_name": "danscal13"
+                },
+                "id": "VXNlcjo0NTAyMTM4NjM=",
+                "identity_profile_labels_highlighted_label": {},
+                "is_blue_verified": false,
+                "legacy": {
+                  "follow_request_sent": false
+                },
+                "privacy": {
+                  "protected": false
+                },
+                "relationship_perspectives": {
+                  "blocking": false,
+                  "followed_by": false,
+                  "following": false
+                },
+                "rest_id": "450213863",
+                "super_follow_eligible": false,
+                "super_followed_by": false,
+                "super_following": false,
+                "verification": {
+                  "verified": false
+                }
+              }
+            },
+            {
+              "id": "VXNlclJlc3VsdHM6MTM3Njc0MzUyMDg3OTM5NDgxNg==",
+              "result": {
+                "__typename": "User",
+                "affiliates_highlighted_label": {},
+                "avatar": {
+                  "image_url": "https://pbs.twimg.com/profile_images/1376744016893644800/pg6JkHlB_normal.jpg"
+                },
+                "community_role": "Member",
+                "core": {
+                  "name": "Joe Parrillo",
+                  "screen_name": "JoeParrillo2"
+                },
+                "id": "VXNlcjoxMzc2NzQzNTIwODc5Mzk0ODE2",
+                "identity_profile_labels_highlighted_label": {},
+                "is_blue_verified": false,
+                "legacy": {
+                  "follow_request_sent": false
+                },
+                "privacy": {
+                  "protected": false
+                },
+                "relationship_perspectives": {
+                  "blocking": false,
+                  "followed_by": false,
+                  "following": false
+                },
+                "rest_id": "1376743520879394816",
+                "super_follow_eligible": false,
+                "super_followed_by": false,
+                "super_following": false,
+                "verification": {
+                  "verified": false
+                }
+              }
+            },
+            {
+              "id": "VXNlclJlc3VsdHM6Mjg3NTI3NTUx",
+              "result": {
+                "__typename": "User",
+                "affiliates_highlighted_label": {},
+                "avatar": {
+                  "image_url": "https://pbs.twimg.com/profile_images/1156414565254684677/UXMwMcxh_normal.jpg"
+                },
+                "community_role": "Member",
+                "core": {
+                  "name": "Justin Deis",
+                  "screen_name": "JustinDeis"
+                },
+                "id": "VXNlcjoyODc1Mjc1NTE=",
+                "identity_profile_labels_highlighted_label": {},
+                "is_blue_verified": false,
+                "legacy": {
+                  "follow_request_sent": false
+                },
+                "privacy": {
+                  "protected": false
+                },
+                "relationship_perspectives": {
+                  "blocking": false,
+                  "followed_by": false,
+                  "following": false
+                },
+                "rest_id": "287527551",
+                "super_follow_eligible": false,
+                "super_followed_by": false,
+                "super_following": false,
+                "verification": {
+                  "verified": false
+                }
+              }
+            },
+            {
+              "id": "VXNlclJlc3VsdHM6MjE5MjgyMjQyOA==",
+              "result": {
+                "__typename": "User",
+                "affiliates_highlighted_label": {},
+                "avatar": {
+                  "image_url": "https://pbs.twimg.com/profile_images/813891556713394177/tT9f7NmF_normal.jpg"
+                },
+                "community_role": "Member",
+                "core": {
+                  "name": "Zach Sheep",
+                  "screen_name": "lambchops456"
+                },
+                "id": "VXNlcjoyMTkyODIyNDI4",
+                "identity_profile_labels_highlighted_label": {},
+                "is_blue_verified": false,
+                "legacy": {
+                  "follow_request_sent": false
+                },
+                "privacy": {
+                  "protected": false
+                },
+                "relationship_perspectives": {
+                  "blocking": false,
+                  "followed_by": false,
+                  "following": false
+                },
+                "rest_id": "2192822428",
+                "super_follow_eligible": false,
+                "super_followed_by": false,
+                "super_following": false,
+                "verification": {
+                  "verified": false
+                }
+              }
+            },
+            {
+              "id": "VXNlclJlc3VsdHM6MjY5NTUwMDM1",
+              "result": {
+                "__typename": "User",
+                "affiliates_highlighted_label": {},
+                "avatar": {
+                  "image_url": "https://pbs.twimg.com/profile_images/774102586169266176/V0zNScOo_normal.jpg"
+                },
+                "community_role": "Member",
+                "core": {
+                  "name": "Nick",
+                  "screen_name": "PopaDiesel23"
+                },
+                "id": "VXNlcjoyNjk1NTAwMzU=",
+                "identity_profile_labels_highlighted_label": {},
+                "is_blue_verified": false,
+                "legacy": {
+                  "follow_request_sent": false
+                },
+                "privacy": {
+                  "protected": false
+                },
+                "relationship_perspectives": {
+                  "blocking": false,
+                  "followed_by": false,
+                  "following": false
+                },
+                "rest_id": "269550035",
+                "super_follow_eligible": false,
+                "super_followed_by": false,
+                "super_following": false,
+                "verification": {
+                  "verified": false
+                }
+              }
+            },
+            {
+              "id": "VXNlclJlc3VsdHM6Mjg5MDYyMzUy",
+              "result": {
+                "__typename": "User",
+                "affiliates_highlighted_label": {},
+                "avatar": {
+                  "image_url": "https://pbs.twimg.com/profile_images/2106423150/image_normal.jpg"
+                },
+                "community_role": "Member",
+                "core": {
+                  "name": "Joe Cos",
+                  "screen_name": "JCos8"
+                },
+                "id": "VXNlcjoyODkwNjIzNTI=",
+                "identity_profile_labels_highlighted_label": {},
+                "is_blue_verified": false,
+                "legacy": {
+                  "follow_request_sent": false
+                },
+                "privacy": {
+                  "protected": false
+                },
+                "relationship_perspectives": {
+                  "blocking": false,
+                  "followed_by": false,
+                  "following": false
+                },
+                "rest_id": "289062352",
+                "super_follow_eligible": false,
+                "super_followed_by": false,
+                "super_following": false,
+                "verification": {
+                  "verified": false
+                }
+              }
+            }
+          ],
+          "slice_info": {
+            "next_cursor": "CycRAAAAAAwABAwKmwzBVQo+vQAAAAAROr3RCm07AAABf2r8bPkADJorCj69f/////////8KbTt//////////wAIP8AAAAACAAAA"
+          }
+        }
+      }
+    }
+  }
+}

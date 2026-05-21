@@ -385,6 +385,50 @@ async def test_list_members():
         check_user(doc)
 
 
+async def test_community_info():
+    api = get_api()
+    mock_rep(api.community_info_raw, "raw_community_info")
+
+    info = await api.community_info(1501272736215322629)
+    assert info is not None
+    assert isinstance(info.id, int)
+    assert info.name is not None
+    assert isinstance(info.memberCount, int)
+
+
+async def test_community_members():
+    api = get_api()
+    mock_rep(api.community_members_raw, "raw_community_members", as_generator=True)
+
+    users = await gather(api.community_members(1501272736215322629))
+    assert len(users) > 0
+
+    for doc in users:
+        check_user(doc)
+
+
+async def test_community_moderators():
+    api = get_api()
+    mock_rep(api.community_moderators_raw, "raw_community_moderators", as_generator=True)
+
+    users = await gather(api.community_moderators(1501272736215322629))
+    assert len(users) > 0
+
+    for doc in users:
+        check_user(doc)
+
+
+async def test_community_tweets():
+    api = get_api()
+    mock_rep(api.community_tweets_raw, "raw_community_tweets", as_generator=True)
+
+    tweets = await gather(api.community_tweets(1501272736215322629))
+    assert len(tweets) > 0
+
+    for doc in tweets:
+        check_tweet(doc)
+
+
 async def test_trends():
     api = get_api()
     mock_rep(api.trends_raw, "raw_trends", as_generator=True)

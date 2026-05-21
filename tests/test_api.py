@@ -22,6 +22,9 @@ GQL_GEN = [
     "list_timeline",
     "trends",
     "list_members",
+    "community_members",
+    "community_moderators",
+    "community_tweets",
 ]
 
 

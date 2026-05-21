@@ -34,26 +34,36 @@ def save_meta(meta: dict):
     META.write_text(json.dumps(meta, indent=2))
 
 
+_UID = 2244994945  # https://x.com/xdevelopers
+_TID = 1649191520250245121  # https://x.com/i/status/1649191520250245121
+_CID = 1501272736215322629  # https://x.com/i/communities/1501272736215322629
+_LID = 1494877848087187461  # https://x.com/i/lists/1494877848087187461
+
+
 COMMANDS = [
     ("user_by_login", lambda api: api.user_by_login_raw("xdevelopers")),
     ("user_about", lambda api: api.user_about_raw("xdevelopers")),
-    ("following", lambda api: _first(api.following_raw(2244994945, limit=10))),
-    ("followers", lambda api: _first(api.followers_raw(2244994945, limit=10))),
-    ("verified_followers", lambda api: _first(api.verified_followers_raw(2244994945, limit=10))),
+    ("following", lambda api: _first(api.following_raw(_UID, limit=10))),
+    ("followers", lambda api: _first(api.followers_raw(_UID, limit=10))),
+    ("verified_followers", lambda api: _first(api.verified_followers_raw(_UID, limit=10))),
     ("subscriptions", lambda api: _first(api.subscriptions_raw(58579942, limit=10))),
-    ("tweet_details", lambda api: api.tweet_details_raw(1649191520250245121)),
-    ("tweet_replies", lambda api: _first(api.tweet_replies_raw(1649191520250245121, limit=1))),
-    ("retweeters", lambda api: _first(api.retweeters_raw(1649191520250245121, limit=10))),
-    ("user_tweets", lambda api: _first(api.user_tweets_raw(2244994945, limit=10))),
+    ("tweet_details", lambda api: api.tweet_details_raw(_TID)),
+    ("tweet_replies", lambda api: _first(api.tweet_replies_raw(_TID, limit=1))),
+    ("retweeters", lambda api: _first(api.retweeters_raw(_TID, limit=10))),
+    ("user_tweets", lambda api: _first(api.user_tweets_raw(_UID, limit=10))),
     (
         "user_tweets_and_replies",
-        lambda api: _first(api.user_tweets_and_replies_raw(2244994945, limit=10)),
+        lambda api: _first(api.user_tweets_and_replies_raw(_UID, limit=10)),
     ),
-    ("user_media", lambda api: _first(api.user_media_raw(2244994945, limit=10))),
+    ("user_media", lambda api: _first(api.user_media_raw(_UID, limit=10))),
     ("search", lambda api: _first(api.search_raw("tesla lang:en", limit=5))),
-    ("list_timeline", lambda api: _first(api.list_timeline_raw(1494877848087187461, limit=10))),
-    ("list_members", lambda api: _first(api.list_members_raw(1494877848087187461, limit=10))),
+    ("list_timeline", lambda api: _first(api.list_timeline_raw(_LID, limit=10))),
+    ("list_members", lambda api: _first(api.list_members_raw(_LID, limit=10))),
     ("trends", lambda api: _first(api.trends_raw("sport"))),
+    ("community_info", lambda api: api.community_info_raw(_CID)),
+    ("community_members", lambda api: _first(api.community_members_raw(_CID, limit=10))),
+    ("community_moderators", lambda api: _first(api.community_moderators_raw(_CID, limit=10))),
+    ("community_tweets", lambda api: _first(api.community_tweets_raw(_CID, limit=10))),
 ]
 
 console = Console()
