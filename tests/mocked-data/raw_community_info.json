@@ -1,0 +1,237 @@
+{
+  "data": {
+    "communityResults": {
+      "id": "Q29tbXVuaXR5UmVzdWx0czoxNTAxMjcyNzM2MjE1MzIyNjI5",
+      "result": {
+        "__typename": "Community",
+        "actions": {
+          "id": "Q29tbXVuaXR5QWN0aW9uczoxNTAxMjcyNzM2MjE1MzIyNjI5",
+          "join_action_result": {
+            "__typename": "CommunityJoinAction"
+          },
+          "list_members_action_result": {
+            "__typename": "CommunityListMembersAction"
+          }
+        },
+        "created_at": 1646766287273,
+        "creator_results": {
+          "id": "VXNlclJlc3VsdHM6MTExODU3NTk3ODE2OTczNzIxNw==",
+          "result": {
+            "__typename": "User",
+            "core": {
+              "screen_name": "GottaBelievePod"
+            },
+            "id": "VXNlcjoxMTE4NTc1OTc4MTY5NzM3MjE3",
+            "is_blue_verified": true,
+            "verification": {
+              "verified": false
+            }
+          }
+        },
+        "custom_banner_media": {
+          "id": "QXBpTWVkaWE6DAATCgABFNWZwjvXEAEAAA==",
+          "media_info": {
+            "__typename": "ApiImage",
+            "color_info": {
+              "palette": [
+                {
+                  "percentage": 48.21,
+                  "rgb": {
+                    "blue": 31,
+                    "green": 36,
+                    "red": 61
+                  }
+                },
+                {
+                  "percentage": 11.96,
+                  "rgb": {
+                    "blue": 77,
+                    "green": 110,
+                    "red": 165
+                  }
+                },
+                {
+                  "percentage": 11.01,
+                  "rgb": {
+                    "blue": 104,
+                    "green": 55,
+                    "red": 48
+                  }
+                },
+                {
+                  "percentage": 7.23,
+                  "rgb": {
+                    "blue": 150,
+                    "green": 161,
+                    "red": 180
+                  }
+                },
+                {
+                  "percentage": 4.81,
+                  "rgb": {
+                    "blue": 57,
+                    "green": 130,
+                    "red": 231
+                  }
+                }
+              ]
+            },
+            "original_img_height": 671,
+            "original_img_url": "https://pbs.twimg.com/community_banner_img/1501275110304583681/3OYWLtaE?format=jpg&name=orig",
+            "original_img_width": 1679
+          }
+        },
+        "default_banner_media": {
+          "id": "QXBpTWVkaWE6DAABCgABFECTH+kUUAQKAAITiFWq8lUQBAAA",
+          "media_info": {
+            "__typename": "ApiImage",
+            "color_info": {
+              "palette": [
+                {
+                  "percentage": 57.34,
+                  "rgb": {
+                    "blue": 178,
+                    "green": 171,
+                    "red": 3
+                  }
+                },
+                {
+                  "percentage": 23.51,
+                  "rgb": {
+                    "blue": 129,
+                    "green": 117,
+                    "red": 247
+                  }
+                },
+                {
+                  "percentage": 6.99,
+                  "rgb": {
+                    "blue": 159,
+                    "green": 149,
+                    "red": 224
+                  }
+                },
+                {
+                  "percentage": 4.78,
+                  "rgb": {
+                    "blue": 194,
+                    "green": 188,
+                    "red": 159
+                  }
+                },
+                {
+                  "percentage": 1.32,
+                  "rgb": {
+                    "blue": 103,
+                    "green": 90,
+                    "red": 246
+                  }
+                }
+              ]
+            },
+            "original_img_height": 480,
+            "original_img_url": "https://pbs.twimg.com/media/FECTH-kUUAQMe8W.jpg",
+            "original_img_width": 1200
+          }
+        },
+        "description": "Your baseball source for all Mets news, updates, in-game highlights and content. For Mets fans by Mets fans #LGM",
+        "id": "Q29tbXVuaXR5OjE1MDEyNzI3MzYyMTUzMjI2Mjk=",
+        "invites_result": {
+          "__typename": "CommunityInvitesUnavailable"
+        },
+        "is_member": false,
+        "is_nsfw": false,
+        "join_policy": "Open",
+        "join_requests_result": {
+          "__typename": "CommunityJoinRequestsUnavailable"
+        },
+        "member_count": 28574,
+        "members_facepile_results": [
+          {
+            "id": "VXNlclJlc3VsdHM6MTExODU3NTk3ODE2OTczNzIxNw==",
+            "result": {
+              "__typename": "User",
+              "avatar": {
+                "image_url": "https://pbs.twimg.com/profile_images/1603588679385190400/K1cF1Y4R_normal.jpg"
+              },
+              "id": "VXNlcjoxMTE4NTc1OTc4MTY5NzM3MjE3"
+            }
+          },
+          {
+            "id": "VXNlclJlc3VsdHM6MjI1MTgzNTkz",
+            "result": {
+              "__typename": "User",
+              "avatar": {
+                "image_url": "https://pbs.twimg.com/profile_images/1635764693485731840/xy99SM_j_normal.jpg"
+              },
+              "id": "VXNlcjoyMjUxODM1OTM="
+            }
+          },
+          {
+            "id": "VXNlclJlc3VsdHM6MTA4MTQzNTI5Ng==",
+            "result": {
+              "__typename": "User",
+              "avatar": {
+                "image_url": "https://pbs.twimg.com/profile_images/2035168540056068096/iQICoHK3_normal.jpg"
+              },
+              "id": "VXNlcjoxMDgxNDM1Mjk2"
+            }
+          },
+          {
+            "id": "VXNlclJlc3VsdHM6Mzg3MjY5Mzc=",
+            "result": {
+              "__typename": "User",
+              "avatar": {
+                "image_url": "https://pbs.twimg.com/profile_images/1416668373140844545/leQlw7B5_normal.jpg"
+              },
+              "id": "VXNlcjozODcyNjkzNw=="
+            }
+          },
+          {
+            "id": "VXNlclJlc3VsdHM6MTA0NDY2NzcxNTI4ODQ2OTUwNA==",
+            "result": {
+              "__typename": "User",
+              "avatar": {
+                "image_url": "https://pbs.twimg.com/profile_images/1790419414145454080/MUMVHS9i_normal.jpg"
+              },
+              "id": "VXNlcjoxMDQ0NjY3NzE1Mjg4NDY5NTA0"
+            }
+          }
+        ],
+        "name": "New York Mets",
+        "primary_community_topic": {
+          "topic_name": "Baseball"
+        },
+        "rest_id": "1501272736215322629",
+        "role": "NonMember",
+        "rules": [
+          {
+            "id": "Q29tbXVuaXR5UnVsZToxNTAxMjcyNzM2MzgzMDkwNjky",
+            "name": "Keep Tweets on topic.",
+            "rest_id": "1501272736383090692"
+          },
+          {
+            "id": "Q29tbXVuaXR5UnVsZToxNTIxOTQ0MzUyNzUwMjgwNzA0",
+            "name": "No Trolls",
+            "rest_id": "1521944352750280704"
+          },
+          {
+            "id": "Q29tbXVuaXR5UnVsZToxODc3MTA2NzA3NTAxMDM1Nzg0",
+            "name": "No Politics",
+            "rest_id": "1877106707501035784"
+          },
+          {
+            "description": "Ridiculous that this needed to be added. You will be banned",
+            "id": "Q29tbXVuaXR5UnVsZToxOTM5NjM3MzE3NjM2ODU4MzMy",
+            "name": "No Hate Speech/Slurs",
+            "rest_id": "1939637317636858332"
+          }
+        ],
+        "trending_hashtags_slice": {
+          "__typename": "CommunityHashtagSlice",
+          "items": []
+        }
+      }
+    }
+  }
+}

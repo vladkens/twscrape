@@ -23,12 +23,15 @@ class CustomHelpFormatter(argparse.HelpFormatter):
 
 
 def get_fn_arg(args):
-    names = ["query", "tweet_id", "user_id", "username", "list_id", "trend_id"]
-    for name in names:
-        if name in args:
-            return name, getattr(args, name)
+    if not hasattr(args, "arg_name"):
+        logger.error(f"Missing argument name for command: {args.command}")
+        exit(1)
 
-    logger.error(f"Missing argument: {names}")
+    value = getattr(args, args.arg_name, None)
+    if value is not None:
+        return args.arg_name, value
+
+    logger.error(f"Missing argument value: {args.arg_name}")
     exit(1)
 
 
@@ -162,6 +165,7 @@ def run():
     def c_one(name: str, msg: str, a_name: str, a_msg: str, a_type: type = str):
         p = subparsers.add_parser(name, help=msg)
         p.add_argument(a_name, help=a_msg, type=a_type)
+        p.set_defaults(arg_name=a_name)
         p.add_argument("--raw", action="store_true", help="Print raw response")
         return p
 
@@ -201,9 +205,10 @@ def run():
     c_lim("search", "Search for tweets", "query", "Search query")
     c_one("tweet_details", "Get tweet details", "tweet_id", "Tweet ID", int)
     c_lim("tweet_replies", "Get replies  of a tweet", "tweet_id", "Tweet ID", int)
+    c_lim("tweet_thread", "Get thread tweets", "tweet_id", "Tweet ID", int)
     c_lim("retweeters", "Get retweeters of a tweet", "tweet_id", "Tweet ID", int)
-    c_one("user_by_id", "Get user data by ID", "user_id", "User ID", int)
     c_one("user_by_login", "Get user data by username", "username", "Username")
+    c_one("user_about", "Get about info for username", "username", "Username")
     c_lim("following", "Get user following", "user_id", "User ID", int)
     c_lim("followers", "Get user followers", "user_id", "User ID", int)
     # https://x.com/xDaily/status/1701694747767648500
@@ -213,6 +218,11 @@ def run():
     c_lim("user_tweets_and_replies", "Get user tweets and replies", "user_id", "User ID", int)
     c_lim("user_media", "Get user's media", "user_id", "User ID", int)
     c_lim("list_timeline", "Get tweets from list", "list_id", "List ID", int)
+    c_lim("list_members", "Get List members by list ID", "list_id", "List ID", int)
+    c_one("community_info", "Get community info", "community_id", "Community ID", str)
+    c_lim("community_members", "Get community members", "community_id", "Community ID", str)
+    c_lim("community_moderators", "Get community moderators", "community_id", "Community ID", str)
+    c_lim("community_tweets", "Get community tweets", "community_id", "Community ID", str)
     c_lim("trends", "Get trends", "trend_id", "Trend ID or name", str)
 
     args = p.parse_args()

@@ -20,5 +20,8 @@
   },
   "files.associations": {
     "Dockerfile.*": "dockerfile"
+  },
+  "code-runner.executorMap": {
+    "python": "uv run python $fullFileName"
   }
 }

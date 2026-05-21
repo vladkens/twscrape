@@ -10,1106 +10,1350 @@
                 "type": "TimelineClearCache"
               },
               {
-                "type": "TimelineTerminateTimeline",
-                "direction": "Top"
+                "direction": "Top",
+                "type": "TimelineTerminateTimeline"
               },
               {
-                "type": "TimelineTerminateTimeline",
-                "direction": "Bottom"
+                "direction": "Bottom",
+                "type": "TimelineTerminateTimeline"
               },
               {
-                "type": "TimelineAddEntries",
                 "entries": [
                   {
-                    "entryId": "user-38813274",
-                    "sortIndex": "1897829019747876864",
                     "content": {
-                      "entryType": "TimelineTimelineItem",
                       "__typename": "TimelineTimelineItem",
+                      "clientEventInfo": {
+                        "component": "CreatorSubscriptionsSgs",
+                        "element": "user"
+                      },
+                      "entryType": "TimelineTimelineItem",
                       "itemContent": {
-                        "itemType": "TimelineUser",
                         "__typename": "TimelineUser",
+                        "itemType": "TimelineUser",
+                        "userDisplayType": "User",
                         "user_results": {
                           "result": {
                             "__typename": "User",
-                            "id": "VXNlcjozODgxMzI3NA==",
-                            "rest_id": "38813274",
                             "affiliates_highlighted_label": {},
+                            "avatar": {
+                              "image_url": "https://pbs.twimg.com/profile_images/1891509660630269952/kR7B-kAC_normal.jpg"
+                            },
+                            "core": {
+                              "created_at": "Mon Jul 13 05:58:12 +0000 2009",
+                              "name": "Shanaka Anslem Perera \u26a1",
+                              "screen_name": "shanaka86"
+                            },
+                            "dm_permissions": {
+                              "can_dm": true
+                            },
+                            "follow_request_sent": false,
                             "has_graduated_access": true,
+                            "id": "VXNlcjo1NjMwMjE3MQ==",
                             "is_blue_verified": true,
-                            "profile_image_shape": "Circle",
                             "legacy": {
-                              "following": false,
-                              "can_dm": true,
-                              "can_media_tag": true,
-                              "created_at": "Sat May 09 06:43:43 +0000 2009",
                               "default_profile": false,
                               "default_profile_image": false,
-                              "description": "Author, *Israel and Civilization* (March 18). Host, \"The Josh Hammer Show\" & \"America on Trial.\" Syndicated columnist. @Newsweek, @Article3Project, @NatConTalk.",
+                              "description": "Author of The Ascent Begins. Independent Analyst. Money, geopolitics, AI, science, and sovereignty. Mapping the collapse and the reconstruction of order.",
                               "entities": {
-                                "description": {
-                                  "urls": []
-                                },
+                                "description": {},
                                 "url": {
                                   "urls": [
                                     {
-                                      "display_url": "amazon.com/Israel-Civiliz…",
-                                      "expanded_url": "https://www.amazon.com/Israel-Civilization-Jewish-Nation-Destiny/dp/1635769736/",
-                                      "url": "https://t.co/ZJuEb5N07U",
+                                      "display_url": "substack.com/@shanakaanslem\u2026",
+                                      "expanded_url": "https://substack.com/@shanakaanslemperera",
                                       "indices": [
                                         0,
                                         23
-                                      ]
+                                      ],
+                                      "url": "https://t.co/iU9F1gsb4W"
                                     }
                                   ]
                                 }
                               },
                               "fast_followers_count": 0,
-                              "favourites_count": 58558,
-                              "followers_count": 142933,
-                              "friends_count": 1999,
+                              "favourites_count": 9627,
+                              "follow_request_sent": false,
+                              "followers_count": 310056,
+                              "friends_count": 3569,
                               "has_custom_timelines": true,
                               "is_translator": false,
-                              "listed_count": 1037,
-                              "location": "South Florida 🌴☀️",
-                              "media_count": 1596,
-                              "name": "Josh Hammer",
-                              "normal_followers_count": 142933,
+                              "listed_count": 2519,
+                              "media_count": 4652,
+                              "needs_phone_verification": false,
+                              "normal_followers_count": 310056,
+                              "notifications": false,
                               "pinned_tweet_ids_str": [
-                                "1879240746391515438"
+                                "2000174714233167982"
                               ],
                               "possibly_sensitive": false,
-                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/38813274/1736868918",
-                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1679057501591879680/MDq0RImj_normal.jpg",
+                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/56302171/1621338166",
                               "profile_interstitial_type": "",
-                              "screen_name": "josh_hammer",
-                              "statuses_count": 65666,
+                              "statuses_count": 34178,
+                              "time_zone": "",
                               "translator_type": "none",
-                              "url": "https://t.co/ZJuEb5N07U",
-                              "verified": false,
+                              "url": "https://t.co/iU9F1gsb4W",
+                              "utc_offset": 0,
                               "want_retweets": false,
-                              "withheld_in_countries": []
+                              "withheld_description": "",
+                              "withheld_scope": ""
+                            },
+                            "location": {
+                              "location": "Australia"
+                            },
+                            "media_permissions": {
+                              "can_media_tag": true
+                            },
+                            "privacy": {
+                              "protected": false
                             },
                             "professional": {
-                              "rest_id": "1475229654134968326",
-                              "professional_type": "Creator",
                               "category": [
                                 {
-                                  "id": 933,
-                                  "name": "Media Personality",
-                                  "icon_name": "IconBriefcaseStroke"
+                                  "icon_name": "IconBriefcaseStroke",
+                                  "id": 958,
+                                  "name": "Entrepreneur"
                                 }
-                              ]
-                            },
-                            "tipjar_settings": {
-                              "is_enabled": true,
-                              "venmo_handle": "josh-hammer"
-                            },
-                            "super_follow_eligible": true
-                          }
-                        },
-                        "userDisplayType": "User"
-                      },
-                      "clientEventInfo": {
-                        "component": "CreatorSubscriptionsSgs",
-                        "element": "user"
-                      }
-                    }
-                  },
-                  {
-                    "entryId": "user-44196397",
-                    "sortIndex": "1897829019747876863",
-                    "content": {
-                      "entryType": "TimelineTimelineItem",
-                      "__typename": "TimelineTimelineItem",
-                      "itemContent": {
-                        "itemType": "TimelineUser",
-                        "__typename": "TimelineUser",
-                        "user_results": {
-                          "result": {
-                            "__typename": "User",
-                            "id": "VXNlcjo0NDE5NjM5Nw==",
-                            "rest_id": "44196397",
-                            "affiliates_highlighted_label": {
-                              "label": {
-                                "url": {
-                                  "url": "https://twitter.com/X",
-                                  "urlType": "DeepLink"
-                                },
-                                "badge": {
-                                  "url": "https://pbs.twimg.com/profile_images/1683899100922511378/5lY42eHs_bigger.jpg"
-                                },
-                                "description": "X",
-                                "userLabelType": "BusinessLabel",
-                                "userLabelDisplayType": "Badge"
-                              }
-                            },
-                            "has_graduated_access": true,
-                            "is_blue_verified": true,
-                            "profile_image_shape": "Circle",
-                            "legacy": {
-                              "following": false,
-                              "can_dm": false,
-                              "can_media_tag": false,
-                              "created_at": "Tue Jun 02 20:12:29 +0000 2009",
-                              "default_profile": false,
-                              "default_profile_image": false,
-                              "description": "",
-                              "entities": {
-                                "description": {
-                                  "urls": []
-                                }
-                              },
-                              "fast_followers_count": 0,
-                              "favourites_count": 131626,
-                              "followers_count": 219357868,
-                              "friends_count": 1085,
-                              "has_custom_timelines": true,
-                              "is_translator": false,
-                              "listed_count": 161139,
-                              "location": "",
-                              "media_count": 3564,
-                              "name": "Elon Musk",
-                              "normal_followers_count": 219357868,
-                              "pinned_tweet_ids_str": [
-                                "1896995745280266333"
                               ],
-                              "possibly_sensitive": false,
-                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/44196397/1739948056",
-                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1893803697185910784/Na5lOWi5_normal.jpg",
-                              "profile_interstitial_type": "",
-                              "screen_name": "elonmusk",
-                              "statuses_count": 73588,
-                              "translator_type": "none",
-                              "verified": false,
-                              "want_retweets": false,
-                              "withheld_in_countries": []
-                            },
-                            "professional": {
-                              "rest_id": "1679729435447275522",
                               "professional_type": "Creator",
-                              "category": []
+                              "rest_id": "1891509214125973776"
                             },
+                            "profile_bio": {
+                              "description": "Author of The Ascent Begins. Independent Analyst. Money, geopolitics, AI, science, and sovereignty. Mapping the collapse and the reconstruction of order."
+                            },
+                            "profile_description_language": "en",
+                            "profile_image_shape": "Circle",
+                            "relationship_perspectives": {
+                              "blocked_by": false,
+                              "blocking": false,
+                              "followed_by": false,
+                              "following": false,
+                              "muting": false
+                            },
+                            "rest_id": "56302171",
+                            "super_follow_eligible": true,
+                            "super_followed_by": false,
+                            "super_following": false,
                             "tipjar_settings": {
-                              "is_enabled": false
+                              "bitcoin_handle": "bc1q8a558j3eftlhk2z6gyedvsd99e4ke0y8ghamxx",
+                              "is_enabled": true
                             },
-                            "super_follow_eligible": true
+                            "verification": {
+                              "verified": false
+                            }
                           }
-                        },
-                        "userDisplayType": "User"
-                      },
+                        }
+                      }
+                    },
+                    "entryId": "user-56302171",
+                    "sortIndex": "2057507797863497728"
+                  },
+                  {
+                    "content": {
+                      "__typename": "TimelineTimelineItem",
                       "clientEventInfo": {
                         "component": "CreatorSubscriptionsSgs",
                         "element": "user"
-                      }
-                    }
-                  },
-                  {
-                    "entryId": "user-953298828253384704",
-                    "sortIndex": "1897829019747876862",
-                    "content": {
+                      },
                       "entryType": "TimelineTimelineItem",
-                      "__typename": "TimelineTimelineItem",
                       "itemContent": {
-                        "itemType": "TimelineUser",
                         "__typename": "TimelineUser",
+                        "itemType": "TimelineUser",
+                        "userDisplayType": "User",
                         "user_results": {
                           "result": {
                             "__typename": "User",
-                            "id": "VXNlcjo5NTMyOTg4MjgyNTMzODQ3MDQ=",
-                            "rest_id": "953298828253384704",
                             "affiliates_highlighted_label": {},
+                            "avatar": {
+                              "image_url": "https://pbs.twimg.com/profile_images/1606836521784512512/Xb-_cXXi_normal.jpg"
+                            },
+                            "core": {
+                              "created_at": "Sun Jan 31 03:35:19 +0000 2021",
+                              "name": "Gunther Eagleman\u2122",
+                              "screen_name": "GuntherEagleman"
+                            },
+                            "dm_permissions": {
+                              "can_dm": true
+                            },
+                            "follow_request_sent": false,
                             "has_graduated_access": true,
+                            "id": "VXNlcjoxMzU1NzIxMjUxMTgwOTYxNzky",
                             "is_blue_verified": true,
-                            "profile_image_shape": "Circle",
                             "legacy": {
-                              "following": false,
-                              "can_dm": false,
-                              "can_media_tag": true,
-                              "created_at": "Tue Jan 16 16:12:06 +0000 2018",
                               "default_profile": true,
                               "default_profile_image": false,
-                              "description": "Clout Diablo| Booker/Scriptwriter The Matt Gaetz Show| Frmr. @RepSantosNY03 @FmrRepMattGaetz @WarRoomPandemic @NYYRC| “Scandal’s Right Hand Man” - @PlaybookDC",
+                              "description": "David J. Freeman - Political Commentator - America First - MAGA - Christian",
                               "entities": {
-                                "description": {
-                                  "urls": []
-                                },
+                                "description": {}
+                              },
+                              "fast_followers_count": 0,
+                              "favourites_count": 1262368,
+                              "follow_request_sent": false,
+                              "followers_count": 1744888,
+                              "friends_count": 103283,
+                              "has_custom_timelines": true,
+                              "is_translator": false,
+                              "listed_count": 5198,
+                              "media_count": 59312,
+                              "needs_phone_verification": false,
+                              "normal_followers_count": 1744888,
+                              "notifications": false,
+                              "pinned_tweet_ids_str": [
+                                "2057219342341714000"
+                              ],
+                              "possibly_sensitive": false,
+                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/1355721251180961792/1740358024",
+                              "profile_interstitial_type": "",
+                              "statuses_count": 472182,
+                              "time_zone": "",
+                              "translator_type": "none",
+                              "url": "",
+                              "utc_offset": 0,
+                              "want_retweets": false,
+                              "withheld_description": "",
+                              "withheld_scope": ""
+                            },
+                            "location": {
+                              "location": "California to Texas in 2007"
+                            },
+                            "media_permissions": {
+                              "can_media_tag": true
+                            },
+                            "privacy": {
+                              "protected": false
+                            },
+                            "profile_bio": {
+                              "description": "David J. Freeman - Political Commentator - America First - MAGA - Christian"
+                            },
+                            "profile_image_shape": "Circle",
+                            "relationship_perspectives": {
+                              "blocked_by": false,
+                              "blocking": false,
+                              "followed_by": false,
+                              "following": false,
+                              "muting": false
+                            },
+                            "rest_id": "1355721251180961792",
+                            "super_follow_eligible": true,
+                            "super_followed_by": false,
+                            "super_following": false,
+                            "tipjar_settings": {
+                              "bitcoin_handle": "3BtB9rMnpnoscZZU9MyVe8sycchW8R3ZXt",
+                              "cash_app_handle": "$Gunthereagleman",
+                              "is_enabled": false
+                            },
+                            "verification": {
+                              "verified": false
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "entryId": "user-1355721251180961792",
+                    "sortIndex": "2057507797863497727"
+                  },
+                  {
+                    "content": {
+                      "__typename": "TimelineTimelineItem",
+                      "clientEventInfo": {
+                        "component": "CreatorSubscriptionsSgs",
+                        "element": "user"
+                      },
+                      "entryType": "TimelineTimelineItem",
+                      "itemContent": {
+                        "__typename": "TimelineUser",
+                        "itemType": "TimelineUser",
+                        "userDisplayType": "User",
+                        "user_results": {
+                          "result": {
+                            "__typename": "User",
+                            "affiliates_highlighted_label": {},
+                            "avatar": {
+                              "image_url": "https://pbs.twimg.com/profile_images/1922109242196295683/OvYJ7uwl_normal.jpg"
+                            },
+                            "core": {
+                              "created_at": "Tue Jan 16 16:12:06 +0000 2018",
+                              "name": "VISH BURRA \ud83c\udff4\u200d\u2620\ufe0f",
+                              "screen_name": "VishBurra"
+                            },
+                            "dm_permissions": {
+                              "can_dm": false
+                            },
+                            "follow_request_sent": false,
+                            "has_graduated_access": true,
+                            "id": "VXNlcjo5NTMyOTg4MjgyNTMzODQ3MDQ=",
+                            "is_blue_verified": true,
+                            "legacy": {
+                              "default_profile": true,
+                              "default_profile_image": false,
+                              "description": "Clout Diablo| Frmr. @OANN @RepSantosNY03 @FmrRepMattGaetz @WarRoomPandemic| \u201cScandal\u2019s Right Hand Man\u201d - @PlaybookDC",
+                              "entities": {
+                                "description": {},
                                 "url": {
                                   "urls": [
                                     {
                                       "display_url": "v.cameo.com/e/NwMM67xswFb",
                                       "expanded_url": "https://v.cameo.com/e/NwMM67xswFb",
-                                      "url": "https://t.co/eycTJdRKl1",
                                       "indices": [
                                         0,
                                         23
-                                      ]
+                                      ],
+                                      "url": "https://t.co/eycTJdRcvt"
                                     }
                                   ]
                                 }
                               },
                               "fast_followers_count": 0,
-                              "favourites_count": 91354,
-                              "followers_count": 46164,
-                              "friends_count": 13985,
+                              "favourites_count": 115177,
+                              "follow_request_sent": false,
+                              "followers_count": 51640,
+                              "friends_count": 15313,
                               "has_custom_timelines": true,
                               "is_translator": false,
-                              "listed_count": 219,
-                              "location": "Shaolin To SoCal",
-                              "media_count": 4162,
-                              "name": "VISH BURRA 🏴‍☠️",
-                              "normal_followers_count": 46164,
+                              "listed_count": 285,
+                              "media_count": 5456,
+                              "needs_phone_verification": false,
+                              "normal_followers_count": 51640,
+                              "notifications": false,
                               "pinned_tweet_ids_str": [
-                                "1871782594523840753"
+                                "2039888428834209949"
                               ],
                               "possibly_sensitive": false,
-                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/953298828253384704/1689890572",
-                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1880695371346878465/RAsGyuKA_normal.jpg",
+                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/953298828253384704/1775182338",
                               "profile_interstitial_type": "",
-                              "screen_name": "VishBurra",
-                              "statuses_count": 104077,
+                              "statuses_count": 131569,
+                              "time_zone": "",
                               "translator_type": "none",
-                              "url": "https://t.co/eycTJdRKl1",
-                              "verified": false,
+                              "url": "https://t.co/eycTJdRcvt",
+                              "utc_offset": 0,
                               "want_retweets": false,
-                              "withheld_in_countries": []
+                              "withheld_description": "",
+                              "withheld_scope": ""
                             },
+                            "location": {
+                              "location": "Shaolin To SoCal"
+                            },
+                            "media_permissions": {
+                              "can_media_tag": true
+                            },
+                            "privacy": {
+                              "protected": false
+                            },
+                            "profile_bio": {
+                              "description": "Clout Diablo| Frmr. @OANN @RepSantosNY03 @FmrRepMattGaetz @WarRoomPandemic| \u201cScandal\u2019s Right Hand Man\u201d - @PlaybookDC"
+                            },
+                            "profile_description_language": "en",
+                            "profile_image_shape": "Circle",
+                            "relationship_perspectives": {
+                              "blocked_by": false,
+                              "blocking": false,
+                              "followed_by": false,
+                              "following": false,
+                              "muting": false
+                            },
+                            "rest_id": "953298828253384704",
+                            "super_follow_eligible": true,
+                            "super_followed_by": false,
+                            "super_following": false,
                             "tipjar_settings": {
                               "is_enabled": true,
                               "venmo_handle": "vish-burra"
                             },
-                            "super_follow_eligible": true
+                            "verification": {
+                              "verified": false
+                            }
                           }
-                        },
-                        "userDisplayType": "User"
-                      },
+                        }
+                      }
+                    },
+                    "entryId": "user-953298828253384704",
+                    "sortIndex": "2057507797863497726"
+                  },
+                  {
+                    "content": {
+                      "__typename": "TimelineTimelineItem",
                       "clientEventInfo": {
                         "component": "CreatorSubscriptionsSgs",
                         "element": "user"
-                      }
-                    }
-                  },
-                  {
-                    "entryId": "user-526653893",
-                    "sortIndex": "1897829019747876861",
-                    "content": {
+                      },
                       "entryType": "TimelineTimelineItem",
-                      "__typename": "TimelineTimelineItem",
                       "itemContent": {
-                        "itemType": "TimelineUser",
                         "__typename": "TimelineUser",
+                        "itemType": "TimelineUser",
+                        "userDisplayType": "User",
                         "user_results": {
                           "result": {
                             "__typename": "User",
-                            "id": "VXNlcjo1MjY2NTM4OTM=",
-                            "rest_id": "526653893",
                             "affiliates_highlighted_label": {},
+                            "avatar": {
+                              "image_url": "https://pbs.twimg.com/profile_images/2017827878243545088/5kyc6QNd_normal.jpg"
+                            },
+                            "core": {
+                              "created_at": "Fri Sep 17 15:38:32 +0000 2010",
+                              "name": "The Vigilant Fox \ud83e\udd8a",
+                              "screen_name": "VigilantFox"
+                            },
+                            "dm_permissions": {
+                              "can_dm": true
+                            },
+                            "follow_request_sent": false,
                             "has_graduated_access": true,
+                            "id": "VXNlcjoxOTE4NzExNDM=",
                             "is_blue_verified": true,
-                            "profile_image_shape": "Circle",
                             "legacy": {
-                              "following": false,
-                              "can_dm": true,
-                              "can_media_tag": true,
-                              "created_at": "Fri Mar 16 18:12:36 +0000 2012",
                               "default_profile": true,
                               "default_profile_image": false,
-                              "description": "Comedian Filmmaker Documentarian. Husband to @lovelilahart - Immune to the System Films - American History of Voter Fraud - World Death Organization #Faucifilm",
+                              "description": "Stories the mainstream buries. Banned during COVID. Built and led by a healthcare professional turned citizen journalist.",
                               "entities": {
-                                "description": {
-                                  "urls": []
-                                },
+                                "description": {},
                                 "url": {
                                   "urls": [
                                     {
-                                      "display_url": "youtube.com/@ImmunetotheSy…",
-                                      "expanded_url": "https://www.youtube.com/@ImmunetotheSystem",
-                                      "url": "https://t.co/tm2VnYBPTA",
+                                      "display_url": "vigilantfox.com",
+                                      "expanded_url": "http://vigilantfox.com",
                                       "indices": [
                                         0,
                                         23
-                                      ]
+                                      ],
+                                      "url": "https://t.co/OVSw4ak3Dy"
                                     }
                                   ]
                                 }
                               },
                               "fast_followers_count": 0,
-                              "favourites_count": 33049,
-                              "followers_count": 131871,
-                              "friends_count": 1021,
+                              "favourites_count": 48588,
+                              "follow_request_sent": false,
+                              "followers_count": 1970227,
+                              "friends_count": 2886,
                               "has_custom_timelines": true,
                               "is_translator": false,
-                              "listed_count": 541,
-                              "location": "Texas",
-                              "media_count": 6589,
-                              "name": "Eric Abbenante",
-                              "normal_followers_count": 131871,
+                              "listed_count": 6711,
+                              "media_count": 23287,
+                              "needs_phone_verification": false,
+                              "normal_followers_count": 1970227,
+                              "notifications": false,
                               "pinned_tweet_ids_str": [
-                                "1676184084316340224"
+                                "2056457094077837367"
                               ],
                               "possibly_sensitive": false,
-                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1882782888703262720/ghVAtOmP_normal.jpg",
+                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/191871143/1773296618",
                               "profile_interstitial_type": "",
-                              "screen_name": "EricAbbenante",
-                              "statuses_count": 30460,
+                              "statuses_count": 49382,
+                              "time_zone": "",
                               "translator_type": "none",
-                              "url": "https://t.co/tm2VnYBPTA",
-                              "verified": false,
+                              "url": "https://t.co/OVSw4ak3Dy",
+                              "utc_offset": 0,
                               "want_retweets": false,
-                              "withheld_in_countries": []
+                              "withheld_description": "",
+                              "withheld_scope": ""
                             },
-                            "tipjar_settings": {},
-                            "super_follow_eligible": true
-                          }
-                        },
-                        "userDisplayType": "User"
-                      },
-                      "clientEventInfo": {
-                        "component": "CreatorSubscriptionsSgs",
-                        "element": "user"
-                      }
-                    }
-                  },
-                  {
-                    "entryId": "user-21397275",
-                    "sortIndex": "1897829019747876860",
-                    "content": {
-                      "entryType": "TimelineTimelineItem",
-                      "__typename": "TimelineTimelineItem",
-                      "itemContent": {
-                        "itemType": "TimelineUser",
-                        "__typename": "TimelineUser",
-                        "user_results": {
-                          "result": {
-                            "__typename": "User",
-                            "id": "VXNlcjoyMTM5NzI3NQ==",
-                            "rest_id": "21397275",
-                            "affiliates_highlighted_label": {},
-                            "has_graduated_access": true,
-                            "is_blue_verified": true,
-                            "profile_image_shape": "Circle",
-                            "legacy": {
-                              "following": false,
-                              "can_dm": true,
-                              "can_media_tag": true,
-                              "created_at": "Fri Feb 20 13:50:40 +0000 2009",
-                              "default_profile": false,
-                              "default_profile_image": false,
-                              "description": "News Anchor 📺 Emmy Award Winning Journalist🏆 #OAN. Previously on CBS & ABC 👨‍👩‍👧‍👧 #GirlMom Proud ✡️Refugee #FightOn ✌️USC/ RT’s not endorsements",
-                              "entities": {
-                                "description": {
-                                  "urls": []
-                                },
-                                "url": {
-                                  "urls": [
-                                    {
-                                      "display_url": "oann.com",
-                                      "expanded_url": "https://www.oann.com",
-                                      "url": "https://t.co/PEEqbQDmzN",
-                                      "indices": [
-                                        0,
-                                        23
-                                      ]
-                                    }
-                                  ]
-                                }
-                              },
-                              "fast_followers_count": 0,
-                              "favourites_count": 9852,
-                              "followers_count": 24686,
-                              "friends_count": 5068,
-                              "has_custom_timelines": true,
-                              "is_translator": false,
-                              "listed_count": 287,
-                              "location": "USA",
-                              "media_count": 7719,
-                              "name": "Stella Escobedo",
-                              "normal_followers_count": 24686,
-                              "pinned_tweet_ids_str": [
-                                "1824272433567715414"
-                              ],
-                              "possibly_sensitive": false,
-                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/21397275/1640230310",
-                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1860926582996525056/yh7M5grm_normal.jpg",
-                              "profile_interstitial_type": "",
-                              "screen_name": "StellaEscoTV",
-                              "statuses_count": 46526,
-                              "translator_type": "none",
-                              "url": "https://t.co/PEEqbQDmzN",
-                              "verified": false,
-                              "want_retweets": false,
-                              "withheld_in_countries": []
+                            "location": {
+                              "location": "USA"
+                            },
+                            "media_permissions": {
+                              "can_media_tag": false
+                            },
+                            "privacy": {
+                              "protected": false
                             },
                             "professional": {
-                              "rest_id": "1467257784471150593",
-                              "professional_type": "Business",
                               "category": [
                                 {
-                                  "id": 933,
-                                  "name": "Media Personality",
-                                  "icon_name": "IconBriefcaseStroke"
+                                  "icon_name": "IconBriefcaseStroke",
+                                  "id": 579,
+                                  "name": "Media & News"
                                 }
-                              ]
-                            },
-                            "tipjar_settings": {},
-                            "super_follow_eligible": true
-                          }
-                        },
-                        "userDisplayType": "User"
-                      },
-                      "clientEventInfo": {
-                        "component": "CreatorSubscriptionsSgs",
-                        "element": "user"
-                      }
-                    }
-                  },
-                  {
-                    "entryId": "user-2438831503",
-                    "sortIndex": "1897829019747876859",
-                    "content": {
-                      "entryType": "TimelineTimelineItem",
-                      "__typename": "TimelineTimelineItem",
-                      "itemContent": {
-                        "itemType": "TimelineUser",
-                        "__typename": "TimelineUser",
-                        "user_results": {
-                          "result": {
-                            "__typename": "User",
-                            "id": "VXNlcjoyNDM4ODMxNTAz",
-                            "rest_id": "2438831503",
-                            "affiliates_highlighted_label": {},
-                            "has_graduated_access": true,
-                            "is_blue_verified": true,
-                            "profile_image_shape": "Circle",
-                            "legacy": {
-                              "following": false,
-                              "can_dm": false,
-                              "can_media_tag": false,
-                              "created_at": "Fri Apr 11 17:19:00 +0000 2014",
-                              "default_profile": false,
-                              "default_profile_image": false,
-                              "description": "Primetime Host Fine Point @OANN | President & Founder, Nat. White House Correspondents’ Assoc. https://t.co/fVnWe4Bcqi | https://t.co/P3jXVKzIWN | https://t.co/KVTBCA0Ccl",
-                              "entities": {
-                                "description": {
-                                  "urls": [
-                                    {
-                                      "display_url": "NWHCA.press",
-                                      "expanded_url": "http://NWHCA.press",
-                                      "url": "https://t.co/fVnWe4Bcqi",
-                                      "indices": [
-                                        95,
-                                        118
-                                      ]
-                                    },
-                                    {
-                                      "display_url": "ChanelRion.com",
-                                      "expanded_url": "http://ChanelRion.com",
-                                      "url": "https://t.co/P3jXVKzIWN",
-                                      "indices": [
-                                        121,
-                                        144
-                                      ]
-                                    },
-                                    {
-                                      "display_url": "Wordebys.com",
-                                      "expanded_url": "http://Wordebys.com",
-                                      "url": "https://t.co/KVTBCA0Ccl",
-                                      "indices": [
-                                        147,
-                                        170
-                                      ]
-                                    }
-                                  ]
-                                },
-                                "url": {
-                                  "urls": [
-                                    {
-                                      "display_url": "OANN.com",
-                                      "expanded_url": "http://www.OANN.com",
-                                      "url": "https://t.co/Dc40ktBda5",
-                                      "indices": [
-                                        0,
-                                        23
-                                      ]
-                                    }
-                                  ]
-                                }
-                              },
-                              "fast_followers_count": 0,
-                              "favourites_count": 15854,
-                              "followers_count": 610981,
-                              "friends_count": 15599,
-                              "has_custom_timelines": true,
-                              "is_translator": false,
-                              "listed_count": 2046,
-                              "location": "Washington, DC 🇺🇸🇰🇷",
-                              "media_count": 1675,
-                              "name": "Chanel Rion OAN",
-                              "normal_followers_count": 610981,
-                              "pinned_tweet_ids_str": [
-                                "1810857231795024085"
                               ],
-                              "possibly_sensitive": false,
-                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/2438831503/1736374575",
-                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1148367530437808135/e4LVGJeT_normal.png",
-                              "profile_interstitial_type": "",
-                              "screen_name": "ChanelRion",
-                              "statuses_count": 24849,
-                              "translator_type": "none",
-                              "url": "https://t.co/Dc40ktBda5",
-                              "verified": false,
-                              "want_retweets": false,
-                              "withheld_in_countries": []
-                            },
-                            "professional": {
-                              "rest_id": "1606652920388354048",
                               "professional_type": "Creator",
-                              "category": [
-                                {
-                                  "id": 933,
-                                  "name": "Media Personality",
-                                  "icon_name": "IconBriefcaseStroke"
-                                }
-                              ]
+                              "rest_id": "1457491221048352768"
                             },
-                            "tipjar_settings": {},
-                            "super_follow_eligible": true
+                            "profile_bio": {
+                              "description": "Stories the mainstream buries. Banned during COVID. Built and led by a healthcare professional turned citizen journalist."
+                            },
+                            "profile_description_language": "en",
+                            "profile_image_shape": "Square",
+                            "relationship_perspectives": {
+                              "blocked_by": false,
+                              "blocking": false,
+                              "followed_by": false,
+                              "following": false,
+                              "muting": false
+                            },
+                            "rest_id": "191871143",
+                            "super_follow_eligible": true,
+                            "super_followed_by": false,
+                            "super_following": false,
+                            "tipjar_settings": {
+                              "bitcoin_handle": "3JUMCbLoQv2wNNU2knHkrnUpoCNXoCbFcp",
+                              "cash_app_handle": "",
+                              "is_enabled": true,
+                              "patreon_handle": "",
+                              "venmo_handle": "VigilantFox"
+                            },
+                            "verification": {
+                              "verified": false,
+                              "verified_type": "Business"
+                            }
                           }
-                        },
-                        "userDisplayType": "User"
-                      },
+                        }
+                      }
+                    },
+                    "entryId": "user-191871143",
+                    "sortIndex": "2057507797863497725"
+                  },
+                  {
+                    "content": {
+                      "__typename": "TimelineTimelineItem",
                       "clientEventInfo": {
                         "component": "CreatorSubscriptionsSgs",
                         "element": "user"
-                      }
-                    }
-                  },
-                  {
-                    "entryId": "user-1242258668638236672",
-                    "sortIndex": "1897829019747876858",
-                    "content": {
-                      "entryType": "TimelineTimelineItem",
-                      "__typename": "TimelineTimelineItem",
-                      "itemContent": {
-                        "itemType": "TimelineUser",
-                        "__typename": "TimelineUser",
-                        "user_results": {
-                          "result": {
-                            "__typename": "User",
-                            "id": "VXNlcjoxMjQyMjU4NjY4NjM4MjM2Njcy",
-                            "rest_id": "1242258668638236672",
-                            "affiliates_highlighted_label": {},
-                            "has_graduated_access": true,
-                            "is_blue_verified": true,
-                            "profile_image_shape": "Circle",
-                            "legacy": {
-                              "following": false,
-                              "can_dm": true,
-                              "can_media_tag": true,
-                              "created_at": "Tue Mar 24 01:15:36 +0000 2020",
-                              "default_profile": true,
-                              "default_profile_image": false,
-                              "description": "AI for good ✨ Ephesians 4:6 🕊️ Wifey to Matt 🇺🇸",
-                              "entities": {
-                                "description": {
-                                  "urls": []
-                                },
-                                "url": {
-                                  "urls": [
-                                    {
-                                      "display_url": "instagram.com/gingergaetz/",
-                                      "expanded_url": "https://www.instagram.com/gingergaetz/",
-                                      "url": "https://t.co/nUU4egN2r2",
-                                      "indices": [
-                                        0,
-                                        23
-                                      ]
-                                    }
-                                  ]
-                                }
-                              },
-                              "fast_followers_count": 0,
-                              "favourites_count": 8269,
-                              "followers_count": 146277,
-                              "friends_count": 761,
-                              "has_custom_timelines": false,
-                              "is_translator": false,
-                              "listed_count": 196,
-                              "location": "FL-1",
-                              "media_count": 1352,
-                              "name": "Ginger Gaetz",
-                              "normal_followers_count": 146277,
-                              "pinned_tweet_ids_str": [
-                                "1847735612155044173"
-                              ],
-                              "possibly_sensitive": false,
-                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/1242258668638236672/1726024953",
-                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1723044342648983552/J7wd0SvP_normal.jpg",
-                              "profile_interstitial_type": "",
-                              "screen_name": "GingerLGaetz",
-                              "statuses_count": 3936,
-                              "translator_type": "none",
-                              "url": "https://t.co/nUU4egN2r2",
-                              "verified": false,
-                              "want_retweets": false,
-                              "withheld_in_countries": []
-                            },
-                            "professional": {
-                              "rest_id": "1475580963191091201",
-                              "professional_type": "Creator",
-                              "category": []
-                            },
-                            "tipjar_settings": {},
-                            "super_follow_eligible": true
-                          }
-                        },
-                        "userDisplayType": "User"
                       },
-                      "clientEventInfo": {
-                        "component": "CreatorSubscriptionsSgs",
-                        "element": "user"
-                      }
-                    }
-                  },
-                  {
-                    "entryId": "user-875856268056969216",
-                    "sortIndex": "1897829019747876857",
-                    "content": {
                       "entryType": "TimelineTimelineItem",
-                      "__typename": "TimelineTimelineItem",
                       "itemContent": {
-                        "itemType": "TimelineUser",
                         "__typename": "TimelineUser",
+                        "itemType": "TimelineUser",
+                        "userDisplayType": "User",
                         "user_results": {
                           "result": {
                             "__typename": "User",
-                            "id": "VXNlcjo4NzU4NTYyNjgwNTY5NjkyMTY=",
-                            "rest_id": "875856268056969216",
                             "affiliates_highlighted_label": {},
-                            "has_graduated_access": true,
-                            "is_blue_verified": true,
-                            "profile_image_shape": "Circle",
-                            "legacy": {
-                              "following": false,
-                              "can_dm": true,
-                              "can_media_tag": true,
+                            "avatar": {
+                              "image_url": "https://pbs.twimg.com/profile_images/1865046713829875712/36ZyH2J__normal.jpg"
+                            },
+                            "core": {
                               "created_at": "Fri Jun 16 23:23:01 +0000 2017",
+                              "name": "DC_Draino",
+                              "screen_name": "DC_Draino"
+                            },
+                            "dm_permissions": {
+                              "can_dm": true
+                            },
+                            "follow_request_sent": false,
+                            "has_graduated_access": true,
+                            "id": "VXNlcjo4NzU4NTYyNjgwNTY5NjkyMTY=",
+                            "is_blue_verified": true,
+                            "legacy": {
                               "default_profile": true,
                               "default_profile_image": false,
-                              "description": "Rogan O’Handley • Lawyer • Patriot 🇺🇸",
+                              "description": "Rogan O\u2019Handley \u2022 Lawyer \u2022 America First\ud83c\uddfa\ud83c\uddf8",
                               "entities": {
-                                "description": {
-                                  "urls": []
-                                },
+                                "description": {},
                                 "url": {
                                   "urls": [
                                     {
                                       "display_url": "dcdraino.com",
                                       "expanded_url": "http://dcdraino.com",
-                                      "url": "https://t.co/xCJw2nXBn2",
                                       "indices": [
                                         0,
                                         23
-                                      ]
+                                      ],
+                                      "url": "https://t.co/xCJw2nXBn2"
                                     }
                                   ]
                                 }
                               },
                               "fast_followers_count": 0,
-                              "favourites_count": 9296,
-                              "followers_count": 2157848,
-                              "friends_count": 663,
+                              "favourites_count": 27245,
+                              "follow_request_sent": false,
+                              "followers_count": 2343985,
+                              "friends_count": 572,
                               "has_custom_timelines": true,
                               "is_translator": false,
-                              "listed_count": 4857,
-                              "location": "Tampa, FL",
-                              "media_count": 2782,
-                              "name": "DC_Draino",
-                              "normal_followers_count": 2157848,
+                              "listed_count": 5619,
+                              "media_count": 3431,
+                              "needs_phone_verification": false,
+                              "normal_followers_count": 2343985,
+                              "notifications": false,
                               "pinned_tweet_ids_str": [
-                                "1897692807558521310"
+                                "2056409191871308230"
                               ],
                               "possibly_sensitive": false,
                               "profile_banner_url": "https://pbs.twimg.com/profile_banners/875856268056969216/1732626168",
-                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1865046713829875712/36ZyH2J__normal.jpg",
                               "profile_interstitial_type": "",
-                              "screen_name": "DC_Draino",
-                              "statuses_count": 11920,
+                              "statuses_count": 16571,
+                              "time_zone": "",
                               "translator_type": "none",
                               "url": "https://t.co/xCJw2nXBn2",
-                              "verified": false,
+                              "utc_offset": 0,
                               "want_retweets": false,
-                              "withheld_in_countries": []
+                              "withheld_description": "",
+                              "withheld_scope": ""
+                            },
+                            "location": {
+                              "location": "Tampa, FL"
+                            },
+                            "media_permissions": {
+                              "can_media_tag": true
+                            },
+                            "privacy": {
+                              "protected": false
                             },
                             "professional": {
-                              "rest_id": "1603834789471059971",
-                              "professional_type": "Business",
                               "category": [
                                 {
+                                  "icon_name": "IconBriefcaseStroke",
                                   "id": 580,
-                                  "name": "Media & News Company",
-                                  "icon_name": "IconBriefcaseStroke"
+                                  "name": "Media & News Company"
                                 }
-                              ]
+                              ],
+                              "professional_type": "Business",
+                              "rest_id": "1603834789471059971"
                             },
+                            "profile_bio": {
+                              "description": "Rogan O\u2019Handley \u2022 Lawyer \u2022 America First\ud83c\uddfa\ud83c\uddf8"
+                            },
+                            "profile_image_shape": "Circle",
+                            "relationship_perspectives": {
+                              "blocked_by": false,
+                              "blocking": false,
+                              "followed_by": false,
+                              "following": false,
+                              "muting": false
+                            },
+                            "rest_id": "875856268056969216",
+                            "super_follow_eligible": true,
+                            "super_followed_by": false,
+                            "super_following": false,
                             "tipjar_settings": {
                               "is_enabled": true,
                               "venmo_handle": "RoganOHandley"
                             },
-                            "super_follow_eligible": true
-                          }
-                        },
-                        "userDisplayType": "User"
-                      },
-                      "clientEventInfo": {
-                        "component": "CreatorSubscriptionsSgs",
-                        "element": "user"
-                      }
-                    }
-                  },
-                  {
-                    "entryId": "user-2874102076",
-                    "sortIndex": "1897829019747876856",
-                    "content": {
-                      "entryType": "TimelineTimelineItem",
-                      "__typename": "TimelineTimelineItem",
-                      "itemContent": {
-                        "itemType": "TimelineUser",
-                        "__typename": "TimelineUser",
-                        "user_results": {
-                          "result": {
-                            "__typename": "User",
-                            "id": "VXNlcjoyODc0MTAyMDc2",
-                            "rest_id": "2874102076",
-                            "affiliates_highlighted_label": {},
-                            "has_graduated_access": true,
-                            "is_blue_verified": true,
-                            "profile_image_shape": "Circle",
-                            "legacy": {
-                              "following": false,
-                              "can_dm": true,
-                              "can_media_tag": false,
-                              "created_at": "Wed Nov 12 18:29:17 +0000 2014",
-                              "default_profile": false,
-                              "default_profile_image": false,
-                              "description": "Occasionally funny. Author. Director. Press inquiries: don’t inquire.",
-                              "entities": {
-                                "description": {
-                                  "urls": []
-                                }
-                              },
-                              "fast_followers_count": 0,
-                              "favourites_count": 118283,
-                              "followers_count": 1119930,
-                              "friends_count": 1195,
-                              "has_custom_timelines": true,
-                              "is_translator": false,
-                              "listed_count": 2877,
-                              "location": "NYC",
-                              "media_count": 3627,
-                              "name": "Ashley St. Clair",
-                              "normal_followers_count": 1119930,
-                              "pinned_tweet_ids_str": [
-                                "1890602503068123539"
-                              ],
-                              "possibly_sensitive": false,
-                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/2874102076/1670904669",
-                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1884399721772466176/YuyVEkev_normal.jpg",
-                              "profile_interstitial_type": "",
-                              "screen_name": "stclairashley",
-                              "statuses_count": 31526,
-                              "translator_type": "none",
-                              "verified": false,
-                              "want_retweets": false,
-                              "withheld_in_countries": []
-                            },
-                            "professional": {
-                              "rest_id": "1530604503438876673",
-                              "professional_type": "Creator",
-                              "category": []
-                            },
-                            "tipjar_settings": {
-                              "is_enabled": true
+                            "verification": {
+                              "verified": false
                             }
                           }
-                        },
-                        "userDisplayType": "User"
-                      },
+                        }
+                      }
+                    },
+                    "entryId": "user-875856268056969216",
+                    "sortIndex": "2057507797863497724"
+                  },
+                  {
+                    "content": {
+                      "__typename": "TimelineTimelineItem",
                       "clientEventInfo": {
                         "component": "CreatorSubscriptionsSgs",
                         "element": "user"
-                      }
-                    }
-                  },
-                  {
-                    "entryId": "user-1031747223569227776",
-                    "sortIndex": "1897829019747876855",
-                    "content": {
+                      },
                       "entryType": "TimelineTimelineItem",
-                      "__typename": "TimelineTimelineItem",
                       "itemContent": {
-                        "itemType": "TimelineUser",
                         "__typename": "TimelineUser",
+                        "itemType": "TimelineUser",
+                        "userDisplayType": "User",
                         "user_results": {
                           "result": {
                             "__typename": "User",
-                            "id": "VXNlcjoxMDMxNzQ3MjIzNTY5MjI3Nzc2",
-                            "rest_id": "1031747223569227776",
-                            "affiliates_highlighted_label": {},
+                            "affiliates_highlighted_label": {
+                              "label": {
+                                "badge": {
+                                  "url": "https://pbs.twimg.com/profile_images/1955359038532653056/OSHY3ewP_bigger.jpg"
+                                },
+                                "description": "X",
+                                "url": {
+                                  "url": "https://twitter.com/X",
+                                  "urlType": "DeepLink"
+                                },
+                                "userLabelDisplayType": "Badge",
+                                "userLabelType": "BusinessLabel"
+                              }
+                            },
+                            "avatar": {
+                              "image_url": "https://pbs.twimg.com/profile_images/2053244804520427520/m8mdWZCG_normal.jpg"
+                            },
+                            "core": {
+                              "created_at": "Tue Jun 02 20:12:29 +0000 2009",
+                              "name": "Elon Musk",
+                              "screen_name": "elonmusk"
+                            },
+                            "dm_permissions": {
+                              "can_dm": false
+                            },
+                            "follow_request_sent": false,
                             "has_graduated_access": true,
+                            "id": "VXNlcjo0NDE5NjM5Nw==",
                             "is_blue_verified": true,
-                            "profile_image_shape": "Circle",
                             "legacy": {
-                              "following": false,
-                              "can_dm": true,
-                              "can_media_tag": false,
-                              "created_at": "Tue Aug 21 03:38:01 +0000 2018",
-                              "default_profile": true,
+                              "default_profile": false,
                               "default_profile_image": false,
-                              "description": "Grothendieckian Centrist; Former @WhiteHouse official; Theory @DukeU; Math @Uchicago; Proud Jew",
+                              "description": "https://t.co/dDtDyVssfm",
                               "entities": {
                                 "description": {
-                                  "urls": []
-                                },
-                                "url": {
                                   "urls": [
                                     {
-                                      "display_url": "dukespace.lib.duke.edu/dspace/handle/…",
-                                      "expanded_url": "https://dukespace.lib.duke.edu/dspace/handle/10161/12223",
-                                      "url": "https://t.co/dDpsh5TM86",
+                                      "display_url": "Terafab.ai",
+                                      "expanded_url": "http://Terafab.ai",
                                       "indices": [
                                         0,
                                         23
-                                      ]
+                                      ],
+                                      "url": "https://t.co/dDtDyVssfm"
                                     }
                                   ]
                                 }
                               },
                               "fast_followers_count": 0,
-                              "favourites_count": 29948,
-                              "followers_count": 362355,
+                              "favourites_count": 229108,
+                              "follow_request_sent": false,
+                              "followers_count": 240038222,
+                              "friends_count": 1336,
+                              "has_custom_timelines": true,
+                              "is_translator": false,
+                              "listed_count": 169132,
+                              "media_count": 4501,
+                              "needs_phone_verification": false,
+                              "normal_followers_count": 240038222,
+                              "notifications": false,
+                              "pinned_tweet_ids_str": [
+                                "2057327547411570907"
+                              ],
+                              "possibly_sensitive": false,
+                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/44196397/1774145451",
+                              "profile_interstitial_type": "",
+                              "statuses_count": 102969,
+                              "time_zone": "",
+                              "translator_type": "none",
+                              "url": "",
+                              "utc_offset": 0,
+                              "want_retweets": true,
+                              "withheld_description": "",
+                              "withheld_scope": ""
+                            },
+                            "location": {
+                              "location": ""
+                            },
+                            "media_permissions": {
+                              "can_media_tag": false
+                            },
+                            "privacy": {
+                              "protected": false
+                            },
+                            "professional": {
+                              "category": [],
+                              "professional_type": "Creator",
+                              "rest_id": "1679729435447275522"
+                            },
+                            "profile_bio": {
+                              "description": "https://t.co/dDtDyVssfm"
+                            },
+                            "profile_image_shape": "Circle",
+                            "relationship_perspectives": {
+                              "blocked_by": false,
+                              "blocking": false,
+                              "followed_by": false,
+                              "following": true,
+                              "muting": false
+                            },
+                            "rest_id": "44196397",
+                            "super_follow_eligible": true,
+                            "super_followed_by": false,
+                            "super_following": false,
+                            "tipjar_settings": {
+                              "is_enabled": false
+                            },
+                            "verification": {
+                              "verified": false
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "entryId": "user-44196397",
+                    "sortIndex": "2057507797863497723"
+                  },
+                  {
+                    "content": {
+                      "__typename": "TimelineTimelineItem",
+                      "clientEventInfo": {
+                        "component": "CreatorSubscriptionsSgs",
+                        "element": "user"
+                      },
+                      "entryType": "TimelineTimelineItem",
+                      "itemContent": {
+                        "__typename": "TimelineUser",
+                        "itemType": "TimelineUser",
+                        "userDisplayType": "User",
+                        "user_results": {
+                          "result": {
+                            "__typename": "User",
+                            "affiliates_highlighted_label": {},
+                            "avatar": {
+                              "image_url": "https://pbs.twimg.com/profile_images/1882782888703262720/ghVAtOmP_normal.jpg"
+                            },
+                            "core": {
+                              "created_at": "Fri Mar 16 18:12:36 +0000 2012",
+                              "name": "Eric Abbenante",
+                              "screen_name": "EricAbbenante"
+                            },
+                            "dm_permissions": {
+                              "can_dm": true
+                            },
+                            "follow_request_sent": false,
+                            "has_graduated_access": true,
+                            "id": "VXNlcjo1MjY2NTM4OTM=",
+                            "is_blue_verified": false,
+                            "legacy": {
+                              "default_profile": true,
+                              "default_profile_image": false,
+                              "description": "Comedian Documentarian. Husband to @lovelilahart \nProducer \nEric Abbenante vs the World \nMondays 8-10pm The Cicada Fort Worth TX",
+                              "entities": {
+                                "description": {},
+                                "url": {
+                                  "urls": [
+                                    {
+                                      "display_url": "youtube.com/@eric.abbenante",
+                                      "expanded_url": "https://www.youtube.com/@eric.abbenante",
+                                      "indices": [
+                                        0,
+                                        23
+                                      ],
+                                      "url": "https://t.co/FBB0fquVp7"
+                                    }
+                                  ]
+                                }
+                              },
+                              "fast_followers_count": 0,
+                              "favourites_count": 34236,
+                              "follow_request_sent": false,
+                              "followers_count": 136397,
+                              "friends_count": 1262,
+                              "has_custom_timelines": true,
+                              "is_translator": false,
+                              "listed_count": 520,
+                              "media_count": 7345,
+                              "needs_phone_verification": false,
+                              "normal_followers_count": 136397,
+                              "notifications": false,
+                              "pinned_tweet_ids_str": [
+                                "1676908854289010689"
+                              ],
+                              "possibly_sensitive": false,
+                              "profile_banner_url": "",
+                              "profile_interstitial_type": "",
+                              "statuses_count": 32762,
+                              "time_zone": "",
+                              "translator_type": "none",
+                              "url": "https://t.co/FBB0fquVp7",
+                              "utc_offset": 0,
+                              "want_retweets": false,
+                              "withheld_description": "",
+                              "withheld_scope": ""
+                            },
+                            "location": {
+                              "location": "Texas"
+                            },
+                            "media_permissions": {
+                              "can_media_tag": true
+                            },
+                            "privacy": {
+                              "protected": false
+                            },
+                            "profile_bio": {
+                              "description": "Comedian Documentarian. Husband to @lovelilahart \nProducer \nEric Abbenante vs the World \nMondays 8-10pm The Cicada Fort Worth TX"
+                            },
+                            "profile_description_language": "en",
+                            "profile_image_shape": "Circle",
+                            "relationship_perspectives": {
+                              "blocked_by": false,
+                              "blocking": false,
+                              "followed_by": false,
+                              "following": false,
+                              "muting": false
+                            },
+                            "rest_id": "526653893",
+                            "super_follow_eligible": true,
+                            "super_followed_by": false,
+                            "super_following": false,
+                            "tipjar_settings": {},
+                            "verification": {
+                              "verified": false
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "entryId": "user-526653893",
+                    "sortIndex": "2057507797863497722"
+                  },
+                  {
+                    "content": {
+                      "__typename": "TimelineTimelineItem",
+                      "clientEventInfo": {
+                        "component": "CreatorSubscriptionsSgs",
+                        "element": "user"
+                      },
+                      "entryType": "TimelineTimelineItem",
+                      "itemContent": {
+                        "__typename": "TimelineUser",
+                        "itemType": "TimelineUser",
+                        "userDisplayType": "User",
+                        "user_results": {
+                          "result": {
+                            "__typename": "User",
+                            "affiliates_highlighted_label": {},
+                            "avatar": {
+                              "image_url": "https://pbs.twimg.com/profile_images/1723044342648983552/J7wd0SvP_normal.jpg"
+                            },
+                            "core": {
+                              "created_at": "Tue Mar 24 01:15:36 +0000 2020",
+                              "name": "Ginger Gaetz",
+                              "screen_name": "GingerLGaetz"
+                            },
+                            "dm_permissions": {
+                              "can_dm": true
+                            },
+                            "follow_request_sent": false,
+                            "has_graduated_access": true,
+                            "id": "VXNlcjoxMjQyMjU4NjY4NjM4MjM2Njcy",
+                            "is_blue_verified": true,
+                            "legacy": {
+                              "default_profile": true,
+                              "default_profile_image": false,
+                              "description": "AI for good \u2728 Ephesians 4:6 \ud83d\udd4a\ufe0f Wifey to Matt \ud83c\uddfa\ud83c\uddf8",
+                              "entities": {
+                                "description": {},
+                                "url": {
+                                  "urls": [
+                                    {
+                                      "display_url": "instagram.com/gingergaetz/",
+                                      "expanded_url": "https://www.instagram.com/gingergaetz/",
+                                      "indices": [
+                                        0,
+                                        23
+                                      ],
+                                      "url": "https://t.co/nUU4egN2r2"
+                                    }
+                                  ]
+                                }
+                              },
+                              "fast_followers_count": 0,
+                              "favourites_count": 10205,
+                              "follow_request_sent": false,
+                              "followers_count": 147600,
+                              "friends_count": 837,
+                              "has_custom_timelines": false,
+                              "is_translator": false,
+                              "listed_count": 220,
+                              "media_count": 1590,
+                              "needs_phone_verification": false,
+                              "normal_followers_count": 147600,
+                              "notifications": false,
+                              "pinned_tweet_ids_str": [
+                                "2012631323110789122"
+                              ],
+                              "possibly_sensitive": false,
+                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/1242258668638236672/1726024953",
+                              "profile_interstitial_type": "",
+                              "statuses_count": 4696,
+                              "time_zone": "",
+                              "translator_type": "none",
+                              "url": "https://t.co/nUU4egN2r2",
+                              "utc_offset": 0,
+                              "want_retweets": false,
+                              "withheld_description": "",
+                              "withheld_scope": ""
+                            },
+                            "location": {
+                              "location": "FL-1"
+                            },
+                            "media_permissions": {
+                              "can_media_tag": true
+                            },
+                            "privacy": {
+                              "protected": false
+                            },
+                            "professional": {
+                              "category": [],
+                              "professional_type": "Creator",
+                              "rest_id": "1475580963191091201"
+                            },
+                            "profile_bio": {
+                              "description": "AI for good \u2728 Ephesians 4:6 \ud83d\udd4a\ufe0f Wifey to Matt \ud83c\uddfa\ud83c\uddf8"
+                            },
+                            "profile_description_language": "en",
+                            "profile_image_shape": "Circle",
+                            "relationship_perspectives": {
+                              "blocked_by": false,
+                              "blocking": false,
+                              "followed_by": false,
+                              "following": false,
+                              "muting": false
+                            },
+                            "rest_id": "1242258668638236672",
+                            "super_follow_eligible": true,
+                            "super_followed_by": false,
+                            "super_following": false,
+                            "tipjar_settings": {},
+                            "verification": {
+                              "verified": false
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "entryId": "user-1242258668638236672",
+                    "sortIndex": "2057507797863497721"
+                  },
+                  {
+                    "content": {
+                      "__typename": "TimelineTimelineItem",
+                      "clientEventInfo": {
+                        "component": "CreatorSubscriptionsSgs",
+                        "element": "user"
+                      },
+                      "entryType": "TimelineTimelineItem",
+                      "itemContent": {
+                        "__typename": "TimelineUser",
+                        "itemType": "TimelineUser",
+                        "userDisplayType": "User",
+                        "user_results": {
+                          "result": {
+                            "__typename": "User",
+                            "affiliates_highlighted_label": {},
+                            "avatar": {
+                              "image_url": "https://pbs.twimg.com/profile_images/1884399721772466176/YuyVEkev_normal.jpg"
+                            },
+                            "core": {
+                              "created_at": "Wed Nov 12 18:29:17 +0000 2014",
+                              "name": "Ashley St. Clair",
+                              "screen_name": "stclairashley"
+                            },
+                            "dm_permissions": {
+                              "can_dm": true
+                            },
+                            "follow_request_sent": false,
+                            "has_graduated_access": true,
+                            "id": "VXNlcjoyODc0MTAyMDc2",
+                            "is_blue_verified": true,
+                            "legacy": {
+                              "default_profile": false,
+                              "default_profile_image": false,
+                              "description": "FOLLOW ME ON INSTAGRAM UNTIL JACK DORSEY COMES BACK @ asc.sys",
+                              "entities": {
+                                "description": {},
+                                "url": {
+                                  "urls": [
+                                    {
+                                      "display_url": "instagram.com/asc.sys",
+                                      "expanded_url": "http://instagram.com/asc.sys",
+                                      "indices": [
+                                        0,
+                                        23
+                                      ],
+                                      "url": "https://t.co/83l0GMIMSd"
+                                    }
+                                  ]
+                                }
+                              },
+                              "fast_followers_count": 0,
+                              "favourites_count": 120537,
+                              "follow_request_sent": false,
+                              "followers_count": 1064020,
+                              "friends_count": 1175,
+                              "has_custom_timelines": true,
+                              "is_translator": false,
+                              "listed_count": 2799,
+                              "media_count": 3603,
+                              "needs_phone_verification": false,
+                              "normal_followers_count": 1064020,
+                              "notifications": false,
+                              "pinned_tweet_ids_str": [
+                                "2010559237944971570"
+                              ],
+                              "possibly_sensitive": false,
+                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/2874102076/1755464103",
+                              "profile_interstitial_type": "",
+                              "statuses_count": 31533,
+                              "time_zone": "",
+                              "translator_type": "none",
+                              "url": "https://t.co/83l0GMIMSd",
+                              "utc_offset": 0,
+                              "want_retweets": false,
+                              "withheld_description": "",
+                              "withheld_scope": ""
+                            },
+                            "location": {
+                              "location": "NYC"
+                            },
+                            "media_permissions": {
+                              "can_media_tag": false
+                            },
+                            "privacy": {
+                              "protected": false
+                            },
+                            "professional": {
+                              "category": [],
+                              "professional_type": "Creator",
+                              "rest_id": "1530604503438876673"
+                            },
+                            "profile_bio": {
+                              "description": "FOLLOW ME ON INSTAGRAM UNTIL JACK DORSEY COMES BACK @ asc.sys"
+                            },
+                            "profile_description_language": "en",
+                            "profile_image_shape": "Circle",
+                            "relationship_perspectives": {
+                              "blocked_by": false,
+                              "blocking": false,
+                              "followed_by": false,
+                              "following": false,
+                              "muting": false
+                            },
+                            "rest_id": "2874102076",
+                            "super_follow_eligible": false,
+                            "super_followed_by": false,
+                            "super_following": false,
+                            "tipjar_settings": {
+                              "is_enabled": true
+                            },
+                            "verification": {
+                              "verified": false
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "entryId": "user-2874102076",
+                    "sortIndex": "2057507797863497720"
+                  },
+                  {
+                    "content": {
+                      "__typename": "TimelineTimelineItem",
+                      "clientEventInfo": {
+                        "component": "CreatorSubscriptionsSgs",
+                        "element": "user"
+                      },
+                      "entryType": "TimelineTimelineItem",
+                      "itemContent": {
+                        "__typename": "TimelineUser",
+                        "itemType": "TimelineUser",
+                        "userDisplayType": "User",
+                        "user_results": {
+                          "result": {
+                            "__typename": "User",
+                            "affiliates_highlighted_label": {},
+                            "avatar": {
+                              "image_url": "https://pbs.twimg.com/profile_images/1253395412188188674/_GCa6GLL_normal.jpg"
+                            },
+                            "core": {
+                              "created_at": "Tue Aug 21 03:38:01 +0000 2018",
+                              "name": "Darren J. Beattie \ud83c\udf10",
+                              "screen_name": "DarrenJBeattie"
+                            },
+                            "dm_permissions": {
+                              "can_dm": true
+                            },
+                            "follow_request_sent": false,
+                            "has_graduated_access": true,
+                            "id": "VXNlcjoxMDMxNzQ3MjIzNTY5MjI3Nzc2",
+                            "is_blue_verified": true,
+                            "legacy": {
+                              "default_profile": true,
+                              "default_profile_image": false,
+                              "description": "Grothendieckian Centrist; Former @WhiteHouse official; Theory @DukeU; Math @Uchicago; Proud Jew",
+                              "entities": {
+                                "description": {},
+                                "url": {
+                                  "urls": [
+                                    {
+                                      "display_url": "dukespace.lib.duke.edu/dspace/handle/\u2026",
+                                      "expanded_url": "https://dukespace.lib.duke.edu/dspace/handle/10161/12223",
+                                      "indices": [
+                                        0,
+                                        23
+                                      ],
+                                      "url": "https://t.co/dDpsh5TM86"
+                                    }
+                                  ]
+                                }
+                              },
+                              "fast_followers_count": 0,
+                              "favourites_count": 30211,
+                              "follow_request_sent": false,
+                              "followers_count": 375170,
                               "friends_count": 94,
                               "has_custom_timelines": true,
                               "is_translator": false,
-                              "listed_count": 1513,
-                              "location": "North Miami Beach",
+                              "listed_count": 1460,
                               "media_count": 981,
-                              "name": "Darren J. Beattie 🌐",
-                              "normal_followers_count": 362355,
+                              "needs_phone_verification": false,
+                              "normal_followers_count": 375170,
+                              "notifications": false,
                               "pinned_tweet_ids_str": [
                                 "1867323873454076027"
                               ],
                               "possibly_sensitive": false,
                               "profile_banner_url": "https://pbs.twimg.com/profile_banners/1031747223569227776/1633194150",
-                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1253395412188188674/_GCa6GLL_normal.jpg",
                               "profile_interstitial_type": "",
-                              "screen_name": "DarrenJBeattie",
-                              "statuses_count": 39703,
+                              "statuses_count": 39499,
+                              "time_zone": "",
                               "translator_type": "none",
                               "url": "https://t.co/dDpsh5TM86",
-                              "verified": false,
+                              "utc_offset": 0,
                               "want_retweets": false,
-                              "withheld_in_countries": []
+                              "withheld_description": "",
+                              "withheld_scope": ""
                             },
+                            "location": {
+                              "location": "North Miami Beach"
+                            },
+                            "media_permissions": {
+                              "can_media_tag": false
+                            },
+                            "privacy": {
+                              "protected": false
+                            },
+                            "profile_bio": {
+                              "description": "Grothendieckian Centrist; Former @WhiteHouse official; Theory @DukeU; Math @Uchicago; Proud Jew"
+                            },
+                            "profile_description_language": "en",
+                            "profile_image_shape": "Circle",
+                            "relationship_perspectives": {
+                              "blocked_by": false,
+                              "blocking": false,
+                              "followed_by": false,
+                              "following": false,
+                              "muting": false
+                            },
+                            "rest_id": "1031747223569227776",
+                            "super_follow_eligible": true,
+                            "super_followed_by": false,
+                            "super_following": false,
                             "tipjar_settings": {},
-                            "super_follow_eligible": true
+                            "verification": {
+                              "verified": false
+                            }
                           }
-                        },
-                        "userDisplayType": "User"
-                      },
+                        }
+                      }
+                    },
+                    "entryId": "user-1031747223569227776",
+                    "sortIndex": "2057507797863497719"
+                  },
+                  {
+                    "content": {
+                      "__typename": "TimelineTimelineItem",
                       "clientEventInfo": {
                         "component": "CreatorSubscriptionsSgs",
                         "element": "user"
-                      }
-                    }
-                  },
-                  {
-                    "entryId": "user-1355721251180961792",
-                    "sortIndex": "1897829019747876854",
-                    "content": {
-                      "entryType": "TimelineTimelineItem",
-                      "__typename": "TimelineTimelineItem",
-                      "itemContent": {
-                        "itemType": "TimelineUser",
-                        "__typename": "TimelineUser",
-                        "user_results": {
-                          "result": {
-                            "__typename": "User",
-                            "id": "VXNlcjoxMzU1NzIxMjUxMTgwOTYxNzky",
-                            "rest_id": "1355721251180961792",
-                            "affiliates_highlighted_label": {},
-                            "has_graduated_access": true,
-                            "is_blue_verified": true,
-                            "profile_image_shape": "Circle",
-                            "legacy": {
-                              "following": false,
-                              "can_dm": true,
-                              "can_media_tag": true,
-                              "created_at": "Sun Jan 31 03:35:19 +0000 2021",
-                              "default_profile": true,
-                              "default_profile_image": false,
-                              "description": "David J. Freeman - Political Commentator - America First - MAGA - Trump Supporter - Unfiltered",
-                              "entities": {
-                                "description": {
-                                  "urls": []
-                                }
-                              },
-                              "fast_followers_count": 0,
-                              "favourites_count": 906586,
-                              "followers_count": 1344341,
-                              "friends_count": 100953,
-                              "has_custom_timelines": true,
-                              "is_translator": false,
-                              "listed_count": 3293,
-                              "location": "Hill Country, Texas ",
-                              "media_count": 19964,
-                              "name": "Gunther Eagleman™",
-                              "normal_followers_count": 1344341,
-                              "pinned_tweet_ids_str": [
-                                "1897660620033478814"
-                              ],
-                              "possibly_sensitive": false,
-                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/1355721251180961792/1740358024",
-                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1606836521784512512/Xb-_cXXi_normal.jpg",
-                              "profile_interstitial_type": "",
-                              "screen_name": "GuntherEagleman",
-                              "statuses_count": 243714,
-                              "translator_type": "none",
-                              "verified": false,
-                              "want_retweets": false,
-                              "withheld_in_countries": []
-                            },
-                            "tipjar_settings": {
-                              "is_enabled": true,
-                              "bitcoin_handle": "3BtB9rMnpnoscZZU9MyVe8sycchW8R3ZXt",
-                              "cash_app_handle": "$Gunthereagleman"
-                            },
-                            "super_follow_eligible": true
-                          }
-                        },
-                        "userDisplayType": "User"
                       },
-                      "clientEventInfo": {
-                        "component": "CreatorSubscriptionsSgs",
-                        "element": "user"
-                      }
-                    }
-                  },
-                  {
-                    "entryId": "user-1145866561271554048",
-                    "sortIndex": "1897829019747876853",
-                    "content": {
                       "entryType": "TimelineTimelineItem",
-                      "__typename": "TimelineTimelineItem",
                       "itemContent": {
-                        "itemType": "TimelineUser",
                         "__typename": "TimelineUser",
+                        "itemType": "TimelineUser",
+                        "userDisplayType": "User",
                         "user_results": {
                           "result": {
                             "__typename": "User",
-                            "id": "VXNlcjoxMTQ1ODY2NTYxMjcxNTU0MDQ4",
-                            "rest_id": "1145866561271554048",
                             "affiliates_highlighted_label": {},
-                            "has_graduated_access": true,
-                            "is_blue_verified": true,
-                            "profile_image_shape": "Circle",
-                            "legacy": {
-                              "following": false,
-                              "can_dm": true,
-                              "can_media_tag": true,
+                            "avatar": {
+                              "image_url": "https://pbs.twimg.com/profile_images/1885313048073633792/7x3bDI-s_normal.jpg"
+                            },
+                            "core": {
                               "created_at": "Tue Jul 02 01:27:32 +0000 2019",
+                              "name": "Natalie Winters",
+                              "screen_name": "nataliegwinters"
+                            },
+                            "dm_permissions": {
+                              "can_dm": false
+                            },
+                            "follow_request_sent": false,
+                            "has_graduated_access": true,
+                            "id": "VXNlcjoxMTQ1ODY2NTYxMjcxNTU0MDQ4",
+                            "is_blue_verified": true,
+                            "legacy": {
                               "default_profile": false,
                               "default_profile_image": false,
-                              "description": "Co-Host of Steve Bannon's War Room | WH Correspondent | UChicago | Support my work here 👇🏻",
+                              "description": "",
                               "entities": {
-                                "description": {
-                                  "urls": []
-                                },
-                                "url": {
-                                  "urls": [
-                                    {
-                                      "display_url": "buymeacoffee.com/nataliegwinters",
-                                      "expanded_url": "https://buymeacoffee.com/nataliegwinters",
-                                      "url": "https://t.co/Q9SxhO8wi1",
-                                      "indices": [
-                                        0,
-                                        23
-                                      ]
-                                    }
-                                  ]
-                                }
+                                "description": {}
                               },
                               "fast_followers_count": 0,
-                              "favourites_count": 12981,
-                              "followers_count": 600141,
-                              "friends_count": 1673,
+                              "favourites_count": 15527,
+                              "follow_request_sent": false,
+                              "followers_count": 644368,
+                              "friends_count": 28,
                               "has_custom_timelines": true,
                               "is_translator": false,
-                              "listed_count": 1455,
-                              "location": "",
-                              "media_count": 2055,
-                              "name": "Natalie Winters",
-                              "normal_followers_count": 600141,
-                              "pinned_tweet_ids_str": [],
+                              "listed_count": 1649,
+                              "media_count": 2093,
+                              "needs_phone_verification": false,
+                              "normal_followers_count": 644368,
+                              "notifications": false,
                               "possibly_sensitive": false,
-                              "profile_banner_url": "https://pbs.twimg.com/profile_banners/1145866561271554048/1740195371",
-                              "profile_image_url_https": "https://pbs.twimg.com/profile_images/1885313048073633792/7x3bDI-s_normal.jpg",
+                              "profile_banner_url": "",
                               "profile_interstitial_type": "",
-                              "screen_name": "nataliegwinters",
-                              "statuses_count": 8946,
+                              "statuses_count": 9421,
+                              "time_zone": "",
                               "translator_type": "none",
-                              "url": "https://t.co/Q9SxhO8wi1",
-                              "verified": false,
+                              "url": "",
+                              "utc_offset": 0,
                               "want_retweets": false,
-                              "withheld_in_countries": []
+                              "withheld_description": "",
+                              "withheld_scope": ""
+                            },
+                            "location": {
+                              "location": ""
+                            },
+                            "media_permissions": {
+                              "can_media_tag": false
+                            },
+                            "privacy": {
+                              "protected": false
                             },
                             "professional": {
-                              "rest_id": "1587155537027801089",
+                              "category": [],
                               "professional_type": "Business",
-                              "category": [
-                                {
-                                  "id": 955,
-                                  "name": "Journalist",
-                                  "icon_name": "IconBriefcaseStroke"
-                                }
-                              ]
+                              "rest_id": "1587155537027801089"
                             },
+                            "profile_bio": {
+                              "description": ""
+                            },
+                            "profile_image_shape": "Circle",
+                            "relationship_perspectives": {
+                              "blocked_by": false,
+                              "blocking": false,
+                              "followed_by": false,
+                              "following": false,
+                              "muting": false
+                            },
+                            "rest_id": "1145866561271554048",
+                            "super_follow_eligible": false,
+                            "super_followed_by": false,
+                            "super_following": false,
                             "tipjar_settings": {
-                              "is_enabled": true,
-                              "venmo_handle": "nataliewinters12"
+                              "is_enabled": false,
+                              "venmo_handle": "z"
                             },
-                            "super_follow_eligible": true
+                            "verification": {
+                              "verified": false
+                            }
                           }
-                        },
-                        "userDisplayType": "User"
-                      },
-                      "clientEventInfo": {
-                        "component": "CreatorSubscriptionsSgs",
-                        "element": "user"
+                        }
                       }
-                    }
+                    },
+                    "entryId": "user-1145866561271554048",
+                    "sortIndex": "2057507797863497718"
                   },
                   {
-                    "entryId": "cursor-bottom-1897829019747876852",
-                    "sortIndex": "1897829019747876852",
                     "content": {
-                      "entryType": "TimelineTimelineCursor",
                       "__typename": "TimelineTimelineCursor",
-                      "value": "0|1897829019747876850",
-                      "cursorType": "Bottom"
-                    }
+                      "cursorType": "Bottom",
+                      "entryType": "TimelineTimelineCursor",
+                      "value": "0|2057507797863497715"
+                    },
+                    "entryId": "cursor-bottom-2057507797863497717",
+                    "sortIndex": "2057507797863497717"
                   },
                   {
-                    "entryId": "cursor-top-1897829019747876865",
-                    "sortIndex": "1897829019747876865",
                     "content": {
-                      "entryType": "TimelineTimelineCursor",
                       "__typename": "TimelineTimelineCursor",
-                      "value": "-1|1897829019747876865",
-                      "cursorType": "Top"
-                    }
+                      "cursorType": "Top",
+                      "entryType": "TimelineTimelineCursor",
+                      "value": "-1|2057507797863497729"
+                    },
+                    "entryId": "cursor-top-2057507797863497729",
+                    "sortIndex": "2057507797863497729"
                   }
-                ]
+                ],
+                "type": "TimelineAddEntries"
               }
             ]
           }
