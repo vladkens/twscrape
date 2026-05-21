@@ -374,6 +374,17 @@ async def test_list_timeline():
         check_tweet(doc)
 
 
+async def test_list_members():
+    api = get_api()
+    mock_rep(api.list_members_raw, "raw_list_members", as_generator=True)
+
+    users = await gather(api.list_members(1494877848087187461))
+    assert len(users) > 0
+
+    for doc in users:
+        check_user(doc)
+
+
 async def test_trends():
     api = get_api()
     mock_rep(api.trends_raw, "raw_trends", as_generator=True)

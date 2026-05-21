@@ -98,7 +98,9 @@ async def main():
     await gather(api.user_media(user_id, limit=20))  # list[Tweet]
 
     # list info
-    await gather(api.list_timeline(list_id=123456789))
+    list_id = 123456789
+    await gather(api.list_timeline(list_id))  # list[Tweet]
+    await gather(api.list_members(list_id))  # list[User]
 
     # trends
     await gather(api.trends("news"))  # list[Trend]
@@ -254,6 +256,8 @@ twscrape verified_followers USER_ID --limit=20
 twscrape subscriptions USER_ID --limit=20
 twscrape user_tweets USER_ID --limit=20
 twscrape user_tweets_and_replies USER_ID --limit=20
+twscrape list_timeline LIST_ID --limit=20
+twscrape list_members LIST_ID --limit=20
 twscrape trends sport
 ```
 

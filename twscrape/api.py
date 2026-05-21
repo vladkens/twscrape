@@ -27,6 +27,7 @@ OP_Followers = "_orfRBQae57vylFPH0Huhg/Followers"
 OP_Following = "F42cDX8PDFxkbjjq6JrM2w/Following"
 OP_GenericTimelineById = "_dGVIf1cY6xFanFNPsAzPQ/GenericTimelineById"
 OP_ListLatestTweetsTimeline = "7UuJsFvnWuZo0HmxrzU42Q/ListLatestTweetsTimeline"
+OP_ListMembers = "oIetCo19avgStX4mOnGsPg/ListMembers"
 OP_Retweeters = "TZsWuSj7vGmncVnq7KWDUQ/Retweeters"
 OP_SearchTimeline = "Yw6L66Pw54NHKuq4Dp7b4Q/SearchTimeline"
 OP_TweetDetail = "oCon7R-cgWRFy6EfZjaKfg/TweetDetail"
@@ -516,3 +517,20 @@ class API:
             async for rep in gen:
                 for x in parse_tweets(rep.json(), limit):
                     yield x
+
+    # list members of a List
+
+    async def list_members_raw(self, list_id: int, limit: int = -1, kv: KV = None):
+        # Raw query for list members
+        op = OP_ListMembers
+        kv = {"listId": str(list_id), "count": 20, **(kv or {})}
+        async with aclosing(self._gql_items(op, kv, limit=limit)) as gen:
+            async for page in gen:
+                yield page
+
+    async def list_members(self, list_id: int, limit: int = -1, kv: KV = None):
+        # Parse the list members from the raw query
+        async with aclosing(self.list_members_raw(list_id, limit=limit, kv=kv)) as gen:
+            async for page in gen:
+                for user in parse_users(page.json(), limit):
+                    yield user

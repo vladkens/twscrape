@@ -52,6 +52,7 @@ COMMANDS = [
     ("user_media", lambda api: _first(api.user_media_raw(2244994945, limit=10))),
     ("search", lambda api: _first(api.search_raw("tesla lang:en", limit=5))),
     ("list_timeline", lambda api: _first(api.list_timeline_raw(1494877848087187461, limit=10))),
+    ("list_members", lambda api: _first(api.list_members_raw(1494877848087187461, limit=10))),
     ("trends", lambda api: _first(api.trends_raw("sport"))),
 ]
 

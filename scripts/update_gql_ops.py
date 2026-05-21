@@ -50,7 +50,7 @@ async def get_scripts() -> list[str]:
             rep.raise_for_status()
             ct = rep.headers.get("content-type", "")
             if "javascript" not in ct:
-                raise ValueError(f"Unexpected content-type '{ct}' for {url} — possibly rate limited or blocked")
+                raise ValueError(f"Unexpected content-type '{ct}' for {url} — rate limited?")
             cache_path.write_text(rep.text)
             return rep.text
 
@@ -86,6 +86,8 @@ async def main():
         for rg in rgs:
             for op_id, op_name in re.findall(rg, txt):
                 _add(op_name, op_id)
+
+    print("-" * 40)
 
     if conflicts:
         print("WARNING: conflicting IDs found for same operation (last one wins):")
