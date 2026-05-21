@@ -37,20 +37,27 @@ async def get_scripts() -> list[str]:
     urls = [x for x in urls if _is_relevant_script(x)]
 
     force = "--force" in sys.argv
+    sem = asyncio.Semaphore(10)
 
-    scripts = []
-    for i, url in enumerate(urls, 1):
+    async def fetch(clt: httpx.AsyncClient, i: int, url: str) -> str:
         cache_path = CACHE_DIR / url.split("/")[-1].split("?")[0]
         if cache_path.exists() and not force:
-            scripts.append(cache_path.read_text())
-            continue
-        print(f"  ({i:3d}/{len(urls):3d}) {url}")
-        rep = await httpx.AsyncClient().get(url)
-        rep.raise_for_status()
-        cache_path.write_text(rep.text)
-        scripts.append(rep.text)
+            print(f"  ({i:3d}/{len(urls):3d}) [cache] {url}")
+            return cache_path.read_text()
+        async with sem:
+            print(f"  ({i:3d}/{len(urls):3d}) [fetch] {url}")
+            rep = await clt.get(url)
+            rep.raise_for_status()
+            ct = rep.headers.get("content-type", "")
+            if "javascript" not in ct:
+                raise ValueError(f"Unexpected content-type '{ct}' for {url} — possibly rate limited or blocked")
+            cache_path.write_text(rep.text)
+            return rep.text
 
-    return scripts
+    async with httpx.AsyncClient(follow_redirects=True) as clt:
+        scripts = await asyncio.gather(*[fetch(clt, i, url) for i, url in enumerate(urls, 1)])
+
+    return list(scripts)
 
 
 async def main():
