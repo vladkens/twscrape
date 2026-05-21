@@ -1,0 +1,76 @@
+{
+  "data": {
+    "user_result_by_screen_name": {
+      "id": "VXNlclJlc3VsdHM6MjI0NDk5NDk0NQ==",
+      "result": {
+        "__typename": "User",
+        "about_profile": {
+          "account_based_in": "United States",
+          "affiliate_username": "X",
+          "created_country_accurate": true,
+          "learn_more_url": "https://help.twitter.com/managing-your-account/about-twitter-verified-accounts",
+          "location_accurate": true,
+          "source": "Web",
+          "username_changes": {
+            "count": "1",
+            "last_changed_at_msec": "1690335192280"
+          }
+        },
+        "affiliates_highlighted_label": {
+          "label": {
+            "badge": {
+              "url": "https://pbs.twimg.com/profile_images/1955359038532653056/OSHY3ewP_bigger.jpg"
+            },
+            "description": "X",
+            "url": {
+              "url": "https://twitter.com/X",
+              "urlType": "DeepLink"
+            },
+            "userLabelDisplayType": "Badge",
+            "userLabelType": "BusinessLabel"
+          }
+        },
+        "avatar": {
+          "image_url": "https://pbs.twimg.com/profile_images/1683501992314798080/xl1POYLw_normal.jpg"
+        },
+        "core": {
+          "created_at": "Sat Dec 14 04:35:55 +0000 2013",
+          "name": "Developers",
+          "screen_name": "XDevelopers"
+        },
+        "id": "VXNlcjoyMjQ0OTk0OTQ1",
+        "identity_profile_labels_highlighted_label": {
+          "label": {
+            "badge": {
+              "url": "https://pbs.twimg.com/profile_images/1955359038532653056/OSHY3ewP_bigger.jpg"
+            },
+            "description": "X",
+            "url": {
+              "url": "https://twitter.com/X",
+              "urlType": "DeepLink"
+            },
+            "userLabelDisplayType": "Badge",
+            "userLabelType": "BusinessLabel"
+          }
+        },
+        "is_blue_verified": true,
+        "privacy": {
+          "protected": false
+        },
+        "profile_image_shape": "Square",
+        "rest_id": "2244994945",
+        "verification": {
+          "verified": false,
+          "verified_type": "Business"
+        },
+        "verification_info": {
+          "id": "VXNlclZlcmlmaWNhdGlvbkluZm86MjI0NDk5NDk0NQ==",
+          "is_identity_verified": false,
+          "reason": {
+            "verified_since_msec": "1395425700472"
+          }
+        }
+      }
+    }
+  }
+}

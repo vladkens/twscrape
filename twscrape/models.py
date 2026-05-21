@@ -84,7 +84,7 @@ class TextLink(JSONTrait):
 class AccountAbout(JSONTrait):
     screen_name: str
     name: str
-    rest_id: int
+    rest_id: int | None
     account_based_in: str | None
     location_accurate: bool | None
     affiliate_username: str | None
@@ -98,22 +98,22 @@ class AccountAbout(JSONTrait):
     def parse(obj: dict):
         about = obj.get("about_profile") or {}
         core = obj.get("core") or {}
-        username_changes = about.get("username_changes", {}).get("count")
-        username_last_changed = about.get("username_changes", {}).get("last_changed_at_msec")
         verification = obj.get("verification_info", {}) or {}
         reason = verification.get("reason", {}) or {}
         return AccountAbout(
             screen_name=core.get("screen_name", ""),
             name=core.get("name", ""),
-            rest_id=int_or(obj.get("rest_id")),
+            rest_id=int_or(obj, "rest_id"),
             account_based_in=about.get("account_based_in"),
             location_accurate=about.get("location_accurate"),
             affiliate_username=about.get("affiliate_username"),
             source=about.get("source"),
-            username_changes=int(username_changes) if username_changes is not None else None,
-            username_last_changed_at=int(username_last_changed) if username_last_changed is not None else None,
+            username_changes=int_or(about.get("username_changes") or {}, "count"),
+            username_last_changed_at=int_or(
+                about.get("username_changes") or {}, "last_changed_at_msec"
+            ),
             is_identity_verified=verification.get("is_identity_verified"),
-            verified_since_msec=int(reason.get("verified_since_msec")) if reason.get("verified_since_msec") else None,
+            verified_since_msec=int_or(reason, "verified_since_msec"),
         )
 
 
@@ -449,27 +449,30 @@ class TrendUrl(JSONTrait):
 
     @staticmethod
     def parse(obj: dict):
+        params = []
+        if "urtEndpointOptions" in obj:
+            params = [
+                RequestParam(key=x["key"], value=x["value"])
+                for x in obj["urtEndpointOptions"]["requestParams"]
+            ]
         return TrendUrl(
             url=obj["url"],
             urlType=obj["urlType"],
-            urlEndpointOptions=[
-                RequestParam(key=x["key"], value=x["value"])
-                for x in obj["urtEndpointOptions"]["requestParams"]
-            ],
+            urlEndpointOptions=params,
         )
 
 
 @dataclass
 class TrendMetadata(JSONTrait):
-    domain_context: str
-    meta_description: str
+    domain_context: Optional[str]
+    meta_description: Optional[str]
     url: TrendUrl
 
     @staticmethod
     def parse(obj: dict):
         return TrendMetadata(
-            domain_context=obj["domain_context"],
-            meta_description=obj["meta_description"],
+            domain_context=obj.get("domain_context"),
+            meta_description=obj.get("meta_description"),
             url=TrendUrl.parse(obj["url"]),
         )
 

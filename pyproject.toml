@@ -18,6 +18,7 @@ classifiers = [
   'Programming Language :: Python :: 3.11',
   'Programming Language :: Python :: 3.12',
   'Programming Language :: Python :: 3.13',
+  'Programming Language :: Python :: 3.14',
 ]
 dependencies = [
   "aiosqlite>=0.17.0",
@@ -28,14 +29,14 @@ dependencies = [
   "beautifulsoup4>=4.13.0",
 ]
 
-[project.optional-dependencies]
+[dependency-groups]
 dev = [
-  "build>=1.2.2",
   "pyright>=1.1.369",
   "pytest-asyncio>=0.23.3",
   "pytest-cov>=4.1.0",
   "pytest-httpx>=0.28.0",
   "pytest>=7.4.4",
+  "rich>=15.0.0",
   "ruff>=0.1.11",
 ]
 
@@ -45,14 +46,8 @@ repository = "https://github.com/vladkens/twscrape"
 [project.scripts]
 twscrape = "twscrape.cli:run"
 
-[tool.setuptools]
-packages = ['twscrape']
-
 [tool.hatch.build.targets.wheel]
 packages = ["twscrape"]
-
-[tool.hatch.metadata]
-allow-direct-references = true
 
 [tool.pytest.ini_options]
 pythonpath = ["."]
@@ -62,6 +57,7 @@ filterwarnings = ["ignore::DeprecationWarning"]
 
 [tool.ruff]
 line-length = 99
+target-version = "py310"
 
 [tool.ruff.lint]
 ignore = ["E501"]
