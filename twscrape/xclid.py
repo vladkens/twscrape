@@ -185,7 +185,7 @@ def cacl_anim_key(frames: list[float], target_time: float) -> str:
     val = Cubic(curves).get_value(target_time)
 
     color = interpolate(from_color, to_color, val)
-    color = [value if value > 0 else 0 for value in color]
+    color = [max(0, min(255, value)) for value in color]
     rotation = interpolate(from_rotation, to_rotation, val)
 
     matrix = get_rotation_matrix(rotation[0])
@@ -252,6 +252,7 @@ async def load_keys(soup: bs4.BeautifulSoup, clt: httpx.AsyncClient) -> tuple[li
     frame_time = 1
     for x in anim_idx[1:]:
         frame_time *= vk_bytes[x] % 16
+    frame_time = math.floor(frame_time / 10 + 0.5) * 10  # JS Math.round to nearest 10
 
     frame_idx = vk_bytes[anim_idx[0]] % 16
     frame_row = anim_arr[frame_idx]
@@ -264,11 +265,6 @@ async def load_keys(soup: bs4.BeautifulSoup, clt: httpx.AsyncClient) -> tuple[li
 class XClIdGen:
     @staticmethod
     async def create() -> "XClIdGen":
-        try:
-            return await _XClIdGenExternal.create()  # type: ignore[return-value]
-        except ImportError:
-            pass
-
         clt = _make_client()
         try:
             text = await get_tw_page_text("https://x.com/tesla", clt)
@@ -295,40 +291,6 @@ class XClIdGen:
         pld = bytearray([num, *[x ^ num for x in pld]])
         out = base64.b64encode(pld).decode("utf-8").strip("=")
         return out
-
-
-class _XClIdGenExternal:
-    # Adapter over the optional XClientTransaction PyPI package.
-    # Install with: pip install XClientTransaction
-    # The lib is sync (uses requests), so the bootstrap runs in a thread.
-
-    def __init__(self, ct):
-        self._ct = ct
-
-    def calc(self, method: str, path: str) -> str:
-        return self._ct.generate_transaction_id(method=method, path=path)
-
-    @staticmethod
-    async def create() -> "_XClIdGenExternal":
-        import asyncio
-
-        return await asyncio.to_thread(_XClIdGenExternal._create_sync)
-
-    @staticmethod
-    def _create_sync() -> "_XClIdGenExternal":
-        import requests  # type: ignore[import-untyped]
-        from x_client_transaction import ClientTransaction  # type: ignore[import-not-found]
-        from x_client_transaction.utils import (  # type: ignore[import-not-found]
-            get_ondemand_file_url,
-            handle_x_migration,
-        )
-
-        sess = requests.Session()
-        sess.headers["User-Agent"] = UserAgent().chrome
-        home = handle_x_migration(sess)
-        ondemand = sess.get(get_ondemand_file_url(response=home), timeout=30)
-        ct = ClientTransaction(home_page_response=home, ondemand_file_response=ondemand)
-        return _XClIdGenExternal(ct)
 
 
 # MARK: Demo code

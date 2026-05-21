@@ -293,13 +293,34 @@ def parse_cookies(val: str) -> dict[str, str]:
             if isinstance(res, dict):
                 return res
         except json.JSONDecodeError:
-            res = val.split("; ")
-            res = [x.split("=") for x in res]
+            res = [x.strip() for x in val.split(";")]
+            res = [x.split("=", 1) for x in res if "=" in x]
+            if not res:
+                raise ValueError(f"Invalid cookie value: {val}")
             return {x[0]: x[1] for x in res}
     except Exception:
         pass
 
     raise ValueError(f"Invalid cookie value: {val}")
+
+
+def parse_proxy(proxy: str | None) -> str | None:
+    if not proxy:
+        return None
+    if "://" in proxy:
+        return proxy
+    if "@" in proxy:
+        # user:pass@host:port — missing scheme
+        return f"http://{proxy}"
+    parts = proxy.split(":")
+    if len(parts) == 2:
+        # host:port
+        return f"http://{parts[0]}:{parts[1]}"
+    if len(parts) == 4:
+        # host:port:user:pass
+        host, port, user, password = parts
+        return f"http://{user}:{password}@{host}:{port}"
+    return proxy
 
 
 def get_env_bool(key: str, default_val: bool = False) -> bool:
