@@ -88,7 +88,6 @@ async def main():
 
     # user info
     user_id = 2244994945
-    await api.user_by_id(user_id)  # User
     await gather(api.following(user_id, limit=20))  # list[User]
     await gather(api.followers(user_id, limit=20))  # list[User]
     await gather(api.verified_followers(user_id, limit=20))  # list[User]
@@ -117,7 +116,7 @@ async def main():
     set_log_level("DEBUG")
 
     # Tweet & User model can be converted to regular dict or json, e.g.:
-    doc = await api.user_by_id(user_id)  # User
+    doc = await api.user_by_login(user_login)  # User
     doc.dict()  # -> python dict
     doc.json()  # -> json string
 
@@ -245,7 +244,6 @@ twscrape search "QUERY" --limit=20
 twscrape tweet_details TWEET_ID
 twscrape tweet_replies TWEET_ID --limit=20
 twscrape retweeters TWEET_ID --limit=20
-twscrape user_by_id USER_ID
 twscrape user_by_login USERNAME
 twscrape user_media USER_ID --limit=20
 twscrape following USER_ID --limit=20

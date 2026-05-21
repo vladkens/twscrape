@@ -11,7 +11,6 @@ from .utils import encode_params, find_obj, get_by_path
 
 # OP_{NAME} – {NAME} should be same as second part of GQL ID (required to auto-update script)
 OP_SearchTimeline = "Yw6L66Pw54NHKuq4Dp7b4Q/SearchTimeline"
-OP_UserByRestId = "VQfQ9wwYdk6j_u2O4vt64Q/UserByRestId"
 OP_UserByScreenName = "IGgvgiOx4QZndDHuD3x9TQ/UserByScreenName"
 OP_TweetDetail = "oCon7R-cgWRFy6EfZjaKfg/TweetDetail"
 OP_Followers = "_orfRBQae57vylFPH0Huhg/Followers"
@@ -184,26 +183,6 @@ class API:
             async for rep in gen:
                 for x in parse_users(rep.json(), limit):
                     yield x
-
-    # user_by_id
-
-    async def user_by_id_raw(self, uid: int, kv: KV = None):
-        op = OP_UserByRestId
-        kv = {"userId": str(uid), "withSafetyModeUserFields": True, **(kv or {})}
-        ft = {
-            "hidden_profile_likes_enabled": True,
-            "highlights_tweets_tab_ui_enabled": True,
-            "creator_subscriptions_tweet_preview_api_enabled": True,
-            "hidden_profile_subscriptions_enabled": True,
-            "responsive_web_twitter_article_notes_tab_enabled": False,
-            "subscriptions_feature_can_gift_premium": False,
-            "profile_label_improvements_pcf_label_in_post_enabled": False,
-        }
-        return await self._gql_item(op, kv, ft)
-
-    async def user_by_id(self, uid: int, kv: KV = None) -> User | None:
-        rep = await self.user_by_id_raw(uid, kv=kv)
-        return parse_user(rep) if rep else None
 
     # user_by_login
 

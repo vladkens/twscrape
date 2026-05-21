@@ -55,7 +55,7 @@ async def test_raise_when_no_account(api_mock: API):
         await gather(api_mock.search("foo", limit=10))
 
     with pytest.raises(NoAccountError):
-        await api_mock.user_by_id(123)
+        await api_mock.user_by_login("foo")
 
     del os.environ["TWS_RAISE_WHEN_NO_ACCOUNT"]
     assert get_env_bool("TWS_RAISE_WHEN_NO_ACCOUNT") is False

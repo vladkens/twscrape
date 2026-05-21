@@ -170,6 +170,11 @@ class QueueClient:
         if self.debug:
             dump_rep(rep)
 
+        if "text/html" in rep.headers.get("content-type", "") and rep.status_code >= 400:
+            src = "Cloudflare" if "cf-ray" in rep.headers else "HTML"
+            logger.warning(f"Blocked by {src}: {rep.status_code} - {req_id(rep)}")
+            raise AbortReqError()
+
         try:
             res = rep.json()
         except json.JSONDecodeError:

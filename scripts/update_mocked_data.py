@@ -35,7 +35,6 @@ def save_meta(meta: dict):
 
 
 COMMANDS = [
-    ("user_by_id", lambda api: api.user_by_id_raw(2244994945)),
     ("user_by_login", lambda api: api.user_by_login_raw("xdevelopers")),
     ("following", lambda api: _first(api.following_raw(2244994945, limit=10))),
     ("followers", lambda api: _first(api.followers_raw(2244994945, limit=10))),
