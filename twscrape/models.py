@@ -412,27 +412,30 @@ class TrendUrl(JSONTrait):
 
     @staticmethod
     def parse(obj: dict):
+        params = []
+        if "urtEndpointOptions" in obj:
+            params = [
+                RequestParam(key=x["key"], value=x["value"])
+                for x in obj["urtEndpointOptions"]["requestParams"]
+            ]
         return TrendUrl(
             url=obj["url"],
             urlType=obj["urlType"],
-            urlEndpointOptions=[
-                RequestParam(key=x["key"], value=x["value"])
-                for x in obj["urtEndpointOptions"]["requestParams"]
-            ],
+            urlEndpointOptions=params,
         )
 
 
 @dataclass
 class TrendMetadata(JSONTrait):
-    domain_context: str
-    meta_description: str
+    domain_context: Optional[str]
+    meta_description: Optional[str]
     url: TrendUrl
 
     @staticmethod
     def parse(obj: dict):
         return TrendMetadata(
-            domain_context=obj["domain_context"],
-            meta_description=obj["meta_description"],
+            domain_context=obj.get("domain_context"),
+            meta_description=obj.get("meta_description"),
             url=TrendUrl.parse(obj["url"]),
         )
 
