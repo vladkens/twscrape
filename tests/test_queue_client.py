@@ -13,7 +13,7 @@ CF = tuple[AccountsPool, QueueClient]
 
 async def get_locked(pool: AccountsPool) -> set[str]:
     rep = await pool.get_all()
-    return set([x.username for x in rep if x.locks.get("SearchTimeline", None) is not None])
+    return {x.username for x in rep if x.locks.get("SearchTimeline", None) is not None}
 
 
 async def test_lock_account_when_used(httpx_mock: HTTPXMock, client_fixture):

@@ -512,7 +512,7 @@ async def test_issue_56():
     raw = fake_rep("_issue_56").json()
     doc = parse_tweet(raw, 1682072224013099008)
     assert doc is not None
-    assert len(set([x.tcourl for x in doc.links])) == len(doc.links)
+    assert len({x.tcourl for x in doc.links}) == len(doc.links)
     assert len(doc.links) == 5
 
 

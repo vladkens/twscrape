@@ -174,19 +174,19 @@ def run():
 
     add_accounts = subparsers.add_parser("add_accounts", help="Add accounts from file")
     add_accounts.add_argument("file_path", help="File with accounts")
-    add_accounts.add_argument("line_format", help="args of Pool.add_account splited by same delim")
+    add_accounts.add_argument("line_format", help="Account fields separated by delimiter")
 
-    add_cookie = subparsers.add_parser("add_cookie", help="Add account with cookies")
+    add_cookie = subparsers.add_parser("add_cookie", help="Add one account from cookies")
     add_cookie.add_argument("username", help="Twitter/X username")
     add_cookie.add_argument("cookies", nargs="?", default=None, help="Cookie string")
 
-    del_accounts = subparsers.add_parser("del_accounts", help="Delete accounts")
+    del_accounts = subparsers.add_parser("del_accounts", help="Delete accounts by username")
     del_accounts.add_argument("usernames", nargs="+", default=[], help="Usernames to delete")
 
-    login_cmd = subparsers.add_parser("login_accounts", help="Login accounts")
-    relogin = subparsers.add_parser("relogin", help="Re-login selected accounts")
+    login_cmd = subparsers.add_parser("login_accounts", help="Log in inactive accounts")
+    relogin = subparsers.add_parser("relogin", help="Re-log in selected accounts")
     relogin.add_argument("usernames", nargs="+", default=[], help="Usernames to re-login")
-    re_failed = subparsers.add_parser("relogin_failed", help="Retry login for failed accounts")
+    re_failed = subparsers.add_parser("relogin_failed", help="Retry failed account logins")
 
     login_commands = [login_cmd, relogin, re_failed]
     for cmd in login_commands:

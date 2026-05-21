@@ -109,7 +109,7 @@ def find_obj(obj: dict, fn: Callable[[dict], bool]) -> Any | None:
 
 
 def get_typed_object(obj: dict, res: defaultdict[str, list]):
-    obj_type = obj.get("__typename", None)
+    obj_type = obj.get("__typename")
     if obj_type is not None:
         res[obj_type].append(obj)
 
@@ -271,7 +271,7 @@ def to_old_rep(obj: dict) -> dict[str, dict]:
         if res := _to_old_user(x):
             users[str(res["id_str"])] = res
 
-    trends = [x for x in tmp.get("TimelineTrend", [])]
+    trends = list(tmp.get("TimelineTrend", []))
     trends = {x["name"]: x for x in trends}
 
     return {"tweets": {**tw1, **tw2}, "users": users, "trends": trends}

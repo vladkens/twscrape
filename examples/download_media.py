@@ -11,9 +11,9 @@ async def download_file(client: httpx.AsyncClient, url: str, outdir: str):
     outpath = os.path.join(outdir, filename)
 
     async with client.stream("GET", url) as resp:
-        with open(outpath, "wb") as f:
+        with open(outpath, "wb") as fp:
             async for chunk in resp.aiter_bytes():
-                f.write(chunk)
+                fp.write(chunk)
 
 
 async def load_user_media(api: API, user_id: int, outdir: str):

@@ -50,12 +50,12 @@ class AccountsPool:
         line_delim = guess_delim(line_format)
         tokens = line_format.split(line_delim)
 
-        required = set(["username", "password", "email", "email_password"])
+        required = {"username", "password", "email", "email_password"}
         if not required.issubset(tokens):
             raise ValueError(f"Invalid line format: {line_format}")
 
         accounts = []
-        with open(filepath, "r") as f:
+        with open(filepath) as f:
             lines = f.read().split("\n")
             lines = [x.strip() for x in lines if x.strip()]
 

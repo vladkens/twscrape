@@ -34,7 +34,7 @@ def lock_retry(max_retries=10):
 
 
 async def get_sqlite_version():
-    async with aiosqlite.connect(":memory:") as db:
+    async with aiosqlite.connect(":memory:") as db:  # noqa: SIM117
         async with db.execute("SELECT SQLITE_VERSION()") as cur:
             rs = await cur.fetchone()
             return rs[0] if rs else "3.0.0"
@@ -138,18 +138,16 @@ async def execute(db_path: str, qs: str, params: dict | None = None):
 
 @lock_retry()
 async def fetchone(db_path: str, qs: str, params: dict | None = None):
-    async with DB(db_path) as db:
-        async with db.execute(qs, params) as cur:
-            row = await cur.fetchone()
-            return row
+    async with DB(db_path) as db, db.execute(qs, params) as cur:
+        row = await cur.fetchone()
+        return row
 
 
 @lock_retry()
 async def fetchall(db_path: str, qs: str, params: dict | None = None):
-    async with DB(db_path) as db:
-        async with db.execute(qs, params) as cur:
-            rows = await cur.fetchall()
-            return rows
+    async with DB(db_path) as db, db.execute(qs, params) as cur:
+        rows = await cur.fetchall()
+        return rows
 
 
 @lock_retry()

@@ -87,7 +87,7 @@ async def imap_get_email_code(
             if code is not None:
                 return code
 
-            if TWS_WAIT_EMAIL_CODE < time.time() - start_time:
+            if time.time() - start_time > TWS_WAIT_EMAIL_CODE:
                 raise EmailCodeTimeoutError(f"Email code timeout ({TWS_WAIT_EMAIL_CODE} sec)")
 
             await asyncio.sleep(5)

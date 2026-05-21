@@ -70,9 +70,9 @@ class TextLink(JSONTrait):
 
     @staticmethod
     def parse(obj: dict):
-        url1 = obj.get("expanded_url", None)
-        url2 = obj.get("url", None)
-        text = obj.get("display_url", None)
+        url1 = obj.get("expanded_url")
+        url2 = obj.get("url")
+        text = obj.get("display_url")
 
         if not isinstance(url1, str) or not isinstance(url2, str):
             return None
@@ -266,8 +266,8 @@ class Tweet(JSONTrait):
     viewCount: int | None = None
     retweetedTweet: Optional["Tweet"] = None
     quotedTweet: Optional["Tweet"] = None
-    place: Optional[Place] = None
-    coordinates: Optional[Coordinates] = None
+    place: Place | None = None
+    coordinates: Coordinates | None = None
     inReplyToTweetId: int | None = None
     inReplyToTweetIdStr: str | None = None
     inReplyToUser: UserRef | None = None
@@ -331,12 +331,12 @@ class Tweet(JSONTrait):
             inReplyToTweetId=int_or(obj, "in_reply_to_status_id_str"),
             inReplyToTweetIdStr=get_or(obj, "in_reply_to_status_id_str"),
             inReplyToUser=_get_reply_user(obj, res),
-            source=obj.get("source", None),
+            source=obj.get("source"),
             sourceUrl=_get_source_url(obj),
             sourceLabel=_get_source_label(obj),
             media=Media.parse(obj),
             card=_parse_card(obj, url),
-            possibly_sensitive=obj.get("possibly_sensitive", None),
+            possibly_sensitive=obj.get("possibly_sensitive"),
         )
 
         # issue #42 – restore full rt text
@@ -513,8 +513,8 @@ class TrendUrl(JSONTrait):
 
 @dataclass
 class TrendMetadata(JSONTrait):
-    domain_context: Optional[str]
-    meta_description: Optional[str]
+    domain_context: str | None
+    meta_description: str | None
     url: TrendUrl
 
     @staticmethod
@@ -538,8 +538,8 @@ class GroupedTrend(JSONTrait):
 
 @dataclass
 class Trend(JSONTrait):
-    id: Optional[str]
-    rank: Optional[str | int]
+    id: str | None
+    rank: str | int | None
     name: str
     trend_url: TrendUrl
     trend_metadata: TrendMetadata
@@ -710,7 +710,7 @@ def _parse_card(obj: dict, url: str):
 
 
 def _get_reply_user(tw_obj: dict, res: dict):
-    user_id = tw_obj.get("in_reply_to_user_id_str", None)
+    user_id = tw_obj.get("in_reply_to_user_id_str")
     if user_id is None:
         return None
 
@@ -727,14 +727,14 @@ def _get_reply_user(tw_obj: dict, res: dict):
 
 
 def _get_source_url(tw_obj: dict):
-    source = tw_obj.get("source", None)
+    source = tw_obj.get("source")
     if source and (match := re.search(r'href=[\'"]?([^\'" >]+)', source)):
         return str(match.group(1))
     return None
 
 
 def _get_source_label(tw_obj: dict):
-    source = tw_obj.get("source", None)
+    source = tw_obj.get("source")
     if source and (match := re.search(r">([^<]*)<", source)):
         return str(match.group(1))
     return None
