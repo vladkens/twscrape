@@ -1,6 +1,6 @@
-.PHONY: prepare install update lint test test-py test-sq test-matrix-py test-matrix-sq
+.PHONY: prepare install update lint check test test-py test-sq test-matrix-py test-matrix-sq
 
-prepare: lint
+prepare: lint check
 
 install:
 	uv sync
@@ -9,10 +9,13 @@ update:
 	uv sync --upgrade --all-groups
 
 lint:
-	@uv run ruff check --select I --fix .
-	@uv run ruff format .
-	@uv run ruff check .
-	@uv run pyright .
+	uv run ruff check --select I --fix .
+	uv run ruff format .
+
+check:
+	uv run ruff format --check .
+	uv run ruff check .
+	uv run pyright .
 
 test:
 	@uv run pytest -s --cov=twscrape tests/
