@@ -7,7 +7,7 @@ from datetime import datetime
 from httpx import AsyncClient, AsyncHTTPTransport
 
 from .models import JSONTrait
-from .utils import utc
+from .utils import parse_proxy, utc
 
 TOKEN = "Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA"
 
@@ -53,7 +53,7 @@ class Account(JSONTrait):
     def make_client(self, proxy: str | None = None) -> AsyncClient:
         proxies = [proxy, os.getenv("TWS_PROXY"), self.proxy]
         proxies = [x for x in proxies if x is not None]
-        proxy = proxies[0] if proxies else None
+        proxy = parse_proxy(proxies[0]) if proxies else None
 
         transport = AsyncHTTPTransport(retries=3)
         client = AsyncClient(proxy=proxy, follow_redirects=True, transport=transport)

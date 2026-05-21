@@ -1,10 +1,10 @@
 import base64
 import hashlib
-import json
 import math
 import random
 import re
 import time
+from typing import Iterator
 
 import bs4
 import httpx
@@ -16,8 +16,7 @@ def _make_client() -> httpx.AsyncClient:
     return httpx.AsyncClient(headers=headers, follow_redirects=True)
 
 
-async def get_tw_page_text(url: str, clt: httpx.AsyncClient | None = None):
-    clt = clt or _make_client()
+async def get_tw_page_text(url: str, clt: httpx.AsyncClient):
     rep = await clt.get(url)
 
     rep.raise_for_status()
@@ -46,13 +45,32 @@ def script_url(k: str, v: str):
     return f"https://abs.twimg.com/responsive-web/client-web/{k}.{v}.js"
 
 
-def get_scripts_list(text: str):
-    scripts = text.split('e=>e+"."+')[1].split('[e]+"a.js"')[0]
-    try:
-        for k, v in json.loads(scripts).items():
-            yield script_url(k, f"{v}a")
-    except json.decoder.JSONDecodeError as e:
-        raise Exception("Failed to parse scripts") from e
+def get_scripts_list(text: str) -> Iterator[str]:
+    """
+    Extract chunk script URLs from the X homepage HTML.
+
+    As of 2026-05, X embeds two separate maps directly in the page HTML:
+      - Hash map  {chunk_id: "7hexchars"}            values are exactly 7 lowercase hex digits
+      - Name map  {chunk_id: "human_readable_name"}  values contain non-hex characters
+
+    URL format: https://abs.twimg.com/responsive-web/client-web/{name}.{hash}a.js
+    """
+    # Hash map: values are exactly 7 lowercase hex digits (distinguishes them from name-map values)
+    hash_map = {m.group(1): m.group(2) for m in re.finditer(r'(\d+):"([0-9a-f]{7})"', text)}
+
+    if not hash_map:
+        raise Exception("Failed to parse scripts")
+
+    # Name map: values that are NOT exactly 7 hex digits (i.e. human-readable chunk names)
+    name_map: dict[str, str] = {}
+    for m in re.finditer(r'(\d+):"([^"]+)"', text):
+        val = m.group(2)
+        if not re.fullmatch(r"[0-9a-f]{7}", val):
+            name_map[m.group(1)] = val
+
+    for chunk_id, hash_val in hash_map.items():
+        name = name_map.get(chunk_id, chunk_id)
+        yield script_url(name, hash_val + "a")
 
 
 # MARK: XClientTxId parsing
@@ -167,7 +185,7 @@ def cacl_anim_key(frames: list[float], target_time: float) -> str:
     val = Cubic(curves).get_value(target_time)
 
     color = interpolate(from_color, to_color, val)
-    color = [value if value > 0 else 0 for value in color]
+    color = [max(0, min(255, value)) for value in color]
     rotation = interpolate(from_rotation, to_rotation, val)
 
     matrix = get_rotation_matrix(rotation[0])
@@ -198,13 +216,13 @@ def parse_vk_bytes(soup: bs4.BeautifulSoup) -> list[int]:
     return list(base64.b64decode(bytes(el, "utf-8")))
 
 
-async def parse_anim_idx(text: str) -> list[int]:
+async def parse_anim_idx(text: str, clt: httpx.AsyncClient) -> list[int]:
     scripts = list(get_scripts_list(text))
     scripts = [x for x in scripts if "/ondemand.s." in x]
     if not scripts:
         raise Exception("Couldn't get XClientTxId scripts")
 
-    text = await get_tw_page_text(scripts[0])
+    text = await get_tw_page_text(scripts[0], clt)
 
     items = [int(x.group(2)) for x in INDICES_REGEX.finditer(text)]
     if not items:
@@ -226,14 +244,15 @@ def parse_anim_arr(soup: bs4.BeautifulSoup, vk_bytes: list[int]) -> list[list[fl
     return arr
 
 
-async def load_keys(soup: bs4.BeautifulSoup) -> tuple[list[int], str]:
-    anim_idx = await parse_anim_idx(str(soup))
+async def load_keys(soup: bs4.BeautifulSoup, clt: httpx.AsyncClient) -> tuple[list[int], str]:
+    anim_idx = await parse_anim_idx(str(soup), clt)
     vk_bytes = parse_vk_bytes(soup)
     anim_arr = parse_anim_arr(soup, vk_bytes)
 
     frame_time = 1
     for x in anim_idx[1:]:
         frame_time *= vk_bytes[x] % 16
+    frame_time = math.floor(frame_time / 10 + 0.5) * 10  # JS Math.round to nearest 10
 
     frame_idx = vk_bytes[anim_idx[0]] % 16
     frame_row = anim_arr[frame_idx]
@@ -245,13 +264,15 @@ async def load_keys(soup: bs4.BeautifulSoup) -> tuple[list[int], str]:
 
 class XClIdGen:
     @staticmethod
-    async def create(clt: httpx.AsyncClient | None = None) -> "XClIdGen":
-        text = await get_tw_page_text("https://x.com/tesla", clt=clt)
-        soup = bs4.BeautifulSoup(text, "html.parser")
-
-        vk_bytes, anim_key = await load_keys(soup)
-        clid_gen = XClIdGen(vk_bytes, anim_key)
-        return clid_gen
+    async def create() -> "XClIdGen":
+        clt = _make_client()
+        try:
+            text = await get_tw_page_text("https://x.com/tesla", clt)
+            soup = bs4.BeautifulSoup(text, "html.parser")
+            vk_bytes, anim_key = await load_keys(soup, clt)
+            return XClIdGen(vk_bytes, anim_key)
+        finally:
+            await clt.aclose()
 
     def __init__(self, vk_bytes: list[int], anim_key: str):
         self.vk_bytes = vk_bytes
@@ -276,10 +297,13 @@ class XClIdGen:
 
 
 async def main():
-    text = await get_tw_page_text("https://x.com/elonmusk")
-    soup = bs4.BeautifulSoup(text, "html.parser")
-
-    vk_bytes, anim_key = await load_keys(soup)
+    clt = _make_client()
+    try:
+        text = await get_tw_page_text("https://x.com/elonmusk", clt)
+        soup = bs4.BeautifulSoup(text, "html.parser")
+        vk_bytes, anim_key = await load_keys(soup, clt)
+    finally:
+        await clt.aclose()
     clid_gen = XClIdGen(vk_bytes, anim_key)
 
     method = "GET"

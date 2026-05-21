@@ -3,125 +3,159 @@
     "user": {
       "result": {
         "__typename": "User",
-        "id": "VXNlcjoyMjQ0OTk0OTQ1",
-        "rest_id": "2244994945",
         "affiliates_highlighted_label": {
           "label": {
+            "badge": {
+              "url": "https://pbs.twimg.com/profile_images/1955359038532653056/OSHY3ewP_bigger.jpg"
+            },
+            "description": "X",
             "url": {
               "url": "https://twitter.com/X",
               "urlType": "DeepLink"
             },
-            "badge": {
-              "url": "https://pbs.twimg.com/profile_images/1683899100922511378/5lY42eHs_bigger.jpg"
-            },
-            "description": "X",
-            "userLabelType": "BusinessLabel",
-            "userLabelDisplayType": "Badge"
+            "userLabelDisplayType": "Badge",
+            "userLabelType": "BusinessLabel"
           }
         },
-        "has_graduated_access": true,
-        "is_blue_verified": true,
-        "profile_image_shape": "Square",
-        "legacy": {
-          "following": false,
-          "can_dm": true,
-          "can_media_tag": true,
+        "avatar": {
+          "image_url": "https://pbs.twimg.com/profile_images/1683501992314798080/xl1POYLw_normal.jpg"
+        },
+        "business_account": {},
+        "core": {
           "created_at": "Sat Dec 14 04:35:55 +0000 2013",
+          "name": "Developers",
+          "screen_name": "XDevelopers"
+        },
+        "creator_subscriptions_count": 0,
+        "dm_permissions": {
+          "can_dm": true
+        },
+        "follow_request_sent": false,
+        "has_graduated_access": true,
+        "has_hidden_subscriptions_on_profile": false,
+        "highlights_info": {
+          "can_highlight_tweets": true,
+          "highlighted_tweets": "4"
+        },
+        "id": "VXNlcjoyMjQ0OTk0OTQ1",
+        "is_blue_verified": true,
+        "is_profile_translatable": false,
+        "legacy": {
           "default_profile": false,
           "default_profile_image": false,
           "description": "The voice of the X Dev team and your official source for updates, news, and events, related to the X API.",
           "entities": {
-            "description": {
-              "urls": []
-            },
+            "description": {},
             "url": {
               "urls": [
                 {
                   "display_url": "docs.x.com",
                   "expanded_url": "https://docs.x.com/",
-                  "url": "https://t.co/NIwHVIVyrN",
                   "indices": [
                     0,
                     23
-                  ]
+                  ],
+                  "url": "https://t.co/NIwHVIVyrN"
                 }
               ]
             }
           },
           "fast_followers_count": 0,
-          "favourites_count": 2167,
-          "followers_count": 700242,
-          "friends_count": 746,
+          "favourites_count": 2549,
+          "follow_request_sent": false,
+          "followers_count": 683277,
+          "friends_count": 759,
           "has_custom_timelines": true,
           "is_translator": false,
-          "listed_count": 2682,
-          "location": "127.0.0.1",
-          "media_count": 821,
-          "name": "Developers",
-          "normal_followers_count": 700242,
+          "listed_count": 2937,
+          "media_count": 826,
+          "needs_phone_verification": false,
+          "normal_followers_count": 683277,
+          "notifications": false,
           "pinned_tweet_ids_str": [
-            "1851463451929186504"
+            "2019881223666233717"
           ],
           "possibly_sensitive": false,
           "profile_banner_url": "https://pbs.twimg.com/profile_banners/2244994945/1690213128",
-          "profile_image_url_https": "https://pbs.twimg.com/profile_images/1683501992314798080/xl1POYLw_normal.jpg",
           "profile_interstitial_type": "",
-          "screen_name": "XDevelopers",
-          "statuses_count": 4079,
+          "statuses_count": 4273,
+          "time_zone": "",
           "translator_type": "regular",
           "url": "https://t.co/NIwHVIVyrN",
-          "verified": false,
-          "verified_type": "Business",
-          "want_retweets": false,
-          "withheld_in_countries": []
+          "utc_offset": 0,
+          "want_retweets": true,
+          "withheld_description": "",
+          "withheld_scope": ""
+        },
+        "legacy_extended_profile": {},
+        "location": {
+          "location": "127.0.0.1"
+        },
+        "media_permissions": {
+          "can_media_tag": true
+        },
+        "privacy": {
+          "protected": false
         },
         "professional": {
-          "rest_id": "1516891231749517312",
-          "professional_type": "Business",
           "category": [
             {
+              "icon_name": "IconBriefcaseStroke",
               "id": 1009,
-              "name": "Community",
-              "icon_name": "IconBriefcaseStroke"
+              "name": "Community"
             }
-          ]
+          ],
+          "professional_type": "Business",
+          "rest_id": "1516891231749517312"
         },
+        "profile_bio": {
+          "description": "The voice of the X Dev team and your official source for updates, news, and events, related to the X API."
+        },
+        "profile_description_language": "en",
+        "profile_image_shape": "Square",
+        "profile_sort_enabled": true,
+        "relationship_perspectives": {
+          "blocked_by": false,
+          "blocking": false,
+          "followed_by": false,
+          "following": true,
+          "muting": false
+        },
+        "rest_id": "2244994945",
+        "super_follow_eligible": false,
+        "super_followed_by": false,
+        "super_following": false,
         "tipjar_settings": {},
-        "legacy_extended_profile": {},
-        "is_profile_translatable": false,
-        "has_hidden_subscriptions_on_profile": false,
+        "verification": {
+          "verified": false,
+          "verified_type": "Business"
+        },
         "verification_info": {
           "reason": {
             "description": {
-              "text": "This account is verified because it's an affiliate of @X on X. Learn more",
               "entities": [
                 {
-                  "from_index": 54,
-                  "to_index": 56,
+                  "from_index": 53,
                   "ref": {
                     "url": "https://twitter.com/X",
                     "url_type": "ExternalUrl"
-                  }
+                  },
+                  "to_index": 55
                 },
                 {
-                  "from_index": 63,
-                  "to_index": 73,
+                  "from_index": 62,
                   "ref": {
                     "url": "https://help.twitter.com/en/rules-and-policies/profile-labels",
                     "url_type": "ExternalUrl"
-                  }
+                  },
+                  "to_index": 72
                 }
-              ]
+              ],
+              "text": "This account is Premium because it's an affiliate of @X on X. Learn more"
             },
             "verified_since_msec": "1395425700472"
           }
-        },
-        "highlights_info": {
-          "can_highlight_tweets": true,
-          "highlighted_tweets": "2"
-        },
-        "business_account": {},
-        "creator_subscriptions_count": 0
+        }
       }
     }
   }

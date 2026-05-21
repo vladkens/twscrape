@@ -15,8 +15,7 @@ async def worker(api: twscrape.API, q: str):
             tweets.append(doc)
     except Exception as e:
         print(e)
-    finally:
-        return tweets
+    return tweets
 
 
 async def main():

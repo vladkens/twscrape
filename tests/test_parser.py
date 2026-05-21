@@ -181,7 +181,6 @@ def check_trend(doc: Trend):
 
     assert doc.trend_url.url is not None
     assert doc.trend_url.urlType is not None
-    assert doc.trend_url.urlEndpointOptions
 
 
 async def test_search():
@@ -197,24 +196,6 @@ async def test_search():
         bookmarks_count += doc.bookmarkedCount
 
     assert bookmarks_count > 0, "`bookmark_fields` key is changed or unluck search data"
-
-
-async def test_user_by_id():
-    api = get_api()
-    mock_rep(api.user_by_id_raw, "raw_user_by_id")
-
-    doc = await api.user_by_id(2244994945)
-    assert doc is not None
-    assert doc.id == 2244994945
-    assert doc.username == "XDevelopers"
-
-    obj = doc.dict()
-    assert doc.id == obj["id"]
-    assert doc.username == obj["username"]
-
-    txt = doc.json()
-    assert isinstance(txt, str)
-    assert str(doc.id) in txt
 
 
 async def test_user_by_login():
@@ -233,6 +214,32 @@ async def test_user_by_login():
     txt = doc.json()
     assert isinstance(txt, str)
     assert str(doc.id) in txt
+
+
+async def test_user_about():
+    api = get_api()
+    mock_rep(api.user_about_raw, "raw_user_about")
+
+    doc = await api.user_about("xdevelopers")
+    assert doc is not None
+    assert doc.screen_name == "XDevelopers"
+    assert isinstance(doc.rest_id, int)
+    assert isinstance(doc.name, str) and len(doc.name) > 0
+    assert doc.account_based_in is not None
+    assert doc.location_accurate is not None
+    assert doc.affiliate_username is not None
+    assert doc.source is not None
+    assert isinstance(doc.username_changes, int)
+    assert isinstance(doc.username_last_changed_at, int)
+    assert doc.is_identity_verified is not None
+    assert isinstance(doc.verified_since_msec, int)
+
+    obj = doc.dict()
+    assert doc.screen_name == obj["screen_name"]
+
+    txt = doc.json()
+    assert isinstance(txt, str)
+    assert doc.screen_name in txt
 
 
 async def test_tweet_details():
@@ -361,6 +368,61 @@ async def test_list_timeline():
     mock_rep(api.list_timeline_raw, "raw_list_timeline", as_generator=True)
 
     tweets = await gather(api.list_timeline(1494877848087187461))
+    assert len(tweets) > 0
+
+    for doc in tweets:
+        check_tweet(doc)
+
+
+async def test_list_members():
+    api = get_api()
+    mock_rep(api.list_members_raw, "raw_list_members", as_generator=True)
+
+    users = await gather(api.list_members(1494877848087187461))
+    assert len(users) > 0
+
+    for doc in users:
+        check_user(doc)
+
+
+async def test_community_info():
+    api = get_api()
+    mock_rep(api.community_info_raw, "raw_community_info")
+
+    info = await api.community_info(1501272736215322629)
+    assert info is not None
+    assert isinstance(info.id, int)
+    assert info.name is not None
+    assert isinstance(info.memberCount, int)
+
+
+async def test_community_members():
+    api = get_api()
+    mock_rep(api.community_members_raw, "raw_community_members", as_generator=True)
+
+    users = await gather(api.community_members(1501272736215322629))
+    assert len(users) > 0
+
+    for doc in users:
+        check_user(doc)
+
+
+async def test_community_moderators():
+    api = get_api()
+    mock_rep(api.community_moderators_raw, "raw_community_moderators", as_generator=True)
+
+    users = await gather(api.community_moderators(1501272736215322629))
+    assert len(users) > 0
+
+    for doc in users:
+        check_user(doc)
+
+
+async def test_community_tweets():
+    api = get_api()
+    mock_rep(api.community_tweets_raw, "raw_community_tweets", as_generator=True)
+
+    tweets = await gather(api.community_tweets(1501272736215322629))
     assert len(tweets) > 0
 
     for doc in tweets:

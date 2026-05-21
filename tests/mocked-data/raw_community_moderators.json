@@ -1,0 +1,142 @@
+{
+  "data": {
+    "communityResults": {
+      "id": "Q29tbXVuaXR5UmVzdWx0czoxNTAxMjcyNzM2MjE1MzIyNjI5",
+      "result": {
+        "__typename": "Community",
+        "id": "Q29tbXVuaXR5OjE1MDEyNzI3MzYyMTUzMjI2Mjk=",
+        "moderators_slice": {
+          "items_results": [
+            {
+              "id": "VXNlclJlc3VsdHM6MTExODU3NTk3ODE2OTczNzIxNw==",
+              "result": {
+                "__typename": "User",
+                "affiliates_highlighted_label": {
+                  "label": {
+                    "user_label_type": "BusinessLabel"
+                  }
+                },
+                "avatar": {
+                  "image_url": "https://pbs.twimg.com/profile_images/1603588679385190400/K1cF1Y4R_normal.jpg"
+                },
+                "community_role": "Admin",
+                "core": {
+                  "name": "We Gotta Believe",
+                  "screen_name": "GottaBelievePod"
+                },
+                "id": "VXNlcjoxMTE4NTc1OTc4MTY5NzM3MjE3",
+                "identity_profile_labels_highlighted_label": {
+                  "label": {
+                    "badge": {
+                      "url": "https://pbs.twimg.com/profile_images/1222128514624892935/zC0ABl3m_bigger.jpg"
+                    },
+                    "description": "Barstool Sports",
+                    "url": {
+                      "url": "https://twitter.com/barstoolsports",
+                      "urlType": "DeepLink"
+                    },
+                    "userLabelDisplayType": "Badge",
+                    "userLabelType": "BusinessLabel"
+                  }
+                },
+                "is_blue_verified": true,
+                "legacy": {
+                  "follow_request_sent": false
+                },
+                "privacy": {
+                  "protected": false
+                },
+                "relationship_perspectives": {
+                  "blocking": false,
+                  "followed_by": false,
+                  "following": false
+                },
+                "rest_id": "1118575978169737217",
+                "super_follow_eligible": false,
+                "super_followed_by": false,
+                "super_following": false,
+                "verification": {
+                  "verified": false,
+                  "verified_type": "Business"
+                }
+              }
+            },
+            {
+              "id": "VXNlclJlc3VsdHM6MjI1MTgzNTkz",
+              "result": {
+                "__typename": "User",
+                "affiliates_highlighted_label": {},
+                "avatar": {
+                  "image_url": "https://pbs.twimg.com/profile_images/1635764693485731840/xy99SM_j_normal.jpg"
+                },
+                "community_role": "Moderator",
+                "core": {
+                  "name": "Kyle Gelling",
+                  "screen_name": "KyleGelling"
+                },
+                "id": "VXNlcjoyMjUxODM1OTM=",
+                "identity_profile_labels_highlighted_label": {},
+                "is_blue_verified": true,
+                "legacy": {
+                  "follow_request_sent": false
+                },
+                "privacy": {
+                  "protected": false
+                },
+                "relationship_perspectives": {
+                  "blocking": false,
+                  "followed_by": false,
+                  "following": false
+                },
+                "rest_id": "225183593",
+                "super_follow_eligible": false,
+                "super_followed_by": false,
+                "super_following": false,
+                "verification": {
+                  "verified": false
+                }
+              }
+            },
+            {
+              "id": "VXNlclJlc3VsdHM6MTA4MTQzNTI5Ng==",
+              "result": {
+                "__typename": "User",
+                "affiliates_highlighted_label": {},
+                "avatar": {
+                  "image_url": "https://pbs.twimg.com/profile_images/2035168540056068096/iQICoHK3_normal.jpg"
+                },
+                "community_role": "Moderator",
+                "core": {
+                  "name": "Phill",
+                  "screen_name": "MeekPhill_"
+                },
+                "id": "VXNlcjoxMDgxNDM1Mjk2",
+                "identity_profile_labels_highlighted_label": {},
+                "is_blue_verified": true,
+                "legacy": {
+                  "follow_request_sent": false
+                },
+                "privacy": {
+                  "protected": false
+                },
+                "relationship_perspectives": {
+                  "blocking": false,
+                  "followed_by": false,
+                  "following": false
+                },
+                "rest_id": "1081435296",
+                "super_follow_eligible": true,
+                "super_followed_by": false,
+                "super_following": false,
+                "verification": {
+                  "verified": false
+                }
+              }
+            }
+          ],
+          "slice_info": {}
+        }
+      }
+    }
+  }
+}

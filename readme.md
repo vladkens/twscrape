@@ -89,10 +89,10 @@ async def main():
     # get user by login
     user_login = "xdevelopers"
     await api.user_by_login(user_login)  # User
+    await api.user_about(user_login)  # AccountAbout
 
     # user info
     user_id = 2244994945
-    await api.user_by_id(user_id)  # User
     await gather(api.following(user_id, limit=20))  # list[User]
     await gather(api.followers(user_id, limit=20))  # list[User]
     await gather(api.verified_followers(user_id, limit=20))  # list[User]
@@ -102,7 +102,16 @@ async def main():
     await gather(api.user_media(user_id, limit=20))  # list[Tweet]
 
     # list info
-    await gather(api.list_timeline(list_id=123456789))
+    list_id = 123456789
+    await gather(api.list_timeline(list_id))  # list[Tweet]
+    await gather(api.list_members(list_id))  # list[User]
+
+    # community info
+    community_id = 1501272736215322629
+    await api.community_info(community_id)  # Community
+    await gather(api.community_members(community_id, limit=20))  # list[User]
+    await gather(api.community_moderators(community_id, limit=20))  # list[User]
+    await gather(api.community_tweets(community_id, limit=20))  # list[Tweet]
 
     # trends
     await gather(api.trends("news"))  # list[Trend]
@@ -121,7 +130,7 @@ async def main():
     set_log_level("DEBUG")
 
     # Tweet & User model can be converted to regular dict or json, e.g.:
-    doc = await api.user_by_id(user_id)  # User
+    doc = await api.user_by_login(user_login)  # User
     doc.dict()  # -> python dict
     doc.json()  # -> json string
 
@@ -250,8 +259,8 @@ twscrape tweet_details TWEET_ID
 twscrape tweet_replies TWEET_ID --limit=20
 twscrape conversation_tweets CONVERSATION_ID --limit=20
 twscrape retweeters TWEET_ID --limit=20
-twscrape user_by_id USER_ID
 twscrape user_by_login USERNAME
+twscrape user_about USERNAME
 twscrape user_media USER_ID --limit=20
 twscrape following USER_ID --limit=20
 twscrape followers USER_ID --limit=20
@@ -259,6 +268,12 @@ twscrape verified_followers USER_ID --limit=20
 twscrape subscriptions USER_ID --limit=20
 twscrape user_tweets USER_ID --limit=20
 twscrape user_tweets_and_replies USER_ID --limit=20
+twscrape list_timeline LIST_ID --limit=20
+twscrape list_members LIST_ID --limit=20
+twscrape community_info COMMUNITY_ID
+twscrape community_members COMMUNITY_ID --limit=20
+twscrape community_moderators COMMUNITY_ID --limit=20
+twscrape community_tweets COMMUNITY_ID --limit=20
 twscrape trends sport
 ```
 
