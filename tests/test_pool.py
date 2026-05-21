@@ -36,6 +36,31 @@ async def test_add_accounts(pool_mock: AccountsPool):
     assert acc.email_password == "email_pass2"
 
 
+async def test_add_account_cookies(pool_mock: AccountsPool):
+    await pool_mock.add_account_cookies("user1", "auth_token=token; ct0=csrf")
+    acc = await pool_mock.get("user1")
+
+    assert acc.active is True
+
+
+async def test_add_account_cookies_without_ct0(pool_mock: AccountsPool):
+    await pool_mock.add_account_cookies("user1", "auth_token=token")
+    acc = await pool_mock.get("user1")
+
+    assert acc.active is False
+
+
+async def test_add_account_cookies_existing(pool_mock: AccountsPool):
+    await pool_mock.add_account_cookies("user1", "auth_token=token; ct0=csrf")
+    acc = await pool_mock.get("user1")
+
+    await pool_mock.add_account_cookies("user1", "auth_token=other")
+    same = await pool_mock.get("user1")
+
+    assert same.cookies == acc.cookies
+    assert same.active is True
+
+
 async def test_get_all(pool_mock: AccountsPool):
     # should return empty list
     accs = await pool_mock.get_all()

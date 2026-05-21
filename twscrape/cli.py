@@ -2,6 +2,7 @@
 
 import argparse
 import asyncio
+import getpass
 import io
 import json
 import sqlite3
@@ -78,6 +79,13 @@ async def main(args):
     if args.command == "add_accounts":
         await pool.load_from_file(args.file_path, args.line_format)
         print("\nNow run:\ntwscrape login_accounts")
+        return
+
+    if args.command == "add_cookie":
+        cookies = args.cookies
+        if not cookies:
+            cookies = getpass.getpass("cookies (e.g. auth_token=xxx; ct0=yyy): ")
+        await pool.add_account_cookies(args.username, cookies)
         return
 
     if args.command == "del_accounts":
@@ -164,9 +172,13 @@ def run():
     subparsers.add_parser("accounts", help="List all accounts")
     subparsers.add_parser("stats", help="Get current usage stats")
 
-    add_accounts = subparsers.add_parser("add_accounts", help="Add accounts")
+    add_accounts = subparsers.add_parser("add_accounts", help="Add accounts from file")
     add_accounts.add_argument("file_path", help="File with accounts")
     add_accounts.add_argument("line_format", help="args of Pool.add_account splited by same delim")
+
+    add_cookie = subparsers.add_parser("add_cookie", help="Add account with cookies")
+    add_cookie.add_argument("username", help="Twitter/X username")
+    add_cookie.add_argument("cookies", nargs="?", default=None, help="Cookie string")
 
     del_accounts = subparsers.add_parser("del_accounts", help="Delete accounts")
     del_accounts.add_argument("usernames", nargs="+", default=[], help="Usernames to delete")
