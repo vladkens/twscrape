@@ -13,6 +13,7 @@ from twscrape.models import (
     User,
     UserRef,
     parse_tweet,
+    parse_tweets,
 )
 
 BASE_DIR = os.path.dirname(__file__)
@@ -563,3 +564,39 @@ async def test_cards():
     assert doc.card._type == "audiospace"
     assert isinstance(doc.card, AudiospaceCard)
     assert doc.card.url is not None
+
+
+async def test_tweet_new_fields():
+    tweets = list(parse_tweets(fake_rep("raw_search").json()))
+    assert len(tweets) > 0
+
+    for doc in tweets:
+        assert isinstance(doc.isQuoteStatus, bool)
+        assert isinstance(doc.isTranslatable, bool)
+
+        if doc.displayTextRange is not None:
+            assert isinstance(doc.displayTextRange, list)
+            assert len(doc.displayTextRange) == 2
+            assert all(isinstance(x, int) for x in doc.displayTextRange)
+
+        if doc.inReplyToScreenName is not None:
+            assert isinstance(doc.inReplyToScreenName, str)
+            assert len(doc.inReplyToScreenName) > 0
+
+        if doc.editControl is not None:
+            assert isinstance(doc.editControl, dict)
+            assert "edit_tweet_ids" in doc.editControl
+            assert isinstance(doc.editControl["edit_tweet_ids"], list)
+            assert "is_edit_eligible" in doc.editControl
+            assert isinstance(doc.editControl["is_edit_eligible"], bool)
+
+        assert doc.voiceInfo is None or isinstance(doc.voiceInfo, dict)
+
+    assert any(doc.isQuoteStatus for doc in tweets), "expected at least one quote tweet"
+    assert any(doc.inReplyToScreenName for doc in tweets), "expected at least one reply tweet"
+    assert any(doc.editControl is not None for doc in tweets), (
+        "expected editControl in at least one tweet"
+    )
+    assert any(doc.displayTextRange is not None for doc in tweets), (
+        "expected displayTextRange in at least one tweet"
+    )

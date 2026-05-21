@@ -276,6 +276,12 @@ class Tweet(JSONTrait):
     sourceLabel: str | None = None
     card: Union[None, "SummaryCard", "PollCard", "BroadcastCard", "AudiospaceCard"] = None
     possibly_sensitive: bool | None = None
+    isQuoteStatus: bool = False
+    isTranslatable: bool = False
+    displayTextRange: list[int] | None = None
+    inReplyToScreenName: str | None = None
+    editControl: dict | None = None
+    voiceInfo: dict | None = None
     _type: str = "snscrape.modules.twitter.Tweet"
 
     # todo:
@@ -337,6 +343,12 @@ class Tweet(JSONTrait):
             media=Media.parse(obj),
             card=_parse_card(obj, url),
             possibly_sensitive=obj.get("possibly_sensitive"),
+            isQuoteStatus=obj.get("is_quote_status", False),
+            isTranslatable=obj.get("is_translatable", False),
+            displayTextRange=obj.get("display_text_range"),
+            inReplyToScreenName=obj.get("in_reply_to_screen_name"),
+            editControl=obj.get("edit_control"),
+            voiceInfo=obj.get("voice_info"),
         )
 
         # issue #42 – restore full rt text
