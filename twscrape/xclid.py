@@ -7,16 +7,17 @@ import time
 from typing import Iterator
 
 import bs4
-import httpx
 from fake_useragent import UserAgent
 
-
-def _make_client() -> httpx.AsyncClient:
-    headers = {"user-agent": UserAgent().chrome}
-    return httpx.AsyncClient(headers=headers, follow_redirects=True)
+from .http import HttpClient
+from .http import make_client as _make_http_client
 
 
-async def get_tw_page_text(url: str, clt: httpx.AsyncClient):
+def _make_client() -> HttpClient:
+    return _make_http_client(headers={"user-agent": UserAgent().chrome})
+
+
+async def get_tw_page_text(url: str, clt: HttpClient):
     rep = await clt.get(url)
 
     rep.raise_for_status()
@@ -216,7 +217,7 @@ def parse_vk_bytes(soup: bs4.BeautifulSoup) -> list[int]:
     return list(base64.b64decode(bytes(el, "utf-8")))
 
 
-async def parse_anim_idx(text: str, clt: httpx.AsyncClient) -> list[int]:
+async def parse_anim_idx(text: str, clt: HttpClient) -> list[int]:
     scripts = list(get_scripts_list(text))
     scripts = [x for x in scripts if "/ondemand.s." in x]
     if not scripts:
@@ -244,7 +245,7 @@ def parse_anim_arr(soup: bs4.BeautifulSoup, vk_bytes: list[int]) -> list[list[fl
     return arr
 
 
-async def load_keys(soup: bs4.BeautifulSoup, clt: httpx.AsyncClient) -> tuple[list[int], str]:
+async def load_keys(soup: bs4.BeautifulSoup, clt: HttpClient) -> tuple[list[int], str]:
     anim_idx = await parse_anim_idx(str(soup), clt)
     vk_bytes = parse_vk_bytes(soup)
     anim_arr = parse_anim_arr(soup, vk_bytes)

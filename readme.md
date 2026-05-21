@@ -18,13 +18,14 @@ Twitter GraphQL API implementation with [SNScrape](https://github.com/JustAnothe
 
 ## Install
 
+twscrape requires one HTTP backend to be installed (peer dependency):
+
 ```bash
-pip install twscrape
+pip install twscrape[httpx]  # httpx (legacy)
+pip install twscrape[curl]   # curl-cffi (recommended, better TLS fingerprinting)
 ```
-Or development version:
-```bash
-pip install git+https://github.com/vladkens/twscrape.git
-```
+
+`curl-cffi` uses libcurl with browser-level TLS fingerprint spoofing and is recommended to avoid Cloudflare bot detection. When both are installed, `curl-cffi` is preferred. Override with `TWS_HTTP_BACKEND=httpx` or `TWS_HTTP_BACKEND=curl`.
 
 ## Features
 - Support both Search & GraphQL Twitter API

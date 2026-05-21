@@ -8,10 +8,9 @@ import json
 import sqlite3
 from importlib.metadata import version
 
-import httpx
-
 from .api import API, AccountsPool
 from .db import get_sqlite_version
+from .http import Response
 from .logger import logger, set_log_level
 from .login import LoginConfig
 from .models import Tweet, User
@@ -36,7 +35,7 @@ def get_fn_arg(args):
     exit(1)
 
 
-def to_str(doc: httpx.Response | Tweet | User | None) -> str:
+def to_str(doc: Response | Tweet | User | None) -> str:
     if doc is None:
         return "Not Found. See --raw for more details."
 

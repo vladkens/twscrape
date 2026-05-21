@@ -19,14 +19,18 @@ classifiers = [
 dependencies = [
   "aiosqlite>=0.17.0",
   "fake-useragent>=1.4.0",
-  "httpx>=0.26.0",
   "loguru>=0.7.0",
   "pyotp>=2.9.0",
   "beautifulsoup4>=4.13.0",
 ]
 
+[project.optional-dependencies]
+httpx = ["httpx>=0.26.0"]
+curl = ["curl-cffi>=0.7.0"]
+
 [dependency-groups]
 dev = [
+  "curl-cffi>=0.7.0",
   "pyright>=1.1.369",
   "pytest-asyncio>=0.23.3",
   "pytest-cov>=4.1.0",
@@ -66,5 +70,5 @@ select = ["E", "F", "I", "UP", "C4", "SIM"]
 ignore = ["E501", "UP035", "SIM105"]
 
 [tool.pyright]
-include = ["apps", "clients", "strategy", "lib", "scripts"]
+include = ["twscrape"]
 typeCheckingMode = "standard"

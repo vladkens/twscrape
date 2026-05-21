@@ -11,9 +11,9 @@ import asyncio
 import os
 import re
 import sys
+from typing import Any
 
-import httpx
-
+from twscrape.http import make_client
 from twscrape.xclid import get_scripts_list, get_tw_page_text, script_url
 
 API_FILE = "twscrape/api.py"
@@ -28,7 +28,7 @@ def _is_relevant_script(url: str) -> bool:
 async def get_scripts() -> list[tuple[str, str]]:
     os.makedirs(CACHE_DIR, exist_ok=True)
 
-    async with httpx.AsyncClient(follow_redirects=True) as clt:
+    async with make_client() as clt:
         text = await get_tw_page_text("https://x.com/elonmusk", clt)
 
     urls = list(get_scripts_list(text))
@@ -50,7 +50,7 @@ async def fetch_scripts(scripts: list[tuple[str, str]], force: bool) -> None:
     print(f"Downloading {len(todo)} scripts.")
     sem = asyncio.Semaphore(10)
 
-    async def fetch(clt: httpx.AsyncClient, i: int, url: str, path: str) -> None:
+    async def fetch(clt: Any, i: int, url: str, path: str) -> None:
         async with sem:
             print(f"  ({i:3d}/{len(todo):3d}) {url}")
             rep = await clt.get(url)
@@ -61,7 +61,7 @@ async def fetch_scripts(scripts: list[tuple[str, str]], force: bool) -> None:
             with open(path, "w", encoding="utf-8") as fp:
                 fp.write(rep.text)
 
-    async with httpx.AsyncClient(follow_redirects=True) as clt:
+    async with make_client() as clt:
         await asyncio.gather(*[fetch(clt, i, url, path) for i, (url, path) in enumerate(todo, 1)])
 
 
