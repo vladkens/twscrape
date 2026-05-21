@@ -216,6 +216,32 @@ async def test_user_by_login():
     assert str(doc.id) in txt
 
 
+async def test_user_about():
+    api = get_api()
+    mock_rep(api.user_about_raw, "raw_user_about")
+
+    doc = await api.user_about("xdevelopers")
+    assert doc is not None
+    assert doc.screen_name == "XDevelopers"
+    assert isinstance(doc.rest_id, int)
+    assert isinstance(doc.name, str) and len(doc.name) > 0
+    assert doc.account_based_in is not None
+    assert doc.location_accurate is not None
+    assert doc.affiliate_username is not None
+    assert doc.source is not None
+    assert isinstance(doc.username_changes, int)
+    assert isinstance(doc.username_last_changed_at, int)
+    assert doc.is_identity_verified is not None
+    assert isinstance(doc.verified_since_msec, int)
+
+    obj = doc.dict()
+    assert doc.screen_name == obj["screen_name"]
+
+    txt = doc.json()
+    assert isinstance(txt, str)
+    assert doc.screen_name in txt
+
+
 async def test_tweet_details():
     api = get_api()
     mock_rep(api.tweet_details_raw, "raw_tweet_details")

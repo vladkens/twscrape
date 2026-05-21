@@ -69,34 +69,53 @@ async def main():
 
     print("Fetching Twitter JS bundle...")
     all_pairs: dict[str, str] = {}
+    conflicts: list[tuple[str, str, str]] = []
+
+    def _add(op_name: str, op_id: str):
+        existing = all_pairs.get(op_name)
+        if existing is not None and existing != op_id:
+            conflicts.append((op_name, existing, op_id))
+        all_pairs[op_name] = op_id
+
+    rgs = [
+        r'queryId:"(.+?)".+?operationName:"(.+?)"',
+        r'params:\{id:"([^"]+)".+?name:"([^"]+)".+?operationKind:"',
+    ]
+
     for txt in await get_scripts():
-        for op_id, op_name in re.findall(r'queryId:"(.+?)".+?operationName:"(.+?)"', txt):
-            all_pairs[op_name] = op_id
+        for rg in rgs:
+            for op_id, op_name in re.findall(rg, txt):
+                _add(op_name, op_id)
+
+    if conflicts:
+        print("WARNING: conflicting IDs found for same operation (last one wins):")
+        for n, old_id, new_id in conflicts:
+            print(f"  {n}: {old_id} vs {new_id}")
 
     print(f"Found {len(all_pairs)} operations in bundle\n")
 
     updated = content
     changed, missing = [], []
 
-    for name, old_id in current_ops.items():
-        new_id = all_pairs.get(name)
+    for n, old_id in current_ops.items():
+        new_id = all_pairs.get(n)
         if new_id is None:
-            missing.append(name)
+            missing.append(n)
         elif new_id != old_id:
-            changed.append((name, old_id, new_id))
-            updated = updated.replace(f'"{old_id}/{name}"', f'"{new_id}/{name}"')
+            changed.append((n, old_id, new_id))
+            updated = updated.replace(f'"{old_id}/{n}"', f'"{new_id}/{n}"')
 
     if changed:
         print("Changed:")
-        for name, old_id, new_id in changed:
-            print(f"  OP_{name}: {old_id} → {new_id}")
+        for n, old_id, new_id in changed:
+            print(f"  OP_{n}: {old_id} → {new_id}")
     else:
         print("No ID changes.")
 
     if missing:
         print("\nNot found in bundle (possibly removed):")
-        for name in missing:
-            print(f"  OP_{name}")
+        for n in missing:
+            print(f"  OP_{n}")
 
     if changed and apply:
         API_FILE.write_text(updated)
