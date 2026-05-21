@@ -188,36 +188,55 @@ async def test_httpx_client_cookies_and_headers_are_mutable():
     await client.aclose()
 
 
-async def test_httpx_client_maps_network_errors(httpx_mock):
+async def test_httpx_client_maps_network_errors():
+    from unittest.mock import AsyncMock, patch
+
     import httpx
 
     from twscrape.http import HttpxClient
 
-    httpx_mock.add_exception(httpx.ReadTimeout("timeout"))
     client = HttpxClient()
-    with pytest.raises(NetworkError):
+    with (
+        patch.object(
+            client._client, "request", AsyncMock(side_effect=httpx.ReadTimeout("timeout"))
+        ),
+        pytest.raises(NetworkError),
+    ):
         await client.get("https://example.com")
     await client.aclose()
 
 
-async def test_httpx_client_maps_connect_errors(httpx_mock):
+async def test_httpx_client_maps_connect_errors():
+    from unittest.mock import AsyncMock, patch
+
     import httpx
 
     from twscrape.http import HttpxClient
 
-    httpx_mock.add_exception(httpx.ConnectError("refused"))
     client = HttpxClient()
-    with pytest.raises(ConnectError):
+    with (
+        patch.object(
+            client._client, "request", AsyncMock(side_effect=httpx.ConnectError("refused"))
+        ),
+        pytest.raises(ConnectError),
+    ):
         await client.get("https://example.com")
     await client.aclose()
 
 
-async def test_httpx_client_returns_response_wrapper(httpx_mock):
+async def test_httpx_client_returns_response_wrapper():
+    from unittest.mock import AsyncMock, patch
+
+    import httpx
+
     from twscrape.http import HttpxClient
 
-    httpx_mock.add_response(url="https://example.com", json={"ok": True}, status_code=200)
+    raw = httpx.Response(
+        200, json={"ok": True}, request=httpx.Request("GET", "https://example.com")
+    )
     client = HttpxClient()
-    rep = await client.get("https://example.com")
+    with patch.object(client._client, "request", AsyncMock(return_value=raw)):
+        rep = await client.get("https://example.com")
     assert isinstance(rep, Response)
     assert rep.status_code == 200
     assert rep.json() == {"ok": True}

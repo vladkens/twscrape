@@ -526,19 +526,6 @@ wheels = [
 ]
 
 [[package]]
-name = "pytest-httpx"
-version = "0.36.2"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "httpx" },
-    { name = "pytest" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/4e/42/f53c58570e80d503ade9dd42ce57f2915d14bcbe25f6308138143950d1d6/pytest_httpx-0.36.2.tar.gz", hash = "sha256:05a56527484f7f4e8c856419ea379b8dc359c36801c4992fdb330f294c690356", size = 57683, upload-time = "2026-04-09T13:57:19.837Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/1e/55/1fa65f8e4fceb19dd6daa867c162ad845d547f6058cd92b4b02384a44777/pytest_httpx-0.36.2-py3-none-any.whl", hash = "sha256:d42ebd5679442dc7bfb0c48e0767b6562e9bc4534d805127b0084171886a5e22", size = 20315, upload-time = "2026-04-09T13:57:18.587Z" },
-]
-
-[[package]]
 name = "rich"
 version = "15.0.0"
 source = { registry = "https://pypi.org/simple" }
@@ -662,11 +649,11 @@ httpx = [
 [package.dev-dependencies]
 dev = [
     { name = "curl-cffi" },
+    { name = "httpx" },
     { name = "pyright" },
     { name = "pytest" },
     { name = "pytest-asyncio" },
     { name = "pytest-cov" },
-    { name = "pytest-httpx" },
     { name = "ruff" },
 ]
 
@@ -685,11 +672,11 @@ provides-extras = ["httpx", "curl"]
 [package.metadata.requires-dev]
 dev = [
     { name = "curl-cffi", specifier = ">=0.7.0" },
+    { name = "httpx", specifier = ">=0.26.0" },
     { name = "pyright", specifier = ">=1.1.369" },
     { name = "pytest", specifier = ">=7.4.4" },
     { name = "pytest-asyncio", specifier = ">=0.23.3" },
     { name = "pytest-cov", specifier = ">=4.1.0" },
-    { name = "pytest-httpx", specifier = ">=0.28.0" },
     { name = "ruff", specifier = ">=0.1.11" },
 ]
 
