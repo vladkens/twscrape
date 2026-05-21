@@ -634,6 +634,7 @@ dependencies = [
     { name = "aiosqlite" },
     { name = "beautifulsoup4" },
     { name = "fake-useragent" },
+    { name = "httpx" },
     { name = "loguru" },
     { name = "pyotp" },
 ]
@@ -641,9 +642,6 @@ dependencies = [
 [package.optional-dependencies]
 curl = [
     { name = "curl-cffi" },
-]
-httpx = [
-    { name = "httpx" },
 ]
 
 [package.dev-dependencies]
@@ -663,11 +661,11 @@ requires-dist = [
     { name = "beautifulsoup4", specifier = ">=4.13.0" },
     { name = "curl-cffi", marker = "extra == 'curl'", specifier = ">=0.7.0" },
     { name = "fake-useragent", specifier = ">=1.4.0" },
-    { name = "httpx", marker = "extra == 'httpx'", specifier = ">=0.26.0" },
+    { name = "httpx", specifier = ">=0.26.0" },
     { name = "loguru", specifier = ">=0.7.0" },
     { name = "pyotp", specifier = ">=2.9.0" },
 ]
-provides-extras = ["httpx", "curl"]
+provides-extras = ["curl"]
 
 [package.metadata.requires-dev]
 dev = [

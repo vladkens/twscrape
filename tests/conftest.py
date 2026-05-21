@@ -8,7 +8,7 @@ from twscrape.queue_client import QueueClient, XClIdGenStore
 
 from .mock_http import MockClient
 
-set_log_level("ERROR")
+set_log_level("CRITICAL")
 
 
 class ClIdGenMock:

@@ -5,6 +5,7 @@ import pytest
 from twscrape.accounts_pool import AccountsPool
 from twscrape.http import ConnectError, NetworkError
 from twscrape.queue_client import QueueClient
+from twscrape.utils import utc
 
 from .mock_http import MockClient
 
@@ -301,6 +302,155 @@ async def test_html_block_without_cf_returns_none(client_fixture: CF):
     )
 
     rep = await client.get(URL)
+    assert rep is None
+
+    await client.__aexit__(None, None, None)
+
+
+# --- _check_rep branches ---
+
+
+async def test_131_with_user_data_continues(client_fixture: CF):
+    pool, client, mock = client_fixture
+    await client.__aenter__()
+
+    mock.add_response(
+        json={
+            "errors": [{"code": 131, "message": "Dependency: Internal error"}],
+            "data": {"user": {"id": "123"}},
+        }
+    )
+
+    rep = await client.get(URL)
+    assert rep is not None
+
+    await client.__aexit__(None, None, None)
+
+
+async def test_131_without_user_data_aborts(client_fixture: CF):
+    pool, client, mock = client_fixture
+    await client.__aenter__()
+
+    mock.add_response(json={"errors": [{"code": 131, "message": "Dependency: Internal error"}]})
+
+    rep = await client.get(URL)
+    assert rep is None
+
+    await client.__aexit__(None, None, None)
+
+
+async def test_missing_status_error_ignored(client_fixture: CF):
+    pool, client, mock = client_fixture
+    await client.__aenter__()
+
+    mock.add_response(
+        json={"errors": [{"code": -1, "message": "_Missing: No status found with that ID"}]}
+    )
+
+    rep = await client.get(URL)
+    assert rep is not None
+
+    await client.__aexit__(None, None, None)
+
+
+async def test_authorization_error_200_ignored(client_fixture: CF):
+    pool, client, mock = client_fixture
+    await client.__aenter__()
+
+    mock.add_response(
+        json={"errors": [{"code": -1, "message": "Authorization: Denied by unknown rule"}]}
+    )
+
+    rep = await client.get(URL)
+    assert rep is not None
+
+    await client.__aexit__(None, None, None)
+
+
+async def test_unknown_error_msg_ignored(client_fixture: CF):
+    pool, client, mock = client_fixture
+    await client.__aenter__()
+
+    mock.add_response(json={"errors": [{"code": 999, "message": "Some unfamiliar error"}]})
+
+    rep = await client.get(URL)
+    assert rep is not None
+
+    await client.__aexit__(None, None, None)
+
+
+async def test_unhandled_status_code_locks_and_retries(client_fixture: CF):
+    pool, client, mock = client_fixture
+    await client.__aenter__()
+
+    mock.add_response(status_code=500, json={})
+    mock.add_response(json={"ok": True})
+
+    rep = await client.get(URL)
+    assert rep is not None
+    assert rep.json() == {"ok": True}
+
+    user1 = next(x for x in await pool.get_all() if x.username == "user1")
+    assert "SearchTimeline" in user1.locks
+    assert int(user1.locks["SearchTimeline"].timestamp()) > utc.ts() + 60 * 10
+
+    await client.__aexit__(None, None, None)
+
+
+async def test_no_active_accounts_returns_none(pool_mock: AccountsPool):
+    client = QueueClient(pool_mock, "SearchTimeline")
+    rep = await client.get(URL)
+    assert rep is None
+
+
+async def test_unknown_exception_retries_then_locks_account(client_fixture: CF):
+    pool, client, mock = client_fixture
+    await client.__aenter__()
+
+    mock.add_exception(RuntimeError("boom"))
+    mock.add_exception(RuntimeError("boom"))
+    mock.add_exception(RuntimeError("boom"))
+    mock.add_response(json={"ok": True})
+
+    rep = await client.get(URL)
+    assert rep is not None
+    assert rep.json() == {"ok": True}
+
+    user1 = next(x for x in await pool.get_all() if x.username == "user1")
+    assert "SearchTimeline" in user1.locks
+
+    await client.__aexit__(None, None, None)
+
+
+async def test_invalid_json_body_falls_back_to_raw_text(client_fixture: CF):
+    pool, client, mock = client_fixture
+    await client.__aenter__()
+
+    mock.add_invalid_json_response(text="not-json")
+    rep = await client.get(URL)
+    assert rep is not None
+
+    await client.__aexit__(None, None, None)
+
+
+async def test_close_ctx_noop_when_ctx_is_none(pool_mock: AccountsPool):
+    client = QueueClient(pool_mock, "SearchTimeline")
+    # ctx is None — _close_ctx must be a no-op
+    await client._close_ctx()
+
+
+async def test_404_retries_exhaust_and_abort(client_fixture: CF):
+    from unittest.mock import patch
+
+    pool, client, mock = client_fixture
+    await client.__aenter__()
+
+    mock.add_response(status_code=404, json={})
+    mock.add_response(status_code=404, json={})
+    mock.add_response(status_code=404, json={})
+
+    with patch("twscrape.queue_client.asyncio.sleep"):
+        rep = await client.get(URL)
     assert rep is None
 
     await client.__aexit__(None, None, None)

@@ -1,3 +1,4 @@
+import json as _json
 from unittest.mock import MagicMock
 
 from twscrape.http import HttpClient, HttpMethod, Response
@@ -42,6 +43,12 @@ class MockClient(HttpClient):
         self._queue.append(("exc", exc))
         return self
 
+    def add_invalid_json_response(
+        self, *, status_code: int = 200, text: str = "not-json", headers: dict | None = None
+    ) -> "MockClient":
+        self._queue.append(("invalid_json", status_code, text, headers))
+        return self
+
     @property
     def cookies(self):
         return self._cookies
@@ -56,6 +63,11 @@ class MockClient(HttpClient):
         item = self._queue.pop(0)
         if item[0] == "exc":
             raise item[1]
+        if item[0] == "invalid_json":
+            _, status_code, text, headers = item
+            raw = _raw(status_code=status_code, text=text, headers=headers)
+            raw.json.side_effect = _json.JSONDecodeError("no json", "", 0)
+            return Response(raw)
         _, status_code, json_data, text, headers = item
         return Response(
             _raw(status_code=status_code, json_data=json_data, text=text, headers=headers)

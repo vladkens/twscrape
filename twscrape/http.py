@@ -179,8 +179,7 @@ def _detect_backend() -> str:
     if forced == "httpx":
         if importlib.util.find_spec("httpx") is None:
             raise ImportError(
-                "TWS_HTTP_BACKEND=httpx but httpx is not installed. "
-                "Run: pip install twscrape[httpx]"
+                "TWS_HTTP_BACKEND=httpx but httpx is not installed. Run: pip install twscrape"
             )
         return "httpx"
 
@@ -193,7 +192,7 @@ def _detect_backend() -> str:
         return "httpx"
 
     raise ImportError(
-        "No HTTP backend installed. Run: pip install twscrape[httpx] or pip install twscrape[curl]"
+        "No HTTP backend installed. Run: pip install twscrape or pip install twscrape[curl]"
     )
 
 

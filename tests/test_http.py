@@ -241,3 +241,204 @@ async def test_httpx_client_returns_response_wrapper():
     assert rep.status_code == 200
     assert rep.json() == {"ok": True}
     await client.aclose()
+
+
+async def test_httpx_client_maps_connect_timeout():
+    from unittest.mock import AsyncMock, patch
+
+    import httpx
+
+    from twscrape.http import HttpxClient
+
+    client = HttpxClient()
+    with (
+        patch.object(
+            client._client, "request", AsyncMock(side_effect=httpx.ConnectTimeout("timeout"))
+        ),
+        pytest.raises(ConnectError),
+    ):
+        await client.get("https://example.com")
+    await client.aclose()
+
+
+async def test_httpx_client_maps_write_and_pool_timeout():
+    from unittest.mock import AsyncMock, patch
+
+    import httpx
+
+    from twscrape.http import HttpxClient
+
+    for exc_cls in (httpx.WriteTimeout, httpx.PoolTimeout, httpx.ProxyError):
+        client = HttpxClient()
+        with (
+            patch.object(client._client, "request", AsyncMock(side_effect=exc_cls("err"))),
+            pytest.raises(NetworkError),
+        ):
+            await client.get("https://example.com")
+        await client.aclose()
+
+
+# --- _detect_backend: missing paths ---
+
+
+def test_detect_backend_auto_curl_preferred(monkeypatch):
+    monkeypatch.delenv("TWS_HTTP_BACKEND", raising=False)
+    # curl_cffi is installed in the dev env, so auto-detect should pick it
+    result = _detect_backend()
+    assert result == "curl"
+
+
+def test_detect_backend_env_curl_installed(monkeypatch):
+    monkeypatch.setenv("TWS_HTTP_BACKEND", "curl")
+    result = _detect_backend()
+    assert result == "curl"
+
+
+# --- make_client: missing paths ---
+
+
+def test_make_client_curl_returns_curl_client():
+    from twscrape.http import CurlClient
+
+    client = make_client("curl")
+    assert isinstance(client, CurlClient)
+
+
+def test_make_client_unknown_backend_raises():
+    with pytest.raises(ValueError, match="Unknown backend"):
+        make_client("unknown_backend")
+
+
+def test_make_client_none_uses_auto_detect(monkeypatch):
+    monkeypatch.delenv("TWS_HTTP_BACKEND", raising=False)
+    from twscrape.http import CurlClient
+
+    client = make_client(None)
+    assert isinstance(client, CurlClient)
+
+
+# --- CurlClient ---
+
+
+async def test_curl_client_returns_response_wrapper():
+    from unittest.mock import AsyncMock, MagicMock, patch
+
+    from twscrape.http import CurlClient
+
+    raw = MagicMock()
+    raw.status_code = 200
+    raw.text = "hello"
+    raw.content = b"hello"
+    raw.headers = {}
+    raw.url = "https://example.com"
+    raw.request = MagicMock()
+    raw.json.return_value = {"ok": True}
+    raw.raise_for_status.return_value = None
+
+    client = CurlClient()
+    with patch.object(client._session, "request", AsyncMock(return_value=raw)):
+        rep = await client.get("https://example.com")
+
+    assert isinstance(rep, Response)
+    assert rep.status_code == 200
+    assert rep.json() == {"ok": True}
+    await client.aclose()
+
+
+async def test_curl_client_connect_error_codes():
+    from unittest.mock import AsyncMock, patch
+
+    from curl_cffi.const import CurlECode
+    from curl_cffi.requests.errors import RequestsError
+
+    from twscrape.http import CurlClient
+
+    for code in (CurlECode(5), CurlECode(6), CurlECode(7)):
+        client = CurlClient()
+        err = RequestsError("connect failed", code=code)
+        with (
+            patch.object(client._session, "request", AsyncMock(side_effect=err)),
+            pytest.raises(ConnectError),
+        ):
+            await client.get("https://example.com")
+        await client.aclose()
+
+
+async def test_curl_client_network_error():
+    from unittest.mock import AsyncMock, patch
+
+    from curl_cffi.const import CurlECode
+    from curl_cffi.requests.errors import RequestsError
+
+    from twscrape.http import CurlClient
+
+    client = CurlClient()
+    err = RequestsError("operation timed out", code=CurlECode(28))
+
+    with (
+        patch.object(client._session, "request", AsyncMock(side_effect=err)),
+        pytest.raises(NetworkError),
+    ):
+        await client.get("https://example.com")
+    await client.aclose()
+
+
+async def test_curl_client_cookies_and_headers():
+    from twscrape.http import CurlClient
+
+    client = CurlClient(headers={"x-foo": "bar"}, cookies={"ct0": "token"})
+    assert "ct0" in client.cookies
+    assert client.headers is not None
+    await client.aclose()
+
+
+async def test_curl_client_non_curl_error_propagates():
+    from unittest.mock import AsyncMock, patch
+
+    from twscrape.http import CurlClient
+
+    client = CurlClient()
+    with (
+        patch.object(client._session, "request", AsyncMock(side_effect=ValueError("unexpected"))),
+        pytest.raises(ValueError),
+    ):
+        await client.get("https://example.com")
+    await client.aclose()
+
+
+# --- HttpClient.post ---
+
+
+async def test_http_client_post_delegates_to_request():
+    rep_mock = Response(_mock_response(201))
+
+    class PostableClient(HttpClient):
+        async def request(self, method, url, **kwargs):
+            assert method == "POST"
+            return rep_mock
+
+        async def aclose(self):
+            pass
+
+        @property
+        def cookies(self):
+            return {}
+
+        @property
+        def headers(self):
+            return {}
+
+    client = PostableClient()
+    result = await client.post("https://example.com", json={"x": 1})
+    assert result is rep_mock
+
+
+# --- Response: remaining properties ---
+
+
+def test_response_content_and_headers():
+    raw = _mock_response(200, "body", headers={"x-custom": "val"})
+    rep = Response(raw)
+    assert rep.content == b"body"
+    assert rep.headers == {"x-custom": "val"}
+    assert rep.url == "https://example.com"
