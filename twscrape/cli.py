@@ -23,7 +23,16 @@ class CustomHelpFormatter(argparse.HelpFormatter):
 
 
 def get_fn_arg(args):
-    names = ["query", "tweet_id", "user_id", "username", "list_id", "trend_id", "community_id"]
+    names = [
+        "query",
+        "tweet_id",
+        "conversation_id",
+        "user_id",
+        "username",
+        "list_id",
+        "trend_id",
+        "community_id",
+    ]
     for name in names:
         if name in args:
             return name, getattr(args, name)
@@ -183,6 +192,7 @@ def run():
     c_lim("search", "Search for tweets", "query", "Search query")
     c_one("tweet_details", "Get tweet details", "tweet_id", "Tweet ID", int)
     c_lim("tweet_replies", "Get replies  of a tweet", "tweet_id", "Tweet ID", int)
+    c_lim("tweet_thread", "Get thread tweets", "tweet_id", "Tweet ID", int)
     c_lim("retweeters", "Get retweeters of a tweet", "tweet_id", "Tweet ID", int)
     c_one("user_by_login", "Get user data by username", "username", "Username")
     c_one("user_about", "Get about info for username", "username", "Username")

@@ -267,6 +267,19 @@ async def test_tweet_replies():
         assert doc.inReplyToTweetId == twid
 
 
+async def test_tweet_thread():
+    api = get_api()
+    mock_rep(api.tweet_thread_raw, "raw_tweet_thread", as_generator=True)
+
+    twid = 1649191520250245121
+    tweets = await gather(api.tweet_thread(twid, limit=20))
+    assert len(tweets) > 0
+
+    for doc in tweets:
+        check_tweet(doc)
+        assert doc.conversationId == twid
+
+
 async def test_followers():
     api = get_api()
     mock_rep(api.followers_raw, "raw_followers", as_generator=True)
