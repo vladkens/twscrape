@@ -1,7 +1,12 @@
-.PHONY: install lint test test-py test-sq test-matrix-py test-matrix-sq
+.PHONY: prepare install update lint test test-py test-sq test-matrix-py test-matrix-sq
+
+prepare: lint
 
 install:
 	uv sync
+
+update:
+	uv sync --upgrade --all-groups
 
 lint:
 	@uv run ruff check --select I --fix .

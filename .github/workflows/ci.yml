@@ -9,22 +9,14 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.10", "3.11", "3.12", "3.13"]
+        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v6
+      - uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: install uv
-        run: pip install uv
-
-      - name: install dependencies
-        run: uv sync --frozen
-
-      - name: audit
-        run: uv audit
-
+      - run: uv sync --frozen
       - run: make lint
       - run: make test
 
@@ -35,23 +27,34 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.x"
+      - uses: actions/checkout@v6
+      - uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
 
-      - name: install uv
-        run: pip install uv
+      - name: Check pyproject.toml version matches tag
+        run: |
+          TAG="${{ github.ref_name }}"
+          PKG_VERSION="v$(grep '^version = ' pyproject.toml | cut -d'"' -f2)"
+          if [ "$TAG" != "$PKG_VERSION" ]; then
+            echo "Error: tag ${TAG} does not match pyproject.toml version ${PKG_VERSION}"
+            exit 1
+          fi
 
       - run: uv build
 
-      - uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          password: ${{ secrets.PYPI_API_TOKEN }}
+      - name: Extract changelog entry
+        run: |
+          VERSION="${{ github.ref_name }}"
+          NOTES=$(awk "/^## ${VERSION}/{found=1; next} /^## /{found=0} found" changelog.md)
+          if [ -z "$NOTES" ]; then
+            echo "Error: no changelog entry found for ${VERSION}"
+            exit 1
+          fi
+          echo "$NOTES" > release_notes.txt
 
-      - name: Create Github Release
-        uses: softprops/action-gh-release@v2
-        with:
-          generate_release_notes: true
+      - run: uv publish
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          UV_PUBLISH_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
+
+      - run: gh release create ${{ github.ref_name }} --title ${{ github.ref_name }} --notes-file release_notes.txt
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
