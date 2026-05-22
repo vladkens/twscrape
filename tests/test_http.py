@@ -137,7 +137,7 @@ def test_detect_backend_no_backends(monkeypatch):
 # --- HttpClient base ---
 
 
-def test_http_client_is_async_context_manager():
+async def test_http_client_is_async_context_manager():
     class MinimalClient(HttpClient):
         closed = False
 
@@ -155,15 +155,10 @@ def test_http_client_is_async_context_manager():
         def headers(self):
             return {}
 
-    import asyncio
-
-    async def run():
-        client = MinimalClient()
-        async with client as c:
-            assert c is client
-        assert client.closed
-
-    asyncio.get_event_loop().run_until_complete(run())
+    client = MinimalClient()
+    async with client as c:
+        assert c is client
+    assert client.closed
 
 
 # --- HttpxClient ---
