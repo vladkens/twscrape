@@ -1,21 +1,26 @@
-from unittest.mock import MagicMock, patch
+from unittest.mock import AsyncMock, MagicMock, patch
 
+import httpx
 import pytest
+from curl_cffi.const import CurlECode
+from curl_cffi.requests.errors import RequestsError
 
 from twscrape.http import (
+    _CURL_MAX_RETRIES,
     ConnectError,
+    CurlClient,
     HttpClient,
     HttpError,
     HttpStatusError,
+    HttpxClient,
     NetworkError,
     Response,
-    _CURL_MAX_RETRIES,
     _detect_backend,
+    _resolve_browser,
     make_client,
 )
 
 from .mock_http import _raw
-
 
 # --- Response wrapper ---
 
@@ -149,15 +154,11 @@ async def test_http_client_is_async_context_manager():
 
 def test_make_client_httpx_returns_httpx_client(monkeypatch):
     monkeypatch.delenv("TWS_HTTP_BACKEND", raising=False)
-    from twscrape.http import HttpxClient
-
     client = make_client("httpx")
     assert isinstance(client, HttpxClient)
 
 
 async def test_httpx_client_cookies_and_headers_are_mutable():
-    from twscrape.http import HttpxClient
-
     client = HttpxClient(headers={"x-foo": "bar"}, cookies={"ct0": "token"})
     # headers support __setitem__
     client.headers["x-new"] = "value"
@@ -167,12 +168,6 @@ async def test_httpx_client_cookies_and_headers_are_mutable():
 
 
 async def test_httpx_client_maps_network_errors():
-    from unittest.mock import AsyncMock, patch
-
-    import httpx
-
-    from twscrape.http import HttpxClient
-
     client = HttpxClient()
     with (
         patch.object(
@@ -185,12 +180,6 @@ async def test_httpx_client_maps_network_errors():
 
 
 async def test_httpx_client_maps_connect_errors():
-    from unittest.mock import AsyncMock, patch
-
-    import httpx
-
-    from twscrape.http import HttpxClient
-
     client = HttpxClient()
     with (
         patch.object(
@@ -203,11 +192,6 @@ async def test_httpx_client_maps_connect_errors():
 
 
 async def test_httpx_client_returns_response_wrapper():
-    from unittest.mock import AsyncMock, patch
-
-    import httpx
-
-    from twscrape.http import HttpxClient
 
     raw = httpx.Response(
         200, json={"ok": True}, request=httpx.Request("GET", "https://example.com")
@@ -222,11 +206,6 @@ async def test_httpx_client_returns_response_wrapper():
 
 
 async def test_httpx_client_maps_connect_timeout():
-    from unittest.mock import AsyncMock, patch
-
-    import httpx
-
-    from twscrape.http import HttpxClient
 
     client = HttpxClient()
     with (
@@ -240,11 +219,6 @@ async def test_httpx_client_maps_connect_timeout():
 
 
 async def test_httpx_client_maps_write_and_pool_timeout():
-    from unittest.mock import AsyncMock, patch
-
-    import httpx
-
-    from twscrape.http import HttpxClient
 
     for exc_cls in (httpx.WriteTimeout, httpx.PoolTimeout, httpx.ProxyError):
         client = HttpxClient()
@@ -276,7 +250,6 @@ def test_detect_backend_env_curl_installed(monkeypatch):
 
 
 def test_make_client_curl_returns_curl_client():
-    from twscrape.http import CurlClient
 
     client = make_client("curl")
     assert isinstance(client, CurlClient)
@@ -289,7 +262,6 @@ def test_make_client_unknown_backend_raises():
 
 def test_make_client_none_uses_auto_detect(monkeypatch):
     monkeypatch.delenv("TWS_HTTP_BACKEND", raising=False)
-    from twscrape.http import CurlClient
 
     client = make_client(None)
     assert isinstance(client, CurlClient)
@@ -299,9 +271,6 @@ def test_make_client_none_uses_auto_detect(monkeypatch):
 
 
 async def test_curl_client_returns_response_wrapper():
-    from unittest.mock import AsyncMock, MagicMock, patch
-
-    from twscrape.http import CurlClient
 
     raw = MagicMock()
     raw.status_code = 200
@@ -324,12 +293,6 @@ async def test_curl_client_returns_response_wrapper():
 
 
 async def test_curl_client_connect_error_codes():
-    from unittest.mock import AsyncMock, patch
-
-    from curl_cffi.const import CurlECode
-    from curl_cffi.requests.errors import RequestsError
-
-    from twscrape.http import CurlClient
 
     for code in (CurlECode(5), CurlECode(6), CurlECode(7)):
         client = CurlClient()
@@ -343,13 +306,6 @@ async def test_curl_client_connect_error_codes():
 
 
 async def test_curl_client_network_error():
-    from unittest.mock import AsyncMock, patch
-
-    from curl_cffi.const import CurlECode
-    from curl_cffi.requests.errors import RequestsError
-
-    from twscrape.http import CurlClient
-
     client = CurlClient()
     err = RequestsError("operation timed out", code=CurlECode(28))
 
@@ -362,7 +318,6 @@ async def test_curl_client_network_error():
 
 
 async def test_curl_client_cookies_and_headers():
-    from twscrape.http import CurlClient
 
     client = CurlClient(headers={"x-foo": "bar"}, cookies={"ct0": "token"})
     assert "ct0" in client.cookies
@@ -371,13 +326,6 @@ async def test_curl_client_cookies_and_headers():
 
 
 async def test_curl_client_retries_network_error():
-    from unittest.mock import AsyncMock, patch
-
-    from curl_cffi.const import CurlECode
-    from curl_cffi.requests.errors import RequestsError
-
-    from twscrape.http import CurlClient
-
     client = CurlClient()
     err = RequestsError("timeout", code=CurlECode(28))
     mock_req = AsyncMock(side_effect=err)
@@ -391,10 +339,6 @@ async def test_curl_client_retries_network_error():
 
 
 async def test_curl_client_non_curl_error_propagates():
-    from unittest.mock import AsyncMock, patch
-
-    from twscrape.http import CurlClient
-
     client = CurlClient()
     with (
         patch.object(client._session, "request", AsyncMock(side_effect=ValueError("unexpected"))),
@@ -448,3 +392,78 @@ def test_response_json_is_cached():
     _ = rep.json()
     _ = rep.json()
     assert raw.json.call_count == 1
+
+
+# --- Browser resolution helpers ---
+
+
+def test_resolve_browser_none_returns_chrome():
+    ua, family = _resolve_browser(None)
+    assert family == "chrome"
+    assert len(ua) > 10
+
+
+def test_resolve_browser_at_safari():
+    ua, family = _resolve_browser("@safari")
+    assert family == "safari"
+    assert len(ua) > 10
+
+
+def test_resolve_browser_at_firefox():
+    ua, family = _resolve_browser("@firefox")
+    assert family == "firefox"
+
+
+def test_resolve_browser_at_edge():
+    _, family = _resolve_browser("@edge")
+    assert family == "edge"
+
+
+def test_resolve_browser_unknown_at_hint_falls_back_to_chrome():
+    _, family = _resolve_browser("@netscape")
+    assert family == "chrome"
+
+
+def test_resolve_browser_real_ua_passes_through():
+    old_ua = "Mozilla/5.0 (Macintosh) AppleWebKit/605.1.15 Version/17.0 Safari/605.1.15"
+    ua, family = _resolve_browser(old_ua)
+    assert ua == old_ua
+    assert family == "chrome"
+
+
+# --- CurlClient: impersonate param and header safety ---
+
+
+def test_curl_client_resolves_impersonate_from_ua_hint():
+    client = CurlClient(headers={"user-agent": "@safari"})
+    assert client._session.impersonate == "safari"
+
+
+def test_curl_client_resolves_impersonate_from_real_ua():
+    chrome_ua = "Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 Chrome/136.0.0.0 Safari/537.36"
+    client = CurlClient(headers={"user-agent": chrome_ua})
+    assert client._session.impersonate == "chrome"
+
+
+def test_curl_client_does_not_mutate_caller_headers():
+
+    original = {"user-agent": "@chrome", "x-foo": "bar"}
+    headers_copy = dict(original)
+    CurlClient(headers=headers_copy)
+    assert headers_copy == original  # caller's dict unchanged
+
+
+def test_curl_client_strips_user_agent_from_session():
+
+    client = CurlClient(headers={"user-agent": "@chrome", "x-foo": "bar"})
+    session_headers = dict(client._session.headers)
+    assert "user-agent" not in {k.lower() for k in session_headers}
+
+
+def test_httpx_client_resolves_ua_hint_to_real_string():
+    from twscrape.http import HttpxClient
+
+    client = HttpxClient(headers={"user-agent": "@firefox"})
+    ua = dict(client._client.headers).get("user-agent", "")
+    assert "Firefox/" in ua
+    assert "@" not in ua

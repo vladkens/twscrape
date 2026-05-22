@@ -11,7 +11,6 @@ import asyncio
 import os
 import re
 import sys
-from typing import Any
 
 from twscrape.http import HttpClient, make_client
 from twscrape.xclid import get_scripts_list, get_tw_page_text, script_url

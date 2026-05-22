@@ -4,8 +4,6 @@ import uuid
 from datetime import datetime, timezone
 from typing import TypedDict
 
-from fake_useragent import UserAgent
-
 from .account import Account
 from .db import execute, fetchall, fetchone
 from .http import HttpStatusError
@@ -93,7 +91,7 @@ class AccountsPool:
             password=password,
             email=email,
             email_password=email_password,
-            user_agent=user_agent or UserAgent().safari,
+            user_agent=user_agent or "@chrome",
             active=False,
             locks={},
             stats={},
@@ -210,7 +208,7 @@ class AccountsPool:
             error_msg = NULL,
             headers = json_object(),
             cookies = json_object(),
-            user_agent = "{UserAgent().safari}"
+            user_agent = "@chrome"
         WHERE username IN ({",".join([f'"{x}"' for x in usernames])})
         """
 

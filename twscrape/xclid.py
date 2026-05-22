@@ -7,14 +7,13 @@ import time
 from typing import Iterator
 
 import bs4
-from fake_useragent import UserAgent
 
 from .http import HttpClient
 from .http import make_client as _make_http_client
 
 
 def _make_client() -> HttpClient:
-    return _make_http_client(headers={"user-agent": UserAgent().chrome})
+    return _make_http_client(headers={"user-agent": "@chrome"})
 
 
 async def get_tw_page_text(url: str, clt: HttpClient):
