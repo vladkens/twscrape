@@ -13,7 +13,7 @@ import re
 import sys
 from typing import Any
 
-from twscrape.http import make_client
+from twscrape.http import HttpClient, make_client
 from twscrape.xclid import get_scripts_list, get_tw_page_text, script_url
 
 API_FILE = "twscrape/api.py"
@@ -50,7 +50,7 @@ async def fetch_scripts(scripts: list[tuple[str, str]], force: bool) -> None:
     print(f"Downloading {len(todo)} scripts.")
     sem = asyncio.Semaphore(10)
 
-    async def fetch(clt: Any, i: int, url: str, path: str) -> None:
+    async def fetch(clt: HttpClient, i: int, url: str, path: str) -> None:
         async with sem:
             print(f"  ({i:3d}/{len(todo):3d}) {url}")
             rep = await clt.get(url)

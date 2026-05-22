@@ -9,36 +9,19 @@ from twscrape.http import (
     HttpStatusError,
     NetworkError,
     Response,
+    _CURL_MAX_RETRIES,
     _detect_backend,
     make_client,
 )
 
-
-def _mock_response(status_code=200, text="ok", json_data=None, headers=None):
-    rep = MagicMock()
-    rep.status_code = status_code
-    rep.text = text
-    rep.content = text.encode()
-    rep.headers = headers or {}
-    rep.url = "https://example.com"
-    rep.request = MagicMock()
-    rep.request.method = "GET"
-    rep.request.url = "https://example.com"
-    rep.json.return_value = json_data or {}
-
-    if status_code >= 400:
-        rep.raise_for_status.side_effect = Exception(f"HTTP {status_code}")
-    else:
-        rep.raise_for_status.return_value = None
-
-    return rep
+from .mock_http import _raw
 
 
 # --- Response wrapper ---
 
 
 def test_response_delegates_attributes():
-    raw = _mock_response(200, "hello", {"key": "val"})
+    raw = _raw(status_code=200, text="hello", json_data={"key": "val"})
     rep = Response(raw)
     assert rep.status_code == 200
     assert rep.text == "hello"
@@ -47,12 +30,12 @@ def test_response_delegates_attributes():
 
 
 def test_response_raise_for_status_ok():
-    rep = Response(_mock_response(200))
+    rep = Response(_raw(status_code=200))
     rep.raise_for_status()  # should not raise
 
 
 def test_response_raise_for_status_error():
-    rep = Response(_mock_response(403))
+    rep = Response(_raw(status_code=403, text="ok"))
     with pytest.raises(HttpStatusError) as exc_info:
         rep.raise_for_status()
     err = exc_info.value
@@ -62,7 +45,7 @@ def test_response_raise_for_status_error():
 
 
 def test_response_allows_setattr():
-    rep = Response(_mock_response(200))
+    rep = Response(_raw(status_code=200))
     setattr(rep, "__username", "alice")
     assert getattr(rep, "__username") == "alice"
 
@@ -77,7 +60,7 @@ def test_exception_hierarchy():
 
 
 def test_http_status_error_carries_response():
-    raw = _mock_response(500, "server error")
+    raw = _raw(status_code=500, text="server error")
     resp = Response(raw)
     err = HttpStatusError("fail", response=resp)
     assert err.response is resp
@@ -142,7 +125,7 @@ async def test_http_client_is_async_context_manager():
         closed = False
 
         async def request(self, method, url, **kwargs):
-            return Response(_mock_response())
+            return Response(_raw())
 
         async def aclose(self):
             self.closed = True
@@ -387,6 +370,26 @@ async def test_curl_client_cookies_and_headers():
     await client.aclose()
 
 
+async def test_curl_client_retries_network_error():
+    from unittest.mock import AsyncMock, patch
+
+    from curl_cffi.const import CurlECode
+    from curl_cffi.requests.errors import RequestsError
+
+    from twscrape.http import CurlClient
+
+    client = CurlClient()
+    err = RequestsError("timeout", code=CurlECode(28))
+    mock_req = AsyncMock(side_effect=err)
+    with (
+        patch.object(client._session, "request", mock_req),
+        pytest.raises(NetworkError),
+    ):
+        await client.get("https://example.com")
+    assert mock_req.call_count == _CURL_MAX_RETRIES + 1
+    await client.aclose()
+
+
 async def test_curl_client_non_curl_error_propagates():
     from unittest.mock import AsyncMock, patch
 
@@ -405,7 +408,7 @@ async def test_curl_client_non_curl_error_propagates():
 
 
 async def test_http_client_post_delegates_to_request():
-    rep_mock = Response(_mock_response(201))
+    rep_mock = Response(_raw(status_code=201))
 
     class PostableClient(HttpClient):
         async def request(self, method, url, **kwargs):
@@ -432,8 +435,16 @@ async def test_http_client_post_delegates_to_request():
 
 
 def test_response_content_and_headers():
-    raw = _mock_response(200, "body", headers={"x-custom": "val"})
+    raw = _raw(status_code=200, text="body", headers={"x-custom": "val"})
     rep = Response(raw)
     assert rep.content == b"body"
     assert rep.headers == {"x-custom": "val"}
-    assert rep.url == "https://example.com"
+    assert rep.url == "https://mock.local"
+
+
+def test_response_json_is_cached():
+    raw = _raw(status_code=200, json_data={"x": 1})
+    rep = Response(raw)
+    _ = rep.json()
+    _ = rep.json()
+    assert raw.json.call_count == 1

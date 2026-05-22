@@ -2,7 +2,11 @@ import importlib.util
 import os
 from typing import Any, Literal
 
-HttpMethod = Literal["GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD", "TRACE", "PATCH", "QUERY"]
+HttpMethod = Literal["GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD", "TRACE", "PATCH"]
+
+_UNSET = object()
+_CURL_IMPERSONATE = "chrome"
+_CURL_MAX_RETRIES = 3
 
 
 class Response:
@@ -10,6 +14,7 @@ class Response:
 
     def __init__(self, rep: Any):
         self._rep = rep
+        self._json: Any = _UNSET
 
     @property
     def status_code(self) -> int:
@@ -36,7 +41,9 @@ class Response:
         return self._rep.request
 
     def json(self) -> Any:
-        return self._rep.json()
+        if self._json is _UNSET:
+            self._json = self._rep.json()
+        return self._json
 
     def raise_for_status(self) -> None:
         try:
@@ -132,7 +139,7 @@ class CurlClient(HttpClient):
         from curl_cffi.requests import AsyncSession
 
         self._session = AsyncSession(
-            impersonate="chrome", proxy=proxy, allow_redirects=True, headers=headers or {}
+            impersonate=_CURL_IMPERSONATE, proxy=proxy, allow_redirects=True, headers=headers or {}
         )
         if cookies:
             self._session.cookies.update(cookies)
@@ -146,7 +153,13 @@ class CurlClient(HttpClient):
         return self._session.headers
 
     async def request(self, method: HttpMethod, url: str, **kwargs) -> Response:
-        return await self._wrap(self._session.request(method, url, **kwargs))
+        last_err: Exception | None = None
+        for _ in range(_CURL_MAX_RETRIES + 1):
+            try:
+                return await self._wrap(self._session.request(method, url, **kwargs))
+            except NetworkError as e:
+                last_err = e
+        raise last_err  # type: ignore[misc]
 
     async def aclose(self) -> None:
         await self._session.close()
