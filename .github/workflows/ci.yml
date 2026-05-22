@@ -25,6 +25,7 @@ jobs:
     needs: test
     permissions:
       contents: write
+      id-token: write
     steps:
       - uses: actions/checkout@v6
       - uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
@@ -50,9 +51,7 @@ jobs:
           fi
           echo "$NOTES" > release_notes.txt
 
-      - run: uv publish
-        env:
-          UV_PUBLISH_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
+      - uses: pypa/gh-action-pypi-publish@release/v1
 
       - run: gh release create ${{ github.ref_name }} --title ${{ github.ref_name }} --notes-file release_notes.txt
         env:
