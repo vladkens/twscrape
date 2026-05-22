@@ -1,3 +1,28 @@
+## v0.18.0 – 2026-05-22
+
+### Breaking Changes
+- Removed `user_by_id` API as X/Twitter no longer supports this endpoint
+
+### Features
+- Added `add_cookie` CLI command (#301, by @sakhnenkoff)
+- Added API for fetching all tweets in a conversation thread (#252, by @Khanzadeh-AH)
+- Added community scraping support (#275)
+- Added `list_members` API for retrieving Twitter list members
+- Added new fields to `Tweet` model (#279)
+- Added user `about` info field (#277, by @terencedignon)
+
+### Fixes
+- Restored scraping compatibility after X platform changes in May 2026 (#306, #307, by @mar0ls)
+- Fixed JS bundle parsing for `x-client-transaction-id` generation (#303, by @Flaburgan)
+- Fixed HTTP client not being properly closed, resolving resource warnings (#304, by @Flaburgan)
+- Fixed pagination to continue past empty pages (#265, #247)
+- Improved robustness of GQL pagination handling
+- Improved proxy handling and `xclid` calculation
+
+**Full Changelog**: https://github.com/vladkens/twscrape/compare/v0.17.0...v0.18.0
+
+---
+
 ## v0.17.0 – 2025-04-29
 
 ### Fixes
