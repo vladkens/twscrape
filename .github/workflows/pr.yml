@@ -2,11 +2,14 @@ name: pr
 
 on:
   pull_request:
+  pull_request_target:
+    types: [opened, reopened]
 
 permissions: read-all
 
 jobs:
   test:
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -20,3 +23,4 @@ jobs:
       - run: uv sync --frozen
       - run: make check
       - run: make test
+

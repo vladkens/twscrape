@@ -67,10 +67,8 @@ class Response:
         return self._json
 
     def raise_for_status(self) -> None:
-        try:
-            self._rep.raise_for_status()
-        except Exception as e:
-            raise HttpStatusError(str(e), response=self) from e
+        if self._rep.status_code >= 400:
+            raise HttpStatusError(f"HTTP {self._rep.status_code}", response=self)
 
 
 class HttpError(Exception): ...
