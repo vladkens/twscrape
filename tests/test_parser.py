@@ -163,6 +163,27 @@ def check_user(doc: User):
     assert str(doc.id) in txt
 
 
+def collect_tweet_users(doc: Tweet | None):
+    if doc is None:
+        return []
+
+    users = [doc.user]
+    if doc.retweetedTweet is not None:
+        users.extend(collect_tweet_users(doc.retweetedTweet))
+    if doc.quotedTweet is not None:
+        users.extend(collect_tweet_users(doc.quotedTweet))
+    return users
+
+
+def check_user_field_coverage(users: list[User]):
+    assert len(users) > 0
+    assert any(x.location != "" for x in users)
+    assert any(x.profileBannerUrl is not None for x in users)
+    assert any(isinstance(x.protected, bool) for x in users)
+    assert any(isinstance(x.verified, bool) for x in users)
+    assert any(x.blueType is not None for x in users)
+
+
 def check_user_ref(doc: UserRef):
     assert isinstance(doc.id, int)
     assert isinstance(doc.id_str, str)
@@ -194,11 +215,14 @@ async def test_search():
     assert len(items) > 0
 
     bookmarks_count = 0
+    users = []
     for doc in items:
         check_tweet(doc)
         bookmarks_count += doc.bookmarkedCount
+        users.extend(collect_tweet_users(doc))
 
     assert bookmarks_count > 0, "`bookmark_fields` key is changed or unluck search data"
+    check_user_field_coverage(users)
 
 
 async def test_user_by_login():
@@ -255,6 +279,7 @@ async def test_tweet_details():
 
     assert doc.id == 1649191520250245121
     assert doc.user is not None, "tweet.user should not be None"
+    check_user_field_coverage(collect_tweet_users(doc))
 
 
 async def test_tweet_replies():
@@ -386,8 +411,12 @@ async def test_list_timeline():
     tweets = await gather(api.list_timeline(1494877848087187461))
     assert len(tweets) > 0
 
+    users = []
     for doc in tweets:
         check_tweet(doc)
+        users.extend(collect_tweet_users(doc))
+
+    check_user_field_coverage(users)
 
 
 async def test_list_members():

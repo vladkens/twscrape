@@ -168,6 +168,11 @@ def _flatten_user_v2(obj: dict) -> dict:
         if ver is not None:
             flat["verified"] = ver
 
+    if "verified_type" not in flat:
+        ver_type = (obj.get("verification") or {}).get("verified_type")
+        if ver_type is not None:
+            flat["verified_type"] = ver_type
+
     if "is_blue_verified" not in flat and "is_blue_verified" in obj:
         flat["is_blue_verified"] = obj["is_blue_verified"]
 
