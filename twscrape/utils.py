@@ -147,12 +147,13 @@ def _flatten_user_v2(obj: dict) -> dict:
             if k not in flat and k in core:
                 flat[k] = core[k]
 
-    if "profile_image_url_https" not in flat:
+    # See https://github.com/vladkens/twscrape/issues/309: treat empty legacy values as missing.
+    if not flat.get("profile_image_url_https"):
         avatar_url = (obj.get("avatar") or {}).get("image_url")
         if avatar_url:
             flat["profile_image_url_https"] = avatar_url
 
-    if not isinstance(flat.get("location"), str):
+    if not flat.get("location"):
         loc = (obj.get("location") or {}).get("location")
         if loc is not None:
             flat["location"] = loc

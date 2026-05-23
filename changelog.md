@@ -1,3 +1,13 @@
+## v0.18.1 – 2026-05-23
+
+### Fixes
+- Fixed profile image URL returning empty when a legacy empty value was present (#309)
+- Fixed user location being empty when the legacy field was an empty string
+
+**Full Changelog**: https://github.com/vladkens/twscrape/compare/v0.18.0...v0.18.1
+
+---
+
 ## v0.18.0 – 2026-05-22
 
 ### Breaking Changes

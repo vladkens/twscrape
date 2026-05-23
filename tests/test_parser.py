@@ -140,6 +140,8 @@ def check_user(doc: User):
     assert str(doc.id) == doc.id_str
 
     assert doc.username is not None
+    assert isinstance(doc.profileImageUrl, str)
+    assert doc.profileImageUrl != ""
     assert doc.descriptionLinks is not None
     assert doc.pinnedIds is not None
     if doc.pinnedIds:
