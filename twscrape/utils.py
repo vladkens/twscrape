@@ -228,7 +228,7 @@ def to_old_obj(obj: dict):
     return _flatten_tweet_v2(obj)
 
 
-def to_old_rep(obj: dict) -> dict[str, dict]:
+def to_old_rep(obj: dict) -> dict[str, Any]:
     tmp = get_typed_object(obj, defaultdict(list))
 
     # "legacy" in x still matches under the new schema: the key is present
@@ -280,7 +280,26 @@ def to_old_rep(obj: dict) -> dict[str, dict]:
     trends = list(tmp.get("TimelineTrend", []))
     trends = {x["name"]: x for x in trends}
 
-    return {"tweets": {**tw1, **tw2}, "users": users, "trends": trends}
+    tweets = {**tw1, **tw2}
+
+    # Tweet IDs that appear as RT/QT targets inside other tweets in this response.
+    # get_typed_object collects them recursively, so they end up in the lookup dict —
+    # but they must not be yielded as independent top-level timeline items.
+    _ref_paths = (
+        "retweeted_status_id_str",
+        "retweeted_status_result.result.rest_id",
+        "retweeted_status_result.result.tweet.rest_id",
+        "quoted_status_id_str",
+        "quoted_status_result.result.rest_id",
+        "quoted_status_result.result.tweet.rest_id",
+    )
+    nested_ids: set[str] = set()
+    for tw in tweets.values():
+        for path in _ref_paths:
+            if ref_id := get_or(tw, path):
+                nested_ids.add(str(ref_id))
+
+    return {"tweets": tweets, "nested_ids": nested_ids, "users": users, "trends": trends}
 
 
 def print_table(rows: list[dict], hr_after=False):

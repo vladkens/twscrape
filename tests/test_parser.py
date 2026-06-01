@@ -540,6 +540,22 @@ async def test_issue_42():
     assert doc.rawContent.endswith(doc.retweetedTweet.rawContent)
 
 
+def test_retweet_not_duplicated():
+    """The original tweet embedded inside a retweet must not also be yielded
+    as a standalone top-level item by parse_tweets."""
+    raw = fake_rep("_issue_42").json()
+    tweets = list(parse_tweets(raw))
+
+    rt_wrapper = next((t for t in tweets if t.id == 1665951747842641921), None)
+    assert rt_wrapper is not None, "RT wrapper tweet not found"
+    assert rt_wrapper.retweetedTweet is not None
+
+    original_id = rt_wrapper.retweetedTweet.id
+    assert all(t.id != original_id for t in tweets), (
+        f"retweetedTweet {original_id} leaked as a standalone top-level item"
+    )
+
+
 async def test_issue_56():
     raw = fake_rep("_issue_56").json()
     doc = parse_tweet(raw, 1682072224013099008)
