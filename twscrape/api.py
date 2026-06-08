@@ -1,9 +1,8 @@
 from contextlib import aclosing
 from typing import Literal
 
-from httpx import Response
-
 from .accounts_pool import AccountsPool
+from .http import Response
 from .logger import logger, set_log_level
 from .models import (
     AccountAbout,

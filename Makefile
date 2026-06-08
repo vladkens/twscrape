@@ -20,7 +20,7 @@ lint:
 check:
 	uv run ruff format --check .
 	uv run ruff check .
-	uv run pyright .
+	uv run ty check
 
 test:
 	@uv run pytest -s --cov=twscrape tests/
