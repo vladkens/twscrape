@@ -239,7 +239,7 @@ def to_old_obj(obj: dict):
     return _flatten_tweet_v2(obj)
 
 
-def to_old_rep(obj: dict) -> dict[str, dict]:
+def to_old_rep(obj: dict) -> dict[str, Any]:
     tmp = get_typed_object(obj, defaultdict(list))
 
     # "legacy" in x still matches under the new schema: the key is present
@@ -291,7 +291,19 @@ def to_old_rep(obj: dict) -> dict[str, dict]:
     trends = list(tmp.get("TimelineTrend", []))
     trends = {x["name"]: x for x in trends}
 
-    return {"tweets": {**tw1, **tw2}, "users": users, "trends": trends}
+    tweets = {**tw1, **tw2}
+    retweeted_ids = {
+        str(retweeted_id)
+        for tweet in tweets.values()
+        for path in (
+            "retweeted_status_id_str",
+            "retweeted_status_result.result.rest_id",
+            "retweeted_status_result.result.tweet.rest_id",
+        )
+        if (retweeted_id := get_or(tweet, path)) is not None
+    }
+
+    return {"tweets": tweets, "retweeted_ids": retweeted_ids, "users": users, "trends": trends}
 
 
 def print_table(rows: list[dict], hr_after=False):

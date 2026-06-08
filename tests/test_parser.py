@@ -544,12 +544,46 @@ async def test_issue_42():
     assert doc.rawContent.endswith(doc.retweetedTweet.rawContent)
 
 
+def test_retweet_not_duplicated():
+    """The original tweet embedded inside a retweet must not also be yielded
+    as a standalone top-level item by parse_tweets."""
+    raw = fake_rep("_issue_42").json()
+    tweets = list(parse_tweets(raw))
+
+    rt_wrapper = next((t for t in tweets if t.id == 1665951747842641921), None)
+    assert rt_wrapper is not None, "RT wrapper tweet not found"
+    assert rt_wrapper.retweetedTweet is not None
+
+    original_id = rt_wrapper.retweetedTweet.id
+    assert all(t.id != original_id for t in tweets), (
+        f"retweetedTweet {original_id} leaked as a standalone top-level item"
+    )
+
+
 async def test_issue_56():
     raw = fake_rep("_issue_56").json()
     doc = parse_tweet(raw, 1682072224013099008)
     assert doc is not None
     assert len({x.tcourl for x in doc.links}) == len(doc.links)
     assert len(doc.links) == 5
+
+
+async def test_issue_310():
+    api = get_api()
+    mock_rep(api.user_tweets_raw, "raw_user_tweets", as_generator=True)
+
+    tweets = await gather(api.user_tweets(2244994945))
+    top_level_ids = {x.id for x in tweets}
+    retweeted_ids = {x.retweetedTweet.id for x in tweets if x.retweetedTweet is not None}
+    leaked_ids = top_level_ids & retweeted_ids
+
+    assert retweeted_ids
+    assert not leaked_ids, (
+        f"top_level={len(top_level_ids)}, "
+        f"retweets={sum(x.retweetedTweet is not None for x in tweets)}, "
+        f"retweeted_children={len(retweeted_ids)}, "
+        f"leaked={len(leaked_ids)}"
+    )
 
 
 async def test_cards():
