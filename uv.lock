@@ -659,6 +659,7 @@ curl = [
 
 [package.dev-dependencies]
 dev = [
+    { name = "curl-cffi" },
     { name = "pyright" },
     { name = "pytest" },
     { name = "pytest-asyncio" },
@@ -681,6 +682,7 @@ provides-extras = ["curl"]
 
 [package.metadata.requires-dev]
 dev = [
+    { name = "curl-cffi", specifier = ">=0.7.0" },
     { name = "pyright", specifier = ">=1.1.369" },
     { name = "pytest", specifier = ">=7.4.4" },
     { name = "pytest-asyncio", specifier = ">=0.23.3" },

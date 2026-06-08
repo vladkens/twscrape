@@ -30,6 +30,7 @@ curl = ["curl-cffi>=0.7.0"]
 
 [dependency-groups]
 dev = [
+  "curl-cffi>=0.7.0",
   "pyright>=1.1.369",
   "pytest-asyncio>=0.23.3",
   "pytest-cov>=4.1.0",
