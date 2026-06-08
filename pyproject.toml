@@ -1,6 +1,6 @@
 [project]
 name = "twscrape"
-version = "0.18.0"
+version = "0.18.1"
 authors = [{ name = "vladkens", email = "v.pronsky@gmail.com" }]
 description = "Twitter GraphQL and Search API implementation with SNScrape data models"
 readme = "readme.md"
@@ -30,11 +30,10 @@ curl = ["curl-cffi>=0.7.0"]
 
 [dependency-groups]
 dev = [
-  "curl-cffi>=0.7.0",
-  "httpx>=0.26.0",
   "pyright>=1.1.369",
   "pytest-asyncio>=0.23.3",
   "pytest-cov>=4.1.0",
+  "pytest-httpx>=0.28.0",
   "pytest>=7.4.4",
   "ruff>=0.1.11",
 ]
@@ -70,5 +69,5 @@ select = ["E", "F", "I", "UP", "C4", "SIM"]
 ignore = ["E501", "UP035", "SIM105"]
 
 [tool.pyright]
-include = ["twscrape"]
+include = ["apps", "clients", "strategy", "lib", "scripts"]
 typeCheckingMode = "standard"
