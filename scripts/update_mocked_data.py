@@ -3,16 +3,18 @@
 Usage:
   uv run scripts/update_mocked_data.py           # skip files updated within last 7 days
   uv run scripts/update_mocked_data.py --force   # update all regardless of age
+  uv run scripts/update_mocked_data.py --only search
 """
 
 import asyncio
+import hashlib
 import inspect
 import json
 import os
 import re
 import sys
 import time
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import TypeAlias
 
 from twscrape import API, AccountsPool
@@ -23,7 +25,7 @@ OUT = "tests/mocked-data"
 META = f"{OUT}/__meta.json"
 DEFAULT_TTL_DAYS = 7
 
-MetaEntry: TypeAlias = tuple[int, str]  # (fetched_at_unix, gql_op_id)
+MetaEntry: TypeAlias = tuple[int, str, str]  # (fetched_at_unix, gql_op_id, file_sha256)
 
 
 def load_meta() -> dict[str, MetaEntry]:
@@ -35,7 +37,9 @@ def load_meta() -> dict[str, MetaEntry]:
         result: dict[str, MetaEntry] = {}
         for k, v in raw.items():
             if isinstance(v, list) and len(v) == 2:
-                result[k] = (int(v[0]), str(v[1]))
+                result[k] = (int(v[0]), str(v[1]), "")
+            elif isinstance(v, list) and len(v) == 3:
+                result[k] = (int(v[0]), str(v[1]), str(v[2]))
         return result
     except Exception:
         return {}
@@ -46,10 +50,23 @@ def save_meta(meta: dict[str, MetaEntry]):
         json.dump({k: list(v) for k, v in sorted(meta.items())}, fp, indent=2)
 
 
+def file_hash(path: str) -> str:
+    h = hashlib.sha256()
+    with open(path, "rb") as fp:
+        while chunk := fp.read(1024 * 1024):
+            h.update(chunk)
+    return h.hexdigest()
+
+
 _UID = 2244994945  # https://x.com/xdevelopers
 _TID = 1649191520250245121  # https://x.com/i/status/1649191520250245121
 _CID = 1501272736215322629  # https://x.com/i/communities/1501272736215322629
 _LID = 1494877848087187461  # https://x.com/i/lists/1494877848087187461
+
+
+def search_query() -> str:
+    until = (datetime.now() - timedelta(days=30)).strftime("%Y-%m-%d")
+    return f"tesla lang:en min_faves:100 until:{until}"
 
 
 COMMANDS = [
@@ -69,7 +86,7 @@ COMMANDS = [
         lambda api: _first(api.user_tweets_and_replies_raw(_UID, limit=10)),
     ),
     ("user_media", lambda api: _first(api.user_media_raw(_UID, limit=10))),
-    ("search", lambda api: _first(api.search_raw("tesla lang:en", limit=5))),
+    ("search", lambda api: _first(api.search_raw(search_query(), limit=5))),
     ("list_timeline", lambda api: _first(api.list_timeline_raw(_LID, limit=10))),
     ("list_members", lambda api: _first(api.list_members_raw(_LID, limit=10))),
     ("trends", lambda api: _first(api.trends_raw("sport"))),
@@ -121,13 +138,16 @@ def is_stale(name: str, op: str, meta: dict, ttl_days: int) -> bool:
 
 
 def get_state(name: str, op: str, meta: dict[str, MetaEntry], ttl_days: int) -> str:
-    if not os.path.exists(f"{OUT}/raw_{name}.json"):
+    path = f"{OUT}/raw_{name}.json"
+    if not os.path.exists(path):
         return "missing"
     item = meta.get(name)
     if item is None:
         return "op"
     if item[1] != op:
         return "op"
+    if not item[2] or item[2] != file_hash(path):
+        return "hash"
     if (time.time() - item[0]) > ttl_days * 86400:
         return "ttl"
     return "ok"
@@ -144,11 +164,12 @@ def print_table(meta: dict[str, MetaEntry], ops: dict[str, str], ttl_days: int):
             print(f"{name:<28}  {'—':>16}  {'—':>12}  missing")
             continue
 
-        if state == "op":
+        stale_reasons = {"op": "op changed", "hash": "file changed"}
+        if state in stale_reasons:
             updated_at = (
                 datetime.fromtimestamp(item[0]).strftime("%Y-%m-%d %H:%M") if item else "—"
             )
-            print(f"{name:<28}  {updated_at:>16}  {'op changed':>12}  stale")
+            print(f"{name:<28}  {updated_at:>16}  {stale_reasons[state]:>12}  stale")
             continue
 
         assert item is not None
@@ -167,6 +188,14 @@ def print_table(meta: dict[str, MetaEntry], ops: dict[str, str], ttl_days: int):
 
 async def main() -> int:
     force = "--force" in sys.argv
+    only = set()
+    if "--only" in sys.argv:
+        idx = sys.argv.index("--only")
+        if idx + 1 >= len(sys.argv):
+            print("fail  --only requires comma-separated command names")
+            return 1
+        only = {x.strip() for x in sys.argv[idx + 1].split(",") if x.strip()}
+
     ttl = DEFAULT_TTL_DAYS
 
     set_log_level("WARNING")
@@ -179,8 +208,13 @@ async def main() -> int:
     to_update = [
         (n, f"{n}_raw", fn)
         for n, fn in COMMANDS
-        if force or is_stale(n, ops[f"{n}_raw"], meta, ttl)
+        if (not only or n in only) and (force or only or is_stale(n, ops[f"{n}_raw"], meta, ttl))
     ]
+    unknown = only - {n for n, _ in COMMANDS}
+    if unknown:
+        print(f"fail  unknown command(s): {', '.join(sorted(unknown))}")
+        return 1
+
     if not to_update:
         print("\nAll files are up to date.")
         return 0
@@ -200,7 +234,7 @@ async def main() -> int:
                 continue
             with open(outfile, "w", encoding="utf-8") as fp:
                 json.dump(rep.json(), fp, indent=2)
-            meta[name] = (int(time.time()), ops[method])
+            meta[name] = (int(time.time()), ops[method], file_hash(outfile))
             save_meta(meta)
             print(f"ok    {name}")
             ok += 1
@@ -214,4 +248,8 @@ async def main() -> int:
     return 1 if fail else 0
 
 
-sys.exit(asyncio.run(main()))
+try:
+    sys.exit(asyncio.run(main()))
+except KeyboardInterrupt:
+    print("\nInterrupted.")
+    sys.exit(130)

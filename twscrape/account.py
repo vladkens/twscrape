@@ -1,11 +1,12 @@
+import hashlib
 import json
 import os
 import sqlite3
 from dataclasses import asdict, dataclass, field
 from datetime import datetime
 
-from httpx import AsyncClient, AsyncHTTPTransport
-
+from .http import HttpClient
+from .http import make_client as _make_http_client
 from .models import JSONTrait
 from .utils import parse_proxy, utc
 
@@ -50,26 +51,19 @@ class Account(JSONTrait):
         rs["last_used"] = rs["last_used"].isoformat() if rs["last_used"] else None
         return rs
 
-    def make_client(self, proxy: str | None = None) -> AsyncClient:
+    def make_client(self, proxy: str | None = None) -> HttpClient:
         proxies = [proxy, os.getenv("TWS_PROXY"), self.proxy]
         proxies = [x for x in proxies if x is not None]
         proxy = parse_proxy(proxies[0]) if proxies else None
 
-        transport = AsyncHTTPTransport(retries=3)
-        client = AsyncClient(proxy=proxy, follow_redirects=True, transport=transport)
+        headers = {**self.headers}
+        headers["user-agent"] = self.user_agent
+        headers["content-type"] = "application/json"
+        headers["authorization"] = TOKEN
+        headers["x-twitter-active-user"] = "yes"
+        headers["x-twitter-client-language"] = "en"
+        if "ct0" in self.cookies:
+            headers["x-csrf-token"] = self.cookies["ct0"]
 
-        # saved from previous usage
-        client.cookies.update(self.cookies)
-        client.headers.update(self.headers)
-
-        # default settings
-        client.headers["user-agent"] = self.user_agent
-        client.headers["content-type"] = "application/json"
-        client.headers["authorization"] = TOKEN
-        client.headers["x-twitter-active-user"] = "yes"
-        client.headers["x-twitter-client-language"] = "en"
-
-        if "ct0" in client.cookies:
-            client.headers["x-csrf-token"] = client.cookies["ct0"]
-
-        return client
+        seed = int(hashlib.sha256(self.username.encode()).hexdigest()[:8], 16)
+        return _make_http_client(proxy=proxy, headers=headers, cookies=self.cookies, seed=seed)

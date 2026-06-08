@@ -10,8 +10,7 @@ from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from typing import Generator, Optional, Union
 
-import httpx
-
+from .http import Response
 from .logger import logger
 from .utils import find_item, get_or, int_or, to_old_rep, utc
 
@@ -347,7 +346,7 @@ class Tweet(JSONTrait):
             isTranslatable=obj.get("is_translatable", False),
             displayTextRange=obj.get("display_text_range"),
             inReplyToScreenName=obj.get("in_reply_to_screen_name"),
-            editControl=obj.get("edit_control"),
+            editControl=_parse_edit_control(obj),
             voiceInfo=obj.get("voice_info"),
         )
 
@@ -752,6 +751,18 @@ def _get_source_label(tw_obj: dict):
     return None
 
 
+def _parse_edit_control(obj: dict):
+    edit = obj.get("edit_control")
+    if not isinstance(edit, dict):
+        return None
+
+    initial = edit.get("edit_control_initial")
+    if not isinstance(initial, dict):
+        return edit
+
+    return {**initial, **{k: v for k, v in edit.items() if k != "edit_control_initial"}}
+
+
 def _parse_links(obj: dict, paths: list[str]):
     links = []
     for x in paths:
@@ -798,7 +809,7 @@ def _write_dump(kind: str, e: Exception, x: dict, obj: dict):
     logger.error(f"Failed to parse response of {kind}, writing dump to {dumpfile}")
 
 
-def _parse_items(rep: httpx.Response, kind: str, limit: int = -1):
+def _parse_items(rep: Response, kind: str, limit: int = -1):
     if kind == "user":
         Cls, key = User, "users"
     elif kind == "tweet":
@@ -808,7 +819,7 @@ def _parse_items(rep: httpx.Response, kind: str, limit: int = -1):
     else:
         raise ValueError(f"Invalid kind: {kind}")
 
-    # check for dict, because httpx.Response can be mocked in tests with different type
+    # check for dict, because Response can be mocked in tests with different type
     res = rep if isinstance(rep, dict) else rep.json()
     obj = to_old_rep(res)
     retweeted_ids: set[str] = obj.get("retweeted_ids", set())
@@ -836,7 +847,7 @@ def _parse_items(rep: httpx.Response, kind: str, limit: int = -1):
 # public helpers
 
 
-def parse_tweet(rep: httpx.Response, twid: int) -> Tweet | None:
+def parse_tweet(rep: Response, twid: int) -> Tweet | None:
     try:
         docs = list(parse_tweets(rep))
         for x in docs:
@@ -848,7 +859,7 @@ def parse_tweet(rep: httpx.Response, twid: int) -> Tweet | None:
         return None
 
 
-def parse_user(rep: httpx.Response) -> User | None:
+def parse_user(rep: Response) -> User | None:
     try:
         docs = list(parse_users(rep))
         if len(docs) == 1:
@@ -859,7 +870,7 @@ def parse_user(rep: httpx.Response) -> User | None:
         return None
 
 
-def parse_trend(rep: httpx.Response) -> Trend | None:
+def parse_trend(rep: Response) -> Trend | None:
     try:
         docs = list(parse_trends(rep))
         if len(docs) == 1:
@@ -870,7 +881,7 @@ def parse_trend(rep: httpx.Response) -> Trend | None:
         return None
 
 
-def parse_about(rep: httpx.Response | dict) -> AccountAbout | None:
+def parse_about(rep: Response | dict) -> AccountAbout | None:
     try:
         res = rep if isinstance(rep, dict) else rep.json()
         obj = get_or(res, "data.user_result_by_screen_name.result")
@@ -882,7 +893,7 @@ def parse_about(rep: httpx.Response | dict) -> AccountAbout | None:
         return None
 
 
-def parse_community(rep: httpx.Response | dict) -> Community | None:
+def parse_community(rep: Response | dict) -> Community | None:
     try:
         res = rep if isinstance(rep, dict) else rep.json()
         community = get_or(res, "data.communityResults.result")
@@ -894,13 +905,13 @@ def parse_community(rep: httpx.Response | dict) -> Community | None:
         return None
 
 
-def parse_tweets(rep: httpx.Response, limit: int = -1) -> Generator[Tweet, None, None]:
-    return _parse_items(rep, "tweet", limit)  # type: ignore
+def parse_tweets(rep: Response, limit: int = -1) -> Generator[Tweet, None, None]:
+    return _parse_items(rep, "tweet", limit)
 
 
-def parse_users(rep: httpx.Response, limit: int = -1) -> Generator[User, None, None]:
-    return _parse_items(rep, "user", limit)  # type: ignore
+def parse_users(rep: Response, limit: int = -1) -> Generator[User, None, None]:
+    return _parse_items(rep, "user", limit)
 
 
-def parse_trends(rep: httpx.Response, limit: int = -1) -> Generator[Trend, None, None]:
-    return _parse_items(rep, kind="trends", limit=limit)  # type: ignore
+def parse_trends(rep: Response, limit: int = -1) -> Generator[Trend, None, None]:
+    return _parse_items(rep, kind="trends", limit=limit)

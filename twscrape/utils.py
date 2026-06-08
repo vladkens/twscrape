@@ -3,7 +3,7 @@ import json
 import os
 from collections import defaultdict
 from datetime import datetime, timezone
-from typing import Any, AsyncGenerator, Callable, TypeVar
+from typing import Any, AsyncGenerator, Callable, TypeVar, overload
 
 T = TypeVar("T")
 
@@ -41,7 +41,15 @@ def encode_params(obj: dict):
     return res
 
 
-def get_or(obj: dict, key: str, default_value: T = None) -> Any | T:
+@overload
+def get_or(obj: dict, key: str) -> Any | None: ...
+
+
+@overload
+def get_or(obj: dict, key: str, default_value: T) -> Any | T: ...
+
+
+def get_or(obj: dict, key: str, default_value: Any = None) -> Any:
     for part in key.split("."):
         if part not in obj:
             return default_value
@@ -153,10 +161,13 @@ def _flatten_user_v2(obj: dict) -> dict:
         if avatar_url:
             flat["profile_image_url_https"] = avatar_url
 
-    if not flat.get("location"):
-        loc = (obj.get("location") or {}).get("location")
+    location = obj.get("location")
+    if isinstance(location, dict):
+        loc = location.get("location")
         if loc is not None:
             flat["location"] = loc
+    elif not flat.get("location") and location is not None:
+        flat["location"] = location
 
     if "protected" not in flat:
         prot = (obj.get("privacy") or {}).get("protected")

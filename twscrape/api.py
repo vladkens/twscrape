@@ -1,9 +1,8 @@
 from contextlib import aclosing
 from typing import Literal
 
-from httpx import Response
-
 from .accounts_pool import AccountsPool
+from .http import Response
 from .logger import logger, set_log_level
 from .models import (
     AccountAbout,
@@ -28,25 +27,25 @@ from .utils import encode_params, find_obj, get_by_path
 
 # GQL_OPS_CODEGEN
 OP_AboutAccountQuery = "zUnx-DLN9dkwOkNhTLySjg/AboutAccountQuery"
-OP_BlueVerifiedFollowers = "crKOXrAHR3W3aPuKEJG8GA/BlueVerifiedFollowers"
-OP_Bookmarks = "XD0ViOeSOW4YoeNTGjVaYw/Bookmarks"
+OP_BlueVerifiedFollowers = "aDKa7jhqD_MgwUFKxiRoWg/BlueVerifiedFollowers"
+OP_Bookmarks = "1vfhT9j8BkS43iJQOOOgbw/Bookmarks"
 OP_CommunityQuery = "uBpODvS60xZ1q2L88d-W2A/CommunityQuery"
-OP_CommunityTweetsTimeline = "gabM2RYROuhItXzDYUdjyA/CommunityTweetsTimeline"
-OP_Followers = "_orfRBQae57vylFPH0Huhg/Followers"
-OP_Following = "F42cDX8PDFxkbjjq6JrM2w/Following"
-OP_GenericTimelineById = "_dGVIf1cY6xFanFNPsAzPQ/GenericTimelineById"
-OP_ListLatestTweetsTimeline = "7UuJsFvnWuZo0HmxrzU42Q/ListLatestTweetsTimeline"
-OP_ListMembers = "oIetCo19avgStX4mOnGsPg/ListMembers"
-OP_ListMembers = "oIetCo19avgStX4mOnGsPg/ListMembers"
-OP_Retweeters = "TZsWuSj7vGmncVnq7KWDUQ/Retweeters"
-OP_SearchTimeline = "Yw6L66Pw54NHKuq4Dp7b4Q/SearchTimeline"
-OP_TweetDetail = "oCon7R-cgWRFy6EfZjaKfg/TweetDetail"
+OP_CommunityTweetsTimeline = "__-1Nlox7agCI3sbR1R3bA/CommunityTweetsTimeline"
+OP_Followers = "G1uS7V_A_IqHhF9Il0K-nA/Followers"
+OP_Following = "U96721pgL7wU5QUwu2goUA/Following"
+OP_GenericTimelineById = "wcmVYFls9Q6RvczHvD_xSw/GenericTimelineById"
+OP_ListLatestTweetsTimeline = "R36US0qG-bOk3ryAYswZmA/ListLatestTweetsTimeline"
+OP_ListMembers = "80vAq_e5niBa40QoRBPsjw/ListMembers"
+OP_ListMembers = "80vAq_e5niBa40QoRBPsjw/ListMembers"
+OP_Retweeters = "qtic8qdylD9Q5DtNrF00qg/Retweeters"
+OP_SearchTimeline = "dsWn-Op2S0SmJjgY6Yvckg/SearchTimeline"
+OP_TweetDetail = "RguQ9yvaXf-EETmDagsLzg/TweetDetail"
 OP_UserByRestId = "VQfQ9wwYdk6j_u2O4vt64Q/UserByRestId"
 OP_UserByScreenName = "IGgvgiOx4QZndDHuD3x9TQ/UserByScreenName"
-OP_UserCreatorSubscriptions = "-9O4xZ8ykY_Hf6kyHJX30A/UserCreatorSubscriptions"
-OP_UserMedia = "9EovraBTXJYGSEQXZqlLmQ/UserMedia"
-OP_UserTweets = "36rb3Xj3iJ64Q-9wKDjCcQ/UserTweets"
-OP_UserTweetsAndReplies = "D5eKzDa5ZoJuC1TCeAXbWA/UserTweetsAndReplies"
+OP_UserCreatorSubscriptions = "ncOEp9_79Jgv7TwZarVCCA/UserCreatorSubscriptions"
+OP_UserMedia = "7eisAD00KWfvFW_n5HYL1A/UserMedia"
+OP_UserTweets = "54_zVtVXJlQtnIBrY2QSXQ/UserTweets"
+OP_UserTweetsAndReplies = "xdqXQQg4vOBF9Np6VtUsdw/UserTweetsAndReplies"
 OP_membersSliceTimeline_Query = "WSbJGJjZaVasSj9bnqSZSA/membersSliceTimeline_Query"
 OP_moderatorsSliceTimeline_Query = "GBMT3GOWy5dYsYC4XJfvow/moderatorsSliceTimeline_Query"
 # GQL_OPS_CODEGEN

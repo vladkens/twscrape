@@ -1,6 +1,6 @@
 import pytest
 
-from twscrape.utils import parse_cookies, parse_proxy
+from twscrape.utils import get_env_bool, parse_cookies, parse_proxy, to_old_obj
 
 
 def test_cookies_parse():
@@ -45,3 +45,57 @@ def test_proxy_parse():
 
     # user:pass@host:port (no scheme)
     assert parse_proxy("user:pass@1.2.3.4:8080") == "http://user:pass@1.2.3.4:8080"
+
+
+def test_get_env_bool(monkeypatch):
+    monkeypatch.delenv("TEST_BOOL_FLAG", raising=False)
+    assert get_env_bool("TEST_BOOL_FLAG") is False
+    assert get_env_bool("TEST_BOOL_FLAG", default_val=True) is True
+
+    for truthy in ("1", "true", "yes", "True", "YES"):
+        monkeypatch.setenv("TEST_BOOL_FLAG", truthy)
+        assert get_env_bool("TEST_BOOL_FLAG") is True
+
+    for falsy in ("0", "false", "no", ""):
+        monkeypatch.setenv("TEST_BOOL_FLAG", falsy)
+        assert get_env_bool("TEST_BOOL_FLAG") is False
+
+
+def test_to_old_obj_user_new_schema():
+    obj = {
+        "__typename": "User",
+        "rest_id": "12345",
+        "core": {
+            "screen_name": "testuser",
+            "name": "Test User",
+            "created_at": "Mon Jan 01 00:00:00 +0000 2020",
+        },
+        "avatar": {"image_url": "https://example.com/avatar.jpg"},
+        "location": {"location": "Earth"},
+        "privacy": {"protected": False},
+        "verification": {"verified": True},
+        "profile_bio": {"description": "A test bio"},
+        "is_blue_verified": True,
+    }
+
+    flat = to_old_obj(obj)
+    assert flat["screen_name"] == "testuser"
+    assert flat["profile_image_url_https"] == "https://example.com/avatar.jpg"
+    assert flat["location"] == "Earth"
+    assert flat["protected"] is False
+    assert flat["verified"] is True
+    assert flat["description"] == "A test bio"
+    assert flat["is_blue_verified"] is True
+    assert flat["id"] == 12345
+
+
+def test_to_old_obj_tweet_new_schema():
+    obj = {
+        "__typename": "Tweet",
+        "rest_id": "9876",
+        "source": "<a>Twitter Web App</a>",
+    }
+
+    flat = to_old_obj(obj)
+    assert flat["source"] == "<a>Twitter Web App</a>"
+    assert flat["id"] == 9876

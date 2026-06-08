@@ -1,4 +1,6 @@
-from twscrape.accounts_pool import AccountsPool
+import pytest
+
+from twscrape.accounts_pool import AccountsPool, NoAccountError
 from twscrape.utils import utc
 
 
@@ -161,3 +163,100 @@ async def test_get_stats(pool_mock: AccountsPool):
     assert stats["total"] == 1
     assert stats["active"] == 1
     assert stats[f"locked_{Q}"] == 1
+
+
+async def test_delete_accounts(pool_mock: AccountsPool):
+    await pool_mock.add_account("user1", "pass1", "email1", "ep1")
+    await pool_mock.add_account("user2", "pass2", "email2", "ep2")
+
+    await pool_mock.delete_accounts("user1")
+    usernames = {x.username for x in await pool_mock.get_all()}
+    assert "user1" not in usernames
+    assert "user2" in usernames
+
+    await pool_mock.delete_accounts(["user2"])
+    assert len(await pool_mock.get_all()) == 0
+
+
+async def test_delete_inactive(pool_mock: AccountsPool):
+    await pool_mock.add_account("user1", "pass1", "email1", "ep1")
+    await pool_mock.add_account("user2", "pass2", "email2", "ep2")
+    await pool_mock.set_active("user2", True)
+
+    await pool_mock.delete_inactive()
+    accs = await pool_mock.get_all()
+    assert len(accs) == 1
+    assert accs[0].username == "user2"
+
+
+async def test_reset_locks(pool_mock: AccountsPool):
+    Q = "TestQueue"
+    await pool_mock.add_account("user1", "pass1", "email1", "ep1")
+    await pool_mock.set_active("user1", True)
+
+    await pool_mock.get_for_queue(Q)
+    user = await pool_mock.get("user1")
+    assert Q in user.locks
+
+    await pool_mock.reset_locks()
+    user = await pool_mock.get("user1")
+    assert Q not in user.locks
+
+
+async def test_mark_inactive(pool_mock: AccountsPool):
+    await pool_mock.add_account("user1", "pass1", "email1", "ep1")
+    await pool_mock.set_active("user1", True)
+
+    await pool_mock.mark_inactive("user1", "banned by system")
+    acc = await pool_mock.get("user1")
+    assert acc.active is False
+    assert acc.error_msg == "banned by system"
+
+
+async def test_next_available_at_none_when_empty(pool_mock: AccountsPool):
+    assert await pool_mock.next_available_at("TestQueue") is None
+
+
+async def test_next_available_at_returns_future_time(pool_mock: AccountsPool):
+    Q = "TestQueue"
+    await pool_mock.add_account("user1", "pass1", "email1", "ep1")
+    await pool_mock.set_active("user1", True)
+    await pool_mock.lock_until("user1", Q, utc.ts() + 3600)
+
+    result = await pool_mock.next_available_at(Q)
+    assert result is not None
+    assert result != "now"
+
+
+async def test_get_for_queue_or_wait_raises_when_flag_set(pool_mock: AccountsPool):
+    pool = AccountsPool(pool_mock._db_file, raise_when_no_account=True)
+    with pytest.raises(NoAccountError):
+        await pool.get_for_queue_or_wait("TestQueue")
+
+
+async def test_get_for_queue_or_wait_raises_via_env(pool_mock: AccountsPool, monkeypatch):
+    monkeypatch.setenv("TWS_RAISE_WHEN_NO_ACCOUNT", "1")
+    with pytest.raises(NoAccountError):
+        await pool_mock.get_for_queue_or_wait("TestQueue")
+
+
+async def test_accounts_info_active_first(pool_mock: AccountsPool):
+    await pool_mock.add_account("user_b", "pass", "email", "ep")
+    await pool_mock.add_account("user_a", "pass", "email", "ep")
+    await pool_mock.set_active("user_a", True)
+
+    items = await pool_mock.accounts_info()
+    assert items[0]["username"] == "user_a"
+    assert items[0]["active"] is True
+    assert items[1]["username"] == "user_b"
+    assert items[1]["active"] is False
+
+
+async def test_load_from_file(pool_mock: AccountsPool, tmp_path):
+    filepath = tmp_path / "accounts.txt"
+    filepath.write_text("user1:pass1:email1:ep1\nuser2:pass2:email2:ep2\n")
+
+    await pool_mock.load_from_file(str(filepath), "username:password:email:email_password")
+    usernames = {x.username for x in await pool_mock.get_all()}
+    assert "user1" in usernames
+    assert "user2" in usernames
