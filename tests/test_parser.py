@@ -59,6 +59,7 @@ def mock_rep(fn: Callable[..., Any], filename: str, as_generator=False):
     name = getattr(fn, "__name__")
     cb = cast(Any, cb_gen if as_generator else cb_rep)
     cb.__name__ = name
+    cb.__self__ = owner
     setattr(owner, name, cb)
 
 
