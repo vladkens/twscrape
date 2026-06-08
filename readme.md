@@ -22,10 +22,10 @@ Twitter GraphQL API implementation with [SNScrape](https://github.com/JustAnothe
 pip install twscrape
 ```
 
-`httpx` is included by default. For better Cloudflare/bot-detection bypass, install `curl-cffi` as well — it uses libcurl with browser-level TLS fingerprint spoofing and is preferred automatically when present:
+`httpx` is included by default. For better browser-like TLS fingerprinting, install `curl-cffi` as well — it uses libcurl with browser impersonation and is preferred automatically when present:
 
 ```bash
-pip install twscrape[curl]
+pip install "twscrape[curl]"
 ```
 
 Override the backend explicitly with `TWS_HTTP_BACKEND=httpx` or `TWS_HTTP_BACKEND=curl`.

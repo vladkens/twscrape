@@ -1,6 +1,7 @@
 import importlib.util
 import os
 import random
+from abc import ABC, abstractmethod
 from typing import Any, Literal, cast
 
 from fake_useragent import UserAgent
@@ -86,7 +87,8 @@ class HttpStatusError(HttpError):
         self.response = response
 
 
-class HttpClient:
+class HttpClient(ABC):
+    @abstractmethod
     async def request(self, method: HttpMethod, url: str, **kwargs) -> Response: ...
 
     async def get(self, url: str, **kwargs) -> Response:
@@ -95,6 +97,7 @@ class HttpClient:
     async def post(self, url: str, **kwargs) -> Response:
         return await self.request("POST", url, **kwargs)
 
+    @abstractmethod
     async def aclose(self) -> None: ...
 
     async def __aenter__(self) -> "HttpClient":
@@ -104,9 +107,11 @@ class HttpClient:
         await self.aclose()
 
     @property
+    @abstractmethod
     def cookies(self) -> Any: ...
 
     @property
+    @abstractmethod
     def headers(self) -> Any: ...
 
 
@@ -192,7 +197,9 @@ class CurlClient(HttpClient):
                 return await self._wrap(self._session.request(method, url, **kwargs))
             except NetworkError as e:
                 last_err = e
-        raise last_err  # type: ignore[misc]
+        if last_err is not None:
+            raise last_err
+        raise RuntimeError("CurlClient request failed without an error")
 
     async def aclose(self) -> None:
         await self._session.close()

@@ -1,6 +1,6 @@
 import json
 import os
-from typing import Callable
+from typing import Any, Callable, cast
 
 from twscrape import API, gather
 from twscrape.models import (
@@ -46,7 +46,7 @@ def fake_rep(filename: str):
         return FakeRep(fp.read())
 
 
-def mock_rep(fn: Callable, filename: str, as_generator=False):
+def mock_rep(fn: Callable[..., Any], filename: str, as_generator=False):
     rep = fake_rep(filename)
 
     async def cb_rep(*args, **kwargs):
@@ -55,11 +55,11 @@ def mock_rep(fn: Callable, filename: str, as_generator=False):
     async def cb_gen(*args, **kwargs):
         yield rep
 
-    assert "__self__" in dir(fn)
-    cb = cb_gen if as_generator else cb_rep
-    cb.__name__ = fn.__name__
-    cb.__self__ = fn.__self__  # pyright: ignore
-    setattr(fn.__self__, fn.__name__, cb)  # pyright: ignore
+    owner = getattr(fn, "__self__")
+    name = getattr(fn, "__name__")
+    cb = cast(Any, cb_gen if as_generator else cb_rep)
+    cb.__name__ = name
+    setattr(owner, name, cb)
 
 
 def check_tweet(doc: Tweet | None):

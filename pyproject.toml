@@ -31,12 +31,12 @@ curl = ["curl-cffi>=0.7.0"]
 [dependency-groups]
 dev = [
   "curl-cffi>=0.7.0",
-  "pyright>=1.1.369",
   "pytest-asyncio>=0.23.3",
   "pytest-cov>=4.1.0",
   "pytest-httpx>=0.28.0",
   "pytest>=7.4.4",
   "ruff>=0.1.11",
+  "ty>=0.0.41",
 ]
 
 [project.urls]
@@ -69,6 +69,13 @@ target-version = "py310"
 select = ["E", "F", "I", "UP", "C4", "SIM"]
 ignore = ["E501", "UP035", "SIM105"]
 
-[tool.pyright]
-include = ["apps", "clients", "strategy", "lib", "scripts"]
-typeCheckingMode = "standard"
+[tool.ty.environment]
+python-version = "3.10"
+python-platform = "all"
+
+[tool.ty.terminal]
+error-on-warning = true
+
+[tool.ty.rules]
+all = "error"
+missing-override-decorator = "ignore"

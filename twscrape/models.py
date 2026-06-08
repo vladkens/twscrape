@@ -891,12 +891,12 @@ def parse_community(rep: Response | dict) -> Community | None:
 
 
 def parse_tweets(rep: Response, limit: int = -1) -> Generator[Tweet, None, None]:
-    return _parse_items(rep, "tweet", limit)  # type: ignore
+    return _parse_items(rep, "tweet", limit)
 
 
 def parse_users(rep: Response, limit: int = -1) -> Generator[User, None, None]:
-    return _parse_items(rep, "user", limit)  # type: ignore
+    return _parse_items(rep, "user", limit)
 
 
 def parse_trends(rep: Response, limit: int = -1) -> Generator[Trend, None, None]:
-    return _parse_items(rep, kind="trends", limit=limit)  # type: ignore
+    return _parse_items(rep, kind="trends", limit=limit)
