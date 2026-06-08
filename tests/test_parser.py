@@ -564,6 +564,24 @@ async def test_issue_56():
     assert len(doc.links) == 5
 
 
+async def test_issue_310():
+    api = get_api()
+    mock_rep(api.user_tweets_raw, "raw_user_tweets", as_generator=True)
+
+    tweets = await gather(api.user_tweets(2244994945))
+    top_level_ids = {x.id for x in tweets}
+    retweeted_ids = {x.retweetedTweet.id for x in tweets if x.retweetedTweet is not None}
+    leaked_ids = top_level_ids & retweeted_ids
+
+    assert retweeted_ids
+    assert not leaked_ids, (
+        f"top_level={len(top_level_ids)}, "
+        f"retweets={sum(x.retweetedTweet is not None for x in tweets)}, "
+        f"retweeted_children={len(retweeted_ids)}, "
+        f"leaked={len(leaked_ids)}"
+    )
+
+
 async def test_cards():
     # Issues:
     # - https://github.com/vladkens/twscrape/issues/72
