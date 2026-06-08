@@ -214,4 +214,8 @@ async def main() -> int:
     return 1 if fail else 0
 
 
-sys.exit(asyncio.run(main()))
+try:
+    sys.exit(asyncio.run(main()))
+except KeyboardInterrupt:
+    print("\nInterrupted.")
+    sys.exit(130)

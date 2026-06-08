@@ -6,6 +6,8 @@ from typing import Any, Literal, cast
 
 from fake_useragent import UserAgent
 
+from .logger import logger
+
 HttpMethod = Literal["GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD", "TRACE", "PATCH"]
 
 _UNSET = object()
@@ -261,8 +263,10 @@ def make_client(
         backend = _detect_backend()
 
     if backend == "curl":
+        logger.debug("Using curl-cffi HTTP client")
         return CurlClient(proxy=proxy, headers=headers, cookies=cookies)
     if backend == "httpx":
+        logger.debug("Using httpx HTTP client")
         return HttpxClient(proxy=proxy, headers=headers, cookies=cookies, seed=seed)
 
     raise ValueError(f"Unknown backend: {backend!r}. Expected 'curl' or 'httpx'.")
