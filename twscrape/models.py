@@ -346,7 +346,7 @@ class Tweet(JSONTrait):
             isTranslatable=obj.get("is_translatable", False),
             displayTextRange=obj.get("display_text_range"),
             inReplyToScreenName=obj.get("in_reply_to_screen_name"),
-            editControl=obj.get("edit_control"),
+            editControl=_parse_edit_control(obj),
             voiceInfo=obj.get("voice_info"),
         )
 
@@ -749,6 +749,18 @@ def _get_source_label(tw_obj: dict):
     if source and (match := re.search(r">([^<]*)<", source)):
         return str(match.group(1))
     return None
+
+
+def _parse_edit_control(obj: dict):
+    edit = obj.get("edit_control")
+    if not isinstance(edit, dict):
+        return None
+
+    initial = edit.get("edit_control_initial")
+    if not isinstance(initial, dict):
+        return edit
+
+    return {**initial, **{k: v for k, v in edit.items() if k != "edit_control_initial"}}
 
 
 def _parse_links(obj: dict, paths: list[str]):

@@ -12,6 +12,7 @@ HttpMethod = Literal["GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD", "TRACE",
 
 _UNSET = object()
 _CURL_MAX_RETRIES = 3
+_LOGGED_BACKENDS: set[str] = set()
 
 # https://curl-impersonate.readthedocs.io/en/latest/fingerprints.html
 _BROWSER_FAMILIES = {"chrome", "safari", "firefox", "edge"}
@@ -262,11 +263,14 @@ def make_client(
     if backend is None:
         backend = _detect_backend()
 
+    if backend not in _LOGGED_BACKENDS:
+        name = "curl-cffi" if backend == "curl" else backend
+        logger.debug(f"Using {name} HTTP client")
+        _LOGGED_BACKENDS.add(backend)
+
     if backend == "curl":
-        logger.debug("Using curl-cffi HTTP client")
         return CurlClient(proxy=proxy, headers=headers, cookies=cookies)
     if backend == "httpx":
-        logger.debug("Using httpx HTTP client")
         return HttpxClient(proxy=proxy, headers=headers, cookies=cookies, seed=seed)
 
     raise ValueError(f"Unknown backend: {backend!r}. Expected 'curl' or 'httpx'.")

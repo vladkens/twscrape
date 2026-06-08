@@ -222,7 +222,10 @@ async def test_search():
         bookmarks_count += doc.bookmarkedCount
         users.extend(collect_tweet_users(doc))
 
-    assert bookmarks_count > 0, "`bookmark_fields` key is changed or unluck search data"
+    assert bookmarks_count > 0, (
+        "`bookmark_fields` key is changed or unlucky search data. "
+        "Run: uv run scripts/update_mocked_data.py --only search"
+    )
     check_user_field_coverage(users)
 
 
