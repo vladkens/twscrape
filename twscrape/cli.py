@@ -8,6 +8,7 @@ import json
 import sqlite3
 from importlib.metadata import version
 
+from . import telemetry
 from .api import API, AccountsPool
 from .db import get_sqlite_version
 from .http import Response
@@ -44,6 +45,7 @@ def to_str(doc: Response | Tweet | User | None) -> str:
 
 
 async def main(args):
+    telemetry.set_source("cli")
     if args.debug:
         set_log_level("DEBUG")
 
@@ -126,6 +128,13 @@ async def main(args):
     else:
         doc = await fn(val)
         print(to_str(doc))
+
+
+async def _run(args):
+    try:
+        await main(args)
+    finally:
+        await telemetry.flush()
 
 
 def custom_help(p):
@@ -223,6 +232,6 @@ def run():
         return custom_help(p)
 
     try:
-        asyncio.run(main(args))
+        asyncio.run(_run(args))
     except KeyboardInterrupt:
         pass

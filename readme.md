@@ -45,9 +45,9 @@ This project requires authorized X/Twitter accounts to work with the API. You ha
 
 1. **Create Your Own Account**: While you can register a new account on X/Twitter yourself, it's can be difficult due to strict verification processes and high ban rates.
 
-2. **Use Ready Accounts**: For immediate access, you can get ready-to-use accounts with cookies from [our recommended provider](https://kutt.it/ueeM5f). Cookie-based accounts typically have fewer login issues.
+2. **Use Ready Accounts**: For immediate access, you can get ready-to-use accounts with cookies from [our recommended provider](https://kutt.to/ueeM5f). Cookie-based accounts typically have fewer login issues.
 
-For optimal performance and to avoid IP-based restrictions, we also recommend using proxies from [our provider](https://kutt.it/eb3rXk).
+For optimal performance and to avoid IP-based restrictions, we also recommend using proxies from [our provider](https://kutt.to/eb3rXk).
 
 **Disclaimer**: While X/Twitter's Terms of Service discourage using multiple accounts, this is a common practice for data collection and research purposes. Use responsibly and at your own discretion.
 
@@ -366,6 +366,7 @@ _Note:_ If proxy not working, exception will be raised from API class.
 - `TWS_WAIT_EMAIL_CODE` - timeout for email verification code during login (default: `30`, in seconds)
 - `TWS_RAISE_WHEN_NO_ACCOUNT` - raise `NoAccountError` exception when no available accounts, instead of waiting (default: `false`, values: `false`/`0`/`true`/`1`)
 - `TWS_HTTP_BACKEND` - force HTTP backend: `httpx` or `curl` (default: `httpx`)
+- `TWS_TELEMETRY` - set to `0` to disable anonymous telemetry
 
 ## Limitations
 
@@ -376,6 +377,22 @@ X/Twitter regularly [updates](https://x.com/elonmusk/status/1675187969420828672)
 API data limitations:
 - `user_tweets` & `user_tweets_and_replies` - can return ~3200 tweets maximum
 - Rate limits may vary based on account age and status
+
+## Telemetry
+
+twscrape collects anonymous, aggregated telemetry to understand which GraphQL operations are used and which HTTP backend is selected.
+
+The payload includes:
+
+- GraphQL operation name
+- HTTP method and backend (`httpx` or `curl`)
+- twscrape version
+- Python version
+- platform
+
+twscrape does not collect account usernames, cookies, proxies, query variables, request URLs, response bodies, or search text.
+
+Disable telemetry with `TWS_TELEMETRY=0`.
 
 ## Articles
 - [How to still scrape millions of tweets in 2023](https://medium.com/@vladkens/how-to-still-scrape-millions-of-tweets-in-2023-using-twscrape-97f5d3881434)

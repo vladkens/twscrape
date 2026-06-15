@@ -4,6 +4,7 @@ import os
 from typing import Any
 from urllib.parse import urlparse
 
+from . import telemetry
 from .accounts_pool import Account, AccountsPool
 from .http import ConnectError, HttpClient, HttpMethod, HttpStatusError, NetworkError, Response
 from .logger import logger
@@ -264,6 +265,17 @@ class QueueClient:
                 return None
 
             try:
+                source = telemetry.current_source()
+                telemetry.capture(
+                    "gql_request",
+                    {
+                        "operation": self.queue,
+                        "http_method": method,
+                        "http_backend": getattr(ctx.clt, "backend", "unknown"),
+                        "source": source,
+                        "$current_url": f"{source}://twscrape/gql/{self.queue}",
+                    },
+                )
                 rep = await ctx.req(method, url, params=params)
                 setattr(rep, "__username", ctx.acc.username)
                 await self._check_rep(rep)

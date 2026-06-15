@@ -1,6 +1,8 @@
 import argparse
 import json
 
+import pytest
+
 from tests.test_parser import fake_rep
 from twscrape import cli
 
@@ -164,3 +166,41 @@ async def test_tweet_details_raw_prints_raw_json(tmp_path, monkeypatch, capsys):
     doc = json.loads(capsys.readouterr().out.strip())
     assert "data" in doc
     assert "threaded_conversation_with_injections_v2" in json.dumps(doc)
+
+
+async def test_run_flushes_telemetry(monkeypatch):
+    called = []
+
+    async def mock_main(args):
+        called.append(("main", args.command))
+
+    async def mock_flush():
+        called.append(("flush", None))
+
+    args = argparse.Namespace(command="version")
+    monkeypatch.setattr(cli, "main", mock_main)
+    monkeypatch.setattr(cli.telemetry, "flush", mock_flush)
+
+    await cli._run(args)
+
+    assert called == [("main", "version"), ("flush", None)]
+
+
+async def test_run_flushes_telemetry_on_error(monkeypatch):
+    called = []
+
+    async def mock_main(args):
+        called.append(("main", args.command))
+        raise RuntimeError("boom")
+
+    async def mock_flush():
+        called.append(("flush", None))
+
+    args = argparse.Namespace(command="version")
+    monkeypatch.setattr(cli, "main", mock_main)
+    monkeypatch.setattr(cli.telemetry, "flush", mock_flush)
+
+    with pytest.raises(RuntimeError, match="boom"):
+        await cli._run(args)
+
+    assert called == [("main", "version"), ("flush", None)]

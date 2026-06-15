@@ -91,6 +91,8 @@ class HttpStatusError(HttpError):
 
 
 class HttpClient(ABC):
+    backend: str
+
     @abstractmethod
     async def request(self, method: HttpMethod, url: str, **kwargs) -> Response: ...
 
@@ -119,6 +121,8 @@ class HttpClient(ABC):
 
 
 class HttpxClient(HttpClient):
+    backend = "httpx"
+
     def __init__(
         self,
         *,
@@ -168,6 +172,8 @@ class HttpxClient(HttpClient):
 
 
 class CurlClient(HttpClient):
+    backend = "curl"
+
     def __init__(
         self, *, proxy: str | None = None, headers: dict | None = None, cookies: dict | None = None
     ):
@@ -239,8 +245,7 @@ def _detect_backend() -> str:
             )
         return "httpx"
 
-    if forced:
-        raise ValueError(f"Invalid TWS_HTTP_BACKEND={forced!r}. Expected 'curl' or 'httpx'.")
+    raise ValueError(f"Invalid TWS_HTTP_BACKEND={forced!r}. Expected 'curl' or 'httpx'.")
 
 
 def make_client(

@@ -1,5 +1,6 @@
 import pytest
 
+from twscrape import telemetry
 from twscrape.account import Account
 from twscrape.accounts_pool import AccountsPool
 from twscrape.api import API
@@ -14,6 +15,11 @@ set_log_level("CRITICAL")
 class ClIdGenMock:
     def calc(*args, **kwargs):
         return "mocked-clid"
+
+
+@pytest.fixture(autouse=True)
+def reset_telemetry():
+    telemetry.reset()
 
 
 @pytest.fixture(autouse=True)

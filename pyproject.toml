@@ -23,6 +23,7 @@ dependencies = [
   "loguru>=0.7.0",
   "pyotp>=2.9.0",
   "beautifulsoup4>=4.13.0",
+  "py-machineid>=1.0.0",
 ]
 
 [project.optional-dependencies]
