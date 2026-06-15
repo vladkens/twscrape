@@ -232,7 +232,7 @@ def _detect_backend() -> str:
             )
         return "curl"
 
-    if forced == "httpx":
+    if forced in ("", "httpx"):
         if importlib.util.find_spec("httpx") is None:
             raise ImportError(
                 "TWS_HTTP_BACKEND=httpx but httpx is not installed. Run: pip install twscrape"
@@ -241,15 +241,6 @@ def _detect_backend() -> str:
 
     if forced:
         raise ValueError(f"Invalid TWS_HTTP_BACKEND={forced!r}. Expected 'curl' or 'httpx'.")
-
-    if importlib.util.find_spec("curl_cffi") is not None:
-        return "curl"
-    if importlib.util.find_spec("httpx") is not None:
-        return "httpx"
-
-    raise ImportError(
-        "No HTTP backend installed. Run: pip install twscrape or pip install twscrape[curl]"
-    )
 
 
 def make_client(

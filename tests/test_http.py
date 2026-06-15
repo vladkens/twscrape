@@ -106,18 +106,17 @@ def test_detect_backend_invalid_value(monkeypatch):
         _detect_backend()
 
 
-def test_detect_backend_auto_httpx(monkeypatch):
+def test_detect_backend_default_httpx(monkeypatch):
     monkeypatch.delenv("TWS_HTTP_BACKEND", raising=False)
-    with patch.dict("sys.modules", {"curl_cffi": None}):
-        result = _detect_backend()
-        assert result == "httpx"
+    result = _detect_backend()
+    assert result == "httpx"
 
 
-def test_detect_backend_no_backends(monkeypatch):
+def test_detect_backend_default_httpx_missing(monkeypatch):
     monkeypatch.delenv("TWS_HTTP_BACKEND", raising=False)
     with (
-        patch.dict("sys.modules", {"curl_cffi": None, "httpx": None}),
-        pytest.raises(ImportError, match="No HTTP backend"),
+        patch.dict("sys.modules", {"httpx": None}),
+        pytest.raises(ImportError, match="httpx is not installed"),
     ):
         _detect_backend()
 
@@ -233,11 +232,10 @@ async def test_httpx_client_maps_write_and_pool_timeout():
 # --- _detect_backend: missing paths ---
 
 
-def test_detect_backend_auto_curl_preferred(monkeypatch):
+def test_detect_backend_ignores_installed_curl_by_default(monkeypatch):
     monkeypatch.delenv("TWS_HTTP_BACKEND", raising=False)
-    # curl_cffi is installed in the dev env, so auto-detect should pick it
     result = _detect_backend()
-    assert result == "curl"
+    assert result == "httpx"
 
 
 def test_detect_backend_env_curl_installed(monkeypatch):
@@ -260,11 +258,11 @@ def test_make_client_unknown_backend_raises():
         make_client("unknown_backend")
 
 
-def test_make_client_none_uses_auto_detect(monkeypatch):
+def test_make_client_none_uses_default_httpx(monkeypatch):
     monkeypatch.delenv("TWS_HTTP_BACKEND", raising=False)
 
     client = make_client(None)
-    assert isinstance(client, CurlClient)
+    assert isinstance(client, HttpxClient)
 
 
 # --- CurlClient ---

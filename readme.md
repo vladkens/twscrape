@@ -22,13 +22,14 @@ Twitter GraphQL API implementation with [SNScrape](https://github.com/JustAnothe
 pip install twscrape
 ```
 
-`httpx` is included by default. For better browser-like TLS fingerprinting, install `curl-cffi` as well — it uses libcurl with browser impersonation and is preferred automatically when present:
+`httpx` is used by default. For browser-like TLS fingerprinting, `curl-cffi` can be installed and enabled explicitly:
 
 ```bash
 pip install "twscrape[curl]"
+TWS_HTTP_BACKEND=curl
 ```
 
-Override the backend explicitly with `TWS_HTTP_BACKEND=httpx` or `TWS_HTTP_BACKEND=curl`.
+Set `TWS_HTTP_BACKEND=httpx` to force the default backend explicitly.
 
 ## Features
 - Support both Search & GraphQL Twitter API
@@ -364,7 +365,7 @@ _Note:_ If proxy not working, exception will be raised from API class.
 - `TWS_PROXY` - global proxy for all accounts (e.g. `socks5://user:pass@127.0.0.1:1080`)
 - `TWS_WAIT_EMAIL_CODE` - timeout for email verification code during login (default: `30`, in seconds)
 - `TWS_RAISE_WHEN_NO_ACCOUNT` - raise `NoAccountError` exception when no available accounts, instead of waiting (default: `false`, values: `false`/`0`/`true`/`1`)
-- `TWS_HTTP_BACKEND` - force HTTP backend: `httpx` or `curl` (default: `curl` if installed, otherwise `httpx`)
+- `TWS_HTTP_BACKEND` - force HTTP backend: `httpx` or `curl` (default: `httpx`)
 
 ## Limitations
 
