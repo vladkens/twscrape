@@ -5,39 +5,116 @@ and updates them in twscrape/api.py.
 
 Usage:
   uv run scripts/update_gql_ops.py
+
+For a fully clean refresh, remove the temp cache first:
+  rm -rf /tmp/twscrape-ops
 """
 
 import asyncio
 import os
 import re
 import sys
+from urllib.parse import urljoin
 
 from twscrape.http import HttpClient, make_client
-from twscrape.xclid import get_scripts_list, get_tw_page_text, script_url
+from twscrape.xclid import get_tw_page_text, script_url
 
 API_FILE = "twscrape/api.py"
 CACHE_DIR = "/tmp/twscrape-ops"
 MARKER = "# GQL_OPS_CODEGEN"
+X_WEB_URL_RE = re.compile(r"https://[\w.-]+/x-web/[\w./-]+\.js")
+RESPONSIVE_WEB_URL_RE = re.compile(r"https://[\w.-]+/responsive-web/client-web/[\w./-]+\.js")
+JS_REF_RE = re.compile(r'(?:from|import)\s*\(?\s*[`"]((?:\.{1,2}/)[^`"]+?\.js)[`"]')
 
 
 def _is_relevant_script(url: str) -> bool:
     return "/i18n/" not in url and "/icons/" not in url and "react-syntax-highlighter" not in url
 
 
+def get_scripts_list(text: str) -> list[str]:
+    urls = list(dict.fromkeys(X_WEB_URL_RE.findall(text) + RESPONSIVE_WEB_URL_RE.findall(text)))
+
+    # HTML can contain both direct script URLs and a legacy webpack chunk map.
+    # The map has separate chunk_id -> name and chunk_id -> hash entries; combine
+    # them into /responsive-web/client-web/{name}.{hash}a.js URLs.
+    hash_map = {m.group(1): m.group(2) for m in re.finditer(r'(\d+):"([0-9a-f]{7})"', text)}
+    if not hash_map and not urls:
+        raise Exception("Failed to parse scripts")
+
+    name_map: dict[str, str] = {}
+    for m in re.finditer(r'(\d+):"([^"]+)"', text):
+        val = m.group(2)
+        if not re.fullmatch(r"[0-9a-f]{7}", val):
+            name_map[m.group(1)] = val
+
+    urls.extend(
+        script_url(name_map.get(chunk_id, chunk_id), hash_val + "a")
+        for chunk_id, hash_val in hash_map.items()
+    )
+    return list(dict.fromkeys(urls))
+
+
+def _get_legacy_main_script(text: str) -> str | None:
+    match = re.search(r"/client-web/main\.([^.\"']+)\.js", text)
+    if not match:
+        return None
+    return script_url("main", match.group(1))
+
+
 async def get_scripts() -> list[tuple[str, str]]:
     os.makedirs(CACHE_DIR, exist_ok=True)
 
+    urls: list[str] = []
     async with make_client() as clt:
-        text = await get_tw_page_text("https://x.com/elonmusk", clt)
+        for page_url in ("https://x.com/xdevelopers", "https://x.com/home"):
+            text = await get_tw_page_text(page_url, clt)
+            urls.extend(get_scripts_list(text))
+            if main_script := _get_legacy_main_script(text):
+                urls.append(main_script)
 
-    urls = list(get_scripts_list(text))
-    v = text.split("/client-web/main.")[1].split(".")[0]
-    urls.append(script_url("main", v))
+    urls = list(dict.fromkeys(urls))
     urls = [x for x in urls if _is_relevant_script(x)]
-    return [(x, f"{CACHE_DIR}/{x.split('/')[-1].split('?')[0]}") for x in urls]
+    return [_script_entry(x) for x in urls]
 
 
-async def fetch_scripts(scripts: list[tuple[str, str]], force: bool) -> None:
+def _script_entry(url: str) -> tuple[str, str]:
+    return (url, f"{CACHE_DIR}/{url.split('/')[-1].split('?')[0]}")
+
+
+def _discover_scripts(scripts: list[tuple[str, str]]) -> list[tuple[str, str]]:
+    urls = {url for url, _ in scripts}
+    found: list[str] = []
+
+    for base_url, path in scripts:
+        if not os.path.isfile(path):
+            continue
+        with open(path, encoding="utf-8", errors="ignore") as fp:
+            text = fp.read()
+        for ref in JS_REF_RE.findall(text):
+            url = urljoin(base_url, ref)
+            if url not in urls and _is_relevant_script(url):
+                urls.add(url)
+                found.append(url)
+
+    return [_script_entry(x) for x in found]
+
+
+async def fetch_scripts(scripts: list[tuple[str, str]], force: bool) -> list[tuple[str, str]]:
+    all_scripts = list(dict.fromkeys(scripts))
+    seen = {url for url, _ in all_scripts}
+    batch = all_scripts
+
+    while batch:
+        await _fetch_scripts_batch(batch, force)
+        discovered = _discover_scripts(batch)
+        batch = [x for x in discovered if x[0] not in seen]
+        seen.update(url for url, _ in batch)
+        all_scripts.extend(batch)
+
+    return all_scripts
+
+
+async def _fetch_scripts_batch(scripts: list[tuple[str, str]], force: bool) -> None:
     todo = scripts if force else [x for x in scripts if not os.path.exists(x[1])]
     cached = len(scripts) - len(todo)
     print(f"Scripts: {len(scripts)} total, {cached} cached, {len(todo)} to download.")
@@ -98,6 +175,14 @@ def rewrite(content: str, block: str) -> str:
     return parts[0] + MARKER + block + MARKER + parts[2]
 
 
+def _source_priority(url: str) -> int:
+    if "/responsive-web/client-web/" in url:
+        return 2
+    if "/x-web/" in url:
+        return 1
+    return 0
+
+
 async def main() -> int:
     force = "--force" in sys.argv
 
@@ -114,37 +199,32 @@ async def main() -> int:
     print("")
     print("Downloading scripts...")
     scripts = await get_scripts()
-    await fetch_scripts(scripts, force)
+    scripts = await fetch_scripts(scripts, force)
     print("")
     print("Analyzing scripts...")
 
-    all_pairs: dict[str, str] = {}
-    conflicts: list[tuple[str, str, str]] = []
+    all_pairs: dict[str, tuple[str, int]] = {}
 
-    def _add(op_name: str, op_id: str):
+    def _add(op_name: str, op_id: str, url: str):
+        priority = _source_priority(url)
         existing = all_pairs.get(op_name)
-        if existing is not None and existing != op_id:
-            conflicts.append((op_name, existing, op_id))
-        all_pairs[op_name] = op_id
+        if existing is not None and existing[0] != op_id and priority < existing[1]:
+            return
+        all_pairs[op_name] = (op_id, priority)
 
     rgs = [
-        r'queryId:"(.+?)".+?operationName:"(.+?)"',
-        r'params:\{id:"([^"]+)".+?name:"([^"]+)".+?operationKind:"',
+        r'queryId:[`"](.+?)[`"].+?operationName:[`"](.+?)[`"]',
+        r'params:\{id:[`"]([^`"]+)[`"].+?name:[`"]([^`"]+)[`"].+?operationKind:[`"]',
     ]
 
-    for _, path in scripts:
+    for url, path in scripts:
         if not os.path.isfile(path):
             continue
         with open(path, encoding="utf-8", errors="ignore") as fp:
             txt = fp.read()
         for rg in rgs:
             for op_id, op_name in re.findall(rg, txt):
-                _add(op_name, op_id)
-
-    if conflicts:
-        print("WARNING: conflicting IDs found for same operation (last one wins):")
-        for n, old_id, new_id in conflicts:
-            print(f"  {n}: {old_id} vs {new_id}")
+                _add(op_name, op_id, url)
 
     print(f"Found {len(all_pairs)} operations in bundle")
 
@@ -152,11 +232,14 @@ async def main() -> int:
     next_ops: list[tuple[str, str]] = []
 
     for var_suffix, old_id, gql_name in current_ops:
-        new_id = all_pairs.get(gql_name)
-        if new_id is None:
+        found = all_pairs.get(gql_name)
+        if found is None:
             missing.append(f"OP_{var_suffix}")
             next_ops.append((gql_name, old_id))
-        elif new_id != old_id:
+            continue
+
+        new_id = found[0]
+        if new_id != old_id:
             changed.append((var_suffix, old_id, new_id))
             next_ops.append((gql_name, new_id))
         else:
@@ -173,11 +256,6 @@ async def main() -> int:
     else:
         print("No ID changes.")
 
-    if missing:
-        print("\nNot found in bundle (possibly removed):")
-        for n in missing:
-            print(f"  {n}")
-
     if renamed:
         print("\nNon-canonical constant names:")
         for var_suffix, gql_name in renamed:
@@ -187,6 +265,12 @@ async def main() -> int:
         with open(API_FILE, "w", encoding="utf-8") as fp:
             fp.write(updated)
         print(f"\nSaved changes to {API_FILE}")
+
+    if missing:
+        print("\nERROR: some configured GraphQL operations were not found in downloaded bundles.")
+        for n in missing:
+            print(f"  {n}")
+        return 1
 
     return 0
 

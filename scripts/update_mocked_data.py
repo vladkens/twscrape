@@ -232,8 +232,14 @@ async def main() -> int:
                 print(f"fail  {name}  (no response)")
                 fail += 1
                 continue
+            obj = rep.json()
+            if "errors" in obj and "data" not in obj:
+                err = "; ".join(x.get("message", "unknown error") for x in obj["errors"])
+                print(f"fail  {name}  ({err})")
+                fail += 1
+                continue
             with open(outfile, "w", encoding="utf-8") as fp:
-                json.dump(rep.json(), fp, indent=2)
+                json.dump(obj, fp, indent=2)
             meta[name] = (int(time.time()), ops[method], file_hash(outfile))
             save_meta(meta)
             print(f"ok    {name}")

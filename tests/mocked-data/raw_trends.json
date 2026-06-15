@@ -14,6 +14,23 @@
             "entries": [
               {
                 "content": {
+                  "__typename": "TimelineTimelineItem",
+                  "clientEventInfo": {
+                    "component": "TrendingJetfuelWorldCup"
+                  },
+                  "entryType": "TimelineTimelineItem",
+                  "itemContent": {
+                    "__typename": "TimelineFrame",
+                    "height": 180,
+                    "itemType": "TimelineFrame",
+                    "payload": "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ga1fVA4q7gtMaHR0cHM6Ly9wYnMudHdpbWcuY29tL3Byb2ZpbGVfaW1hZ2VzLzIwNTg2MzYyMTA1MjA2MDQ2NzIvUjZEQUExVGhfbm9ybWFsLmpwZwYBC0xodHRwczovL3Bicy50d2ltZy5jb20vcHJvZmlsZV9pbWFnZXMvMjAyNTg1NDUxMTY0MjcxODIwOC9IaGdhOWV1S19ub3JtYWwuanBnAwEEAAAAABWAvAc8Hg/dI4GtXwtMaHR0cHM6Ly9wYnMudHdpbWcuY29tL3Byb2ZpbGVfaW1hZ2VzLzE1NzI0OTcxMTU3MjQ2MTU2ODIvNVJTQ2JGa29fbm9ybWFsLmpwZwMDAwAAAACjYgU7A9ti2AILAAAA2nuHvAIMAAAAkxNEbwASM2ggYWdvIMK3IDYxIHBvc3RzAwIFAAAAANie3OTrqLUqdTnQMCluJDkDHQAAAG4/TrCgUWFBCzpodHRwczovL3Bicy50d2ltZy5jb20vbWVkaWEvSEc2R3JiemFZQUEyZWw0LmpwZz9uYW1lPXNtYWxsCyxodHRwczovL3guY29tL2kvdHJlbmRpbmcvMjA2NjQ1NDU4OTEzMDI4NTUzNxMGCMUBADFBSSBDaGF0Ym90cyBQaWNrIFNwYWluIGFzIDIwMjYgV29ybGQgQ3VwIEZhdm9yaXRlC0xodHRwczovL3Bicy50d2ltZy5jb20vcHJvZmlsZV9pbWFnZXMvMjA2NTcyMDIwNzg3MjU0MDY3Mi9veHZyYWNzV19ub3JtYWwuanBnC0xodHRwczovL3Bicy50d2ltZy5jb20vcHJvZmlsZV9pbWFnZXMvMjA1MjYwMDU0NDE5NjIxNDc4OC9SVmRqLVJLbF9ub3JtYWwuanBnC0xodHRwczovL3Bicy50d2ltZy5jb20vcHJvZmlsZV9pbWFnZXMvMjAzNjkzMzMzNjQwNTU5ODIxMi93bERqNUZIOV9ub3JtYWwucG5nABQxMWggYWdvIMK3IDExOCBwb3N0cws6aHR0cHM6Ly9wYnMudHdpbWcuY29tL21lZGlhL0hLRmhDMnVYa0FBdmxDMC5qcGc/bmFtZT1zbWFsbAMBAgAAAAA4ATsbAwEMAAAAABx3ETftq3mmZHAFIDgBOxuTrlJg9S3+5HfvjYljsVQov4b22XG2svA/FJ0eAwEFAAAAACh5q+4MbeEf4A8a28y/BgMAClNvY2NlciBIdWIDAgUAAAAA7at5pmRwBSA5QpXvKHmr7gIBAAAA9iFHRgMBBAAAAAAoeavuDG3hH+APGtsACU1vcmUgTmV3cwfmAQALRnVsbCBHcm91cHMH6AEADUZ1bGwgU2NoZWR1bGUDAQIAAAAAKHmr7goUARQAAAAdZjBqBAAAAAHwAQA="
+                  }
+                },
+                "entryId": "frame-JetfuelWorldCupEntryPoint",
+                "sortIndex": "2066624977397874688"
+              },
+              {
+                "content": {
                   "__typename": "TimelineTimelineModule",
                   "clientEventInfo": {
                     "component": "stories"
@@ -22,7 +39,7 @@
                   "entryType": "TimelineTimelineModule",
                   "items": [
                     {
-                      "entryId": "stories-2064008426236674048-trend-2063962226596221164",
+                      "entryId": "stories-2066624977397874689-trend-2066094735882936480",
                       "item": {
                         "clientEventInfo": {
                           "component": "stories",
@@ -32,32 +49,32 @@
                           "__typename": "TimelineTrend",
                           "is_ai_trend": true,
                           "itemType": "TimelineTrend",
-                          "name": "Driver Veers onto Grass to Pass Cyclists Blocking Florida Road",
+                          "name": "Knicks Win First NBA Title in 53 Years Behind Brunson's 45-Point Heroics",
                           "social_context": {
                             "contextImageUrls": [
-                              "https://pbs.twimg.com/profile_images/1857285288273293312/mM9bd-SZ_normal.jpg",
-                              "https://pbs.twimg.com/profile_images/1974231951180517376/uq6AxGJC_normal.jpg",
-                              "https://pbs.twimg.com/profile_images/1980605533208915968/xzkkMLLp_normal.jpg"
+                              "https://pbs.twimg.com/profile_images/1390108477801046019/80AxIOUI_normal.jpg",
+                              "https://pbs.twimg.com/profile_images/1458336928252628996/3kFMzxin_normal.jpg",
+                              "https://pbs.twimg.com/profile_images/1222128514624892935/zC0ABl3m_normal.jpg"
                             ],
                             "contextType": "Facepile",
-                            "text": "3 hours ago \u00b7 Sports \u00b7 1.6K posts",
+                            "text": "1 day ago \u00b7 Sports \u00b7 70K posts",
                             "type": "TimelineGeneralContext"
                           },
                           "trend_metadata": {
                             "url": {
-                              "url": "twitter://trending/2063962226596221164",
+                              "url": "twitter://trending/2066094735882936480",
                               "urlType": "DeepLink"
                             }
                           },
                           "trend_url": {
-                            "url": "twitter://trending/2063962226596221164",
+                            "url": "twitter://trending/2066094735882936480",
                             "urlType": "DeepLink"
                           }
                         }
                       }
                     },
                     {
-                      "entryId": "stories-2064008426236674048-trend-2063964326822654374",
+                      "entryId": "stories-2066624977397874689-trend-2065947086365888902",
                       "item": {
                         "clientEventInfo": {
                           "component": "stories",
@@ -67,32 +84,31 @@
                           "__typename": "TimelineTrend",
                           "is_ai_trend": true,
                           "itemType": "TimelineTrend",
-                          "name": "SUV Driver Veers onto Grass to Pass Cyclists Blocking Key Biscayne Road",
+                          "name": "Hurricanes Win 2026 Stanley Cup, Blank Vegas 3-0 in Game 6",
                           "social_context": {
                             "contextImageUrls": [
-                              "https://pbs.twimg.com/profile_images/1274168500177833985/grjXGwTH_normal.jpg",
-                              "https://pbs.twimg.com/profile_images/2030018497661513728/eWO-khre_normal.jpg",
-                              "https://pbs.twimg.com/profile_images/1857285288273293312/mM9bd-SZ_normal.jpg"
+                              "https://pbs.twimg.com/profile_images/2066355321342242816/j5v1YpDm_normal.jpg",
+                              "https://pbs.twimg.com/profile_images/2066354450319523840/IvZVe5dW_normal.jpg"
                             ],
                             "contextType": "Facepile",
-                            "text": "3 hours ago \u00b7 Sports \u00b7 1.7K posts",
+                            "text": "1 day ago \u00b7 Other \u00b7 251K posts",
                             "type": "TimelineGeneralContext"
                           },
                           "trend_metadata": {
                             "url": {
-                              "url": "twitter://trending/2063964326822654374",
+                              "url": "twitter://trending/2065947086365888902",
                               "urlType": "DeepLink"
                             }
                           },
                           "trend_url": {
-                            "url": "twitter://trending/2063964326822654374",
+                            "url": "twitter://trending/2065947086365888902",
                             "urlType": "DeepLink"
                           }
                         }
                       }
                     },
                     {
-                      "entryId": "stories-2064008426236674048-trend-2063555070818693232",
+                      "entryId": "stories-2066624977397874689-trend-2065778924986962229",
                       "item": {
                         "clientEventInfo": {
                           "component": "stories",
@@ -102,32 +118,32 @@
                           "__typename": "TimelineTrend",
                           "is_ai_trend": true,
                           "itemType": "TimelineTrend",
-                          "name": "Lewis Hamilton's Wealth Cap Comments Draw Hypocrisy Charges",
+                          "name": "Gaethje Stuns Topuria to Win UFC Title at White House Event",
                           "social_context": {
                             "contextImageUrls": [
-                              "https://pbs.twimg.com/profile_images/1863815315773390848/JkpiHCbd_normal.jpg",
-                              "https://pbs.twimg.com/profile_images/2014759847686733824/upxCCYXx_normal.jpg",
-                              "https://pbs.twimg.com/profile_images/1948729671568297984/mfDEr5Kg_normal.jpg"
+                              "https://pbs.twimg.com/profile_images/1563691268793946117/OedvhFeS_normal.jpg",
+                              "https://pbs.twimg.com/profile_images/2062605835256127489/atNMwHxg_normal.jpg",
+                              "https://pbs.twimg.com/profile_images/1580221131985920001/XNlqL_Yx_normal.jpg"
                             ],
                             "contextType": "Facepile",
-                            "text": "1 day ago \u00b7 Sports \u00b7 62K posts",
+                            "text": "2 days ago \u00b7 Other \u00b7 803K posts",
                             "type": "TimelineGeneralContext"
                           },
                           "trend_metadata": {
                             "url": {
-                              "url": "twitter://trending/2063555070818693232",
+                              "url": "twitter://trending/2065778924986962229",
                               "urlType": "DeepLink"
                             }
                           },
                           "trend_url": {
-                            "url": "twitter://trending/2063555070818693232",
+                            "url": "twitter://trending/2065778924986962229",
                             "urlType": "DeepLink"
                           }
                         }
                       }
                     },
                     {
-                      "entryId": "stories-2064008426236674048-trend-2063181771240505585",
+                      "entryId": "stories-2066624977397874689-trend-2066204564244873392",
                       "item": {
                         "clientEventInfo": {
                           "component": "stories",
@@ -137,32 +153,32 @@
                           "__typename": "TimelineTrend",
                           "is_ai_trend": true,
                           "itemType": "TimelineTrend",
-                          "name": "Antonelli's Grand Slam Triumph at Monaco Grand Prix",
+                          "name": "Japan's Fans Clean Up After Thrilling World Cup Draw with Netherlands",
                           "social_context": {
                             "contextImageUrls": [
-                              "https://pbs.twimg.com/profile_images/1759865143410765824/5B64vpgr_normal.jpg",
-                              "https://pbs.twimg.com/profile_images/1612433922733887489/7f5XFklA_normal.jpg",
-                              "https://pbs.twimg.com/profile_images/1874472051517296640/anm3Q000_normal.jpg"
+                              "https://pbs.twimg.com/profile_images/1800424366703857665/cFuM2ynZ_normal.jpg",
+                              "https://pbs.twimg.com/profile_images/1741753635158024192/j0m8Ucvv_normal.jpg",
+                              "https://pbs.twimg.com/profile_images/2064642026684178432/vq3_JNdH_normal.jpg"
                             ],
                             "contextType": "Facepile",
-                            "text": "2 days ago \u00b7 Sports \u00b7 225K posts",
+                            "text": "1 day ago \u00b7 Sports \u00b7 755K posts",
                             "type": "TimelineGeneralContext"
                           },
                           "trend_metadata": {
                             "url": {
-                              "url": "twitter://trending/2063181771240505585",
+                              "url": "twitter://trending/2066204564244873392",
                               "urlType": "DeepLink"
                             }
                           },
                           "trend_url": {
-                            "url": "twitter://trending/2063181771240505585",
+                            "url": "twitter://trending/2066204564244873392",
                             "urlType": "DeepLink"
                           }
                         }
                       }
                     },
                     {
-                      "entryId": "stories-2064008426236674048-trend-2063670839224975815",
+                      "entryId": "stories-2066624977397874689-trend-2066061241500455365",
                       "item": {
                         "clientEventInfo": {
                           "component": "stories",
@@ -172,25 +188,25 @@
                           "__typename": "TimelineTrend",
                           "is_ai_trend": true,
                           "itemType": "TimelineTrend",
-                          "name": "Christian Eriksen Collapses on Pitch but Walks Off in Good Spirits",
+                          "name": "UFC Freedom 250 Rocks White House South Lawn for America's 250th and Trump's 80th",
                           "social_context": {
                             "contextImageUrls": [
-                              "https://pbs.twimg.com/profile_images/2061392515899465728/E86UNC_z_normal.jpg",
-                              "https://pbs.twimg.com/profile_images/2021527771361705984/Ci_hAxkp_normal.jpg",
-                              "https://pbs.twimg.com/profile_images/1741753635158024192/j0m8Ucvv_normal.jpg"
+                              "https://pbs.twimg.com/profile_images/1965912244262170624/7NoruMt1_normal.jpg",
+                              "https://pbs.twimg.com/profile_images/2062605835256127489/atNMwHxg_normal.jpg",
+                              "https://pbs.twimg.com/profile_images/2062589494440697856/0s1Z_qt7_normal.jpg"
                             ],
                             "contextType": "Facepile",
-                            "text": "22 hours ago \u00b7 Sports \u00b7 193K posts",
+                            "text": "1 day ago \u00b7 Other \u00b7 87K posts",
                             "type": "TimelineGeneralContext"
                           },
                           "trend_metadata": {
                             "url": {
-                              "url": "twitter://trending/2063670839224975815",
+                              "url": "twitter://trending/2066061241500455365",
                               "urlType": "DeepLink"
                             }
                           },
                           "trend_url": {
-                            "url": "twitter://trending/2063670839224975815",
+                            "url": "twitter://trending/2066061241500455365",
                             "urlType": "DeepLink"
                           }
                         }
@@ -198,8 +214,73 @@
                     }
                   ]
                 },
-                "entryId": "stories-2064008426236674048",
-                "sortIndex": "2064008426236674048"
+                "entryId": "stories-2066624977397874689",
+                "sortIndex": "2066624977397874687"
+              },
+              {
+                "content": {
+                  "__typename": "TimelineTimelineItem",
+                  "clientEventInfo": {
+                    "component": "unified_events",
+                    "details": {
+                      "timelinesDetails": {
+                        "controllerData": "DAACDAAQDAABCgABiRvhmnAM8AAKAAIAAAGezQ7h3wAAAAA="
+                      }
+                    },
+                    "element": "trend"
+                  },
+                  "entryType": "TimelineTimelineItem",
+                  "feedbackInfo": {
+                    "clientEventInfo": {
+                      "action": "click",
+                      "component": "trends",
+                      "element": "feedback"
+                    },
+                    "feedbackKeys": [
+                      "-1336659320",
+                      "1628041751",
+                      "15718569",
+                      "-619311538",
+                      "-1457103155",
+                      "2103484841"
+                    ],
+                    "feedbackMetadata": "DwABCwAAAAEAAAAHVGhlIFVGQwYABAABCAAGAAAAAwA="
+                  },
+                  "itemContent": {
+                    "__typename": "TimelineTrend",
+                    "itemType": "TimelineTrend",
+                    "name": "The UFC",
+                    "trend_metadata": {
+                      "domain_context": "Sports \u00b7 Trending",
+                      "url": {
+                        "url": "twitter://search/?query=%22The+UFC%22&src=trend_click&pc=true&vertical=trends",
+                        "urlType": "DeepLink",
+                        "urtEndpointOptions": {
+                          "requestParams": [
+                            {
+                              "key": "cd",
+                              "value": "HBgHVGhlIFVGQwAA"
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "trend_url": {
+                      "url": "twitter://search/?query=%22The+UFC%22&src=trend_click&pc=true&vertical=trends",
+                      "urlType": "DeepLink",
+                      "urtEndpointOptions": {
+                        "requestParams": [
+                          {
+                            "key": "cd",
+                            "value": "HBgHVGhlIFVGQwAA"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                },
+                "entryId": "trend-The UFC",
+                "sortIndex": "2066624977397874686"
               },
               {
                 "content": {
@@ -208,23 +289,93 @@
                   "entryType": "TimelineTimelineCursor",
                   "value": "DAAJAAA"
                 },
-                "entryId": "cursor-top-2064008426236674049",
-                "sortIndex": "2064008426236674049"
+                "entryId": "cursor-top-2066624977397874689",
+                "sortIndex": "2066624977397874689"
               },
               {
                 "content": {
                   "__typename": "TimelineTimelineCursor",
                   "cursorType": "Bottom",
                   "entryType": "TimelineTimelineCursor",
-                  "value": "DAADCgABHKTUumM___0PAAIKAAAAAAAA"
+                  "value": "DAADCgABHK4gd62___sPAAIKAAAAAAAA"
                 },
-                "entryId": "cursor-bottom-2064008426236674047",
-                "sortIndex": "2064008426236674047"
+                "entryId": "cursor-bottom-2066624977397874685",
+                "sortIndex": "2066624977397874685"
               }
             ],
             "type": "TimelineAddEntries"
           }
-        ]
+        ],
+        "responseObjects": {
+          "feedbackActions": [
+            {
+              "key": "-619311538",
+              "value": {
+                "confirmation": "Thanks. Refresh this page to update these trends.",
+                "confirmationDisplayType": "Inline",
+                "feedbackType": "SeeFewer",
+                "feedbackUrl": "/2/guide/insert_feedback/trend_not_interested_in_this_feedback_key.json",
+                "hasUndoAction": false,
+                "prompt": "Not interested in this"
+              }
+            },
+            {
+              "key": "15718569",
+              "value": {
+                "confirmation": "Thanks. Refresh this page to update these trends.",
+                "confirmationDisplayType": "Inline",
+                "feedbackType": "SeeFewer",
+                "feedbackUrl": "/2/guide/insert_feedback/trend_abusive_feedback_key.json",
+                "hasUndoAction": false,
+                "prompt": "This trend is abusive or harmful"
+              }
+            },
+            {
+              "key": "-1457103155",
+              "value": {
+                "confirmation": "Thanks. Refresh this page to update these trends.",
+                "confirmationDisplayType": "Inline",
+                "feedbackType": "SeeFewer",
+                "feedbackUrl": "/2/guide/insert_feedback/trend_duplicate_feedback_key.json",
+                "hasUndoAction": false,
+                "prompt": "This trend is a duplicate"
+              }
+            },
+            {
+              "key": "-1336659320",
+              "value": {
+                "confirmation": "Thanks. Refresh this page to update these trends.",
+                "confirmationDisplayType": "BottomSheet",
+                "feedbackType": "SeeFewer",
+                "feedbackUrl": "/2/guide/insert_feedback/trend_irrelevant_content_feedback_key.json",
+                "hasUndoAction": false,
+                "prompt": "The associated content is not relevant"
+              }
+            },
+            {
+              "key": "1628041751",
+              "value": {
+                "confirmation": "Thanks. Refresh this page to update these trends.",
+                "confirmationDisplayType": "Inline",
+                "feedbackType": "SeeFewer",
+                "feedbackUrl": "/2/guide/insert_feedback/trend_spam_feedback_key.json",
+                "hasUndoAction": false,
+                "prompt": "This trend is spam"
+              }
+            },
+            {
+              "key": "2103484841",
+              "value": {
+                "confirmation": "Thanks. Refresh this page to update these trends.",
+                "confirmationDisplayType": "BottomSheet",
+                "feedbackType": "SeeFewer",
+                "feedbackUrl": "/2/guide/insert_feedback/trend_abusive_or_harmful_feedback_key.json",
+                "hasUndoAction": false,
+                "prompt": "This trend is harmful or spammy"
+              }
+            }
+          ]
+        }
       }
     }
   }
