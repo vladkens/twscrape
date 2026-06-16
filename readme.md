@@ -343,31 +343,10 @@ Do not set `api.proxy` or `TWS_PROXY` when you want per-account proxies to be us
 - `TWS_HTTP_BACKEND` - `httpx` or `curl`
 - `TWS_LOG_LEVEL` - logger level, default `INFO`
 - `TWS_TELEMETRY=0` - disable anonymous telemetry
-- `DO_NOT_TRACK=1` - disable anonymous telemetry
 
 ## Telemetry
 
-twscrape collects anonymous, aggregated telemetry about GraphQL operation names and the selected HTTP backend.
-
-Included:
-
-- GraphQL operation name
-- HTTP method and backend
-- twscrape version
-- Python version
-- platform
-
-Not included:
-
-- account usernames
-- cookies
-- proxies
-- query variables
-- request URLs
-- response bodies
-- search text
-
-Disable telemetry with `TWS_TELEMETRY=0` or `DO_NOT_TRACK=1`.
+twscrape collects anonymous, aggregated telemetry about used GraphQL operation names and the selected HTTP backend. It does not collect usernames, cookies, proxies, queries, request URLs, or response bodies. Disable it with `TWS_TELEMETRY=0`.
 
 ## See Also
 
