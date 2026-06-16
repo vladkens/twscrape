@@ -1,6 +1,6 @@
 [project]
 name = "twscrape"
-version = "0.18.1"
+version = "0.19.0"
 authors = [{ name = "vladkens", email = "v.pronsky@gmail.com" }]
 description = "Twitter GraphQL and Search API implementation with SNScrape data models"
 readme = "readme.md"
@@ -79,4 +79,5 @@ error-on-warning = true
 
 [tool.ty.rules]
 all = "error"
+missing-type-argument = "ignore"
 missing-override-decorator = "ignore"

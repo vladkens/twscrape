@@ -10,7 +10,7 @@
 
 </div>
 
-Twitter GraphQL API implementation with [SNScrape](https://github.com/JustAnotherArchivist/snscrape) data models.
+twscrape is an async Python library and CLI for X/Twitter Search and GraphQL endpoints. It runs on your own account pool, keeps sessions in SQLite, rotates accounts when an endpoint is rate-limited, and returns either parsed SNScrape-style models or raw API responses.
 
 <div align="center">
   <img src=".github/example.png" alt="example of cli usage" height="400px">
@@ -22,130 +22,94 @@ Twitter GraphQL API implementation with [SNScrape](https://github.com/JustAnothe
 pip install twscrape
 ```
 
-`httpx` is used by default. For browser-like TLS fingerprinting, `curl-cffi` can be installed and enabled explicitly:
+`httpx` is the default HTTP backend. For browser-like TLS fingerprinting, install the optional `curl-cffi` backend:
 
 ```bash
 pip install "twscrape[curl]"
-TWS_HTTP_BACKEND=curl
+
+TWS_HTTP_BACKEND=curl twscrape user_by_login xdevelopers
 ```
 
-Set `TWS_HTTP_BACKEND=httpx` to force the default backend explicitly.
-
 ## Features
-- Support both Search & GraphQL Twitter API
-- Async/Await functions (can run multiple scrapers in parallel at the same time)
-- Login flow (with receiving verification code from email)
-- Saving/restoring account sessions
-- Raw Twitter API responses & SNScrape models
-- Automatic account switching to smooth Twitter API rate limits
 
-## Usage
+- Search and GraphQL X/Twitter API methods
+- Async/await API for running multiple scrapers concurrently
+- Login flow with optional email verification code retrieval
+- Cookie-based account setup
+- Saved account sessions and per-account proxies
+- Raw Twitter API responses and parsed SNScrape-compatible models
+- Automatic account switching across rate-limited operations
 
-This project requires authorized X/Twitter accounts to work with the API. You have two options:
+## Start With Cookies
 
-1. **Create Your Own Account**: While you can register a new account on X/Twitter yourself, it's can be difficult due to strict verification processes and high ban rates.
+twscrape requires authorized X/Twitter accounts. The most stable setup is to add an account from browser cookies containing `auth_token` and `ct0`.
 
-2. **Use Ready Accounts**: For immediate access, you can get ready-to-use accounts with cookies from [our recommended provider](https://kutt.to/ueeM5f). Cookie-based accounts typically have fewer login issues.
+```bash
+twscrape add_cookie my_account "auth_token=xxx; ct0=yyy"
+twscrape accounts
+twscrape search "from:xdevelopers lang:en" --limit=20
+```
 
-For optimal performance and to avoid IP-based restrictions, we also recommend using proxies from [our provider](https://kutt.to/eb3rXk).
+Or let the CLI prompt for the cookie value:
 
-**Disclaimer**: While X/Twitter's Terms of Service discourage using multiple accounts, this is a common practice for data collection and research purposes. Use responsibly and at your own discretion.
+```bash
+twscrape add_cookie my_account
+```
+
+Cookie accounts that include `ct0` are activated immediately; no `login_accounts` step is needed.
+
+To get cookies: open x.com -> DevTools (F12) -> Application -> Cookies -> copy `auth_token` and `ct0` values.
+
+Ready-to-use cookie accounts are available from [this provider](https://kutt.to/ueeM5f). Proxy users can bring their own proxies or use [this provider](https://kutt.to/eb3rXk). These are referral links.
+
+X/Twitter's Terms of Service discourage using multiple accounts. Use this project responsibly and at your own discretion.
+
+## Python API
 
 ```python
 import asyncio
 from twscrape import API, gather
-from twscrape.logger import set_log_level
+
 
 async def main():
-    api = API()  # or API("path-to.db") – default is `accounts.db`
+    api = API()  # or API("accounts.db")
 
-    # ADD ACCOUNTS (for CLI usage see next readme section)
+    # Add once; the session is stored in the account database.
+    await api.pool.add_account_cookies("my_account", "auth_token=xxx; ct0=yyy")
 
-    # Option 1. Adding account with cookies (more stable)
-    cookies = "abc=12; ct0=xyz"  # or '{"abc": "12", "ct0": "xyz"}'
-    await api.pool.add_account("user3", "pass3", "u3@mail.com", "mail_pass3", cookies=cookies)
+    user = await api.user_by_login("xdevelopers")
+    print(user.id, user.username, user.followersCount)
 
-    # Option2. Adding account with login / password (less stable)
-    # email login / password required to receive the verification code via IMAP protocol
-    # (not all email providers are supported, e.g. ProtonMail)
-    await api.pool.add_account("user1", "pass1", "u1@example.com", "mail_pass1")
-    await api.pool.add_account("user2", "pass2", "u2@example.com", "mail_pass2")
-    await api.pool.login_all() # try to login to receive account cookies
+    tweets = await gather(api.search("from:xdevelopers lang:en", limit=20))
+    for tweet in tweets:
+        print(tweet.id, tweet.user.username, tweet.rawContent)
 
-    # API USAGE
-
-    # search (latest tab)
-    await gather(api.search("elon musk", limit=20))  # list[Tweet]
-    # change search tab (product), can be: Top, Latest (default), Media
-    await gather(api.search("elon musk", limit=20, kv={"product": "Top"}))
-
-    # tweet info
-    tweet_id = 20
-    await api.tweet_details(tweet_id)  # Tweet
-    await gather(api.retweeters(tweet_id, limit=20))  # list[User]
-
-    # Note: this method have small pagination from X side, like 5 tweets per query
-    await gather(api.tweet_replies(tweet_id, limit=20))  # list[Tweet]
-
-    # get all tweets in a tweet thread
-    tweet_id = 1920384454767374343
-    await gather(api.tweet_thread(tweet_id, limit=20))  # list[Tweet]
-
-    # get user by login
-    user_login = "xdevelopers"
-    await api.user_by_login(user_login)  # User
-    await api.user_about(user_login)  # AccountAbout
-
-    # user info
-    user_id = 2244994945
-    await gather(api.following(user_id, limit=20))  # list[User]
-    await gather(api.followers(user_id, limit=20))  # list[User]
-    await gather(api.verified_followers(user_id, limit=20))  # list[User]
-    await gather(api.subscriptions(user_id, limit=20))  # list[User]
-    await gather(api.user_tweets(user_id, limit=20))  # list[Tweet]
-    await gather(api.user_tweets_and_replies(user_id, limit=20))  # list[Tweet]
-    await gather(api.user_media(user_id, limit=20))  # list[Tweet]
-
-    # list info
-    list_id = 123456789
-    await gather(api.list_timeline(list_id))  # list[Tweet]
-    await gather(api.list_members(list_id))  # list[User]
-
-    # community info
-    community_id = 1501272736215322629
-    await api.community_info(community_id)  # Community
-    await gather(api.community_members(community_id, limit=20))  # list[User]
-    await gather(api.community_moderators(community_id, limit=20))  # list[User]
-    await gather(api.community_tweets(community_id, limit=20))  # list[Tweet]
-
-    # trends
-    await gather(api.trends("news"))  # list[Trend]
-    await gather(api.trends("sport"))  # list[Trend]
-    await gather(api.trends("VGltZWxpbmU6DAC2CwABAAAACHRyZW5kaW5nAAA"))  # list[Trend]
-
-    # NOTE 1: gather is a helper function to receive all data as list, FOR can be used as well:
-    async for tweet in api.search("elon musk"):
-        print(tweet.id, tweet.user.username, tweet.rawContent)  # tweet is `Tweet` object
-
-    # NOTE 2: all methods have `raw` version (returns `twscrape.Response` object):
-    async for rep in api.search_raw("elon musk"):
-        print(rep.status_code, rep.json())  # rep is `twscrape.Response` object
-
-    # change log level, default info
-    set_log_level("DEBUG")
-
-    # Tweet & User model can be converted to regular dict or json, e.g.:
-    doc = await api.user_by_login(user_login)  # User
-    doc.dict()  # -> python dict
-    doc.json()  # -> json string
 
 if __name__ == "__main__":
     asyncio.run(main())
 ```
 
-### Stoping iteration with break
+`gather()` is a convenience helper. You can stream results directly:
 
-In order to correctly release an account in case of `break` in loop, a special syntax must be used. Otherwise, Python's events loop will release lock on the account sometime in the future. See explanation [here](https://github.com/vladkens/twscrape/issues/27#issuecomment-1623395424).
+```python
+async for tweet in api.search("open source lang:en", limit=100):
+    print(tweet.id, tweet.rawContent)
+```
+
+Search defaults to the Latest tab. Pass `kv={"product": "Top"}` or `kv={"product": "Media"}` to use another search product:
+
+```python
+tweets = await gather(api.search("python", limit=20, kv={"product": "Top"}))
+```
+
+Every parsed method has a `_raw` version for the original response wrapper:
+
+```python
+async for rep in api.search_raw("from:xdevelopers", limit=20):
+    print(rep.status_code, rep.json())
+```
+
+When breaking out of an async generator early, close it with `contextlib.aclosing` so the account lock is released promptly:
 
 ```python
 from contextlib import aclosing
@@ -156,127 +120,87 @@ async with aclosing(api.search("elon musk")) as gen:
             break
 ```
 
+## API Surface
+
+Search:
+
+```python
+await gather(api.search("elon musk", limit=20))  # list[Tweet]
+await gather(api.search("elon musk", limit=20, kv={"product": "Top"}))  # Top tab
+await gather(api.search_user("openai", limit=20))  # list[User]
+await gather(api.search_trend("python", limit=20))  # list[Trend]
+```
+
+Tweets:
+
+```python
+tweet_id = 20
+
+await api.tweet_details(tweet_id)  # Tweet
+await gather(api.tweet_replies(tweet_id, limit=20))  # list[Tweet]
+await gather(api.tweet_thread(tweet_id, limit=20))  # list[Tweet]
+await gather(api.retweeters(tweet_id, limit=20))  # list[User]
+await gather(api.bookmarks(limit=20))  # list[Tweet]
+```
+
+Users and timelines:
+
+```python
+user_login = "xdevelopers"
+user_id = 2244994945
+
+await api.user_by_login(user_login)  # User
+await api.user_about(user_login)  # AccountAbout
+await gather(api.following(user_id, limit=20))  # list[User]
+await gather(api.followers(user_id, limit=20))  # list[User]
+await gather(api.verified_followers(user_id, limit=20))  # list[User]
+await gather(api.subscriptions(user_id, limit=20))  # list[User]
+await gather(api.user_tweets(user_id, limit=20))  # list[Tweet]
+await gather(api.user_tweets_and_replies(user_id, limit=20))  # list[Tweet]
+await gather(api.user_media(user_id, limit=20))  # list[Tweet]
+```
+
+Lists:
+
+```python
+list_id = 123456789
+
+await gather(api.list_timeline(list_id, limit=20))  # list[Tweet]
+await gather(api.list_members(list_id, limit=20))  # list[User]
+```
+
+Communities:
+
+```python
+community_id = 1501272736215322629
+
+await api.community_info(community_id)  # Community
+await gather(api.community_members(community_id, limit=20))  # list[User]
+await gather(api.community_moderators(community_id, limit=20))  # list[User]
+await gather(api.community_tweets(community_id, limit=20))  # list[Tweet]
+```
+
+Trends:
+
+```python
+await gather(api.trends("news"))  # list[Trend]
+await gather(api.trends("sport"))  # list[Trend]
+await gather(api.trends("entertainment"))  # list[Trend]
+await gather(api.trends("VGltZWxpbmU6DAC2CwABAAAACHRyZW5kaW5nAAA"))  # list[Trend]
+```
+
+Parsed `Tweet`, `User`, `Community`, and trend objects can be converted with `.dict()` or `.json()`.
+
 ## CLI
 
-### Get help on CLI commands
-
-```sh
-# show all commands
+```bash
 twscrape
-
-# help on specific comand
 twscrape search --help
 ```
 
-### Add accounts
+Commands:
 
-To add accounts use `add_accounts` command. Command syntax is:
-```sh
-twscrape add_accounts <file_path> <line_format>
-```
-
-Where:
-`<line_format>` is format of line if accounts file splited by delimeter. Possible tokens:
-- `username` – required
-- `password` – required
-- `email` – required
-- `email_password` – to receive email code (you can use `--manual` mode to get code)
-- `cookies` – can be any parsable format (string, json, base64 string, etc)
-- `_` – skip column from parse
-
-Tokens should be splited by delimeter, usually "`:`" used.
-
-Example:
-
-I have account files named `order-12345.txt` with format:
-```text
-username:password:email:email password:user_agent:cookies
-```
-
-Command to add accounts will be (user_agent column skiped with `_`):
-```sh
-twscrape add_accounts ./order-12345.txt username:password:email:email_password:_:cookies
-```
-
-### Add account with cookies (easiest)
-
-If you have browser cookies, you can add an account directly without a file:
-
-```sh
-twscrape add_cookie <username> "auth_token=xxx; ct0=yyy"
-```
-
-Or omit the cookies to be prompted interactively:
-
-```sh
-twscrape add_cookie <username>
-```
-
-To get cookies: open x.com → DevTools (F12) → Application → Cookies → copy `auth_token` and `ct0` values.
-
-Cookie-based accounts are activated immediately — no `login_accounts` step needed.
-
-### Login accounts
-
-_Note:_ If you added accounts with cookies, login not required.
-
-Run:
-
-```sh
-twscrape login_accounts
-```
-
-`twscrape` will start login flow for each new account. If X will ask to verify email and you provided `email_password` in `add_account`, then `twscrape` will try to receive verification code by IMAP protocol. After success login account cookies will be saved to db file for future use.
-
-#### Manual email verification
-
-In case your email provider not support IMAP protocol (ProtonMail, Tutanota, etc) or IMAP is disabled in settings, you can enter email verification code manually. To do this run login command with `--manual` flag.
-
-Example:
-
-```sh
-twscrape login_accounts --manual
-twscrape relogin user1 user2 --manual
-twscrape relogin_failed --manual
-```
-
-### Get list of accounts and their statuses
-
-```sh
-twscrape accounts
-
-# Output:
-# username  logged_in  active  last_used            total_req  error_msg
-# user1     True       True    2023-05-20 03:20:40  100        None
-# user2     True       True    2023-05-20 03:25:45  120        None
-# user3     False      False   None                 120        Login error
-```
-
-### Re-login accounts
-
-It is possible to re-login specific accounts:
-
-```sh
-twscrape relogin user1 user2
-```
-
-Or retry login for all failed logins:
-
-```sh
-twscrape relogin_failed
-```
-
-### Use different accounts file
-
-Useful if using a different set of accounts for different actions
-
-```
-twscrape --db test-accounts.db <command>
-```
-
-### Search commands
-
-```sh
+```bash
 twscrape search "QUERY" --limit=20
 twscrape tweet_details TWEET_ID
 twscrape tweet_replies TWEET_ID --limit=20
@@ -300,105 +224,153 @@ twscrape community_tweets COMMUNITY_ID --limit=20
 twscrape trends sport
 ```
 
-The default output is in the console (stdout), one document per line. So it can be redirected to the file.
+CLI output is JSON Lines: one document per line.
 
-```sh
-twscrape search "elon mask lang:es" --limit=20 > data.txt
+```bash
+twscrape search "elon musk lang:es" --limit=20 > tweets.jsonl
+twscrape search "elon musk lang:es" --limit=20 --raw
 ```
 
-By default, parsed data is returned. The original tweet responses can be retrieved with `--raw` flag.
+Use a separate account database when you need isolated account pools:
 
-```sh
-twscrape search "elon mask lang:es" --limit=20 --raw
+```bash
+twscrape --db research.db search "python lang:en" --limit=100
 ```
 
-### About `limit` param
+## Accounts
 
-X API works through pagination, each API method can have different defaults for per page parameter (and this parameter can't be changed by caller). So `limit` param in `twscrape` is the desired number of objects (tweets or users, depending on the method). `twscrape` tries to return NO LESS objects than requested. If the X API returns less or more objects, `twscrape` will return whatever X gives.
+Add username/password accounts from a file:
+
+```bash
+twscrape add_accounts ./accounts.txt username:password:email:email_password
+twscrape login_accounts
+```
+
+`twscrape login_accounts` starts the login flow for each inactive account. If X asks for email verification and `email_password` is available, twscrape tries to read the code through IMAP and saves the resulting cookies for later use.
+
+`line_format` describes how each line is split. Supported tokens:
+
+- `username` - required
+- `password` - required
+- `email` - required
+- `email_password` - used to fetch email verification codes through IMAP
+- `cookies` - cookie string, JSON, base64, or another format accepted by the parser
+- `_` - skip column
+
+Example account file:
+
+```text
+username:password:email:email password:user_agent:cookies
+```
+
+Command:
+
+```bash
+twscrape add_accounts ./accounts.txt username:password:email:email_password:_:cookies
+```
+
+If IMAP is unavailable, enter verification codes manually:
+
+```bash
+twscrape login_accounts --manual
+twscrape relogin user1 user2 --manual
+twscrape relogin_failed --manual
+```
+
+Inspect and maintain the pool:
+
+```bash
+twscrape accounts
+twscrape stats
+twscrape relogin user1 user2
+twscrape relogin_failed
+twscrape reset_locks
+twscrape delete_inactive
+twscrape del_accounts user1 user2
+```
+
+`twscrape accounts` prints the current account state:
+
+```text
+username  logged_in  active  last_used            total_req  error_msg
+user1     True       True    2023-05-20 03:20:40  100        None
+user2     True       True    2023-05-20 03:25:45  120        None
+user3     False      False   None                 120        Login error
+```
+
+## Limits
+
+`limit` is the target number of parsed objects, not a page size. X/Twitter controls page size per endpoint, so a call can return fewer or more objects than requested.
+
+Rate limits are tracked per account and per endpoint. When an account is limited for one operation, twscrape locks it for that operation until the reset time and tries another active account.
+
+`user_tweets` and `user_tweets_and_replies` are limited by X/Twitter to about 3200 tweets.
 
 ## Proxy
 
-There are few options to use proxies.
+Use a proxy per account, per API instance, or for CLI commands:
 
-1. You can add proxy per account
+```python
+await api.pool.add_account(
+    "user1",
+    "pass1",
+    "user1@example.com",
+    "email_pass1",
+    proxy="http://login:pass@example.com:8080",
+)
 
-```py
-proxy = "http://login:pass@example.com:8080"
-await api.pool.add_account("user4", "pass4", "u4@mail.com", "mail_pass4", proxy=proxy)
+api = API(proxy="http://login:pass@example.com:8080")
+doc = await api.user_by_login("xdevelopers")
 ```
 
-2. You can use global proxy for all accounts
-
-```py
-proxy = "http://login:pass@example.com:8080"
-api = API(proxy=proxy)
-doc = await api.user_by_login("elonmusk")
+```bash
+TWS_PROXY=socks5://user:pass@127.0.0.1:1080 twscrape user_by_login xdevelopers
 ```
 
-3. Use can set proxy with environemt variable `TWS_RPOXY`:
+Proxy priority:
 
-```sh
-TWS_PROXY=socks5://user:pass@127.0.0.1:1080 twscrape user_by_login elonmusk
-```
+1. `api.proxy`
+2. `TWS_PROXY`
+3. account proxy
 
-4. You can change proxy any time like:
+Do not set `api.proxy` or `TWS_PROXY` when you want per-account proxies to be used.
 
-```py
-api.proxy = "socks5://user:pass@127.0.0.1:1080"
-doc = await api.user_by_login("elonmusk")  # new proxy will be used
-api.proxy = None
-doc = await api.user_by_login("elonmusk")  # no proxy used
-```
+## Environment
 
-5. Proxy priorities
-
-- `api.proxy` have top priority
-- `env.proxy` will be used if `api.proxy` is None
-- `acc.proxy` have lowest priotity
-
-So if you want to use proxy PER ACCOUNT, do NOT override proxy with env variable or by passing proxy param to API.
-
-_Note:_ If proxy not working, exception will be raised from API class.
-
-## Environment Variables
-
-- `TWS_PROXY` - global proxy for all accounts (e.g. `socks5://user:pass@127.0.0.1:1080`)
-- `TWS_WAIT_EMAIL_CODE` - timeout for email verification code during login (default: `30`, in seconds)
-- `TWS_RAISE_WHEN_NO_ACCOUNT` - raise `NoAccountError` exception when no available accounts, instead of waiting (default: `false`, values: `false`/`0`/`true`/`1`)
-- `TWS_HTTP_BACKEND` - force HTTP backend: `httpx` or `curl` (default: `httpx`)
-- `TWS_TELEMETRY` - set to `0` to disable anonymous telemetry
-
-## Limitations
-
-X/Twitter regularly [updates](https://x.com/elonmusk/status/1675187969420828672) their rate limits. Current basic behavior:
-- Request limits reset every 15 minutes for each endpoint individually
-- Each account has separate limits for different operations (search, profile views, etc.)
-
-API data limitations:
-- `user_tweets` & `user_tweets_and_replies` - can return ~3200 tweets maximum
-- Rate limits may vary based on account age and status
+- `TWS_PROXY` - global proxy for all accounts
+- `TWS_WAIT_EMAIL_CODE` - email verification timeout in seconds, default `30`
+- `TWS_RAISE_WHEN_NO_ACCOUNT` - raise `NoAccountError` instead of waiting; accepts `false`, `0`, `true`, `1`
+- `TWS_HTTP_BACKEND` - `httpx` or `curl`
+- `TWS_LOG_LEVEL` - logger level, default `INFO`
+- `TWS_TELEMETRY=0` - disable anonymous telemetry
+- `DO_NOT_TRACK=1` - disable anonymous telemetry
 
 ## Telemetry
 
-twscrape collects anonymous, aggregated telemetry to understand which GraphQL operations are used and which HTTP backend is selected.
+twscrape collects anonymous, aggregated telemetry about GraphQL operation names and the selected HTTP backend.
 
-The payload includes:
+Included:
 
 - GraphQL operation name
-- HTTP method and backend (`httpx` or `curl`)
+- HTTP method and backend
 - twscrape version
 - Python version
 - platform
 
-twscrape does not collect account usernames, cookies, proxies, query variables, request URLs, response bodies, or search text.
+Not included:
 
-Disable telemetry with `TWS_TELEMETRY=0`.
+- account usernames
+- cookies
+- proxies
+- query variables
+- request URLs
+- response bodies
+- search text
 
-## Articles
-- [How to still scrape millions of tweets in 2023](https://medium.com/@vladkens/how-to-still-scrape-millions-of-tweets-in-2023-using-twscrape-97f5d3881434)
-- [_(Add Article)_](https://github.com/vladkens/twscrape/edit/main/readme.md)
+Disable telemetry with `TWS_TELEMETRY=0` or `DO_NOT_TRACK=1`.
 
-## See also
-- [twitter-advanced-search](https://github.com/igorbrigadir/twitter-advanced-search) – guide on search filters
-- [TweeterPy](https://github.com/iSarabjitDhiman/TweeterPy) - Another X client
-- [twitter-api-client](https://github.com/trevorhobenshield/twitter-api-client) – Implementation of Twitter's v1, v2, and GraphQL APIs
+## See Also
+
+- [twitter-advanced-search](https://github.com/igorbrigadir/twitter-advanced-search) - guide on search filters
+- [TweeterPy](https://github.com/iSarabjitDhiman/TweeterPy) - another X client
+- [twitter-api-client](https://github.com/trevorhobenshield/twitter-api-client) - implementation of Twitter's v1, v2, and GraphQL APIs

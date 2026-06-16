@@ -1,3 +1,23 @@
+## v0.19.0 – 2026-06-16
+
+### Breaking Changes
+- Changed raw API responses to return `twscrape.Response` instead of `httpx.Response` (#269, #308)
+
+### Features
+- Added optional `curl-cffi` HTTP backend for browser-like TLS fingerprinting, enabled with `TWS_HTTP_BACKEND=curl` after installing `twscrape[curl]` (#269, #308)
+
+### Fixes
+- Fixed GraphQL operation IDs and response parsing for current X API responses
+- Fixed `x-client-transaction-id` generation for X's current web bundle (#312, #313, by @Flaburgan)
+- Fixed retweeted originals appearing as duplicate top-level tweets in timelines (#310, #311, by @Flaburgan)
+
+### Improvements
+- Added anonymous GraphQL usage telemetry with opt-out via `TWS_TELEMETRY=0`
+
+**Full Changelog**: https://github.com/vladkens/twscrape/compare/v0.18.1...v0.19.0
+
+---
+
 ## v0.18.1 – 2026-05-23
 
 ### Fixes
