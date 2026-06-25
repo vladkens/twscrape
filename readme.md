@@ -40,6 +40,21 @@ TWS_HTTP_BACKEND=curl twscrape user_by_login xdevelopers
 - Raw Twitter API responses and parsed SNScrape-compatible models
 - Automatic account switching across rate-limited operations
 
+## Sponsor
+
+<table>
+  <tr>
+    <td width="340" align="center">
+      <a href="https://www.swiftproxy.net/?ref=twscrape">
+        <img src=".github/swiftproxy.png" alt="Swiftproxy residential proxies" width="320" height="168">
+      </a>
+    </td>
+    <td>
+      <strong><a href="https://www.swiftproxy.net/?ref=twscrape">Swiftproxy</a></strong> provides 90M+ residential IPs across 220+ locations worldwide for web scraping, automation, and data collection. Non-expiring traffic, 99.8% uptime, city-level targeting, and a free trial. Use code <code>PROXY90</code> for 10% off.
+    </td>
+  </tr>
+</table>
+
 ## Start With Cookies
 
 twscrape requires authorized X/Twitter accounts. The most stable setup is to add an account from browser cookies containing `auth_token` and `ct0`.
