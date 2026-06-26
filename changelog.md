@@ -1,3 +1,12 @@
+## v0.19.1 – 2026-06-26
+
+### Maintenance
+- Updated GraphQL operation IDs for current X API compatibility
+
+**Full Changelog**: https://github.com/vladkens/twscrape/compare/v0.19.0...v0.19.1
+
+---
+
 ## v0.19.0 – 2026-06-16
 
 ### Breaking Changes

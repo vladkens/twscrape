@@ -42,6 +42,11 @@ jobs:
             exit 1
           fi
 
+      - name: Prepare README for PyPI
+        run: |
+          BASE_URL="https://raw.githubusercontent.com/${{ github.repository }}/${{ github.ref_name }}"
+          sed -i "s#src=\"\\.github/#src=\"${BASE_URL}/.github/#g" readme.md
+
       - run: uv build
 
       - name: Extract changelog entry
