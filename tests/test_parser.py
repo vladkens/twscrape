@@ -182,7 +182,6 @@ def check_user_field_coverage(users: list[User]):
     assert any(x.profileBannerUrl is not None for x in users)
     assert any(isinstance(x.protected, bool) for x in users)
     assert any(isinstance(x.verified, bool) for x in users)
-    assert any(x.blueType is not None for x in users)
 
 
 def check_user_ref(doc: UserRef):
@@ -237,6 +236,7 @@ async def test_user_by_login():
     assert doc is not None
     assert doc.id == 2244994945
     assert doc.username == "XDevelopers"
+    assert doc.blueType == "Business"
 
     obj = doc.dict()
     assert doc.id == obj["id"]
@@ -636,7 +636,10 @@ async def test_cards():
 
 
 async def test_tweet_new_fields():
-    tweets = list(parse_tweets(fake_rep("raw_search").json()))
+    tweets = [
+        *parse_tweets(fake_rep("raw_search").json()),
+        *parse_tweets(fake_rep("raw_tweet_replies").json()),
+    ]
     assert len(tweets) > 0
 
     for doc in tweets:

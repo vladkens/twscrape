@@ -164,7 +164,7 @@ def parse_ops(content: str) -> tuple[str, list[tuple[str, str, str]]]:
 
 
 def render_ops(ops: list[tuple[str, str]]) -> str:
-    lines = [f'OP_{name} = "{op_id}/{name}"' for name, op_id in ops]
+    lines = dict.fromkeys(f'OP_{name} = "{op_id}/{name}"' for name, op_id in ops)
     return "\n" + "\n".join(lines) + "\n"
 
 
@@ -275,4 +275,5 @@ async def main() -> int:
     return 0
 
 
-sys.exit(asyncio.run(main()))
+if __name__ == "__main__":
+    sys.exit(asyncio.run(main()))
