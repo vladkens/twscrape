@@ -42,18 +42,18 @@ TWS_HTTP_BACKEND=curl twscrape user_by_login xdevelopers
 
 ## Sponsor
 
-<table>
-  <tr>
-    <td width="340" align="center">
-      <a href="https://www.swiftproxy.net/?ref=twscrape">
-        <img src=".github/swiftproxy.png" alt="Swiftproxy residential proxies" width="320" height="168">
-      </a>
-    </td>
-    <td>
-      <strong><a href="https://www.swiftproxy.net/?ref=twscrape">Swiftproxy</a></strong> provides 90M+ residential IPs across 220+ locations worldwide for web scraping, automation, and data collection. Non-expiring traffic, 99.8% uptime, city-level targeting, and a free trial. Use code <code>PROXY90</code> for 10% off.
-    </td>
-  </tr>
-</table>
+<p align="center">
+  <a href="https://www.swiftproxy.net/?ref=twscrape">
+    <img src=".github/swiftproxy.png" alt="Swiftproxy residential proxies" width="460">
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://www.swiftproxy.net/?ref=twscrape"><strong>Swiftproxy</strong></a>
+  provides 90M+ residential IPs across 220+ locations for web scraping,
+  automation, and data collection. Non-expiring traffic, city-level targeting,
+  and a free trial. Use code <code>PROXY90</code> for 10% off.
+</p>
 
 ## Start With Cookies
 
