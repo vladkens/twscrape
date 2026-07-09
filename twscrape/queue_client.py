@@ -22,18 +22,19 @@ class AbortReqError(Exception): ...
 
 
 class XClIdGenStore:
-    items: dict[str, XClIdGen] = {}  # username -> XClIdGen
+    items: dict[tuple[str, str | None], XClIdGen] = {}  # (username, proxy) -> XClIdGen
 
     @classmethod
-    async def get(cls, username: str, fresh=False) -> XClIdGen:
-        if username in cls.items and not fresh:
-            return cls.items[username]
+    async def get(cls, username: str, proxy: str | None = None, fresh=False) -> XClIdGen:
+        key = (username, proxy)
+        if key in cls.items and not fresh:
+            return cls.items[key]
 
         tries = 0
         while tries < 3:
             try:
-                clid_gen = await XClIdGen.create()
-                cls.items[username] = clid_gen
+                clid_gen = await XClIdGen.create(proxy=proxy)
+                cls.items[key] = clid_gen
                 return clid_gen
             except Exception as e:
                 tries += 1
@@ -48,10 +49,11 @@ class XClIdGenStore:
 
 
 class Ctx:
-    def __init__(self, acc: Account, clt: HttpClient):
+    def __init__(self, acc: Account, clt: HttpClient, proxy: str | None = None):
         self.req_count = 0
         self.acc = acc
         self.clt = clt
+        self.proxy = proxy
 
     async def aclose(self):
         await self.clt.aclose()
@@ -63,7 +65,7 @@ class Ctx:
 
         tries = 0
         while tries < 3:
-            gen = await XClIdGenStore.get(self.acc.username, fresh=tries > 0)
+            gen = await XClIdGenStore.get(self.acc.username, proxy=self.proxy, fresh=tries > 0)
             hdr = {"x-client-transaction-id": gen.calc(method, path)}
             rep = await self.clt.request(method, url, params=params, headers=hdr)
             if rep.status_code != 404:
@@ -157,7 +159,7 @@ class QueueClient:
             return None
 
         clt = acc.make_client(proxy=self.proxy)
-        self.ctx = Ctx(acc, clt)
+        self.ctx = Ctx(acc, clt, proxy=acc.resolve_proxy(self.proxy))
         return self.ctx
 
     async def _check_rep(self, rep: Response) -> None:
