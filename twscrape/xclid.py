@@ -2,8 +2,10 @@ import asyncio
 import base64
 import hashlib
 import math
+import os
 import random
 import re
+import sys
 import time
 from urllib.parse import urljoin
 
@@ -11,6 +13,7 @@ import bs4
 
 from .http import HttpClient
 from .http import make_client as _make_http_client
+from .utils import parse_cookies
 
 
 def _make_client(cookies: dict[str, str] | None = None) -> HttpClient:
@@ -351,7 +354,12 @@ class XClIdGen:
 
 
 async def main():
-    clt = _make_client()
+    cookies_raw = os.getenv("TWS_COOKIES")
+    cookies = parse_cookies(cookies_raw) if cookies_raw else None
+    if not cookies:
+        print("Warning: TWS_COOKIES not set — anonymous fetch will likely fail.", file=sys.stderr)
+
+    clt = _make_client(cookies=cookies)
     try:
         text = await get_tw_page_text("https://x.com/elonmusk", clt)
         soup = bs4.BeautifulSoup(text, "html.parser")
