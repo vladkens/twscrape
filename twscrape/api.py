@@ -109,17 +109,21 @@ class API:
         wait_timeout: float | None = None,
         wait_interval: float = 5.0,
     ):
-        pool_kwargs = {
-            "raise_when_no_account": raise_when_no_account,
-            "wait_timeout": wait_timeout,
-            "wait_interval": wait_interval,
-        }
         if isinstance(pool, AccountsPool):
             self.pool = pool
         elif isinstance(pool, str):
-            self.pool = AccountsPool(db_file=pool, **pool_kwargs)
+            self.pool = AccountsPool(
+                db_file=pool,
+                raise_when_no_account=raise_when_no_account,
+                wait_timeout=wait_timeout,
+                wait_interval=wait_interval,
+            )
         else:
-            self.pool = AccountsPool(**pool_kwargs)
+            self.pool = AccountsPool(
+                raise_when_no_account=raise_when_no_account,
+                wait_timeout=wait_timeout,
+                wait_interval=wait_interval,
+            )
 
         self.proxy = proxy
         self.debug = debug

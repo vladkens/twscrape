@@ -311,7 +311,9 @@ class AccountsPool:
                     logger.info(f"Continuing with account {account.username} on queue {queue}")
                 return account
 
-            raise_no_account = self._raise_when_no_account or get_env_bool("TWS_RAISE_WHEN_NO_ACCOUNT")
+            raise_no_account = self._raise_when_no_account or get_env_bool(
+                "TWS_RAISE_WHEN_NO_ACCOUNT"
+            )
 
             # next_available_at returns None only when no active account exists at all,
             # in which case waiting is futile. A timestamp means active accounts exist
