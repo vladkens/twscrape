@@ -25,14 +25,14 @@ class XClIdGenStore:
     items: dict[str, XClIdGen] = {}  # username -> XClIdGen
 
     @classmethod
-    async def get(cls, username: str, fresh=False) -> XClIdGen:
+    async def get(cls, username: str, cookies: dict[str, str] | None = None, fresh=False) -> XClIdGen:
         if username in cls.items and not fresh:
             return cls.items[username]
 
         tries = 0
         while tries < 3:
             try:
-                clid_gen = await XClIdGen.create()
+                clid_gen = await XClIdGen.create(cookies=cookies)
                 cls.items[username] = clid_gen
                 return clid_gen
             except Exception as e:
@@ -63,7 +63,7 @@ class Ctx:
 
         tries = 0
         while tries < 3:
-            gen = await XClIdGenStore.get(self.acc.username, fresh=tries > 0)
+            gen = await XClIdGenStore.get(self.acc.username, cookies=self.acc.cookies, fresh=tries > 0)
             hdr = {"x-client-transaction-id": gen.calc(method, path)}
             rep = await self.clt.request(method, url, params=params, headers=hdr)
             if rep.status_code != 404:

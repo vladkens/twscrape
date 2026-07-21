@@ -13,8 +13,8 @@ from .http import HttpClient
 from .http import make_client as _make_http_client
 
 
-def _make_client() -> HttpClient:
-    return _make_http_client(headers={"user-agent": "@chrome"})
+def _make_client(cookies: dict[str, str] | None = None) -> HttpClient:
+    return _make_http_client(headers={"user-agent": "@chrome"}, cookies=cookies)
 
 
 async def get_tw_page_text(url: str, clt: HttpClient):
@@ -315,8 +315,11 @@ async def load_keys(soup: bs4.BeautifulSoup, clt: HttpClient) -> tuple[list[int]
 
 class XClIdGen:
     @staticmethod
-    async def create() -> "XClIdGen":
-        clt = _make_client()
+    async def create(cookies: dict[str, str] | None = None) -> "XClIdGen":
+        # X serves a different/legacy web build to authenticated vs anonymous
+        # sessions. Only authenticated sessions reliably contain the indices
+        # this parser depends on (see INDICES_FILE_RE).
+        clt = _make_client(cookies=cookies)
         try:
             text = await get_tw_page_text("https://x.com/tesla", clt)
             soup = bs4.BeautifulSoup(text, "html.parser")
