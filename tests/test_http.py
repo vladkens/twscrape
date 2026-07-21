@@ -461,7 +461,8 @@ def test_curl_client_strips_user_agent_from_session():
 def test_httpx_client_resolves_ua_hint_to_real_string():
     from twscrape.http import HttpxClient
 
-    client = HttpxClient(headers={"user-agent": "@firefox"})
+    expected_ua, _ = _resolve_browser("@chrome", seed=0)
+    client = HttpxClient(headers={"user-agent": "@chrome"}, seed=0)
     ua = dict(client._client.headers).get("user-agent", "")
-    assert "Firefox/" in ua
+    assert ua == expected_ua
     assert "@" not in ua
