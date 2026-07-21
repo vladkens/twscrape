@@ -39,10 +39,20 @@ class AccountsPool:
         db_file="accounts.db",
         login_config: LoginConfig | None = None,
         raise_when_no_account=False,
+        wait_timeout: float | None = None,
+        wait_interval: float = 5.0,
     ):
         self._db_file = db_file
         self._login_config = login_config or LoginConfig()
         self._raise_when_no_account = raise_when_no_account
+        # When every active account is momentarily locked (in-use or rate-limited),
+        # get_for_queue_or_wait polls for up to wait_timeout seconds (every
+        # wait_interval) before giving up. This lets a brief in-use lock resolve into
+        # a successful acquisition instead of an instant failure, while a real
+        # rate-limit is not waited out indefinitely. None keeps the legacy behaviour
+        # (raise immediately if raise_when_no_account, otherwise block forever).
+        self._wait_timeout = wait_timeout
+        self._wait_interval = wait_interval
 
     async def load_from_file(self, filepath: str, line_format: str):
         line_delim = guess_delim(line_format)
@@ -292,30 +302,45 @@ class AccountsPool:
         return await self._get_and_lock(queue, q)
 
     async def get_for_queue_or_wait(self, queue: str) -> Account | None:
+        start = utc.now()
         msg_shown = False
         while True:
             account = await self.get_for_queue(queue)
-            if not account:
-                if self._raise_when_no_account or get_env_bool("TWS_RAISE_WHEN_NO_ACCOUNT"):
-                    raise NoAccountError(f"No account available for queue {queue}")
-
-                if not msg_shown:
-                    nat = await self.next_available_at(queue)
-                    if not nat:
-                        logger.warning("No active accounts. Stopping...")
-                        return None
-
-                    msg = f'No account available for queue "{queue}". Next available at {nat}'
-                    logger.info(msg)
-                    msg_shown = True
-
-                await asyncio.sleep(5)
-                continue
-            else:
+            if account is not None:
                 if msg_shown:
                     logger.info(f"Continuing with account {account.username} on queue {queue}")
+                return account
 
-            return account
+            raise_no_account = self._raise_when_no_account or get_env_bool(
+                "TWS_RAISE_WHEN_NO_ACCOUNT"
+            )
+
+            # next_available_at returns None only when no active account exists at all,
+            # in which case waiting is futile. A timestamp means active accounts exist
+            # but are all locked right now (in-use or rate-limited).
+            nat = await self.next_available_at(queue)
+            no_active = not nat
+
+            # Give up (raise / stop) when: no active account exists, the caller opted
+            # out of waiting (wait_timeout is None), or the wait budget is exhausted.
+            elapsed = (utc.now() - start).total_seconds()
+            give_up = no_active or self._wait_timeout is None or elapsed >= self._wait_timeout
+            if give_up:
+                if raise_no_account:
+                    raise NoAccountError(f"No account available for queue {queue}")
+                if no_active:
+                    logger.warning("No active accounts. Stopping...")
+                    return None
+                if self._wait_timeout is not None:
+                    return None
+                # wait_timeout is None and not raising: fall through to the legacy
+                # unbounded wait below.
+
+            if not msg_shown:
+                logger.info(f'No account available for queue "{queue}". Next available at {nat}')
+                msg_shown = True
+
+            await asyncio.sleep(self._wait_interval)
 
     async def next_available_at(self, queue: str):
         qs = f"""

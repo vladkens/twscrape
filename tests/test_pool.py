@@ -1,6 +1,7 @@
 import pytest
 
 from twscrape.accounts_pool import AccountsPool, NoAccountError
+from twscrape.api import API
 from twscrape.utils import utc
 
 
@@ -238,6 +239,60 @@ async def test_get_for_queue_or_wait_raises_via_env(pool_mock: AccountsPool, mon
     monkeypatch.setenv("TWS_RAISE_WHEN_NO_ACCOUNT", "1")
     with pytest.raises(NoAccountError):
         await pool_mock.get_for_queue_or_wait("TestQueue")
+
+
+async def test_get_for_queue_or_wait_waits_for_locked_account(
+    pool_mock: AccountsPool, monkeypatch
+):
+    queue = "TestQueue"
+    pool = AccountsPool(pool_mock._db_file, wait_timeout=1, wait_interval=0.1)
+    await pool.add_account("user1", "pass1", "email1", "ep1")
+    await pool.set_active("user1", True)
+    await pool.get_for_queue(queue)
+
+    intervals = []
+
+    async def release_account(interval):
+        intervals.append(interval)
+        await pool.unlock("user1", queue)
+
+    monkeypatch.setattr("twscrape.accounts_pool.asyncio.sleep", release_account)
+
+    account = await pool.get_for_queue_or_wait(queue)
+
+    assert account is not None
+    assert account.username == "user1"
+    assert intervals == [0.1]
+
+
+async def test_get_for_queue_or_wait_returns_none_when_timeout_is_zero(pool_mock: AccountsPool):
+    queue = "TestQueue"
+    pool = AccountsPool(pool_mock._db_file, wait_timeout=0)
+    await pool.add_account("user1", "pass1", "email1", "ep1")
+    await pool.set_active("user1", True)
+    await pool.get_for_queue(queue)
+
+    assert await pool.get_for_queue_or_wait(queue) is None
+
+
+async def test_get_for_queue_or_wait_does_not_wait_without_active_accounts(
+    pool_mock: AccountsPool, monkeypatch
+):
+    pool = AccountsPool(pool_mock._db_file, wait_timeout=1)
+
+    async def fail_if_called(_):
+        pytest.fail("should not wait when no accounts are active")
+
+    monkeypatch.setattr("twscrape.accounts_pool.asyncio.sleep", fail_if_called)
+
+    assert await pool.get_for_queue_or_wait("TestQueue") is None
+
+
+def test_api_passes_wait_config_to_new_pool(tmp_path):
+    api = API(str(tmp_path / "test.db"), wait_timeout=1, wait_interval=0.1)
+
+    assert api.pool._wait_timeout == 1
+    assert api.pool._wait_interval == 0.1
 
 
 async def test_accounts_info_active_first(pool_mock: AccountsPool):

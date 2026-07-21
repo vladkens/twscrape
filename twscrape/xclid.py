@@ -16,8 +16,8 @@ from .http import make_client as _make_http_client
 from .utils import parse_cookies
 
 
-def _make_client(cookies: dict[str, str] | None = None) -> HttpClient:
-    return _make_http_client(headers={"user-agent": "@chrome"}, cookies=cookies)
+def _make_client(proxy: str | None = None, cookies: dict[str, str] | None = None) -> HttpClient:
+    return _make_http_client(headers={"user-agent": "@chrome"}, proxy=proxy, cookies=cookies)
 
 
 async def get_tw_page_text(url: str, clt: HttpClient):
@@ -318,11 +318,13 @@ async def load_keys(soup: bs4.BeautifulSoup, clt: HttpClient) -> tuple[list[int]
 
 class XClIdGen:
     @staticmethod
-    async def create(cookies: dict[str, str] | None = None) -> "XClIdGen":
+    async def create(
+        proxy: str | None = None, cookies: dict[str, str] | None = None
+    ) -> "XClIdGen":
         # X serves a different/legacy web build to authenticated vs anonymous
         # sessions. Only authenticated sessions reliably contain the indices
         # this parser depends on (see INDICES_FILE_RE).
-        clt = _make_client(cookies=cookies)
+        clt = _make_client(proxy=proxy, cookies=cookies)
         try:
             text = await get_tw_page_text("https://x.com/tesla", clt)
             soup = bs4.BeautifulSoup(text, "html.parser")

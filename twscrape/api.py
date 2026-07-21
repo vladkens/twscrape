@@ -106,13 +106,24 @@ class API:
         debug=False,
         proxy: str | None = None,
         raise_when_no_account=False,
+        wait_timeout: float | None = None,
+        wait_interval: float = 5.0,
     ):
         if isinstance(pool, AccountsPool):
             self.pool = pool
         elif isinstance(pool, str):
-            self.pool = AccountsPool(db_file=pool, raise_when_no_account=raise_when_no_account)
+            self.pool = AccountsPool(
+                db_file=pool,
+                raise_when_no_account=raise_when_no_account,
+                wait_timeout=wait_timeout,
+                wait_interval=wait_interval,
+            )
         else:
-            self.pool = AccountsPool(raise_when_no_account=raise_when_no_account)
+            self.pool = AccountsPool(
+                raise_when_no_account=raise_when_no_account,
+                wait_timeout=wait_timeout,
+                wait_interval=wait_interval,
+            )
 
         self.proxy = proxy
         self.debug = debug

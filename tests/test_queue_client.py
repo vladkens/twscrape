@@ -151,6 +151,48 @@ async def test_ctx_closed_on_break(client_fixture: CF):
     assert client.ctx is None
 
 
+async def test_queue_client_passes_effective_proxy_to_xclid(pool_mock: AccountsPool, monkeypatch):
+    mock = MockClient()
+    seen = {}
+
+    class FakeXClIdGen:
+        def calc(self, *args, **kwargs):
+            return "mocked-clid"
+
+    async def fake_get(cls, username, proxy=None, cookies=None, fresh=False):
+        seen["username"] = username
+        seen["proxy"] = proxy
+        seen["fresh"] = fresh
+        return FakeXClIdGen()
+
+    monkeypatch.setattr(Account, "make_client", lambda self, proxy=None: mock)
+    monkeypatch.setattr(XClIdGenStore, "get", classmethod(fake_get))
+
+    await pool_mock.add_account(
+        "user1",
+        "pass1",
+        "email1",
+        "email_pass1",
+        proxy="127.0.0.1:7897",
+    )
+    await pool_mock.set_active("user1", True)
+
+    client = QueueClient(pool_mock, "SearchTimeline")
+    await client.__aenter__()
+
+    mock.add_response(json={"ok": True})
+    rep = await client.get(URL)
+
+    assert rep is not None
+    assert seen == {
+        "username": "user1",
+        "proxy": "http://127.0.0.1:7897",
+        "fresh": False,
+    }
+
+    await client.__aexit__(None, None, None)
+
+
 # --- ConnectError ---
 
 
@@ -465,7 +507,7 @@ async def test_queue_client_passes_account_cookies_to_xclid(pool_mock: AccountsP
         def calc(self, *args, **kwargs):
             return "mocked-clid"
 
-    async def fake_get(cls, username, cookies=None, fresh=False):
+    async def fake_get(cls, username, proxy=None, cookies=None, fresh=False):
         seen["username"] = username
         seen["cookies"] = cookies
         seen["fresh"] = fresh
