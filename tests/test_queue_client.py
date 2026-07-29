@@ -5,7 +5,7 @@ import pytest
 from twscrape.account import Account
 from twscrape.accounts_pool import AccountsPool
 from twscrape.http import ConnectError, NetworkError
-from twscrape.queue_client import QueueClient, XClIdGenStore
+from twscrape.queue_client import GqlFeaturesOutdatedError, QueueClient, XClIdGenStore
 from twscrape.utils import utc
 from twscrape.xclid import XClIdAccountError, XClIdGen, XClIdParseError
 
@@ -383,6 +383,24 @@ async def test_131_without_user_data_aborts(client_fixture: CF):
     assert rep is None
 
     await client.__aexit__(None, None, None)
+
+
+async def test_gql_features_outdated_raises(client_fixture: CF):
+    pool, client, mock = client_fixture
+    await client.__aenter__()
+
+    mock.add_response(
+        json={"errors": [{"code": 336, "message": "The following features cannot be null: foo"}]}
+    )
+
+    with pytest.raises(GqlFeaturesOutdatedError):
+        await client.get(URL)
+
+    await client.__aexit__(None, None, None)
+
+    # the account must survive: not deactivated, not left locked
+    assert await get_inactive(pool) == set()
+    assert await get_locked(pool) == set()
 
 
 async def test_missing_status_error_ignored(client_fixture: CF):

@@ -30,6 +30,10 @@ class HandledError(Exception): ...
 class AbortReqError(Exception): ...
 
 
+class GqlFeaturesOutdatedError(AbortReqError):
+    """GQL_FEATURES in api.py no longer matches the X API. Retrying cannot help."""
+
+
 class XClIdGenStore:
     items: dict[str, XClIdGen] = {}
 
@@ -209,7 +213,7 @@ class QueueClient:
         # for dev: need to add some features in api.py
         if err_msg.startswith("(336) The following features cannot be null"):
             logger.error(f"[DEV] Update required: {err_msg}")
-            exit(1)
+            raise GqlFeaturesOutdatedError(f"Update GQL_FEATURES in api.py: {err_msg}")
 
         # general api rate limit
         if limit_remaining == 0 and limit_reset > 0:
@@ -304,6 +308,9 @@ class QueueClient:
                 ctx.req_count += 1  # count only successful
                 unknown_retry, connection_retry = 0, 0
                 return rep
+            except GqlFeaturesOutdatedError:
+                # structurally invalid request, retrying cannot help — let the caller see it
+                raise
             except AbortReqError:
                 # abort all queries
                 return
