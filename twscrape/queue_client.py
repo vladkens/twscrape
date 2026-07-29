@@ -272,12 +272,17 @@ class QueueClient:
         return await self.req("GET", url, params=params)
 
     async def req(self, method: HttpMethod, url: str, params: ReqParams = None) -> Response | None:
-        unknown_retry, connection_retry = 0, 0
+        unknown_retry, connection_retry, network_retry = 0, 0, 0
+        network_retry_username: str | None = None
 
         while True:
             ctx = await self._get_ctx()  # not need to close client, class implements __aexit__
             if ctx is None:
                 return None
+
+            if ctx.acc.username != network_retry_username:
+                network_retry_username = ctx.acc.username
+                network_retry = 0
 
             if not has_required_cookies(ctx.acc.cookies):
                 msg = "Missing authentication cookies"
@@ -321,8 +326,16 @@ class QueueClient:
                 )
                 await self._close_ctx()
                 return None
-            except NetworkError:
-                # http transport failed, just retry with same account
+            except NetworkError as e:
+                # http transport failed, retry same account with backoff, up to 3 tries
+                network_retry += 1
+                if network_retry < 3:
+                    await asyncio.sleep(2**network_retry)
+                    continue
+
+                # transport keeps failing, short lock (transport problem, not a rate limit) and rotate to the next account
+                logger.warning(self._format_ctx_error(ctx, e))
+                await self._close_ctx(utc.ts() + 60)
                 continue
             except ConnectError as e:
                 # if proxy misconfigured or host unreachable
