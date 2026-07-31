@@ -94,8 +94,15 @@ async def test_switch_acc_on_http_error(client_fixture: CF):
     assert locked1 == locked3
 
 
-async def test_retry_with_same_acc_on_network_error(client_fixture: CF):
+async def test_retry_with_same_acc_on_network_error(client_fixture: CF, monkeypatch):
     pool, client, mock = client_fixture
+
+    sleeps = []
+
+    async def fake_sleep(secs):
+        sleeps.append(secs)
+
+    monkeypatch.setattr("twscrape.queue_client.asyncio.sleep", fake_sleep)
 
     await client.__aenter__()
     locked1 = await get_locked(pool)
@@ -107,11 +114,68 @@ async def test_retry_with_same_acc_on_network_error(client_fixture: CF):
     rep = await client.get(URL)
     assert rep is not None
     assert rep.json() == {"foo": "2"}
+    assert sleeps == [2]
 
     assert await get_locked(pool) == locked1
 
     username = getattr(rep, "__username", None)
     assert username is not None
+
+
+async def test_network_error_rotates_account_after_3_failures(client_fixture: CF, monkeypatch):
+    pool, client, mock = client_fixture
+
+    sleeps = []
+
+    async def fake_sleep(secs):
+        sleeps.append(secs)
+
+    monkeypatch.setattr("twscrape.queue_client.asyncio.sleep", fake_sleep)
+
+    await client.__aenter__()
+    assert await get_locked(pool) == {"user1"}
+
+    for _ in range(3):
+        mock.add_exception(NetworkError("timeout"))
+    mock.add_response(json={"ok": True})
+
+    rep = await client.get(URL)
+    assert rep is not None
+    assert rep.json() == {"ok": True}
+    assert getattr(rep, "__username", None) == "user2"
+    assert sleeps == [2, 4]
+
+    # user1 is short-locked (~60s transport lock, not the 15-min unknown-error lock)
+    user1 = next(x for x in await pool.get_all() if x.username == "user1")
+    lock_secs = (user1.locks["SearchTimeline"] - utc.now()).total_seconds()
+    assert 0 < lock_secs <= 61
+
+    await client.__aexit__(None, None, None)
+
+
+async def test_network_error_counter_resets_on_account_change(client_fixture: CF, monkeypatch):
+    pool, client, mock = client_fixture
+
+    async def fake_sleep(secs):
+        pass
+
+    monkeypatch.setattr("twscrape.queue_client.asyncio.sleep", fake_sleep)
+
+    await client.__aenter__()
+
+    # 3 failures rotate user1 -> user2, which must get its own 3 tries: if the
+    # counter carried over, the first failure on user2 would rotate it too and
+    # exhaust the pool (request would return None)
+    for _ in range(5):
+        mock.add_exception(NetworkError("timeout"))
+    mock.add_response(json={"ok": True})
+
+    rep = await client.get(URL)
+    assert rep is not None
+    assert rep.json() == {"ok": True}
+    assert getattr(rep, "__username", None) == "user2"
+
+    await client.__aexit__(None, None, None)
 
 
 async def test_ctx_closed_on_break(client_fixture: CF):
@@ -199,22 +263,48 @@ async def test_queue_client_passes_effective_proxy_to_xclid(pool_mock: AccountsP
 # --- ConnectError ---
 
 
-async def test_connect_error_raises_after_3_retries(client_fixture: CF):
+async def test_connect_error_cools_account_and_rotates_after_3_retries(
+    client_fixture: CF, monkeypatch
+):
     pool, client, mock = client_fixture
+
+    sleeps = []
+
+    async def fake_sleep(secs):
+        sleeps.append(secs)
+
+    monkeypatch.setattr("twscrape.queue_client.asyncio.sleep", fake_sleep)
+
     await client.__aenter__()
+    assert await get_locked(pool) == {"user1"}
 
     mock.add_exception(ConnectError("refused"))
     mock.add_exception(ConnectError("refused"))
     mock.add_exception(ConnectError("refused"))
+    mock.add_response(json={"ok": True})
 
-    with pytest.raises(ConnectError):
-        await client.get(URL)
+    rep = await client.get(URL)
+    assert rep is not None
+    assert rep.json() == {"ok": True}
+    assert getattr(rep, "__username", None) == "user2"
+    assert sleeps == [2, 4]
+
+    # user1 got the short transport cooldown lock, not the 15min unknown-error lock
+    user1 = next(x for x in await pool.get_all() if x.username == "user1")
+    lock_secs = (user1.locks["SearchTimeline"] - utc.now()).total_seconds()
+    assert 0 < lock_secs <= 61
 
     await client.__aexit__(None, None, None)
 
 
-async def test_connect_error_recovers_before_3_retries(client_fixture: CF):
+async def test_connect_error_recovers_before_3_retries(client_fixture: CF, monkeypatch):
     pool, client, mock = client_fixture
+
+    async def fake_sleep(secs):
+        pass
+
+    monkeypatch.setattr("twscrape.queue_client.asyncio.sleep", fake_sleep)
+
     await client.__aenter__()
 
     mock.add_exception(ConnectError("refused"))
@@ -224,6 +314,63 @@ async def test_connect_error_recovers_before_3_retries(client_fixture: CF):
     rep = await client.get(URL)
     assert rep is not None
     assert rep.json() == {"ok": True}
+    assert getattr(rep, "__username", None) == "user1"
+
+    await client.__aexit__(None, None, None)
+
+
+async def test_alternating_categories_trip_total_safety_net(client_fixture: CF, monkeypatch):
+    pool, client, mock = client_fixture
+
+    async def fake_sleep(secs):
+        pass
+
+    monkeypatch.setattr("twscrape.queue_client.asyncio.sleep", fake_sleep)
+
+    await client.__aenter__()
+    assert await get_locked(pool) == {"user1"}
+
+    # neither category alone reaches its own limit (3), but alternating between
+    # them should still trip the combined total-failure safety net (4)
+    mock.add_exception(ConnectError("refused"))
+    mock.add_exception(RuntimeError("boom"))
+    mock.add_exception(ConnectError("refused"))
+    mock.add_exception(RuntimeError("boom"))
+    mock.add_response(json={"ok": True})
+
+    rep = await client.get(URL)
+    assert rep is not None
+    assert getattr(rep, "__username", None) == "user2"
+
+    user1 = next(x for x in await pool.get_all() if x.username == "user1")
+    assert "SearchTimeline" in user1.locks
+
+    await client.__aexit__(None, None, None)
+
+
+async def test_transport_error_retry_budget_is_per_account(client_fixture: CF, monkeypatch):
+    pool, client, mock = client_fixture
+
+    async def fake_sleep(secs):
+        pass
+
+    monkeypatch.setattr("twscrape.queue_client.asyncio.sleep", fake_sleep)
+
+    await client.__aenter__()
+
+    # 3 failures rotate user1 -> user2, which must get its own fresh budget: if the
+    # counter carried over, the first failure on user2 would immediately rotate it
+    # too and exhaust the whole (2-account) pool.
+    for _ in range(5):
+        mock.add_exception(NetworkError("timeout"))
+    mock.add_response(json={"ok": True})
+
+    rep = await client.get(URL)
+    assert rep is not None
+    assert rep.json() == {"ok": True}
+    assert getattr(rep, "__username", None) == "user2"
+
+    await client.__aexit__(None, None, None)
 
     await client.__aexit__(None, None, None)
 

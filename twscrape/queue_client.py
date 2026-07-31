@@ -1,6 +1,7 @@
 import asyncio
 import json
 import os
+from enum import Enum, auto
 from typing import Any
 from urllib.parse import urlparse
 
@@ -34,6 +35,11 @@ class GqlFeaturesOutdatedError(AbortReqError):
     """GQL_FEATURES in api.py no longer matches the X API. Retrying cannot help."""
 
 
+class FailKind(Enum):
+    TRANSPORT = auto()
+    UNKNOWN = auto()
+
+
 class XClIdGenStore:
     items: dict[str, XClIdGen] = {}
 
@@ -59,6 +65,13 @@ class Ctx:
         self.acc = acc
         self.clt = clt
         self.proxy = proxy
+        self.fails = {FailKind.TRANSPORT: 0, FailKind.UNKNOWN: 0}
+
+    def fail(self, kind: FailKind) -> bool:
+        """Count a failed attempt of this kind, return whether it's still worth retrying."""
+        fail_limit, total_fail_limit = 3, 4
+        self.fails[kind] += 1
+        return self.fails[kind] < fail_limit and sum(self.fails.values()) < total_fail_limit
 
     async def aclose(self):
         await self.clt.aclose()
@@ -276,10 +289,10 @@ class QueueClient:
         return await self.req("GET", url, params=params)
 
     async def req(self, method: HttpMethod, url: str, params: ReqParams = None) -> Response | None:
-        unknown_retry, connection_retry = 0, 0
-
         while True:
-            ctx = await self._get_ctx()  # not need to close client, class implements __aexit__
+            # 1. same ctx until _close_ctx() clears it — that's retry vs rotate
+            # 2. no aclose() needed here, __aexit__ handles it
+            ctx = await self._get_ctx()
             if ctx is None:
                 return None
 
@@ -306,7 +319,6 @@ class QueueClient:
                 await self._check_rep(rep)
 
                 ctx.req_count += 1  # count only successful
-                unknown_retry, connection_retry = 0, 0
                 return rep
             except GqlFeaturesOutdatedError:
                 # structurally invalid request, retrying cannot help — let the caller see it
@@ -328,23 +340,25 @@ class QueueClient:
                 )
                 await self._close_ctx()
                 return None
-            except NetworkError:
-                # http transport failed, just retry with same account
-                continue
-            except ConnectError as e:
-                # if proxy misconfigured or host unreachable
-                connection_retry += 1
-                if connection_retry >= 3:
-                    raise e
-            except Exception as e:
-                unknown_retry += 1
-                if unknown_retry >= 3:
-                    msg = [
-                        "Unknown error. Account timeouted for 15 minutes.",
-                        "Create issue please: https://github.com/vladkens/twscrape/issues",
-                        "If it mistake, you can unlock accounts with `twscrape reset_locks`. "
-                        f"Err: {self._format_ctx_error(ctx, e)}",
-                    ]
+            except (NetworkError, ConnectError) as e:
+                # transport failed, retry same account with backoff, then cool it down and rotate
+                if ctx.fail(FailKind.TRANSPORT):
+                    await asyncio.sleep(2 ** ctx.fails[FailKind.TRANSPORT])
+                    continue
 
-                    logger.warning(" ".join(msg))
-                    await self._close_ctx(utc.ts() + 60 * 15)  # 15 minutes
+                logger.warning(f"{self._format_ctx_error(ctx, e)}; cooling account for 60s")
+                await self._close_ctx(utc.ts() + 60)
+                continue
+            except Exception as e:
+                if ctx.fail(FailKind.UNKNOWN):
+                    continue
+
+                msg = [
+                    "Unknown error. Account timeouted for 15 minutes.",
+                    "Create issue please: https://github.com/vladkens/twscrape/issues",
+                    "If it mistake, you can unlock accounts with `twscrape reset_locks`. "
+                    f"Err: {self._format_ctx_error(ctx, e)}",
+                ]
+
+                logger.warning(" ".join(msg))
+                await self._close_ctx(utc.ts() + 60 * 15)  # 15 minutes
