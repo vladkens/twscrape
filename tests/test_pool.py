@@ -193,6 +193,27 @@ async def test_delete_accounts(pool_mock: AccountsPool):
     assert len(await pool_mock.get_all()) == 0
 
 
+async def test_username_lists_are_parameterized(pool_mock: AccountsPool, monkeypatch):
+    username = 'user"quoted'
+    await pool_mock.add_account(username, "pass", "email", "ep")
+
+    async def fake_login(account):
+        return True
+
+    monkeypatch.setattr(pool_mock, "login", fake_login)
+    assert await pool_mock.login_all([username]) == {"total": 1, "success": 1, "failed": 0}
+
+    await pool_mock.relogin(username)
+    assert (await pool_mock.get(username)).active is False
+
+    await pool_mock.delete_accounts([username])
+    assert await pool_mock.get_all() == []
+
+
+async def test_login_all_empty_username_list_is_noop(pool_mock: AccountsPool):
+    assert await pool_mock.login_all([]) == {"total": 0, "success": 0, "failed": 0}
+
+
 async def test_delete_inactive(pool_mock: AccountsPool):
     await pool_mock.add_account("user1", "pass1", "email1", "ep1")
     await pool_mock.add_account("user2", "pass2", "email2", "ep2")
