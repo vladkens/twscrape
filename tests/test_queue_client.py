@@ -1,7 +1,9 @@
+from collections import OrderedDict
 from contextlib import aclosing
 
 import pytest
 
+import twscrape.queue_client as queue_client_module
 from twscrape.account import Account
 from twscrape.accounts_pool import AccountsPool
 from twscrape.http import ConnectError, NetworkError
@@ -520,14 +522,14 @@ async def test_131_with_user_data_continues(client_fixture: CF):
     await client.__aexit__(None, None, None)
 
 
-async def test_131_without_user_data_aborts(client_fixture: CF):
+async def test_131_without_user_data_continues(client_fixture: CF):
     pool, client, mock = client_fixture
     await client.__aenter__()
 
     mock.add_response(json={"errors": [{"code": 131, "message": "Dependency: Internal error"}]})
 
     rep = await client.get(URL)
-    assert rep is None
+    assert rep is not None
 
     await client.__aexit__(None, None, None)
 
@@ -548,6 +550,25 @@ async def test_gql_features_outdated_raises(client_fixture: CF):
     # the account must survive: not deactivated, not left locked
     assert await get_inactive(pool) == set()
     assert await get_locked(pool) == set()
+
+
+async def test_gql_features_outdated_raises_when_not_first(client_fixture: CF):
+    _pool, client, mock = client_fixture
+    await client.__aenter__()
+
+    mock.add_response(
+        json={
+            "errors": [
+                {"code": 999, "message": "Some unfamiliar error"},
+                {"code": 336, "message": "The following features cannot be null: foo"},
+            ]
+        }
+    )
+
+    with pytest.raises(GqlFeaturesOutdatedError):
+        await client.get(URL)
+
+    await client.__aexit__(None, None, None)
 
 
 async def test_missing_status_error_ignored(client_fixture: CF):
@@ -578,15 +599,95 @@ async def test_authorization_error_200_ignored(client_fixture: CF):
     await client.__aexit__(None, None, None)
 
 
-async def test_unknown_error_msg_ignored(client_fixture: CF):
-    pool, client, mock = client_fixture
+async def test_unknown_error_warned_once(client_fixture: CF, monkeypatch):
+    _pool, client, mock = client_fixture
+    logs = []
+    monkeypatch.setattr(queue_client_module.LogOnce, "seen", OrderedDict())
+    monkeypatch.setattr(
+        queue_client_module.logger, "log", lambda level, msg: logs.append((level, msg))
+    )
     await client.__aenter__()
 
-    mock.add_response(json={"errors": [{"code": 999, "message": "Some unfamiliar error"}]})
+    for _ in range(2):
+        mock.add_response(json={"errors": [{"code": 999, "message": "Some unfamiliar error"}]})
+        rep = await client.get(URL)
+        assert rep is not None
 
+    assert [level for level, _msg in logs] == ["WARNING"]
+
+    await client.__aexit__(None, None, None)
+
+
+async def test_unknown_error_statuses_are_logged_separately(client_fixture: CF, monkeypatch):
+    _pool, client, mock = client_fixture
+    logs = []
+    monkeypatch.setattr(queue_client_module.LogOnce, "seen", OrderedDict())
+    monkeypatch.setattr(
+        queue_client_module.logger, "log", lambda level, msg: logs.append((level, msg))
+    )
+    await client.__aenter__()
+
+    for status_code in (200, 500):
+        mock.add_response(
+            status_code=status_code,
+            json={"errors": [{"code": 999, "message": "Some unfamiliar error"}]},
+        )
+        rep = await client.get(URL)
+        assert rep is not None
+
+    assert [level for level, _msg in logs] == ["WARNING", "WARNING"]
+    await client.__aexit__(None, None, None)
+
+
+async def test_api_error_with_data_is_throttled(client_fixture: CF, monkeypatch):
+    _pool, client, mock = client_fixture
+    logs = []
+    monkeypatch.setattr(queue_client_module.LogOnce, "pending", OrderedDict())
+    monkeypatch.setattr(
+        queue_client_module.logger, "log", lambda level, msg: logs.append((level, msg))
+    )
+    await client.__aenter__()
+
+    errors = [
+        {"code": -1, "message": "Dependency: Unspecified"},
+        {"code": -1, "message": "DeadlineExceeded: Unspecified"},
+    ]
+    for response_errors in (errors, list(reversed(errors))):
+        mock.add_response(
+            json={
+                "data": {"search_by_raw_query": {"items": [1]}},
+                "errors": response_errors,
+            }
+        )
+        rep = await client.get(URL)
+        assert rep is not None
+
+    assert [level for level, _msg in logs] == ["DEBUG"]
+    assert "user1" not in logs[0][1]
+    assert "SearchTimeline" in logs[0][1]
+    await client.__aexit__(None, None, None)
+
+
+@pytest.mark.parametrize("data", [None, {}, {"user": None}])
+async def test_api_error_without_useful_data_is_warned(client_fixture: CF, monkeypatch, data):
+    _pool, client, mock = client_fixture
+    logs = []
+    monkeypatch.setattr(queue_client_module.LogOnce, "seen", OrderedDict())
+    monkeypatch.setattr(
+        queue_client_module.logger, "log", lambda level, msg: logs.append((level, msg))
+    )
+    await client.__aenter__()
+
+    mock.add_response(
+        json={
+            "data": data,
+            "errors": [{"code": -1, "message": "Dependency: Unspecified"}],
+        }
+    )
     rep = await client.get(URL)
-    assert rep is not None
 
+    assert rep is not None
+    assert [level for level, _msg in logs] == ["WARNING"]
     await client.__aexit__(None, None, None)
 
 
