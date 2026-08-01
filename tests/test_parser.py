@@ -2,6 +2,8 @@ import json
 import os
 from typing import Any, Callable, cast
 
+import pytest
+
 from twscrape import API, gather
 from twscrape.models import (
     AudiospaceCard,
@@ -15,6 +17,7 @@ from twscrape.models import (
     parse_tweet,
     parse_tweets,
 )
+from twscrape.utils import to_old_rep
 
 BASE_DIR = os.path.dirname(__file__)
 DATA_DIR = os.path.join(BASE_DIR, "mocked-data")
@@ -61,6 +64,25 @@ def mock_rep(fn: Callable[..., Any], filename: str, as_generator=False):
     cb.__name__ = name
     cb.__self__ = owner
     setattr(owner, name, cb)
+
+
+@pytest.mark.parametrize("path", ["core", "author_results"])
+def test_tweet_parser_uses_embedded_author_when_users_map_is_missing(path):
+    obj = to_old_rep(fake_rep("raw_search").json())
+    tweet = next(x for x in obj["tweets"].values() if x.get("user_id_str") in obj["users"])
+    user_id = tweet["user_id_str"]
+    user = obj["users"].pop(user_id)
+    tweet.pop("core", None)
+    tweet.pop("author_results", None)
+    embedded = {"__typename": "User", "rest_id": user_id, "legacy": user}
+    if path == "core":
+        tweet["core"] = {"user_results": {"result": embedded}}
+    else:
+        tweet["author_results"] = {"result": embedded}
+
+    parsed = Tweet.parse(tweet, obj)
+
+    assert parsed.user.id_str == user_id
 
 
 def check_tweet(doc: Tweet | None):

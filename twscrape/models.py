@@ -12,7 +12,7 @@ from typing import Generator, Optional, Union
 
 from .http import Response
 from .logger import logger
-from .utils import find_item, get_or, int_or, to_old_rep, utc
+from .utils import find_item, get_or, int_or, to_old_obj, to_old_rep, utc
 
 
 @dataclass
@@ -289,7 +289,7 @@ class Tweet(JSONTrait):
 
     @staticmethod
     def parse(obj: dict, res: dict):
-        tw_usr = User.parse(res["users"][obj["user_id_str"]])
+        tw_usr = User.parse(_get_tweet_user_obj(obj, res))
 
         rt_id_path = [
             "retweeted_status_id_str",
@@ -735,6 +735,24 @@ def _get_reply_user(tw_obj: dict, res: dict):
 
     # todo: user not found in reply (probably deleted or hidden)
     return None
+
+
+def _get_tweet_user_obj(tw_obj: dict, res: dict) -> dict:
+    """Return the referenced user or an author embedded in the tweet."""
+    user_id = tw_obj.get("user_id_str")
+    users = res.get("users", {})
+    if user_id is not None and user_id in users:
+        return users[user_id]
+
+    for path in ("core.user_results.result", "author_results.result"):
+        user_obj = get_or(tw_obj, path)
+        if not isinstance(user_obj, dict) or user_obj.get("__typename") == "UserUnavailable":
+            continue
+        if "legacy" in user_obj and "rest_id" in user_obj:
+            return to_old_obj(user_obj)
+        return user_obj
+
+    raise KeyError(f"user {user_id} not found in response payload")
 
 
 def _get_source_url(tw_obj: dict):
