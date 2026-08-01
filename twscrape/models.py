@@ -672,7 +672,7 @@ def _parse_card(obj: dict, url: str):
             video=video,
         )
 
-    if re.match(r"poll\d+choice_text_only", name):
+    if re.match(r"(?:\d+:)?poll(?:\d+choice_text_only|_choice_images)", name):
         val = _parse_card_prepare_values(obj)
 
         options = []

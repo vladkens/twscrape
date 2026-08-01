@@ -17,7 +17,7 @@ from twscrape.models import (
     parse_tweet,
     parse_tweets,
 )
-from twscrape.utils import to_old_rep
+from twscrape.utils import find_obj, to_old_rep
 
 BASE_DIR = os.path.dirname(__file__)
 DATA_DIR = os.path.join(BASE_DIR, "mocked-data")
@@ -637,6 +637,20 @@ async def test_cards():
     for x in doc.card.options:
         assert x.label is not None
         assert x.votesCount is not None
+
+    image_poll = fake_rep("card_poll").json()
+    card = find_obj(
+        image_poll,
+        lambda x: (
+            isinstance(x.get("legacy"), dict)
+            and str(x["legacy"].get("name", "")).startswith("poll")
+        ),
+    )
+    assert card is not None
+    card["legacy"]["name"] = "1906814671912599552:poll_choice_images"
+    doc = parse_tweet(image_poll, 1780666831310877100)
+    assert doc is not None
+    assert isinstance(doc.card, PollCard)
 
     # Check BrodcastCard
     raw = fake_rep("card_broadcast").json()
