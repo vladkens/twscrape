@@ -639,6 +639,28 @@ async def test_unknown_error_statuses_are_logged_separately(client_fixture: CF, 
     await client.__aexit__(None, None, None)
 
 
+async def test_loadshed_without_data_retries_same_account(client_fixture: CF, monkeypatch):
+    _pool, client, mock = client_fixture
+    sleeps = []
+
+    async def fake_sleep(secs):
+        sleeps.append(secs)
+
+    monkeypatch.setattr("twscrape.queue_client.asyncio.sleep", fake_sleep)
+    await client.__aenter__()
+
+    mock.add_response(json={"errors": [{"code": -1, "message": "LoadShed: Unspecified"}]})
+    mock.add_response(json={"ok": True})
+
+    rep = await client.get(URL)
+
+    assert rep is not None
+    assert rep.json() == {"ok": True}
+    assert getattr(rep, "__username", None) == "user1"
+    assert sleeps == [2]
+    await client.__aexit__(None, None, None)
+
+
 async def test_api_error_with_data_is_throttled(client_fixture: CF, monkeypatch):
     _pool, client, mock = client_fixture
     logs = []
@@ -651,6 +673,7 @@ async def test_api_error_with_data_is_throttled(client_fixture: CF, monkeypatch)
     errors = [
         {"code": -1, "message": "Dependency: Unspecified"},
         {"code": -1, "message": "DeadlineExceeded: Unspecified"},
+        {"code": -1, "message": "LoadShed: Unspecified"},
     ]
     for response_errors in (errors, list(reversed(errors))):
         mock.add_response(

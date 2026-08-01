@@ -37,6 +37,7 @@ class GqlFeaturesOutdatedError(AbortReqError):
 
 class FailKind(Enum):
     TRANSPORT = auto()
+    LOADSHED = auto()
     UNKNOWN = auto()
 
 
@@ -65,13 +66,20 @@ class Ctx:
         self.acc = acc
         self.clt = clt
         self.proxy = proxy
-        self.fails = {FailKind.TRANSPORT: 0, FailKind.UNKNOWN: 0}
+        self.fails = {FailKind.TRANSPORT: 0, FailKind.LOADSHED: 0, FailKind.UNKNOWN: 0}
 
     def fail(self, kind: FailKind) -> bool:
         """Count a failed attempt of this kind, return whether it's still worth retrying."""
         fail_limit, total_fail_limit = 3, 4
         self.fails[kind] += 1
         return self.fails[kind] < fail_limit and sum(self.fails.values()) < total_fail_limit
+
+    async def retry(self, kind: FailKind) -> bool:
+        """Count a failure and back off while retry budget remains."""
+        if not self.fail(kind):
+            return False
+        await asyncio.sleep(2 ** self.fails[kind])
+        return True
 
     async def aclose(self):
         await self.clt.aclose()
@@ -282,6 +290,14 @@ class QueueClient:
                 LogOnce.throttled(log_key, "DEBUG", f"API warning with data: {summary_log}")
                 return
 
+            # X is overloaded and dropping work; retry without penalizing the account.
+            if has_error(errors, "(-1) LoadShed"):
+                LogOnce.throttled(log_key, "WARNING", f"API busy: {summary_log}")
+                ctx = self.ctx
+                if ctx is not None and await ctx.retry(FailKind.LOADSHED):
+                    raise HandledError()
+                return
+
             LogOnce.once(log_key, "WARNING", f"API unknown error: {summary_log}")
             return
 
@@ -349,8 +365,7 @@ class QueueClient:
                 return None
             except (NetworkError, ConnectError) as e:
                 # transport failed, retry same account with backoff, then cool it down and rotate
-                if ctx.fail(FailKind.TRANSPORT):
-                    await asyncio.sleep(2 ** ctx.fails[FailKind.TRANSPORT])
+                if await ctx.retry(FailKind.TRANSPORT):
                     continue
 
                 logger.warning(f"{self._format_ctx_error(ctx, e)}; cooling account for 60s")
