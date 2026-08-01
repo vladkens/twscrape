@@ -142,6 +142,25 @@ class API:
 
         return rep if is_res else None, new_total, is_cur and not is_lim
 
+    def _is_stalled(self, q: str, res: list, cur: str | None, seen: set[tuple[str, ...]]):
+        keys: list[tuple[str, ...]] = [("cursor", cur)] if cur is not None else []
+        if q == "SearchTimeline":
+            entry_ids = tuple(
+                str(x.get("entryId"))
+                for x in res
+                if isinstance(x, dict) and x.get("entryId") is not None
+            )
+            if entry_ids:
+                keys.append(("entries", *entry_ids))
+
+        if any(x in seen for x in keys):
+            return True
+
+        # Not sure whether A → B → A should count as a stall, so only compare the last page.
+        seen.clear()  # Comment this out to detect repeats across all pages.
+        seen.update(keys)
+        return False
+
     def _get_cursor(self, obj: dict, cursor_type="Bottom") -> str | None:
         # standard timeline cursor: {cursorType: "Bottom", value: "..."}
         # fallback: community endpoints use slice_info.next_cursor (plain string)
@@ -171,6 +190,7 @@ class API:
         queue, cur, cnt, active = op.split("/")[-1], None, 0, True
         kv, ft = {**kv}, {**GQL_FEATURES, **(ft or {})}
         empty_pages = 0
+        seen: set[tuple[str, ...]] = set()
 
         async with QueueClient(self.pool, queue, self.debug, proxy=self.proxy) as client:
             while active:
@@ -189,6 +209,10 @@ class API:
                 obj = rep.json()
                 els = self._gql_entries(obj)
                 cur = self._get_cursor(obj, cursor_type)
+
+                if self._is_stalled(queue, els, cur, seen):
+                    logger.warning(f"{queue} pagination stalled, stopping")
+                    return
 
                 rep, cnt, active = self._is_end(rep, queue, els, cur, cnt, limit)
                 if rep is None:

@@ -42,6 +42,24 @@ def make_promo_page(cursor: str | None = "next_cursor"):
     return {"data": {"entries": entries}}
 
 
+def make_content_page(entry_id: str, cursor: str):
+    return {
+        "data": {
+            "entries": [
+                {"entryId": entry_id, "content": {"itemContent": {}}},
+                {
+                    "entryId": f"cursor-{cursor}",
+                    "content": {
+                        "__typename": "TimelineTimelineCursor",
+                        "cursorType": "Bottom",
+                        "value": cursor,
+                    },
+                },
+            ]
+        }
+    }
+
+
 async def _make_api():
     pool = AccountsPool()
     await pool.add_account("u1", "p1", "e1", "ep1")
@@ -121,3 +139,43 @@ async def test_followers_stops_after_too_many_consecutive_empty_pages(monkeypatc
 
     assert len(users) == 0
     assert idx < 10, f"too many requests ({idx}); should have stopped after a few empty pages"
+
+
+async def test_gql_items_stops_on_repeated_cursor(monkeypatch):
+    page = make_content_page("user-1", "same-cursor")
+    calls = 0
+
+    async def mock_get(self, url, params=None):
+        nonlocal calls
+        calls += 1
+        return FakeRep(page)
+
+    monkeypatch.setattr(QueueClient, "get", mock_get)
+    api = await _make_api()
+
+    reps = [x async for x in api._gql_items("hash/Followers", {})]
+
+    assert len(reps) == 1
+    assert calls == 2
+
+
+async def test_search_stops_on_repeated_page_with_new_cursor(monkeypatch):
+    pages = [
+        make_content_page("tweet-1", "cursor-1"),
+        make_content_page("tweet-1", "cursor-2"),
+    ]
+    calls = 0
+
+    async def mock_get(self, url, params=None):
+        nonlocal calls
+        page = pages[min(calls, len(pages) - 1)]
+        calls += 1
+        return FakeRep(page)
+
+    monkeypatch.setattr(QueueClient, "get", mock_get)
+    api = await _make_api()
+
+    reps = [x async for x in api._gql_items("hash/SearchTimeline", {})]
+
+    assert len(reps) == 1
+    assert calls == 2
