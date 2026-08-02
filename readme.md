@@ -42,23 +42,23 @@ TWS_HTTP_BACKEND=curl twscrape user_by_login xdevelopers
 
 ## Start With Cookies
 
-twscrape requires authorized X/Twitter accounts. The most stable setup is to add an account from browser cookies containing `auth_token` and `ct0`.
+twscrape requires authorized X/Twitter accounts. The most stable setup is to add an account from browser cookies containing `auth_token` and `ct0`. The recommended way to export them from your current browser profile is [unjar](https://github.com/vladkens/unjar):
 
 ```bash
-twscrape add_cookie my_account "auth_token=xxx; ct0=yyy"
+unjar x.com -f header | twscrape add_cookie my_account
 twscrape accounts
 twscrape search "from:xdevelopers lang:en" --limit=20
 ```
 
-Or let the CLI prompt for the cookie value:
+`my_account` is a local identifier; twscrape does not verify that it matches the X username stored in the cookies. Run the same command again to replace its saved session while preserving credentials, statistics, locks, and proxy settings.
+
+Alternatively, let the CLI prompt securely for cookies copied from x.com -> DevTools (F12) -> Application -> Cookies:
 
 ```bash
 twscrape add_cookie my_account
 ```
 
-Cookie accounts that include `ct0` are activated immediately; no `login_accounts` step is needed.
-
-To get cookies: open x.com -> DevTools (F12) -> Application -> Cookies -> copy `auth_token` and `ct0` values.
+Cookie accounts that include `auth_token` and `ct0` are activated immediately; no `login_accounts` step is needed.
 
 Ready-to-use cookie accounts are available from [this provider](https://kutt.to/ueeM5f). Proxy users can bring their own proxies or use [this provider](https://kutt.to/eb3rXk). These are referral links.
 

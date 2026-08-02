@@ -4,6 +4,7 @@ import os
 import sqlite3
 from dataclasses import asdict, dataclass, field
 from datetime import datetime
+from typing import Literal
 
 from .http import HttpClient
 from .http import make_client as _make_http_client
@@ -11,6 +12,7 @@ from .models import JSONTrait
 from .utils import parse_proxy, utc
 
 TOKEN = "Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA"
+LoginMethod = Literal["cookies", "password"]
 
 
 def has_required_cookies(cookies: dict[str, str]) -> bool:
@@ -34,6 +36,14 @@ class Account(JSONTrait):
     error_msg: str | None = None
     last_used: datetime | None = None
     _tx: str | None = None
+
+    @property
+    def has_session(self) -> bool:
+        return has_required_cookies(self.cookies)
+
+    @property
+    def login_method(self) -> LoginMethod:
+        return "cookies" if self.password == "_" else "password"
 
     @staticmethod
     def from_rs(rs: sqlite3.Row):

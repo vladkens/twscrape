@@ -340,31 +340,34 @@ def print_table(rows: list[dict], hr_after=False):
 
 
 def parse_cookies(val: str) -> dict[str, str]:
+    # Decode base64 exports when possible.
     try:
         val = base64.b64decode(val).decode()
     except Exception:
         pass
 
+    # Parse JSON or fall back to a Cookie header.
     try:
+        res = json.loads(val)
+    except json.JSONDecodeError:
+        res = dict(x.strip().split("=", 1) for x in val.split(";") if "=" in x)
+
+    # Unwrap browser extension exports.
+    if isinstance(res, dict) and "cookies" in res:
+        res = res["cookies"]
+
+    # Convert browser cookie lists to a mapping.
+    if isinstance(res, list):
         try:
-            res = json.loads(val)
-            if isinstance(res, dict) and "cookies" in res:
-                res = res["cookies"]
+            res = {x["name"]: x["value"] for x in res}
+        except (KeyError, TypeError):
+            raise ValueError("Invalid cookie value") from None
 
-            if isinstance(res, list):
-                return {x["name"]: x["value"] for x in res}
-            if isinstance(res, dict):
-                return res
-        except json.JSONDecodeError:
-            res = [x.strip() for x in val.split(";")]
-            res = [x.split("=", 1) for x in res if "=" in x]
-            if not res:
-                raise ValueError(f"Invalid cookie value: {val}")
-            return {x[0]: x[1] for x in res}
-    except Exception:
-        pass
+    if not isinstance(res, dict) or not res:
+        raise ValueError("Invalid cookie value")
 
-    raise ValueError(f"Invalid cookie value: {val}")
+    # Normalize values for HTTP clients.
+    return {str(name): str(value) for name, value in res.items()}
 
 
 def parse_proxy(proxy: str | None) -> str | None:

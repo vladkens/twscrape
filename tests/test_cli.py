@@ -1,4 +1,5 @@
 import argparse
+import io
 import json
 
 import pytest
@@ -44,6 +45,7 @@ async def test_add_cookie_prompts_securely_when_missing(tmp_path, monkeypatch):
 
     monkeypatch.setattr(cli.AccountsPool, "add_account_cookies", mock_add_account_cookies)
     monkeypatch.setattr(cli.getpass, "getpass", mock_getpass)
+    monkeypatch.setattr(cli.sys.stdin, "isatty", lambda: True)
 
     args = argparse.Namespace(
         command="add_cookie",
@@ -62,6 +64,31 @@ async def test_add_cookie_prompts_securely_when_missing(tmp_path, monkeypatch):
         "username": "user1",
         "cookies": "auth_token=prompted; ct0=csrf",
     }
+
+
+async def test_add_cookie_reads_stdin(tmp_path, monkeypatch):
+    called = {}
+
+    async def mock_add_account_cookies(self, username, cookies):
+        called["username"] = username
+        called["cookies"] = cookies
+
+    monkeypatch.setattr(cli.AccountsPool, "add_account_cookies", mock_add_account_cookies)
+    monkeypatch.setattr(cli.sys, "stdin", io.StringIO("auth_token=token; ct0=csrf\n"))
+
+    args = argparse.Namespace(
+        command="add_cookie",
+        debug=False,
+        db=str(tmp_path / "test.db"),
+        email_first=False,
+        manual=False,
+        username="user1",
+        cookies=None,
+    )
+
+    await cli.main(args)
+
+    assert called == {"username": "user1", "cookies": "auth_token=token; ct0=csrf"}
 
 
 async def test_add_accounts_prints_next_step(tmp_path, monkeypatch, capsys):

@@ -1,4 +1,5 @@
 import asyncio
+import json
 import sqlite3
 import uuid
 from datetime import datetime, timezone
@@ -123,14 +124,20 @@ class AccountsPool:
         logger.info(f"Account {username} added successfully (active={account.active})")
 
     async def add_account_cookies(self, username: str, cookies: str):
-        existing = await self.get_account(username)
-        if existing is not None:
-            logger.warning(f"Account {username} already exists (active={existing.active})")
-            return
+        parsed = parse_cookies(cookies)
+        if not has_required_cookies(parsed):
+            raise ValueError("Cookies must include auth_token and ct0")
 
-        await self.add_account(
-            username=username, password="_", email="_", email_password="_", cookies=cookies
-        )
+        qs = """
+        INSERT INTO accounts (username, password, email, email_password, user_agent, active, cookies)
+        VALUES (:username, '_', '_', '_', '@chrome', true, :cookies)
+        ON CONFLICT(username) DO UPDATE SET
+            cookies = excluded.cookies,
+            headers = '{}',
+            active = true,
+            error_msg = NULL
+        """
+        await execute(self._db_file, qs, {"username": username, "cookies": json.dumps(parsed)})
 
     async def delete_accounts(self, usernames: str | list[str]):
         usernames = usernames if isinstance(usernames, list) else [usernames]
@@ -190,6 +197,9 @@ class AccountsPool:
         finally:
             await self.save(account)
 
+    # Cookie accounts use password="_" and get their session through add_cookie.
+    # Password accounts get their session through login/login_all.
+    # Relogin resets only password accounts; cookie accounts wait for another add_cookie.
     async def login_all(self, usernames: list[str] | None = None):
         if usernames is not None and not usernames:
             return {"total": 0, "success": 0, "failed": 0}
@@ -203,6 +213,7 @@ class AccountsPool:
 
         rs = await fetchall(self._db_file, qs, params)
         accounts = [Account.from_rs(rs) for rs in rs]
+        accounts = [x for x in accounts if x.login_method == "password"]
         # await asyncio.gather(*[login(x) for x in self.accounts])
 
         counter = {"total": len(accounts), "success": 0, "failed": 0}
@@ -228,7 +239,7 @@ class AccountsPool:
             headers = json_object(),
             cookies = json_object(),
             user_agent = "@chrome"
-        WHERE username IN ({placeholders})
+        WHERE username IN ({placeholders}) AND password != '_'
         """
 
         await execute(self._db_file, qs, params)

@@ -22,7 +22,9 @@ def test_cookies_parse():
     val = '{"cookies": {"abc": "123", "def": "456", "ghi": "789"}}'
     assert parse_cookies(val) == {"abc": "123", "def": "456", "ghi": "789"}
 
-    with pytest.raises(ValueError, match=r"Invalid cookie value: .+"):
+    assert parse_cookies('{"abc": 123}') == {"abc": "123"}
+
+    with pytest.raises(ValueError, match="Invalid cookie value"):
         val = "{invalid}"
         assert parse_cookies(val) == {}
 

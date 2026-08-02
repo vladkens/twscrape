@@ -13,6 +13,8 @@ async def test_add_accounts(pool_mock: AccountsPool):
     assert acc.password == "pass1"
     assert acc.email == "email1"
     assert acc.email_password == "email_pass1"
+    acc.email_password = "_"
+    assert acc.login_method == "password"
 
     # should not add account with same username
     await pool_mock.add_account("user1", "pass2", "email2", "email_pass2")
@@ -44,38 +46,43 @@ async def test_add_account_cookies(pool_mock: AccountsPool):
     acc = await pool_mock.get("user1")
 
     assert acc.active is True
+    assert acc.has_session is True
+    assert acc.login_method == "cookies"
 
 
-async def test_add_account_cookies_without_ct0(pool_mock: AccountsPool):
-    await pool_mock.add_account_cookies("user1", "auth_token=token")
-    acc = await pool_mock.get("user1")
-
-    assert acc.active is False
-
-
-async def test_add_account_cookies_without_auth_token(pool_mock: AccountsPool):
-    await pool_mock.add_account_cookies("user1", "ct0=csrf")
-    acc = await pool_mock.get("user1")
-
-    assert acc.active is False
-
-
-async def test_add_account_cookies_without_session_cookies(pool_mock: AccountsPool):
-    await pool_mock.add_account_cookies("user1", "other=value")
-    acc = await pool_mock.get("user1")
-
-    assert acc.active is False
+@pytest.mark.parametrize(
+    "cookies",
+    ["auth_token=token", "ct0=csrf", "other=value"],
+)
+async def test_add_account_cookies_requires_full_session(pool_mock: AccountsPool, cookies: str):
+    with pytest.raises(ValueError):
+        await pool_mock.add_account_cookies("user1", cookies)
+    assert await pool_mock.get_account("user1") is None
 
 
 async def test_add_account_cookies_existing(pool_mock: AccountsPool):
-    await pool_mock.add_account_cookies("user1", "auth_token=token; ct0=csrf")
+    await pool_mock.add_account(
+        "user1",
+        "pass",
+        "email",
+        "email-pass",
+        proxy="http://proxy.test",
+        mfa_code="mfa-secret",
+        cookies="auth_token=token; ct0=csrf",
+    )
     acc = await pool_mock.get("user1")
+    acc.stats = {"SearchTimeline": 3}
+    await pool_mock.save(acc)
 
-    await pool_mock.add_account_cookies("user1", "auth_token=other")
+    await pool_mock.add_account_cookies("user1", "auth_token=other; ct0=other-csrf")
     same = await pool_mock.get("user1")
 
-    assert same.cookies == acc.cookies
+    assert same.cookies == {"auth_token": "other", "ct0": "other-csrf"}
     assert same.active is True
+    assert same.login_method == "password"
+    assert same.password == "pass"
+    assert same.proxy == acc.proxy
+    assert same.stats == acc.stats
 
 
 async def test_get_all(pool_mock: AccountsPool):
@@ -212,6 +219,18 @@ async def test_username_lists_are_parameterized(pool_mock: AccountsPool, monkeyp
 
 async def test_login_all_empty_username_list_is_noop(pool_mock: AccountsPool):
     assert await pool_mock.login_all([]) == {"total": 0, "success": 0, "failed": 0}
+
+
+async def test_relogin_skips_cookie_accounts(pool_mock: AccountsPool, monkeypatch):
+    await pool_mock.add_account_cookies("user1", "auth_token=token; ct0=csrf")
+
+    async def fail_if_called(account):
+        pytest.fail("cookie account entered password login")
+
+    monkeypatch.setattr(pool_mock, "login", fail_if_called)
+    await pool_mock.relogin("user1")
+
+    assert (await pool_mock.get("user1")).active is True
 
 
 async def test_delete_inactive(pool_mock: AccountsPool):
