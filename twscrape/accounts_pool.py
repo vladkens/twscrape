@@ -19,6 +19,7 @@ class NoAccountError(Exception):
 
 class AccountInfo(TypedDict):
     username: str
+    login_method: str
     logged_in: bool
     active: bool
     last_used: datetime | None
@@ -138,6 +139,7 @@ class AccountsPool:
             error_msg = NULL
         """
         await execute(self._db_file, qs, {"username": username, "cookies": json.dumps(parsed)})
+        logger.info(f"Cookies for account {username} updated successfully")
 
     async def delete_accounts(self, usernames: str | list[str]):
         usernames = usernames if isinstance(usernames, list) else [usernames]
@@ -418,7 +420,8 @@ class AccountsPool:
         for x in accounts:
             item: AccountInfo = {
                 "username": x.username,
-                "logged_in": (x.headers or {}).get("authorization", "") != "",
+                "logged_in": x.has_session,
+                "login_method": x.login_method,
                 "active": x.active,
                 "last_used": x.last_used,
                 "total_req": sum(x.stats.values()),

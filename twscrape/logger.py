@@ -3,7 +3,7 @@ import sys
 import time
 from collections import OrderedDict
 from collections.abc import Hashable
-from typing import Literal, cast
+from typing import Literal
 
 from loguru import logger
 
@@ -16,7 +16,7 @@ def _load_from_env() -> _TLOGLEVEL:
         logger.warning(f"Invalid log level '{env}' in TWS_LOG_LEVEL. Defaulting to INFO.")
         return "INFO"
 
-    return cast(_TLOGLEVEL, env)
+    return env
 
 
 _LOG_LEVEL: _TLOGLEVEL = _load_from_env()
