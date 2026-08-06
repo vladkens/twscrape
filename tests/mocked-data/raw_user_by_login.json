@@ -3,6 +3,9 @@
     "user": {
       "result": {
         "__typename": "User",
+        "action_counts": {
+          "favorites_count": 2642
+        },
         "affiliates_highlighted_label": {
           "label": {
             "badge": {
@@ -19,6 +22,9 @@
         },
         "avatar": {
           "image_url": "https://pbs.twimg.com/profile_images/1683501992314798080/xl1POYLw_normal.jpg"
+        },
+        "banner": {
+          "image_url": "https://pbs.twimg.com/profile_banners/2244994945/1690213128"
         },
         "business_account": {},
         "core": {
@@ -40,9 +46,37 @@
         "id": "VXNlcjoyMjQ0OTk0OTQ1",
         "is_blue_verified": true,
         "is_profile_translatable": false,
-        "legacy": {
-          "default_profile": false,
-          "default_profile_image": false,
+        "legacy_extended_profile": {},
+        "location": {
+          "location": "127.0.0.1"
+        },
+        "media_permissions": {
+          "can_media_tag": true
+        },
+        "notifications_settings": {
+          "notifications_enabled": false
+        },
+        "pinned_items": {
+          "tweet_ids_str": [
+            "2019881223666233717"
+          ]
+        },
+        "possibly_sensitive": false,
+        "privacy": {
+          "protected": false
+        },
+        "professional": {
+          "category": [
+            {
+              "icon_name": "IconBriefcaseStroke",
+              "id": 1009,
+              "name": "Community"
+            }
+          ],
+          "professional_type": "Business",
+          "rest_id": "1516891231749517312"
+        },
+        "profile_bio": {
           "description": "The voice of the X Dev team and your official source for updates, news, and events, related to the X API.",
           "entities": {
             "description": {},
@@ -59,61 +93,21 @@
                 }
               ]
             }
-          },
-          "fast_followers_count": 0,
-          "favourites_count": 2621,
-          "follow_request_sent": false,
-          "followers_count": 694648,
-          "friends_count": 762,
-          "has_custom_timelines": true,
-          "is_translator": false,
-          "listed_count": 2981,
-          "media_count": 829,
-          "needs_phone_verification": false,
-          "normal_followers_count": 694648,
-          "notifications": false,
-          "pinned_tweet_ids_str": [
-            "2019881223666233717"
-          ],
-          "possibly_sensitive": false,
-          "profile_banner_url": "https://pbs.twimg.com/profile_banners/2244994945/1690213128",
-          "profile_interstitial_type": "",
-          "statuses_count": 4307,
-          "time_zone": "",
-          "translator_type": "regular",
-          "url": "https://t.co/NIwHVIVyrN",
-          "utc_offset": 0,
-          "want_retweets": true,
-          "withheld_description": "",
-          "withheld_scope": ""
-        },
-        "legacy_extended_profile": {},
-        "location": {
-          "location": "127.0.0.1"
-        },
-        "media_permissions": {
-          "can_media_tag": true
-        },
-        "privacy": {
-          "protected": false
-        },
-        "professional": {
-          "category": [
-            {
-              "icon_name": "IconBriefcaseStroke",
-              "id": 1009,
-              "name": "Community"
-            }
-          ],
-          "professional_type": "Business",
-          "rest_id": "1516891231749517312"
-        },
-        "profile_bio": {
-          "description": "The voice of the X Dev team and your official source for updates, news, and events, related to the X API."
+          }
         },
         "profile_description_language": "en",
         "profile_image_shape": "Square",
+        "profile_metadata": {
+          "profile_interstitial_type": ""
+        },
         "profile_sort_enabled": true,
+        "profile_translation": {
+          "translator_type": "regular"
+        },
+        "relationship_counts": {
+          "followers": 695695,
+          "following": 762
+        },
         "relationship_perspectives": {
           "blocked_by": false,
           "blocking": false,
@@ -127,6 +121,10 @@
         "super_followed_by": false,
         "super_following": false,
         "tipjar_settings": {},
+        "tweet_counts": {
+          "media_tweets": 829,
+          "tweets": 4319
+        },
         "verification": {
           "verified": false,
           "verified_type": "Business"
@@ -156,6 +154,9 @@
             },
             "verified_since_msec": "1395425700472"
           }
+        },
+        "website": {
+          "url": "https://t.co/NIwHVIVyrN"
         }
       }
     }

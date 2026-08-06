@@ -137,6 +137,9 @@ async def _fetch_scripts_batch(scripts: list[tuple[str, str]], force: bool) -> N
         async with sem:
             print(f"  ({i:3d}/{len(todo):3d}) {url}")
             rep = await clt.get(url)
+            if rep.status_code == 404:
+                print("             skipped (404)")
+                return
             rep.raise_for_status()
             ct = rep.headers.get("content-type", "")
             if "javascript" not in ct:
