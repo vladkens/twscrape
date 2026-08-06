@@ -161,6 +161,10 @@ def _flatten_user_v2(obj: dict) -> dict:
         if avatar_url:
             flat["profile_image_url_https"] = avatar_url
 
+    banner = obj.get("banner")
+    if isinstance(banner, dict) and banner.get("image_url") is not None:
+        flat["profile_banner_url"] = banner["image_url"]
+
     location = obj.get("location")
     if isinstance(location, dict):
         loc = location.get("location")
@@ -187,10 +191,34 @@ def _flatten_user_v2(obj: dict) -> dict:
     if "is_blue_verified" not in flat and "is_blue_verified" in obj:
         flat["is_blue_verified"] = obj["is_blue_verified"]
 
-    if not flat.get("description"):
-        bio = (obj.get("profile_bio") or {}).get("description")
-        if bio is not None:
-            flat["description"] = bio
+    profile_bio = obj.get("profile_bio")
+    if isinstance(profile_bio, dict):
+        if not flat.get("description") and profile_bio.get("description") is not None:
+            flat["description"] = profile_bio["description"]
+        if isinstance(profile_bio.get("entities"), dict):
+            flat["entities"] = profile_bio["entities"]
+
+    action_counts = obj.get("action_counts")
+    if isinstance(action_counts, dict) and action_counts.get("favorites_count") is not None:
+        flat["favourites_count"] = action_counts["favorites_count"]
+
+    relationship_counts = obj.get("relationship_counts")
+    if isinstance(relationship_counts, dict):
+        if relationship_counts.get("followers") is not None:
+            flat["followers_count"] = relationship_counts["followers"]
+        if relationship_counts.get("following") is not None:
+            flat["friends_count"] = relationship_counts["following"]
+
+    tweet_counts = obj.get("tweet_counts")
+    if isinstance(tweet_counts, dict):
+        if tweet_counts.get("tweets") is not None:
+            flat["statuses_count"] = tweet_counts["tweets"]
+        if tweet_counts.get("media_tweets") is not None:
+            flat["media_count"] = tweet_counts["media_tweets"]
+
+    pinned_items = obj.get("pinned_items")
+    if isinstance(pinned_items, dict) and isinstance(pinned_items.get("tweet_ids_str"), list):
+        flat["pinned_tweet_ids_str"] = pinned_items["tweet_ids_str"]
 
     flat.setdefault("description", "")
     flat.setdefault("location", "")
