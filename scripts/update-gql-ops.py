@@ -1,10 +1,17 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.10"
+# dependencies = ["twscrape"]
+#
+# [tool.uv.sources]
+# twscrape = { path = "..", editable = true }
+# ///
 """
 Fetches current GraphQL operation IDs from Twitter's JS bundle
 and updates them in twscrape/api.py.
 
 Usage:
-  uv run scripts/update_gql_ops.py
+  uv run scripts/update-gql-ops.py
 
 For a fully clean refresh, remove the temp cache first:
   rm -rf /tmp/twscrape-ops

@@ -22,7 +22,7 @@ from .utils import encode_params, find_obj, get_by_path
 
 # GraphQL operation IDs used by this module.
 # If you add a new endpoint, add it here manually.
-# Update this block with: `uv run scripts/update_gql_ops.py`
+# Update this block with: `uv run scripts/update-gql-ops.py`
 # This script rewrites the whole block automatically.
 
 # GQL_OPS_CODEGEN

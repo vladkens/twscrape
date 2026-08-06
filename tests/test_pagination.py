@@ -8,7 +8,6 @@ import json
 import os
 
 from twscrape import API, gather
-from twscrape.accounts_pool import AccountsPool
 from twscrape.queue_client import QueueClient
 
 BASE_DIR = os.path.dirname(__file__)
@@ -60,14 +59,7 @@ def make_content_page(entry_id: str, cursor: str):
     }
 
 
-async def _make_api():
-    pool = AccountsPool()
-    await pool.add_account("u1", "p1", "e1", "ep1")
-    await pool.set_active("u1", True)
-    return API(pool)
-
-
-async def test_followers_continues_past_promo_pages(monkeypatch):
+async def test_followers_continues_past_promo_pages(monkeypatch, api_mock: API):
     """followers() must not stop when X returns a page consisting entirely of promo entries."""
     with open(os.path.join(DATA_DIR, "raw_followers.json")) as f:
         users_page = json.load(f)
@@ -87,8 +79,7 @@ async def test_followers_continues_past_promo_pages(monkeypatch):
 
     monkeypatch.setattr(QueueClient, "get", mock_get)
 
-    api = await _make_api()
-    users = await gather(api.followers(123))
+    users = await gather(api_mock.followers(123))
 
     assert idx >= 2, (
         f"pagination stopped after {idx} page(s); promo-only page should not terminate pagination"
@@ -96,7 +87,7 @@ async def test_followers_continues_past_promo_pages(monkeypatch):
     assert len(users) > 0, "expected users from page 2 but got none"
 
 
-async def test_following_continues_past_promo_pages(monkeypatch):
+async def test_following_continues_past_promo_pages(monkeypatch, api_mock: API):
     """following() must not stop when X returns a page consisting entirely of promo entries."""
     with open(os.path.join(DATA_DIR, "raw_following.json")) as f:
         users_page = json.load(f)
@@ -114,8 +105,7 @@ async def test_following_continues_past_promo_pages(monkeypatch):
 
     monkeypatch.setattr(QueueClient, "get", mock_get)
 
-    api = await _make_api()
-    users = await gather(api.following(123))
+    users = await gather(api_mock.following(123))
 
     assert idx >= 2, (
         f"pagination stopped after {idx} page(s); promo-only page should not terminate pagination"
@@ -123,7 +113,7 @@ async def test_following_continues_past_promo_pages(monkeypatch):
     assert len(users) > 0, "expected users from page 2 but got none"
 
 
-async def test_followers_stops_after_too_many_consecutive_empty_pages(monkeypatch):
+async def test_followers_stops_after_too_many_consecutive_empty_pages(monkeypatch, api_mock: API):
     """Safeguard: if X returns many consecutive promo-only pages with cursors, pagination must stop."""
     idx = 0
 
@@ -134,14 +124,13 @@ async def test_followers_stops_after_too_many_consecutive_empty_pages(monkeypatc
 
     monkeypatch.setattr(QueueClient, "get", mock_get)
 
-    api = await _make_api()
-    users = await gather(api.followers(123))
+    users = await gather(api_mock.followers(123))
 
     assert len(users) == 0
     assert idx < 10, f"too many requests ({idx}); should have stopped after a few empty pages"
 
 
-async def test_gql_items_stops_on_repeated_cursor(monkeypatch):
+async def test_gql_items_stops_on_repeated_cursor(monkeypatch, api_mock: API):
     page = make_content_page("user-1", "same-cursor")
     calls = 0
 
@@ -151,15 +140,13 @@ async def test_gql_items_stops_on_repeated_cursor(monkeypatch):
         return FakeRep(page)
 
     monkeypatch.setattr(QueueClient, "get", mock_get)
-    api = await _make_api()
-
-    reps = [x async for x in api._gql_items("hash/Followers", {})]
+    reps = [x async for x in api_mock._gql_items("hash/Followers", {})]
 
     assert len(reps) == 1
     assert calls == 2
 
 
-async def test_search_stops_on_repeated_page_with_new_cursor(monkeypatch):
+async def test_search_stops_on_repeated_page_with_new_cursor(monkeypatch, api_mock: API):
     pages = [
         make_content_page("tweet-1", "cursor-1"),
         make_content_page("tweet-1", "cursor-2"),
@@ -173,9 +160,7 @@ async def test_search_stops_on_repeated_page_with_new_cursor(monkeypatch):
         return FakeRep(page)
 
     monkeypatch.setattr(QueueClient, "get", mock_get)
-    api = await _make_api()
-
-    reps = [x async for x in api._gql_items("hash/SearchTimeline", {})]
+    reps = [x async for x in api_mock._gql_items("hash/SearchTimeline", {})]
 
     assert len(reps) == 1
     assert calls == 2

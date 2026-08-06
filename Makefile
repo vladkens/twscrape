@@ -6,8 +6,8 @@ install:
 	uv sync
 
 update:
-	uv run scripts/update_gql_ops.py
-	uv run scripts/update_mocked_data.py
+	uv run scripts/update-gql-ops.py
+	uv run scripts/update-mocked-data.py refresh
 
 update-deps:
 	uv sync --upgrade --all-groups
