@@ -644,7 +644,7 @@ wheels = [
 
 [[package]]
 name = "twscrape"
-version = "0.19.2"
+version = "0.20.0"
 source = { editable = "." }
 dependencies = [
     { name = "aiosqlite" },

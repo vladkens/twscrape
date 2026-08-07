@@ -1,3 +1,31 @@
+## v0.20.0 – 2026-08-07
+
+### Features
+
+- Added support for refreshing existing account sessions with `add_cookie`
+- Added parsing for image-based poll cards
+
+### Fixes
+
+- Fixed parsing of current user profile fields
+- Fixed cookie-based account status reporting
+- Fixed account username queries for usernames containing special characters
+- Fixed pagination loops caused by repeated cursors or pages
+- Fixed tweet author parsing when responses omit the users map
+- Fixed load-shedding retries to avoid unnecessary account rotation
+- Fixed API error throttling dropping response data
+- Limited network error retries per account before applying backoff and rotating accounts (#325, by @Flaburgan)
+- Fixed X client transaction ID cookies being sent outside `x.com`
+- Replaced process termination with `GqlFeaturesOutdatedError` when GraphQL features become outdated (#324, by @Flaburgan)
+
+### Maintenance
+
+- Updated GraphQL operation IDs for current X API compatibility
+
+**Full Changelog**: https://github.com/vladkens/twscrape/compare/v0.19.2...v0.20.0
+
+---
+
 ## v0.19.2 – 2026-07-21
 
 ### Features
