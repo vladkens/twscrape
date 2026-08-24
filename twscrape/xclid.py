@@ -73,7 +73,7 @@ def get_scripts_list(text: str) -> list[str]:
     so we just collect those URLs. If none are found we fall back to the legacy
     webpack build, which embeds two maps in the page and requires URL
     reconstruction:
-      - Hash map  {chunk_id: "7hexchars"}            values are exactly 7 lowercase hex digits
+      - Hash map  {chunk_id: "hexchars"}             values are exactly 7 or 16 lowercase hex digits
       - Name map  {chunk_id: "human_readable_name"}  values contain non-hex characters
       URL format: https://abs.twimg.com/responsive-web/client-web/{name}.{hash}a.js
     """
@@ -84,17 +84,20 @@ def get_scripts_list(text: str) -> list[str]:
         return urls
 
     # Legacy webpack build fallback.
-    # Hash map: values are exactly 7 lowercase hex digits (distinguishes them from name-map values)
-    hash_map = {m.group(1): m.group(2) for m in re.finditer(r'(\d+):"([0-9a-f]{7})"', text)}
+    # Hash map: values are exactly 7 or 16 lowercase hex digits (7 before 2026-08-24, 16 since;
+    # distinguishes them from name-map values)
+    hash_map = {
+        m.group(1): m.group(2) for m in re.finditer(r'(\d+):"([0-9a-f]{7}|[0-9a-f]{16})"', text)
+    }
 
     if not hash_map:
         raise XClIdParseError("X web scripts not found")
 
-    # Name map: values that are NOT exactly 7 hex digits (i.e. human-readable chunk names)
+    # Name map: values that are NOT exactly 7 or 16 hex digits (i.e. human-readable chunk names)
     name_map: dict[str, str] = {}
     for m in re.finditer(r'(\d+):"([^"]+)"', text):
         val = m.group(2)
-        if not re.fullmatch(r"[0-9a-f]{7}", val):
+        if not re.fullmatch(r"[0-9a-f]{7}|[0-9a-f]{16}", val):
             name_map[m.group(1)] = val
 
     return [

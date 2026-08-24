@@ -117,6 +117,32 @@ def test_logged_out_entry_is_account_error():
         xclid.get_scripts_list(html)
 
 
+# In the legacy webpack fixtures the name map comes BEFORE the hash map: hash values
+# must be excluded from the name map by format alone, or they overwrite the names.
+def test_legacy_webpack_build_with_7_hex_hashes():
+    html = '{100:"main",200:"shared~feature"}+{100:"a1b2c3d",200:"0badca4"}'
+
+    urls = xclid.get_scripts_list(html)
+
+    assert urls == [
+        "https://abs.twimg.com/responsive-web/client-web/main.a1b2c3da.js",
+        "https://abs.twimg.com/responsive-web/client-web/shared~feature.0badca4a.js",
+    ]
+
+
+def test_legacy_webpack_build_with_16_hex_hashes():
+    # Hash format served since 2026-08-24, e.g. main.15e48250ae23af9ea.js
+    # https://github.com/vladkens/twscrape/issues/327
+    html = '{100:"main",200:"shared~feature"}+{100:"15e48250ae23af9e",200:"00c0ffee00c0ffee"}'
+
+    urls = xclid.get_scripts_list(html)
+
+    assert urls == [
+        "https://abs.twimg.com/responsive-web/client-web/main.15e48250ae23af9ea.js",
+        "https://abs.twimg.com/responsive-web/client-web/shared~feature.00c0ffee00c0ffeea.js",
+    ]
+
+
 async def test_find_indices_url_complete_scan_is_parse_error():
     client = MockClient()
     client.add_response(text="no reference")
