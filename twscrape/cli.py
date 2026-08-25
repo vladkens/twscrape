@@ -92,6 +92,10 @@ async def main(args):
                 else sys.stdin.read().strip()
             )
         await pool.add_account_cookies(args.username, cookies)
+
+        account = await pool.get(args.username)
+        if not account.active:
+            sys.exit(1)
         return
 
     if args.command == "add_cookie_local":
@@ -101,9 +105,16 @@ async def main(args):
             cookies = get_x_cookies_string(args.browser)
         except BrowserCookiesError as e:
             logger.error(str(e))
-            return
+            sys.exit(1)
 
         await pool.add_account_cookies(args.username, cookies)
+
+        account = await pool.get(args.username)
+        if not account.active:
+            # Extraction succeeded but X rejected the cookies (validated live
+            # in add_account_cookies) — still a failure an agent needs to see
+            # in the exit code, not just in the log line.
+            sys.exit(1)
         return
 
     if args.command == "del_accounts":
