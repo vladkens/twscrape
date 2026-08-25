@@ -139,7 +139,11 @@ class AccountsPool:
         except XClIdError as e:
             active, error_msg = False, str(e)
         except Exception as e:
-            active, error_msg = False, f"Validation request failed: {e}"
+            # Not an XClIdError (auth/parse problem) — likely network/proxy/DNS.
+            # Keep the exception class name so it's distinguishable from the
+            # XClIdError branch above without re-raising and losing the
+            # active/error_msg bookkeeping below.
+            active, error_msg = False, f"Validation request failed: {type(e).__name__}: {e}"
 
         qs = """
         INSERT INTO accounts
