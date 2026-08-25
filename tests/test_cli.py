@@ -91,6 +91,68 @@ async def test_add_cookie_reads_stdin(tmp_path, monkeypatch):
     assert called == {"username": "user1", "cookies": "auth_token=token; ct0=csrf"}
 
 
+async def test_add_cookie_local_uses_browser_cookies(tmp_path, monkeypatch):
+    called = {}
+
+    async def mock_add_account_cookies(self, username, cookies):
+        called["username"] = username
+        called["cookies"] = cookies
+
+    def mock_get_x_cookies_string(browser):
+        called["browser"] = browser
+        return "auth_token=tok; ct0=csrf"
+
+    monkeypatch.setattr(cli.AccountsPool, "add_account_cookies", mock_add_account_cookies)
+    monkeypatch.setattr(
+        "twscrape.browser_cookies.get_x_cookies_string", mock_get_x_cookies_string
+    )
+
+    args = argparse.Namespace(
+        command="add_cookie_local",
+        debug=False,
+        db=str(tmp_path / "test.db"),
+        email_first=False,
+        manual=False,
+        username="user1",
+        browser="chrome",
+    )
+
+    await cli.main(args)
+
+    assert called == {
+        "username": "user1",
+        "cookies": "auth_token=tok; ct0=csrf",
+        "browser": "chrome",
+    }
+
+
+async def test_add_cookie_local_reports_error(tmp_path, monkeypatch, capsys):
+    from twscrape.browser_cookies import BrowserCookiesError
+
+    async def fail_if_called(self, username, cookies):
+        pytest.fail("add_account_cookies should not be called on extraction failure")
+
+    def mock_get_x_cookies_string(browser):
+        raise BrowserCookiesError("no active x.com session")
+
+    monkeypatch.setattr(cli.AccountsPool, "add_account_cookies", fail_if_called)
+    monkeypatch.setattr(
+        "twscrape.browser_cookies.get_x_cookies_string", mock_get_x_cookies_string
+    )
+
+    args = argparse.Namespace(
+        command="add_cookie_local",
+        debug=False,
+        db=str(tmp_path / "test.db"),
+        email_first=False,
+        manual=False,
+        username="user1",
+        browser="chrome",
+    )
+
+    await cli.main(args)
+
+
 async def test_add_accounts_prints_next_step(tmp_path, monkeypatch, capsys):
     called = {}
 

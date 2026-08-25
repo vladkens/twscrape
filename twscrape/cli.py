@@ -94,6 +94,18 @@ async def main(args):
         await pool.add_account_cookies(args.username, cookies)
         return
 
+    if args.command == "add_cookie_local":
+        from .browser_cookies import BrowserCookiesError, get_x_cookies_string
+
+        try:
+            cookies = get_x_cookies_string(args.browser)
+        except BrowserCookiesError as e:
+            logger.error(str(e))
+            return
+
+        await pool.add_account_cookies(args.username, cookies)
+        return
+
     if args.command == "del_accounts":
         await pool.delete_accounts(args.usernames)
         return
@@ -194,6 +206,17 @@ def run():
     )
     add_cookie.add_argument("username", help="Local account identifier")
     add_cookie.add_argument("cookies", nargs="?", default=None, help="Cookie string or stdin")
+
+    add_cookie_local = subparsers.add_parser(
+        "add_cookie_local",
+        help="Add one account by reading cookies from a local browser (requires twscrape[browser])",
+    )
+    add_cookie_local.add_argument("username", help="Local account identifier")
+    add_cookie_local.add_argument(
+        "--browser",
+        default="chrome",
+        help="Browser to read x.com cookies from (chrome, chromium, firefox, edge, safari, brave, opera)",
+    )
 
     del_accounts = subparsers.add_parser(
         "del_accounts", aliases=["del_account"], help="Delete accounts by username"
