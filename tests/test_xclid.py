@@ -107,14 +107,32 @@ async def test_xclid_curl_client_scopes_cookies_to_x(monkeypatch):
         await client.aclose()
 
 
-def test_logged_out_entry_is_account_error():
+async def test_logged_out_entry_is_account_error():
     html = (
         '<script src="https://abs.twimg.com/x-web/client-web/'
         'entry-client-logged-out-a1b2c3.js"></script>'
     )
 
     with pytest.raises(xclid.XClIdAccountError, match="Logged-out X web app"):
-        xclid.get_scripts_list(html)
+        await xclid.parse_anim_idx(html, MockClient())
+
+
+def test_script_list_combines_direct_and_reconstructed_urls():
+    html = (
+        '<script src="https://abs.twimg.com/x-web/x-web/app-a1b2c3.js"></script>'
+        '<script src="https://abs.twimg.com/responsive-web/client-web/vendor.1234567a.js"></script>'
+        '<script src="/responsive-web/client-web/main.15e48250ae23af9ea.js"></script>'
+        '{100:"shared~feature"}+{100:"00c0ffee00c0ffee"}'
+    )
+
+    urls = xclid.get_scripts_list(html)
+
+    assert urls == [
+        "https://abs.twimg.com/x-web/x-web/app-a1b2c3.js",
+        "https://abs.twimg.com/responsive-web/client-web/vendor.1234567a.js",
+        "https://abs.twimg.com/responsive-web/client-web/main.15e48250ae23af9ea.js",
+        "https://abs.twimg.com/responsive-web/client-web/shared~feature.00c0ffee00c0ffeea.js",
+    ]
 
 
 # In the legacy webpack fixtures the name map comes BEFORE the hash map: hash values
