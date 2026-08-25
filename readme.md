@@ -56,23 +56,42 @@ TWS_HTTP_BACKEND=curl twscrape user_by_login xdevelopers
 
 ## Start With Cookies
 
-twscrape requires authorized X/Twitter accounts. The most stable setup is to add an account from browser cookies containing `auth_token` and `ct0`. The recommended way to export them from your current browser profile is [unjar](https://github.com/vladkens/unjar):
+twscrape requires authorized X/Twitter accounts. The most stable setup is to add an account from browser cookies containing `auth_token` and `ct0`.
+
+**Recommended (this fork): read cookies straight from a local browser, no copy-paste.**
 
 ```bash
-unjar x.com -f header | twscrape add_cookie my_account
+pip install "twscrape[browser]"
+twscrape add_cookie_local my_account --browser chrome  # or firefox, edge, safari, brave, opera, chromium
 twscrape accounts
 twscrape search "from:xdevelopers lang:en" --limit=20
 ```
 
+Requires being logged into x.com in that browser already — nothing is automated beyond reading the local cookie store (via [browser_cookie3](https://github.com/borisbabic/browser_cookie3)). No new browser window opens, no login is scripted. First run on macOS triggers a one-time Keychain permission prompt to decrypt Chrome's cookie store.
+
 `my_account` is a local identifier; twscrape does not verify that it matches the X username stored in the cookies. Run the same command again to replace its saved session while preserving credentials, statistics, locks, and proxy settings.
 
-Alternatively, let the CLI prompt securely for cookies copied from x.com -> DevTools (F12) -> Application -> Cookies:
+Cookies are validated live against X immediately on add — the account log line tells you right away whether it worked (`... updated successfully (validated live)`) or why not (`... stored but NOT active: <reason>`), instead of only surfacing on the first real scrape.
+
+**Alternative: [unjar](https://github.com/vladkens/unjar)**, a separate CLI that also exports cookies from a browser profile:
+
+```bash
+unjar x.com -f header | twscrape add_cookie my_account
+```
+
+**Alternative: manual paste.** Let the CLI prompt securely for cookies copied from x.com -> DevTools (F12) -> Application -> Cookies. Both values must be on **one line**, with the literal key names, e.g. `auth_token=xxx; ct0=yyy` — a common failure mode is pasting just the raw values without the `auth_token=`/`ct0=` prefixes, or pasting them on separate lines (the prompt only reads one line):
 
 ```bash
 twscrape add_cookie my_account
 ```
 
 Cookie accounts that include `auth_token` and `ct0` are activated immediately; no `login_accounts` step is needed.
+
+`del_accounts`/`del_account` and `add_cookie`/`add_cookies` are interchangeable — both singular and plural forms work for either command.
+
+### Rate limits
+
+Limits are per-account, per-endpoint, and set by X — not configurable in twscrape. Observed live (may drift over time): search ~50 requests/15min, user lookup (`user_by_login`/`user_by_id`) ~150 requests/15min, `followers`/`following` ~50 requests/15min. twscrape reads X's own `x-rate-limit-*` response headers and auto-locks an account for that specific endpoint until reset, rotating to another active account if one exists — you don't need to implement backoff yourself, but budget for the ceiling if running a single account.
 
 Ready-to-use cookie accounts are available from [this provider](https://kutt.to/ueeM5f). Proxy users can bring their own proxies or use [this provider](https://kutt.to/eb3rXk). These are referral links.
 
