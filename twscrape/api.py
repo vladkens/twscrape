@@ -263,6 +263,28 @@ class API:
                 for x in parse_users(rep.json(), limit):
                     yield x
 
+    # user_by_id
+
+    async def user_by_id_raw(self, uid: int, kv: KV = None):
+        op = OP_UserByRestId
+        kv = {"userId": str(uid), "withSafetyModeUserFields": True, **(kv or {})}
+        ft = {
+            "highlights_tweets_tab_ui_enabled": True,
+            "hidden_profile_likes_enabled": True,
+            "creator_subscriptions_tweet_preview_api_enabled": True,
+            "hidden_profile_subscriptions_enabled": True,
+            "subscriptions_verification_info_verified_since_enabled": True,
+            "subscriptions_verification_info_is_identity_verified_enabled": False,
+            "responsive_web_twitter_article_notes_tab_enabled": False,
+            "subscriptions_feature_can_gift_premium": False,
+            "profile_label_improvements_pcf_label_in_post_enabled": False,
+        }
+        return await self._gql_item(op, kv, ft)
+
+    async def user_by_id(self, uid: int, kv: KV = None) -> User | None:
+        rep = await self.user_by_id_raw(uid, kv=kv)
+        return parse_user(rep) if rep else None
+
     # user_by_login
 
     async def user_by_login_raw(self, login: str, kv: KV = None):

@@ -147,6 +147,30 @@ async def test_search_prints_parsed_tweets(tmp_path, monkeypatch, capsys):
     assert doc["user"]["username"] is not None
 
 
+async def test_user_by_id_prints_parsed_user(tmp_path, monkeypatch, capsys):
+    async def mock_user_by_id_raw(self, uid, kv=None):
+        return fake_rep("raw_user_by_id")
+
+    monkeypatch.setattr(cli.API, "user_by_id_raw", mock_user_by_id_raw)
+
+    args = argparse.Namespace(
+        command="user_by_id",
+        debug=False,
+        db=str(tmp_path / "test.db"),
+        email_first=False,
+        manual=False,
+        raw=False,
+        arg_name="user_id",
+        user_id=2244994945,
+    )
+
+    await cli.main(args)
+
+    doc = json.loads(capsys.readouterr().out.strip())
+    assert doc["id"] == 2244994945
+    assert doc["username"] == "XDevelopers"
+
+
 async def test_user_by_login_prints_parsed_user(tmp_path, monkeypatch, capsys):
     async def mock_user_by_login_raw(self, login, kv=None):
         return fake_rep("raw_user_by_login")

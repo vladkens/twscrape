@@ -250,6 +250,25 @@ async def test_search():
     check_user_field_coverage(users)
 
 
+async def test_user_by_id():
+    api = get_api()
+    mock_rep(api.user_by_id_raw, "raw_user_by_id")
+
+    doc = await api.user_by_id(2244994945)
+    assert doc is not None
+    assert doc.id == 2244994945
+    assert doc.username == "XDevelopers"
+    assert doc.blueType == "Business"
+
+    obj = doc.dict()
+    assert doc.id == obj["id"]
+    assert doc.username == obj["username"]
+
+    txt = doc.json()
+    assert isinstance(txt, str)
+    assert str(doc.id) in txt
+
+
 async def test_user_by_login():
     api = get_api()
     mock_rep(api.user_by_login_raw, "raw_user_by_login")

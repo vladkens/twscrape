@@ -24,48 +24,16 @@ import sys
 from urllib.parse import urljoin
 
 from twscrape.http import HttpClient, make_client
-from twscrape.xclid import get_tw_page_text, script_url
+from twscrape.xclid import get_scripts_list, get_tw_page_text
 
 API_FILE = "twscrape/api.py"
 CACHE_DIR = "/tmp/twscrape-ops"
 MARKER = "# GQL_OPS_CODEGEN"
-X_WEB_URL_RE = re.compile(r"https://[\w.-]+/x-web/[\w./-]+\.js")
-RESPONSIVE_WEB_URL_RE = re.compile(r"https://[\w.-]+/responsive-web/client-web/[\w./-]+\.js")
 JS_REF_RE = re.compile(r'(?:from|import)\s*\(?\s*[`"]((?:\.{1,2}/)[^`"]+?\.js)[`"]')
 
 
 def _is_relevant_script(url: str) -> bool:
     return "/i18n/" not in url and "/icons/" not in url and "react-syntax-highlighter" not in url
-
-
-def get_scripts_list(text: str) -> list[str]:
-    urls = list(dict.fromkeys(X_WEB_URL_RE.findall(text) + RESPONSIVE_WEB_URL_RE.findall(text)))
-
-    # HTML can contain both direct script URLs and a legacy webpack chunk map.
-    # The map has separate chunk_id -> name and chunk_id -> hash entries; combine
-    # them into /responsive-web/client-web/{name}.{hash}a.js URLs.
-    hash_map = {m.group(1): m.group(2) for m in re.finditer(r'(\d+):"([0-9a-f]{7})"', text)}
-    if not hash_map and not urls:
-        raise Exception("Failed to parse scripts")
-
-    name_map: dict[str, str] = {}
-    for m in re.finditer(r'(\d+):"([^"]+)"', text):
-        val = m.group(2)
-        if not re.fullmatch(r"[0-9a-f]{7}", val):
-            name_map[m.group(1)] = val
-
-    urls.extend(
-        script_url(name_map.get(chunk_id, chunk_id), hash_val + "a")
-        for chunk_id, hash_val in hash_map.items()
-    )
-    return list(dict.fromkeys(urls))
-
-
-def _get_legacy_main_script(text: str) -> str | None:
-    match = re.search(r"/client-web/main\.([^.\"']+)\.js", text)
-    if not match:
-        return None
-    return script_url("main", match.group(1))
 
 
 async def get_scripts() -> list[tuple[str, str]]:
@@ -76,8 +44,6 @@ async def get_scripts() -> list[tuple[str, str]]:
         for page_url in ("https://x.com/xdevelopers", "https://x.com/home"):
             text = await get_tw_page_text(page_url, clt)
             urls.extend(get_scripts_list(text))
-            if main_script := _get_legacy_main_script(text):
-                urls.append(main_script)
 
     urls = list(dict.fromkeys(urls))
     urls = [x for x in urls if _is_relevant_script(x)]

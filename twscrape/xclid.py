@@ -62,36 +62,30 @@ def script_url(k: str, v: str):
 # Current X web build (Vite): script bundles are linked directly in the page
 # HTML under https://abs.twimg.com/x-web/.../*.js (modulepreload links + entry).
 ASSET_URL_RE = re.compile(r"https://[\w.-]+/x-web/[\w./-]+\.js")
+RESPONSIVE_WEB_URL_RE = re.compile(r"https://[\w.-]+/responsive-web/client-web/[\w./-]+\.js")
+LEGACY_MAIN_RE = re.compile(r"/client-web/main\.([^.\"']+)\.js")
 LOGGED_OUT_ENTRY_RE = re.compile(r"(?:^|/)entry-client-logged-out(?:[-.][^/?#]+)?\.js(?:[?#].*)?$")
 
 
 def get_scripts_list(text: str) -> list[str]:
     """
-    Extract chunk script URLs from the X homepage HTML.
+    Extract all known script URL formats from the X homepage HTML.
 
-    Current build (x-web / Vite): scripts are linked directly in the page HTML,
-    so we just collect those URLs. If none are found we fall back to the legacy
-    webpack build, which embeds two maps in the page and requires URL
-    reconstruction:
+    Current x-web/Vite and responsive-web scripts can be linked directly. The
+    legacy webpack build embeds two maps and requires URL reconstruction:
       - Hash map  {chunk_id: "hexchars"}             values are exactly 7 or 16 lowercase hex digits
       - Name map  {chunk_id: "human_readable_name"}  values contain non-hex characters
       URL format: https://abs.twimg.com/responsive-web/client-web/{name}.{hash}a.js
     """
-    urls = list(dict.fromkeys(ASSET_URL_RE.findall(text)))
-    if urls:
-        if any(LOGGED_OUT_ENTRY_RE.search(url) for url in urls):
-            raise XClIdAccountError("Logged-out X web app")
-        return urls
+    urls = ASSET_URL_RE.findall(text) + RESPONSIVE_WEB_URL_RE.findall(text)
+    if main_match := LEGACY_MAIN_RE.search(text):
+        urls.append(script_url("main", main_match.group(1)))
 
-    # Legacy webpack build fallback.
     # Hash map: values are exactly 7 or 16 lowercase hex digits (7 before 2026-08-24, 16 since;
     # distinguishes them from name-map values)
     hash_map = {
         m.group(1): m.group(2) for m in re.finditer(r'(\d+):"([0-9a-f]{7}|[0-9a-f]{16})"', text)
     }
-
-    if not hash_map:
-        raise XClIdParseError("X web scripts not found")
 
     # Name map: values that are NOT exactly 7 or 16 hex digits (i.e. human-readable chunk names)
     name_map: dict[str, str] = {}
@@ -100,10 +94,13 @@ def get_scripts_list(text: str) -> list[str]:
         if not re.fullmatch(r"[0-9a-f]{7}|[0-9a-f]{16}", val):
             name_map[m.group(1)] = val
 
-    return [
+    urls.extend(
         script_url(name_map.get(chunk_id, chunk_id), hash_val + "a")
         for chunk_id, hash_val in hash_map.items()
-    ]
+    )
+    if not urls:
+        raise XClIdParseError("X web scripts not found")
+    return list(dict.fromkeys(urls))
 
 
 # MARK: XClientTxId parsing
@@ -299,9 +296,12 @@ async def _find_indices_url(scripts: list[str], clt: HttpClient) -> str:
 
 
 async def parse_anim_idx(text: str, clt: HttpClient) -> list[int]:
-    scripts = list(get_scripts_list(text))
-    if not scripts:
-        raise XClIdParseError("X web scripts not found")
+    scripts = get_scripts_list(text)
+    x_web_scripts = [url for url in scripts if "/x-web/" in url]
+    if x_web_scripts:
+        if any(LOGGED_OUT_ENTRY_RE.search(url) for url in x_web_scripts):
+            raise XClIdAccountError("Logged-out X web app")
+        scripts = x_web_scripts
 
     # Legacy build links the indices file directly; the current x-web build
     # hides it behind a dynamic import inside a bundle chunk.

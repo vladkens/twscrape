@@ -1,0 +1,136 @@
+{
+  "data": {
+    "user": {
+      "result": {
+        "__typename": "User",
+        "action_counts": {
+          "favorites_count": 2659
+        },
+        "affiliates_highlighted_label": {
+          "label": {
+            "badge": {
+              "url": "https://pbs.twimg.com/profile_images/1955359038532653056/OSHY3ewP_bigger.jpg"
+            },
+            "description": "X",
+            "url": {
+              "url": "https://twitter.com/X",
+              "urlType": "DeepLink"
+            },
+            "userLabelDisplayType": "Badge",
+            "userLabelType": "BusinessLabel"
+          }
+        },
+        "avatar": {
+          "image_url": "https://pbs.twimg.com/profile_images/1683501992314798080/xl1POYLw_normal.jpg"
+        },
+        "banner": {
+          "image_url": "https://pbs.twimg.com/profile_banners/2244994945/1690213128"
+        },
+        "business_account": {},
+        "core": {
+          "created_at": "Sat Dec 14 04:35:55 +0000 2013",
+          "name": "Developers",
+          "screen_name": "XDevelopers"
+        },
+        "creator_subscriptions_count": 0,
+        "dm_permissions": {
+          "can_dm": true
+        },
+        "follow_request_sent": false,
+        "has_graduated_access": true,
+        "has_hidden_subscriptions_on_profile": false,
+        "highlights_info": {
+          "can_highlight_tweets": true,
+          "highlighted_tweets": "4"
+        },
+        "id": "VXNlcjoyMjQ0OTk0OTQ1",
+        "is_blue_verified": true,
+        "location": {
+          "location": "127.0.0.1"
+        },
+        "media_permissions": {
+          "can_media_tag": true
+        },
+        "notifications_settings": {
+          "notifications_enabled": false
+        },
+        "pinned_items": {
+          "tweet_ids_str": [
+            "2019881223666233717"
+          ]
+        },
+        "possibly_sensitive": false,
+        "privacy": {
+          "protected": false
+        },
+        "professional": {
+          "category": [
+            {
+              "icon_name": "IconBriefcaseStroke",
+              "id": 1009,
+              "name": "Community"
+            }
+          ],
+          "professional_type": "Business",
+          "rest_id": "1516891231749517312"
+        },
+        "profile_bio": {
+          "description": "The voice of the X Dev team and your official source for updates, news, and events, related to the X API.",
+          "entities": {
+            "description": {},
+            "url": {
+              "urls": [
+                {
+                  "display_url": "docs.x.com",
+                  "expanded_url": "https://docs.x.com/",
+                  "indices": [
+                    0,
+                    23
+                  ],
+                  "url": "https://t.co/NIwHVIVyrN"
+                }
+              ]
+            }
+          }
+        },
+        "profile_description_language": "en",
+        "profile_image_shape": "Square",
+        "profile_metadata": {
+          "profile_interstitial_type": ""
+        },
+        "profile_sort_enabled": true,
+        "profile_translation": {
+          "translator_type": "regular"
+        },
+        "relationship_counts": {
+          "followers": 697752,
+          "following": 763
+        },
+        "relationship_perspectives": {
+          "blocked_by": false,
+          "blocking": false,
+          "followed_by": false,
+          "following": false,
+          "live_following": false,
+          "muting": false
+        },
+        "rest_id": "2244994945",
+        "super_follow_eligible": false,
+        "super_followed_by": false,
+        "super_following": false,
+        "tipjar_settings": {},
+        "tweet_counts": {
+          "media_tweets": 829,
+          "tweets": 4332
+        },
+        "verification": {
+          "verified": false,
+          "verified_type": "Business"
+        },
+        "website": {
+          "url": "https://t.co/NIwHVIVyrN"
+        }
+      }
+    }
+  }
+}

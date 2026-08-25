@@ -234,6 +234,7 @@ def search_query() -> str:
 
 
 COMMANDS = [
+    ("user_by_id", lambda api: api.user_by_id_raw(_UID)),
     ("user_by_login", lambda api: api.user_by_login_raw("xdevelopers")),
     ("user_about", lambda api: api.user_about_raw("xdevelopers")),
     ("following", lambda api: _first(api.following_raw(_UID, limit=10))),

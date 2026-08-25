@@ -171,6 +171,7 @@ Users and timelines:
 user_login = "xdevelopers"
 user_id = 2244994945
 
+await api.user_by_id(user_id)  # User
 await api.user_by_login(user_login)  # User
 await api.user_about(user_login)  # AccountAbout
 await gather(api.following(user_id, limit=20))  # list[User]
@@ -228,6 +229,7 @@ twscrape tweet_details TWEET_ID
 twscrape tweet_replies TWEET_ID --limit=20
 twscrape tweet_thread TWEET_ID --limit=20
 twscrape retweeters TWEET_ID --limit=20
+twscrape user_by_id USER_ID
 twscrape user_by_login USERNAME
 twscrape user_about USERNAME
 twscrape user_media USER_ID --limit=20
