@@ -83,23 +83,34 @@ def _profile_cookie_files(default_cookie_file: str) -> list[Path]:
 
 def _load_multi_profile(cls: type, domain_name: str) -> tuple:
     """Try every Chromium-family profile in order, return the jar from the
-    first one containing both required cookies. Returns (jar, tried_count)."""
+    first one containing both required cookies. Returns (jar, tried_count).
+
+    Raises the last per-profile exception if EVERY profile failed to even
+    load (e.g. keychain access denied entirely) — that's a distinct failure
+    from "checked N profiles, none had an x.com session", and collapsing
+    them into the same generic message hides a fixable permission problem
+    behind what looks like a login problem.
+    """
     inst = cls(domain_name=domain_name)  # resolves Default path, derives decrypt key once
     profiles = _profile_cookie_files(inst.cookie_file)
 
-    tried = 0
+    loaded, last_error = 0, None
     for cookie_file in profiles:
         inst.cookie_file = str(cookie_file)
         try:
             jar = inst.load()
-        except Exception:
+        except Exception as e:
+            last_error = e
             continue
-        tried += 1
+        loaded += 1
         names = {c.name for c in jar}
         if all(r in names for r in REQUIRED_COOKIES):
-            return jar, tried
+            return jar, loaded
 
-    return None, max(tried, len(profiles))
+    if loaded == 0 and last_error is not None and profiles:
+        raise last_error
+
+    return None, max(loaded, len(profiles))
 
 
 def get_x_cookies(browser: str = "chrome") -> dict[str, str]:

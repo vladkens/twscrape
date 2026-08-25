@@ -92,6 +92,33 @@ def test_no_profile_has_full_session_reports_count(tmp_path, monkeypatch):
         get_x_cookies("chrome")
 
 
+def test_all_profiles_fail_to_load_surfaces_real_error(tmp_path, monkeypatch):
+    # Distinct from "checked N profiles, none had a session" — every
+    # profile errored out (e.g. keychain access denied), so the real cause
+    # should surface instead of the generic "no session found" message.
+    user_data = tmp_path / "User Data"
+    default_cookies = user_data / "Default" / "Cookies"
+    profile1_cookies = user_data / "Profile 1" / "Cookies"
+    for p in (default_cookies, profile1_cookies):
+        p.parent.mkdir(parents=True)
+        p.touch()
+
+    class DeniedInstance(FakeChromeInstance):
+        def load(self):
+            raise PermissionError("Keychain access denied")
+
+    def make_instance(domain_name=None):
+        return DeniedInstance({}, str(default_cookies), domain_name)
+
+    fake_mod = type(sys)("browser_cookie3")
+    fake_mod.chrome = lambda domain_name=None: make_instance(domain_name).load()
+    fake_mod.Chrome = make_instance
+    monkeypatch.setitem(sys.modules, "browser_cookie3", fake_mod)
+
+    with pytest.raises(BrowserCookiesError, match="Keychain access denied"):
+        get_x_cookies("chrome")
+
+
 def test_default_profile_wins_when_it_has_the_session(tmp_path, monkeypatch):
     user_data = tmp_path / "User Data"
     default_cookies = user_data / "Default" / "Cookies"
