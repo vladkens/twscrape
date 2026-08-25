@@ -194,7 +194,7 @@ class QueueClient:
 
         await self.pool.unlock(ctx.acc.username, self.queue, ctx.req_count)
 
-    async def _get_ctx(self):
+    async def _get_ctx(self) -> Ctx | None:
         if self.ctx:
             return self.ctx
 

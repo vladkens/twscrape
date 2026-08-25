@@ -27,24 +27,24 @@ from .utils import encode_params, find_obj, get_by_path
 
 # GQL_OPS_CODEGEN
 OP_AboutAccountQuery = "TzOG2twZEfhr9KmClvVVqA/AboutAccountQuery"
-OP_BlueVerifiedFollowers = "cg6WLW39UujWMeX77xBnOA/BlueVerifiedFollowers"
-OP_Bookmarks = "aqjes8lRHRFG0HUglVTfNg/Bookmarks"
+OP_BlueVerifiedFollowers = "u3PkPbg--arppBcwNbF1ig/BlueVerifiedFollowers"
+OP_Bookmarks = "iblrFnKr6PZUR-dWpfXG6g/Bookmarks"
 OP_CommunityQuery = "-ElI1vg3dYbttVMhBhGdLw/CommunityQuery"
-OP_CommunityTweetsTimeline = "dD1uF9vQx0OX-e1rKA4YLw/CommunityTweetsTimeline"
-OP_Followers = "vJijlO_CM7dyGFNjDd7iqQ/Followers"
-OP_Following = "b8XpwALENnJdFSHchkK6rw/Following"
-OP_GenericTimelineById = "BrGScxnisMdTXyeLScaEhQ/GenericTimelineById"
-OP_ListLatestTweetsTimeline = "jW040BLUjh8X6Tw2ODQufA/ListLatestTweetsTimeline"
-OP_ListMembers = "wGce-45xnc5bs3HVvevC2w/ListMembers"
-OP_Retweeters = "_wJOTLm5HMqNdcr1nGWlyA/Retweeters"
-OP_SearchTimeline = "BGd0T_j7oVwlW5U79tO_0A/SearchTimeline"
-OP_TweetDetail = "559hs_YZNV4IgA3Z6zIIuw/TweetDetail"
+OP_CommunityTweetsTimeline = "EwftYyqQemkckQ0wzGM6uw/CommunityTweetsTimeline"
+OP_Followers = "JNyQdTISpzCkj_1fqxDvFg/Followers"
+OP_Following = "qGZZDF3mp91q7X22s3HxpA/Following"
+OP_GenericTimelineById = "ee4dBLWL8a8qg6n19m1htQ/GenericTimelineById"
+OP_ListLatestTweetsTimeline = "1LE3u14FJjPZUHKFGzos2g/ListLatestTweetsTimeline"
+OP_ListMembers = "8rYmkvWQe9jRRZdy_-vkGA/ListMembers"
+OP_Retweeters = "ROjiuYueotTnWoI8m2YaiQ/Retweeters"
+OP_SearchTimeline = "hyPfJYJ_XAtDYoslQc-Rgg/SearchTimeline"
+OP_TweetDetail = "XMOz5h24KAZ86qKffKTLdQ/TweetDetail"
 OP_UserByRestId = "xvmVfRLmnr1alc5f2dib0Q/UserByRestId"
 OP_UserByScreenName = "Gb-d6r0vxPOADdG62OEBpQ/UserByScreenName"
-OP_UserCreatorSubscriptions = "n5c96Ql2BupZFGeEOIp9cA/UserCreatorSubscriptions"
-OP_UserMedia = "2DC9TKrcUzwGC_QskSVl5w/UserMedia"
-OP_UserTweets = "eoJ5zbv51Z_KVl81v9PmLQ/UserTweets"
-OP_UserTweetsAndReplies = "wc5DRl4VaW5lSqJ8YbftZQ/UserTweetsAndReplies"
+OP_UserCreatorSubscriptions = "Qxe_gd-ZvdofnzSL8Ngzpw/UserCreatorSubscriptions"
+OP_UserMedia = "VyudDWQnr9vJNw7GasFz2g/UserMedia"
+OP_UserTweets = "SXVCYB8XHSS25nzIljNtZA/UserTweets"
+OP_UserTweetsAndReplies = "qUpkZU6eN8MbtQb7rC_pYg/UserTweetsAndReplies"
 OP_membersSliceTimeline_Query = "woAp_YdzAdqnWDrqLTNpAw/membersSliceTimeline_Query"
 OP_moderatorsSliceTimeline_Query = "0oYT9GRiWUhrz5xoqFE9uw/moderatorsSliceTimeline_Query"
 # GQL_OPS_CODEGEN
@@ -164,9 +164,9 @@ class API:
     def _get_cursor(self, obj: dict, cursor_type="Bottom") -> str | None:
         # standard timeline cursor: {cursorType: "Bottom", value: "..."}
         # fallback: community endpoints use slice_info.next_cursor (plain string)
-        if cur := find_obj(obj, lambda x: x.get("cursorType") == cursor_type):
-            return cur.get("value")
-        return get_by_path(obj, "next_cursor")
+        cur = find_obj(obj, lambda x: x.get("cursorType") == cursor_type)
+        value = cur.get("value") if cur else get_by_path(obj, "next_cursor")
+        return value if isinstance(value, str) else None
 
     def _gql_entries(self, obj: dict) -> list:
         # standard timelines put items in "entries"; community endpoints use "items_results"

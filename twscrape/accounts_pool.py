@@ -280,7 +280,7 @@ class AccountsPool:
         """
         await execute(self._db_file, qs, {"username": username})
 
-    async def _get_and_lock(self, queue: str, condition: str):
+    async def _get_and_lock(self, queue: str, condition: str) -> Account | None:
         # if space in condition, it's a subquery, otherwise it's username
         condition = f"({condition})" if " " in condition else f"'{condition}'"
 
@@ -309,7 +309,7 @@ class AccountsPool:
 
         return Account.from_rs(rs) if rs else None
 
-    async def get_for_queue(self, queue: str):
+    async def get_for_queue(self, queue: str) -> Account | None:
         q = f"""
         SELECT username FROM accounts
         WHERE active = true AND (

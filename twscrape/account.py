@@ -46,7 +46,7 @@ class Account(JSONTrait):
         return "cookies" if self.password == "_" else "password"
 
     @staticmethod
-    def from_rs(rs: sqlite3.Row):
+    def from_rs(rs: sqlite3.Row) -> "Account":
         doc = dict(rs)
         doc["locks"] = {k: utc.from_iso(v) for k, v in json.loads(doc["locks"]).items()}
         doc["stats"] = {k: v for k, v in json.loads(doc["stats"]).items() if isinstance(v, int)}

@@ -2,7 +2,7 @@ import importlib.util
 import os
 import random
 from abc import ABC, abstractmethod
-from typing import Any, Literal, cast
+from typing import Any, Literal, Protocol, cast
 
 from fake_useragent import UserAgent
 
@@ -31,13 +31,24 @@ def _resolve_browser(hint: str | None, seed: int | None = None) -> tuple[str, st
         uas = [x["useragent"] for x in _ua.data_browsers if family in (x["browser"] or "").lower()]
         if uas:
             return random.Random(seed).choice(uas), family
-    return getattr(_ua, family, _ua.chrome), family
+    return cast(str, getattr(_ua, family, _ua.chrome)), family
+
+
+class _RawResponse(Protocol):
+    status_code: int
+    text: str
+    content: bytes
+    headers: Any
+    url: Any
+    request: Any
+
+    def json(self) -> Any: ...
 
 
 class Response:
     """Thin wrapper around httpx.Response or curl_cffi.Response."""
 
-    def __init__(self, rep: Any):
+    def __init__(self, rep: _RawResponse):
         self._rep = rep
         self._json: Any = _UNSET
 

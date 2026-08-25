@@ -36,6 +36,7 @@ dev = [
   "pytest-cov>=4.1.0",
   "pytest-httpx>=0.28.0",
   "pytest>=7.4.4",
+  "rich>=13.0",
   "ruff>=0.1.11",
   "ty>=0.0.41",
 ]
