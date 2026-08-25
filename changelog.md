@@ -1,3 +1,21 @@
+## v0.20.1 – 2026-08-25
+
+### Features
+
+- Restored user lookup by numeric ID through the API and CLI (#326, #329, by @Flaburgan)
+
+### Fixes
+
+- Fixed X client transaction ID generation for builds using 16-character chunk hashes (#327, #328, by @Flaburgan)
+
+### Maintenance
+
+- Updated GraphQL operation IDs for current X API compatibility
+
+**Full Changelog**: https://github.com/vladkens/twscrape/compare/v0.20.0...v0.20.1
+
+---
+
 ## v0.20.0 – 2026-08-07
 
 ### Features
