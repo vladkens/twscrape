@@ -29,6 +29,24 @@ def test_cookies_parse():
         assert parse_cookies(val) == {}
 
 
+def test_cookies_parse_strips_quotes():
+    # Common paste artifact from some cookie-export tools/extensions —
+    # quoted values otherwise become part of the literal cookie value.
+    assert parse_cookies('auth_token="tok"; ct0="csrf"') == {
+        "auth_token": "tok",
+        "ct0": "csrf",
+    }
+    assert parse_cookies("auth_token='tok'; ct0='csrf'") == {
+        "auth_token": "tok",
+        "ct0": "csrf",
+    }
+    # Mismatched quotes aren't stripped — could be a legitimately quote-containing value.
+    assert parse_cookies('auth_token="tok\'; ct0=csrf') == {
+        "auth_token": '"tok\'',
+        "ct0": "csrf",
+    }
+
+
 def test_proxy_parse():
     assert parse_proxy(None) is None
     assert parse_proxy("") is None
