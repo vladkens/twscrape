@@ -71,17 +71,35 @@ def test_serializers_return_json_safe_public_shapes():
 
 
 class FakeAPI:
-    def __init__(self, tweets: list[Tweet]):
+    def __init__(self, tweets: list[Tweet], user=None):
         self.tweets = tweets
+        self.user = user
         self.closed = False
+        self.graph_method = None
 
     async def user_by_login(self, username: str):
-        return None
+        return self.user
 
     async def search(self, query: str, limit: int):
         try:
             for tweet in self.tweets:
                 yield tweet
+        finally:
+            self.closed = True
+
+    async def followers(self, user_id: int, limit: int):
+        self.graph_method = "followers"
+        try:
+            for _ in range(2):
+                yield self.user
+        finally:
+            self.closed = True
+
+    async def following(self, user_id: int, limit: int):
+        self.graph_method = "following"
+        try:
+            for _ in range(2):
+                yield self.user
         finally:
             self.closed = True
 
@@ -105,3 +123,19 @@ async def test_user_not_found(pool_mock):
 
     with pytest.raises(XApiNotFoundError):
         await service.user("missing")
+
+
+@pytest.mark.parametrize("kind", ["followers", "following"])
+async def test_social_graph_enforces_limit_and_closes_generator(pool_mock, kind: str):
+    fake_api = FakeAPI([], user=sample_user())
+    service = XApiService(pool_mock)
+    service.api = cast(Any, fake_api)
+
+    result = await getattr(service, kind)("xdevelopers", limit=1)
+
+    assert result["kind"] == kind
+    assert result["count"] == 1
+    assert len(result["users"]) == 1
+    assert result["users"][0]["username"] == "XDevelopers"
+    assert fake_api.graph_method == kind
+    assert fake_api.closed is True
