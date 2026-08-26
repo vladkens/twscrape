@@ -261,6 +261,20 @@ The dashboard binds to `127.0.0.1`, reads the same `accounts.db` as the CLI, and
 passwords, email credentials, proxies, or cookie values to the browser. Use `--db` to select a
 different account database and `--no-open` when running without a desktop browser.
 
+The same local process also exposes a read-only JSON API over the configured account pool:
+
+```bash
+curl http://127.0.0.1:8000/api/user/xdevelopers
+curl 'http://127.0.0.1:8000/api/user/xdevelopers/tweets?limit=20&include_replies=false'
+curl http://127.0.0.1:8000/api/tweet/20
+curl 'http://127.0.0.1:8000/api/search?q=python&limit=20'
+curl http://127.0.0.1:8000/healthz
+```
+
+The API is intentionally read-only and local-only. It was inspired by the MIT-licensed
+[`w95/x-api`](https://github.com/w95/x-api) project, while reusing this process's existing database
+and account rotation instead of loading a second session file.
+
 CLI output is JSON Lines: one document per line.
 
 ```bash

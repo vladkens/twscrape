@@ -9,10 +9,11 @@ from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from importlib.resources import files
 from typing import Any, TypedDict
-from urllib.parse import unquote, urlparse
+from urllib.parse import parse_qs, unquote, urlparse
 
-from .accounts_pool import AccountsPool
+from .accounts_pool import AccountsPool, NoAccountError
 from .utils import utc
+from .x_api import XApiNotFoundError, XApiService, parse_bool, parse_limit
 
 
 class DashboardAccountInfo(TypedDict):
@@ -116,6 +117,7 @@ class DashboardServer(HTTPServer):
     def __init__(self, address: tuple[str, int], pool: AccountsPool):
         super().__init__(address, DashboardHandler)
         self.service = DashboardService(pool)
+        self.x_api = XApiService(pool)
         self.csrf_token = secrets.token_urlsafe(32)
 
 
@@ -172,9 +174,31 @@ class DashboardHandler(BaseHTTPRequestHandler):
         return asyncio.run(coroutine)
 
     def do_GET(self) -> None:
-        path = urlparse(self.path).path
+        parsed = urlparse(self.path)
+        path = parsed.path
+        if path == "/healthz":
+            self._send_json({"ok": True})
+            return
+        if path == "/api":
+            self._send_json(
+                {
+                    "name": "twscrape JSON API",
+                    "read_only": True,
+                    "endpoints": [
+                        "/api/user/{name}",
+                        "/api/user/{name}/tweets?limit=20&include_replies=false",
+                        "/api/tweet/{id}",
+                        "/api/search?q=...&limit=20",
+                        "/healthz",
+                    ],
+                }
+            )
+            return
         if path == "/api/accounts":
             self._send_json(self._run(self.server.service.snapshot()))
+            return
+        if path.startswith(("/api/user/", "/api/tweet/")) or path == "/api/search":
+            self._handle_x_api(parsed)
             return
 
         assets = files("twscrape").joinpath("dashboard_assets")
@@ -192,6 +216,47 @@ class DashboardHandler(BaseHTTPRequestHandler):
             self._send_bytes(body, "text/javascript; charset=utf-8")
             return
         self._send_json({"error": "页面不存在"}, HTTPStatus.NOT_FOUND)
+
+    def _handle_x_api(self, parsed: Any) -> None:
+        path = parsed.path
+        query = parse_qs(parsed.query)
+        try:
+            limit = parse_limit(query.get("limit", [None])[0])
+            if path == "/api/search":
+                search_query = query.get("q", [""])[0]
+                self._send_json(self._run(self.server.x_api.search(search_query, limit)))
+                return
+
+            parts = [unquote(part) for part in path.split("/") if part]
+            if len(parts) == 3 and parts[:2] == ["api", "user"]:
+                self._send_json(self._run(self.server.x_api.user(parts[2])))
+                return
+            if len(parts) == 4 and parts[:2] == ["api", "user"] and parts[3] == "tweets":
+                include_replies = parse_bool(query.get("include_replies", [None])[0])
+                self._send_json(
+                    self._run(self.server.x_api.user_tweets(parts[2], limit, include_replies))
+                )
+                return
+            if len(parts) == 3 and parts[:2] == ["api", "tweet"]:
+                try:
+                    tweet_id = int(parts[2])
+                except ValueError as error:
+                    raise ValueError("tweet id must be an integer") from error
+                if tweet_id <= 0:
+                    raise ValueError("tweet id must be positive")
+                self._send_json(self._run(self.server.x_api.tweet(tweet_id)))
+                return
+            self._send_json({"error": "接口不存在"}, HTTPStatus.NOT_FOUND)
+        except XApiNotFoundError as error:
+            self._send_json({"error": str(error)}, HTTPStatus.NOT_FOUND)
+        except NoAccountError:
+            self._send_json(
+                {"error": "No active account is available"}, HTTPStatus.SERVICE_UNAVAILABLE
+            )
+        except ValueError as error:
+            self._send_json({"error": str(error)}, HTTPStatus.BAD_REQUEST)
+        except Exception:
+            self._send_json({"error": "Upstream X request failed"}, HTTPStatus.BAD_GATEWAY)
 
     def do_POST(self) -> None:
         self._handle_mutation("POST")
@@ -243,7 +308,8 @@ def serve_dashboard(args: argparse.Namespace) -> None:
     if host not in {"127.0.0.1", "localhost"}:
         raise ValueError("MVP 看板仅允许绑定到 127.0.0.1 或 localhost")
 
-    server = DashboardServer((host, args.port), AccountsPool(args.db))
+    pool = AccountsPool(args.db, raise_when_no_account=True)
+    server = DashboardServer((host, args.port), pool)
     actual_host, actual_port = host, server.server_port
     url = f"http://{actual_host}:{actual_port}"
     print(f"twscrape dashboard: {url}")
