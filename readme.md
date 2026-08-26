@@ -224,6 +224,7 @@ twscrape search --help
 Commands:
 
 ```bash
+twscrape dashboard
 twscrape search "QUERY" --limit=20
 twscrape tweet_details TWEET_ID
 twscrape tweet_replies TWEET_ID --limit=20
@@ -247,6 +248,18 @@ twscrape community_moderators COMMUNITY_ID --limit=20
 twscrape community_tweets COMMUNITY_ID --limit=20
 twscrape trends sport
 ```
+
+### Local account dashboard
+
+Open a compact, local-only dashboard for account health and basic pool management:
+
+```bash
+twscrape dashboard
+```
+
+The dashboard binds to `127.0.0.1`, reads the same `accounts.db` as the CLI, and never returns
+passwords, email credentials, proxies, or cookie values to the browser. Use `--db` to select a
+different account database and `--no-open` when running without a desktop browser.
 
 CLI output is JSON Lines: one document per line.
 

@@ -185,6 +185,11 @@ def run():
     subparsers.add_parser("accounts", help="List all accounts")
     subparsers.add_parser("stats", help="Get current usage stats")
 
+    dashboard = subparsers.add_parser("dashboard", help="Open the local account dashboard")
+    dashboard.add_argument("--host", default="127.0.0.1", help="Local bind address")
+    dashboard.add_argument("--port", type=int, default=8000, help="Local port")
+    dashboard.add_argument("--no-open", action="store_true", help="Do not open a browser")
+
     add_accounts = subparsers.add_parser("add_accounts", help="Add accounts from file")
     add_accounts.add_argument("file_path", help="File with accounts")
     add_accounts.add_argument("line_format", help="Account fields separated by delimiter")
@@ -236,6 +241,11 @@ def run():
     args = p.parse_args()
     if args.command is None:
         return custom_help(p)
+
+    if args.command == "dashboard":
+        from .dashboard import serve_dashboard
+
+        return serve_dashboard(args)
 
     try:
         asyncio.run(_run(args))

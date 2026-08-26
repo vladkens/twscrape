@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="twscrape-token" content="__CSRF_TOKEN__" />
+    <meta name="theme-color" content="#0b0c0a" />
+    <title>twscrape · 账号池</title>
+    <link rel="stylesheet" href="/dashboard.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-mark">tw</span>
+          <div>
+            <h1>账号池</h1>
+            <p>本地 AccountsPool · 127.0.0.1</p>
+          </div>
+        </div>
+        <div class="sync">
+          <span class="sync-dot" aria-hidden="true"></span>
+          <span id="updatedAt">正在连接</span>
+        </div>
+      </header>
+
+      <section class="summary" aria-label="账号池概览">
+        <article>
+          <span>全部账号</span>
+          <strong id="totalCount">—</strong>
+        </article>
+        <article>
+          <span>正常运行</span>
+          <strong id="runningCount">—</strong>
+        </article>
+        <article class="attention">
+          <span>需要关注</span>
+          <strong id="attentionCount">—</strong>
+        </article>
+      </section>
+
+      <section class="workspace">
+        <div class="toolbar">
+          <div>
+            <h2>账号</h2>
+            <p>会话、请求计数与本地限流锁</p>
+          </div>
+          <div class="toolbar-actions">
+            <label class="search">
+              <span aria-hidden="true">/</span>
+              <input
+                id="searchInput"
+                type="search"
+                placeholder="搜索账号"
+                autocomplete="off"
+                spellcheck="false"
+              />
+            </label>
+            <select id="statusFilter" aria-label="筛选账号状态">
+              <option value="all">全部状态</option>
+              <option value="ready">就绪</option>
+              <option value="locked">限流中</option>
+              <option value="inactive">已停用</option>
+              <option value="session">会话缺失</option>
+              <option value="error">异常</option>
+              <option value="attention">需要关注</option>
+            </select>
+            <button type="button" class="primary" id="addButton">添加 Cookie</button>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>账号</th>
+                <th>状态</th>
+                <th>登录方式</th>
+                <th>请求</th>
+                <th>最后使用</th>
+                <th>本地锁</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="accountRows"></tbody>
+          </table>
+          <div class="empty" id="emptyState" hidden>
+            <div>—</div>
+            <strong>还没有账号</strong>
+            <span>添加 Cookie 账号后才会出现在列表中</span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <dialog id="addDialog">
+      <form id="addForm" autocomplete="off">
+        <div class="dialog-head">
+          <div>
+            <h2>添加 Cookie 账号</h2>
+            <p>写入本机 accounts.db，浏览器不保存 Cookie</p>
+          </div>
+          <button type="button" class="icon-button" id="closeDialog" aria-label="关闭">×</button>
+        </div>
+        <label>
+          账号名称
+          <input
+            name="username"
+            maxlength="80"
+            placeholder="例如 xdevelopers"
+            required
+            autocomplete="off"
+            spellcheck="false"
+          />
+        </label>
+        <label>
+          Cookie
+          <textarea
+            name="cookies"
+            rows="6"
+            placeholder="auth_token=…; ct0=…"
+            required
+            autocomplete="off"
+            spellcheck="false"
+          ></textarea>
+        </label>
+        <div class="security-note">
+          <span>●</span>
+          <p>提交后 Cookie 不会回显。列表只显示会话是否可用、状态与本地锁。</p>
+        </div>
+        <p class="form-error" id="formError" hidden></p>
+        <div class="dialog-actions">
+          <button type="button" class="secondary" id="cancelDialog">取消</button>
+          <button type="submit" class="primary" id="submitAccount">添加账号</button>
+        </div>
+      </form>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="/dashboard.js" defer></script>
+  </body>
+</html>

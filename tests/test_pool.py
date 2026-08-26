@@ -187,6 +187,20 @@ async def test_get_stats(pool_mock: AccountsPool):
     assert stats[f"locked_{Q}"] == 1
 
 
+async def test_reset_locks_can_target_one_account(pool_mock: AccountsPool):
+    await pool_mock.add_account("user1", "pass1", "email1", "email_pass1")
+    await pool_mock.add_account("user2", "pass2", "email2", "email_pass2")
+    await pool_mock.set_active("user1", True)
+    await pool_mock.set_active("user2", True)
+    assert await pool_mock.get_for_queue("SearchTimeline") is not None
+    assert await pool_mock.get_for_queue("SearchTimeline") is not None
+
+    await pool_mock.reset_locks("user1")
+
+    assert (await pool_mock.get("user1")).locks == {}
+    assert "SearchTimeline" in (await pool_mock.get("user2")).locks
+
+
 async def test_delete_accounts(pool_mock: AccountsPool):
     await pool_mock.add_account("user1", "pass1", "email1", "ep1")
     await pool_mock.add_account("user2", "pass2", "email2", "ep2")
