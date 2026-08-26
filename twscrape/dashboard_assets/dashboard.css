@@ -52,6 +52,14 @@ button { cursor: pointer; }
 h1, h2, p { margin: 0; }
 .brand h1 { font-size: 16px; font-weight: 650; }
 .brand p, .workspace p { color: var(--muted); font-size: 11px; margin-top: 4px; }
+.topbar-meta { display: flex; align-items: center; gap: 16px; }
+.api-link {
+  color: var(--green);
+  font-size: 11px;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+}
+.api-link:hover { border-color: var(--green); }
 .sync {
   color: var(--muted);
   font-size: 11px;
