@@ -187,6 +187,8 @@ class DashboardHandler(BaseHTTPRequestHandler):
                     "endpoints": [
                         "/api/user/{name}",
                         "/api/user/{name}/tweets?limit=20&include_replies=false",
+                        "/api/user/{name}/followers?limit=20",
+                        "/api/user/{name}/following?limit=20",
                         "/api/tweet/{id}",
                         "/api/search?q=...&limit=20",
                         "/healthz",
@@ -236,6 +238,14 @@ class DashboardHandler(BaseHTTPRequestHandler):
                 self._send_json(
                     self._run(self.server.x_api.user_tweets(parts[2], limit, include_replies))
                 )
+                return
+            if (
+                len(parts) == 4
+                and parts[:2] == ["api", "user"]
+                and parts[3] in {"followers", "following"}
+            ):
+                method = getattr(self.server.x_api, parts[3])
+                self._send_json(self._run(method(parts[2], limit)))
                 return
             if len(parts) == 3 and parts[:2] == ["api", "tweet"]:
                 try:

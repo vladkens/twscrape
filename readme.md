@@ -266,6 +266,8 @@ The same local process also exposes a read-only JSON API over the configured acc
 ```bash
 curl http://127.0.0.1:8000/api/user/xdevelopers
 curl 'http://127.0.0.1:8000/api/user/xdevelopers/tweets?limit=20&include_replies=false'
+curl 'http://127.0.0.1:8000/api/user/xdevelopers/followers?limit=20'
+curl 'http://127.0.0.1:8000/api/user/xdevelopers/following?limit=20'
 curl http://127.0.0.1:8000/api/tweet/20
 curl 'http://127.0.0.1:8000/api/search?q=python&limit=20'
 curl http://127.0.0.1:8000/healthz

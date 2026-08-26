@@ -131,6 +131,16 @@ async def _collect(source: AsyncGenerator[Tweet, None], limit: int) -> list[dict
     return items
 
 
+async def _collect_users(source: AsyncGenerator[User, None], limit: int) -> list[dict[str, Any]]:
+    items: list[dict[str, Any]] = []
+    async with aclosing(source):
+        async for user in source:
+            items.append(user_to_dict(user))
+            if len(items) >= limit:
+                break
+    return items
+
+
 class XApiService:
     """Read-only JSON facade over twscrape using the existing account pool."""
 
@@ -154,6 +164,29 @@ class XApiService:
         )
         tweets = await _collect(source, limit)
         return {"user": user_to_dict(user), "tweets": tweets, "count": len(tweets)}
+
+    async def followers(self, username: str, limit: int) -> dict[str, Any]:
+        return await self._social_graph(username, limit, "followers")
+
+    async def following(self, username: str, limit: int) -> dict[str, Any]:
+        return await self._social_graph(username, limit, "following")
+
+    async def _social_graph(self, username: str, limit: int, kind: str) -> dict[str, Any]:
+        user = await self.api.user_by_login(username)
+        if user is None:
+            raise XApiNotFoundError(f'User "{username}" not found')
+        source = (
+            self.api.followers(user.id, limit=limit)
+            if kind == "followers"
+            else self.api.following(user.id, limit=limit)
+        )
+        users = await _collect_users(source, limit)
+        return {
+            "kind": kind,
+            "user": user_to_dict(user),
+            "users": users,
+            "count": len(users),
+        }
 
     async def tweet(self, tweet_id: int) -> dict[str, Any]:
         tweet = await self.api.tweet_details(tweet_id)
