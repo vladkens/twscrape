@@ -1,0 +1,2458 @@
+{
+  "data": {
+    "threaded_conversation_with_injections_v2": {
+      "instructions": [
+        {
+          "type": "TimelineClearCache"
+        },
+        {
+          "entries": [
+            {
+              "content": {
+                "__typename": "TimelineTimelineItem",
+                "clientEventInfo": {
+                  "component": "tweet",
+                  "element": "tweet"
+                },
+                "entryType": "TimelineTimelineItem",
+                "itemContent": {
+                  "__typename": "TimelineTweet",
+                  "itemType": "TimelineTweet",
+                  "tweetDisplayType": "Tweet",
+                  "tweet_results": {
+                    "result": {
+                      "__typename": "Tweet",
+                      "core": {
+                        "user_results": {
+                          "result": {
+                            "__typename": "User",
+                            "action_counts": {
+                              "favorites_count": 8597
+                            },
+                            "affiliates_highlighted_label": {},
+                            "avatar": {
+                              "image_url": "https://pbs.twimg.com/profile_images/2031267987030781952/gfIwN2kr_normal.jpg"
+                            },
+                            "banner": {
+                              "image_url": "https://pbs.twimg.com/profile_banners/2862024496/1773169814"
+                            },
+                            "core": {
+                              "created_at": "Wed Nov 05 06:16:52 +0000 2014",
+                              "name": "aLeeexs - peludo15",
+                              "screen_name": "peludo15habbo"
+                            },
+                            "dm_permissions": {
+                              "can_dm": true
+                            },
+                            "follow_request_sent": false,
+                            "has_graduated_access": true,
+                            "id": "VXNlcjoyODYyMDI0NDk2",
+                            "is_blue_verified": false,
+                            "location": {
+                              "location": "Islas Canarias, Espa\u00f1a"
+                            },
+                            "media_permissions": {
+                              "can_media_tag": true
+                            },
+                            "notifications_settings": {
+                              "notifications_enabled": false
+                            },
+                            "pinned_items": {
+                              "tweet_ids_str": [
+                                "2056463133569409284"
+                              ]
+                            },
+                            "possibly_sensitive": false,
+                            "privacy": {
+                              "protected": false
+                            },
+                            "profile_bio": {
+                              "description": "\ud83c\uddee\ud83c\udde8 Habbeando en @ESHabbo desde el 1 de Marzo 2007. Mani\u00e1tico del desorden, amante de las mascotas y la tecnolog\u00eda. Administrador de @ESHabsite #CarpeDiem \ud83c\uddee\ud83c\udde8",
+                              "entities": {
+                                "description": {},
+                                "url": {
+                                  "urls": [
+                                    {
+                                      "display_url": "habsite.es",
+                                      "expanded_url": "https://habsite.es",
+                                      "indices": [
+                                        0,
+                                        23
+                                      ],
+                                      "url": "https://t.co/TsAShO6Wi6"
+                                    }
+                                  ]
+                                }
+                              }
+                            },
+                            "profile_description_language": "es",
+                            "profile_image_shape": "Circle",
+                            "profile_metadata": {
+                              "profile_interstitial_type": ""
+                            },
+                            "profile_translation": {
+                              "translator_type": "none"
+                            },
+                            "relationship_counts": {
+                              "followers": 1626,
+                              "following": 471
+                            },
+                            "relationship_perspectives": {
+                              "blocked_by": false,
+                              "blocking": false,
+                              "followed_by": false,
+                              "following": false,
+                              "live_following": false,
+                              "muting": false
+                            },
+                            "rest_id": "2862024496",
+                            "super_follow_eligible": false,
+                            "super_followed_by": false,
+                            "super_following": false,
+                            "tipjar_settings": {},
+                            "tweet_counts": {
+                              "media_tweets": 1936,
+                              "tweets": 17277
+                            },
+                            "verification": {
+                              "verified": false
+                            },
+                            "website": {
+                              "url": "https://t.co/TsAShO6Wi6"
+                            }
+                          }
+                        }
+                      },
+                      "edit_control": {
+                        "edit_tweet_ids": [
+                          "1916061947499368726"
+                        ],
+                        "editable_until_msecs": "1745663341000",
+                        "edits_remaining": "5",
+                        "is_edit_eligible": true
+                      },
+                      "grok_translated_post_with_availability": {
+                        "is_available": false
+                      },
+                      "has_birdwatch_notes": false,
+                      "is_translatable": true,
+                      "legacy": {
+                        "bookmark_count": 0,
+                        "bookmarked": false,
+                        "conversation_id_str": "1916061947499368726",
+                        "created_at": "Sat Apr 26 09:29:01 +0000 2025",
+                        "display_text_range": [
+                          0,
+                          232
+                        ],
+                        "entities": {
+                          "user_mentions": [
+                            {
+                              "id_str": "85741735",
+                              "indices": [
+                                49,
+                                60
+                              ],
+                              "name": "Amazon Help",
+                              "screen_name": "AmazonHelp"
+                            },
+                            {
+                              "id_str": "20793816",
+                              "indices": [
+                                225,
+                                232
+                              ],
+                              "name": "Amazon",
+                              "screen_name": "amazon"
+                            }
+                          ]
+                        },
+                        "favorite_count": 2,
+                        "favorited": false,
+                        "full_text": "Despu\u00e9s de a\u00f1os comprando y teniendo el prime de @AmazonHelp hoy se cancela todo. Equipo de atenci\u00f3n al cliente nefastos, problemas con las entregas y devoluciones ya estoy cansado. Gracias por vuestra atenci\u00f3n no tan atenta @amazon",
+                        "id_str": "1916061947499368726",
+                        "is_quote_status": false,
+                        "lang": "es",
+                        "quote_count": 0,
+                        "reply_count": 2,
+                        "retweet_count": 1,
+                        "retweeted": false,
+                        "user_id_str": "2862024496"
+                      },
+                      "quick_promote_eligibility": {
+                        "eligibility": "IneligibleNotVerified"
+                      },
+                      "rest_id": "1916061947499368726",
+                      "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
+                      "unmention_data": {},
+                      "views": {
+                        "count": "769",
+                        "state": "EnabledWithCount"
+                      }
+                    }
+                  }
+                }
+              },
+              "entryId": "tweet-1916061947499368726",
+              "sortIndex": "2092923266015428608"
+            },
+            {
+              "content": {
+                "__typename": "TimelineTimelineItem",
+                "clientEventInfo": {
+                  "component": "tweet",
+                  "element": "tweet"
+                },
+                "entryType": "TimelineTimelineItem",
+                "itemContent": {
+                  "__typename": "TimelineTweet",
+                  "itemType": "TimelineTweet",
+                  "tweetDisplayType": "Tweet",
+                  "tweet_results": {
+                    "result": {
+                      "__typename": "Tweet",
+                      "core": {
+                        "user_results": {
+                          "result": {
+                            "__typename": "User",
+                            "action_counts": {
+                              "favorites_count": 56359
+                            },
+                            "affiliates_highlighted_label": {
+                              "label": {
+                                "badge": {
+                                  "url": "https://pbs.twimg.com/profile_images/1912984084516831232/BHv0mcPd_bigger.jpg"
+                                },
+                                "description": "Amazon",
+                                "url": {
+                                  "url": "https://twitter.com/amazon",
+                                  "urlType": "DeepLink"
+                                },
+                                "userLabelDisplayType": "Badge",
+                                "userLabelType": "BusinessLabel"
+                              }
+                            },
+                            "avatar": {
+                              "image_url": "https://pbs.twimg.com/profile_images/900044287357747200/3y78dUZl_normal.jpg"
+                            },
+                            "banner": {
+                              "image_url": "https://pbs.twimg.com/profile_banners/85741735/1542649786"
+                            },
+                            "core": {
+                              "created_at": "Wed Oct 28 04:17:54 +0000 2009",
+                              "name": "Amazon Help",
+                              "screen_name": "AmazonHelp"
+                            },
+                            "dm_permissions": {
+                              "can_dm": true
+                            },
+                            "follow_request_sent": false,
+                            "has_graduated_access": true,
+                            "id": "VXNlcjo4NTc0MTczNQ==",
+                            "is_blue_verified": true,
+                            "location": {
+                              "location": ""
+                            },
+                            "media_permissions": {
+                              "can_media_tag": true
+                            },
+                            "notifications_settings": {
+                              "notifications_enabled": false
+                            },
+                            "pinned_items": {},
+                            "possibly_sensitive": false,
+                            "privacy": {
+                              "protected": false
+                            },
+                            "profile_bio": {
+                              "description": "We answer support questions in English / Deutsch / Espa\u00f1ol / Portugu\u00eas / Fran\u00e7ais / Italiano / \u65e5\u672c\u8a9e / T\u00fcrk\u00e7e / Nederlands / Polski / \u010ce\u0161tina / Svenska / \u0627\u0644\u0639\u0631\u0628\u064a\u0629",
+                              "entities": {
+                                "description": {},
+                                "url": {
+                                  "urls": [
+                                    {
+                                      "display_url": "amazon.com/help",
+                                      "expanded_url": "http://www.amazon.com/help",
+                                      "indices": [
+                                        0,
+                                        23
+                                      ],
+                                      "url": "https://t.co/sbsHtNqVjH"
+                                    }
+                                  ]
+                                }
+                              }
+                            },
+                            "profile_image_shape": "Square",
+                            "profile_metadata": {
+                              "profile_interstitial_type": ""
+                            },
+                            "profile_translation": {
+                              "translator_type": "none"
+                            },
+                            "relationship_counts": {
+                              "followers": 560027,
+                              "following": 77
+                            },
+                            "relationship_perspectives": {
+                              "blocked_by": false,
+                              "blocking": false,
+                              "followed_by": false,
+                              "following": false,
+                              "live_following": false,
+                              "muting": false
+                            },
+                            "rest_id": "85741735",
+                            "super_follow_eligible": false,
+                            "super_followed_by": false,
+                            "super_following": false,
+                            "tipjar_settings": {},
+                            "tweet_counts": {
+                              "media_tweets": 26651,
+                              "tweets": 13904610
+                            },
+                            "verification": {
+                              "verified": false,
+                              "verified_type": "Business"
+                            },
+                            "website": {
+                              "url": "https://t.co/sbsHtNqVjH"
+                            }
+                          }
+                        }
+                      },
+                      "edit_control": {
+                        "edit_tweet_ids": [
+                          "1916062489868980597"
+                        ],
+                        "editable_until_msecs": "1745663470000",
+                        "edits_remaining": "5",
+                        "is_edit_eligible": false
+                      },
+                      "grok_translated_post_with_availability": {
+                        "is_available": false
+                      },
+                      "has_birdwatch_notes": false,
+                      "is_translatable": true,
+                      "legacy": {
+                        "bookmark_count": 0,
+                        "bookmarked": false,
+                        "conversation_id_str": "1916061947499368726",
+                        "created_at": "Sat Apr 26 09:31:10 +0000 2025",
+                        "display_text_range": [
+                          15,
+                          225
+                        ],
+                        "entities": {
+                          "user_mentions": [
+                            {
+                              "id_str": "2862024496",
+                              "indices": [
+                                0,
+                                14
+                              ],
+                              "name": "aLeeexs - peludo15",
+                              "screen_name": "peludo15habbo"
+                            }
+                          ]
+                        },
+                        "favorite_count": 0,
+                        "favorited": false,
+                        "full_text": "@peludo15habbo Hola. Lamentamos escuchar sobre esta situaci\u00f3n. Si te parece bien, puedes contactarnos por medio de un Mensaje Directo para dar seguimiento a tu caso. Te recomendamos no incluir informaci\u00f3n personal.\n\n-Laura C.",
+                        "id_str": "1916062489868980597",
+                        "in_reply_to_screen_name": "peludo15habbo",
+                        "in_reply_to_status_id_str": "1916061947499368726",
+                        "in_reply_to_user_id_str": "2862024496",
+                        "is_quote_status": false,
+                        "lang": "es",
+                        "quote_count": 0,
+                        "reply_count": 35,
+                        "retweet_count": 0,
+                        "retweeted": false,
+                        "user_id_str": "85741735"
+                      },
+                      "quick_promote_eligibility": {
+                        "eligibility": "IneligibleNotVerified"
+                      },
+                      "rest_id": "1916062489868980597",
+                      "source": "<a href=\"https://www.sprinklr.com\" rel=\"nofollow\">Sprinklr</a>",
+                      "unmention_data": {
+                        "hydrate": {
+                          "unmentioned_users_results": [
+                            {
+                              "rest_id": "2862024496"
+                            }
+                          ]
+                        }
+                      },
+                      "views": {
+                        "count": "36829",
+                        "state": "EnabledWithCount"
+                      }
+                    }
+                  }
+                }
+              },
+              "entryId": "tweet-1916062489868980597",
+              "sortIndex": "2092923266015428598"
+            },
+            {
+              "content": {
+                "__typename": "TimelineTimelineItem",
+                "clientEventInfo": {
+                  "component": "tweet",
+                  "element": "tweet"
+                },
+                "entryType": "TimelineTimelineItem",
+                "itemContent": {
+                  "__typename": "TimelineTweet",
+                  "itemType": "TimelineTweet",
+                  "tweetDisplayType": "Tweet",
+                  "tweet_results": {
+                    "result": {
+                      "__typename": "Tweet",
+                      "card": {
+                        "legacy": {
+                          "binding_values": [
+                            {
+                              "key": "_omit_link_",
+                              "value": {
+                                "boolean_value": false,
+                                "type": "BOOLEAN"
+                              }
+                            },
+                            {
+                              "key": "recipient",
+                              "value": {
+                                "type": "USER",
+                                "user_value": {
+                                  "id_str": "85741735",
+                                  "path": []
+                                }
+                              }
+                            },
+                            {
+                              "key": "cta",
+                              "value": {
+                                "string_value": "message_me_card_cta_2",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "card_url",
+                              "value": {
+                                "scribe_key": "card_url",
+                                "string_value": "https://t.co/1XyLaGkcaN",
+                                "type": "STRING"
+                              }
+                            }
+                          ],
+                          "card_platform": {
+                            "platform": {
+                              "audience": {
+                                "name": "production"
+                              },
+                              "device": {
+                                "name": "Swift",
+                                "version": "12"
+                              }
+                            }
+                          },
+                          "name": "2586390716:message_me",
+                          "url": "https://t.co/1XyLaGkcaN",
+                          "user_refs_results": [
+                            {
+                              "result": {
+                                "__typename": "User",
+                                "action_counts": {
+                                  "favorites_count": 56359
+                                },
+                                "affiliates_highlighted_label": {
+                                  "label": {
+                                    "badge": {
+                                      "url": "https://pbs.twimg.com/profile_images/1912984084516831232/BHv0mcPd_bigger.jpg"
+                                    },
+                                    "description": "Amazon",
+                                    "url": {
+                                      "url": "https://twitter.com/amazon",
+                                      "urlType": "DeepLink"
+                                    },
+                                    "userLabelDisplayType": "Badge",
+                                    "userLabelType": "BusinessLabel"
+                                  }
+                                },
+                                "avatar": {
+                                  "image_url": "https://pbs.twimg.com/profile_images/900044287357747200/3y78dUZl_normal.jpg"
+                                },
+                                "banner": {
+                                  "image_url": "https://pbs.twimg.com/profile_banners/85741735/1542649786"
+                                },
+                                "core": {
+                                  "created_at": "Wed Oct 28 04:17:54 +0000 2009",
+                                  "name": "Amazon Help",
+                                  "screen_name": "AmazonHelp"
+                                },
+                                "dm_permissions": {
+                                  "can_dm": true
+                                },
+                                "follow_request_sent": false,
+                                "has_graduated_access": true,
+                                "id": "VXNlcjo4NTc0MTczNQ==",
+                                "is_blue_verified": true,
+                                "location": {
+                                  "location": ""
+                                },
+                                "media_permissions": {
+                                  "can_media_tag": true
+                                },
+                                "notifications_settings": {
+                                  "notifications_enabled": false
+                                },
+                                "pinned_items": {},
+                                "possibly_sensitive": false,
+                                "privacy": {
+                                  "protected": false
+                                },
+                                "profile_bio": {
+                                  "description": "We answer support questions in English / Deutsch / Espa\u00f1ol / Portugu\u00eas / Fran\u00e7ais / Italiano / \u65e5\u672c\u8a9e / T\u00fcrk\u00e7e / Nederlands / Polski / \u010ce\u0161tina / Svenska / \u0627\u0644\u0639\u0631\u0628\u064a\u0629",
+                                  "entities": {
+                                    "description": {},
+                                    "url": {
+                                      "urls": [
+                                        {
+                                          "display_url": "amazon.com/help",
+                                          "expanded_url": "http://www.amazon.com/help",
+                                          "indices": [
+                                            0,
+                                            23
+                                          ],
+                                          "url": "https://t.co/sbsHtNqVjH"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                },
+                                "profile_image_shape": "Square",
+                                "profile_metadata": {
+                                  "profile_interstitial_type": ""
+                                },
+                                "profile_translation": {
+                                  "translator_type": "none"
+                                },
+                                "relationship_counts": {
+                                  "followers": 560027,
+                                  "following": 77
+                                },
+                                "relationship_perspectives": {
+                                  "blocked_by": false,
+                                  "blocking": false,
+                                  "followed_by": false,
+                                  "following": false,
+                                  "live_following": false,
+                                  "muting": false
+                                },
+                                "rest_id": "85741735",
+                                "super_follow_eligible": false,
+                                "super_followed_by": false,
+                                "super_following": false,
+                                "tipjar_settings": {},
+                                "tweet_counts": {
+                                  "media_tweets": 26651,
+                                  "tweets": 13904610
+                                },
+                                "verification": {
+                                  "verified": false,
+                                  "verified_type": "Business"
+                                },
+                                "website": {
+                                  "url": "https://t.co/sbsHtNqVjH"
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "rest_id": "https://t.co/1XyLaGkcaN"
+                      },
+                      "core": {
+                        "user_results": {
+                          "result": {
+                            "__typename": "User",
+                            "action_counts": {
+                              "favorites_count": 56359
+                            },
+                            "affiliates_highlighted_label": {
+                              "label": {
+                                "badge": {
+                                  "url": "https://pbs.twimg.com/profile_images/1912984084516831232/BHv0mcPd_bigger.jpg"
+                                },
+                                "description": "Amazon",
+                                "url": {
+                                  "url": "https://twitter.com/amazon",
+                                  "urlType": "DeepLink"
+                                },
+                                "userLabelDisplayType": "Badge",
+                                "userLabelType": "BusinessLabel"
+                              }
+                            },
+                            "avatar": {
+                              "image_url": "https://pbs.twimg.com/profile_images/900044287357747200/3y78dUZl_normal.jpg"
+                            },
+                            "banner": {
+                              "image_url": "https://pbs.twimg.com/profile_banners/85741735/1542649786"
+                            },
+                            "core": {
+                              "created_at": "Wed Oct 28 04:17:54 +0000 2009",
+                              "name": "Amazon Help",
+                              "screen_name": "AmazonHelp"
+                            },
+                            "dm_permissions": {
+                              "can_dm": true
+                            },
+                            "follow_request_sent": false,
+                            "has_graduated_access": true,
+                            "id": "VXNlcjo4NTc0MTczNQ==",
+                            "is_blue_verified": true,
+                            "location": {
+                              "location": ""
+                            },
+                            "media_permissions": {
+                              "can_media_tag": true
+                            },
+                            "notifications_settings": {
+                              "notifications_enabled": false
+                            },
+                            "pinned_items": {},
+                            "possibly_sensitive": false,
+                            "privacy": {
+                              "protected": false
+                            },
+                            "profile_bio": {
+                              "description": "We answer support questions in English / Deutsch / Espa\u00f1ol / Portugu\u00eas / Fran\u00e7ais / Italiano / \u65e5\u672c\u8a9e / T\u00fcrk\u00e7e / Nederlands / Polski / \u010ce\u0161tina / Svenska / \u0627\u0644\u0639\u0631\u0628\u064a\u0629",
+                              "entities": {
+                                "description": {},
+                                "url": {
+                                  "urls": [
+                                    {
+                                      "display_url": "amazon.com/help",
+                                      "expanded_url": "http://www.amazon.com/help",
+                                      "indices": [
+                                        0,
+                                        23
+                                      ],
+                                      "url": "https://t.co/sbsHtNqVjH"
+                                    }
+                                  ]
+                                }
+                              }
+                            },
+                            "profile_image_shape": "Square",
+                            "profile_metadata": {
+                              "profile_interstitial_type": ""
+                            },
+                            "profile_translation": {
+                              "translator_type": "none"
+                            },
+                            "relationship_counts": {
+                              "followers": 560027,
+                              "following": 77
+                            },
+                            "relationship_perspectives": {
+                              "blocked_by": false,
+                              "blocking": false,
+                              "followed_by": false,
+                              "following": false,
+                              "live_following": false,
+                              "muting": false
+                            },
+                            "rest_id": "85741735",
+                            "super_follow_eligible": false,
+                            "super_followed_by": false,
+                            "super_following": false,
+                            "tipjar_settings": {},
+                            "tweet_counts": {
+                              "media_tweets": 26651,
+                              "tweets": 13904610
+                            },
+                            "verification": {
+                              "verified": false,
+                              "verified_type": "Business"
+                            },
+                            "website": {
+                              "url": "https://t.co/sbsHtNqVjH"
+                            }
+                          }
+                        }
+                      },
+                      "edit_control": {
+                        "edit_tweet_ids": [
+                          "1916063270131191983"
+                        ],
+                        "editable_until_msecs": "1745663656000",
+                        "edits_remaining": "5",
+                        "is_edit_eligible": false
+                      },
+                      "grok_translated_post_with_availability": {
+                        "is_available": false
+                      },
+                      "has_birdwatch_notes": false,
+                      "is_translatable": true,
+                      "legacy": {
+                        "bookmark_count": 1,
+                        "bookmarked": false,
+                        "conversation_id_str": "1916061947499368726",
+                        "created_at": "Sat Apr 26 09:34:16 +0000 2025",
+                        "display_text_range": [
+                          0,
+                          37
+                        ],
+                        "entities": {
+                          "urls": [
+                            {
+                              "display_url": "x.com/messages/compo\u2026",
+                              "expanded_url": "https://x.com/messages/compose?recipient_id=85741735",
+                              "indices": [
+                                38,
+                                61
+                              ],
+                              "url": "https://t.co/1XyLaGkcaN"
+                            }
+                          ]
+                        },
+                        "favorite_count": 1,
+                        "favorited": false,
+                        "full_text": "Aqu\u00ed te dejamos el enlace:\n\n-Laura C. https://t.co/1XyLaGkcaN",
+                        "id_str": "1916063270131191983",
+                        "in_reply_to_screen_name": "AmazonHelp",
+                        "in_reply_to_status_id_str": "1916062489868980597",
+                        "in_reply_to_user_id_str": "85741735",
+                        "is_quote_status": false,
+                        "lang": "es",
+                        "possibly_sensitive": false,
+                        "possibly_sensitive_editable": true,
+                        "quote_count": 0,
+                        "reply_count": 9,
+                        "retweet_count": 0,
+                        "retweeted": false,
+                        "user_id_str": "85741735"
+                      },
+                      "quick_promote_eligibility": {
+                        "eligibility": "IneligibleNotVerified"
+                      },
+                      "rest_id": "1916063270131191983",
+                      "source": "<a href=\"https://www.sprinklr.com\" rel=\"nofollow\">Sprinklr</a>",
+                      "unmention_data": {},
+                      "views": {
+                        "count": "30420",
+                        "state": "EnabledWithCount"
+                      }
+                    }
+                  }
+                }
+              },
+              "entryId": "tweet-1916063270131191983",
+              "sortIndex": "2092923266015428588"
+            },
+            {
+              "content": {
+                "__typename": "TimelineTimelineModule",
+                "clientEventInfo": {
+                  "component": "tweet",
+                  "details": {
+                    "conversationDetails": {
+                      "conversationSection": "HighQuality"
+                    },
+                    "timelinesDetails": {
+                      "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBCx4BUAAAAAA=="
+                    }
+                  }
+                },
+                "displayType": "VerticalConversation",
+                "entryType": "TimelineTimelineModule",
+                "items": [
+                  {
+                    "entryId": "conversationthread-1917292954420498791-tweet-1917292954420498791",
+                    "item": {
+                      "clientEventInfo": {
+                        "component": "tweet",
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBCx4BUAAAAAA=="
+                          }
+                        },
+                        "element": "tweet"
+                      },
+                      "itemContent": {
+                        "__typename": "TimelineTweet",
+                        "itemType": "TimelineTweet",
+                        "tweetDisplayType": "Tweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "action_counts": {
+                                    "favorites_count": 44849
+                                  },
+                                  "affiliates_highlighted_label": {},
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/1814797356472139776/BYkQfR6y_normal.jpg"
+                                  },
+                                  "banner": {
+                                    "image_url": "https://pbs.twimg.com/profile_banners/259836032/1718832223"
+                                  },
+                                  "core": {
+                                    "created_at": "Wed Mar 02 18:01:58 +0000 2011",
+                                    "name": "Mari-Tere",
+                                    "screen_name": "mbtraba"
+                                  },
+                                  "dm_permissions": {
+                                    "can_dm": false
+                                  },
+                                  "follow_request_sent": false,
+                                  "has_graduated_access": true,
+                                  "id": "VXNlcjoyNTk4MzYwMzI=",
+                                  "is_blue_verified": false,
+                                  "location": {
+                                    "location": "Golfo \u00e1rtabro"
+                                  },
+                                  "media_permissions": {
+                                    "can_media_tag": false
+                                  },
+                                  "notifications_settings": {
+                                    "notifications_enabled": false
+                                  },
+                                  "pinned_items": {},
+                                  "possibly_sensitive": false,
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "profile_bio": {
+                                    "description": "\"Nunca fui consciente de cualquier otra opci\u00f3n que no fuera la de cuestionar todo\"",
+                                    "entities": {
+                                      "description": {}
+                                    }
+                                  },
+                                  "profile_description_language": "es",
+                                  "profile_image_shape": "Circle",
+                                  "profile_metadata": {
+                                    "profile_interstitial_type": ""
+                                  },
+                                  "profile_translation": {
+                                    "translator_type": "none"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 211,
+                                    "following": 327
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocked_by": false,
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": false,
+                                    "live_following": false,
+                                    "muting": false
+                                  },
+                                  "rest_id": "259836032",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tipjar_settings": {},
+                                  "tweet_counts": {
+                                    "media_tweets": 122,
+                                    "tweets": 11674
+                                  },
+                                  "verification": {
+                                    "verified": false
+                                  },
+                                  "website": {
+                                    "url": ""
+                                  }
+                                }
+                              }
+                            },
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1917292954420498791"
+                              ],
+                              "editable_until_msecs": "1745956836000",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": false
+                            },
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "has_birdwatch_notes": false,
+                            "is_translatable": false,
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "conversation_id_str": "1916061947499368726",
+                              "created_at": "Tue Apr 29 19:00:36 +0000 2025",
+                              "display_text_range": [
+                                12,
+                                31
+                              ],
+                              "entities": {
+                                "media": [
+                                  {
+                                    "allow_download_status": {
+                                      "allow_download": true
+                                    },
+                                    "display_url": "pic.x.com/GQ4b4DfeN9",
+                                    "expanded_url": "https://x.com/mbtraba/status/1917292954420498791/photo/1",
+                                    "ext_media_availability": {
+                                      "status": "Available"
+                                    },
+                                    "features": {
+                                      "large": {
+                                        "faces": []
+                                      },
+                                      "medium": {
+                                        "faces": []
+                                      },
+                                      "orig": {
+                                        "faces": []
+                                      },
+                                      "small": {
+                                        "faces": []
+                                      }
+                                    },
+                                    "id_str": "1917292929120374784",
+                                    "indices": [
+                                      32,
+                                      55
+                                    ],
+                                    "media_key": "3_1917292929120374784",
+                                    "media_results": {
+                                      "result": {
+                                        "media_key": "3_1917292929120374784"
+                                      }
+                                    },
+                                    "media_url_https": "https://pbs.twimg.com/media/GpuXwsKWkAA2wLW.png",
+                                    "original_info": {
+                                      "focus_rects": [
+                                        {
+                                          "h": 407,
+                                          "w": 726,
+                                          "x": 0,
+                                          "y": 298
+                                        },
+                                        {
+                                          "h": 726,
+                                          "w": 726,
+                                          "x": 0,
+                                          "y": 17
+                                        },
+                                        {
+                                          "h": 743,
+                                          "w": 652,
+                                          "x": 0,
+                                          "y": 0
+                                        },
+                                        {
+                                          "h": 743,
+                                          "w": 372,
+                                          "x": 92,
+                                          "y": 0
+                                        },
+                                        {
+                                          "h": 743,
+                                          "w": 726,
+                                          "x": 0,
+                                          "y": 0
+                                        }
+                                      ],
+                                      "height": 743,
+                                      "width": 726
+                                    },
+                                    "sizes": {
+                                      "large": {
+                                        "h": 743,
+                                        "resize": "fit",
+                                        "w": 726
+                                      },
+                                      "medium": {
+                                        "h": 743,
+                                        "resize": "fit",
+                                        "w": 726
+                                      },
+                                      "small": {
+                                        "h": 680,
+                                        "resize": "fit",
+                                        "w": 664
+                                      },
+                                      "thumb": {
+                                        "h": 150,
+                                        "resize": "crop",
+                                        "w": 150
+                                      }
+                                    },
+                                    "type": "photo",
+                                    "url": "https://t.co/GQ4b4DfeN9"
+                                  }
+                                ],
+                                "user_mentions": [
+                                  {
+                                    "id_str": "85741735",
+                                    "indices": [
+                                      0,
+                                      11
+                                    ],
+                                    "name": "Amazon Help",
+                                    "screen_name": "AmazonHelp"
+                                  }
+                                ]
+                              },
+                              "extended_entities": {
+                                "media": [
+                                  {
+                                    "allow_download_status": {
+                                      "allow_download": true
+                                    },
+                                    "display_url": "pic.x.com/GQ4b4DfeN9",
+                                    "expanded_url": "https://x.com/mbtraba/status/1917292954420498791/photo/1",
+                                    "ext_media_availability": {
+                                      "status": "Available"
+                                    },
+                                    "features": {
+                                      "large": {
+                                        "faces": []
+                                      },
+                                      "medium": {
+                                        "faces": []
+                                      },
+                                      "orig": {
+                                        "faces": []
+                                      },
+                                      "small": {
+                                        "faces": []
+                                      }
+                                    },
+                                    "id_str": "1917292929120374784",
+                                    "indices": [
+                                      32,
+                                      55
+                                    ],
+                                    "media_key": "3_1917292929120374784",
+                                    "media_results": {
+                                      "result": {
+                                        "media_key": "3_1917292929120374784"
+                                      }
+                                    },
+                                    "media_url_https": "https://pbs.twimg.com/media/GpuXwsKWkAA2wLW.png",
+                                    "original_info": {
+                                      "focus_rects": [
+                                        {
+                                          "h": 407,
+                                          "w": 726,
+                                          "x": 0,
+                                          "y": 298
+                                        },
+                                        {
+                                          "h": 726,
+                                          "w": 726,
+                                          "x": 0,
+                                          "y": 17
+                                        },
+                                        {
+                                          "h": 743,
+                                          "w": 652,
+                                          "x": 0,
+                                          "y": 0
+                                        },
+                                        {
+                                          "h": 743,
+                                          "w": 372,
+                                          "x": 92,
+                                          "y": 0
+                                        },
+                                        {
+                                          "h": 743,
+                                          "w": 726,
+                                          "x": 0,
+                                          "y": 0
+                                        }
+                                      ],
+                                      "height": 743,
+                                      "width": 726
+                                    },
+                                    "sizes": {
+                                      "large": {
+                                        "h": 743,
+                                        "resize": "fit",
+                                        "w": 726
+                                      },
+                                      "medium": {
+                                        "h": 743,
+                                        "resize": "fit",
+                                        "w": 726
+                                      },
+                                      "small": {
+                                        "h": 680,
+                                        "resize": "fit",
+                                        "w": 664
+                                      },
+                                      "thumb": {
+                                        "h": 150,
+                                        "resize": "crop",
+                                        "w": 150
+                                      }
+                                    },
+                                    "type": "photo",
+                                    "url": "https://t.co/GQ4b4DfeN9"
+                                  }
+                                ]
+                              },
+                              "favorite_count": 0,
+                              "favorited": false,
+                              "full_text": "@AmazonHelp Ya lo hice 4 veces. https://t.co/GQ4b4DfeN9",
+                              "id_str": "1917292954420498791",
+                              "in_reply_to_screen_name": "AmazonHelp",
+                              "in_reply_to_status_id_str": "1916063270131191983",
+                              "in_reply_to_user_id_str": "85741735",
+                              "is_quote_status": false,
+                              "lang": "es",
+                              "possibly_sensitive": false,
+                              "possibly_sensitive_editable": true,
+                              "quote_count": 0,
+                              "reply_count": 0,
+                              "retweet_count": 0,
+                              "retweeted": false,
+                              "user_id_str": "259836032"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "rest_id": "1917292954420498791",
+                            "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+                            "unmention_data": {},
+                            "views": {
+                              "count": "49",
+                              "state": "EnabledWithCount"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "metadata": {
+                  "conversationMetadata": {
+                    "allTweetIds": [
+                      "1917292954420498791"
+                    ],
+                    "enableDeduplication": true
+                  }
+                }
+              },
+              "entryId": "conversationthread-1917292954420498791",
+              "sortIndex": "2092923266015428578"
+            },
+            {
+              "content": {
+                "__typename": "TimelineTimelineModule",
+                "clientEventInfo": {
+                  "component": "tweet",
+                  "details": {
+                    "conversationDetails": {
+                      "conversationSection": "HighQuality"
+                    },
+                    "timelinesDetails": {
+                      "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBCx4BUAAAAAA=="
+                    }
+                  }
+                },
+                "displayType": "VerticalConversation",
+                "entryType": "TimelineTimelineModule",
+                "items": [
+                  {
+                    "entryId": "conversationthread-1919618963421511771-tweet-1919618963421511771",
+                    "item": {
+                      "clientEventInfo": {
+                        "component": "tweet",
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBCx4BUAAAAAA=="
+                          }
+                        },
+                        "element": "tweet"
+                      },
+                      "itemContent": {
+                        "__typename": "TimelineTweet",
+                        "itemType": "TimelineTweet",
+                        "tweetDisplayType": "Tweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "action_counts": {
+                                    "favorites_count": 3
+                                  },
+                                  "affiliates_highlighted_label": {},
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/1846208872924508161/BT1EXXWj_normal.jpg"
+                                  },
+                                  "banner": {
+                                    "image_url": ""
+                                  },
+                                  "core": {
+                                    "created_at": "Mon Jun 26 06:08:26 +0000 2023",
+                                    "name": "Ramsa Bishnoi",
+                                    "screen_name": "Ramchandra0121"
+                                  },
+                                  "dm_permissions": {
+                                    "can_dm": false
+                                  },
+                                  "follow_request_sent": false,
+                                  "has_graduated_access": true,
+                                  "id": "VXNlcjoxNjczMjExNDk2NTIyNzYwMTk1",
+                                  "is_blue_verified": false,
+                                  "location": {
+                                    "location": ""
+                                  },
+                                  "media_permissions": {
+                                    "can_media_tag": true
+                                  },
+                                  "notifications_settings": {
+                                    "notifications_enabled": false
+                                  },
+                                  "pinned_items": {},
+                                  "possibly_sensitive": false,
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "profile_bio": {
+                                    "description": "",
+                                    "entities": {
+                                      "description": {}
+                                    }
+                                  },
+                                  "profile_image_shape": "Circle",
+                                  "profile_metadata": {
+                                    "profile_interstitial_type": ""
+                                  },
+                                  "profile_translation": {
+                                    "translator_type": "none"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 1,
+                                    "following": 22
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocked_by": false,
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": false,
+                                    "live_following": false,
+                                    "muting": false
+                                  },
+                                  "rest_id": "1673211496522760195",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tipjar_settings": {},
+                                  "tweet_counts": {
+                                    "media_tweets": 1,
+                                    "tweets": 3
+                                  },
+                                  "verification": {
+                                    "verified": false
+                                  },
+                                  "website": {
+                                    "url": ""
+                                  }
+                                }
+                              }
+                            },
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1919618963421511771"
+                              ],
+                              "editable_until_msecs": "1746511400000",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": false
+                            },
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "has_birdwatch_notes": false,
+                            "is_translatable": false,
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "conversation_id_str": "1916061947499368726",
+                              "created_at": "Tue May 06 05:03:20 +0000 2025",
+                              "display_text_range": [
+                                12,
+                                192
+                              ],
+                              "entities": {
+                                "user_mentions": [
+                                  {
+                                    "id_str": "85741735",
+                                    "indices": [
+                                      0,
+                                      11
+                                    ],
+                                    "name": "Amazon Help",
+                                    "screen_name": "AmazonHelp"
+                                  },
+                                  {
+                                    "id_str": "1282946089",
+                                    "indices": [
+                                      12,
+                                      21
+                                    ],
+                                    "name": "Amazon India",
+                                    "screen_name": "amazonIN"
+                                  },
+                                  {
+                                    "id_str": "85741735",
+                                    "indices": [
+                                      22,
+                                      33
+                                    ],
+                                    "name": "Amazon Help",
+                                    "screen_name": "AmazonHelp"
+                                  }
+                                ]
+                              },
+                              "favorite_count": 0,
+                              "favorited": false,
+                              "full_text": "@AmazonHelp @amazonIN @AmazonHelp I returned my order [Order ID: 44317], but I haven\u2019t received the refund yet. I\u2019ve also emailed but haven\u2019t received any response. Please look into this urgen",
+                              "id_str": "1919618963421511771",
+                              "in_reply_to_screen_name": "AmazonHelp",
+                              "in_reply_to_status_id_str": "1916063270131191983",
+                              "in_reply_to_user_id_str": "85741735",
+                              "is_quote_status": false,
+                              "lang": "en",
+                              "quote_count": 1,
+                              "reply_count": 0,
+                              "retweet_count": 0,
+                              "retweeted": false,
+                              "user_id_str": "1673211496522760195"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "rest_id": "1919618963421511771",
+                            "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
+                            "unmention_data": {},
+                            "views": {
+                              "count": "33",
+                              "state": "EnabledWithCount"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "metadata": {
+                  "conversationMetadata": {
+                    "allTweetIds": [
+                      "1919618963421511771"
+                    ],
+                    "enableDeduplication": true
+                  }
+                }
+              },
+              "entryId": "conversationthread-1919618963421511771",
+              "sortIndex": "2092923266015428568"
+            },
+            {
+              "content": {
+                "__typename": "TimelineTimelineModule",
+                "clientEventInfo": {
+                  "component": "tweet",
+                  "details": {
+                    "conversationDetails": {
+                      "conversationSection": "HighQuality"
+                    },
+                    "timelinesDetails": {
+                      "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBCx4BUAAAAAA=="
+                    }
+                  }
+                },
+                "displayType": "VerticalConversation",
+                "entryType": "TimelineTimelineModule",
+                "items": [
+                  {
+                    "entryId": "conversationthread-1916131081084146119-tweet-1916131081084146119",
+                    "item": {
+                      "clientEventInfo": {
+                        "component": "tweet",
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBCx4BUAAAAAA=="
+                          }
+                        },
+                        "element": "tweet"
+                      },
+                      "itemContent": {
+                        "__typename": "TimelineTweet",
+                        "itemType": "TimelineTweet",
+                        "tweetDisplayType": "Tweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "action_counts": {
+                                    "favorites_count": 182
+                                  },
+                                  "affiliates_highlighted_label": {},
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/1772868388638871552/a2S_hicT_normal.jpg"
+                                  },
+                                  "banner": {
+                                    "image_url": "https://pbs.twimg.com/profile_banners/1261229134887497728/1711519738"
+                                  },
+                                  "core": {
+                                    "created_at": "Fri May 15 09:37:31 +0000 2020",
+                                    "name": "Faizan",
+                                    "screen_name": "Mohd_Faizaaan"
+                                  },
+                                  "dm_permissions": {
+                                    "can_dm": false
+                                  },
+                                  "follow_request_sent": false,
+                                  "has_graduated_access": true,
+                                  "id": "VXNlcjoxMjYxMjI5MTM0ODg3NDk3NzI4",
+                                  "is_blue_verified": false,
+                                  "location": {
+                                    "location": "Gurgaon,India"
+                                  },
+                                  "media_permissions": {
+                                    "can_media_tag": true
+                                  },
+                                  "notifications_settings": {
+                                    "notifications_enabled": false
+                                  },
+                                  "pinned_items": {},
+                                  "possibly_sensitive": false,
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "profile_bio": {
+                                    "description": "",
+                                    "entities": {
+                                      "description": {}
+                                    }
+                                  },
+                                  "profile_image_shape": "Circle",
+                                  "profile_metadata": {
+                                    "profile_interstitial_type": ""
+                                  },
+                                  "profile_translation": {
+                                    "translator_type": "none"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 26,
+                                    "following": 95
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocked_by": false,
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": false,
+                                    "live_following": false,
+                                    "muting": false
+                                  },
+                                  "rest_id": "1261229134887497728",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tipjar_settings": {},
+                                  "tweet_counts": {
+                                    "media_tweets": 10,
+                                    "tweets": 108
+                                  },
+                                  "verification": {
+                                    "verified": false
+                                  },
+                                  "website": {
+                                    "url": ""
+                                  }
+                                }
+                              }
+                            },
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1916131081084146119"
+                              ],
+                              "editable_until_msecs": "1745679824000",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": false
+                            },
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "has_birdwatch_notes": false,
+                            "is_translatable": false,
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "conversation_id_str": "1916061947499368726",
+                              "created_at": "Sat Apr 26 14:03:44 +0000 2025",
+                              "display_text_range": [
+                                12,
+                                222
+                              ],
+                              "entities": {
+                                "media": [
+                                  {
+                                    "allow_download_status": {
+                                      "allow_download": true
+                                    },
+                                    "display_url": "pic.x.com/j9Z8RQ8cya",
+                                    "expanded_url": "https://x.com/Mohd_Faizaaan/status/1916131081084146119/photo/1",
+                                    "ext_media_availability": {
+                                      "status": "Available"
+                                    },
+                                    "features": {
+                                      "large": {
+                                        "faces": []
+                                      },
+                                      "medium": {
+                                        "faces": []
+                                      },
+                                      "orig": {
+                                        "faces": []
+                                      },
+                                      "small": {
+                                        "faces": []
+                                      }
+                                    },
+                                    "id_str": "1916130446796374016",
+                                    "indices": [
+                                      223,
+                                      246
+                                    ],
+                                    "media_key": "3_1916130446796374016",
+                                    "media_results": {
+                                      "result": {
+                                        "media_key": "3_1916130446796374016"
+                                      }
+                                    },
+                                    "media_url_https": "https://pbs.twimg.com/media/Gpd2fUCbwAAFQJU.png",
+                                    "original_info": {
+                                      "focus_rects": [
+                                        {
+                                          "h": 361,
+                                          "w": 645,
+                                          "x": 0,
+                                          "y": 0
+                                        },
+                                        {
+                                          "h": 361,
+                                          "w": 361,
+                                          "x": 0,
+                                          "y": 0
+                                        },
+                                        {
+                                          "h": 361,
+                                          "w": 317,
+                                          "x": 0,
+                                          "y": 0
+                                        },
+                                        {
+                                          "h": 361,
+                                          "w": 181,
+                                          "x": 61,
+                                          "y": 0
+                                        },
+                                        {
+                                          "h": 361,
+                                          "w": 1213,
+                                          "x": 0,
+                                          "y": 0
+                                        }
+                                      ],
+                                      "height": 361,
+                                      "width": 1213
+                                    },
+                                    "sizes": {
+                                      "large": {
+                                        "h": 361,
+                                        "resize": "fit",
+                                        "w": 1213
+                                      },
+                                      "medium": {
+                                        "h": 357,
+                                        "resize": "fit",
+                                        "w": 1200
+                                      },
+                                      "small": {
+                                        "h": 202,
+                                        "resize": "fit",
+                                        "w": 680
+                                      },
+                                      "thumb": {
+                                        "h": 150,
+                                        "resize": "crop",
+                                        "w": 150
+                                      }
+                                    },
+                                    "type": "photo",
+                                    "url": "https://t.co/j9Z8RQ8cya"
+                                  }
+                                ],
+                                "user_mentions": [
+                                  {
+                                    "id_str": "85741735",
+                                    "indices": [
+                                      0,
+                                      11
+                                    ],
+                                    "name": "Amazon Help",
+                                    "screen_name": "AmazonHelp"
+                                  }
+                                ]
+                              },
+                              "extended_entities": {
+                                "media": [
+                                  {
+                                    "allow_download_status": {
+                                      "allow_download": true
+                                    },
+                                    "display_url": "pic.x.com/j9Z8RQ8cya",
+                                    "expanded_url": "https://x.com/Mohd_Faizaaan/status/1916131081084146119/photo/1",
+                                    "ext_media_availability": {
+                                      "status": "Available"
+                                    },
+                                    "features": {
+                                      "large": {
+                                        "faces": []
+                                      },
+                                      "medium": {
+                                        "faces": []
+                                      },
+                                      "orig": {
+                                        "faces": []
+                                      },
+                                      "small": {
+                                        "faces": []
+                                      }
+                                    },
+                                    "id_str": "1916130446796374016",
+                                    "indices": [
+                                      223,
+                                      246
+                                    ],
+                                    "media_key": "3_1916130446796374016",
+                                    "media_results": {
+                                      "result": {
+                                        "media_key": "3_1916130446796374016"
+                                      }
+                                    },
+                                    "media_url_https": "https://pbs.twimg.com/media/Gpd2fUCbwAAFQJU.png",
+                                    "original_info": {
+                                      "focus_rects": [
+                                        {
+                                          "h": 361,
+                                          "w": 645,
+                                          "x": 0,
+                                          "y": 0
+                                        },
+                                        {
+                                          "h": 361,
+                                          "w": 361,
+                                          "x": 0,
+                                          "y": 0
+                                        },
+                                        {
+                                          "h": 361,
+                                          "w": 317,
+                                          "x": 0,
+                                          "y": 0
+                                        },
+                                        {
+                                          "h": 361,
+                                          "w": 181,
+                                          "x": 61,
+                                          "y": 0
+                                        },
+                                        {
+                                          "h": 361,
+                                          "w": 1213,
+                                          "x": 0,
+                                          "y": 0
+                                        }
+                                      ],
+                                      "height": 361,
+                                      "width": 1213
+                                    },
+                                    "sizes": {
+                                      "large": {
+                                        "h": 361,
+                                        "resize": "fit",
+                                        "w": 1213
+                                      },
+                                      "medium": {
+                                        "h": 357,
+                                        "resize": "fit",
+                                        "w": 1200
+                                      },
+                                      "small": {
+                                        "h": 202,
+                                        "resize": "fit",
+                                        "w": 680
+                                      },
+                                      "thumb": {
+                                        "h": 150,
+                                        "resize": "crop",
+                                        "w": 150
+                                      }
+                                    },
+                                    "type": "photo",
+                                    "url": "https://t.co/j9Z8RQ8cya"
+                                  }
+                                ]
+                              },
+                              "favorite_count": 0,
+                              "favorited": false,
+                              "full_text": "@AmazonHelp Your shipping may be fast but here in a metropolitan city it took 4 days to deliver the even after you failed and cancelled.\nSeems like the team is sitting in real Amazon Forest so it's taking longer to revert. https://t.co/j9Z8RQ8cya",
+                              "id_str": "1916131081084146119",
+                              "in_reply_to_screen_name": "AmazonHelp",
+                              "in_reply_to_status_id_str": "1916063270131191983",
+                              "in_reply_to_user_id_str": "85741735",
+                              "is_quote_status": false,
+                              "lang": "en",
+                              "possibly_sensitive": false,
+                              "possibly_sensitive_editable": true,
+                              "quote_count": 0,
+                              "reply_count": 0,
+                              "retweet_count": 0,
+                              "retweeted": false,
+                              "user_id_str": "1261229134887497728"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "rest_id": "1916131081084146119",
+                            "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+                            "unmention_data": {},
+                            "views": {
+                              "count": "71",
+                              "state": "EnabledWithCount"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "metadata": {
+                  "conversationMetadata": {
+                    "allTweetIds": [
+                      "1916131081084146119"
+                    ],
+                    "enableDeduplication": true
+                  }
+                }
+              },
+              "entryId": "conversationthread-1916131081084146119",
+              "sortIndex": "2092923266015428558"
+            },
+            {
+              "content": {
+                "__typename": "TimelineTimelineModule",
+                "clientEventInfo": {
+                  "component": "tweet",
+                  "details": {
+                    "conversationDetails": {
+                      "conversationSection": "HighQuality"
+                    },
+                    "timelinesDetails": {
+                      "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBCx4BUAAAAAA=="
+                    }
+                  }
+                },
+                "displayType": "VerticalConversation",
+                "entryType": "TimelineTimelineModule",
+                "items": [
+                  {
+                    "entryId": "conversationthread-1921383493461831708-tweet-1921383493461831708",
+                    "item": {
+                      "clientEventInfo": {
+                        "component": "tweet",
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBCx4BUAAAAAA=="
+                          }
+                        },
+                        "element": "tweet"
+                      },
+                      "itemContent": {
+                        "__typename": "TimelineTweet",
+                        "itemType": "TimelineTweet",
+                        "tweetDisplayType": "Tweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "action_counts": {
+                                    "favorites_count": 1204
+                                  },
+                                  "affiliates_highlighted_label": {},
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/1923248058118307846/A_TuTToa_normal.jpg"
+                                  },
+                                  "banner": {
+                                    "image_url": "https://pbs.twimg.com/profile_banners/1896361807545257985/1747373044"
+                                  },
+                                  "core": {
+                                    "created_at": "Mon Mar 03 00:51:07 +0000 2025",
+                                    "name": "Luv,RAYEID.",
+                                    "screen_name": "luvrayeid"
+                                  },
+                                  "dm_permissions": {
+                                    "can_dm": false
+                                  },
+                                  "follow_request_sent": false,
+                                  "has_graduated_access": true,
+                                  "id": "VXNlcjoxODk2MzYxODA3NTQ1MjU3OTg1",
+                                  "is_blue_verified": false,
+                                  "location": {
+                                    "location": "Africa "
+                                  },
+                                  "media_permissions": {
+                                    "can_media_tag": true
+                                  },
+                                  "notifications_settings": {
+                                    "notifications_enabled": false
+                                  },
+                                  "pinned_items": {
+                                    "tweet_ids_str": [
+                                      "1922913480673271827"
+                                    ]
+                                  },
+                                  "possibly_sensitive": false,
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "profile_bio": {
+                                    "description": "I'm Luv,RAYEID. from Slums Row Millennium Music Group, LLC.\nhttps://t.co/lYw8eCspLo\nFianc\u00e9MarreTom@GoddessRayeid\ud83e\uddd5\ud83c\udffd!",
+                                    "entities": {
+                                      "description": {
+                                        "urls": [
+                                          {
+                                            "display_url": "islandrecords.com/UK,LLC",
+                                            "expanded_url": "http://islandrecords.com/UK,LLC",
+                                            "indices": [
+                                              60,
+                                              83
+                                            ],
+                                            "url": "https://t.co/lYw8eCspLo"
+                                          }
+                                        ]
+                                      },
+                                      "url": {
+                                        "urls": [
+                                          {
+                                            "display_url": "AppolSamsung.com/T-Mobile",
+                                            "expanded_url": "http://AppolSamsung.com/T-Mobile",
+                                            "indices": [
+                                              0,
+                                              23
+                                            ],
+                                            "url": "https://t.co/f4qJwyHAKB"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  "profile_description_language": "en",
+                                  "profile_image_shape": "Circle",
+                                  "profile_metadata": {
+                                    "profile_interstitial_type": ""
+                                  },
+                                  "profile_translation": {
+                                    "translator_type": "none"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 26,
+                                    "following": 30
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocked_by": false,
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": false,
+                                    "live_following": false,
+                                    "muting": false
+                                  },
+                                  "rest_id": "1896361807545257985",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tipjar_settings": {
+                                    "is_enabled": true
+                                  },
+                                  "tweet_counts": {
+                                    "media_tweets": 264,
+                                    "tweets": 1583
+                                  },
+                                  "verification": {
+                                    "verified": false
+                                  },
+                                  "website": {
+                                    "url": "https://t.co/f4qJwyHAKB"
+                                  }
+                                }
+                              }
+                            },
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1921383493461831708"
+                              ],
+                              "editable_until_msecs": "1746932097000",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": false
+                            },
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "has_birdwatch_notes": false,
+                            "is_translatable": false,
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "conversation_id_str": "1916061947499368726",
+                              "created_at": "Sun May 11 01:54:57 +0000 2025",
+                              "display_text_range": [
+                                12,
+                                22
+                              ],
+                              "entities": {
+                                "user_mentions": [
+                                  {
+                                    "id_str": "85741735",
+                                    "indices": [
+                                      0,
+                                      11
+                                    ],
+                                    "name": "Amazon Help",
+                                    "screen_name": "AmazonHelp"
+                                  }
+                                ]
+                              },
+                              "favorite_count": 0,
+                              "favorited": false,
+                              "full_text": "@AmazonHelp Poster Dr.",
+                              "id_str": "1921383493461831708",
+                              "in_reply_to_screen_name": "AmazonHelp",
+                              "in_reply_to_status_id_str": "1916063270131191983",
+                              "in_reply_to_user_id_str": "85741735",
+                              "is_quote_status": false,
+                              "lang": "en",
+                              "place": {
+                                "bounding_box": {
+                                  "coordinates": [
+                                    [],
+                                    [],
+                                    [],
+                                    [],
+                                    [],
+                                    [],
+                                    [],
+                                    []
+                                  ],
+                                  "type": "Polygon"
+                                },
+                                "country": "United States",
+                                "country_code": "US",
+                                "full_name": "Vineyard, CA",
+                                "id": "01f9f8b01415323b",
+                                "name": "Vineyard",
+                                "place_type": "city",
+                                "url": "https://api.twitter.com/1.1/geo/id/01f9f8b01415323b.json"
+                              },
+                              "quote_count": 0,
+                              "reply_count": 0,
+                              "retweet_count": 0,
+                              "retweeted": false,
+                              "user_id_str": "1896361807545257985"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "rest_id": "1921383493461831708",
+                            "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
+                            "unmention_data": {},
+                            "views": {
+                              "count": "13",
+                              "state": "EnabledWithCount"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "metadata": {
+                  "conversationMetadata": {
+                    "allTweetIds": [
+                      "1921383493461831708"
+                    ],
+                    "enableDeduplication": true
+                  }
+                }
+              },
+              "entryId": "conversationthread-1921383493461831708",
+              "sortIndex": "2092923266015428548"
+            },
+            {
+              "content": {
+                "__typename": "TimelineTimelineModule",
+                "clientEventInfo": {
+                  "component": "tweet",
+                  "details": {
+                    "conversationDetails": {
+                      "conversationSection": "HighQuality"
+                    },
+                    "timelinesDetails": {
+                      "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBCx4BUAAAAAA=="
+                    }
+                  }
+                },
+                "displayType": "VerticalConversation",
+                "entryType": "TimelineTimelineModule",
+                "items": [
+                  {
+                    "entryId": "conversationthread-1916102855791886754-tweet-1916102855791886754",
+                    "item": {
+                      "clientEventInfo": {
+                        "component": "tweet",
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBCx4BUAAAAAA=="
+                          }
+                        },
+                        "element": "tweet"
+                      },
+                      "itemContent": {
+                        "__typename": "TimelineTweet",
+                        "itemType": "TimelineTweet",
+                        "tweetDisplayType": "Tweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "action_counts": {
+                                    "favorites_count": 1052
+                                  },
+                                  "affiliates_highlighted_label": {},
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/2078329684719198208/kS2u7ZCJ_normal.jpg"
+                                  },
+                                  "banner": {
+                                    "image_url": "https://pbs.twimg.com/profile_banners/1362770574/1784347736"
+                                  },
+                                  "core": {
+                                    "created_at": "Thu Apr 18 20:00:10 +0000 2013",
+                                    "name": "Onyinanya Kingsley",
+                                    "screen_name": "d_realOK"
+                                  },
+                                  "dm_permissions": {
+                                    "can_dm": true
+                                  },
+                                  "follow_request_sent": false,
+                                  "has_graduated_access": true,
+                                  "id": "VXNlcjoxMzYyNzcwNTc0",
+                                  "is_blue_verified": false,
+                                  "location": {
+                                    "location": "Enugu, Nigeria"
+                                  },
+                                  "media_permissions": {
+                                    "can_media_tag": false
+                                  },
+                                  "notifications_settings": {
+                                    "notifications_enabled": false
+                                  },
+                                  "pinned_items": {},
+                                  "possibly_sensitive": false,
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "profile_bio": {
+                                    "description": "Civil Engineer(B.Eng) | Front-End Dev | Web Developer | Support Team Vol @3MTTNigeria Enugu | Learning to craft impactful tech & foster communities |",
+                                    "entities": {
+                                      "description": {}
+                                    }
+                                  },
+                                  "profile_description_language": "en",
+                                  "profile_image_shape": "Circle",
+                                  "profile_metadata": {
+                                    "profile_interstitial_type": ""
+                                  },
+                                  "profile_translation": {
+                                    "translator_type": "none"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 70,
+                                    "following": 543
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocked_by": false,
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": false,
+                                    "live_following": false,
+                                    "muting": false
+                                  },
+                                  "rest_id": "1362770574",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tipjar_settings": {},
+                                  "tweet_counts": {
+                                    "media_tweets": 41,
+                                    "tweets": 615
+                                  },
+                                  "verification": {
+                                    "verified": false
+                                  },
+                                  "website": {
+                                    "url": ""
+                                  }
+                                }
+                              }
+                            },
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1916102855791886754"
+                              ],
+                              "editable_until_msecs": "1745673094000",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": false
+                            },
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "has_birdwatch_notes": false,
+                            "is_translatable": false,
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "conversation_id_str": "1916061947499368726",
+                              "created_at": "Sat Apr 26 12:11:34 +0000 2025",
+                              "display_text_range": [
+                                12,
+                                84
+                              ],
+                              "entities": {
+                                "user_mentions": [
+                                  {
+                                    "id_str": "85741735",
+                                    "indices": [
+                                      0,
+                                      11
+                                    ],
+                                    "name": "Amazon Help",
+                                    "screen_name": "AmazonHelp"
+                                  }
+                                ]
+                              },
+                              "favorite_count": 0,
+                              "favorited": false,
+                              "full_text": "@AmazonHelp It has been over 3 years now, can I get my Amazon and KDP Accounts back?",
+                              "id_str": "1916102855791886754",
+                              "in_reply_to_screen_name": "AmazonHelp",
+                              "in_reply_to_status_id_str": "1916063270131191983",
+                              "in_reply_to_user_id_str": "85741735",
+                              "is_quote_status": false,
+                              "lang": "en",
+                              "quote_count": 0,
+                              "reply_count": 0,
+                              "retweet_count": 0,
+                              "retweeted": false,
+                              "user_id_str": "1362770574"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "rest_id": "1916102855791886754",
+                            "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+                            "unmention_data": {},
+                            "views": {
+                              "count": "83",
+                              "state": "EnabledWithCount"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "metadata": {
+                  "conversationMetadata": {
+                    "allTweetIds": [
+                      "1916102855791886754"
+                    ],
+                    "enableDeduplication": true
+                  }
+                }
+              },
+              "entryId": "conversationthread-1916102855791886754",
+              "sortIndex": "2092923266015428538"
+            },
+            {
+              "content": {
+                "__typename": "TimelineTimelineModule",
+                "clientEventInfo": {
+                  "component": "tweet",
+                  "details": {
+                    "conversationDetails": {
+                      "conversationSection": "HighQuality"
+                    },
+                    "timelinesDetails": {
+                      "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBCx4BUAAAAAA=="
+                    }
+                  }
+                },
+                "displayType": "VerticalConversation",
+                "entryType": "TimelineTimelineModule",
+                "items": [
+                  {
+                    "entryId": "conversationthread-1925889265872875908-tweet-1925889265872875908",
+                    "item": {
+                      "clientEventInfo": {
+                        "component": "tweet",
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBCx4BUAAAAAA=="
+                          }
+                        },
+                        "element": "tweet"
+                      },
+                      "itemContent": {
+                        "__typename": "TimelineTweet",
+                        "itemType": "TimelineTweet",
+                        "tweetDisplayType": "Tweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "action_counts": {
+                                    "favorites_count": 3354
+                                  },
+                                  "affiliates_highlighted_label": {},
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/1260223338569482240/BfvRFLBH_normal.jpg"
+                                  },
+                                  "banner": {
+                                    "image_url": "https://pbs.twimg.com/profile_banners/207949762/1589295577"
+                                  },
+                                  "core": {
+                                    "created_at": "Tue Oct 26 10:45:34 +0000 2010",
+                                    "name": "Eze Jimenez",
+                                    "screen_name": "efj_kelo89"
+                                  },
+                                  "dm_permissions": {
+                                    "can_dm": false
+                                  },
+                                  "follow_request_sent": false,
+                                  "has_graduated_access": true,
+                                  "id": "VXNlcjoyMDc5NDk3NjI=",
+                                  "is_blue_verified": false,
+                                  "location": {
+                                    "location": ""
+                                  },
+                                  "media_permissions": {
+                                    "can_media_tag": true
+                                  },
+                                  "notifications_settings": {
+                                    "notifications_enabled": false
+                                  },
+                                  "pinned_items": {},
+                                  "possibly_sensitive": false,
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "profile_bio": {
+                                    "description": "",
+                                    "entities": {
+                                      "description": {}
+                                    }
+                                  },
+                                  "profile_description_language": "und",
+                                  "profile_image_shape": "Circle",
+                                  "profile_metadata": {
+                                    "profile_interstitial_type": ""
+                                  },
+                                  "profile_translation": {
+                                    "translator_type": "none"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 97,
+                                    "following": 251
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocked_by": false,
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": false,
+                                    "live_following": false,
+                                    "muting": false
+                                  },
+                                  "rest_id": "207949762",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tipjar_settings": {},
+                                  "tweet_counts": {
+                                    "media_tweets": 16,
+                                    "tweets": 550
+                                  },
+                                  "verification": {
+                                    "verified": false
+                                  },
+                                  "website": {
+                                    "url": ""
+                                  }
+                                }
+                              }
+                            },
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1925889265872875908"
+                              ],
+                              "editable_until_msecs": "1748006356000",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": false
+                            },
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "has_birdwatch_notes": false,
+                            "is_translatable": true,
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "conversation_id_str": "1916061947499368726",
+                              "created_at": "Fri May 23 12:19:16 +0000 2025",
+                              "display_text_range": [
+                                12,
+                                130
+                              ],
+                              "entities": {
+                                "user_mentions": [
+                                  {
+                                    "id_str": "85741735",
+                                    "indices": [
+                                      0,
+                                      11
+                                    ],
+                                    "name": "Amazon Help",
+                                    "screen_name": "AmazonHelp"
+                                  }
+                                ]
+                              },
+                              "favorite_count": 0,
+                              "favorited": false,
+                              "full_text": "@AmazonHelp Laura c\u00f3mo est\u00e1s. Estoy con un problema en la cuenta no puedo ingresar desde el celular y me tira como si no existiera",
+                              "id_str": "1925889265872875908",
+                              "in_reply_to_screen_name": "AmazonHelp",
+                              "in_reply_to_status_id_str": "1916063270131191983",
+                              "in_reply_to_user_id_str": "85741735",
+                              "is_quote_status": false,
+                              "lang": "es",
+                              "quote_count": 0,
+                              "reply_count": 0,
+                              "retweet_count": 0,
+                              "retweeted": false,
+                              "user_id_str": "207949762"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "rest_id": "1925889265872875908",
+                            "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+                            "unmention_data": {},
+                            "views": {
+                              "count": "19",
+                              "state": "EnabledWithCount"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "metadata": {
+                  "conversationMetadata": {
+                    "allTweetIds": [
+                      "1925889265872875908"
+                    ],
+                    "enableDeduplication": true
+                  }
+                }
+              },
+              "entryId": "conversationthread-1925889265872875908",
+              "sortIndex": "2092923266015428528"
+            },
+            {
+              "content": {
+                "__typename": "TimelineTimelineCursor",
+                "cursorType": "ShowMoreThreads",
+                "displayTreatment": {
+                  "actionText": "Show probable spam"
+                },
+                "entryType": "TimelineTimelineCursor",
+                "value": "DAAKCgABHQuOnyT__60LAAIAAAB8RW1QQzZ3QUFBZlEvZ0dKTjB2R3AvQUFBQUFrYWx6Z3doRmZSRmhxYmw4aW1sOUZuR3FQYlJ0TFh3RnNhbDExbE9KWkJvaHFxSUJ0OUYzQWNHcGQzRU84YkVjY2FsemxrZDFmUXJ4cVhPSzdNRjFGMUdyb2lGV0VYTVlRPQgAAwAAAAcLAAQAAAAPU2hvd01vcmVUaHJlYWRzAAA"
+              },
+              "entryId": "cursor-showmorethreads-2092923266015428527",
+              "sortIndex": "2092923266015428527"
+            }
+          ],
+          "type": "TimelineAddEntries"
+        },
+        {
+          "direction": "Top",
+          "type": "TimelineTerminateTimeline"
+        }
+      ],
+      "metadata": {
+        "scribeConfig": {
+          "page": "ranked_replies"
+        }
+      }
+    }
+  }
+}

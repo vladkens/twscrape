@@ -273,7 +273,9 @@ class Tweet(JSONTrait):
     source: str | None = None
     sourceUrl: str | None = None
     sourceLabel: str | None = None
-    card: Union[None, "SummaryCard", "PollCard", "BroadcastCard", "AudiospaceCard"] = None
+    card: Union[
+        None, "SummaryCard", "PollCard", "BroadcastCard", "AudiospaceCard", "MessageMeCard"
+    ] = None
     possibly_sensitive: bool | None = None
     isQuoteStatus: bool = False
     isTranslatable: bool = False
@@ -496,6 +498,14 @@ class AudiospaceCard(Card):
 
 
 @dataclass
+class MessageMeCard(Card):
+    url: str
+    cta: str | None = None
+    recipientId: str | None = None
+    _type: str = "message_me"
+
+
+@dataclass
 class RequestParam(JSONTrait):
     key: str
     value: str
@@ -709,6 +719,23 @@ def _parse_card(obj: dict, url: str):
 
         # print(json.dumps(val, indent=2))
         return AudiospaceCard(url=card_url)
+
+    if name == "2586390716:message_me":
+        val = _parse_card_prepare_values(obj)
+        card_url = _parse_card_get_str(val, "card_url")
+        if card_url is None:
+            return None
+
+        cta = _parse_card_get_str(val, "cta")
+        recipient_id = next(
+            (
+                x["value"]["user_value"]["id_str"]
+                for x in val
+                if x["key"] == "recipient" and x["value"]["type"] == "USER"
+            ),
+            None,
+        )
+        return MessageMeCard(url=card_url, cta=cta, recipientId=recipient_id)
 
     logger.warning(f"Unknown card type '{name}' on {url}")
     if "PYTEST_CURRENT_TEST" in os.environ:  # help debugging tests
