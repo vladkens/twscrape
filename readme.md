@@ -254,12 +254,16 @@ twscrape trends sport
 Open a compact, local-only dashboard for account health and basic pool management:
 
 ```bash
+export TWS_DASHBOARD_PASSWORD='choose-a-strong-password'
 twscrape dashboard
 ```
 
 The dashboard binds to `127.0.0.1`, reads the same `accounts.db` as the CLI, and never returns
 passwords, email credentials, proxies, or cookie values to the browser. Use `--db` to select a
-different account database and `--no-open` when running without a desktop browser.
+different account database and `--no-open` when running without a desktop browser. The default
+dashboard username is `admin`; override it with `TWS_DASHBOARD_USERNAME`. When started from an
+interactive terminal without `TWS_DASHBOARD_PASSWORD`, the CLI securely prompts for the password
+twice. Sessions expire after 12 hours and are invalidated whenever the process restarts.
 
 The same local process also exposes a read-only JSON API over the configured account pool:
 

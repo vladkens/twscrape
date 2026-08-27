@@ -12,63 +12,88 @@
     <main class="shell">
       <header class="topbar">
         <div class="brand">
-          <span class="brand-mark">tw</span>
+          <span class="brand-mark" aria-hidden="true">tw</span>
           <div>
-            <h1>账号池</h1>
-            <p>本地 AccountsPool · 127.0.0.1</p>
+            <h1>twscrape</h1>
+            <p>本地账号池 · 127.0.0.1</p>
           </div>
         </div>
         <div class="topbar-meta">
-          <a class="api-link" href="/api" target="_blank" rel="noreferrer">JSON API ↗</a>
-          <div class="sync">
-            <span class="sync-dot" aria-hidden="true"></span>
+          <p class="sync" aria-live="polite">
+            <span class="sync-dot" id="syncDot" aria-hidden="true"></span>
             <span id="updatedAt">正在连接</span>
+          </p>
+          <div class="session">
+            <span class="session-user" id="sessionUser" hidden></span>
+            <button type="button" class="ghost" id="logoutButton">退出</button>
           </div>
         </div>
       </header>
 
-      <section class="summary" aria-label="账号池概览">
-        <article>
-          <span>全部账号</span>
-          <strong id="totalCount">—</strong>
-        </article>
-        <article>
-          <span>正常运行</span>
-          <strong id="runningCount">—</strong>
-        </article>
-        <article class="attention">
-          <span>需要关注</span>
-          <strong id="attentionCount">—</strong>
-        </article>
+      <section class="health" id="healthBanner" data-state="loading" aria-label="账号池健康结论">
+        <div class="health-main">
+          <p class="health-kicker">健康结论</p>
+          <h2 id="headline">正在读取账号池…</h2>
+          <p class="health-error" id="healthError" hidden></p>
+          <div class="health-actions">
+            <button type="button" class="ghost" id="viewAttention" hidden>
+              查看需处理
+            </button>
+            <button type="button" class="primary" id="addButton">添加 Cookie</button>
+          </div>
+        </div>
+        <dl class="health-stats" aria-label="账号池计数">
+          <div>
+            <dt>全部</dt>
+            <dd id="statTotal">—</dd>
+          </div>
+          <div>
+            <dt>运行中</dt>
+            <dd id="statRunning">—</dd>
+          </div>
+          <div>
+            <dt>冷却中</dt>
+            <dd id="statCooling">—</dd>
+          </div>
+          <div class="stat-attention">
+            <dt>需处理</dt>
+            <dd id="statAttention">—</dd>
+          </div>
+          <div>
+            <dt>已停用</dt>
+            <dd id="statDisabled">—</dd>
+          </div>
+        </dl>
       </section>
 
-      <section class="workspace">
+      <section class="workspace" aria-labelledby="accountsHeading">
         <div class="toolbar">
           <div>
-            <h2>账号</h2>
-            <p>会话、请求计数与本地限流锁</p>
+            <h2 id="accountsHeading">账号</h2>
+            <p>状态、请求计数与本地限流锁。点击一行查看详情。</p>
           </div>
           <div class="toolbar-actions">
             <label class="search">
-              <span aria-hidden="true">/</span>
+              <span class="search-hint" aria-hidden="true">/</span>
               <input
                 id="searchInput"
                 type="search"
-                placeholder="搜索账号"
+                placeholder="搜索用户名"
                 autocomplete="off"
                 spellcheck="false"
+                aria-label="搜索用户名"
               />
             </label>
-            <select id="statusFilter" aria-label="筛选账号状态">
-              <option value="all">全部状态</option>
-              <option value="ready">就绪</option>
-              <option value="locked">限流中</option>
-              <option value="inactive">已停用</option>
-              <option value="session">会话缺失</option>
-              <option value="error">异常</option>
-              <option value="attention">需要关注</option>
-            </select>
-            <button type="button" class="primary" id="addButton">添加 Cookie</button>
+            <label class="filter-label">
+              <span class="visually-hidden">筛选状态</span>
+              <select id="statusFilter" aria-label="筛选账号状态">
+                <option value="all">全部状态</option>
+                <option value="attention">需处理</option>
+                <option value="cooling">冷却中</option>
+                <option value="ready">可用</option>
+                <option value="disabled">已停用</option>
+              </select>
+            </label>
           </div>
         </div>
 
@@ -79,35 +104,70 @@
                 <th>账号</th>
                 <th>状态</th>
                 <th>登录方式</th>
-                <th>请求</th>
+                <th>总请求</th>
                 <th>最后使用</th>
-                <th>本地锁</th>
-                <th></th>
+                <th>锁恢复</th>
+                <th>操作</th>
               </tr>
             </thead>
             <tbody id="accountRows"></tbody>
           </table>
           <div class="empty" id="emptyState" hidden>
-            <div>—</div>
-            <strong>还没有账号</strong>
-            <span>添加 Cookie 账号后才会出现在列表中</span>
+            <strong id="emptyTitle">还没有账号</strong>
+            <span id="emptyHint">添加 Cookie 后才会出现在列表中</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="playground" aria-labelledby="playgroundHeading">
+        <div class="playground-head">
+          <div>
+            <h2 id="playgroundHeading">JSON API 试用台</h2>
+            <p>从 <code>/api/_endpoints</code> 读取元数据，构造只读 GET 请求。</p>
+          </div>
+        </div>
+        <div class="playground-grid">
+          <form id="apiForm" class="playground-form" autocomplete="off">
+            <label>
+              端点
+              <select id="endpointSelect" aria-label="选择 API 端点" required>
+                <option value="">正在加载端点…</option>
+              </select>
+            </label>
+            <p class="endpoint-desc" id="endpointDesc">选择一个端点以填写参数。</p>
+            <div id="paramFields" class="param-fields"></div>
+            <p class="form-error" id="apiError" hidden></p>
+            <p class="endpoint-desc">请求使用当前浏览器登录会话</p>
+            <div class="playground-actions">
+              <button type="submit" class="primary" id="tryApi">试一下</button>
+            </div>
+          </form>
+          <div class="playground-result">
+            <div class="result-meta">
+              <span>响应</span>
+              <span id="apiStatus" class="muted">尚未请求</span>
+            </div>
+            <pre id="apiOutput" tabindex="0" aria-label="API 响应 JSON"></pre>
           </div>
         </div>
       </section>
     </main>
 
-    <dialog id="addDialog">
+    <dialog id="addDialog" aria-labelledby="addDialogTitle">
       <form id="addForm" autocomplete="off">
         <div class="dialog-head">
           <div>
-            <h2>添加 Cookie 账号</h2>
-            <p>写入本机 accounts.db，浏览器不保存 Cookie</p>
+            <h2 id="addDialogTitle">添加 Cookie 账号</h2>
+            <p>写入本机 accounts.db。浏览器不保存、不回显 Cookie。</p>
           </div>
-          <button type="button" class="icon-button" id="closeDialog" aria-label="关闭">×</button>
+          <button type="button" class="icon-button" id="closeDialog" aria-label="关闭">
+            ×
+          </button>
         </div>
         <label>
           账号名称
           <input
+            id="cookieUsername"
             name="username"
             maxlength="80"
             placeholder="例如 xdevelopers"
@@ -119,6 +179,7 @@
         <label>
           Cookie
           <textarea
+            id="cookieValue"
             name="cookies"
             rows="6"
             placeholder="auth_token=…; ct0=…"
@@ -128,8 +189,7 @@
           ></textarea>
         </label>
         <div class="security-note">
-          <span>●</span>
-          <p>提交后 Cookie 不会回显。列表只显示会话是否可用、状态与本地锁。</p>
+          <p>提交或关闭后会清空输入。列表只显示会话是否可用，不会展示 Cookie。</p>
         </div>
         <p class="form-error" id="formError" hidden></p>
         <div class="dialog-actions">
