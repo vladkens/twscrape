@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="twscrape-token" content="__CSRF_TOKEN__" />
+    <meta name="theme-color" content="#0b0c0a" />
+    <title>登录 twscrape</title>
+    <link rel="stylesheet" href="/dashboard.css" />
+  </head>
+  <body class="login-page">
+    <main class="login-shell">
+      <section class="login-card" aria-labelledby="loginTitle">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">tw</span>
+          <div>
+            <h1 id="loginTitle">登录 twscrape</h1>
+            <p>本地账号池控制台</p>
+          </div>
+        </div>
+        <form id="loginForm">
+          <label>
+            用户名
+            <input
+              id="loginUsername"
+              name="username"
+              type="text"
+              maxlength="80"
+              required
+              autocomplete="username"
+              spellcheck="false"
+              autocapitalize="off"
+            />
+          </label>
+          <label>
+            密码
+            <input
+              id="loginPassword"
+              name="password"
+              type="password"
+              maxlength="1024"
+              required
+              autocomplete="current-password"
+            />
+          </label>
+          <p class="form-error" id="loginError" role="alert" hidden></p>
+          <button type="submit" class="primary" id="loginSubmit">登录</button>
+        </form>
+        <div class="security-note">
+          <p>凭据仅用于本机验证，不会写入 accounts.db</p>
+        </div>
+      </section>
+    </main>
+    <script src="/login.js" defer></script>
+  </body>
+</html>
