@@ -6,6 +6,7 @@ from twscrape.accounts_pool import AccountsPool
 from twscrape.api import API
 from twscrape.logger import set_log_level
 from twscrape.queue_client import QueueClient, XClIdGenStore
+from twscrape.xclid import XClIdGen
 
 from .mock_http import MockClient
 
@@ -31,7 +32,17 @@ def mock_xclidgenstore(monkeypatch):
 
 
 @pytest.fixture
-def pool_mock(tmp_path):
+def pool_mock(tmp_path, monkeypatch):
+    # add_account_cookies() probes X live via XClIdGen.create() to validate
+    # cookies at add time; default to "succeeds" so pool tests don't hit the
+    # network. Override per-test (monkeypatch.setattr again) to exercise the
+    # failure path. Scoped to pool_mock (not autouse) so it doesn't clobber
+    # test_xclid.py's own tests of the real XClIdGen.create() implementation.
+    async def mock_create(*args, **kwargs):
+        return ClIdGenMock()
+
+    monkeypatch.setattr(XClIdGen, "create", staticmethod(mock_create))
+
     db_path = tmp_path / "test.db"
     yield AccountsPool(db_path)
 

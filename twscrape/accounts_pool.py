@@ -11,6 +11,7 @@ from .http import HttpStatusError
 from .logger import logger
 from .login import LoginConfig, login
 from .utils import get_env_bool, parse_cookies, utc
+from .xclid import XClIdError, XClIdGen
 
 
 class NoAccountError(Exception):
@@ -124,22 +125,48 @@ class AccountsPool:
         await self.save(account)
         logger.info(f"Account {username} added successfully (active={account.active})")
 
-    async def add_account_cookies(self, username: str, cookies: str):
+    async def add_account_cookies(self, username: str, cookies: str, proxy: str | None = None):
         parsed = parse_cookies(cookies)
         if not has_required_cookies(parsed):
             raise ValueError("Cookies must include auth_token and ct0")
 
+        # Probe X immediately instead of trusting the cookies blindly — a stale or
+        # mismatched auth_token/ct0 pair otherwise looks "active" until the first
+        # real scrape fails minutes later with no clue why.
+        active, error_msg = True, None
+        try:
+            await XClIdGen.create(proxy=proxy, cookies=parsed)
+        except XClIdError as e:
+            active, error_msg = False, str(e)
+        except Exception as e:
+            # Not an XClIdError (auth/parse problem) — likely network/proxy/DNS.
+            # Keep the exception class name so it's distinguishable from the
+            # XClIdError branch above without re-raising and losing the
+            # active/error_msg bookkeeping below.
+            active, error_msg = False, f"Validation request failed: {type(e).__name__}: {e}"
+
         qs = """
-        INSERT INTO accounts (username, password, email, email_password, user_agent, active, cookies)
-        VALUES (:username, '_', '_', '_', '@chrome', true, :cookies)
+        INSERT INTO accounts
+            (username, password, email, email_password, user_agent, active, cookies, error_msg)
+        VALUES (:username, '_', '_', '_', '@chrome', :active, :cookies, :error_msg)
         ON CONFLICT(username) DO UPDATE SET
             cookies = excluded.cookies,
             headers = '{}',
-            active = true,
-            error_msg = NULL
+            active = excluded.active,
+            error_msg = excluded.error_msg
         """
-        await execute(self._db_file, qs, {"username": username, "cookies": json.dumps(parsed)})
-        logger.info(f"Cookies for account {username} updated successfully")
+        params = {
+            "username": username,
+            "cookies": json.dumps(parsed),
+            "active": active,
+            "error_msg": error_msg,
+        }
+        await execute(self._db_file, qs, params)
+
+        if active:
+            logger.info(f"Cookies for account {username} updated successfully (validated live)")
+        else:
+            logger.warning(f"Cookies for account {username} stored but NOT active: {error_msg}")
 
     async def delete_accounts(self, usernames: str | list[str]):
         usernames = usernames if isinstance(usernames, list) else [usernames]

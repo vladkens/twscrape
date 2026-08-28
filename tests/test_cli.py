@@ -1,11 +1,19 @@
 import argparse
 import io
 import json
+from types import SimpleNamespace
 
 import pytest
 
 from tests.test_parser import fake_rep
 from twscrape import cli
+
+
+def mock_get_returning(monkeypatch, *, active: bool):
+    async def mock_get(self, username):
+        return SimpleNamespace(username=username, active=active)
+
+    monkeypatch.setattr(cli.AccountsPool, "get", mock_get)
 
 
 async def test_add_cookie_uses_arg_cookies(tmp_path, monkeypatch):
@@ -16,6 +24,7 @@ async def test_add_cookie_uses_arg_cookies(tmp_path, monkeypatch):
         called["cookies"] = cookies
 
     monkeypatch.setattr(cli.AccountsPool, "add_account_cookies", mock_add_account_cookies)
+    mock_get_returning(monkeypatch, active=True)
 
     args = argparse.Namespace(
         command="add_cookie",
@@ -32,6 +41,29 @@ async def test_add_cookie_uses_arg_cookies(tmp_path, monkeypatch):
     assert called == {"username": "user1", "cookies": "auth_token=token; ct0=csrf"}
 
 
+async def test_add_cookie_exits_nonzero_when_validation_fails(tmp_path, monkeypatch):
+    async def mock_add_account_cookies(self, username, cookies):
+        pass
+
+    monkeypatch.setattr(cli.AccountsPool, "add_account_cookies", mock_add_account_cookies)
+    mock_get_returning(monkeypatch, active=False)
+
+    args = argparse.Namespace(
+        command="add_cookie",
+        debug=False,
+        db=str(tmp_path / "test.db"),
+        email_first=False,
+        manual=False,
+        username="user1",
+        cookies="auth_token=stale; ct0=stale",
+    )
+
+    with pytest.raises(SystemExit) as exc_info:
+        await cli.main(args)
+
+    assert exc_info.value.code == 1
+
+
 async def test_add_cookie_prompts_securely_when_missing(tmp_path, monkeypatch):
     called = {}
 
@@ -46,6 +78,7 @@ async def test_add_cookie_prompts_securely_when_missing(tmp_path, monkeypatch):
     monkeypatch.setattr(cli.AccountsPool, "add_account_cookies", mock_add_account_cookies)
     monkeypatch.setattr(cli.getpass, "getpass", mock_getpass)
     monkeypatch.setattr(cli.sys.stdin, "isatty", lambda: True)
+    mock_get_returning(monkeypatch, active=True)
 
     args = argparse.Namespace(
         command="add_cookie",
@@ -75,6 +108,7 @@ async def test_add_cookie_reads_stdin(tmp_path, monkeypatch):
 
     monkeypatch.setattr(cli.AccountsPool, "add_account_cookies", mock_add_account_cookies)
     monkeypatch.setattr(cli.sys, "stdin", io.StringIO("auth_token=token; ct0=csrf\n"))
+    mock_get_returning(monkeypatch, active=True)
 
     args = argparse.Namespace(
         command="add_cookie",
@@ -89,6 +123,99 @@ async def test_add_cookie_reads_stdin(tmp_path, monkeypatch):
     await cli.main(args)
 
     assert called == {"username": "user1", "cookies": "auth_token=token; ct0=csrf"}
+
+
+async def test_add_cookie_local_uses_browser_cookies(tmp_path, monkeypatch):
+    called = {}
+
+    async def mock_add_account_cookies(self, username, cookies):
+        called["username"] = username
+        called["cookies"] = cookies
+
+    def mock_get_x_cookies_string(browser):
+        called["browser"] = browser
+        return "auth_token=tok; ct0=csrf"
+
+    monkeypatch.setattr(cli.AccountsPool, "add_account_cookies", mock_add_account_cookies)
+    monkeypatch.setattr(
+        "twscrape.browser_cookies.get_x_cookies_string", mock_get_x_cookies_string
+    )
+    mock_get_returning(monkeypatch, active=True)
+
+    args = argparse.Namespace(
+        command="add_cookie_local",
+        debug=False,
+        db=str(tmp_path / "test.db"),
+        email_first=False,
+        manual=False,
+        username="user1",
+        browser="chrome",
+    )
+
+    await cli.main(args)
+
+    assert called == {
+        "username": "user1",
+        "cookies": "auth_token=tok; ct0=csrf",
+        "browser": "chrome",
+    }
+
+
+async def test_add_cookie_local_extraction_failure_exits_nonzero(tmp_path, monkeypatch):
+    from twscrape.browser_cookies import BrowserCookiesError
+
+    async def fail_if_called(self, username, cookies):
+        pytest.fail("add_account_cookies should not be called on extraction failure")
+
+    def mock_get_x_cookies_string(browser):
+        raise BrowserCookiesError("no active x.com session")
+
+    monkeypatch.setattr(cli.AccountsPool, "add_account_cookies", fail_if_called)
+    monkeypatch.setattr(
+        "twscrape.browser_cookies.get_x_cookies_string", mock_get_x_cookies_string
+    )
+
+    args = argparse.Namespace(
+        command="add_cookie_local",
+        debug=False,
+        db=str(tmp_path / "test.db"),
+        email_first=False,
+        manual=False,
+        username="user1",
+        browser="chrome",
+    )
+
+    with pytest.raises(SystemExit) as exc_info:
+        await cli.main(args)
+
+    assert exc_info.value.code == 1
+
+
+async def test_add_cookie_local_validation_failure_exits_nonzero(tmp_path, monkeypatch):
+    async def mock_add_account_cookies(self, username, cookies):
+        pass
+
+    monkeypatch.setattr(cli.AccountsPool, "add_account_cookies", mock_add_account_cookies)
+    monkeypatch.setattr(
+        "twscrape.browser_cookies.get_x_cookies_string",
+        lambda browser: "auth_token=stale; ct0=stale",
+    )
+    mock_get_returning(monkeypatch, active=False)
+
+    args = argparse.Namespace(
+        command="add_cookie_local",
+        debug=False,
+        db=str(tmp_path / "test.db"),
+        email_first=False,
+        manual=False,
+        username="user1",
+        browser="chrome",
+    )
+
+    with pytest.raises(SystemExit) as exc_info:
+        await cli.main(args)
+
+    assert exc_info.value.code == 1
 
 
 async def test_add_accounts_prints_next_step(tmp_path, monkeypatch, capsys):

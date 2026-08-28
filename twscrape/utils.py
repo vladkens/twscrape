@@ -378,7 +378,23 @@ def parse_cookies(val: str) -> dict[str, str]:
     try:
         res = json.loads(val)
     except json.JSONDecodeError:
-        res = dict(x.strip().split("=", 1) for x in val.split(";") if "=" in x)
+        # Strip a matching pair of surrounding quotes per value — a common
+        # paste artifact (some cookie-export tools/extensions quote values)
+        # that otherwise silently becomes part of the literal cookie value
+        # sent to X, producing a confusing auth failure with no hint that
+        # quoting is the actual problem.
+        def _unquote(s: str) -> str:
+            s = s.strip()
+            if len(s) >= 2 and s[0] == s[-1] and s[0] in "\"'":
+                return s[1:-1]
+            return s
+
+        res = {}
+        for x in val.split(";"):
+            if "=" not in x:
+                continue
+            name, value = x.split("=", 1)
+            res[_unquote(name)] = _unquote(value)
 
     # Unwrap browser extension exports.
     if isinstance(res, dict) and "cookies" in res:

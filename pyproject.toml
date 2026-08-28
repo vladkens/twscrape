@@ -28,6 +28,7 @@ dependencies = [
 
 [project.optional-dependencies]
 curl = ["curl-cffi>=0.7.0"]
+browser = ["browser-cookie3>=0.19.1"]
 
 [dependency-groups]
 dev = [

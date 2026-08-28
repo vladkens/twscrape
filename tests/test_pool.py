@@ -3,6 +3,7 @@ import pytest
 from twscrape.accounts_pool import AccountsPool, NoAccountError
 from twscrape.api import API
 from twscrape.utils import utc
+from twscrape.xclid import XClIdAccountError, XClIdGen
 
 
 async def test_add_accounts(pool_mock: AccountsPool):
@@ -48,6 +49,21 @@ async def test_add_account_cookies(pool_mock: AccountsPool):
     assert acc.active is True
     assert acc.has_session is True
     assert acc.login_method == "cookies"
+
+
+async def test_add_account_cookies_validation_fails(pool_mock: AccountsPool, monkeypatch):
+    async def mock_create(*args, **kwargs):
+        raise XClIdAccountError("Logged-out X web app")
+
+    monkeypatch.setattr(XClIdGen, "create", staticmethod(mock_create))
+
+    await pool_mock.add_account_cookies("user1", "auth_token=token; ct0=csrf")
+    acc = await pool_mock.get("user1")
+
+    assert acc.active is False
+    assert acc.error_msg == "Logged-out X web app"
+    # cookies still stored so a fresh add_cookie retry can reuse the same account
+    assert acc.cookies == {"auth_token": "token", "ct0": "csrf"}
 
 
 @pytest.mark.parametrize(

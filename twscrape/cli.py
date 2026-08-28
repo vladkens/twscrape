@@ -92,6 +92,29 @@ async def main(args):
                 else sys.stdin.read().strip()
             )
         await pool.add_account_cookies(args.username, cookies)
+
+        account = await pool.get(args.username)
+        if not account.active:
+            sys.exit(1)
+        return
+
+    if args.command == "add_cookie_local":
+        from .browser_cookies import BrowserCookiesError, get_x_cookies_string
+
+        try:
+            cookies = get_x_cookies_string(args.browser)
+        except BrowserCookiesError as e:
+            logger.error(str(e))
+            sys.exit(1)
+
+        await pool.add_account_cookies(args.username, cookies)
+
+        account = await pool.get(args.username)
+        if not account.active:
+            # Extraction succeeded but X rejected the cookies (validated live
+            # in add_account_cookies) — still a failure an agent needs to see
+            # in the exit code, not just in the log line.
+            sys.exit(1)
         return
 
     if args.command == "del_accounts":
@@ -189,11 +212,26 @@ def run():
     add_accounts.add_argument("file_path", help="File with accounts")
     add_accounts.add_argument("line_format", help="Account fields separated by delimiter")
 
-    add_cookie = subparsers.add_parser("add_cookie", help="Add one account from cookies")
+    add_cookie = subparsers.add_parser(
+        "add_cookie", aliases=["add_cookies"], help="Add one account from cookies"
+    )
     add_cookie.add_argument("username", help="Local account identifier")
     add_cookie.add_argument("cookies", nargs="?", default=None, help="Cookie string or stdin")
 
-    del_accounts = subparsers.add_parser("del_accounts", help="Delete accounts by username")
+    add_cookie_local = subparsers.add_parser(
+        "add_cookie_local",
+        help="Add one account by reading cookies from a local browser (requires twscrape[browser])",
+    )
+    add_cookie_local.add_argument("username", help="Local account identifier")
+    add_cookie_local.add_argument(
+        "--browser",
+        default="chrome",
+        help="Browser to read x.com cookies from (chrome, chromium, firefox, edge, safari, brave, opera)",
+    )
+
+    del_accounts = subparsers.add_parser(
+        "del_accounts", aliases=["del_account"], help="Delete accounts by username"
+    )
     del_accounts.add_argument("usernames", nargs="+", default=[], help="Usernames to delete")
 
     login_cmd = subparsers.add_parser("login_accounts", help="Log in inactive accounts")
@@ -236,6 +274,10 @@ def run():
     args = p.parse_args()
     if args.command is None:
         return custom_help(p)
+
+    # Subparser aliases keep whatever name was typed, not the canonical one.
+    command_aliases = {"add_cookies": "add_cookie", "del_account": "del_accounts"}
+    args.command = command_aliases.get(args.command, args.command)
 
     try:
         asyncio.run(_run(args))
