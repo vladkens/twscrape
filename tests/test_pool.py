@@ -268,6 +268,19 @@ async def test_mark_inactive(pool_mock: AccountsPool):
     assert acc.error_msg == "banned by system"
 
 
+async def test_reactivate(pool_mock: AccountsPool):
+    await pool_mock.add_account("user1", "pass1", "email1", "ep1")
+    await pool_mock.mark_inactive("user1", "banned by system")
+
+    await pool_mock.reactivate("user1")
+    acc = await pool_mock.get("user1")
+    assert acc.active is True
+    assert acc.error_msg is None
+
+    # unknown username is a warning, not an error
+    await pool_mock.reactivate("nope")
+
+
 async def test_next_available_at_none_when_empty(pool_mock: AccountsPool):
     assert await pool_mock.next_available_at("TestQueue") is None
 
