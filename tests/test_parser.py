@@ -6,6 +6,7 @@ import pytest
 
 from twscrape import API, gather
 from twscrape.models import (
+    AppCard,
     AudiospaceCard,
     BroadcastCard,
     LiveEventCard,
@@ -766,6 +767,19 @@ async def test_cards():
     assert doc.card.eventId == "1461789549739143169"
     assert doc.card.category == "Music"
     assert doc.card.subtitle is not None
+    assert doc.card.photo is not None
+
+    # Check AppCard
+    raw = fake_rep("card_app").json()
+    doc = parse_tweet(raw, 1249486216266788865)
+    assert doc is not None and doc.card is not None
+    assert doc.card._type == "app"
+    assert isinstance(doc.card, AppCard)
+    assert doc.card.title == "The NBC App – Stream TV Shows"
+    assert doc.card.url is not None
+    assert doc.card.description is not None
+    assert doc.card.starRating is not None and 4 < doc.card.starRating < 5
+    assert doc.card.numRatings == 289838
     assert doc.card.photo is not None
 
 

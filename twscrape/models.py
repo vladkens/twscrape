@@ -284,6 +284,7 @@ class Tweet(JSONTrait):
         "PromoVideoConvoCard",
         "PromoImageConvoCard",
         "LiveEventCard",
+        "AppCard",
     ] = None
     possibly_sensitive: bool | None = None
     isQuoteStatus: bool = False
@@ -558,6 +559,17 @@ class PromoImageConvoCard(Card):
     ctas: list[str] = field(default_factory=list)
     photo: MediaPhoto | None = None
     _type: str = "promo_image_convo"
+
+
+@dataclass
+class AppCard(Card):
+    title: str
+    url: str
+    description: str | None = None
+    starRating: float | None = None
+    numRatings: int | None = None
+    photo: MediaPhoto | None = None
+    _type: str = "app"
 
 
 @dataclass
@@ -875,6 +887,25 @@ def _parse_card(obj: dict, url: str):
             durationSeconds=int(duration) if duration is not None else None,
             ctas=ctas,
             photo=_parse_card_get_photo(val, "player_image_original"),
+        )
+
+    if name == "app":
+        val = _parse_card_prepare_values(obj)
+        card_url = _parse_card_get_str(val, "card_url")
+        card_title = _parse_card_get_str(val, "title")
+        if card_url is None or card_title is None:
+            return None
+
+        rating = _parse_card_get_str(val, "app_star_rating")
+        # app_num_ratings is locale-formatted ("289,838"), keep the digits only
+        num_ratings = _parse_card_get_str(val, "app_num_ratings")
+        return AppCard(
+            title=card_title,
+            url=card_url,
+            description=_parse_card_get_str(val, "description"),
+            starRating=float(rating) if rating is not None else None,
+            numRatings=int(re.sub(r"\D", "", num_ratings)) if num_ratings else None,
+            photo=_parse_card_get_photo(val, "thumbnail_original"),
         )
 
     logger.warning(f"Unknown card type '{name}' on {url}")
