@@ -274,7 +274,13 @@ class Tweet(JSONTrait):
     sourceUrl: str | None = None
     sourceLabel: str | None = None
     card: Union[
-        None, "SummaryCard", "PollCard", "BroadcastCard", "AudiospaceCard", "MessageMeCard"
+        None,
+        "SummaryCard",
+        "PollCard",
+        "BroadcastCard",
+        "AudiospaceCard",
+        "MessageMeCard",
+        "PeriscopeBroadcastCard",
     ] = None
     possibly_sensitive: bool | None = None
     isQuoteStatus: bool = False
@@ -503,6 +509,16 @@ class MessageMeCard(Card):
     cta: str | None = None
     recipientId: str | None = None
     _type: str = "message_me"
+
+
+@dataclass
+class PeriscopeBroadcastCard(Card):
+    title: str
+    url: str
+    state: str | None = None
+    broadcasterUsername: str | None = None
+    thumbnailUrl: str | None = None
+    _type: str = "periscope_broadcast"
 
 
 @dataclass
@@ -736,6 +752,21 @@ def _parse_card(obj: dict, url: str):
             None,
         )
         return MessageMeCard(url=card_url, cta=cta, recipientId=recipient_id)
+
+    if name == "3691233323:periscope_broadcast":
+        val = _parse_card_prepare_values(obj)
+        card_url = _parse_card_get_str(val, "url", _parse_card_get_str(val, "card_url"))
+        card_title = _parse_card_get_str(val, "title")
+        if card_url is None or card_title is None:
+            return None
+
+        return PeriscopeBroadcastCard(
+            title=card_title,
+            url=card_url,
+            state=_parse_card_get_str(val, "broadcast_state"),
+            broadcasterUsername=_parse_card_get_str(val, "broadcaster_username"),
+            thumbnailUrl=_parse_card_get_str(val, "full_size_thumbnail_url"),
+        )
 
     logger.warning(f"Unknown card type '{name}' on {url}")
     if "PYTEST_CURRENT_TEST" in os.environ:  # help debugging tests

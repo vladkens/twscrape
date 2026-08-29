@@ -9,6 +9,7 @@ from twscrape.models import (
     AudiospaceCard,
     BroadcastCard,
     MessageMeCard,
+    PeriscopeBroadcastCard,
     PollCard,
     SummaryCard,
     Trend,
@@ -699,6 +700,18 @@ async def test_cards():
     assert doc.card.url is not None
     assert doc.card.cta is not None
     assert doc.card.recipientId == "85741735"
+
+    # Check PeriscopeBroadcastCard
+    raw = fake_rep("card_periscope_broadcast").json()
+    doc = parse_tweet(raw, 822817044450013184)
+    assert doc is not None and doc.card is not None
+    assert doc.card._type == "periscope_broadcast"
+    assert isinstance(doc.card, PeriscopeBroadcastCard)
+    assert doc.card.title is not None
+    assert doc.card.url is not None
+    assert doc.card.state == "ENDED"
+    assert doc.card.broadcasterUsername == "womensmarch"
+    assert doc.card.thumbnailUrl is not None
 
 
 async def test_tweet_new_fields():
