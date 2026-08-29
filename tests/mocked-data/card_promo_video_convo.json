@@ -1,0 +1,713 @@
+{
+  "data": {
+    "threaded_conversation_with_injections_v2": {
+      "instructions": [
+        {
+          "type": "TimelineClearCache"
+        },
+        {
+          "entries": [
+            {
+              "content": {
+                "__typename": "TimelineTimelineItem",
+                "clientEventInfo": {
+                  "component": "tweet",
+                  "element": "tweet"
+                },
+                "entryType": "TimelineTimelineItem",
+                "itemContent": {
+                  "__typename": "TimelineTweet",
+                  "itemType": "TimelineTweet",
+                  "tweetDisplayType": "Tweet",
+                  "tweet_results": {
+                    "result": {
+                      "__typename": "Tweet",
+                      "card": {
+                        "legacy": {
+                          "binding_values": [
+                            {
+                              "key": "player_url",
+                              "value": {
+                                "string_value": "https://video.twimg.com/amplify_video/vmap/958720308076310529.vmap",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "player_image_large",
+                              "value": {
+                                "image_value": {
+                                  "height": 720,
+                                  "url": "https://pbs.twimg.com/amplify_video_thumb/958720308076310529/img/HEP-Wr9NYFSPOYQK.jpg",
+                                  "width": 1280
+                                },
+                                "type": "IMAGE"
+                              }
+                            },
+                            {
+                              "key": "player_image",
+                              "value": {
+                                "image_value": {
+                                  "height": 720,
+                                  "url": "https://pbs.twimg.com/amplify_video_thumb/958720308076310529/img/HEP-Wr9NYFSPOYQK.jpg",
+                                  "width": 1280
+                                },
+                                "type": "IMAGE"
+                              }
+                            },
+                            {
+                              "key": "content_duration_seconds",
+                              "value": {
+                                "string_value": "5",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "player_width",
+                              "value": {
+                                "string_value": "16",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "site",
+                              "value": {
+                                "scribe_key": "publisher_id",
+                                "type": "USER",
+                                "user_value": {
+                                  "id_str": "74594552",
+                                  "path": []
+                                }
+                              }
+                            },
+                            {
+                              "key": "player_image_original",
+                              "value": {
+                                "image_value": {
+                                  "height": 720,
+                                  "url": "https://pbs.twimg.com/amplify_video_thumb/958720308076310529/img/HEP-Wr9NYFSPOYQK.jpg",
+                                  "width": 1280
+                                },
+                                "type": "IMAGE"
+                              }
+                            },
+                            {
+                              "key": "thank_you_text",
+                              "value": {
+                                "string_value": "Thank you for helping.",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "player_stream_content_type",
+                              "value": {
+                                "string_value": "video/mp4; codecs=\"avc1.42E01E, mp4a.40.2\"",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "player_height",
+                              "value": {
+                                "string_value": "9",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "card_id",
+                              "value": {
+                                "string_value": "1088159962990329858",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "player_image_small",
+                              "value": {
+                                "image_value": {
+                                  "height": 720,
+                                  "url": "https://pbs.twimg.com/amplify_video_thumb/958720308076310529/img/HEP-Wr9NYFSPOYQK.jpg",
+                                  "width": 1280
+                                },
+                                "type": "IMAGE"
+                              }
+                            },
+                            {
+                              "key": "cta_one_tweet",
+                              "value": {
+                                "string_value": "#BellLetsTalk",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "cta_one",
+                              "value": {
+                                "string_value": "#BellLetsTalk",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "title",
+                              "value": {
+                                "string_value": "Add your voice.",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "player_stream_url",
+                              "value": {
+                                "string_value": "https://video.twimg.com/amplify_video/vmap/958720308076310529.vmap",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "card_url",
+                              "value": {
+                                "scribe_key": "card_url",
+                                "string_value": "https://twitter.com",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "player_image_color",
+                              "value": {
+                                "image_color_value": {
+                                  "palette": [
+                                    {
+                                      "percentage": 99.26,
+                                      "rgb": {
+                                        "blue": 255,
+                                        "green": 255,
+                                        "red": 255
+                                      }
+                                    },
+                                    {
+                                      "percentage": 0.72,
+                                      "rgb": {
+                                        "blue": 184,
+                                        "green": 147,
+                                        "red": 77
+                                      }
+                                    }
+                                  ]
+                                },
+                                "type": "IMAGE_COLOR"
+                              }
+                            },
+                            {
+                              "key": "player_image_x_large",
+                              "value": {
+                                "image_value": {
+                                  "height": 720,
+                                  "url": "https://pbs.twimg.com/amplify_video_thumb/958720308076310529/img/HEP-Wr9NYFSPOYQK.jpg",
+                                  "width": 1280
+                                },
+                                "type": "IMAGE"
+                              }
+                            }
+                          ],
+                          "card_platform": {
+                            "platform": {
+                              "audience": {
+                                "name": "production"
+                              },
+                              "device": {
+                                "name": "Swift",
+                                "version": "12"
+                              }
+                            }
+                          },
+                          "name": "promo_video_convo",
+                          "url": "card://1088159963019726849",
+                          "user_refs_results": [
+                            {
+                              "result": {
+                                "__typename": "User",
+                                "action_counts": {
+                                  "favorites_count": 1330
+                                },
+                                "affiliates_highlighted_label": {},
+                                "avatar": {
+                                  "image_url": "https://pbs.twimg.com/profile_images/1989389623597158400/5Uagy3yh_normal.jpg"
+                                },
+                                "banner": {
+                                  "image_url": "https://pbs.twimg.com/profile_banners/74594552/1702161997"
+                                },
+                                "core": {
+                                  "created_at": "Tue Sep 15 23:47:10 +0000 2009",
+                                  "name": "App Store",
+                                  "screen_name": "AppStore"
+                                },
+                                "dm_permissions": {
+                                  "can_dm": false
+                                },
+                                "follow_request_sent": false,
+                                "has_graduated_access": true,
+                                "id": "VXNlcjo3NDU5NDU1Mg==",
+                                "is_blue_verified": true,
+                                "location": {
+                                  "location": "Cupertino, CA"
+                                },
+                                "media_permissions": {
+                                  "can_media_tag": true
+                                },
+                                "notifications_settings": {
+                                  "notifications_enabled": false
+                                },
+                                "pinned_items": {},
+                                "possibly_sensitive": false,
+                                "privacy": {
+                                  "protected": false
+                                },
+                                "profile_bio": {
+                                  "description": "There's an app for that.",
+                                  "entities": {
+                                    "description": {},
+                                    "url": {
+                                      "urls": [
+                                        {
+                                          "display_url": "apple.com/app-store/",
+                                          "expanded_url": "http://apple.com/app-store/",
+                                          "indices": [
+                                            0,
+                                            23
+                                          ],
+                                          "url": "https://t.co/dXyHYmip4e"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                },
+                                "profile_description_language": "en",
+                                "profile_image_shape": "Square",
+                                "profile_metadata": {
+                                  "profile_interstitial_type": ""
+                                },
+                                "profile_translation": {
+                                  "translator_type": "none"
+                                },
+                                "relationship_counts": {
+                                  "followers": 4218464,
+                                  "following": 23
+                                },
+                                "relationship_perspectives": {
+                                  "blocked_by": false,
+                                  "blocking": false,
+                                  "followed_by": false,
+                                  "following": false,
+                                  "live_following": false,
+                                  "muting": false
+                                },
+                                "rest_id": "74594552",
+                                "super_follow_eligible": false,
+                                "super_followed_by": false,
+                                "super_following": false,
+                                "tipjar_settings": {},
+                                "tweet_counts": {
+                                  "media_tweets": 6408,
+                                  "tweets": 12283
+                                },
+                                "verification": {
+                                  "verified": false,
+                                  "verified_type": "Business"
+                                },
+                                "website": {
+                                  "url": "https://t.co/dXyHYmip4e"
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "rest_id": "card://1088159963019726849"
+                      },
+                      "core": {
+                        "user_results": {
+                          "result": {
+                            "__typename": "User",
+                            "action_counts": {
+                              "favorites_count": 1063
+                            },
+                            "affiliates_highlighted_label": {},
+                            "avatar": {
+                              "image_url": "https://pbs.twimg.com/profile_images/1765052660875665408/YRJdmRnW_normal.jpg"
+                            },
+                            "banner": {
+                              "image_url": ""
+                            },
+                            "core": {
+                              "created_at": "Sun Feb 26 14:36:26 +0000 2012",
+                              "name": "Anthony Beauvillier",
+                              "screen_name": "titobeauvi21"
+                            },
+                            "dm_permissions": {
+                              "can_dm": false
+                            },
+                            "follow_request_sent": false,
+                            "has_graduated_access": true,
+                            "id": "VXNlcjo1MDQ1ODE0NjY=",
+                            "is_blue_verified": true,
+                            "location": {
+                              "location": "Chicago, IL"
+                            },
+                            "media_permissions": {
+                              "can_media_tag": true
+                            },
+                            "notifications_settings": {
+                              "notifications_enabled": false
+                            },
+                            "pinned_items": {},
+                            "possibly_sensitive": false,
+                            "privacy": {
+                              "protected": false
+                            },
+                            "profile_bio": {
+                              "description": "IG: titobeauvi91",
+                              "entities": {
+                                "description": {}
+                              }
+                            },
+                            "profile_image_shape": "Circle",
+                            "profile_metadata": {
+                              "profile_interstitial_type": ""
+                            },
+                            "profile_translation": {
+                              "translator_type": "none"
+                            },
+                            "relationship_counts": {
+                              "followers": 21642,
+                              "following": 172
+                            },
+                            "relationship_perspectives": {
+                              "blocked_by": false,
+                              "blocking": false,
+                              "followed_by": false,
+                              "following": false,
+                              "live_following": false,
+                              "muting": false
+                            },
+                            "rest_id": "504581466",
+                            "super_follow_eligible": false,
+                            "super_followed_by": false,
+                            "super_following": false,
+                            "tipjar_settings": {},
+                            "tweet_counts": {
+                              "media_tweets": 39,
+                              "tweets": 1105
+                            },
+                            "verification": {
+                              "verified": false
+                            },
+                            "website": {
+                              "url": ""
+                            }
+                          }
+                        }
+                      },
+                      "edit_control": {
+                        "edit_tweet_ids": [
+                          "1090673433690685441"
+                        ],
+                        "editable_until_msecs": "1548873584981",
+                        "edits_remaining": "5",
+                        "is_edit_eligible": true
+                      },
+                      "grok_translated_post_with_availability": {
+                        "is_available": false
+                      },
+                      "has_birdwatch_notes": false,
+                      "is_translatable": false,
+                      "legacy": {
+                        "bookmark_count": 1,
+                        "bookmarked": false,
+                        "conversation_id_str": "1090673433690685441",
+                        "created_at": "Wed Jan 30 18:09:44 +0000 2019",
+                        "display_text_range": [
+                          0,
+                          13
+                        ],
+                        "entities": {
+                          "hashtags": [
+                            {
+                              "indices": [
+                                0,
+                                13
+                              ],
+                              "text": "BellLetsTalk"
+                            }
+                          ]
+                        },
+                        "favorite_count": 413,
+                        "favorited": false,
+                        "full_text": "#BellLetsTalk",
+                        "id_str": "1090673433690685441",
+                        "is_quote_status": false,
+                        "lang": "qht",
+                        "quote_count": 2,
+                        "reply_count": 3,
+                        "retweet_count": 384,
+                        "retweeted": false,
+                        "user_id_str": "504581466"
+                      },
+                      "quick_promote_eligibility": {
+                        "eligibility": "IneligibleNotVerified"
+                      },
+                      "rest_id": "1090673433690685441",
+                      "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
+                      "unmention_data": {},
+                      "views": {
+                        "state": "Enabled"
+                      }
+                    }
+                  }
+                }
+              },
+              "entryId": "tweet-1090673433690685441",
+              "sortIndex": "2093597998020820992"
+            },
+            {
+              "content": {
+                "__typename": "TimelineTimelineModule",
+                "clientEventInfo": {
+                  "component": "tweet",
+                  "details": {
+                    "conversationDetails": {
+                      "conversationSection": "HighQuality"
+                    },
+                    "timelinesDetails": {
+                      "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBMXil7AAAAAA=="
+                    }
+                  }
+                },
+                "displayType": "VerticalConversation",
+                "entryType": "TimelineTimelineModule",
+                "items": [
+                  {
+                    "entryId": "conversationthread-1090761668756307969-tweet-1090761668756307969",
+                    "item": {
+                      "clientEventInfo": {
+                        "component": "tweet",
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBMXil7AAAAAA=="
+                          }
+                        },
+                        "element": "tweet"
+                      },
+                      "itemContent": {
+                        "__typename": "TimelineTweet",
+                        "itemType": "TimelineTweet",
+                        "tweetDisplayType": "Tweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "action_counts": {
+                                    "favorites_count": 16781
+                                  },
+                                  "affiliates_highlighted_label": {},
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/2069268621277229056/rdQXHWeF_normal.jpg"
+                                  },
+                                  "banner": {
+                                    "image_url": "https://pbs.twimg.com/profile_banners/844633645/1782186974"
+                                  },
+                                  "core": {
+                                    "created_at": "Tue Sep 25 01:21:33 +0000 2012",
+                                    "name": "TRUSTY TRAFFIC SPOTTER",
+                                    "screen_name": "DemicheleMatt"
+                                  },
+                                  "dm_permissions": {
+                                    "can_dm": false
+                                  },
+                                  "follow_request_sent": false,
+                                  "has_graduated_access": true,
+                                  "id": "VXNlcjo4NDQ2MzM2NDU=",
+                                  "is_blue_verified": false,
+                                  "location": {
+                                    "location": "Toronto, Ontario"
+                                  },
+                                  "media_permissions": {
+                                    "can_media_tag": true
+                                  },
+                                  "notifications_settings": {
+                                    "notifications_enabled": false
+                                  },
+                                  "pinned_items": {
+                                    "tweet_ids_str": [
+                                      "2062303872928952504"
+                                    ]
+                                  },
+                                  "possibly_sensitive": false,
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "profile_bio": {
+                                    "description": "\ud83c\udde8\ud83c\udde6\ud83c\uddee\ud83c\uddf9\ud83c\udde7\ud83c\udde7 Sports Fan, Highway Lover and Your Trusty Traffic Spotter #LeafsForever 32-30-13\ud83c\udfd2 #WeTheNorth 42-32\ud83c\udfc0",
+                                    "entities": {
+                                      "description": {}
+                                    }
+                                  },
+                                  "profile_description_language": "en",
+                                  "profile_image_shape": "Circle",
+                                  "profile_metadata": {
+                                    "profile_interstitial_type": ""
+                                  },
+                                  "profile_translation": {
+                                    "translator_type": "none"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 2263,
+                                    "following": 5017
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocked_by": false,
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": false,
+                                    "live_following": false,
+                                    "muting": false
+                                  },
+                                  "rest_id": "844633645",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tipjar_settings": {},
+                                  "tweet_counts": {
+                                    "media_tweets": 10471,
+                                    "tweets": 118702
+                                  },
+                                  "verification": {
+                                    "verified": false
+                                  },
+                                  "website": {
+                                    "url": ""
+                                  }
+                                }
+                              }
+                            },
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1090761668756307969"
+                              ],
+                              "editable_until_msecs": "1548894621860",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": true
+                            },
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "has_birdwatch_notes": false,
+                            "is_translatable": false,
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "conversation_id_str": "1090673433690685441",
+                              "created_at": "Thu Jan 31 00:00:21 +0000 2019",
+                              "display_text_range": [
+                                14,
+                                38
+                              ],
+                              "entities": {
+                                "hashtags": [
+                                  {
+                                    "indices": [
+                                      14,
+                                      27
+                                    ],
+                                    "text": "BellLetsTalk"
+                                  },
+                                  {
+                                    "indices": [
+                                      28,
+                                      38
+                                    ],
+                                    "text": "BellCause"
+                                  }
+                                ],
+                                "user_mentions": [
+                                  {
+                                    "id_str": "504581466",
+                                    "indices": [
+                                      0,
+                                      13
+                                    ],
+                                    "name": "Anthony Beauvillier",
+                                    "screen_name": "titobeauvi21"
+                                  }
+                                ]
+                              },
+                              "favorite_count": 0,
+                              "favorited": false,
+                              "full_text": "@titobeauvi21 #BellLetsTalk #BellCause",
+                              "id_str": "1090761668756307969",
+                              "in_reply_to_screen_name": "titobeauvi21",
+                              "in_reply_to_status_id_str": "1090673433690685441",
+                              "in_reply_to_user_id_str": "504581466",
+                              "is_quote_status": false,
+                              "lang": "qme",
+                              "quote_count": 0,
+                              "reply_count": 0,
+                              "retweet_count": 0,
+                              "retweeted": false,
+                              "user_id_str": "844633645"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "rest_id": "1090761668756307969",
+                            "source": "<a href=\"http://twitter.com/#!/download/ipad\" rel=\"nofollow\">Twitter for iPad</a>",
+                            "unmention_data": {},
+                            "views": {
+                              "state": "Enabled"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "metadata": {
+                  "conversationMetadata": {
+                    "allTweetIds": [
+                      "1090761668756307969"
+                    ],
+                    "enableDeduplication": true
+                  }
+                }
+              },
+              "entryId": "conversationthread-1090761668756307969",
+              "sortIndex": "2093597998020820982"
+            },
+            {
+              "content": {
+                "__typename": "TimelineTimelineCursor",
+                "cursorType": "Bottom",
+                "entryType": "TimelineTimelineCursor",
+                "value": "DAAKCgABHQ30SW5___MLAAIAAAAwRW1QQzZ3QUFBZlEvZ0dKTjB2R3AvQUFBQUFJUEl0bTFsUmJBQVE4aktmVm8xUUFCCAADAAAAAgsABAAAAAZCb3R0b20AAA"
+              },
+              "entryId": "cursor-bottom-2093597998020820981",
+              "sortIndex": "2093597998020820981"
+            }
+          ],
+          "type": "TimelineAddEntries"
+        },
+        {
+          "direction": "Top",
+          "type": "TimelineTerminateTimeline"
+        },
+        {
+          "direction": "Bottom",
+          "type": "TimelineTerminateTimeline"
+        }
+      ],
+      "metadata": {
+        "scribeConfig": {
+          "page": "ranked_replies"
+        }
+      }
+    }
+  }
+}

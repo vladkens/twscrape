@@ -281,6 +281,8 @@ class Tweet(JSONTrait):
         "AudiospaceCard",
         "MessageMeCard",
         "PeriscopeBroadcastCard",
+        "PromoVideoConvoCard",
+        "PromoImageConvoCard",
     ] = None
     possibly_sensitive: bool | None = None
     isQuoteStatus: bool = False
@@ -522,6 +524,28 @@ class PeriscopeBroadcastCard(Card):
 
 
 @dataclass
+class PromoVideoConvoCard(Card):
+    title: str
+    thankYouText: str | None = None
+    thankYouUrl: str | None = None
+    videoUrl: str | None = None
+    durationSeconds: int | None = None
+    ctas: list[str] = field(default_factory=list)
+    photo: MediaPhoto | None = None
+    _type: str = "promo_video_convo"
+
+
+@dataclass
+class PromoImageConvoCard(Card):
+    title: str
+    thankYouText: str | None = None
+    thankYouUrl: str | None = None
+    ctas: list[str] = field(default_factory=list)
+    photo: MediaPhoto | None = None
+    _type: str = "promo_image_convo"
+
+
+@dataclass
 class RequestParam(JSONTrait):
     key: str
     value: str
@@ -608,6 +632,13 @@ def _parse_card_get_str(values: list[dict], key: str, defaultVal: str | None = N
         if x["key"] == key:
             return cast(str, x["value"]["string_value"])
     return defaultVal
+
+
+def _parse_card_get_photo(values: list[dict], key: str):
+    for x in values:
+        if x["key"] == key and x["value"]["type"] == "IMAGE":
+            return MediaPhoto(url=x["value"]["image_value"]["url"])
+    return None
 
 
 def _parse_card_extract_str(values: list[dict], key: str):
@@ -766,6 +797,41 @@ def _parse_card(obj: dict, url: str):
             state=_parse_card_get_str(val, "broadcast_state"),
             broadcasterUsername=_parse_card_get_str(val, "broadcaster_username"),
             thumbnailUrl=_parse_card_get_str(val, "full_size_thumbnail_url"),
+        )
+
+    if name in {"promo_video_convo", "promo_image_convo"}:
+        val = _parse_card_prepare_values(obj)
+        card_title = _parse_card_get_str(val, "title")
+        if card_title is None:
+            return None
+
+        ctas = []
+        for key in ("cta_one", "cta_two", "cta_three", "cta_four"):
+            cta = _parse_card_get_str(val, key)
+            if cta is not None:
+                ctas.append(cta)
+
+        thank_you_text = _parse_card_get_str(val, "thank_you_text")
+        thank_you_url = _parse_card_get_str(val, "thank_you_url")
+
+        if name == "promo_image_convo":
+            return PromoImageConvoCard(
+                title=card_title,
+                thankYouText=thank_you_text,
+                thankYouUrl=thank_you_url,
+                ctas=ctas,
+                photo=_parse_card_get_photo(val, "promo_image_original"),
+            )
+
+        duration = _parse_card_get_str(val, "content_duration_seconds")
+        return PromoVideoConvoCard(
+            title=card_title,
+            thankYouText=thank_you_text,
+            thankYouUrl=thank_you_url,
+            videoUrl=_parse_card_get_str(val, "player_stream_url"),
+            durationSeconds=int(duration) if duration is not None else None,
+            ctas=ctas,
+            photo=_parse_card_get_photo(val, "player_image_original"),
         )
 
     logger.warning(f"Unknown card type '{name}' on {url}")
