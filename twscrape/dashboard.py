@@ -20,7 +20,13 @@ from urllib.parse import parse_qs, unquote, urlparse
 
 from .accounts_pool import AccountsPool, NoAccountError
 from .utils import utc
-from .x_api import XApiNotFoundError, XApiService, parse_bool, parse_limit
+from .x_api import (
+    XApiNotFoundError,
+    XApiService,
+    XApiUnavailableError,
+    parse_bool,
+    parse_limit,
+)
 
 SESSION_COOKIE = "twscrape_session"
 SESSION_TTL_SECONDS = 12 * 60 * 60
@@ -530,6 +536,8 @@ class DashboardHandler(BaseHTTPRequestHandler):
             self._send_json({"error": "接口不存在"}, HTTPStatus.NOT_FOUND)
         except XApiNotFoundError as error:
             self._send_json({"error": str(error)}, HTTPStatus.NOT_FOUND)
+        except XApiUnavailableError as error:
+            self._send_json({"error": str(error), "reason": error.reason}, HTTPStatus.FORBIDDEN)
         except NoAccountError:
             self._send_json(
                 {"error": "No active account is available"}, HTTPStatus.SERVICE_UNAVAILABLE

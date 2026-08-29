@@ -8,6 +8,7 @@ from twscrape.models import Tweet, parse_tweets, parse_user
 from twscrape.x_api import (
     XApiNotFoundError,
     XApiService,
+    XApiUnavailableError,
     parse_bool,
     parse_limit,
     tweet_to_dict,
@@ -16,11 +17,13 @@ from twscrape.x_api import (
 
 
 class MockResponse:
-    def __init__(self, filename: str):
-        self.filename = filename
+    def __init__(self, source: str | dict[str, Any]):
+        self.source = source
 
     def json(self):
-        path = Path(__file__).parent / "mocked-data" / self.filename
+        if isinstance(self.source, dict):
+            return self.source
+        path = Path(__file__).parent / "mocked-data" / self.source
         return json.loads(path.read_text())
 
 
@@ -71,14 +74,25 @@ def test_serializers_return_json_safe_public_shapes():
 
 
 class FakeAPI:
-    def __init__(self, tweets: list[Tweet], user=None):
+    def __init__(self, tweets: list[Tweet], user=None, unavailable: dict[str, str] | None = None):
         self.tweets = tweets
         self.user = user
+        self.unavailable = unavailable
         self.closed = False
         self.graph_method = None
 
-    async def user_by_login(self, username: str):
-        return self.user
+    async def user_by_login_raw(self, username: str):
+        if self.unavailable is not None:
+            return MockResponse(
+                {
+                    "data": {
+                        "user": {"result": {"__typename": "UserUnavailable", **self.unavailable}}
+                    }
+                }
+            )
+        if self.user is None:
+            return MockResponse({"data": {"user": {"result": {}}}})
+        return MockResponse("raw_user_by_login.json")
 
     async def search(self, query: str, limit: int):
         try:
@@ -123,6 +137,20 @@ async def test_user_not_found(pool_mock):
 
     with pytest.raises(XApiNotFoundError):
         await service.user("missing")
+
+
+async def test_suspended_user_is_reported_as_unavailable(pool_mock):
+    service = XApiService(pool_mock)
+    service.api = cast(
+        Any,
+        FakeAPI([], unavailable={"message": "User is suspended", "reason": "Suspended"}),
+    )
+
+    with pytest.raises(XApiUnavailableError) as caught:
+        await service.user("suspended-user")
+
+    assert str(caught.value) == 'User "suspended-user" is suspended'
+    assert caught.value.reason == "Suspended"
 
 
 @pytest.mark.parametrize("kind", ["followers", "following"])

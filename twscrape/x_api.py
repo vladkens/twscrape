@@ -4,11 +4,30 @@ from typing import Any, AsyncGenerator
 
 from .accounts_pool import AccountsPool
 from .api import API
-from .models import Tweet, User
+from .models import Tweet, User, parse_user
 
 
 class XApiNotFoundError(Exception):
     pass
+
+
+class XApiUnavailableError(Exception):
+    def __init__(self, message: str, reason: str):
+        super().__init__(message)
+        self.reason = reason
+
+
+def _unavailable_user(rep: Any) -> tuple[str, str] | None:
+    try:
+        payload = rep.json()
+        result = payload.get("data", {}).get("user", {}).get("result", {})
+    except (AttributeError, TypeError, ValueError):
+        return None
+    if not isinstance(result, dict) or result.get("__typename") != "UserUnavailable":
+        return None
+    message = str(result.get("message") or "User is unavailable")
+    reason = str(result.get("reason") or "Unavailable")
+    return message, reason
 
 
 def parse_limit(value: str | None, default: int = 20) -> int:
@@ -147,16 +166,27 @@ class XApiService:
     def __init__(self, pool: AccountsPool):
         self.api = API(pool)
 
-    async def user(self, username: str) -> dict[str, Any]:
-        user = await self.api.user_by_login(username)
+    async def _user(self, username: str) -> User:
+        rep = await self.api.user_by_login_raw(username)
+        if rep is None:
+            raise XApiNotFoundError(f'User "{username}" not found')
+        unavailable = _unavailable_user(rep)
+        if unavailable is not None:
+            message, reason = unavailable
+            if reason.casefold() == "suspended":
+                raise XApiUnavailableError(f'User "{username}" is suspended', reason)
+            raise XApiUnavailableError(f'User "{username}" is unavailable: {message}', reason)
+        user = parse_user(rep)
         if user is None:
             raise XApiNotFoundError(f'User "{username}" not found')
+        return user
+
+    async def user(self, username: str) -> dict[str, Any]:
+        user = await self._user(username)
         return user_to_dict(user)
 
     async def user_tweets(self, username: str, limit: int, include_replies: bool) -> dict[str, Any]:
-        user = await self.api.user_by_login(username)
-        if user is None:
-            raise XApiNotFoundError(f'User "{username}" not found')
+        user = await self._user(username)
         source = (
             self.api.user_tweets_and_replies(user.id, limit=limit)
             if include_replies
@@ -172,9 +202,7 @@ class XApiService:
         return await self._social_graph(username, limit, "following")
 
     async def _social_graph(self, username: str, limit: int, kind: str) -> dict[str, Any]:
-        user = await self.api.user_by_login(username)
-        if user is None:
-            raise XApiNotFoundError(f'User "{username}" not found')
+        user = await self._user(username)
         source = (
             self.api.followers(user.id, limit=limit)
             if kind == "followers"
