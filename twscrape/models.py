@@ -489,6 +489,9 @@ class PollOption(JSONTrait):
 class PollCard(Card):
     options: list[PollOption]
     finished: bool
+    videoUrl: str | None = None
+    durationSeconds: int | None = None
+    photo: MediaPhoto | None = None
     _type: str = "poll"
 
 
@@ -741,7 +744,7 @@ def _parse_card(obj: dict, url: str):
             video=video,
         )
 
-    if re.match(r"(?:\d+:)?poll(?:\d+choice_text_only|_choice_images)", name):
+    if re.match(r"(?:\d+:)?poll(?:\d+choice_(?:text_only|video|images?)|_choice_images)", name):
         val = _parse_card_prepare_values(obj)
 
         options = []
@@ -757,7 +760,19 @@ def _parse_card(obj: dict, url: str):
         # duration_minutes = int(_parse_card_get_str(val, "duration_minutes") or "0")
         # end_datetime_utc = _parse_card_get_str(val, "end_datetime_utc")
         # print(json.dumps(val, indent=2))
-        return PollCard(options=options, finished=finished)
+
+        # poll{n}choice_video cards carry the video in binding_values only (not in
+        # extended_entities). Lookup by key, not by IMAGE type: on poll_choice_images
+        # cards the IMAGE bindings are the per-choice images, not a player thumbnail.
+        duration = _parse_card_get_str(val, "content_duration_seconds")
+        photo = _parse_card_get_photo(val, "player_image_original")
+        return PollCard(
+            options=options,
+            finished=finished,
+            videoUrl=_parse_card_get_str(val, "player_hls_url"),
+            durationSeconds=int(duration) if duration is not None else None,
+            photo=photo,
+        )
 
     if name == "745291183405076480:broadcast":
         val = _parse_card_prepare_values(obj)

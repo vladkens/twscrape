@@ -662,6 +662,18 @@ async def test_cards():
         assert x.label is not None
         assert x.votesCount is not None
 
+    # Check PollCard with video (poll2choice_video)
+    raw = fake_rep("card_poll_video").json()
+    doc = parse_tweet(raw, 1114574134397165568)
+    assert doc is not None and doc.card is not None
+    assert isinstance(doc.card, PollCard)
+    assert doc.card._type == "poll"
+    assert len(doc.card.options) == 2
+    assert doc.card.finished is True
+    assert doc.card.videoUrl is not None
+    assert doc.card.durationSeconds == 24
+    assert doc.card.photo is not None
+
     image_poll = fake_rep("card_poll").json()
     card = find_obj(
         image_poll,
