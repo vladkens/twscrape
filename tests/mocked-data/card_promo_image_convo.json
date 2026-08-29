@@ -1,0 +1,592 @@
+{
+  "data": {
+    "threaded_conversation_with_injections_v2": {
+      "instructions": [
+        {
+          "type": "TimelineClearCache"
+        },
+        {
+          "entries": [
+            {
+              "content": {
+                "__typename": "TimelineTimelineItem",
+                "clientEventInfo": {
+                  "component": "tweet",
+                  "element": "tweet"
+                },
+                "entryType": "TimelineTimelineItem",
+                "itemContent": {
+                  "__typename": "TimelineTweet",
+                  "itemType": "TimelineTweet",
+                  "tweetDisplayType": "Tweet",
+                  "tweet_results": {
+                    "result": {
+                      "__typename": "Tweet",
+                      "card": {
+                        "legacy": {
+                          "binding_values": [
+                            {
+                              "key": "promo_image",
+                              "value": {
+                                "image_value": {
+                                  "height": 418,
+                                  "url": "https://pbs.twimg.com/media/HNc11aZXcAAE4KT.png",
+                                  "width": 800
+                                },
+                                "type": "IMAGE"
+                              }
+                            },
+                            {
+                              "key": "promo_image_color",
+                              "value": {
+                                "image_color_value": {
+                                  "palette": [
+                                    {
+                                      "percentage": 47.57,
+                                      "rgb": {
+                                        "blue": 29,
+                                        "green": 43,
+                                        "red": 50
+                                      }
+                                    },
+                                    {
+                                      "percentage": 28.45,
+                                      "rgb": {
+                                        "blue": 89,
+                                        "green": 107,
+                                        "red": 122
+                                      }
+                                    },
+                                    {
+                                      "percentage": 6.22,
+                                      "rgb": {
+                                        "blue": 0,
+                                        "green": 55,
+                                        "red": 172
+                                      }
+                                    },
+                                    {
+                                      "percentage": 4.01,
+                                      "rgb": {
+                                        "blue": 5,
+                                        "green": 28,
+                                        "red": 101
+                                      }
+                                    },
+                                    {
+                                      "percentage": 2.58,
+                                      "rgb": {
+                                        "blue": 66,
+                                        "green": 39,
+                                        "red": 16
+                                      }
+                                    }
+                                  ]
+                                },
+                                "type": "IMAGE_COLOR"
+                              }
+                            },
+                            {
+                              "key": "promo_image_original",
+                              "value": {
+                                "image_value": {
+                                  "height": 418,
+                                  "url": "https://pbs.twimg.com/media/HNc11aZXcAAE4KT.png",
+                                  "width": 800
+                                },
+                                "type": "IMAGE"
+                              }
+                            },
+                            {
+                              "key": "site",
+                              "value": {
+                                "scribe_key": "publisher_id",
+                                "type": "USER",
+                                "user_value": {
+                                  "id_str": "74594552",
+                                  "path": []
+                                }
+                              }
+                            },
+                            {
+                              "key": "thank_you_vanity_url",
+                              "value": {
+                                "string_value": "soggy.cat",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "cover_promo_image_small",
+                              "value": {
+                                "image_value": {
+                                  "height": 418,
+                                  "url": "https://pbs.twimg.com/ad_img/2078189015245713408/Hp_j19jT?format=png&name=orig",
+                                  "width": 800
+                                },
+                                "type": "IMAGE"
+                              }
+                            },
+                            {
+                              "key": "promo_image_large",
+                              "value": {
+                                "image_value": {
+                                  "height": 418,
+                                  "url": "https://pbs.twimg.com/media/HNc11aZXcAAE4KT.png",
+                                  "width": 800
+                                },
+                                "type": "IMAGE"
+                              }
+                            },
+                            {
+                              "key": "thank_you_text",
+                              "value": {
+                                "string_value": "thanke you",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "thank_you_url",
+                              "value": {
+                                "string_value": "https://soggy.cat/static/ssoggycat/2024election/videos/awesome.mp4",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "thank_you_shortened_url",
+                              "value": {
+                                "string_value": "https://t.co/wwdZJlMsb9",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "cover_promo_image_x_large",
+                              "value": {
+                                "image_value": {
+                                  "height": 418,
+                                  "url": "https://pbs.twimg.com/ad_img/2078189015245713408/Hp_j19jT?format=png&name=orig",
+                                  "width": 800
+                                },
+                                "type": "IMAGE"
+                              }
+                            },
+                            {
+                              "key": "cover_promo_image_color",
+                              "value": {
+                                "image_color_value": {
+                                  "palette": [
+                                    {
+                                      "percentage": 48.47,
+                                      "rgb": {
+                                        "blue": 30,
+                                        "green": 43,
+                                        "red": 49
+                                      }
+                                    },
+                                    {
+                                      "percentage": 28.64,
+                                      "rgb": {
+                                        "blue": 89,
+                                        "green": 107,
+                                        "red": 122
+                                      }
+                                    },
+                                    {
+                                      "percentage": 5.99,
+                                      "rgb": {
+                                        "blue": 0,
+                                        "green": 56,
+                                        "red": 172
+                                      }
+                                    },
+                                    {
+                                      "percentage": 3.37,
+                                      "rgb": {
+                                        "blue": 14,
+                                        "green": 28,
+                                        "red": 96
+                                      }
+                                    },
+                                    {
+                                      "percentage": 2.58,
+                                      "rgb": {
+                                        "blue": 66,
+                                        "green": 39,
+                                        "red": 16
+                                      }
+                                    }
+                                  ]
+                                },
+                                "type": "IMAGE_COLOR"
+                              }
+                            },
+                            {
+                              "key": "promo_image_small",
+                              "value": {
+                                "image_value": {
+                                  "height": 418,
+                                  "url": "https://pbs.twimg.com/media/HNc11aZXcAAE4KT.png",
+                                  "width": 800
+                                },
+                                "type": "IMAGE"
+                              }
+                            },
+                            {
+                              "key": "cover_promo_image_large",
+                              "value": {
+                                "image_value": {
+                                  "height": 418,
+                                  "url": "https://pbs.twimg.com/ad_img/2078189015245713408/Hp_j19jT?format=png&name=orig",
+                                  "width": 800
+                                },
+                                "type": "IMAGE"
+                              }
+                            },
+                            {
+                              "key": "card_id",
+                              "value": {
+                                "string_value": "2078189443677089792",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "cover_promo_image_original",
+                              "value": {
+                                "image_value": {
+                                  "height": 418,
+                                  "url": "https://pbs.twimg.com/ad_img/2078189015245713408/Hp_j19jT?format=png&name=orig",
+                                  "width": 800
+                                },
+                                "type": "IMAGE"
+                              }
+                            },
+                            {
+                              "key": "promo_image_x_large",
+                              "value": {
+                                "image_value": {
+                                  "height": 418,
+                                  "url": "https://pbs.twimg.com/media/HNc11aZXcAAE4KT.png",
+                                  "width": 800
+                                },
+                                "type": "IMAGE"
+                              }
+                            },
+                            {
+                              "key": "cta_one_tweet",
+                              "value": {
+                                "string_value": "one ruffle cheddar long",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "cta_one",
+                              "value": {
+                                "string_value": "#onerufflecheddarlong",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "title",
+                              "value": {
+                                "string_value": "one ruffle cheddar long",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "cover_promo_image",
+                              "value": {
+                                "image_value": {
+                                  "height": 418,
+                                  "url": "https://pbs.twimg.com/ad_img/2078189015245713408/Hp_j19jT?format=png&name=orig",
+                                  "width": 800
+                                },
+                                "type": "IMAGE"
+                              }
+                            },
+                            {
+                              "key": "card_url",
+                              "value": {
+                                "scribe_key": "card_url",
+                                "string_value": "https://twitter.com",
+                                "type": "STRING"
+                              }
+                            }
+                          ],
+                          "card_platform": {
+                            "platform": {
+                              "audience": {
+                                "name": "production"
+                              },
+                              "device": {
+                                "name": "Swift",
+                                "version": "12"
+                              }
+                            }
+                          },
+                          "name": "promo_image_convo",
+                          "url": "card://2078189445799428096",
+                          "user_refs_results": [
+                            {
+                              "result": {
+                                "__typename": "User",
+                                "action_counts": {
+                                  "favorites_count": 1330
+                                },
+                                "affiliates_highlighted_label": {},
+                                "avatar": {
+                                  "image_url": "https://pbs.twimg.com/profile_images/1989389623597158400/5Uagy3yh_normal.jpg"
+                                },
+                                "banner": {
+                                  "image_url": "https://pbs.twimg.com/profile_banners/74594552/1702161997"
+                                },
+                                "core": {
+                                  "created_at": "Tue Sep 15 23:47:10 +0000 2009",
+                                  "name": "App Store",
+                                  "screen_name": "AppStore"
+                                },
+                                "dm_permissions": {
+                                  "can_dm": false
+                                },
+                                "follow_request_sent": false,
+                                "has_graduated_access": true,
+                                "id": "VXNlcjo3NDU5NDU1Mg==",
+                                "is_blue_verified": true,
+                                "location": {
+                                  "location": "Cupertino, CA"
+                                },
+                                "media_permissions": {
+                                  "can_media_tag": true
+                                },
+                                "notifications_settings": {
+                                  "notifications_enabled": false
+                                },
+                                "pinned_items": {},
+                                "possibly_sensitive": false,
+                                "privacy": {
+                                  "protected": false
+                                },
+                                "profile_bio": {
+                                  "description": "There's an app for that.",
+                                  "entities": {
+                                    "description": {},
+                                    "url": {
+                                      "urls": [
+                                        {
+                                          "display_url": "apple.com/app-store/",
+                                          "expanded_url": "http://apple.com/app-store/",
+                                          "indices": [
+                                            0,
+                                            23
+                                          ],
+                                          "url": "https://t.co/dXyHYmip4e"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                },
+                                "profile_description_language": "en",
+                                "profile_image_shape": "Square",
+                                "profile_metadata": {
+                                  "profile_interstitial_type": ""
+                                },
+                                "profile_translation": {
+                                  "translator_type": "none"
+                                },
+                                "relationship_counts": {
+                                  "followers": 4218464,
+                                  "following": 23
+                                },
+                                "relationship_perspectives": {
+                                  "blocked_by": false,
+                                  "blocking": false,
+                                  "followed_by": false,
+                                  "following": false,
+                                  "live_following": false,
+                                  "muting": false
+                                },
+                                "rest_id": "74594552",
+                                "super_follow_eligible": false,
+                                "super_followed_by": false,
+                                "super_following": false,
+                                "tipjar_settings": {},
+                                "tweet_counts": {
+                                  "media_tweets": 6408,
+                                  "tweets": 12283
+                                },
+                                "verification": {
+                                  "verified": false,
+                                  "verified_type": "Business"
+                                },
+                                "website": {
+                                  "url": "https://t.co/dXyHYmip4e"
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "rest_id": "card://2078189445799428096"
+                      },
+                      "core": {
+                        "user_results": {
+                          "result": {
+                            "__typename": "User",
+                            "action_counts": {
+                              "favorites_count": 3696
+                            },
+                            "affiliates_highlighted_label": {},
+                            "avatar": {
+                              "image_url": "https://pbs.twimg.com/profile_images/1836256790373171200/TEjY1yBg_normal.jpg"
+                            },
+                            "banner": {
+                              "image_url": "https://pbs.twimg.com/profile_banners/188054422/1693884168"
+                            },
+                            "core": {
+                              "created_at": "Tue Sep 07 20:34:42 +0000 2010",
+                              "name": "\u0618",
+                              "screen_name": "simple"
+                            },
+                            "dm_permissions": {
+                              "can_dm": true
+                            },
+                            "follow_request_sent": false,
+                            "has_graduated_access": true,
+                            "id": "VXNlcjoxODgwNTQ0MjI=",
+                            "is_blue_verified": true,
+                            "location": {
+                              "location": "ILIOS WELL"
+                            },
+                            "media_permissions": {
+                              "can_media_tag": true
+                            },
+                            "notifications_settings": {
+                              "notifications_enabled": false
+                            },
+                            "pinned_items": {},
+                            "possibly_sensitive": false,
+                            "privacy": {
+                              "protected": false
+                            },
+                            "profile_bio": {
+                              "description": "\ud835\udd3d\ud835\udd52\ud835\udd5f\ud835\udd54\ud835\udd6a\n#1 Mikaela NA\n#1 Mar\u00eda NA\n\n\u1d04\u1d0f\u1d0d\u1d18 \u1d18\u029f\u1d00\u028f\u1d07\u0280 - \u1d1b\u1d21\u1d0f-\u1d18\u1d07\u0280\u1d0b \u1d07\u0274\u1d0a\u1d0f\u028f\u1d07\u0280\n\n\ud835\udc38\ud835\udcc9 \ud835\udcb7\ud835\udc52\ud835\udcc3 \ud835\udcce \ud835\udc52\ud835\udcc3 \ud835\udcb6 \ud835\udc52\ud835\udcc3\ud835\udcb8\ud835\udc5c\ud835\udcc7\ud835\udc52\n\nBanner @pitchcanker",
+                              "entities": {
+                                "description": {}
+                              }
+                            },
+                            "profile_image_shape": "Circle",
+                            "profile_metadata": {
+                              "profile_interstitial_type": ""
+                            },
+                            "profile_translation": {
+                              "translator_type": "none"
+                            },
+                            "relationship_counts": {
+                              "followers": 233,
+                              "following": 317
+                            },
+                            "relationship_perspectives": {
+                              "blocked_by": false,
+                              "blocking": false,
+                              "followed_by": false,
+                              "following": false,
+                              "live_following": false,
+                              "muting": false
+                            },
+                            "rest_id": "188054422",
+                            "super_follow_eligible": false,
+                            "super_followed_by": false,
+                            "super_following": false,
+                            "tipjar_settings": {},
+                            "tweet_counts": {
+                              "media_tweets": 431,
+                              "tweets": 2718
+                            },
+                            "verification": {
+                              "verified": false
+                            },
+                            "website": {
+                              "url": ""
+                            }
+                          }
+                        }
+                      },
+                      "edit_control": {
+                        "edit_tweet_ids": [
+                          "2078218219689492480"
+                        ],
+                        "editable_until_msecs": "1784324409000",
+                        "edits_remaining": "5",
+                        "is_edit_eligible": true
+                      },
+                      "grok_translated_post_with_availability": {
+                        "is_available": false
+                      },
+                      "has_birdwatch_notes": false,
+                      "is_translatable": false,
+                      "legacy": {
+                        "bookmark_count": 0,
+                        "bookmarked": false,
+                        "conversation_id_str": "2078218219689492480",
+                        "created_at": "Fri Jul 17 20:40:09 +0000 2026",
+                        "display_text_range": [
+                          0,
+                          23
+                        ],
+                        "entities": {},
+                        "favorite_count": 2,
+                        "favorited": false,
+                        "full_text": "one ruffle cheddar long",
+                        "id_str": "2078218219689492480",
+                        "is_quote_status": false,
+                        "lang": "en",
+                        "quote_count": 0,
+                        "reply_count": 0,
+                        "retweet_count": 0,
+                        "retweeted": false,
+                        "user_id_str": "188054422"
+                      },
+                      "quick_promote_eligibility": {
+                        "eligibility": "IneligibleNotVerified"
+                      },
+                      "rest_id": "2078218219689492480",
+                      "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+                      "unmention_data": {},
+                      "views": {
+                        "count": "543",
+                        "state": "EnabledWithCount"
+                      }
+                    }
+                  }
+                }
+              },
+              "entryId": "tweet-2078218219689492480",
+              "sortIndex": "2093603250568691712"
+            },
+            {
+              "content": {
+                "__typename": "TimelineTimelineCursor",
+                "cursorType": "Bottom",
+                "entryType": "TimelineTimelineCursor",
+                "value": "DAAKCgABHQ35EGK___0LAAIAAAAoRW1QQzZ3QUFBZlEvZ0dKTjB2R3AvQUFBQUFFYzExQjF2bFpBQUE9PQgAAwAAAAILAAQAAAAGQm90dG9tAAA"
+              },
+              "entryId": "cursor-bottom-2093603250568691711",
+              "sortIndex": "2093603250568691711"
+            }
+          ],
+          "type": "TimelineAddEntries"
+        },
+        {
+          "direction": "Top",
+          "type": "TimelineTerminateTimeline"
+        },
+        {
+          "direction": "Bottom",
+          "type": "TimelineTerminateTimeline"
+        }
+      ],
+      "metadata": {
+        "scribeConfig": {
+          "page": "ranked_replies"
+        }
+      }
+    }
+  }
+}

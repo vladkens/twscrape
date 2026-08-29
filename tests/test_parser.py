@@ -6,10 +6,15 @@ import pytest
 
 from twscrape import API, gather
 from twscrape.models import (
+    AppCard,
     AudiospaceCard,
     BroadcastCard,
+    LiveEventCard,
     MessageMeCard,
+    PeriscopeBroadcastCard,
     PollCard,
+    PromoImageConvoCard,
+    PromoVideoConvoCard,
     SummaryCard,
     Trend,
     Tweet,
@@ -658,6 +663,18 @@ async def test_cards():
         assert x.label is not None
         assert x.votesCount is not None
 
+    # Check PollCard with video (poll2choice_video)
+    raw = fake_rep("card_poll_video").json()
+    doc = parse_tweet(raw, 1114574134397165568)
+    assert doc is not None and doc.card is not None
+    assert isinstance(doc.card, PollCard)
+    assert doc.card._type == "poll"
+    assert len(doc.card.options) == 2
+    assert doc.card.finished is True
+    assert doc.card.videoUrl is not None
+    assert doc.card.durationSeconds == 24
+    assert doc.card.photo is not None
+
     image_poll = fake_rep("card_poll").json()
     card = find_obj(
         image_poll,
@@ -699,6 +716,71 @@ async def test_cards():
     assert doc.card.url is not None
     assert doc.card.cta is not None
     assert doc.card.recipientId == "85741735"
+
+    # Check PeriscopeBroadcastCard
+    raw = fake_rep("card_periscope_broadcast").json()
+    doc = parse_tweet(raw, 822817044450013184)
+    assert doc is not None and doc.card is not None
+    assert doc.card._type == "periscope_broadcast"
+    assert isinstance(doc.card, PeriscopeBroadcastCard)
+    assert doc.card.title is not None
+    assert doc.card.url is not None
+    assert doc.card.state == "ENDED"
+    assert doc.card.broadcasterUsername == "womensmarch"
+    assert doc.card.thumbnailUrl is not None
+
+    # Check PromoVideoConvoCard
+    raw = fake_rep("card_promo_video_convo").json()
+    doc = parse_tweet(raw, 1090673433690685441)
+    assert doc is not None and doc.card is not None
+    assert doc.card._type == "promo_video_convo"
+    assert isinstance(doc.card, PromoVideoConvoCard)
+    assert doc.card.title == "Add your voice."
+    assert doc.card.thankYouText is not None
+    assert doc.card.videoUrl is not None
+    assert doc.card.durationSeconds == 5
+    assert doc.card.ctas == ["#BellLetsTalk"]
+    assert doc.card.photo is not None
+
+    # Check PromoImageConvoCard
+    raw = fake_rep("card_promo_image_convo").json()
+    doc = parse_tweet(raw, 2078218219689492480)
+    assert doc is not None and doc.card is not None
+    assert doc.card._type == "promo_image_convo"
+    assert isinstance(doc.card, PromoImageConvoCard)
+    assert doc.card.title is not None
+    assert doc.card.thankYouText is not None
+    assert doc.card.thankYouUrl is not None
+    assert doc.card.ctas == ["#onerufflecheddarlong"]
+    # main image, not the cover_promo_image ad cover (that one lives under /ad_img/)
+    assert doc.card.photo is not None
+    assert "/ad_img/" not in doc.card.photo.url
+
+    # Check LiveEventCard
+    raw = fake_rep("card_live_event").json()
+    doc = parse_tweet(raw, 1463203718153703425)
+    assert doc is not None and doc.card is not None
+    assert doc.card._type == "live_event"
+    assert isinstance(doc.card, LiveEventCard)
+    assert doc.card.title is not None
+    assert doc.card.url is not None
+    assert doc.card.eventId == "1461789549739143169"
+    assert doc.card.category == "Music"
+    assert doc.card.subtitle is not None
+    assert doc.card.photo is not None
+
+    # Check AppCard
+    raw = fake_rep("card_app").json()
+    doc = parse_tweet(raw, 1249486216266788865)
+    assert doc is not None and doc.card is not None
+    assert doc.card._type == "app"
+    assert isinstance(doc.card, AppCard)
+    assert doc.card.title == "The NBC App – Stream TV Shows"
+    assert doc.card.url is not None
+    assert doc.card.description is not None
+    assert doc.card.starRating is not None and 4 < doc.card.starRating < 5
+    assert doc.card.numRatings == 289838
+    assert doc.card.photo is not None
 
 
 async def test_tweet_new_fields():
