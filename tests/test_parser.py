@@ -8,6 +8,7 @@ from twscrape import API, gather
 from twscrape.models import (
     AudiospaceCard,
     BroadcastCard,
+    LiveEventCard,
     MessageMeCard,
     PeriscopeBroadcastCard,
     PollCard,
@@ -741,6 +742,19 @@ async def test_cards():
     # main image, not the cover_promo_image ad cover (that one lives under /ad_img/)
     assert doc.card.photo is not None
     assert "/ad_img/" not in doc.card.photo.url
+
+    # Check LiveEventCard
+    raw = fake_rep("card_live_event").json()
+    doc = parse_tweet(raw, 1463203718153703425)
+    assert doc is not None and doc.card is not None
+    assert doc.card._type == "live_event"
+    assert isinstance(doc.card, LiveEventCard)
+    assert doc.card.title is not None
+    assert doc.card.url is not None
+    assert doc.card.eventId == "1461789549739143169"
+    assert doc.card.category == "Music"
+    assert doc.card.subtitle is not None
+    assert doc.card.photo is not None
 
 
 async def test_tweet_new_fields():

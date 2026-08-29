@@ -283,6 +283,7 @@ class Tweet(JSONTrait):
         "PeriscopeBroadcastCard",
         "PromoVideoConvoCard",
         "PromoImageConvoCard",
+        "LiveEventCard",
     ] = None
     possibly_sensitive: bool | None = None
     isQuoteStatus: bool = False
@@ -521,6 +522,17 @@ class PeriscopeBroadcastCard(Card):
     broadcasterUsername: str | None = None
     thumbnailUrl: str | None = None
     _type: str = "periscope_broadcast"
+
+
+@dataclass
+class LiveEventCard(Card):
+    title: str
+    url: str
+    eventId: str | None = None
+    subtitle: str | None = None
+    category: str | None = None
+    photo: MediaPhoto | None = None
+    _type: str = "live_event"
 
 
 @dataclass
@@ -797,6 +809,22 @@ def _parse_card(obj: dict, url: str):
             state=_parse_card_get_str(val, "broadcast_state"),
             broadcasterUsername=_parse_card_get_str(val, "broadcaster_username"),
             thumbnailUrl=_parse_card_get_str(val, "full_size_thumbnail_url"),
+        )
+
+    if name == "745291183405076480:live_event":
+        val = _parse_card_prepare_values(obj)
+        card_url = _parse_card_get_str(val, "card_url")
+        card_title = _parse_card_get_str(val, "event_title")
+        if card_url is None or card_title is None:
+            return None
+
+        return LiveEventCard(
+            title=card_title,
+            url=card_url,
+            eventId=_parse_card_get_str(val, "event_id"),
+            subtitle=_parse_card_get_str(val, "event_subtitle"),
+            category=_parse_card_get_str(val, "event_category"),
+            photo=_parse_card_get_photo(val, "event_thumbnail_original"),
         )
 
     if name in {"promo_video_convo", "promo_image_convo"}:
