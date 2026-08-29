@@ -1,4 +1,5 @@
 from contextlib import aclosing
+from functools import wraps
 from typing import Literal
 
 from .accounts_pool import AccountsPool
@@ -94,6 +95,22 @@ GQL_FEATURES = {  # search values here (view source) https://x.com/
 
 KV = dict | None
 TrendId = Literal["trending", "news", "sport", "entertainment"] | str
+
+
+def _dedup_by_id(fn):
+    # X can return the same item on several pages of one crawl (e.g. UserTweets
+    # repeats the pinned tweet on page 1 and at its chronological position).
+    # parse_* dedups only within a single page, so dedup across pages here.
+    @wraps(fn)
+    async def wrapped(*args, **kwargs):
+        seen = set()
+        async with aclosing(fn(*args, **kwargs)) as gen:
+            async for x in gen:
+                if x.id not in seen:
+                    seen.add(x.id)
+                    yield x
+
+    return wrapped
 
 
 class API:
@@ -250,12 +267,14 @@ class API:
             async for x in gen:
                 yield x
 
+    @_dedup_by_id
     async def search(self, q: str, limit=-1, kv: KV = None):
         async with aclosing(self.search_raw(q, limit=limit, kv=kv)) as gen:
             async for rep in gen:
                 for x in parse_tweets(rep.json(), limit):
                     yield x
 
+    @_dedup_by_id
     async def search_user(self, q: str, limit=-1, kv: KV = None):
         kv = {"product": "People", **(kv or {})}
         async with aclosing(self.search_raw(q, limit=limit, kv=kv)) as gen:
@@ -361,6 +380,7 @@ class API:
             async for x in gen:
                 yield x
 
+    @_dedup_by_id
     async def tweet_replies(self, twid: int, limit=-1, kv: KV = None):
         async with aclosing(self.tweet_replies_raw(twid, limit=limit, kv=kv)) as gen:
             async for rep in gen:
@@ -424,6 +444,7 @@ class API:
             async for x in gen:
                 yield x
 
+    @_dedup_by_id
     async def tweet_thread(self, twid: int, limit=-1, kv: KV = None):
         async with aclosing(self.tweet_thread_raw(twid, limit=limit, kv=kv)) as gen:
             async for rep in gen:
@@ -441,6 +462,7 @@ class API:
             async for x in gen:
                 yield x
 
+    @_dedup_by_id
     async def followers(self, uid: int, limit=-1, kv: KV = None):
         async with aclosing(self.followers_raw(uid, limit=limit, kv=kv)) as gen:
             async for rep in gen:
@@ -459,6 +481,7 @@ class API:
             async for x in gen:
                 yield x
 
+    @_dedup_by_id
     async def verified_followers(self, uid: int, limit=-1, kv: KV = None):
         async with aclosing(self.verified_followers_raw(uid, limit=limit, kv=kv)) as gen:
             async for rep in gen:
@@ -474,6 +497,7 @@ class API:
             async for x in gen:
                 yield x
 
+    @_dedup_by_id
     async def following(self, uid: int, limit=-1, kv: KV = None):
         async with aclosing(self.following_raw(uid, limit=limit, kv=kv)) as gen:
             async for rep in gen:
@@ -489,6 +513,7 @@ class API:
             async for x in gen:
                 yield x
 
+    @_dedup_by_id
     async def subscriptions(self, uid: int, limit=-1, kv: KV = None):
         async with aclosing(self.subscriptions_raw(uid, limit=limit, kv=kv)) as gen:
             async for rep in gen:
@@ -504,6 +529,7 @@ class API:
             async for x in gen:
                 yield x
 
+    @_dedup_by_id
     async def retweeters(self, twid: int, limit=-1, kv: KV = None):
         async with aclosing(self.retweeters_raw(twid, limit=limit, kv=kv)) as gen:
             async for rep in gen:
@@ -527,6 +553,7 @@ class API:
             async for x in gen:
                 yield x
 
+    @_dedup_by_id
     async def user_tweets(self, uid: int, limit=-1, kv: KV = None):
         async with aclosing(self.user_tweets_raw(uid, limit=limit, kv=kv)) as gen:
             async for rep in gen:
@@ -550,6 +577,7 @@ class API:
             async for x in gen:
                 yield x
 
+    @_dedup_by_id
     async def user_tweets_and_replies(self, uid: int, limit=-1, kv: KV = None):
         async with aclosing(self.user_tweets_and_replies_raw(uid, limit=limit, kv=kv)) as gen:
             async for rep in gen:
@@ -575,6 +603,7 @@ class API:
             async for x in gen:
                 yield x
 
+    @_dedup_by_id
     async def user_media(self, uid: int, limit=-1, kv: KV = None):
         async with aclosing(self.user_media_raw(uid, limit=limit, kv=kv)) as gen:
             async for rep in gen:
@@ -598,6 +627,7 @@ class API:
             async for x in gen:
                 yield x
 
+    @_dedup_by_id
     async def list_timeline(self, list_id: int, limit=-1, kv: KV = None):
         async with aclosing(self.list_timeline_raw(list_id, limit=limit, kv=kv)) as gen:
             async for rep in gen:
@@ -626,12 +656,14 @@ class API:
             async for x in gen:
                 yield x
 
+    @_dedup_by_id
     async def trends(self, trend_id: TrendId, limit=-1, kv: KV = None):
         async with aclosing(self.trends_raw(trend_id, limit=limit, kv=kv)) as gen:
             async for rep in gen:
                 for x in parse_trends(rep, limit):
                     yield x
 
+    @_dedup_by_id
     async def search_trend(self, q: str, limit=-1, kv: KV = None):
         kv = {
             "querySource": "trend_click",
@@ -662,6 +694,7 @@ class API:
             async for x in gen:
                 yield x
 
+    @_dedup_by_id
     async def bookmarks(self, limit=-1, kv: KV = None):
         async with aclosing(self.bookmarks_raw(limit=limit, kv=kv)) as gen:
             async for rep in gen:
@@ -677,6 +710,7 @@ class API:
             async for page in gen:
                 yield page
 
+    @_dedup_by_id
     async def list_members(self, list_id: int, limit: int = -1, kv: KV = None):
         async with aclosing(self.list_members_raw(list_id, limit=limit, kv=kv)) as gen:
             async for page in gen:
@@ -697,6 +731,7 @@ class API:
             async for x in gen:
                 yield x
 
+    @_dedup_by_id
     async def community_members(self, community_id: int, limit=-1, kv: KV = None):
         async with aclosing(self.community_members_raw(community_id, limit=limit, kv=kv)) as gen:
             async for rep in gen:
@@ -717,6 +752,7 @@ class API:
             async for x in gen:
                 yield x
 
+    @_dedup_by_id
     async def community_moderators(self, community_id: int, limit=-1, kv: KV = None):
         async with aclosing(self.community_moderators_raw(community_id, limit=limit, kv=kv)) as gen:
             async for rep in gen:
@@ -743,6 +779,7 @@ class API:
             async for x in gen:
                 yield x
 
+    @_dedup_by_id
     async def community_tweets(self, community_id: int, limit=-1, kv: KV = None):
         async with aclosing(self.community_tweets_raw(community_id, limit=limit, kv=kv)) as gen:
             async for rep in gen:
