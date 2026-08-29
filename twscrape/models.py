@@ -242,6 +242,145 @@ class User(JSONTrait):
 
 
 @dataclass
+class ArticleInlineStyleRange(JSONTrait):
+    offset: int
+    length: int
+    style: str
+
+    @staticmethod
+    def parse(obj: dict):
+        return ArticleInlineStyleRange(
+            offset=obj["offset"],
+            length=obj["length"],
+            style=obj["style"],
+        )
+
+
+@dataclass
+class ArticleEntityRange(JSONTrait):
+    key: str
+    offset: int
+    length: int
+
+    @staticmethod
+    def parse(obj: dict):
+        return ArticleEntityRange(
+            key=str(obj["key"]),
+            offset=obj["offset"],
+            length=obj["length"],
+        )
+
+
+@dataclass
+class ArticleBlock(JSONTrait):
+    key: str
+    type: str
+    text: str
+    data: dict
+    inlineStyleRanges: list[ArticleInlineStyleRange]
+    entityRanges: list[ArticleEntityRange]
+
+    @staticmethod
+    def parse(obj: dict):
+        return ArticleBlock(
+            key=obj["key"],
+            type=obj["type"],
+            text=obj["text"],
+            data=obj.get("data", {}),
+            inlineStyleRanges=[
+                ArticleInlineStyleRange.parse(x) for x in obj.get("inlineStyleRanges", [])
+            ],
+            entityRanges=[ArticleEntityRange.parse(x) for x in obj.get("entityRanges", [])],
+        )
+
+
+@dataclass
+class ArticleEntity(JSONTrait):
+    type: str
+    mutability: str
+    data: dict
+
+    @staticmethod
+    def parse(obj: dict):
+        return ArticleEntity(
+            type=obj["type"],
+            mutability=obj["mutability"],
+            data=obj.get("data", {}),
+        )
+
+
+@dataclass
+class ArticleContentState(JSONTrait):
+    blocks: list[ArticleBlock]
+    entityMap: dict[str, ArticleEntity]
+
+    @staticmethod
+    def parse(obj: dict):
+        return ArticleContentState(
+            blocks=[ArticleBlock.parse(x) for x in obj.get("blocks", [])],
+            entityMap={
+                str(x["key"]): ArticleEntity.parse(x["value"])
+                for x in obj.get("entityMap", [])
+            },
+        )
+
+
+@dataclass
+class ArticleCoverMedia(JSONTrait):
+    id: str
+    mediaId: str
+    mediaKey: str
+    mediaInfo: dict
+
+    @staticmethod
+    def parse(obj: dict):
+        return ArticleCoverMedia(
+            id=obj["id"],
+            mediaId=obj["media_id"],
+            mediaKey=obj["media_key"],
+            mediaInfo=obj.get("media_info", {}),
+        )
+
+
+@dataclass
+class Article(JSONTrait):
+    id: str
+    rest_id: str
+    title: str
+    preview_text: str
+    modified_at_secs: int | None = None
+    first_published_at_secs: int | None = None
+    contentState: ArticleContentState | None = None
+    coverMedia: ArticleCoverMedia | None = None
+    mediaEntities: list[dict] = field(default_factory=list)
+    summaryText: str | None = None
+    isGrokSummaryEligible: bool | None = None
+
+    @staticmethod
+    def parse(obj: dict):
+        result = get_or(obj, "article.article_results.result")
+        if not result:
+            return None
+
+        content_state = result.get("content_state")
+        cover_media = result.get("cover_media")
+        # ponytail: article media variants need a non-empty fixture before typing.
+        return Article(
+            id=result["id"],
+            rest_id=result["rest_id"],
+            title=result.get("title", ""),
+            preview_text=result.get("preview_text", ""),
+            modified_at_secs=int_or(result, "lifecycle_state.modified_at_secs"),
+            first_published_at_secs=int_or(result, "metadata.first_published_at_secs"),
+            contentState=ArticleContentState.parse(content_state) if content_state else None,
+            coverMedia=ArticleCoverMedia.parse(cover_media) if cover_media else None,
+            mediaEntities=result.get("media_entities", []),
+            summaryText=result.get("summary_text"),
+            isGrokSummaryEligible=result.get("is_grok_summary_eligible"),
+        )
+
+
+@dataclass
 class Tweet(JSONTrait):
     id: int
     id_str: str
@@ -283,6 +422,7 @@ class Tweet(JSONTrait):
     inReplyToScreenName: str | None = None
     editControl: dict | None = None
     voiceInfo: dict | None = None
+    article: Article | None = None
     _type: str = "snscrape.modules.twitter.Tweet"
 
     # todo:
@@ -350,6 +490,7 @@ class Tweet(JSONTrait):
             inReplyToScreenName=obj.get("in_reply_to_screen_name"),
             editControl=_parse_edit_control(obj),
             voiceInfo=obj.get("voice_info"),
+            article=Article.parse(obj),
         )
 
         # issue #42 – restore full rt text

@@ -48,6 +48,26 @@ async def test_gql_params(api_mock: API, monkeypatch):
         assert args[0][0][1]["count"] == 100, f"count not changed in {func}"
 
 
+async def test_tweet_details_article_toggles(api_mock: API, monkeypatch):
+    args = []
+
+    async def mock_gql_item(*a, **kw):
+        args.append((a, kw))
+
+    monkeypatch.setattr(api_mock, "_gql_item", mock_gql_item)
+    await api_mock.tweet_details_raw(2075503860689281453)
+
+    assert len(args) == 1
+    assert args[0][1]["field_toggles"] == {
+        "withArticleRichContentState": True,
+        "withArticlePlainText": False,
+        "withArticleSummaryText": True,
+        "withArticleVoiceOver": True,
+        "withGrokAnalyze": False,
+        "withDisallowedReplyControls": False,
+    }
+
+
 async def test_raise_when_no_account(api_mock: API):
     await api_mock.pool.delete_accounts(["user1"])
     assert len(await api_mock.pool.get_all()) == 0
