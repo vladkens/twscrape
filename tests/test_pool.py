@@ -284,6 +284,7 @@ async def test_mark_inactive(pool_mock: AccountsPool):
 
 async def test_next_available_at_none_when_empty(pool_mock: AccountsPool):
     assert await pool_mock.next_available_at("TestQueue") is None
+    assert await pool_mock.next_available_in("TestQueue") is None
 
 
 async def test_next_available_at_returns_future_time(pool_mock: AccountsPool):
@@ -295,6 +296,17 @@ async def test_next_available_at_returns_future_time(pool_mock: AccountsPool):
     result = await pool_mock.next_available_at(Q)
     assert result is not None
     assert result != "now"
+    seconds = await pool_mock.next_available_in(Q)
+    assert seconds is not None
+    assert 3598 <= seconds <= 3600
+
+
+async def test_next_available_in_is_zero_when_account_is_ready(pool_mock: AccountsPool):
+    await pool_mock.add_account("user1", "pass1", "email1", "ep1")
+    await pool_mock.set_active("user1", True)
+
+    assert await pool_mock.next_available_in("TestQueue") == 0
+    assert await pool_mock.next_available_at("TestQueue") == "now"
 
 
 async def test_get_for_queue_or_wait_raises_when_flag_set(pool_mock: AccountsPool):

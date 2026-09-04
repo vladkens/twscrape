@@ -3,6 +3,7 @@ import json
 import sqlite3
 import uuid
 from datetime import datetime, timezone
+from math import ceil
 from typing import TypedDict
 
 from .account import Account, has_required_cookies
@@ -369,24 +370,51 @@ class AccountsPool:
 
             await asyncio.sleep(self._wait_interval)
 
-    async def next_available_at(self, queue: str):
+    async def _availability(self, queue: str) -> tuple[int, int, datetime | None]:
         qs = f"""
-        SELECT json_extract(locks, '$."{queue}"') as lock_until
+        SELECT
+            COUNT(*) AS active_count,
+            SUM(CASE
+                WHEN json_extract(locks, '$."{queue}"') IS NULL
+                    OR json_extract(locks, '$."{queue}"') <= datetime('now')
+                THEN 1 ELSE 0
+            END) AS available_count,
+            MIN(CASE
+                WHEN json_extract(locks, '$."{queue}"') > datetime('now')
+                THEN json_extract(locks, '$."{queue}"')
+            END) AS next_at
         FROM accounts
-        WHERE active = true AND json_extract(locks, '$."{queue}"') IS NOT NULL
-        ORDER BY lock_until ASC
-        LIMIT 1
+        WHERE active = true
         """
         rs = await fetchone(self._db_file, qs)
-        if rs:
-            now, trg = utc.now(), utc.from_iso(rs[0])
-            if trg < now:
-                return "now"
+        if rs is None:
+            return 0, 0, None
+        next_at = utc.from_iso(rs["next_at"]) if rs["next_at"] else None
+        return int(rs["active_count"] or 0), int(rs["available_count"] or 0), next_at
 
-            at_local = datetime.now() + (trg - now)
-            return at_local.strftime("%H:%M:%S")
+    async def next_available_in(self, queue: str) -> int | None:
+        """Seconds until an active account can use ``queue``.
 
-        return None
+        ``None`` means there are no active accounts; ``0`` means at least one is
+        already available. A positive value is rounded up so Retry-After never
+        asks a client to retry before the stored lock expires.
+        """
+        active_count, available_count, next_at = await self._availability(queue)
+        if active_count == 0:
+            return None
+        if available_count > 0 or next_at is None:
+            return 0
+        return max(0, ceil((next_at - utc.now()).total_seconds()))
+
+    async def next_available_at(self, queue: str):
+        active_count, available_count, next_at = await self._availability(queue)
+        if active_count == 0:
+            return None
+        if available_count > 0 or next_at is None:
+            return "now"
+
+        at_local = datetime.now() + (next_at - utc.now())
+        return at_local.strftime("%H:%M:%S")
 
     async def mark_inactive(self, username: str, error_msg: str | None):
         qs = """

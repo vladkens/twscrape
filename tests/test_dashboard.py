@@ -1,4 +1,5 @@
 from datetime import timedelta
+from typing import Any, cast
 
 import pytest
 
@@ -177,3 +178,319 @@ def test_dashboard_credentials_reject_short_password(monkeypatch):
 
     with pytest.raises(ValueError, match="至少需要 8"):
         resolve_dashboard_credentials()
+
+
+def test_dashboard_serves_requests_concurrently(pool_mock: AccountsPool, tmp_path):
+    """慢请求不应该互相阻塞。
+
+    改成 ThreadingHTTPServer + 常驻事件循环之前，每个请求各跑一次
+    asyncio.run，四个 0.4s 的请求会串行成 1.6s，看板期间完全没响应。
+    """
+    import asyncio
+    import threading
+    import time
+    import urllib.request
+
+    from twscrape.dashboard import DashboardAuth, DashboardServer
+
+    server = DashboardServer(
+        ("127.0.0.1", 0),
+        pool_mock,
+        DashboardAuth("admin", "password123"),
+        str(tmp_path / "test.db"),
+    )
+
+    class SlowXApi:
+        async def user(self, ident: str, by: str = "username"):
+            await asyncio.sleep(0.4)
+            return {"id": ident, "by": by}
+
+    server.x_api = cast(Any, SlowXApi())
+    _, token = server.runner.run(server.api_keys.create("concurrency-test"))
+
+    serve_thread = threading.Thread(target=server.serve_forever, daemon=True)
+    serve_thread.start()
+    port = server.server_port
+    statuses: list[int] = []
+
+    def hit():
+        request = urllib.request.Request(
+            f"http://127.0.0.1:{port}/api/user/alice",
+            headers={"Authorization": f"Bearer {token}"},
+        )
+        with urllib.request.urlopen(request, timeout=10) as response:
+            statuses.append(response.status)
+
+    try:
+        started = time.monotonic()
+        workers = [threading.Thread(target=hit) for _ in range(4)]
+        for worker in workers:
+            worker.start()
+        for worker in workers:
+            worker.join(timeout=10)
+        elapsed = time.monotonic() - started
+
+        assert statuses == [200, 200, 200, 200]
+        assert elapsed < 1.2, f"请求被串行化了，耗时 {elapsed:.2f}s"
+    finally:
+        server.shutdown()
+        serve_thread.join(timeout=5)
+        server.server_close()
+
+
+def test_api_keys_are_scoped_to_read_only_api(pool_mock: AccountsPool, tmp_path):
+    import threading
+    import urllib.error
+    import urllib.request
+
+    from twscrape.dashboard import SESSION_COOKIE, DashboardAuth, DashboardServer
+
+    auth = DashboardAuth("admin", "password123")
+    session_token = auth.create_session()
+    server = DashboardServer(("127.0.0.1", 0), pool_mock, auth, str(tmp_path / "scope.db"))
+    _, api_token = server.runner.run(server.api_keys.create("read-only-client"))
+    serve_thread = threading.Thread(target=server.serve_forever, daemon=True)
+    serve_thread.start()
+    base_url = f"http://127.0.0.1:{server.server_port}"
+
+    def status(path: str, headers: dict[str, str] | None = None) -> int:
+        request = urllib.request.Request(f"{base_url}{path}", headers=headers or {})
+        try:
+            with urllib.request.urlopen(request, timeout=10) as response:
+                return int(response.status)
+        except urllib.error.HTTPError as error:
+            return error.code
+
+    try:
+        bearer = {"Authorization": f"Bearer {api_token}"}
+        session = {"Cookie": f"{SESSION_COOKIE}={session_token}"}
+
+        assert status("/api/_endpoints", bearer) == 200
+        assert status("/api/_endpoints", session) == 200
+        assert status("/api/_endpoints") == 401
+        assert status("/admin/accounts", bearer) == 401
+        assert status("/admin/keys", bearer) == 401
+        assert status("/admin/keys", session) == 200
+    finally:
+        server.shutdown()
+        serve_thread.join(timeout=5)
+        server.server_close()
+
+
+def test_following_503_reports_retry_after_and_pool_reason(pool_mock: AccountsPool, tmp_path):
+    import json
+    import threading
+    import urllib.error
+    import urllib.request
+
+    from twscrape.accounts_pool import NoAccountError
+    from twscrape.dashboard import DashboardAuth, DashboardServer
+
+    class ExhaustedXApi:
+        async def following(self, ident, limit, by, skip_user):
+            raise NoAccountError("exhausted")
+
+    server = DashboardServer(
+        ("127.0.0.1", 0),
+        pool_mock,
+        DashboardAuth("admin", "password123"),
+        str(tmp_path / "retry.db"),
+    )
+    server.x_api = cast(Any, ExhaustedXApi())
+    _, api_token = server.runner.run(server.api_keys.create("retry-client"))
+    server.runner.run(pool_mock.add_account_cookies("locked", "auth_token=a; ct0=b"))
+    server.runner.run(pool_mock.lock_until("locked", "Following", utc.ts() + 120))
+    serve_thread = threading.Thread(target=server.serve_forever, daemon=True)
+    serve_thread.start()
+
+    def request_error():
+        request = urllib.request.Request(
+            f"http://127.0.0.1:{server.server_port}/api/user/1/following?by=id&skip_user=true",
+            headers={"Authorization": f"Bearer {api_token}"},
+        )
+        with pytest.raises(urllib.error.HTTPError) as caught:
+            urllib.request.urlopen(request, timeout=10)
+        return caught.value, json.loads(caught.value.read())
+
+    try:
+        error, body = request_error()
+        assert error.code == 503
+        assert 118 <= int(error.headers["Retry-After"]) <= 120
+        assert body["reason"] == "rate_limited"
+        assert body["retry_after"] == int(error.headers["Retry-After"])
+
+        server.runner.run(pool_mock.set_active("locked", False))
+        error, body = request_error()
+        assert error.code == 503
+        assert error.headers.get("Retry-After") is None
+        assert body["reason"] == "no_active_account"
+        assert body["retry_after"] is None
+    finally:
+        server.shutdown()
+        serve_thread.join(timeout=5)
+        server.server_close()
+
+
+def test_batch_following_validates_limit_and_preserves_ids(pool_mock: AccountsPool, tmp_path):
+    import json
+    import threading
+    import urllib.error
+    import urllib.request
+
+    from twscrape.dashboard import DashboardAuth, DashboardServer
+
+    class BatchXApi:
+        calls = []
+
+        async def following_batch(self, ids, limit, skip_user):
+            self.calls.append((ids, limit, skip_user))
+            return {"results": [{"id": str(uid), "ok": True, "users": [], "count": 0} for uid in ids]}
+
+    server = DashboardServer(
+        ("127.0.0.1", 0),
+        pool_mock,
+        DashboardAuth("admin", "password123"),
+        str(tmp_path / "batch.db"),
+    )
+    fake = BatchXApi()
+    server.x_api = cast(Any, fake)
+    _, api_token = server.runner.run(server.api_keys.create("batch-client"))
+    serve_thread = threading.Thread(target=server.serve_forever, daemon=True)
+    serve_thread.start()
+
+    def post(payload):
+        request = urllib.request.Request(
+            f"http://127.0.0.1:{server.server_port}/api/users/following/batch",
+            data=json.dumps(payload).encode(),
+            headers={
+                "Authorization": f"Bearer {api_token}",
+                "Content-Type": "application/json",
+            },
+            method="POST",
+        )
+        try:
+            with urllib.request.urlopen(request, timeout=10) as response:
+                return response.status, json.loads(response.read())
+        except urllib.error.HTTPError as error:
+            return error.code, json.loads(error.read())
+
+    try:
+        status, body = post({"ids": [3, "2", 1], "limit": 50, "skip_user": True})
+        assert status == 200
+        assert [item["id"] for item in body["results"]] == ["3", "2", "1"]
+        assert fake.calls == [([3, 2, 1], 50, True)]
+
+        status, body = post({"ids": list(range(1, 102)), "limit": 50})
+        assert status == 400
+        assert "at most 100" in body["error"]
+        assert len(fake.calls) == 1
+    finally:
+        server.shutdown()
+        serve_thread.join(timeout=5)
+        server.server_close()
+
+
+def test_loop_runner_times_out_and_releases_caller():
+    import asyncio
+    from concurrent.futures import TimeoutError as FutureTimeoutError
+
+    from twscrape.dashboard import LoopRunner
+
+    runner = LoopRunner()
+    try:
+        with pytest.raises(FutureTimeoutError):
+            runner.run(asyncio.sleep(1), timeout=0.01)
+        assert runner.run(asyncio.sleep(0, result="ok"), timeout=1) == "ok"
+    finally:
+        runner.close()
+
+
+def test_detailed_health_is_authenticated(pool_mock, tmp_path):
+    import json
+    import threading
+    import urllib.error
+    import urllib.request
+
+    from twscrape.dashboard import DashboardAuth, DashboardServer
+
+    server = DashboardServer(
+        ("127.0.0.1", 0),
+        pool_mock,
+        DashboardAuth("admin", "password123"),
+        str(tmp_path / "health.db"),
+    )
+    _, api_token = server.runner.run(server.api_keys.create("health-client"))
+    serve_thread = threading.Thread(target=server.serve_forever, daemon=True)
+    serve_thread.start()
+    base_url = f"http://127.0.0.1:{server.server_port}"
+
+    try:
+        with urllib.request.urlopen(f"{base_url}/healthz", timeout=10) as response:
+            assert json.loads(response.read()) == {"ok": True}
+
+        with pytest.raises(urllib.error.HTTPError) as caught:
+            urllib.request.urlopen(f"{base_url}/api/healthz", timeout=10)
+        assert caught.value.code == 401
+
+        request = urllib.request.Request(
+            f"{base_url}/api/healthz",
+            headers={"Authorization": f"Bearer {api_token}"},
+        )
+        with urllib.request.urlopen(request, timeout=10) as response:
+            body = json.loads(response.read())
+        assert body == {
+            "ok": True,
+            "accounts": {"total": 0, "active": 0, "locked": 0},
+            "next_available_in": None,
+        }
+    finally:
+        server.shutdown()
+        serve_thread.join(timeout=5)
+        server.server_close()
+
+
+@pytest.mark.parametrize("trusted_proxy", [False, True])
+def test_login_lockout_trusts_cf_ip_only_when_configured(pool_mock, tmp_path, trusted_proxy):
+    import json
+    import threading
+    import urllib.error
+    import urllib.request
+
+    from twscrape.dashboard import DashboardAuth, DashboardServer
+
+    server = DashboardServer(
+        ("127.0.0.1", 0),
+        pool_mock,
+        DashboardAuth("admin", "password123"),
+        str(tmp_path / f"proxy-{trusted_proxy}.db"),
+        trusted_proxy=trusted_proxy,
+    )
+    serve_thread = threading.Thread(target=server.serve_forever, daemon=True)
+    serve_thread.start()
+
+    def login(password, source_ip):
+        request = urllib.request.Request(
+            f"http://127.0.0.1:{server.server_port}/auth/login",
+            data=json.dumps({"username": "admin", "password": password}).encode(),
+            headers={
+                "Content-Type": "application/json",
+                "X-Twscrape-Token": server.csrf_token,
+                "CF-Connecting-IP": source_ip,
+            },
+            method="POST",
+        )
+        try:
+            with urllib.request.urlopen(request, timeout=10) as response:
+                return response.status
+        except urllib.error.HTTPError as error:
+            return error.code
+
+    try:
+        for _ in range(5):
+            login("wrong-password", "203.0.113.10")
+        status = login("password123", "203.0.113.11")
+        assert status == (200 if trusted_proxy else 429)
+    finally:
+        server.shutdown()
+        serve_thread.join(timeout=5)
+        server.server_close()

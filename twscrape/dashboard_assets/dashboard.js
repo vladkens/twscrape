@@ -16,18 +16,13 @@ const state = {
   editing: null,
   pendingDelete: null,
   openDeleteOnEditClose: false,
-  endpoints: [],
-  selectedEndpoint: null,
   loadError: "",
 };
 
 const els = {
-  health: document.querySelector("#healthBanner"),
-  headline: document.querySelector("#headline"),
-  healthError: document.querySelector("#healthError"),
+  loadError: document.querySelector("#loadError"),
   viewAttention: document.querySelector("#viewAttention"),
-  statTotal: document.querySelector("#statTotal"),
-  statRunning: document.querySelector("#statRunning"),
+  statReady: document.querySelector("#statReady"),
   statCooling: document.querySelector("#statCooling"),
   statAttention: document.querySelector("#statAttention"),
   statDisabled: document.querySelector("#statDisabled"),
@@ -38,15 +33,17 @@ const els = {
   search: document.querySelector("#searchInput"),
   filter: document.querySelector("#statusFilter"),
   updated: document.querySelector("#updatedAt"),
-  syncDot: document.querySelector("#syncDot"),
   sessionUser: document.querySelector("#sessionUser"),
   logout: document.querySelector("#logoutButton"),
+  addButton: document.querySelector("#addButton"),
   dialog: document.querySelector("#addDialog"),
   form: document.querySelector("#addForm"),
   username: document.querySelector("#cookieUsername"),
   cookies: document.querySelector("#cookieValue"),
   formError: document.querySelector("#formError"),
   submit: document.querySelector("#submitAccount"),
+  closeDialog: document.querySelector("#closeDialog"),
+  cancelDialog: document.querySelector("#cancelDialog"),
   editDialog: document.querySelector("#editDialog"),
   editForm: document.querySelector("#editForm"),
   editUsernameDisplay: document.querySelector("#editUsernameDisplay"),
@@ -60,6 +57,8 @@ const els = {
   editProxy: document.querySelector("#editProxy"),
   editFormError: document.querySelector("#editFormError"),
   editSubmit: document.querySelector("#submitEdit"),
+  closeEditDialog: document.querySelector("#closeEditDialog"),
+  cancelEditDialog: document.querySelector("#cancelEditDialog"),
   deleteAccountButton: document.querySelector("#deleteAccountButton"),
   deleteDialog: document.querySelector("#deleteDialog"),
   deleteForm: document.querySelector("#deleteForm"),
@@ -67,29 +66,28 @@ const els = {
   deleteConfirm: document.querySelector("#deleteConfirmUsername"),
   deleteFormError: document.querySelector("#deleteFormError"),
   deleteSubmit: document.querySelector("#submitDelete"),
+  closeDeleteDialog: document.querySelector("#closeDeleteDialog"),
+  cancelDeleteDialog: document.querySelector("#cancelDeleteDialog"),
+  accountsHeading: document.querySelector("#accountsHeading"),
   toast: document.querySelector("#toast"),
-  endpointSelect: document.querySelector("#endpointSelect"),
-  endpointDesc: document.querySelector("#endpointDesc"),
-  paramFields: document.querySelector("#paramFields"),
-  apiForm: document.querySelector("#apiForm"),
-  apiError: document.querySelector("#apiError"),
-  apiOutput: document.querySelector("#apiOutput"),
-  apiStatus: document.querySelector("#apiStatus"),
-  tryApi: document.querySelector("#tryApi"),
 };
 
-function apiHeaders() {
-  return {
-    "Content-Type": "application/json",
-    "X-Twscrape-Token": token,
-  };
+for (const [name, node] of Object.entries(els)) {
+  if (!node) throw new Error(`DOM 节点缺失: ${name}`);
+}
+
+function apiHeaders(withJson = false) {
+  const headers = { "X-Twscrape-Token": token };
+  if (withJson) headers["Content-Type"] = "application/json";
+  return headers;
 }
 
 async function api(path, options = {}) {
+  const withJson = options.body !== undefined;
   const response = await fetch(path, {
     ...options,
     headers: {
-      ...apiHeaders(),
+      ...apiHeaders(withJson),
       ...(options.headers || {}),
     },
   });
@@ -114,6 +112,7 @@ async function api(path, options = {}) {
 function showToast(message, isError = false) {
   els.toast.textContent = message;
   els.toast.classList.toggle("error", Boolean(isError));
+  els.toast.classList.toggle("ok", !isError);
   els.toast.classList.add("show");
   clearTimeout(showToast.timer);
   showToast.timer = setTimeout(() => els.toast.classList.remove("show"), 2600);
@@ -150,15 +149,6 @@ function formatDateTime(value) {
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return String(value);
   return date.toLocaleString("zh-CN", { hour12: false });
-}
-
-function healthState(summary) {
-  if (!summary) return "loading";
-  if (summary.attention > 0) return "attention";
-  if (summary.total === 0) return "empty";
-  if (summary.running === 0) return "down";
-  if (summary.ready === 0) return "cooling";
-  return "ok";
 }
 
 function primaryAction(account) {
@@ -212,6 +202,13 @@ function appendText(parent, tag, text, className) {
   node.textContent = text;
   parent.appendChild(node);
   return node;
+}
+
+function labeledCell(label, className) {
+  const td = document.createElement("td");
+  td.dataset.label = label;
+  if (className) td.className = className;
+  return td;
 }
 
 function renderDetailCard(title, items, emptyText) {
@@ -274,9 +271,17 @@ function renderDetailRow(account) {
   return tr;
 }
 
+function syncAttentionFilter() {
+  els.viewAttention.setAttribute(
+    "aria-pressed",
+    els.filter.value === "attention" ? "true" : "false"
+  );
+}
+
 function renderAccounts() {
   const accounts = filteredAccounts();
   els.rows.replaceChildren();
+  syncAttentionFilter();
 
   if (!accounts.length) {
     els.empty.hidden = false;
@@ -305,7 +310,7 @@ function renderAccounts() {
     }
     if (state.expanded === username) tr.classList.add("is-expanded");
 
-    const nameTd = document.createElement("td");
+    const nameTd = labeledCell("账号", "cell-account");
     const cell = document.createElement("div");
     cell.className = "account-cell";
     appendText(cell, "span", state.expanded === username ? "▾" : "▸", "chevron");
@@ -314,7 +319,7 @@ function renderAccounts() {
     appendText(cell, "span", `@${username}`, "account-name");
     nameTd.appendChild(cell);
 
-    const statusTd = document.createElement("td");
+    const statusTd = labeledCell("状态", "cell-status");
     const statusBlock = document.createElement("div");
     statusBlock.className = "status-block";
     const statusKey = STATUS_LABELS[account.status] ? account.status : "disabled";
@@ -329,24 +334,23 @@ function renderAccounts() {
     }
     statusTd.appendChild(statusBlock);
 
-    const loginTd = document.createElement("td");
+    const loginTd = labeledCell("登录方式");
     loginTd.textContent = loginLabel(account.login_method);
 
-    const reqTd = document.createElement("td");
+    const reqTd = labeledCell("总请求");
     reqTd.textContent = Number(account.total_requests || 0).toLocaleString("zh-CN");
 
-    const usedTd = document.createElement("td");
-    usedTd.className = "muted";
+    const usedTd = labeledCell("最后使用", "cell-meta");
     usedTd.textContent = relativeTime(account.last_used);
     if (account.last_used) usedTd.title = formatDateTime(account.last_used);
 
-    const lockTd = document.createElement("td");
+    const lockTd = labeledCell("锁恢复");
     const recovery = lockRecovery(account);
     lockTd.textContent = recovery.text;
     if (recovery.title) lockTd.title = recovery.title;
-    if (recovery.text === "—") lockTd.className = "muted";
+    if (recovery.text === "—") lockTd.classList.add("cell-meta");
 
-    const actionTd = document.createElement("td");
+    const actionTd = labeledCell("操作", "cell-actions");
     const actions = document.createElement("div");
     actions.className = "row-actions";
     const action = primaryAction(account);
@@ -382,20 +386,23 @@ function renderAccounts() {
 
 function renderSummary() {
   const summary = state.summary;
-  els.health.dataset.state = state.loadError ? "down" : healthState(summary);
-  els.headline.textContent =
-    state.loadError || summary?.headline || "正在读取账号池…";
-  els.healthError.hidden = !state.loadError;
-  els.healthError.textContent = state.loadError;
-
+  const ready = Number(summary?.ready || 0);
   const attention = Number(summary?.attention || 0);
-  els.statTotal.textContent = summary ? String(summary.total ?? 0) : "—";
-  els.statRunning.textContent = summary ? String(summary.running ?? 0) : "—";
-  els.statCooling.textContent = summary ? String(summary.cooling ?? 0) : "—";
+  const cooling = Number(summary?.cooling || 0);
+  const disabled = Number(summary?.disabled || 0);
+
+  els.statReady.textContent = summary ? String(ready) : "—";
   els.statAttention.textContent = summary ? String(attention) : "—";
-  els.statDisabled.textContent = summary ? String(summary.disabled ?? 0) : "—";
-  els.statAttention.classList.toggle("has-attention", attention > 0);
-  els.viewAttention.hidden = attention <= 0;
+  els.statCooling.textContent = summary ? String(cooling) : "—";
+  els.statDisabled.textContent = summary ? String(disabled) : "—";
+
+  els.statReady.classList.toggle("is-ok", ready > 0);
+  els.statAttention.classList.toggle("is-bad", attention > 0);
+  els.statCooling.classList.toggle("is-warn", cooling > 0);
+
+  els.loadError.hidden = !state.loadError;
+  els.loadError.textContent = state.loadError || "";
+  syncAttentionFilter();
 }
 
 function clearCookieForm() {
@@ -568,16 +575,14 @@ function clearSensitiveInputs() {
   clearEditSecrets();
 }
 
-function setSync(status, text) {
-  els.syncDot.classList.toggle("busy", status === "busy");
-  els.syncDot.classList.toggle("error", status === "error");
+function setSync(text) {
   els.updated.textContent = text;
 }
 
 async function loadAccounts() {
-  setSync("busy", "正在刷新");
+  setSync("正在刷新");
   try {
-    const data = await api("/api/accounts");
+    const data = await api("/admin/accounts");
     state.accounts = Array.isArray(data.accounts) ? data.accounts : [];
     state.summary = data.summary || null;
     state.loadError = "";
@@ -588,7 +593,6 @@ async function loadAccounts() {
     renderAccounts();
     const stamp = data.updated_at ? new Date(data.updated_at) : new Date();
     setSync(
-      "ok",
       `已更新 ${stamp.toLocaleTimeString("zh-CN", {
         hour: "2-digit",
         minute: "2-digit",
@@ -598,120 +602,8 @@ async function loadAccounts() {
   } catch (error) {
     state.loadError = error.message || "无法读取账号池";
     renderSummary();
-    setSync("error", "刷新失败");
+    setSync("刷新失败");
     showToast(state.loadError, true);
-  }
-}
-
-function currentEndpoint() {
-  const index = Number(els.endpointSelect.value);
-  if (!Number.isInteger(index) || !state.endpoints[index]) return null;
-  return state.endpoints[index];
-}
-
-function paramValues() {
-  const values = {};
-  for (const input of els.paramFields.querySelectorAll("[data-param]")) {
-    values[input.dataset.param] = String(input.value || "").trim();
-  }
-  return values;
-}
-
-function buildEndpointUrl(endpoint, values) {
-  let path = String(endpoint.path || "");
-  const query = new URLSearchParams();
-  for (const param of endpoint.params || []) {
-    const value = values[param.name] || "";
-    if (param.required && !value) {
-      throw new Error(`请填写 ${param.name}`);
-    }
-    if (!value) continue;
-    if (param.in === "path") {
-      path = path.replaceAll(`{${param.name}}`, encodeURIComponent(value));
-    } else if (param.in === "query") {
-      query.set(param.name, value);
-    }
-  }
-  if (path.includes("{")) {
-    throw new Error("路径参数不完整");
-  }
-  const qs = query.toString();
-  return qs ? `${path}?${qs}` : path;
-}
-
-function renderParamFields(endpoint) {
-  els.paramFields.replaceChildren();
-  if (!endpoint) return;
-  for (const param of endpoint.params || []) {
-    const label = document.createElement("label");
-    const title = document.createElement("span");
-    title.textContent = param.name;
-    if (param.required) {
-      const mark = document.createElement("span");
-      mark.className = "req-mark";
-      mark.textContent = " *";
-      title.appendChild(mark);
-    }
-    const where = document.createElement("span");
-    where.className = "muted";
-    where.textContent = `  · ${param.in}${param.required ? " · 必填" : ""}`;
-    title.appendChild(where);
-    const input = document.createElement("input");
-    input.type = "text";
-    input.dataset.param = param.name;
-    input.required = Boolean(param.required);
-    input.autocomplete = "off";
-    input.spellcheck = false;
-    input.placeholder = param.example ? String(param.example) : "";
-    input.setAttribute("aria-label", `${param.name} (${param.in})`);
-    label.append(title, input);
-    els.paramFields.appendChild(label);
-  }
-}
-
-function onEndpointChange() {
-  const endpoint = currentEndpoint();
-  state.selectedEndpoint = endpoint;
-  els.endpointDesc.textContent = endpoint
-    ? `${endpoint.method || "GET"} ${endpoint.path} — ${endpoint.description || ""}`
-    : "选择一个端点以填写参数。";
-  renderParamFields(endpoint);
-  els.apiError.hidden = true;
-  els.apiError.textContent = "";
-}
-
-function setApiOutput(text, statusText) {
-  els.apiOutput.textContent = text;
-  if (statusText) els.apiStatus.textContent = statusText;
-}
-
-async function loadEndpoints() {
-  try {
-    const data = await api("/api/_endpoints");
-    state.endpoints = Array.isArray(data.endpoints) ? data.endpoints : [];
-    els.endpointSelect.replaceChildren();
-    if (!state.endpoints.length) {
-      const option = document.createElement("option");
-      option.value = "";
-      option.textContent = "没有可用端点";
-      els.endpointSelect.appendChild(option);
-      return;
-    }
-    state.endpoints.forEach((endpoint, index) => {
-      const option = document.createElement("option");
-      option.value = String(index);
-      option.textContent = `${endpoint.name}  ${endpoint.method || "GET"} ${endpoint.path}`;
-      els.endpointSelect.appendChild(option);
-    });
-    els.endpointSelect.value = "0";
-    onEndpointChange();
-  } catch (error) {
-    els.endpointSelect.replaceChildren();
-    const option = document.createElement("option");
-    option.value = "";
-    option.textContent = "端点加载失败";
-    els.endpointSelect.appendChild(option);
-    els.endpointDesc.textContent = error.message || "无法读取 /api/_endpoints";
   }
 }
 
@@ -734,13 +626,13 @@ async function runAccountAction(action, username, button) {
   if (button) button.disabled = true;
   try {
     if (action === "enable" || action === "disable") {
-      await api(`/api/accounts/${encodeURIComponent(username)}`, {
+      await api(`/admin/accounts/${encodeURIComponent(username)}`, {
         method: "PATCH",
         body: JSON.stringify({ active: action === "enable" }),
       });
       showToast(action === "enable" ? "账号已启用" : "账号已停用");
     } else if (action === "reset") {
-      await api(`/api/accounts/${encodeURIComponent(username)}/reset-locks`, {
+      await api(`/admin/accounts/${encodeURIComponent(username)}/reset-locks`, {
         method: "POST",
         body: "{}",
       });
@@ -766,15 +658,18 @@ function toggleExpanded(username) {
 }
 
 els.search.addEventListener("input", renderAccounts);
-els.filter.addEventListener("change", renderAccounts);
-document.querySelector("#addButton").addEventListener("click", () => openCookieDialog());
-document.querySelector("#closeDialog").addEventListener("click", closeCookieDialog);
-document.querySelector("#cancelDialog").addEventListener("click", closeCookieDialog);
+els.filter.addEventListener("change", () => {
+  renderSummary();
+  renderAccounts();
+});
+els.addButton.addEventListener("click", () => openCookieDialog());
+els.closeDialog.addEventListener("click", closeCookieDialog);
+els.cancelDialog.addEventListener("click", closeCookieDialog);
 els.dialog.addEventListener("close", clearCookieForm);
 els.dialog.addEventListener("cancel", clearCookieForm);
 
-document.querySelector("#closeEditDialog").addEventListener("click", closeEditDialog);
-document.querySelector("#cancelEditDialog").addEventListener("click", closeEditDialog);
+els.closeEditDialog.addEventListener("click", closeEditDialog);
+els.cancelEditDialog.addEventListener("click", closeEditDialog);
 els.editDialog.addEventListener("close", onEditDialogClosed);
 els.editDialog.addEventListener("cancel", resetEditForm);
 els.deleteAccountButton.addEventListener("click", startDeleteFromEdit);
@@ -813,7 +708,7 @@ els.editForm.addEventListener("submit", async (event) => {
   const original = els.editSubmit.textContent;
   els.editSubmit.textContent = "保存中…";
   try {
-    await api(`/api/accounts/${encodeURIComponent(username)}`, {
+    await api(`/admin/accounts/${encodeURIComponent(username)}`, {
       method: "PATCH",
       body: JSON.stringify(payload),
     });
@@ -830,8 +725,8 @@ els.editForm.addEventListener("submit", async (event) => {
   }
 });
 
-document.querySelector("#closeDeleteDialog").addEventListener("click", closeDeleteDialog);
-document.querySelector("#cancelDeleteDialog").addEventListener("click", closeDeleteDialog);
+els.closeDeleteDialog.addEventListener("click", closeDeleteDialog);
+els.cancelDeleteDialog.addEventListener("click", closeDeleteDialog);
 els.deleteDialog.addEventListener("close", onDeleteDialogClosed);
 els.deleteDialog.addEventListener("cancel", resetDeleteForm);
 els.deleteConfirm.addEventListener("input", updateDeleteSubmitState);
@@ -852,7 +747,7 @@ els.deleteForm.addEventListener("submit", async (event) => {
   const original = els.deleteSubmit.textContent;
   els.deleteSubmit.textContent = "删除中…";
   try {
-    await api(`/api/accounts/${encodeURIComponent(username)}`, {
+    await api(`/admin/accounts/${encodeURIComponent(username)}`, {
       method: "DELETE",
       body: JSON.stringify({ confirm_username: confirmUsername }),
     });
@@ -873,7 +768,7 @@ els.deleteForm.addEventListener("submit", async (event) => {
 els.viewAttention.addEventListener("click", () => {
   els.filter.value = "attention";
   renderAccounts();
-  document.querySelector("#accountsHeading").scrollIntoView({ behavior: "smooth", block: "start" });
+  els.accountsHeading.scrollIntoView({ behavior: "smooth", block: "start" });
 });
 
 els.form.addEventListener("submit", async (event) => {
@@ -886,7 +781,7 @@ els.form.addEventListener("submit", async (event) => {
   const username = String(els.username.value || "").trim();
   const cookies = String(els.cookies.value || "").trim();
   try {
-    await api("/api/accounts", {
+    await api("/admin/accounts", {
       method: "POST",
       body: JSON.stringify({ username, cookies }),
     });
@@ -928,59 +823,6 @@ els.rows.addEventListener("keydown", (event) => {
   if (event.key === "Enter" || event.key === " ") {
     event.preventDefault();
     toggleExpanded(row.dataset.username);
-  }
-});
-
-els.endpointSelect.addEventListener("change", onEndpointChange);
-
-els.apiForm.addEventListener("submit", async (event) => {
-  event.preventDefault();
-  els.apiError.hidden = true;
-  els.apiError.textContent = "";
-  const endpoint = currentEndpoint();
-  if (!endpoint) {
-    els.apiError.textContent = "请先选择端点";
-    els.apiError.hidden = false;
-    return;
-  }
-  let url;
-  try {
-    url = buildEndpointUrl(endpoint, paramValues());
-  } catch (error) {
-    els.apiError.textContent = error.message;
-    els.apiError.hidden = false;
-    return;
-  }
-  els.tryApi.disabled = true;
-  const original = els.tryApi.textContent;
-  els.tryApi.textContent = "请求中…";
-  setApiOutput("请求中…", "请求中");
-  try {
-    const response = await fetch(url, { headers: apiHeaders() });
-    if (response.status === 401) {
-      location.replace("/login");
-      return;
-    }
-    const raw = await response.text();
-    let text = raw;
-    try {
-      text = JSON.stringify(JSON.parse(raw), null, 2);
-    } catch {
-      text = raw || "(空响应)";
-    }
-    setApiOutput(text, `${response.status} ${response.statusText || ""}`.trim());
-    if (!response.ok) {
-      els.apiError.textContent = `请求返回 ${response.status}`;
-      els.apiError.hidden = false;
-    }
-  } catch (error) {
-    const message = error.message || "请求失败";
-    setApiOutput(message, "失败");
-    els.apiError.textContent = message;
-    els.apiError.hidden = false;
-  } finally {
-    els.tryApi.disabled = false;
-    els.tryApi.textContent = original;
   }
 });
 
@@ -1029,5 +871,4 @@ window.addEventListener("pageshow", (event) => {
 
 loadSession();
 loadAccounts();
-loadEndpoints();
 setInterval(loadAccounts, POLL_MS);

@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="twscrape-token" content="__CSRF_TOKEN__" />
+    <meta name="theme-color" content="#121212" />
+    <title>twscrape · API 控制台</title>
+    <link rel="stylesheet" href="/dashboard.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#workbenchHeading">跳到请求工作台</a>
+    <main class="shell">
+      <header class="topbar">
+        <a class="wordmark" href="/accounts">twscrape</a>
+        <nav class="app-nav" aria-label="主导航">
+          <a class="nav-link" href="/accounts">账号池</a>
+          <a class="nav-link" href="/console" aria-current="page">API 控制台</a>
+        </nav>
+        <div class="session">
+          <span class="session-user" id="sessionUser" hidden></span>
+          <button type="button" class="ghost" id="logoutButton">退出</button>
+        </div>
+      </header>
+
+      <h1 class="visually-hidden">API 控制台</h1>
+
+      <section class="workbench" aria-labelledby="workbenchHeading">
+        <h2 id="workbenchHeading" class="visually-hidden">请求工作台</h2>
+        <div class="workbench-grid">
+          <form id="apiForm" class="builder" autocomplete="off">
+            <label>
+              端点
+              <select id="endpointSelect" aria-label="选择 API 端点" required>
+                <option value="">正在加载端点…</option>
+              </select>
+            </label>
+            <p class="endpoint-desc" id="endpointDesc">选择一个端点以填写参数。</p>
+            <div id="paramFields" class="param-fields"></div>
+            <p class="form-error" id="apiError" hidden></p>
+            <p class="endpoint-desc">浏览器发送使用当前登录会话。curl 示例使用 API 密钥。</p>
+            <div class="builder-actions">
+              <button type="submit" class="primary" id="tryApi">发送</button>
+            </div>
+          </form>
+          <div class="response-panel">
+            <div class="result-meta" id="resultMeta">
+              <span>响应</span>
+              <span id="apiStatus">curl 示例</span>
+            </div>
+            <pre id="apiOutput" tabindex="0" aria-label="API 响应或 curl 示例"></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="keys" aria-labelledby="keysHeading">
+        <div class="keys-head">
+          <h2 id="keysHeading">API 密钥</h2>
+          <button type="button" class="primary" id="createKeyButton">新建密钥</button>
+        </div>
+        <p class="page-error" id="keysError" hidden></p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>名称</th>
+                <th>前缀</th>
+                <th>创建时间</th>
+                <th>最后使用</th>
+                <th>状态</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody id="keyRows"></tbody>
+          </table>
+          <div class="empty" id="keysEmpty" hidden>
+            <strong id="keysEmptyTitle">还没有 API 密钥</strong>
+            <span id="keysEmptyHint">新建密钥后即可在 curl 中使用</span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <dialog id="createKeyDialog" aria-labelledby="createKeyTitle">
+      <form id="createKeyForm" autocomplete="off">
+        <div class="dialog-head">
+          <div>
+            <h2 id="createKeyTitle">新建密钥</h2>
+            <p id="createKeyLead">名称仅用于识别，不会写入密钥本身。</p>
+          </div>
+          <button type="button" class="icon-button" id="closeCreateKey" aria-label="关闭">
+            ×
+          </button>
+        </div>
+        <div id="createKeySetup">
+          <label>
+            名称
+            <input
+              id="keyName"
+              maxlength="80"
+              required
+              autocomplete="off"
+              spellcheck="false"
+            />
+          </label>
+          <p class="form-error" id="createKeyError" hidden></p>
+          <div class="dialog-actions">
+            <button type="button" class="secondary" id="cancelCreateKey">取消</button>
+            <button type="submit" class="primary" id="submitCreateKey">创建</button>
+          </div>
+        </div>
+        <div id="createKeyReveal" hidden>
+          <label>
+            密钥
+            <input id="keyToken" type="text" readonly autocomplete="off" spellcheck="false" />
+          </label>
+          <div class="warning-note" id="revealWarning">
+            <p>这是唯一一次显示，关闭后无法找回</p>
+          </div>
+          <p class="form-error" id="copyHint" hidden></p>
+          <label class="check-row" id="manualCopyRow" hidden>
+            <input id="manualCopyConfirm" type="checkbox" />
+            我已手动保存
+          </label>
+          <div class="dialog-actions">
+            <button type="button" class="secondary" id="confirmSaved" disabled>我已保存</button>
+            <button type="button" class="primary" id="copyKey">复制</button>
+          </div>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="revokeDialog" aria-labelledby="revokeDialogTitle" aria-describedby="revokeSummary">
+      <form id="revokeForm" autocomplete="off">
+        <div class="dialog-head">
+          <div>
+            <h2 id="revokeDialogTitle">确认撤销密钥</h2>
+            <p id="revokeSummary"></p>
+          </div>
+          <button type="button" class="icon-button" id="closeRevoke" aria-label="关闭">
+            ×
+          </button>
+        </div>
+        <label>
+          输入密钥名称以确认
+          <input
+            id="revokeConfirmName"
+            maxlength="80"
+            required
+            autocomplete="off"
+            spellcheck="false"
+          />
+        </label>
+        <p class="form-error" id="revokeFormError" hidden></p>
+        <div class="dialog-actions">
+          <button type="button" class="secondary" id="cancelRevoke">取消</button>
+          <button type="submit" class="danger" id="submitRevoke" disabled>确认撤销</button>
+        </div>
+      </form>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="/console.js" defer></script>
+  </body>
+</html>

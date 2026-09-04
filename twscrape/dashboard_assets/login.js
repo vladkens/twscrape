@@ -9,6 +9,10 @@ const els = {
   submit: document.querySelector("#loginSubmit"),
 };
 
+for (const [name, node] of Object.entries(els)) {
+  if (!node) throw new Error(`DOM 节点缺失: ${name}`);
+}
+
 function clearPassword() {
   els.password.value = "";
 }
@@ -51,7 +55,7 @@ els.form.addEventListener("submit", async (event) => {
     }
     if (response.ok) {
       clearPassword();
-      location.replace("/");
+      location.replace("/accounts");
       return;
     }
     clearPassword();

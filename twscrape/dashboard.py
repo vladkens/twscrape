@@ -3,6 +3,7 @@ import asyncio
 import getpass
 import hashlib
 import hmac
+import ipaddress
 import json
 import os
 import secrets
@@ -10,21 +11,24 @@ import sys
 import threading
 import time
 import webbrowser
+from concurrent.futures import TimeoutError as FutureTimeoutError
 from datetime import datetime
 from http import HTTPStatus
 from http.cookies import CookieError, SimpleCookie
-from http.server import BaseHTTPRequestHandler, HTTPServer
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from importlib.resources import files
 from typing import Any, TypedDict
 from urllib.parse import parse_qs, unquote, urlparse
 
 from .accounts_pool import AccountsPool, NoAccountError
-from .utils import parse_proxy, utc
+from .api_keys import ApiKeyStore
+from .utils import get_env_bool, parse_proxy, utc
 from .x_api import (
     XApiNotFoundError,
     XApiService,
     XApiUnavailableError,
     parse_bool,
+    parse_by,
     parse_limit,
 )
 
@@ -68,8 +72,11 @@ def api_endpoint_catalog() -> list[dict[str, Any]]:
             "name": "用户资料",
             "method": "GET",
             "path": "/api/user/{name}",
-            "description": "按 X 用户名获取公开资料",
-            "params": [{"name": "name", "in": "path", "required": True, "example": "xdevelopers"}],
+            "description": "获取公开资料；by=id 时路径参数按数字 ID 解析",
+            "params": [
+                {"name": "name", "in": "path", "required": True, "example": "xdevelopers"},
+                {"name": "by", "in": "query", "required": False, "example": "id"},
+            ],
         },
         {
             "name": "用户推文",
@@ -85,26 +92,31 @@ def api_endpoint_catalog() -> list[dict[str, Any]]:
                     "required": False,
                     "example": "false",
                 },
+                {"name": "by", "in": "query", "required": False, "example": "id"},
             ],
         },
         {
             "name": "关注者列表",
             "method": "GET",
             "path": "/api/user/{name}/followers",
-            "description": "获取关注该用户的账号",
+            "description": "获取关注该用户的账号；by=id 可按数字 ID 查询，skip_user=true 省去一次资料查询",
             "params": [
                 {"name": "name", "in": "path", "required": True, "example": "xdevelopers"},
                 {"name": "limit", "in": "query", "required": False, "example": "20"},
+                {"name": "by", "in": "query", "required": False, "example": "id"},
+                {"name": "skip_user", "in": "query", "required": False, "example": "true"},
             ],
         },
         {
             "name": "关注列表",
             "method": "GET",
             "path": "/api/user/{name}/following",
-            "description": "获取该用户正在关注的账号",
+            "description": "获取该用户正在关注的账号；by=id 可按数字 ID 查询，skip_user=true 省去一次资料查询",
             "params": [
                 {"name": "name", "in": "path", "required": True, "example": "xdevelopers"},
                 {"name": "limit", "in": "query", "required": False, "example": "20"},
+                {"name": "by", "in": "query", "required": False, "example": "id"},
+                {"name": "skip_user", "in": "query", "required": False, "example": "true"},
             ],
         },
         {
@@ -123,6 +135,13 @@ def api_endpoint_catalog() -> list[dict[str, Any]]:
                 {"name": "q", "in": "query", "required": True, "example": "python lang:en"},
                 {"name": "limit", "in": "query", "required": False, "example": "20"},
             ],
+        },
+        {
+            "name": "账号池健康",
+            "method": "GET",
+            "path": "/api/healthz",
+            "description": "检查账号池数量、锁定状态和 Following 队列可用时间",
+            "params": [],
         },
     ]
 
@@ -220,6 +239,19 @@ class DashboardService:
 
     def __init__(self, pool: AccountsPool):
         self.pool = pool
+
+    async def api_health(self) -> dict[str, Any]:
+        accounts = await self.pool.get_all()
+        now = utc.now()
+        active = [account for account in accounts if account.active]
+        locked = sum(
+            1 for account in active if any(unlock_at > now for unlock_at in account.locks.values())
+        )
+        return {
+            "ok": True,
+            "accounts": {"total": len(accounts), "active": len(active), "locked": locked},
+            "next_available_in": await self.pool.next_available_in("Following"),
+        }
 
     async def snapshot(self) -> dict[str, Any]:
         accounts = await self.pool.get_all()
@@ -397,13 +429,59 @@ class DashboardService:
         await self.pool.delete_accounts(username)
 
 
-class DashboardServer(HTTPServer):
-    def __init__(self, address: tuple[str, int], pool: AccountsPool, auth: DashboardAuth):
+class LoopRunner:
+    """后台常驻事件循环。
+
+    原先每个请求各跑一次 asyncio.run，一是慢请求会把整个服务卡死，二是
+    换成多线程后 twscrape 内部那个模块级 asyncio.Lock 会横跨多个事件循环，
+    唤醒等待者时必然出错。所以改成：一个常驻循环 + 多线程 HTTP，
+    请求线程把协程提交进来等结果。
+    """
+
+    def __init__(self) -> None:
+        self._loop = asyncio.new_event_loop()
+        self._thread = threading.Thread(
+            target=self._loop.run_forever, name="twscrape-loop", daemon=True
+        )
+        self._thread.start()
+
+    def run(self, coroutine: Any, timeout: float | None = 60.0) -> Any:
+        future = asyncio.run_coroutine_threadsafe(coroutine, self._loop)
+        try:
+            return future.result(timeout)
+        except FutureTimeoutError:
+            future.cancel()
+            raise
+
+    def close(self) -> None:
+        self._loop.call_soon_threadsafe(self._loop.stop)
+        self._thread.join(timeout=5)
+        self._loop.close()
+
+
+class DashboardServer(ThreadingHTTPServer):
+    daemon_threads = True
+
+    def __init__(
+        self,
+        address: tuple[str, int],
+        pool: AccountsPool,
+        auth: DashboardAuth,
+        db_file: str,
+        trusted_proxy: bool = False,
+    ):
+        self.runner = LoopRunner()
         super().__init__(address, DashboardHandler)
         self.service = DashboardService(pool)
         self.x_api = XApiService(pool)
+        self.api_keys = ApiKeyStore(db_file)
         self.auth = auth
+        self.trusted_proxy = trusted_proxy
         self.csrf_token = secrets.token_urlsafe(32)
+
+    def server_close(self) -> None:
+        super().server_close()
+        self.runner.close()
 
 
 class DashboardHandler(BaseHTTPRequestHandler):
@@ -446,6 +524,9 @@ class DashboardHandler(BaseHTTPRequestHandler):
         body = json.dumps(payload, ensure_ascii=False).encode()
         self._send_bytes(body, "application/json; charset=utf-8", status, headers)
 
+    def _redirect(self, location: str) -> None:
+        self._send_bytes(b"", "text/plain; charset=utf-8", HTTPStatus.FOUND, {"Location": location})
+
     def _read_json(self) -> dict[str, Any]:
         if self.headers.get_content_type() != "application/json":
             raise ValueError("请求格式必须为 JSON")
@@ -480,14 +561,56 @@ class DashboardHandler(BaseHTTPRequestHandler):
     def _is_authenticated(self) -> bool:
         return self.server.auth.validate_session(self._session_token())
 
-    def _require_api_auth(self) -> bool:
+    def _require_session_auth(self) -> bool:
         if self._is_authenticated():
             return True
         self._send_json({"error": "Authentication required"}, HTTPStatus.UNAUTHORIZED)
         return False
 
-    def _run(self, coroutine: Any) -> Any:
-        return asyncio.run(coroutine)
+    def _bearer_token(self) -> str | None:
+        scheme, separator, token = self.headers.get("Authorization", "").partition(" ")
+        if not separator or scheme.casefold() != "bearer":
+            return None
+        return token.strip()
+
+    def _require_data_api_auth(self) -> bool:
+        if self._is_authenticated():
+            return True
+        token = self._bearer_token()
+        if token and self._run(self.server.api_keys.validate(token)):
+            return True
+        self._send_json(
+            {"error": "Dashboard session or valid API key required"},
+            HTTPStatus.UNAUTHORIZED,
+        )
+        return False
+
+    def _run(self, coroutine: Any, timeout: float | None = 60.0) -> Any:
+        return self.server.runner.run(coroutine, timeout)
+
+    def _client_identity(self) -> str:
+        if self.server.trusted_proxy:
+            forwarded = self.headers.get("CF-Connecting-IP", "").strip()
+            try:
+                if forwarded:
+                    return str(ipaddress.ip_address(forwarded))
+            except ValueError:
+                pass
+        return self.client_address[0]
+
+    def _send_no_account(self, queue: str) -> None:
+        retry_after = self._run(self.server.service.pool.next_available_in(queue))
+        reason = "rate_limited" if retry_after is not None else "no_active_account"
+        headers = {"Retry-After": str(retry_after)} if retry_after is not None else None
+        self._send_json(
+            {
+                "error": "No active account is available",
+                "retry_after": retry_after,
+                "reason": reason,
+            },
+            HTTPStatus.SERVICE_UNAVAILABLE,
+            headers,
+        )
 
     def do_GET(self) -> None:
         parsed = urlparse(self.path)
@@ -506,21 +629,58 @@ class DashboardHandler(BaseHTTPRequestHandler):
                 assets.joinpath("dashboard.js").read_bytes(), "text/javascript; charset=utf-8"
             )
             return
+        if path == "/console.js":
+            self._send_bytes(
+                assets.joinpath("console.js").read_bytes(), "text/javascript; charset=utf-8"
+            )
+            return
         if path == "/login.js":
             self._send_bytes(
                 assets.joinpath("login.js").read_bytes(), "text/javascript; charset=utf-8"
             )
             return
-        if path in {"/", "/login"}:
-            page = "index.html" if self._is_authenticated() else "login.html"
+        if path == "/":
+            if self._is_authenticated():
+                self._redirect("/accounts")
+                return
+            path = "/login"
+        if path == "/login" and self._is_authenticated():
+            self._redirect("/accounts")
+            return
+        if path in {"/accounts", "/console", "/login"}:
+            page = (
+                "login.html"
+                if path == "/login" or not self._is_authenticated()
+                else "console.html"
+                if path == "/console"
+                else "index.html"
+            )
             html = assets.joinpath(page).read_text(encoding="utf-8")
             html = html.replace("__CSRF_TOKEN__", self.server.csrf_token)
             self._send_bytes(html.encode(), "text/html; charset=utf-8")
             return
-        if not self._require_api_auth():
-            return
         if path == "/auth/session":
+            if not self._require_session_auth():
+                return
             self._send_json({"authenticated": True, "username": self.server.auth.username})
+            return
+        if path == "/admin/accounts":
+            if not self._require_session_auth():
+                return
+            self._send_json(self._run(self.server.service.snapshot()))
+            return
+        if path == "/admin/keys":
+            if not self._require_session_auth():
+                return
+            self._send_json({"keys": self._run(self.server.api_keys.list())})
+            return
+        if (
+            path == "/api"
+            or path == "/api/_endpoints"
+            or path == "/api/healthz"
+            or path.startswith(("/api/user/", "/api/tweet/"))
+            or path == "/api/search"
+        ) and not self._require_data_api_auth():
             return
         if path == "/api":
             self._send_json(
@@ -534,18 +694,21 @@ class DashboardHandler(BaseHTTPRequestHandler):
         if path == "/api/_endpoints":
             self._send_json({"endpoints": api_endpoint_catalog()})
             return
-        if path == "/api/accounts":
-            self._send_json(self._run(self.server.service.snapshot()))
+        if path == "/api/healthz":
+            self._send_json(self._run(self.server.service.api_health()))
             return
         if path.startswith(("/api/user/", "/api/tweet/")) or path == "/api/search":
             self._handle_x_api(parsed)
             return
 
+        if not self._require_session_auth():
+            return
         self._send_json({"error": "页面不存在"}, HTTPStatus.NOT_FOUND)
 
     def _handle_x_api(self, parsed: Any) -> None:
         path = parsed.path
         query = parse_qs(parsed.query)
+        queue = "SearchTimeline"
         try:
             limit = parse_limit(query.get("limit", [None])[0])
             if path == "/api/search":
@@ -553,14 +716,20 @@ class DashboardHandler(BaseHTTPRequestHandler):
                 self._send_json(self._run(self.server.x_api.search(search_query, limit)))
                 return
 
+            by = parse_by(query.get("by", [None])[0])
+
             parts = [unquote(part) for part in path.split("/") if part]
             if len(parts) == 3 and parts[:2] == ["api", "user"]:
-                self._send_json(self._run(self.server.x_api.user(parts[2])))
+                queue = "UserByRestId" if by == "id" else "UserByScreenName"
+                self._send_json(self._run(self.server.x_api.user(parts[2], by)))
                 return
             if len(parts) == 4 and parts[:2] == ["api", "user"] and parts[3] == "tweets":
                 include_replies = parse_bool(query.get("include_replies", [None])[0])
+                queue = "UserTweetsAndReplies" if include_replies else "UserTweets"
                 self._send_json(
-                    self._run(self.server.x_api.user_tweets(parts[2], limit, include_replies))
+                    self._run(
+                        self.server.x_api.user_tweets(parts[2], limit, include_replies, by)
+                    )
                 )
                 return
             if (
@@ -568,10 +737,13 @@ class DashboardHandler(BaseHTTPRequestHandler):
                 and parts[:2] == ["api", "user"]
                 and parts[3] in {"followers", "following"}
             ):
+                skip_user = parse_bool(query.get("skip_user", [None])[0], name="skip_user")
+                queue = "Followers" if parts[3] == "followers" else "Following"
                 method = getattr(self.server.x_api, parts[3])
-                self._send_json(self._run(method(parts[2], limit)))
+                self._send_json(self._run(method(parts[2], limit, by, skip_user)))
                 return
             if len(parts) == 3 and parts[:2] == ["api", "tweet"]:
+                queue = "TweetDetail"
                 try:
                     tweet_id = int(parts[2])
                 except ValueError as error:
@@ -586,9 +758,9 @@ class DashboardHandler(BaseHTTPRequestHandler):
         except XApiUnavailableError as error:
             self._send_json({"error": str(error), "reason": error.reason}, HTTPStatus.FORBIDDEN)
         except NoAccountError:
-            self._send_json(
-                {"error": "No active account is available"}, HTTPStatus.SERVICE_UNAVAILABLE
-            )
+            self._send_no_account(queue)
+        except FutureTimeoutError:
+            self._send_json({"error": "Upstream X request timed out"}, HTTPStatus.GATEWAY_TIMEOUT)
         except ValueError as error:
             self._send_json({"error": str(error)}, HTTPStatus.BAD_REQUEST)
         except Exception:
@@ -596,23 +768,67 @@ class DashboardHandler(BaseHTTPRequestHandler):
 
     def do_POST(self) -> None:
         path = urlparse(self.path).path
+        if path == "/api/users/following/batch":
+            if not self._require_data_api_auth():
+                return
+            self._handle_following_batch()
+            return
         if path == "/auth/login":
             self._handle_login()
             return
-        if not self._require_api_auth():
+        if not self._require_session_auth():
             return
         if path == "/auth/logout":
             self._handle_logout()
             return
         self._handle_mutation("POST")
 
+    def _handle_following_batch(self) -> None:
+        try:
+            payload = self._read_json()
+            if unknown := set(payload) - {"ids", "limit", "skip_user"}:
+                raise ValueError(f"Unsupported fields: {', '.join(sorted(unknown))}")
+            raw_ids = payload.get("ids")
+            if not isinstance(raw_ids, list) or not raw_ids:
+                raise ValueError("ids must be a non-empty array")
+            if len(raw_ids) > 100:
+                raise ValueError("ids must contain at most 100 items")
+            ids: list[int] = []
+            for value in raw_ids:
+                if isinstance(value, bool) or not isinstance(value, (int, str)):
+                    raise ValueError("each id must be a positive integer")
+                text = str(value)
+                if not text.isdigit() or int(text) <= 0:
+                    raise ValueError("each id must be a positive integer")
+                ids.append(int(text))
+            limit_value = payload.get("limit", 20)
+            if isinstance(limit_value, bool):
+                raise ValueError("limit must be an integer")
+            limit = parse_limit(str(limit_value))
+            skip_user = payload.get("skip_user", True)
+            if not isinstance(skip_user, bool):
+                raise ValueError("skip_user must be true or false")
+            timeout = max(60.0, len(ids) * 30.0)
+            result = self._run(
+                self.server.x_api.following_batch(ids, limit, skip_user), timeout=timeout
+            )
+            self._send_json(result)
+        except NoAccountError:
+            self._send_no_account("Following")
+        except FutureTimeoutError:
+            self._send_json({"error": "Upstream X request timed out"}, HTTPStatus.GATEWAY_TIMEOUT)
+        except (ValueError, json.JSONDecodeError) as error:
+            self._send_json({"error": str(error)}, HTTPStatus.BAD_REQUEST)
+        except Exception:
+            self._send_json({"error": "Upstream X request failed"}, HTTPStatus.BAD_GATEWAY)
+
     def do_PATCH(self) -> None:
-        if not self._require_api_auth():
+        if not self._require_session_auth():
             return
         self._handle_mutation("PATCH")
 
     def do_DELETE(self) -> None:
-        if not self._require_api_auth():
+        if not self._require_session_auth():
             return
         self._handle_mutation("DELETE")
 
@@ -620,7 +836,7 @@ class DashboardHandler(BaseHTTPRequestHandler):
         if not self._allow_mutation():
             self._send_json({"error": "请求校验失败，请刷新页面后重试"}, HTTPStatus.FORBIDDEN)
             return
-        client = self.client_address[0]
+        client = self._client_identity()
         if self.server.auth.is_locked(client):
             self._send_json(
                 {"error": "登录尝试过多，请 5 分钟后重试"}, HTTPStatus.TOO_MANY_REQUESTS
@@ -667,7 +883,17 @@ class DashboardHandler(BaseHTTPRequestHandler):
         path = urlparse(self.path).path
         try:
             payload = self._read_json()
-            if method == "POST" and path == "/api/accounts":
+            if method == "POST" and path == "/admin/keys":
+                if set(payload) - {"name"}:
+                    raise ValueError("不支持的字段")
+                name = payload.get("name")
+                if not isinstance(name, str):
+                    raise ValueError("密钥名称必须是字符串")
+                info, token = self._run(self.server.api_keys.create(name))
+                self._send_json({"key": info, "token": token}, HTTPStatus.CREATED)
+                return
+
+            if method == "POST" and path == "/admin/accounts":
                 self._run(
                     self.server.service.add_cookie_account(
                         str(payload.get("username", "")), str(payload.get("cookies", ""))
@@ -677,7 +903,16 @@ class DashboardHandler(BaseHTTPRequestHandler):
                 return
 
             parts = [unquote(part) for part in path.split("/") if part]
-            if len(parts) >= 3 and parts[:2] == ["api", "accounts"]:
+            if method == "DELETE" and len(parts) == 3 and parts[:2] == ["admin", "keys"]:
+                confirm_name = payload.get("confirm_name")
+                if not isinstance(confirm_name, str):
+                    raise ValueError("请输入完整密钥名称确认撤销")
+                if not self._run(self.server.api_keys.revoke(parts[2], confirm_name)):
+                    self._send_json({"error": "密钥不存在或已撤销"}, HTTPStatus.NOT_FOUND)
+                    return
+                self._send_json({"ok": True})
+                return
+            if len(parts) >= 3 and parts[:2] == ["admin", "accounts"]:
                 username = parts[2]
                 if method == "PATCH" and len(parts) == 3:
                     allowed = {"active", "cookies", "proxy_mode", "proxy"}
@@ -724,6 +959,8 @@ class DashboardHandler(BaseHTTPRequestHandler):
             self._send_json({"error": str(error)}, HTTPStatus.NOT_FOUND)
         except (ValueError, json.JSONDecodeError) as error:
             self._send_json({"error": str(error)}, HTTPStatus.BAD_REQUEST)
+        except FutureTimeoutError:
+            self._send_json({"error": "Operation timed out"}, HTTPStatus.GATEWAY_TIMEOUT)
         except Exception:
             self._send_json({"error": "操作失败，请检查本地日志"}, HTTPStatus.INTERNAL_SERVER_ERROR)
 
@@ -735,7 +972,13 @@ def serve_dashboard(args: argparse.Namespace) -> None:
 
     username, password = resolve_dashboard_credentials()
     pool = AccountsPool(args.db, raise_when_no_account=True)
-    server = DashboardServer((host, args.port), pool, DashboardAuth(username, password))
+    server = DashboardServer(
+        (host, args.port),
+        pool,
+        DashboardAuth(username, password),
+        args.db,
+        trusted_proxy=get_env_bool("TWS_TRUSTED_PROXY"),
+    )
     actual_host, actual_port = host, server.server_port
     url = f"http://{actual_host}:{actual_port}"
     print(f"twscrape dashboard: {url}")

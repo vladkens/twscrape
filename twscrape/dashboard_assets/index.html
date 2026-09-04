@@ -4,77 +4,48 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="twscrape-token" content="__CSRF_TOKEN__" />
-    <meta name="theme-color" content="#0b0c0a" />
+    <meta name="theme-color" content="#121212" />
     <title>twscrape · 账号池</title>
     <link rel="stylesheet" href="/dashboard.css" />
   </head>
   <body>
+    <a class="skip-link" href="#accountsHeading">跳到账号列表</a>
     <main class="shell">
       <header class="topbar">
-        <div class="brand">
-          <span class="brand-mark" aria-hidden="true">tw</span>
-          <div>
-            <h1>twscrape</h1>
-            <p>本地账号池 · 127.0.0.1</p>
-          </div>
-        </div>
-        <div class="topbar-meta">
-          <p class="sync" aria-live="polite">
-            <span class="sync-dot" id="syncDot" aria-hidden="true"></span>
-            <span id="updatedAt">正在连接</span>
-          </p>
-          <div class="session">
-            <span class="session-user" id="sessionUser" hidden></span>
-            <button type="button" class="ghost" id="logoutButton">退出</button>
-          </div>
+        <a class="wordmark" href="/accounts">twscrape</a>
+        <nav class="app-nav" aria-label="主导航">
+          <a class="nav-link" href="/accounts" aria-current="page">账号池</a>
+          <a class="nav-link" href="/console">API 控制台</a>
+        </nav>
+        <div class="session">
+          <span class="session-user" id="sessionUser" hidden></span>
+          <button type="button" class="ghost" id="logoutButton">退出</button>
         </div>
       </header>
 
-      <section class="health" id="healthBanner" data-state="loading" aria-label="账号池健康结论">
-        <div class="health-main">
-          <p class="health-kicker">健康结论</p>
-          <h2 id="headline">正在读取账号池…</h2>
-          <p class="health-error" id="healthError" hidden></p>
-          <div class="health-actions">
-            <button type="button" class="ghost" id="viewAttention" hidden>
-              查看需处理
+      <h1 class="visually-hidden">账号池</h1>
+
+      <div class="summary-row">
+        <ul class="pool-summary" id="poolSummary" aria-label="账号池计数">
+          <li>可用 <strong id="statReady">—</strong></li>
+          <li>
+            <button type="button" class="summary-filter" id="viewAttention" aria-pressed="false">
+              需处理 <strong id="statAttention">—</strong>
             </button>
-            <button type="button" class="primary" id="addButton">添加 Cookie</button>
-          </div>
-        </div>
-        <dl class="health-stats" aria-label="账号池计数">
-          <div>
-            <dt>全部</dt>
-            <dd id="statTotal">—</dd>
-          </div>
-          <div>
-            <dt>运行中</dt>
-            <dd id="statRunning">—</dd>
-          </div>
-          <div>
-            <dt>冷却中</dt>
-            <dd id="statCooling">—</dd>
-          </div>
-          <div class="stat-attention">
-            <dt>需处理</dt>
-            <dd id="statAttention">—</dd>
-          </div>
-          <div>
-            <dt>已停用</dt>
-            <dd id="statDisabled">—</dd>
-          </div>
-        </dl>
-      </section>
+          </li>
+          <li>冷却 <strong id="statCooling">—</strong></li>
+          <li>已停用 <strong id="statDisabled">—</strong></li>
+        </ul>
+        <button type="button" class="primary" id="addButton">添加账号</button>
+      </div>
+      <p class="page-error" id="loadError" hidden></p>
 
       <section class="workspace" aria-labelledby="accountsHeading">
         <div class="toolbar">
-          <div>
-            <h2 id="accountsHeading">账号</h2>
-            <p>状态、请求计数与本地限流锁。点击一行查看详情。</p>
-          </div>
+          <h2 id="accountsHeading" class="visually-hidden">账号列表</h2>
           <div class="toolbar-actions">
             <label class="search">
-              <span class="search-hint" aria-hidden="true">/</span>
+              <span class="visually-hidden">搜索用户名</span>
               <input
                 id="searchInput"
                 type="search"
@@ -95,6 +66,7 @@
               </select>
             </label>
           </div>
+          <p class="sync" id="updatedAt" aria-live="polite">正在连接</p>
         </div>
 
         <div class="table-wrap">
@@ -115,39 +87,6 @@
           <div class="empty" id="emptyState" hidden>
             <strong id="emptyTitle">还没有账号</strong>
             <span id="emptyHint">添加 Cookie 后才会出现在列表中</span>
-          </div>
-        </div>
-      </section>
-
-      <section class="playground" aria-labelledby="playgroundHeading">
-        <div class="playground-head">
-          <div>
-            <h2 id="playgroundHeading">JSON API 试用台</h2>
-            <p>从 <code>/api/_endpoints</code> 读取元数据，构造只读 GET 请求。</p>
-          </div>
-        </div>
-        <div class="playground-grid">
-          <form id="apiForm" class="playground-form" autocomplete="off">
-            <label>
-              端点
-              <select id="endpointSelect" aria-label="选择 API 端点" required>
-                <option value="">正在加载端点…</option>
-              </select>
-            </label>
-            <p class="endpoint-desc" id="endpointDesc">选择一个端点以填写参数。</p>
-            <div id="paramFields" class="param-fields"></div>
-            <p class="form-error" id="apiError" hidden></p>
-            <p class="endpoint-desc">请求使用当前浏览器登录会话</p>
-            <div class="playground-actions">
-              <button type="submit" class="primary" id="tryApi">试一下</button>
-            </div>
-          </form>
-          <div class="playground-result">
-            <div class="result-meta">
-              <span>响应</span>
-              <span id="apiStatus" class="muted">尚未请求</span>
-            </div>
-            <pre id="apiOutput" tabindex="0" aria-label="API 响应 JSON"></pre>
           </div>
         </div>
       </section>

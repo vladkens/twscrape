@@ -259,27 +259,53 @@ twscrape dashboard
 ```
 
 The dashboard binds to `127.0.0.1`, reads the same `accounts.db` as the CLI, and never returns
-passwords, email credentials, proxies, or cookie values to the browser. Use `--db` to select a
-different account database and `--no-open` when running without a desktop browser. The default
+passwords, email credentials, proxies, or cookie values to the browser. Account management lives at
+`/accounts`; the JSON API playground and API key management live at `/console`. Use `--db` to select
+a different account database and `--no-open` when running without a desktop browser. The default
 dashboard username is `admin`; override it with `TWS_DASHBOARD_USERNAME`. When started from an
 interactive terminal without `TWS_DASHBOARD_PASSWORD`, the CLI securely prompts for the password
 twice. Sessions expire after 12 hours and are invalidated whenever the process restarts.
 
-The same local process also exposes a read-only JSON API over the configured account pool:
+The same local process also exposes a read-only JSON API over the configured account pool. Create a
+key in `/console`, save the token when it is shown, then pass it as a Bearer token:
 
 ```bash
-curl http://127.0.0.1:8000/api/user/xdevelopers
-curl 'http://127.0.0.1:8000/api/user/xdevelopers/tweets?limit=20&include_replies=false'
-curl 'http://127.0.0.1:8000/api/user/xdevelopers/followers?limit=20'
-curl 'http://127.0.0.1:8000/api/user/xdevelopers/following?limit=20'
-curl http://127.0.0.1:8000/api/tweet/20
-curl 'http://127.0.0.1:8000/api/search?q=python&limit=20'
+export TWS_API_KEY='tws_...'
+curl -H "Authorization: Bearer $TWS_API_KEY" http://127.0.0.1:8000/api/user/xdevelopers
+curl -H "Authorization: Bearer $TWS_API_KEY" \
+  'http://127.0.0.1:8000/api/user/xdevelopers/tweets?limit=20&include_replies=false'
+curl -H "Authorization: Bearer $TWS_API_KEY" \
+  'http://127.0.0.1:8000/api/user/xdevelopers/followers?limit=20'
+curl -H "Authorization: Bearer $TWS_API_KEY" \
+  'http://127.0.0.1:8000/api/user/xdevelopers/following?limit=20'
+curl -H "Authorization: Bearer $TWS_API_KEY" http://127.0.0.1:8000/api/tweet/20
+curl -H "Authorization: Bearer $TWS_API_KEY" \
+  'http://127.0.0.1:8000/api/search?q=python&limit=20'
+curl -H "Authorization: Bearer $TWS_API_KEY" \
+  http://127.0.0.1:8000/api/healthz
+curl -X POST -H "Authorization: Bearer $TWS_API_KEY" \
+  -H 'Content-Type: application/json' \
+  -d '{"ids":[1472481088304193541,44196397],"limit":50,"skip_user":true}' \
+  http://127.0.0.1:8000/api/users/following/batch
 curl http://127.0.0.1:8000/healthz
 ```
 
-The API is intentionally read-only and local-only. It was inspired by the MIT-licensed
+The batch endpoint accepts at most 100 user IDs and processes them sequentially. Per-user failures
+are returned inside the ordered `results` array; pool exhaustion aborts the batch with `503` and a
+`Retry-After` header when an active account has a known unlock time. Upstream calls time out instead
+of retaining a request thread indefinitely.
+
+API tokens are displayed only once and only their SHA-256 hashes are stored in SQLite. Revoked keys
+remain visible in the console audit list but stop authorizing requests immediately. API keys can
+access only the read-only `/api/**` namespace; account and key management under `/admin/**` always
+requires a dashboard session. The API is intentionally read-only and local-only. It was inspired by the MIT-licensed
 [`w95/x-api`](https://github.com/w95/x-api) project, while reusing this process's existing database
 and account rotation instead of loading a second session file.
+
+When the dashboard runs directly behind a trusted Cloudflare Tunnel connector, set
+`TWS_TRUSTED_PROXY=1` to key login rate limits by the validated `CF-Connecting-IP` header. Leave it
+unset for direct access or behind an untrusted proxy; the header is ignored by default so clients
+cannot spoof source addresses to bypass lockout protection.
 
 CLI output is JSON Lines: one document per line.
 

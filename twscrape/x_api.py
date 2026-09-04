@@ -42,7 +42,32 @@ def parse_limit(value: str | None, default: int = 20) -> int:
     return limit
 
 
-def parse_bool(value: str | None, default: bool = False) -> bool:
+def parse_by(value: str | None) -> str:
+    """标识符类型：username（默认）或 id。
+
+    爬虫侧存的是数字 id，用户名会变，按 id 查才稳定。
+    """
+    if value is None:
+        return "username"
+    normalized = value.lower()
+    if normalized in {"username", "name", "login"}:
+        return "username"
+    if normalized in {"id", "uid", "user_id"}:
+        return "id"
+    raise ValueError("by must be username or id")
+
+
+def parse_uid(value: str) -> int:
+    try:
+        uid = int(value)
+    except ValueError as error:
+        raise ValueError("user id must be an integer") from error
+    if uid <= 0:
+        raise ValueError("user id must be positive")
+    return uid
+
+
+def parse_bool(value: str | None, default: bool = False, name: str = "include_replies") -> bool:
     if value is None:
         return default
     normalized = value.lower()
@@ -50,7 +75,7 @@ def parse_bool(value: str | None, default: bool = False) -> bool:
         return True
     if normalized in {"0", "false", "no"}:
         return False
-    raise ValueError("include_replies must be true or false")
+    raise ValueError(f"{name} must be true or false")
 
 
 def _iso(value: datetime | None) -> str | None:
@@ -166,8 +191,12 @@ class XApiService:
     def __init__(self, pool: AccountsPool):
         self.api = API(pool)
 
-    async def _user(self, username: str) -> User:
-        rep = await self.api.user_by_login_raw(username)
+    async def _user(self, ident: str, by: str = "username") -> User:
+        username = ident
+        if by == "id":
+            rep = await self.api.user_by_id_raw(parse_uid(ident))
+        else:
+            rep = await self.api.user_by_login_raw(ident)
         if rep is None:
             raise XApiNotFoundError(f'User "{username}" not found')
         unavailable = _unavailable_user(rep)
@@ -181,12 +210,14 @@ class XApiService:
             raise XApiNotFoundError(f'User "{username}" not found')
         return user
 
-    async def user(self, username: str) -> dict[str, Any]:
-        user = await self._user(username)
+    async def user(self, ident: str, by: str = "username") -> dict[str, Any]:
+        user = await self._user(ident, by)
         return user_to_dict(user)
 
-    async def user_tweets(self, username: str, limit: int, include_replies: bool) -> dict[str, Any]:
-        user = await self._user(username)
+    async def user_tweets(
+        self, ident: str, limit: int, include_replies: bool, by: str = "username"
+    ) -> dict[str, Any]:
+        user = await self._user(ident, by)
         source = (
             self.api.user_tweets_and_replies(user.id, limit=limit)
             if include_replies
@@ -195,23 +226,73 @@ class XApiService:
         tweets = await _collect(source, limit)
         return {"user": user_to_dict(user), "tweets": tweets, "count": len(tweets)}
 
-    async def followers(self, username: str, limit: int) -> dict[str, Any]:
-        return await self._social_graph(username, limit, "followers")
+    async def followers(
+        self, ident: str, limit: int, by: str = "username", skip_user: bool = False
+    ) -> dict[str, Any]:
+        return await self._social_graph(ident, limit, "followers", by, skip_user)
 
-    async def following(self, username: str, limit: int) -> dict[str, Any]:
-        return await self._social_graph(username, limit, "following")
+    async def following(
+        self, ident: str, limit: int, by: str = "username", skip_user: bool = False
+    ) -> dict[str, Any]:
+        return await self._social_graph(ident, limit, "following", by, skip_user)
 
-    async def _social_graph(self, username: str, limit: int, kind: str) -> dict[str, Any]:
-        user = await self._user(username)
+    async def following_batch(
+        self, ids: list[int], limit: int, skip_user: bool = True
+    ) -> dict[str, Any]:
+        results: list[dict[str, Any]] = []
+        for uid in ids:
+            ident = str(uid)
+            try:
+                item = await self._social_graph(ident, limit, "following", "id", skip_user)
+                results.append(
+                    {
+                        "id": ident,
+                        "ok": True,
+                        "users": item["users"],
+                        "count": item["count"],
+                    }
+                )
+            except XApiNotFoundError as error:
+                results.append({"id": ident, "ok": False, "error": str(error), "status": 404})
+            except XApiUnavailableError as error:
+                results.append(
+                    {
+                        "id": ident,
+                        "ok": False,
+                        "error": str(error),
+                        "status": 403,
+                        "reason": error.reason.casefold(),
+                    }
+                )
+            except ValueError as error:
+                results.append({"id": ident, "ok": False, "error": str(error), "status": 400})
+        return {"results": results}
+
+    async def _social_graph(
+        self,
+        ident: str,
+        limit: int,
+        kind: str,
+        by: str = "username",
+        skip_user: bool = False,
+    ) -> dict[str, Any]:
+        # 按 id 调用时已经有 uid，skip_user 可以省掉一次 user 查询——
+        # 轮询几百个账号时这一半的请求量很实在。
+        if by == "id" and skip_user:
+            uid = parse_uid(ident)
+            user = None
+        else:
+            user = await self._user(ident, by)
+            uid = user.id
         source = (
-            self.api.followers(user.id, limit=limit)
+            self.api.followers(uid, limit=limit)
             if kind == "followers"
-            else self.api.following(user.id, limit=limit)
+            else self.api.following(uid, limit=limit)
         )
         users = await _collect_users(source, limit)
         return {
             "kind": kind,
-            "user": user_to_dict(user),
+            "user": user_to_dict(user) if user is not None else None,
             "users": users,
             "count": len(users),
         }
