@@ -13,6 +13,9 @@ const state = {
   accounts: [],
   summary: null,
   expanded: null,
+  editing: null,
+  pendingDelete: null,
+  openDeleteOnEditClose: false,
   endpoints: [],
   selectedEndpoint: null,
   loadError: "",
@@ -44,6 +47,26 @@ const els = {
   cookies: document.querySelector("#cookieValue"),
   formError: document.querySelector("#formError"),
   submit: document.querySelector("#submitAccount"),
+  editDialog: document.querySelector("#editDialog"),
+  editForm: document.querySelector("#editForm"),
+  editUsernameDisplay: document.querySelector("#editUsernameDisplay"),
+  editActive: document.querySelector("#editActive"),
+  editCookies: document.querySelector("#editCookies"),
+  editProxyStatus: document.querySelector("#editProxyStatus"),
+  editProxyKeep: document.querySelector("#editProxyKeep"),
+  editProxySet: document.querySelector("#editProxySet"),
+  editProxyClear: document.querySelector("#editProxyClear"),
+  editProxyLabel: document.querySelector("#editProxyLabel"),
+  editProxy: document.querySelector("#editProxy"),
+  editFormError: document.querySelector("#editFormError"),
+  editSubmit: document.querySelector("#submitEdit"),
+  deleteAccountButton: document.querySelector("#deleteAccountButton"),
+  deleteDialog: document.querySelector("#deleteDialog"),
+  deleteForm: document.querySelector("#deleteForm"),
+  deleteSummary: document.querySelector("#deleteSummary"),
+  deleteConfirm: document.querySelector("#deleteConfirmUsername"),
+  deleteFormError: document.querySelector("#deleteFormError"),
+  deleteSubmit: document.querySelector("#submitDelete"),
   toast: document.querySelector("#toast"),
   endpointSelect: document.querySelector("#endpointSelect"),
   endpointDesc: document.querySelector("#endpointDesc"),
@@ -336,6 +359,15 @@ function renderAccounts() {
       button.textContent = action.label;
       actions.appendChild(button);
     }
+    const manage = document.createElement("button");
+    manage.type = "button";
+    manage.dataset.action = "manage";
+    manage.dataset.user = username;
+    manage.className = "action-manage";
+    manage.textContent = "管理";
+    manage.setAttribute("aria-haspopup", "dialog");
+    manage.setAttribute("aria-label", `管理 @${username}`);
+    actions.appendChild(manage);
     actionTd.appendChild(actions);
 
     tr.append(nameTd, statusTd, loginTd, reqTd, usedTd, lockTd, actionTd);
@@ -386,6 +418,154 @@ function openCookieDialog(username = "") {
 function closeCookieDialog() {
   clearCookieForm();
   if (els.dialog.open) els.dialog.close();
+}
+
+function selectedProxyMode() {
+  if (els.editProxySet.checked) return "set";
+  if (els.editProxyClear.checked) return "clear";
+  return "keep";
+}
+
+function syncProxyInputVisibility() {
+  const isSet = selectedProxyMode() === "set";
+  els.editProxyLabel.hidden = !isSet;
+  els.editProxy.disabled = !isSet;
+  if (!isSet) els.editProxy.value = "";
+}
+
+function setEditFormError(message) {
+  els.editFormError.textContent = message || "";
+  els.editFormError.hidden = !message;
+}
+
+function setDeleteFormError(message) {
+  els.deleteFormError.textContent = message || "";
+  els.deleteFormError.hidden = !message;
+}
+
+function clearEditSecrets() {
+  els.editCookies.value = "";
+  els.editProxy.value = "";
+}
+
+function resetEditForm() {
+  els.editForm.reset();
+  els.editUsernameDisplay.textContent = "";
+  els.editProxyStatus.textContent = "未配置";
+  els.editProxyStatus.classList.remove("is-configured");
+  els.editProxyKeep.checked = true;
+  els.editSubmit.disabled = false;
+  els.editSubmit.textContent = "保存更改";
+  els.deleteAccountButton.disabled = false;
+  clearEditSecrets();
+  setEditFormError("");
+  syncProxyInputVisibility();
+}
+
+function onEditDialogClosed() {
+  const shouldOpenDelete = state.openDeleteOnEditClose;
+  const openingDelete = state.pendingDelete;
+  state.openDeleteOnEditClose = false;
+  resetEditForm();
+  state.editing = null;
+  if (shouldOpenDelete && openingDelete && openingDelete.username) {
+    window.setTimeout(() => {
+      if (!els.deleteDialog.open) openDeleteDialog(openingDelete);
+    }, 0);
+  }
+}
+
+function closeEditDialog() {
+  if (els.editDialog.open) {
+    els.editDialog.close();
+  } else {
+    onEditDialogClosed();
+  }
+}
+
+function openEditDialog(username) {
+  const account = state.accounts.find((item) => item.username === username);
+  if (!account) return;
+  resetEditForm();
+  state.editing = String(account.username || "");
+  els.editUsernameDisplay.textContent = `@${state.editing}`;
+  els.editActive.checked = Boolean(account.active);
+  const hasProxy = Boolean(account.has_proxy);
+  els.editProxyStatus.textContent = hasProxy ? "已配置" : "未配置";
+  els.editProxyStatus.classList.toggle("is-configured", hasProxy);
+  els.editProxyKeep.checked = true;
+  syncProxyInputVisibility();
+  if (typeof els.editDialog.showModal === "function") {
+    els.editDialog.showModal();
+  }
+  els.editActive.focus();
+}
+
+function updateDeleteSubmitState() {
+  const expected = state.pendingDelete ? state.pendingDelete.username : "";
+  const typed = String(els.deleteConfirm.value || "");
+  els.deleteSubmit.disabled = !expected || typed !== expected;
+}
+
+function resetDeleteForm() {
+  els.deleteForm.reset();
+  els.deleteSummary.textContent = "";
+  els.deleteConfirm.value = "";
+  els.deleteSubmit.textContent = "确认删除";
+  setDeleteFormError("");
+  updateDeleteSubmitState();
+}
+
+function onDeleteDialogClosed() {
+  resetDeleteForm();
+  state.pendingDelete = null;
+}
+
+function closeDeleteDialog() {
+  if (els.deleteDialog.open) {
+    els.deleteDialog.close();
+  } else {
+    onDeleteDialogClosed();
+  }
+}
+
+function openDeleteDialog(account) {
+  const username = String(account.username || "");
+  if (!username) return;
+  resetDeleteForm();
+  state.pendingDelete = {
+    username,
+    total_requests: Number(account.total_requests || 0),
+  };
+  const count = state.pendingDelete.total_requests.toLocaleString("zh-CN");
+  els.deleteSummary.textContent = `将永久删除 @${username}，该账号累计 ${count} 次请求。此操作无法撤销。`;
+  updateDeleteSubmitState();
+  if (typeof els.deleteDialog.showModal === "function") {
+    els.deleteDialog.showModal();
+  }
+  els.deleteConfirm.focus();
+}
+
+function startDeleteFromEdit() {
+  const username = state.editing;
+  if (!username) return;
+  const account = state.accounts.find((item) => item.username === username);
+  state.pendingDelete = {
+    username: String((account && account.username) || username),
+    total_requests: Number((account && account.total_requests) || 0),
+  };
+  if (els.editDialog.open) {
+    state.openDeleteOnEditClose = true;
+    els.editDialog.close();
+  } else {
+    state.openDeleteOnEditClose = false;
+    openDeleteDialog(state.pendingDelete);
+  }
+}
+
+function clearSensitiveInputs() {
+  els.cookies.value = "";
+  clearEditSecrets();
 }
 
 function setSync(status, text) {
@@ -537,6 +717,10 @@ async function loadEndpoints() {
 
 async function runAccountAction(action, username, button) {
   if (!username) return;
+  if (action === "manage") {
+    openEditDialog(username);
+    return;
+  }
   if (action === "add_cookie") {
     openCookieDialog(username);
     return;
@@ -589,6 +773,103 @@ document.querySelector("#cancelDialog").addEventListener("click", closeCookieDia
 els.dialog.addEventListener("close", clearCookieForm);
 els.dialog.addEventListener("cancel", clearCookieForm);
 
+document.querySelector("#closeEditDialog").addEventListener("click", closeEditDialog);
+document.querySelector("#cancelEditDialog").addEventListener("click", closeEditDialog);
+els.editDialog.addEventListener("close", onEditDialogClosed);
+els.editDialog.addEventListener("cancel", resetEditForm);
+els.deleteAccountButton.addEventListener("click", startDeleteFromEdit);
+
+els.editForm.addEventListener("change", (event) => {
+  if (event.target && event.target.name === "editProxyMode") {
+    const wasSet = !els.editProxyLabel.hidden;
+    syncProxyInputVisibility();
+    if (!wasSet && selectedProxyMode() === "set") {
+      els.editProxy.focus();
+    }
+  }
+});
+
+els.editForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const username = state.editing;
+  if (!username) return;
+  setEditFormError("");
+  const proxyMode = selectedProxyMode();
+  const cookies = String(els.editCookies.value || "").trim();
+  const proxy = String(els.editProxy.value || "").trim();
+  if (proxyMode === "set" && !proxy) {
+    setEditFormError("请输入代理地址");
+    els.editProxy.focus();
+    return;
+  }
+  const payload = {
+    active: Boolean(els.editActive.checked),
+    proxy_mode: proxyMode,
+  };
+  if (cookies) payload.cookies = cookies;
+  if (proxyMode === "set") payload.proxy = proxy;
+  els.editSubmit.disabled = true;
+  els.deleteAccountButton.disabled = true;
+  const original = els.editSubmit.textContent;
+  els.editSubmit.textContent = "保存中…";
+  try {
+    await api(`/api/accounts/${encodeURIComponent(username)}`, {
+      method: "PATCH",
+      body: JSON.stringify(payload),
+    });
+    closeEditDialog();
+    showToast("账号已更新");
+    await loadAccounts();
+  } catch (error) {
+    setEditFormError(error.message || "保存失败");
+  } finally {
+    clearEditSecrets();
+    els.editSubmit.disabled = false;
+    els.deleteAccountButton.disabled = false;
+    els.editSubmit.textContent = original;
+  }
+});
+
+document.querySelector("#closeDeleteDialog").addEventListener("click", closeDeleteDialog);
+document.querySelector("#cancelDeleteDialog").addEventListener("click", closeDeleteDialog);
+els.deleteDialog.addEventListener("close", onDeleteDialogClosed);
+els.deleteDialog.addEventListener("cancel", resetDeleteForm);
+els.deleteConfirm.addEventListener("input", updateDeleteSubmitState);
+
+els.deleteForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const username = state.pendingDelete ? state.pendingDelete.username : "";
+  const confirmUsername = String(els.deleteConfirm.value || "");
+  if (!username) return;
+  if (confirmUsername !== username) {
+    setDeleteFormError("请输入完整账号名称确认删除");
+    updateDeleteSubmitState();
+    els.deleteConfirm.focus();
+    return;
+  }
+  setDeleteFormError("");
+  els.deleteSubmit.disabled = true;
+  const original = els.deleteSubmit.textContent;
+  els.deleteSubmit.textContent = "删除中…";
+  try {
+    await api(`/api/accounts/${encodeURIComponent(username)}`, {
+      method: "DELETE",
+      body: JSON.stringify({ confirm_username: confirmUsername }),
+    });
+    if (state.expanded === username) state.expanded = null;
+    if (state.editing === username) state.editing = null;
+    closeDeleteDialog();
+    showToast("账号已删除");
+    await loadAccounts();
+  } catch (error) {
+    setDeleteFormError(error.message || "删除失败");
+    updateDeleteSubmitState();
+  } finally {
+    els.deleteSubmit.textContent = original;
+    updateDeleteSubmitState();
+  }
+});
+
 els.viewAttention.addEventListener("click", () => {
   els.filter.value = "attention";
   renderAccounts();
@@ -629,6 +910,11 @@ els.rows.addEventListener("click", (event) => {
     event.preventDefault();
     event.stopPropagation();
     runAccountAction(button.dataset.action, button.dataset.user, button);
+    return;
+  }
+  if (event.target.closest(".row-actions")) {
+    event.preventDefault();
+    event.stopPropagation();
     return;
   }
   const row = event.target.closest("tr.account-row");
@@ -734,6 +1020,11 @@ els.logout.addEventListener("click", async () => {
     els.logout.disabled = false;
     els.logout.textContent = original;
   }
+});
+
+window.addEventListener("pagehide", clearSensitiveInputs);
+window.addEventListener("pageshow", (event) => {
+  if (event.persisted) clearSensitiveInputs();
 });
 
 loadSession();

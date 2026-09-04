@@ -199,6 +199,118 @@
       </form>
     </dialog>
 
+    <dialog id="editDialog" aria-labelledby="editDialogTitle">
+      <form id="editForm" autocomplete="off">
+        <div class="dialog-head">
+          <div>
+            <h2 id="editDialogTitle">管理账号</h2>
+            <p>写入本机 accounts.db。浏览器不保存、不回显 Cookie 或代理。</p>
+          </div>
+          <button type="button" class="icon-button" id="closeEditDialog" aria-label="关闭">
+            ×
+          </button>
+        </div>
+        <div class="readonly-field">
+          <span class="field-label">账号名称</span>
+          <span id="editUsernameDisplay" class="readonly-value"></span>
+          <p class="field-hint">用户名不可更改</p>
+        </div>
+        <label class="check-row">
+          <input id="editActive" name="active" type="checkbox" />
+          启用账号
+        </label>
+        <label>
+          Cookie
+          <textarea
+            id="editCookies"
+            name="cookies"
+            class="compact-textarea"
+            rows="4"
+            placeholder="留空保持不变"
+            autocomplete="off"
+            spellcheck="false"
+          ></textarea>
+        </label>
+        <p class="field-hint">留空保持不变。提交或关闭后会清空输入，不会回显现有 Cookie。</p>
+        <fieldset class="proxy-fieldset">
+          <legend>代理</legend>
+          <p class="proxy-status" id="editProxyStatus">未配置</p>
+          <div class="radio-stack">
+            <label class="radio-row">
+              <input
+                id="editProxyKeep"
+                type="radio"
+                name="editProxyMode"
+                value="keep"
+                checked
+              />
+              保持不变
+            </label>
+            <label class="radio-row">
+              <input id="editProxySet" type="radio" name="editProxyMode" value="set" />
+              更新代理
+            </label>
+            <label class="radio-row">
+              <input id="editProxyClear" type="radio" name="editProxyMode" value="clear" />
+              清除代理
+            </label>
+          </div>
+          <label id="editProxyLabel" hidden>
+            新代理地址
+            <input
+              id="editProxy"
+              name="proxy"
+              maxlength="1000"
+              placeholder="host:port 或 http://host:port"
+              autocomplete="off"
+              spellcheck="false"
+              disabled
+            />
+          </label>
+        </fieldset>
+        <p class="form-error" id="editFormError" hidden></p>
+        <div class="dialog-actions">
+          <button type="button" class="secondary" id="cancelEditDialog">取消</button>
+          <button type="submit" class="primary" id="submitEdit">保存更改</button>
+        </div>
+        <div class="danger-zone">
+          <p class="danger-kicker">危险操作</p>
+          <p>从本机账号池永久删除该账号。删除前需要再次确认用户名。</p>
+          <button type="button" class="danger" id="deleteAccountButton">删除账号</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="deleteDialog" aria-labelledby="deleteDialogTitle" aria-describedby="deleteSummary">
+      <form id="deleteForm" autocomplete="off">
+        <div class="dialog-head">
+          <div>
+            <h2 id="deleteDialogTitle">确认删除账号</h2>
+            <p id="deleteSummary"></p>
+          </div>
+          <button type="button" class="icon-button" id="closeDeleteDialog" aria-label="关闭">
+            ×
+          </button>
+        </div>
+        <label>
+          输入用户名以确认（不含 @）
+          <input
+            id="deleteConfirmUsername"
+            name="confirm_username"
+            maxlength="80"
+            required
+            autocomplete="off"
+            spellcheck="false"
+          />
+        </label>
+        <p class="form-error" id="deleteFormError" hidden></p>
+        <div class="dialog-actions">
+          <button type="button" class="secondary" id="cancelDeleteDialog">取消</button>
+          <button type="submit" class="danger" id="submitDelete" disabled>确认删除</button>
+        </div>
+      </form>
+    </dialog>
+
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
     <script src="/dashboard.js" defer></script>
   </body>

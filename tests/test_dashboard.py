@@ -30,6 +30,7 @@ async def test_dashboard_snapshot_exposes_only_safe_fields(pool_mock: AccountsPo
     assert item["username"] == "ready-user"
     assert item["status"] == "ready"
     assert item["status_label"] == "可用"
+    assert item["has_proxy"] is True
     assert item["total_requests"] == 7
     assert item["requests_by_queue"] == [{"queue": "SearchTimeline", "count": 7}]
     assert "cookies" not in item
@@ -57,6 +58,59 @@ async def test_dashboard_account_actions_are_scoped(pool_mock: AccountsPool):
     assert (await pool_mock.get("first")).active is False
     assert "SearchTimeline" in (await pool_mock.get("second")).locks
     assert (await pool_mock.get("second")).active is True
+
+
+async def test_dashboard_updates_cookie_active_and_write_only_proxy(pool_mock: AccountsPool):
+    await pool_mock.add_account_cookies("editable", "auth_token=old; ct0=old-csrf")
+    service = DashboardService(pool_mock)
+
+    await service.update_account(
+        "editable",
+        active=False,
+        cookies="auth_token=new; ct0=new-csrf",
+        proxy_mode="set",
+        proxy="127.0.0.1:8080",
+    )
+
+    account = await pool_mock.get("editable")
+    assert account.cookies == {"auth_token": "new", "ct0": "new-csrf"}
+    assert account.active is False
+    assert account.proxy == "http://127.0.0.1:8080"
+    snapshot = await service.snapshot()
+    assert snapshot["accounts"][0]["has_proxy"] is True
+    assert "127.0.0.1" not in str(snapshot)
+
+    await service.update_account(
+        "editable", active=None, cookies=None, proxy_mode="clear", proxy=None
+    )
+    assert (await pool_mock.get("editable")).proxy is None
+
+
+async def test_dashboard_deletes_only_target_account(pool_mock: AccountsPool):
+    await pool_mock.add_account_cookies("first", "auth_token=a; ct0=b")
+    await pool_mock.add_account_cookies("second", "auth_token=c; ct0=d")
+
+    await DashboardService(pool_mock).delete_account("first")
+
+    assert await pool_mock.get_account("first") is None
+    assert await pool_mock.get_account("second") is not None
+
+
+async def test_dashboard_rejects_invalid_edit_before_writing_cookie(pool_mock: AccountsPool):
+    await pool_mock.add_account_cookies("editable", "auth_token=old; ct0=old-csrf")
+
+    with pytest.raises(ValueError, match="代理地址不能超过"):
+        await DashboardService(pool_mock).update_account(
+            "editable",
+            active=False,
+            cookies="auth_token=new; ct0=new-csrf",
+            proxy_mode="set",
+            proxy="x" * 1001,
+        )
+
+    account = await pool_mock.get("editable")
+    assert account.cookies == {"auth_token": "old", "ct0": "old-csrf"}
+    assert account.active is True
 
 
 async def test_dashboard_snapshot_prioritizes_attention_and_exposes_cooling_details(

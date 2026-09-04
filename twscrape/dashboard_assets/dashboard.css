@@ -325,9 +325,21 @@ select,
 .primary:hover,
 .secondary:hover,
 .ghost:hover { filter: brightness(1.06); }
+.danger {
+  border: 1px solid #6a3834;
+  border-radius: 8px;
+  padding: 0 14px;
+  height: 36px;
+  background: var(--red-bg);
+  color: #ffc2bb;
+  font-weight: 700;
+  font-size: 13px;
+}
+.danger:hover { filter: brightness(1.08); }
 .primary:disabled,
 .secondary:disabled,
-.ghost:disabled { opacity: 0.55; cursor: not-allowed; filter: none; }
+.ghost:disabled,
+.danger:disabled { opacity: 0.55; cursor: not-allowed; filter: none; }
 
 button:focus-visible,
 input:focus-visible,
@@ -426,7 +438,13 @@ tbody tr.is-expanded { box-shadow: inset 3px 0 0 var(--green); }
 }
 .muted { color: var(--muted); }
 
-.row-actions { display: flex; justify-content: flex-end; }
+.row-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
 .row-actions button,
 .icon-button {
   border: 1px solid var(--line);
@@ -453,6 +471,10 @@ tbody tr.is-expanded { box-shadow: inset 3px 0 0 var(--green); }
 .row-actions .action-disable {
   border-color: #4a3834;
   color: #ffc2bb;
+}
+.row-actions .action-manage {
+  color: var(--muted);
+  background: transparent;
 }
 
 .detail-row td {
@@ -544,6 +566,24 @@ dialog textarea {
 .playground-form input,
 dialog textarea { font-family: var(--mono); }
 dialog textarea { resize: vertical; min-height: 120px; }
+dialog textarea.compact-textarea { min-height: 88px; }
+dialog input[type="checkbox"],
+dialog input[type="radio"] {
+  display: inline-block;
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: 0;
+  border-radius: 0;
+  accent-color: var(--green);
+}
+dialog input[readonly] {
+  color: var(--muted);
+  background: #10130e;
+  cursor: default;
+}
 .endpoint-desc {
   color: var(--muted);
   font-size: 12px;
@@ -592,6 +632,8 @@ dialog textarea { resize: vertical; min-height: 120px; }
 
 dialog {
   width: min(500px, calc(100% - 28px));
+  max-height: calc(100% - 28px);
+  overflow: auto;
   color: var(--text);
   background: #141712;
   border: 1px solid #33392d;
@@ -620,12 +662,96 @@ dialog form { padding: 22px; }
   font-size: 12px;
   line-height: 1.5;
 }
+.readonly-field { margin-top: 12px; }
+.field-label {
+  display: block;
+  color: #a8b0a1;
+  font-size: 12px;
+}
+.readonly-value {
+  display: block;
+  margin-top: 6px;
+  color: var(--text);
+  font-weight: 650;
+  font-family: var(--mono);
+  font-size: 13px;
+}
+.field-hint {
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 6px;
+  line-height: 1.45;
+}
+.check-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  color: var(--text);
+  font-size: 13px;
+}
+.proxy-fieldset {
+  margin: 14px 0 0;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  min-width: 0;
+  min-inline-size: 0;
+  width: 100%;
+}
+.proxy-fieldset legend {
+  padding: 0 6px;
+  color: #a8b0a1;
+  font-size: 12px;
+}
+.proxy-status {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 650;
+}
+.proxy-status.is-configured { color: var(--green); }
+.radio-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 10px;
+}
+.radio-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 0;
+  color: var(--text);
+  font-size: 13px;
+}
+#editProxyLabel { margin-top: 10px; }
 .form-error { color: var(--red); font-size: 12px; margin-top: 12px; }
 .dialog-actions {
   display: flex;
   justify-content: flex-end;
+  flex-wrap: wrap;
   gap: 8px;
   margin-top: 20px;
+}
+.danger-zone {
+  margin-top: 22px;
+  padding-top: 16px;
+  border-top: 1px solid #3a2420;
+}
+.danger-kicker {
+  color: var(--red);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 650;
+  margin: 0 0 6px;
+}
+.danger-zone p + p {
+  color: var(--muted);
+  font-size: 12px;
+  margin: 0 0 12px;
+  line-height: 1.45;
 }
 
 .toast {
