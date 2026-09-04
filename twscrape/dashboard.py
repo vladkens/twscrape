@@ -19,7 +19,7 @@ from typing import Any, TypedDict
 from urllib.parse import parse_qs, unquote, urlparse
 
 from .accounts_pool import AccountsPool, NoAccountError
-from .utils import utc
+from .utils import parse_proxy, utc
 from .x_api import (
     XApiNotFoundError,
     XApiService,
@@ -39,6 +39,7 @@ class DashboardAccountInfo(TypedDict):
     username: str
     active: bool
     has_session: bool
+    has_proxy: bool
     login_method: str
     status: str
     status_label: str
@@ -55,6 +56,10 @@ class DashboardAccountInfo(TypedDict):
     requests_by_queue: list[dict[str, Any]]
     last_used: str | None
     error_message: str | None
+
+
+class DashboardAccountNotFoundError(ValueError):
+    pass
 
 
 def api_endpoint_catalog() -> list[dict[str, Any]]:
@@ -274,6 +279,7 @@ class DashboardService:
                     "username": account.username,
                     "active": account.active,
                     "has_session": account.has_session,
+                    "has_proxy": bool(account.proxy),
                     "login_method": account.login_method,
                     "status": status,
                     "status_label": status_label,
@@ -341,13 +347,54 @@ class DashboardService:
 
     async def set_active(self, username: str, active: bool) -> None:
         if await self.pool.get_account(username) is None:
-            raise ValueError("账号不存在")
+            raise DashboardAccountNotFoundError("账号不存在")
         await self.pool.set_active(username, active)
 
     async def reset_locks(self, username: str) -> None:
         if await self.pool.get_account(username) is None:
-            raise ValueError("账号不存在")
+            raise DashboardAccountNotFoundError("账号不存在")
         await self.pool.reset_locks(username)
+
+    async def update_account(
+        self,
+        username: str,
+        *,
+        active: bool | None,
+        cookies: str | None,
+        proxy_mode: str,
+        proxy: str | None,
+    ) -> None:
+        account = await self.pool.get_account(username)
+        if account is None:
+            raise DashboardAccountNotFoundError("账号不存在")
+
+        cookies = cookies.strip() if cookies is not None else None
+        next_proxy = account.proxy
+        if proxy_mode == "set":
+            proxy = proxy.strip() if proxy is not None else ""
+            if not proxy:
+                raise ValueError("请输入代理地址")
+            if len(proxy) > 1000:
+                raise ValueError("代理地址不能超过 1000 个字符")
+            next_proxy = parse_proxy(proxy)
+        elif proxy_mode == "clear":
+            next_proxy = None
+        elif proxy_mode != "keep":
+            raise ValueError("proxy_mode 必须是 keep、set 或 clear")
+
+        if cookies:
+            await self.pool.add_account_cookies(username, cookies)
+            account = await self.pool.get(username)
+
+        account.proxy = next_proxy
+        if active is not None:
+            account.active = active
+        await self.pool.save(account)
+
+    async def delete_account(self, username: str) -> None:
+        if await self.pool.get_account(username) is None:
+            raise DashboardAccountNotFoundError("账号不存在")
+        await self.pool.delete_accounts(username)
 
 
 class DashboardServer(HTTPServer):
@@ -564,6 +611,11 @@ class DashboardHandler(BaseHTTPRequestHandler):
             return
         self._handle_mutation("PATCH")
 
+    def do_DELETE(self) -> None:
+        if not self._require_api_auth():
+            return
+        self._handle_mutation("DELETE")
+
     def _handle_login(self) -> None:
         if not self._allow_mutation():
             self._send_json({"error": "请求校验失败，请刷新页面后重试"}, HTTPStatus.FORBIDDEN)
@@ -628,10 +680,38 @@ class DashboardHandler(BaseHTTPRequestHandler):
             if len(parts) >= 3 and parts[:2] == ["api", "accounts"]:
                 username = parts[2]
                 if method == "PATCH" and len(parts) == 3:
+                    allowed = {"active", "cookies", "proxy_mode", "proxy"}
+                    if unknown := set(payload) - allowed:
+                        raise ValueError(f"不支持的字段: {', '.join(sorted(unknown))}")
                     active = payload.get("active")
-                    if not isinstance(active, bool):
+                    if active is not None and not isinstance(active, bool):
                         raise ValueError("active 必须是布尔值")
-                    self._run(self.server.service.set_active(username, active))
+                    cookies = payload.get("cookies")
+                    if cookies is not None and not isinstance(cookies, str):
+                        raise ValueError("cookies 必须是字符串")
+                    proxy_mode = payload.get("proxy_mode", "keep")
+                    proxy = payload.get("proxy")
+                    if not isinstance(proxy_mode, str):
+                        raise ValueError("proxy_mode 必须是字符串")
+                    if proxy is not None and not isinstance(proxy, str):
+                        raise ValueError("proxy 必须是字符串")
+                    if active is None and not (cookies or "").strip() and proxy_mode == "keep":
+                        raise ValueError("没有需要更新的字段")
+                    self._run(
+                        self.server.service.update_account(
+                            username,
+                            active=active,
+                            cookies=cookies,
+                            proxy_mode=proxy_mode,
+                            proxy=proxy,
+                        )
+                    )
+                    self._send_json({"ok": True})
+                    return
+                if method == "DELETE" and len(parts) == 3:
+                    if payload.get("confirm_username") != username:
+                        raise ValueError("请输入完整账号名称确认删除")
+                    self._run(self.server.service.delete_account(username))
                     self._send_json({"ok": True})
                     return
                 if method == "POST" and parts[3:] == ["reset-locks"]:
@@ -640,6 +720,8 @@ class DashboardHandler(BaseHTTPRequestHandler):
                     return
 
             self._send_json({"error": "接口不存在"}, HTTPStatus.NOT_FOUND)
+        except DashboardAccountNotFoundError as error:
+            self._send_json({"error": str(error)}, HTTPStatus.NOT_FOUND)
         except (ValueError, json.JSONDecodeError) as error:
             self._send_json({"error": str(error)}, HTTPStatus.BAD_REQUEST)
         except Exception:
