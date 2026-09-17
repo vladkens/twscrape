@@ -1,3 +1,4 @@
+import json
 from collections import OrderedDict
 from contextlib import aclosing
 
@@ -6,8 +7,13 @@ import pytest
 import twscrape.queue_client as queue_client_module
 from twscrape.account import Account
 from twscrape.accounts_pool import AccountsPool
-from twscrape.http import ConnectError, NetworkError
-from twscrape.queue_client import GqlFeaturesOutdatedError, QueueClient, XClIdGenStore
+from twscrape.http import ConnectError, HttpMethod, NetworkError, Response
+from twscrape.queue_client import (
+    GqlFeaturesOutdatedError,
+    QueueClient,
+    ReqParams,
+    XClIdGenStore,
+)
 from twscrape.utils import utc
 from twscrape.xclid import XClIdAccountError, XClIdGen, XClIdParseError
 
@@ -550,6 +556,60 @@ async def test_gql_features_outdated_raises(client_fixture: CF):
     # the account must survive: not deactivated, not left locked
     assert await get_inactive(pool) == set()
     assert await get_locked(pool) == set()
+
+
+async def test_gql_features_self_healed_and_retried(client_fixture: CF, monkeypatch):
+    pool, client, mock = client_fixture
+    await client.__aenter__()
+
+    sent: list[dict] = []
+    original = mock.request
+
+    async def spy(method: HttpMethod, url: str, **kwargs) -> Response:
+        sent.append(dict(kwargs.get("params") or {}))
+        return await original(method, url, **kwargs)
+
+    monkeypatch.setattr(mock, "request", spy)
+
+    mock.add_response(
+        json={
+            "errors": [{"code": 336, "message": "The following features cannot be null: foo, bar"}]
+        }
+    )
+    mock.add_response(json={"data": {"user": {"id": 1}}})
+
+    params: ReqParams = {"variables": "{}", "features": json.dumps({"baz": True})}
+    rep = await client.get(URL, params=params)
+    assert rep is not None
+
+    # the flags X named were added and the request replayed
+    assert len(sent) == 2
+    assert json.loads(sent[0]["features"]) == {"baz": True}
+    assert json.loads(sent[1]["features"]) == {"baz": True, "foo": True, "bar": True}
+
+    await client.__aexit__(None, None, None)
+
+    # the account must survive: not deactivated, not left locked
+    assert await get_inactive(pool) == set()
+    assert await get_locked(pool) == set()
+
+
+async def test_gql_features_self_heal_retries_only_once(client_fixture: CF):
+    _pool, client, mock = client_fixture
+    await client.__aenter__()
+
+    # X keeps rejecting even with the flags set — give up rather than loop
+    for _ in range(2):
+        mock.add_response(
+            json={
+                "errors": [{"code": 336, "message": "The following features cannot be null: foo"}]
+            }
+        )
+
+    with pytest.raises(GqlFeaturesOutdatedError):
+        await client.get(URL, params={"variables": "{}", "features": "{}"})
+
+    await client.__aexit__(None, None, None)
 
 
 async def test_gql_features_outdated_raises_when_not_first(client_fixture: CF):

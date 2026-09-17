@@ -1,6 +1,7 @@
 import asyncio
 import json
 import os
+import re
 from enum import Enum, auto
 from typing import Any
 from urllib.parse import urlparse
@@ -22,6 +23,7 @@ from .utils import utc
 from .xclid import XClIdAccountError, XClIdGen, XClIdParseError
 
 ReqParams = dict[str, str | int] | None
+MISSING_FEATURES_RE = re.compile(r"The following features cannot be null: ([^;]+)")
 TMP_TS = utc.now().isoformat().split(".")[0].replace("T", "_").replace(":", "-")[0:16]
 
 
@@ -32,7 +34,7 @@ class AbortReqError(Exception): ...
 
 
 class GqlFeaturesOutdatedError(AbortReqError):
-    """GQL_FEATURES in api.py no longer matches the X API. Retrying cannot help."""
+    """GQL_FEATURES in api.py no longer matches the X API and self-healing did not resolve it."""
 
 
 class FailKind(Enum):
@@ -132,6 +134,35 @@ def has_data(rep: Response, res: Any) -> bool:
 
 def has_error(errors: list[str], prefix: str) -> bool:
     return any(error.startswith(prefix) for error in errors)
+
+
+def parse_missing_features(msg: str) -> list[str]:
+    """Feature flags X named in a (336) error: "...cannot be null: a, b"."""
+    match = MISSING_FEATURES_RE.search(msg)
+    return [x.strip() for x in match.group(1).split(",") if x.strip()] if match else []
+
+
+def add_missing_features(params: ReqParams, missing: list[str]) -> bool:
+    """Set `missing` to true in params["features"]. False if there is nothing to patch."""
+    if not isinstance(params, dict) or "features" not in params:
+        return False
+
+    features = params["features"]
+    if isinstance(features, str):  # encode_params() has already run
+        try:
+            features = json.loads(features)
+        except json.JSONDecodeError:
+            return False
+
+    if not isinstance(features, dict):
+        return False
+
+    if all(features.get(x) is True for x in missing):
+        return False  # already true, so a retry would just loop
+
+    features.update(dict.fromkeys(missing, True))
+    params["features"] = json.dumps(features, separators=(",", ":"))
+    return True
 
 
 def dump_rep(rep: Response):
@@ -312,6 +343,7 @@ class QueueClient:
         return await self.req("GET", url, params=params)
 
     async def req(self, method: HttpMethod, url: str, params: ReqParams = None) -> Response | None:
+        features_retried = False
         while True:
             # 1. same ctx until _close_ctx() clears it — that's retry vs rotate
             # 2. no aclose() needed here, __aexit__ handles it
@@ -343,9 +375,20 @@ class QueueClient:
 
                 ctx.req_count += 1  # count only successful
                 return rep
-            except GqlFeaturesOutdatedError:
-                # structurally invalid request, retrying cannot help — let the caller see it
-                raise
+            except GqlFeaturesOutdatedError as e:
+                # X names the flags it wants, so set them and retry once. GQL_FEATURES still
+                # needs a permanent update — the warning says so — but a stale dict shouldn't
+                # take every caller down until the next release.
+                missing = parse_missing_features(str(e))
+                if features_retried or not add_missing_features(params, missing):
+                    raise
+
+                features_retried = True
+                logger.warning(
+                    f"{self.queue}: GQL_FEATURES missing {missing}, set true and retrying. "
+                    "Update GQL_FEATURES in api.py to fix this permanently."
+                )
+                continue
             except AbortReqError:
                 # abort all queries
                 return
