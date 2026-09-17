@@ -869,10 +869,17 @@ def _parse_items(
     res = rep if isinstance(rep, dict) else rep.json()
     obj = to_old_rep(res)
     retweeted_ids: set[str] = obj.get("retweeted_ids", set())
+    quoted_ids: set[str] = obj.get("quoted_ids", set())
 
     ids = set()
     for x in obj[key].values():
         if kind == "tweet" and x.get("id_str") in retweeted_ids:
+            continue
+        # Quoted tweets of other users are embedded in the quoting tweet and
+        # must not be yielded as standalone items:
+        # https://github.com/vladkens/twscrape/issues/315
+        # https://github.com/vladkens/twscrape/issues/300
+        if kind == "tweet" and x.get("id_str") in quoted_ids:
             continue
         if limit != -1 and len(ids) >= limit:
             # todo: move somewhere in configuration like force_limit

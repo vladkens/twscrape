@@ -628,6 +628,36 @@ async def test_issue_310():
     )
 
 
+async def test_issue_315():
+    """Quoted tweets must not leak as standalone timeline items.
+
+    In raw_user_tweets the quoting tweets quote tweets by other users
+    (@milichab, @XFreeze, @SpaceXAI, @nicole_clash, @agno_three, @nikitabier).
+    X returns those quoted tweets embedded in the quoting tweet's payload and
+    they must not be yielded as top-level items too:
+    https://github.com/vladkens/twscrape/issues/315
+    """
+    raw = fake_rep("raw_user_tweets").json()
+    tweets = list(parse_tweets(raw))
+    top_level_ids = {x.id_str for x in tweets}
+
+    # the fixture quotes 6 tweets by other users; none may leak top-level
+    other_user_quotes = {
+        x.quotedTweet.id_str
+        for x in tweets
+        if x.quotedTweet is not None and x.quotedTweet.user.username != x.user.username
+    }
+    assert len(other_user_quotes) == 6
+    assert not (other_user_quotes & top_level_ids), (
+        f"quoted tweets leaked as standalone items: {other_user_quotes & top_level_ids}"
+    )
+
+    # a self-quoted tweet X lists inside its own thread module entry remains a
+    # real result (5 items removed vs the pre-fix 25)
+    assert len(tweets) == 21
+    assert "2082640274845811115" in top_level_ids
+
+
 async def test_cards():
     # Issues:
     # - https://github.com/vladkens/twscrape/issues/72

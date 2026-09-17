@@ -65,6 +65,7 @@ ASSET_URL_RE = re.compile(r"https://[\w.-]+/x-web/[\w./-]+\.js")
 RESPONSIVE_WEB_URL_RE = re.compile(r"https://[\w.-]+/responsive-web/client-web/[\w./-]+\.js")
 LEGACY_MAIN_RE = re.compile(r"/client-web/main\.([^.\"']+)\.js")
 LOGGED_OUT_ENTRY_RE = re.compile(r"(?:^|/)entry-client-logged-out(?:[-.][^/?#]+)?\.js(?:[?#].*)?$")
+CHALLENGE_SCRIPT_RE = re.compile(r"/cdn-cgi/challenge-platform/(?:scripts|h)/")
 
 
 def get_scripts_list(text: str) -> list[str]:
@@ -80,6 +81,12 @@ def get_scripts_list(text: str) -> list[str]:
     urls = ASSET_URL_RE.findall(text) + RESPONSIVE_WEB_URL_RE.findall(text)
     if main_match := LEGACY_MAIN_RE.search(text):
         urls.append(script_url("main", main_match.group(1)))
+
+    # Cloudflare interstitial: the page only loads the challenge script and no
+    # app bundles. Data would be mis-parsed, so fail with a precise error:
+    # https://github.com/vladkens/twscrape/issues/330
+    if not urls and CHALLENGE_SCRIPT_RE.search(text):
+        raise XClIdParseError("Cloudflare challenge page served instead of X web app")
 
     # Hash map: values are exactly 7 or 16 lowercase hex digits (7 before 2026-08-24, 16 since;
     # distinguishes them from name-map values)

@@ -121,6 +121,9 @@ def get_typed_object(obj: dict, res: defaultdict[str, list]):
     if obj_type is not None:
         res[obj_type].append(obj)
 
+    if isinstance(obj.get("entryId"), str):
+        res["entry_ids"].append(obj["entryId"])
+
     for _, v in obj.items():
         if isinstance(v, dict):
             get_typed_object(v, res)
@@ -331,7 +334,34 @@ def to_old_rep(obj: dict) -> dict[str, Any]:
         if (retweeted_id := get_or(tweet, path)) is not None
     }
 
-    return {"tweets": tweets, "retweeted_ids": retweeted_ids, "users": users, "trends": trends}
+    # Quoted tweets are embedded in the quoting tweet (as quotedTweet); they
+    # should not leak as standalone results in timelines/search:
+    # https://github.com/vladkens/twscrape/issues/315
+    # Exception: tweets X explicitly lists as their own timeline entries
+    # (entryId tweet-{id} / profile-conversation module items) are real results.
+    standalone_ids = {
+        entry_id.split("-")[-1]
+        for entry_id in tmp.get("entry_ids", [])
+        if entry_id.startswith(("tweet-", "profile-conversation-"))
+    }
+    quoted_ids = {
+        str(quoted_id)
+        for tweet in tweets.values()
+        for path in (
+            "quoted_status_id_str",
+            "quoted_status_result.result.rest_id",
+            "quoted_status_result.result.tweet.rest_id",
+        )
+        if (quoted_id := get_or(tweet, path)) is not None and str(quoted_id) not in standalone_ids
+    }
+
+    return {
+        "tweets": tweets,
+        "retweeted_ids": retweeted_ids,
+        "quoted_ids": quoted_ids,
+        "users": users,
+        "trends": trends,
+    }
 
 
 def print_table(rows: list[dict], hr_after=False):
