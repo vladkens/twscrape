@@ -199,6 +199,7 @@ class QueueClient:
         self.debug = debug
         self.ctx: Ctx | None = None
         self.proxy = proxy
+        self._healed_features: set[str] = set()
 
     async def __aenter__(self):
         await self._get_ctx()
@@ -343,6 +344,8 @@ class QueueClient:
         return await self.req("GET", url, params=params)
 
     async def req(self, method: HttpMethod, url: str, params: ReqParams = None) -> Response | None:
+        if self._healed_features:
+            add_missing_features(params, list(self._healed_features))
         features_retried = False
         while True:
             # 1. same ctx until _close_ctx() clears it — that's retry vs rotate
@@ -383,6 +386,7 @@ class QueueClient:
                 if features_retried or not add_missing_features(params, missing):
                     raise
 
+                self._healed_features.update(missing)
                 features_retried = True
                 logger.warning(
                     f"{self.queue}: GQL_FEATURES missing {missing}, set true and retrying. "

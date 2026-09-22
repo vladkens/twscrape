@@ -594,6 +594,32 @@ async def test_gql_features_self_healed_and_retried(client_fixture: CF, monkeypa
     assert await get_locked(pool) == set()
 
 
+async def test_gql_features_self_heal_persists_across_requests(client_fixture: CF, monkeypatch):
+    _pool, client, mock = client_fixture
+    await client.__aenter__()
+
+    sent = []
+    original = mock.request
+
+    async def spy(method: HttpMethod, url: str, **kwargs) -> Response:
+        sent.append(json.loads(kwargs["params"]["features"]))
+        return await original(method, url, **kwargs)
+
+    monkeypatch.setattr(mock, "request", spy)
+
+    mock.add_response(
+        json={"errors": [{"code": 336, "message": "The following features cannot be null: foo"}]}
+    )
+    mock.add_response(json={"data": {"user": {"id": 1}}})
+    mock.add_response(json={"data": {"user": {"id": 1}}})
+
+    assert await client.get(URL, params={"variables": "{}", "features": "{}"}) is not None
+    assert await client.get(URL, params={"variables": "{}", "features": "{}"}) is not None
+    assert sent == [{}, {"foo": True}, {"foo": True}]
+
+    await client.__aexit__(None, None, None)
+
+
 async def test_gql_features_self_heal_retries_only_once(client_fixture: CF):
     _pool, client, mock = client_fixture
     await client.__aenter__()
