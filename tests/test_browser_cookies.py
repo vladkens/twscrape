@@ -55,7 +55,7 @@ def test_get_x_cookies_unsupported_browser(monkeypatch):
 def test_get_x_cookies_not_installed(monkeypatch):
     monkeypatch.setitem(sys.modules, "browser_cookie3", None)
 
-    with pytest.raises(BrowserCookiesError, match="pip install perch\\[browser\\]"):
+    with pytest.raises(BrowserCookiesError, match="pip install perchx\\[browser\\]"):
         get_x_cookies("firefox")
 
 
