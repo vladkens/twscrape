@@ -109,12 +109,18 @@ TrendId = Literal["trending", "news", "sport", "entertainment"] | str
 async def _parsed_pages(raw_pages, parser, limit: int, accept=None):
     # Keep parser context for each page, then deduplicate accepted items across pages.
     seen_ids: set[int | str | None] = set()
+    duplicate_pages = 0
     async with aclosing(raw_pages) as gen:
         async for rep in gen:
+            before = len(seen_ids)
             for item in parser(rep, seen_ids=seen_ids, accept=accept):
                 yield item
                 if limit > 0 and len(seen_ids) >= limit:
                     return
+            duplicate_pages = duplicate_pages + 1 if len(seen_ids) == before else 0
+            if duplicate_pages >= 3:
+                logger.debug("Stopping after 3 pages without new parsed items")
+                return
 
 
 class API:

@@ -194,6 +194,26 @@ async def test_user_tweets_limit_counts_unique_items(monkeypatch, api_mock: API)
     assert len(tweets) == len({x.id for x in tweets}) == 22
 
 
+async def test_user_tweets_stops_after_repeated_duplicate_pages(monkeypatch, api_mock: API):
+    with open(os.path.join(DATA_DIR, "raw_user_tweets.json")) as f:
+        page = json.load(f)
+    fetched = 0
+
+    async def raw(uid, limit=-1, kv=None):
+        nonlocal fetched
+        while True:
+            fetched += 1
+            if fetched > 10:
+                raise AssertionError("crawl did not stop after repeated duplicate pages")
+            yield FakeRep(page)
+
+    monkeypatch.setattr(api_mock, "user_tweets_raw", raw)
+    tweets = await gather(api_mock.user_tweets(123, limit=30))
+
+    assert len(tweets) == 21
+    assert fetched == 4
+
+
 async def test_nested_quote_does_not_hide_later_standalone_tweet(monkeypatch, api_mock: API):
     with open(os.path.join(DATA_DIR, "raw_user_tweets.json")) as f:
         standalone_page = json.load(f)
