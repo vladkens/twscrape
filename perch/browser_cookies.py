@@ -43,7 +43,7 @@ def _get_loader(browser: str) -> Callable:
         import browser_cookie3
     except ImportError as e:
         raise BrowserCookiesError(
-            "browser_cookie3 not installed. Install with: pip install perch[browser]"
+            "browser_cookie3 not installed. Install with: pip install perchx[browser]"
         ) from e
 
     name = _LOADERS.get(browser.lower())

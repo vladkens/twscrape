@@ -16,13 +16,13 @@ perch is an async Python library and CLI for X/Twitter Search and GraphQL endpoi
 ## Install
 
 ```bash
-pip install git+https://github.com/intelogroup/perch.git
+pip install perchx
 ```
 
 `httpx` is the default HTTP backend. For browser-like TLS fingerprinting, install the optional `curl-cffi` backend:
 
 ```bash
-pip install "perch[curl]"  # after PyPI publish; until then use the git URL above
+pip install "perchx[curl]"
 
 TWS_HTTP_BACKEND=curl perch user_by_login xdevelopers
 ```
@@ -58,7 +58,7 @@ perch requires authorized X/Twitter accounts. The most stable setup is to add an
 **Recommended (this fork): read cookies straight from a local browser, no copy-paste.**
 
 ```bash
-pip install "perch[browser]"  # after PyPI publish; until then use the git URL above
+pip install "perchx[browser]"
 perch add_cookie_local my_account --browser chrome  # or firefox, edge, safari, brave, opera, chromium
 perch accounts
 perch search "from:xdevelopers lang:en" --limit=20

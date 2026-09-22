@@ -8,7 +8,7 @@ existed.
 ## Getting an account working, fastest path
 
 ```bash
-pip install "perch[curl,browser]"
+pip install "perchx[curl,browser]"
 perch --db path/to/accounts.db add_cookie_local <local_username> --browser chrome
 ```
 
