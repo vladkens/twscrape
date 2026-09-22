@@ -1,6 +1,7 @@
 import base64
 import json
 import os
+import re
 from collections import defaultdict
 from datetime import datetime, timezone
 from typing import Any, AsyncGenerator, Callable, TypeVar, overload
@@ -337,12 +338,13 @@ def to_old_rep(obj: dict) -> dict[str, Any]:
     # Quoted tweets are embedded in the quoting tweet (as quotedTweet); they
     # should not leak as standalone results in timelines/search:
     # https://github.com/vladkens/twscrape/issues/315
-    # Exception: tweets X explicitly lists as their own timeline entries
-    # (entryId tweet-{id} / profile-conversation module items) are real results.
+    # Exception: tweets X explicitly lists as their own timeline entries are
+    # real results. Module prefixes vary (profile-conversation, conversationthread,
+    # list-conversation, etc.), but their item IDs all contain -tweet-{id}.
     standalone_ids = {
-        entry_id.split("-")[-1]
+        match.group(1)
         for entry_id in tmp.get("entry_ids", [])
-        if entry_id.startswith(("tweet-", "profile-conversation-"))
+        if (match := re.search(r"(?:^|-)tweet-(\d+)(?:-|$)", entry_id))
     }
     quoted_ids = {
         str(quoted_id)

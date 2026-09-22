@@ -658,6 +658,20 @@ async def test_issue_315():
     assert "2082640274845811115" in top_level_ids
 
 
+@pytest.mark.parametrize(
+    "module",
+    ["conversationthread", "list-conversation", "profile-grid", "tweetdetailrelatedtweets"],
+)
+def test_quoted_tweet_in_other_timeline_modules_is_standalone(module):
+    raw = fake_rep("raw_user_tweets").json()
+    quoted_id = "2082640274845811115"
+    entry = find_obj(raw, lambda x: x.get("entryId", "").endswith(f"-tweet-{quoted_id}"))
+    assert entry is not None
+    entry["entryId"] = entry["entryId"].replace("profile-conversation-", f"{module}-", 1)
+
+    assert quoted_id in {tweet.id_str for tweet in parse_tweets(raw)}
+
+
 async def test_cards():
     # Issues:
     # - https://github.com/vladkens/twscrape/issues/72
