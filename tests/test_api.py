@@ -44,8 +44,30 @@ async def test_gql_params(api_mock: API, monkeypatch):
             pass
 
         assert len(args) == 1, f"{func} not called once"
-        assert args[0][1]["limit"] == 100, f"limit not changed in {func}"
+        # Parsed generators count unique items, so raw pagination runs until
+        # enough distinct results have passed the parser.
+        assert args[0][1]["limit"] == -1, f"raw limit not disabled in {func}"
         assert args[0][0][1]["count"] == 100, f"count not changed in {func}"
+
+
+async def test_tweet_details_article_toggles(api_mock: API, monkeypatch):
+    args = []
+
+    async def mock_gql_item(*a, **kw):
+        args.append((a, kw))
+
+    monkeypatch.setattr(api_mock, "_gql_item", mock_gql_item)
+    await api_mock.tweet_details_raw(2075503860689281453)
+
+    assert len(args) == 1
+    assert args[0][1]["field_toggles"] == {
+        "withArticleRichContentState": True,
+        "withArticlePlainText": False,
+        "withArticleSummaryText": True,
+        "withArticleVoiceOver": True,
+        "withGrokAnalyze": False,
+        "withDisallowedReplyControls": False,
+    }
 
 
 async def test_raise_when_no_account(api_mock: API):

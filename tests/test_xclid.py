@@ -117,6 +117,30 @@ async def test_logged_out_entry_is_account_error():
         await xclid.parse_anim_idx(html, MockClient())
 
 
+def test_cloudflare_challenge_shell_raises_precise_error():
+    # https://github.com/vladkens/twscrape/issues/330 - X sometimes serves a
+    # Cloudflare JS-detection shell (only /cdn-cgi/challenge-platform script,
+    # no app bundles) instead of the web app HTML.
+    html = '<script src="/cdn-cgi/challenge-platform/scripts/jsd/api.js?onload=jsdOnload"></script>'
+
+    with pytest.raises(
+        xclid.XClIdParseError, match="Cloudflare challenge page served instead of X web app"
+    ):
+        xclid.get_scripts_list(html)
+
+
+def test_challenge_script_alongside_real_scripts_is_ignored():
+    # X itself loads a challenge-platform script on normal pages; when real app
+    # scripts are present the challenge marker must not break parsing.
+    html = (
+        '<script src="/cdn-cgi/challenge-platform/scripts/jsd/api.js"></script>'
+        '<script src="https://abs.twimg.com/x-web/x-web/app-a1b2c3.js"></script>'
+    )
+
+    urls = xclid.get_scripts_list(html)
+    assert urls == ["https://abs.twimg.com/x-web/x-web/app-a1b2c3.js"]
+
+
 def test_script_list_combines_direct_and_reconstructed_urls():
     html = (
         '<script src="https://abs.twimg.com/x-web/x-web/app-a1b2c3.js"></script>'

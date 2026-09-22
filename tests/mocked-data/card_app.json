@@ -1,0 +1,514 @@
+{
+  "data": {
+    "threaded_conversation_with_injections_v2": {
+      "instructions": [
+        {
+          "type": "TimelineClearCache"
+        },
+        {
+          "entries": [
+            {
+              "content": {
+                "__typename": "TimelineTimelineItem",
+                "clientEventInfo": {
+                  "component": "tweet",
+                  "element": "tweet"
+                },
+                "entryType": "TimelineTimelineItem",
+                "itemContent": {
+                  "__typename": "TimelineTweet",
+                  "itemType": "TimelineTweet",
+                  "tweetDisplayType": "Tweet",
+                  "tweet_results": {
+                    "result": {
+                      "__typename": "Tweet",
+                      "card": {
+                        "legacy": {
+                          "binding_values": [
+                            {
+                              "key": "thumbnail_original",
+                              "value": {
+                                "image_value": {
+                                  "height": 512,
+                                  "url": "https://pbs.twimg.com/card_img/2093578102303547393/An3Uvs-x?format=jpg&name=orig",
+                                  "width": 512
+                                },
+                                "type": "IMAGE"
+                              }
+                            },
+                            {
+                              "key": "app_star_rating",
+                              "value": {
+                                "string_value": "4.57233",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "thumbnail_large",
+                              "value": {
+                                "image_value": {
+                                  "height": 280,
+                                  "url": "https://pbs.twimg.com/card_img/2093578102303547393/An3Uvs-x?format=jpg&name=280x280",
+                                  "width": 280
+                                },
+                                "type": "IMAGE"
+                              }
+                            },
+                            {
+                              "key": "description",
+                              "value": {
+                                "string_value": "Smash brings you the blood, sweat, and tears of the making of a Broadway musical.",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "thumbnail_small",
+                              "value": {
+                                "image_value": {
+                                  "height": 100,
+                                  "url": "https://pbs.twimg.com/card_img/2093578102303547393/An3Uvs-x?format=jpg&name=100x100",
+                                  "width": 100
+                                },
+                                "type": "IMAGE"
+                              }
+                            },
+                            {
+                              "key": "thumbnail_color",
+                              "value": {
+                                "image_color_value": {
+                                  "palette": [
+                                    {
+                                      "percentage": 48.19,
+                                      "rgb": {
+                                        "blue": 34,
+                                        "green": 14,
+                                        "red": 0
+                                      }
+                                    },
+                                    {
+                                      "percentage": 9.72,
+                                      "rgb": {
+                                        "blue": 57,
+                                        "green": 15,
+                                        "red": 40
+                                      }
+                                    },
+                                    {
+                                      "percentage": 9.52,
+                                      "rgb": {
+                                        "blue": 36,
+                                        "green": 46,
+                                        "red": 29
+                                      }
+                                    },
+                                    {
+                                      "percentage": 5.31,
+                                      "rgb": {
+                                        "blue": 255,
+                                        "green": 255,
+                                        "red": 255
+                                      }
+                                    },
+                                    {
+                                      "percentage": 4.11,
+                                      "rgb": {
+                                        "blue": 37,
+                                        "green": 32,
+                                        "red": 64
+                                      }
+                                    }
+                                  ]
+                                },
+                                "type": "IMAGE_COLOR"
+                              }
+                            },
+                            {
+                              "key": "site",
+                              "value": {
+                                "scribe_key": "publisher_id",
+                                "type": "USER",
+                                "user_value": {
+                                  "id_str": "26585095",
+                                  "path": []
+                                }
+                              }
+                            },
+                            {
+                              "key": "thumbnail_x_large",
+                              "value": {
+                                "image_value": {
+                                  "height": 512,
+                                  "url": "https://pbs.twimg.com/card_img/2093578102303547393/An3Uvs-x?format=png&name=2048x2048_2_exp",
+                                  "width": 512
+                                },
+                                "type": "IMAGE"
+                              }
+                            },
+                            {
+                              "key": "app_num_ratings",
+                              "value": {
+                                "string_value": "289,838",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "app_price_amount",
+                              "value": {
+                                "string_value": "0.0",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "thumbnail",
+                              "value": {
+                                "image_value": {
+                                  "height": 144,
+                                  "url": "https://pbs.twimg.com/card_img/2093578102303547393/An3Uvs-x?format=jpg&name=144x144",
+                                  "width": 144
+                                },
+                                "type": "IMAGE"
+                              }
+                            },
+                            {
+                              "key": "app_name",
+                              "value": {
+                                "string_value": "The NBC App \u2013 Stream TV Shows",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "app_country",
+                              "value": {
+                                "string_value": "US",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "title",
+                              "value": {
+                                "string_value": "The NBC App \u2013 Stream TV Shows",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "app_price_currency",
+                              "value": {
+                                "string_value": "USD",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "card_url",
+                              "value": {
+                                "scribe_key": "card_url",
+                                "string_value": "https://t.co/qmaIBuumtr",
+                                "type": "STRING"
+                              }
+                            }
+                          ],
+                          "card_platform": {
+                            "platform": {
+                              "audience": {
+                                "name": "production"
+                              },
+                              "device": {
+                                "name": "Swift",
+                                "version": "12"
+                              }
+                            }
+                          },
+                          "name": "app",
+                          "url": "https://t.co/qmaIBuumtr",
+                          "user_refs_results": [
+                            {
+                              "result": {
+                                "__typename": "User",
+                                "action_counts": {
+                                  "favorites_count": 29778
+                                },
+                                "affiliates_highlighted_label": {},
+                                "avatar": {
+                                  "image_url": "https://pbs.twimg.com/profile_images/2006766437432745984/j5VRIZgO_normal.jpg"
+                                },
+                                "banner": {
+                                  "image_url": "https://pbs.twimg.com/profile_banners/26585095/1783969710"
+                                },
+                                "core": {
+                                  "created_at": "Wed Mar 25 20:37:48 +0000 2009",
+                                  "name": "NBC Entertainment",
+                                  "screen_name": "nbc"
+                                },
+                                "dm_permissions": {
+                                  "can_dm": true
+                                },
+                                "follow_request_sent": false,
+                                "has_graduated_access": true,
+                                "id": "VXNlcjoyNjU4NTA5NQ==",
+                                "is_blue_verified": true,
+                                "location": {
+                                  "location": "Across the globe"
+                                },
+                                "media_permissions": {
+                                  "can_media_tag": true
+                                },
+                                "notifications_settings": {
+                                  "notifications_enabled": false
+                                },
+                                "pinned_items": {},
+                                "possibly_sensitive": false,
+                                "privacy": {
+                                  "protected": false
+                                },
+                                "profile_bio": {
+                                  "description": "fall TV loading\u2026",
+                                  "entities": {
+                                    "description": {},
+                                    "url": {
+                                      "urls": [
+                                        {
+                                          "display_url": "youtube.com/NBC",
+                                          "expanded_url": "https://youtube.com/NBC",
+                                          "indices": [
+                                            0,
+                                            23
+                                          ],
+                                          "url": "https://t.co/KCPSTd0HlO"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                },
+                                "profile_description_language": "en",
+                                "profile_image_shape": "Square",
+                                "profile_metadata": {
+                                  "profile_interstitial_type": ""
+                                },
+                                "profile_translation": {
+                                  "translator_type": "regular"
+                                },
+                                "relationship_counts": {
+                                  "followers": 1918504,
+                                  "following": 600
+                                },
+                                "relationship_perspectives": {
+                                  "blocked_by": false,
+                                  "blocking": false,
+                                  "followed_by": false,
+                                  "following": false,
+                                  "live_following": false,
+                                  "muting": false
+                                },
+                                "rest_id": "26585095",
+                                "super_follow_eligible": false,
+                                "super_followed_by": false,
+                                "super_following": false,
+                                "tipjar_settings": {},
+                                "tweet_counts": {
+                                  "media_tweets": 14439,
+                                  "tweets": 50283
+                                },
+                                "verification": {
+                                  "verified": false,
+                                  "verified_type": "Business"
+                                },
+                                "website": {
+                                  "url": "https://t.co/KCPSTd0HlO"
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "rest_id": "https://t.co/qmaIBuumtr"
+                      },
+                      "core": {
+                        "user_results": {
+                          "result": {
+                            "__typename": "User",
+                            "action_counts": {
+                              "favorites_count": 127
+                            },
+                            "affiliates_highlighted_label": {},
+                            "avatar": {
+                              "image_url": "https://pbs.twimg.com/profile_images/2869446718/a6504b951b9e079a3dbc2fac5dbf22ee_normal.png"
+                            },
+                            "banner": {
+                              "image_url": "https://pbs.twimg.com/profile_banners/294180303/1353341140"
+                            },
+                            "core": {
+                              "created_at": "Fri May 06 17:29:09 +0000 2011",
+                              "name": "Smash",
+                              "screen_name": "NBCSmash"
+                            },
+                            "dm_permissions": {
+                              "can_dm": false
+                            },
+                            "follow_request_sent": false,
+                            "has_graduated_access": true,
+                            "id": "VXNlcjoyOTQxODAzMDM=",
+                            "is_blue_verified": false,
+                            "location": {
+                              "location": "NBC"
+                            },
+                            "media_permissions": {
+                              "can_media_tag": true
+                            },
+                            "notifications_settings": {
+                              "notifications_enabled": false
+                            },
+                            "pinned_items": {},
+                            "possibly_sensitive": false,
+                            "privacy": {
+                              "protected": false
+                            },
+                            "profile_bio": {
+                              "description": "Let us be your star.",
+                              "entities": {
+                                "description": {},
+                                "url": {
+                                  "urls": [
+                                    {
+                                      "display_url": "nbc.com/smash",
+                                      "expanded_url": "http://www.nbc.com/smash",
+                                      "indices": [
+                                        0,
+                                        22
+                                      ],
+                                      "url": "http://t.co/WqgL6HPt8P"
+                                    }
+                                  ]
+                                }
+                              }
+                            },
+                            "profile_description_language": "en",
+                            "profile_image_shape": "Circle",
+                            "profile_metadata": {
+                              "profile_interstitial_type": ""
+                            },
+                            "profile_translation": {
+                              "translator_type": "none"
+                            },
+                            "relationship_counts": {
+                              "followers": 66770,
+                              "following": 255
+                            },
+                            "relationship_perspectives": {
+                              "blocked_by": false,
+                              "blocking": false,
+                              "followed_by": false,
+                              "following": false,
+                              "live_following": false,
+                              "muting": false
+                            },
+                            "rest_id": "294180303",
+                            "super_follow_eligible": false,
+                            "super_followed_by": false,
+                            "super_following": false,
+                            "tipjar_settings": {},
+                            "tweet_counts": {
+                              "media_tweets": 67,
+                              "tweets": 4415
+                            },
+                            "verification": {
+                              "verified": false
+                            },
+                            "website": {
+                              "url": "http://t.co/WqgL6HPt8P"
+                            }
+                          }
+                        }
+                      },
+                      "edit_control": {
+                        "edit_tweet_ids": [
+                          "1249486216266788865"
+                        ],
+                        "editable_until_msecs": "1586737502946",
+                        "edits_remaining": "5",
+                        "is_edit_eligible": true
+                      },
+                      "grok_translated_post_with_availability": {
+                        "is_available": false
+                      },
+                      "has_birdwatch_notes": false,
+                      "is_translatable": false,
+                      "legacy": {
+                        "bookmark_count": 1,
+                        "bookmarked": false,
+                        "conversation_id_str": "1249486216266788865",
+                        "created_at": "Sun Apr 12 23:55:02 +0000 2020",
+                        "display_text_range": [
+                          0,
+                          121
+                        ],
+                        "entities": {
+                          "urls": [
+                            {
+                              "display_url": "nbc.com/smash",
+                              "expanded_url": "http://nbc.com/smash",
+                              "indices": [
+                                98,
+                                121
+                              ],
+                              "url": "https://t.co/qmaIBuumtr"
+                            }
+                          ]
+                        },
+                        "favorite_count": 35,
+                        "favorited": false,
+                        "full_text": "The show's not over just yet...get ready to hit play on the Season 2 finale at 8pm ET / 5pm PT. \ud83d\udc4f https://t.co/qmaIBuumtr",
+                        "id_str": "1249486216266788865",
+                        "is_quote_status": false,
+                        "lang": "en",
+                        "possibly_sensitive": false,
+                        "possibly_sensitive_editable": true,
+                        "quote_count": 0,
+                        "reply_count": 1,
+                        "retweet_count": 1,
+                        "retweeted": false,
+                        "user_id_str": "294180303"
+                      },
+                      "quick_promote_eligibility": {
+                        "eligibility": "IneligibleNotVerified"
+                      },
+                      "rest_id": "1249486216266788865",
+                      "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+                      "unmention_data": {},
+                      "views": {
+                        "state": "Enabled"
+                      }
+                    }
+                  }
+                }
+              },
+              "entryId": "tweet-1249486216266788865",
+              "sortIndex": "2093608818826018816"
+            },
+            {
+              "content": {
+                "__typename": "TimelineTimelineCursor",
+                "cursorType": "Bottom",
+                "entryType": "TimelineTimelineCursor",
+                "value": "DAAKCgABHQ3-INi___0LAAIAAAAoRW1QQzZ3QUFBZlEvZ0dKTjB2R3AvQUFBQUFFUlZ4RVgrRlF3QVE9PQgAAwAAAAILAAQAAAAGQm90dG9tAAA"
+              },
+              "entryId": "cursor-bottom-2093608818826018815",
+              "sortIndex": "2093608818826018815"
+            }
+          ],
+          "type": "TimelineAddEntries"
+        },
+        {
+          "direction": "Top",
+          "type": "TimelineTerminateTimeline"
+        },
+        {
+          "direction": "Bottom",
+          "type": "TimelineTerminateTimeline"
+        }
+      ],
+      "metadata": {
+        "scribeConfig": {
+          "page": "ranked_replies"
+        }
+      }
+    }
+  }
+}

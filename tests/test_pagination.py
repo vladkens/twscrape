@@ -10,6 +10,7 @@ import json
 import os
 
 from twscrape import API, gather
+from twscrape.models import parse_tweets
 from twscrape.queue_client import QueueClient
 from twscrape.utils import find_obj
 
@@ -164,6 +165,54 @@ async def test_user_tweets_dedup_across_pages(monkeypatch, api_mock: API):
     assert idx == 2, "both pages should be fetched"
     assert len(ids) > 0, "expected tweets from page 1"
     assert len(ids) == len(set(ids)), "a tweet repeated across pages must be yielded once"
+
+
+async def test_user_tweets_limit_counts_unique_items(monkeypatch, api_mock: API):
+    with open(os.path.join(DATA_DIR, "raw_user_tweets.json")) as f:
+        page = json.load(f)
+    with open(os.path.join(DATA_DIR, "raw_user_media.json")) as f:
+        next_page = json.load(f)
+
+    first_page_ids = {x.id for x in parse_tweets(page)}
+    assert len(first_page_ids) == 21
+    assert any(x.id not in first_page_ids for x in parse_tweets(next_page))
+
+    pages = [page, page, next_page]
+    fetched = 0
+
+    async def raw(uid, limit=-1, kv=None):
+        nonlocal fetched
+        assert limit == -1
+        for data in pages:
+            fetched += 1
+            yield FakeRep(data)
+
+    monkeypatch.setattr(api_mock, "user_tweets_raw", raw)
+    tweets = await gather(api_mock.user_tweets(123, limit=22))
+
+    assert fetched == 3
+    assert len(tweets) == len({x.id for x in tweets}) == 22
+
+
+async def test_nested_quote_does_not_hide_later_standalone_tweet(monkeypatch, api_mock: API):
+    with open(os.path.join(DATA_DIR, "raw_user_tweets.json")) as f:
+        standalone_page = json.load(f)
+    nested_page = json.loads(json.dumps(standalone_page))
+
+    quoted_id = "2082640274845811115"
+    entry = find_obj(nested_page, lambda x: x.get("entryId", "").endswith(f"-tweet-{quoted_id}"))
+    assert entry is not None
+    entry["entryId"] = "module-hidden"
+    assert quoted_id not in {x.id_str for x in parse_tweets(nested_page)}
+
+    async def raw(uid, limit=-1, kv=None):
+        yield FakeRep(nested_page)
+        yield FakeRep(standalone_page)
+
+    monkeypatch.setattr(api_mock, "user_tweets_raw", raw)
+    tweets = await gather(api_mock.user_tweets(123))
+
+    assert [x.id_str for x in tweets].count(quoted_id) == 1
 
 
 async def test_gql_items_stops_on_repeated_cursor(monkeypatch, api_mock: API):

@@ -242,6 +242,144 @@ class User(JSONTrait):
 
 
 @dataclass
+class ArticleInlineStyleRange(JSONTrait):
+    offset: int
+    length: int
+    style: str
+
+    @staticmethod
+    def parse(obj: dict):
+        return ArticleInlineStyleRange(
+            offset=obj["offset"],
+            length=obj["length"],
+            style=obj["style"],
+        )
+
+
+@dataclass
+class ArticleEntityRange(JSONTrait):
+    key: str
+    offset: int
+    length: int
+
+    @staticmethod
+    def parse(obj: dict):
+        return ArticleEntityRange(
+            key=str(obj["key"]),
+            offset=obj["offset"],
+            length=obj["length"],
+        )
+
+
+@dataclass
+class ArticleBlock(JSONTrait):
+    key: str
+    type: str
+    text: str
+    data: dict
+    inlineStyleRanges: list[ArticleInlineStyleRange]
+    entityRanges: list[ArticleEntityRange]
+
+    @staticmethod
+    def parse(obj: dict):
+        return ArticleBlock(
+            key=obj["key"],
+            type=obj["type"],
+            text=obj["text"],
+            data=obj.get("data", {}),
+            inlineStyleRanges=[
+                ArticleInlineStyleRange.parse(x) for x in obj.get("inlineStyleRanges", [])
+            ],
+            entityRanges=[ArticleEntityRange.parse(x) for x in obj.get("entityRanges", [])],
+        )
+
+
+@dataclass
+class ArticleEntity(JSONTrait):
+    type: str
+    mutability: str
+    data: dict
+
+    @staticmethod
+    def parse(obj: dict):
+        return ArticleEntity(
+            type=obj["type"],
+            mutability=obj["mutability"],
+            data=obj.get("data", {}),
+        )
+
+
+@dataclass
+class ArticleContentState(JSONTrait):
+    blocks: list[ArticleBlock]
+    entityMap: dict[str, ArticleEntity]
+
+    @staticmethod
+    def parse(obj: dict):
+        return ArticleContentState(
+            blocks=[ArticleBlock.parse(x) for x in obj.get("blocks", [])],
+            entityMap={
+                str(x["key"]): ArticleEntity.parse(x["value"]) for x in obj.get("entityMap", [])
+            },
+        )
+
+
+@dataclass
+class ArticleCoverMedia(JSONTrait):
+    id: str
+    mediaId: str
+    mediaKey: str
+    mediaInfo: dict
+
+    @staticmethod
+    def parse(obj: dict):
+        return ArticleCoverMedia(
+            id=obj["id"],
+            mediaId=obj["media_id"],
+            mediaKey=obj["media_key"],
+            mediaInfo=obj.get("media_info", {}),
+        )
+
+
+@dataclass
+class Article(JSONTrait):
+    id: str
+    rest_id: str
+    title: str
+    preview_text: str
+    modified_at_secs: int | None = None
+    first_published_at_secs: int | None = None
+    contentState: ArticleContentState | None = None
+    coverMedia: ArticleCoverMedia | None = None
+    mediaEntities: list[dict] = field(default_factory=list)
+    summaryText: str | None = None
+    isGrokSummaryEligible: bool | None = None
+
+    @staticmethod
+    def parse(obj: dict):
+        result = get_or(obj, "article.article_results.result")
+        if not result:
+            return None
+
+        content_state = result.get("content_state")
+        cover_media = result.get("cover_media")
+        # ponytail: article media variants need a non-empty fixture before typing.
+        return Article(
+            id=result["id"],
+            rest_id=result["rest_id"],
+            title=result.get("title", ""),
+            preview_text=result.get("preview_text", ""),
+            modified_at_secs=int_or(result, "lifecycle_state.modified_at_secs"),
+            first_published_at_secs=int_or(result, "metadata.first_published_at_secs"),
+            contentState=ArticleContentState.parse(content_state) if content_state else None,
+            coverMedia=ArticleCoverMedia.parse(cover_media) if cover_media else None,
+            mediaEntities=result.get("media_entities", []),
+            summaryText=result.get("summary_text"),
+            isGrokSummaryEligible=result.get("is_grok_summary_eligible"),
+        )
+
+
+@dataclass
 class Tweet(JSONTrait):
     id: int
     id_str: str
@@ -273,7 +411,19 @@ class Tweet(JSONTrait):
     source: str | None = None
     sourceUrl: str | None = None
     sourceLabel: str | None = None
-    card: Union[None, "SummaryCard", "PollCard", "BroadcastCard", "AudiospaceCard"] = None
+    card: Union[
+        None,
+        "SummaryCard",
+        "PollCard",
+        "BroadcastCard",
+        "AudiospaceCard",
+        "MessageMeCard",
+        "PeriscopeBroadcastCard",
+        "PromoVideoConvoCard",
+        "PromoImageConvoCard",
+        "LiveEventCard",
+        "AppCard",
+    ] = None
     possibly_sensitive: bool | None = None
     isQuoteStatus: bool = False
     isTranslatable: bool = False
@@ -281,6 +431,7 @@ class Tweet(JSONTrait):
     inReplyToScreenName: str | None = None
     editControl: dict | None = None
     voiceInfo: dict | None = None
+    article: Article | None = None
     _type: str = "snscrape.modules.twitter.Tweet"
 
     # todo:
@@ -348,6 +499,7 @@ class Tweet(JSONTrait):
             inReplyToScreenName=obj.get("in_reply_to_screen_name"),
             editControl=_parse_edit_control(obj),
             voiceInfo=obj.get("voice_info"),
+            article=Article.parse(obj),
         )
 
         # issue #42 – restore full rt text
@@ -478,6 +630,9 @@ class PollOption(JSONTrait):
 class PollCard(Card):
     options: list[PollOption]
     finished: bool
+    videoUrl: str | None = None
+    durationSeconds: int | None = None
+    photo: MediaPhoto | None = None
     _type: str = "poll"
 
 
@@ -493,6 +648,68 @@ class BroadcastCard(Card):
 class AudiospaceCard(Card):
     url: str
     _type: str = "audiospace"
+
+
+@dataclass
+class MessageMeCard(Card):
+    url: str
+    cta: str | None = None
+    recipientId: str | None = None
+    _type: str = "message_me"
+
+
+@dataclass
+class PeriscopeBroadcastCard(Card):
+    title: str
+    url: str
+    state: str | None = None
+    broadcasterUsername: str | None = None
+    thumbnailUrl: str | None = None
+    _type: str = "periscope_broadcast"
+
+
+@dataclass
+class LiveEventCard(Card):
+    title: str
+    url: str
+    eventId: str | None = None
+    subtitle: str | None = None
+    category: str | None = None
+    photo: MediaPhoto | None = None
+    _type: str = "live_event"
+
+
+@dataclass
+class PromoVideoConvoCard(Card):
+    title: str
+    thankYouText: str | None = None
+    thankYouUrl: str | None = None
+    videoUrl: str | None = None
+    durationSeconds: int | None = None
+    ctas: list[str] = field(default_factory=list)
+    photo: MediaPhoto | None = None
+    _type: str = "promo_video_convo"
+
+
+@dataclass
+class PromoImageConvoCard(Card):
+    title: str
+    thankYouText: str | None = None
+    thankYouUrl: str | None = None
+    ctas: list[str] = field(default_factory=list)
+    photo: MediaPhoto | None = None
+    _type: str = "promo_image_convo"
+
+
+@dataclass
+class AppCard(Card):
+    title: str
+    url: str
+    description: str | None = None
+    starRating: float | None = None
+    numRatings: int | None = None
+    photo: MediaPhoto | None = None
+    _type: str = "app"
 
 
 @dataclass
@@ -584,6 +801,13 @@ def _parse_card_get_str(values: list[dict], key: str, defaultVal: str | None = N
     return defaultVal
 
 
+def _parse_card_get_photo(values: list[dict], key: str):
+    for x in values:
+        if x["key"] == key and x["value"]["type"] == "IMAGE":
+            return MediaPhoto(url=x["value"]["image_value"]["url"])
+    return None
+
+
 def _parse_card_extract_str(values: list[dict], key: str):
     pretenders = [x["value"]["string_value"] for x in values if x["key"] == key]
     new_values = [x for x in values if x["key"] != key]
@@ -672,7 +896,7 @@ def _parse_card(obj: dict, url: str):
             video=video,
         )
 
-    if re.match(r"(?:\d+:)?poll(?:\d+choice_text_only|_choice_images)", name):
+    if re.match(r"(?:\d+:)?poll(?:\d+choice_(?:text_only|video|images?)|_choice_images)", name):
         val = _parse_card_prepare_values(obj)
 
         options = []
@@ -688,7 +912,19 @@ def _parse_card(obj: dict, url: str):
         # duration_minutes = int(_parse_card_get_str(val, "duration_minutes") or "0")
         # end_datetime_utc = _parse_card_get_str(val, "end_datetime_utc")
         # print(json.dumps(val, indent=2))
-        return PollCard(options=options, finished=finished)
+
+        # poll{n}choice_video cards carry the video in binding_values only (not in
+        # extended_entities). Lookup by key, not by IMAGE type: on poll_choice_images
+        # cards the IMAGE bindings are the per-choice images, not a player thumbnail.
+        duration = _parse_card_get_str(val, "content_duration_seconds")
+        photo = _parse_card_get_photo(val, "player_image_original")
+        return PollCard(
+            options=options,
+            finished=finished,
+            videoUrl=_parse_card_get_str(val, "player_hls_url"),
+            durationSeconds=int(duration) if duration is not None else None,
+            photo=photo,
+        )
 
     if name == "745291183405076480:broadcast":
         val = _parse_card_prepare_values(obj)
@@ -709,6 +945,108 @@ def _parse_card(obj: dict, url: str):
 
         # print(json.dumps(val, indent=2))
         return AudiospaceCard(url=card_url)
+
+    if name == "2586390716:message_me":
+        val = _parse_card_prepare_values(obj)
+        card_url = _parse_card_get_str(val, "card_url")
+        if card_url is None:
+            return None
+
+        cta = _parse_card_get_str(val, "cta")
+        recipient_id = next(
+            (
+                x["value"]["user_value"]["id_str"]
+                for x in val
+                if x["key"] == "recipient" and x["value"]["type"] == "USER"
+            ),
+            None,
+        )
+        return MessageMeCard(url=card_url, cta=cta, recipientId=recipient_id)
+
+    if name == "3691233323:periscope_broadcast":
+        val = _parse_card_prepare_values(obj)
+        card_url = _parse_card_get_str(val, "url", _parse_card_get_str(val, "card_url"))
+        card_title = _parse_card_get_str(val, "title")
+        if card_url is None or card_title is None:
+            return None
+
+        return PeriscopeBroadcastCard(
+            title=card_title,
+            url=card_url,
+            state=_parse_card_get_str(val, "broadcast_state"),
+            broadcasterUsername=_parse_card_get_str(val, "broadcaster_username"),
+            thumbnailUrl=_parse_card_get_str(val, "full_size_thumbnail_url"),
+        )
+
+    if name == "745291183405076480:live_event":
+        val = _parse_card_prepare_values(obj)
+        card_url = _parse_card_get_str(val, "card_url")
+        card_title = _parse_card_get_str(val, "event_title")
+        if card_url is None or card_title is None:
+            return None
+
+        return LiveEventCard(
+            title=card_title,
+            url=card_url,
+            eventId=_parse_card_get_str(val, "event_id"),
+            subtitle=_parse_card_get_str(val, "event_subtitle"),
+            category=_parse_card_get_str(val, "event_category"),
+            photo=_parse_card_get_photo(val, "event_thumbnail_original"),
+        )
+
+    if name in {"promo_video_convo", "promo_image_convo"}:
+        val = _parse_card_prepare_values(obj)
+        card_title = _parse_card_get_str(val, "title")
+        if card_title is None:
+            return None
+
+        ctas = []
+        for key in ("cta_one", "cta_two", "cta_three", "cta_four"):
+            cta = _parse_card_get_str(val, key)
+            if cta is not None:
+                ctas.append(cta)
+
+        thank_you_text = _parse_card_get_str(val, "thank_you_text")
+        thank_you_url = _parse_card_get_str(val, "thank_you_url")
+
+        if name == "promo_image_convo":
+            return PromoImageConvoCard(
+                title=card_title,
+                thankYouText=thank_you_text,
+                thankYouUrl=thank_you_url,
+                ctas=ctas,
+                photo=_parse_card_get_photo(val, "promo_image_original"),
+            )
+
+        duration = _parse_card_get_str(val, "content_duration_seconds")
+        return PromoVideoConvoCard(
+            title=card_title,
+            thankYouText=thank_you_text,
+            thankYouUrl=thank_you_url,
+            videoUrl=_parse_card_get_str(val, "player_stream_url"),
+            durationSeconds=int(duration) if duration is not None else None,
+            ctas=ctas,
+            photo=_parse_card_get_photo(val, "player_image_original"),
+        )
+
+    if name == "app":
+        val = _parse_card_prepare_values(obj)
+        card_url = _parse_card_get_str(val, "card_url")
+        card_title = _parse_card_get_str(val, "title")
+        if card_url is None or card_title is None:
+            return None
+
+        rating = _parse_card_get_str(val, "app_star_rating")
+        # app_num_ratings is locale-formatted ("289,838"), keep the digits only
+        num_ratings = _parse_card_get_str(val, "app_num_ratings")
+        return AppCard(
+            title=card_title,
+            url=card_url,
+            description=_parse_card_get_str(val, "description"),
+            starRating=float(rating) if rating is not None else None,
+            numRatings=int(re.sub(r"\D", "", num_ratings)) if num_ratings else None,
+            photo=_parse_card_get_photo(val, "thumbnail_original"),
+        )
 
     logger.warning(f"Unknown card type '{name}' on {url}")
     if "PYTEST_CURRENT_TEST" in os.environ:  # help debugging tests
@@ -835,6 +1173,8 @@ def _parse_items(
     kind: str,
     parser: Callable[[dict, dict], ParsedItem],
     limit: int = -1,
+    seen_ids: set[int | str | None] | None = None,
+    accept: Callable[[ParsedItem], bool] | None = None,
 ) -> Generator[ParsedItem, None, None]:
     key = kind if kind == "trends" else f"{kind}s"
 
@@ -842,10 +1182,17 @@ def _parse_items(
     res = rep if isinstance(rep, dict) else rep.json()
     obj = to_old_rep(res)
     retweeted_ids: set[str] = obj.get("retweeted_ids", set())
+    quoted_ids: set[str] = obj.get("quoted_ids", set())
 
-    ids = set()
+    ids = seen_ids if seen_ids is not None else set()
     for x in obj[key].values():
         if kind == "tweet" and x.get("id_str") in retweeted_ids:
+            continue
+        # Quoted tweets of other users are embedded in the quoting tweet and
+        # must not be yielded as standalone items:
+        # https://github.com/vladkens/twscrape/issues/315
+        # https://github.com/vladkens/twscrape/issues/300
+        if kind == "tweet" and x.get("id_str") in quoted_ids:
             continue
         if limit != -1 and len(ids) >= limit:
             # todo: move somewhere in configuration like force_limit
@@ -855,7 +1202,7 @@ def _parse_items(
 
         try:
             tmp = parser(x, obj)
-            if tmp.id not in ids:
+            if tmp.id not in ids and (accept is None or accept(tmp)):
                 ids.add(tmp.id)
                 yield tmp
         except Exception as e:
@@ -924,13 +1271,28 @@ def parse_community(rep: Response | dict) -> Community | None:
         return None
 
 
-def parse_tweets(rep: Response, limit: int = -1) -> Generator[Tweet, None, None]:
-    return _parse_items(rep, "tweet", Tweet.parse, limit)
+def parse_tweets(
+    rep: Response,
+    limit: int = -1,
+    seen_ids: set[int | str | None] | None = None,
+    accept: Callable[[Tweet], bool] | None = None,
+) -> Generator[Tweet, None, None]:
+    return _parse_items(rep, "tweet", Tweet.parse, limit, seen_ids, accept)
 
 
-def parse_users(rep: Response, limit: int = -1) -> Generator[User, None, None]:
-    return _parse_items(rep, "user", User.parse, limit)
+def parse_users(
+    rep: Response,
+    limit: int = -1,
+    seen_ids: set[int | str | None] | None = None,
+    accept: Callable[[User], bool] | None = None,
+) -> Generator[User, None, None]:
+    return _parse_items(rep, "user", User.parse, limit, seen_ids, accept)
 
 
-def parse_trends(rep: Response, limit: int = -1) -> Generator[Trend, None, None]:
-    return _parse_items(rep, "trends", Trend.parse, limit)
+def parse_trends(
+    rep: Response,
+    limit: int = -1,
+    seen_ids: set[int | str | None] | None = None,
+    accept: Callable[[Trend], bool] | None = None,
+) -> Generator[Trend, None, None]:
+    return _parse_items(rep, "trends", Trend.parse, limit, seen_ids, accept)

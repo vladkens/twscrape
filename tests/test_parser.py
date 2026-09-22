@@ -6,9 +6,16 @@ import pytest
 
 from twscrape import API, gather
 from twscrape.models import (
+    AppCard,
+    Article,
     AudiospaceCard,
     BroadcastCard,
+    LiveEventCard,
+    MessageMeCard,
+    PeriscopeBroadcastCard,
     PollCard,
+    PromoImageConvoCard,
+    PromoVideoConvoCard,
     SummaryCard,
     Trend,
     Tweet,
@@ -627,6 +634,140 @@ async def test_issue_310():
     )
 
 
+def test_article_tweet():
+    raw = fake_rep("raw_user_tweets").json()
+    doc = parse_tweet(raw, 2079814622639469025)
+
+    assert doc is not None
+    assert doc.article is None
+    assert doc.retweetedTweet is not None
+
+    article = doc.retweetedTweet.article
+    assert isinstance(article, Article)
+    assert article.id == "QXJ0aWNsZUVudGl0eToyMDc5MTYyMDYxMTQyMzM1NDg4"
+    assert article.rest_id == "2079162061142335488"
+    assert (
+        article.title
+        == "Turn your X account into a programmable intelligence system using the X API and Grok Build"
+    )
+    assert article.preview_text.startswith("Your X account can now become")
+    assert article.modified_at_secs == 1784687550
+    assert article.first_published_at_secs == 1784687550
+
+
+def test_article_rich_content():
+    with open(os.path.join(DATA_DIR, "article.json")) as fp:
+        raw = json.load(fp)
+
+    source = raw["data"]["threaded_conversation_with_injections_v2"]["instructions"][1]["entries"][
+        0
+    ]["content"]["itemContent"]["tweet_results"]["result"]["article"]["article_results"]["result"]
+    doc = parse_tweet(raw, 2075503860689281453)
+
+    assert doc is not None
+    assert isinstance(doc.article, Article)
+    article = doc.article
+    assert article.title == source["title"]
+    assert article.summaryText == source["summary_text"]
+    assert article.isGrokSummaryEligible is True
+    assert article.coverMedia is not None
+    assert article.coverMedia.mediaId == source["cover_media"]["media_id"]
+    assert (
+        article.coverMedia.mediaInfo["original_img_url"]
+        == (source["cover_media"]["media_info"]["original_img_url"])
+    )
+    assert article.coverMedia.mediaInfo["original_img_width"] == 1024
+    assert article.coverMedia.mediaInfo["original_img_height"] == 410
+    assert article.mediaEntities == source["media_entities"]
+
+    assert article.contentState is not None
+    content = article.contentState
+    assert [x.key for x in content.blocks] == [x["key"] for x in source["content_state"]["blocks"]]
+    assert list(content.entityMap) == [str(x["key"]) for x in source["content_state"]["entityMap"]]
+    assert {x.type for x in content.blocks} == {
+        "unstyled",
+        "atomic",
+        "header-two",
+        "unordered-list-item",
+    }
+    assert any(x.data.get("urls") for x in content.blocks)
+    assert any(x.data.get("hashtags") for x in content.blocks)
+    assert any(x.inlineStyleRanges for x in content.blocks)
+    assert all(x.key in content.entityMap for block in content.blocks for x in block.entityRanges)
+
+    entities = [content.entityMap[x.key] for block in content.blocks for x in block.entityRanges]
+    assert {x.type for x in entities} >= {"MARKDOWN", "TWEMOJI", "DIVIDER"}
+    assert any(x.data.get("markdown", "").startswith("```bash") for x in entities)
+    assert any(x.data.get("url", "").endswith(".svg") for x in entities)
+    assert any(x.type == "DIVIDER" and x.data == {} for x in entities)
+
+    parsed = article.dict()
+    assert len(parsed["contentState"]["blocks"]) == len(source["content_state"]["blocks"])
+    assert parsed["contentState"]["entityMap"].keys() == content.entityMap.keys()
+
+
+async def test_tweet_details_article(api_mock: API, monkeypatch):
+    with open(os.path.join(DATA_DIR, "article.json")) as fp:
+        raw = json.load(fp)
+
+    async def article_tweet_details_raw(twid: int, kv=None):
+        assert twid == 2075503860689281453
+        return raw
+
+    monkeypatch.setattr(api_mock, "tweet_details_raw", article_tweet_details_raw)
+    doc = await api_mock.tweet_details(2075503860689281453)
+
+    assert doc is not None
+    assert doc.article is not None
+    assert doc.article.contentState is not None
+    assert doc.article.coverMedia is not None
+    assert doc.article.summaryText is not None
+
+
+async def test_issue_315():
+    """Quoted tweets must not leak as standalone timeline items.
+
+    In raw_user_tweets the quoting tweets quote tweets by other users
+    (@milichab, @XFreeze, @SpaceXAI, @nicole_clash, @agno_three, @nikitabier).
+    X returns those quoted tweets embedded in the quoting tweet's payload and
+    they must not be yielded as top-level items too:
+    https://github.com/vladkens/twscrape/issues/315
+    """
+    raw = fake_rep("raw_user_tweets").json()
+    tweets = list(parse_tweets(raw))
+    top_level_ids = {x.id_str for x in tweets}
+
+    # the fixture quotes 6 tweets by other users; none may leak top-level
+    other_user_quotes = {
+        x.quotedTweet.id_str
+        for x in tweets
+        if x.quotedTweet is not None and x.quotedTweet.user.username != x.user.username
+    }
+    assert len(other_user_quotes) == 6
+    assert not (other_user_quotes & top_level_ids), (
+        f"quoted tweets leaked as standalone items: {other_user_quotes & top_level_ids}"
+    )
+
+    # a self-quoted tweet X lists inside its own thread module entry remains a
+    # real result (5 items removed vs the pre-fix 25)
+    assert len(tweets) == 21
+    assert "2082640274845811115" in top_level_ids
+
+
+@pytest.mark.parametrize(
+    "module",
+    ["conversationthread", "list-conversation", "profile-grid", "tweetdetailrelatedtweets"],
+)
+def test_quoted_tweet_in_other_timeline_modules_is_standalone(module):
+    raw = fake_rep("raw_user_tweets").json()
+    quoted_id = "2082640274845811115"
+    entry = find_obj(raw, lambda x: x.get("entryId", "").endswith(f"-tweet-{quoted_id}"))
+    assert entry is not None
+    entry["entryId"] = entry["entryId"].replace("profile-conversation-", f"{module}-", 1)
+
+    assert quoted_id in {tweet.id_str for tweet in parse_tweets(raw)}
+
+
 async def test_cards():
     # Issues:
     # - https://github.com/vladkens/twscrape/issues/72
@@ -656,6 +797,18 @@ async def test_cards():
     for x in doc.card.options:
         assert x.label is not None
         assert x.votesCount is not None
+
+    # Check PollCard with video (poll2choice_video)
+    raw = fake_rep("card_poll_video").json()
+    doc = parse_tweet(raw, 1114574134397165568)
+    assert doc is not None and doc.card is not None
+    assert isinstance(doc.card, PollCard)
+    assert doc.card._type == "poll"
+    assert len(doc.card.options) == 2
+    assert doc.card.finished is True
+    assert doc.card.videoUrl is not None
+    assert doc.card.durationSeconds == 24
+    assert doc.card.photo is not None
 
     image_poll = fake_rep("card_poll").json()
     card = find_obj(
@@ -688,6 +841,81 @@ async def test_cards():
     assert doc.card._type == "audiospace"
     assert isinstance(doc.card, AudiospaceCard)
     assert doc.card.url is not None
+
+    # Check MessageMeCard
+    raw = fake_rep("card_message_me").json()
+    doc = parse_tweet(raw, 1916063270131191983)
+    assert doc is not None and doc.card is not None
+    assert doc.card._type == "message_me"
+    assert isinstance(doc.card, MessageMeCard)
+    assert doc.card.url is not None
+    assert doc.card.cta is not None
+    assert doc.card.recipientId == "85741735"
+
+    # Check PeriscopeBroadcastCard
+    raw = fake_rep("card_periscope_broadcast").json()
+    doc = parse_tweet(raw, 822817044450013184)
+    assert doc is not None and doc.card is not None
+    assert doc.card._type == "periscope_broadcast"
+    assert isinstance(doc.card, PeriscopeBroadcastCard)
+    assert doc.card.title is not None
+    assert doc.card.url is not None
+    assert doc.card.state == "ENDED"
+    assert doc.card.broadcasterUsername == "womensmarch"
+    assert doc.card.thumbnailUrl is not None
+
+    # Check PromoVideoConvoCard
+    raw = fake_rep("card_promo_video_convo").json()
+    doc = parse_tweet(raw, 1090673433690685441)
+    assert doc is not None and doc.card is not None
+    assert doc.card._type == "promo_video_convo"
+    assert isinstance(doc.card, PromoVideoConvoCard)
+    assert doc.card.title == "Add your voice."
+    assert doc.card.thankYouText is not None
+    assert doc.card.videoUrl is not None
+    assert doc.card.durationSeconds == 5
+    assert doc.card.ctas == ["#BellLetsTalk"]
+    assert doc.card.photo is not None
+
+    # Check PromoImageConvoCard
+    raw = fake_rep("card_promo_image_convo").json()
+    doc = parse_tweet(raw, 2078218219689492480)
+    assert doc is not None and doc.card is not None
+    assert doc.card._type == "promo_image_convo"
+    assert isinstance(doc.card, PromoImageConvoCard)
+    assert doc.card.title is not None
+    assert doc.card.thankYouText is not None
+    assert doc.card.thankYouUrl is not None
+    assert doc.card.ctas == ["#onerufflecheddarlong"]
+    # main image, not the cover_promo_image ad cover (that one lives under /ad_img/)
+    assert doc.card.photo is not None
+    assert "/ad_img/" not in doc.card.photo.url
+
+    # Check LiveEventCard
+    raw = fake_rep("card_live_event").json()
+    doc = parse_tweet(raw, 1463203718153703425)
+    assert doc is not None and doc.card is not None
+    assert doc.card._type == "live_event"
+    assert isinstance(doc.card, LiveEventCard)
+    assert doc.card.title is not None
+    assert doc.card.url is not None
+    assert doc.card.eventId == "1461789549739143169"
+    assert doc.card.category == "Music"
+    assert doc.card.subtitle is not None
+    assert doc.card.photo is not None
+
+    # Check AppCard
+    raw = fake_rep("card_app").json()
+    doc = parse_tweet(raw, 1249486216266788865)
+    assert doc is not None and doc.card is not None
+    assert doc.card._type == "app"
+    assert isinstance(doc.card, AppCard)
+    assert doc.card.title == "The NBC App – Stream TV Shows"
+    assert doc.card.url is not None
+    assert doc.card.description is not None
+    assert doc.card.starRating is not None and 4 < doc.card.starRating < 5
+    assert doc.card.numRatings == 289838
+    assert doc.card.photo is not None
 
 
 async def test_tweet_new_fields():
