@@ -274,7 +274,17 @@ class Tweet(JSONTrait):
     sourceUrl: str | None = None
     sourceLabel: str | None = None
     card: Union[
-        None, "SummaryCard", "PollCard", "BroadcastCard", "AudiospaceCard", "MessageMeCard"
+        None,
+        "SummaryCard",
+        "PollCard",
+        "BroadcastCard",
+        "AudiospaceCard",
+        "MessageMeCard",
+        "PeriscopeBroadcastCard",
+        "PromoVideoConvoCard",
+        "PromoImageConvoCard",
+        "LiveEventCard",
+        "AppCard",
     ] = None
     possibly_sensitive: bool | None = None
     isQuoteStatus: bool = False
@@ -480,6 +490,9 @@ class PollOption(JSONTrait):
 class PollCard(Card):
     options: list[PollOption]
     finished: bool
+    videoUrl: str | None = None
+    durationSeconds: int | None = None
+    photo: MediaPhoto | None = None
     _type: str = "poll"
 
 
@@ -503,6 +516,60 @@ class MessageMeCard(Card):
     cta: str | None = None
     recipientId: str | None = None
     _type: str = "message_me"
+
+
+@dataclass
+class PeriscopeBroadcastCard(Card):
+    title: str
+    url: str
+    state: str | None = None
+    broadcasterUsername: str | None = None
+    thumbnailUrl: str | None = None
+    _type: str = "periscope_broadcast"
+
+
+@dataclass
+class LiveEventCard(Card):
+    title: str
+    url: str
+    eventId: str | None = None
+    subtitle: str | None = None
+    category: str | None = None
+    photo: MediaPhoto | None = None
+    _type: str = "live_event"
+
+
+@dataclass
+class PromoVideoConvoCard(Card):
+    title: str
+    thankYouText: str | None = None
+    thankYouUrl: str | None = None
+    videoUrl: str | None = None
+    durationSeconds: int | None = None
+    ctas: list[str] = field(default_factory=list)
+    photo: MediaPhoto | None = None
+    _type: str = "promo_video_convo"
+
+
+@dataclass
+class PromoImageConvoCard(Card):
+    title: str
+    thankYouText: str | None = None
+    thankYouUrl: str | None = None
+    ctas: list[str] = field(default_factory=list)
+    photo: MediaPhoto | None = None
+    _type: str = "promo_image_convo"
+
+
+@dataclass
+class AppCard(Card):
+    title: str
+    url: str
+    description: str | None = None
+    starRating: float | None = None
+    numRatings: int | None = None
+    photo: MediaPhoto | None = None
+    _type: str = "app"
 
 
 @dataclass
@@ -594,6 +661,13 @@ def _parse_card_get_str(values: list[dict], key: str, defaultVal: str | None = N
     return defaultVal
 
 
+def _parse_card_get_photo(values: list[dict], key: str):
+    for x in values:
+        if x["key"] == key and x["value"]["type"] == "IMAGE":
+            return MediaPhoto(url=x["value"]["image_value"]["url"])
+    return None
+
+
 def _parse_card_extract_str(values: list[dict], key: str):
     pretenders = [x["value"]["string_value"] for x in values if x["key"] == key]
     new_values = [x for x in values if x["key"] != key]
@@ -682,7 +756,7 @@ def _parse_card(obj: dict, url: str):
             video=video,
         )
 
-    if re.match(r"(?:\d+:)?poll(?:\d+choice_text_only|_choice_images)", name):
+    if re.match(r"(?:\d+:)?poll(?:\d+choice_(?:text_only|video|images?)|_choice_images)", name):
         val = _parse_card_prepare_values(obj)
 
         options = []
@@ -698,7 +772,19 @@ def _parse_card(obj: dict, url: str):
         # duration_minutes = int(_parse_card_get_str(val, "duration_minutes") or "0")
         # end_datetime_utc = _parse_card_get_str(val, "end_datetime_utc")
         # print(json.dumps(val, indent=2))
-        return PollCard(options=options, finished=finished)
+
+        # poll{n}choice_video cards carry the video in binding_values only (not in
+        # extended_entities). Lookup by key, not by IMAGE type: on poll_choice_images
+        # cards the IMAGE bindings are the per-choice images, not a player thumbnail.
+        duration = _parse_card_get_str(val, "content_duration_seconds")
+        photo = _parse_card_get_photo(val, "player_image_original")
+        return PollCard(
+            options=options,
+            finished=finished,
+            videoUrl=_parse_card_get_str(val, "player_hls_url"),
+            durationSeconds=int(duration) if duration is not None else None,
+            photo=photo,
+        )
 
     if name == "745291183405076480:broadcast":
         val = _parse_card_prepare_values(obj)
@@ -736,6 +822,91 @@ def _parse_card(obj: dict, url: str):
             None,
         )
         return MessageMeCard(url=card_url, cta=cta, recipientId=recipient_id)
+
+    if name == "3691233323:periscope_broadcast":
+        val = _parse_card_prepare_values(obj)
+        card_url = _parse_card_get_str(val, "url", _parse_card_get_str(val, "card_url"))
+        card_title = _parse_card_get_str(val, "title")
+        if card_url is None or card_title is None:
+            return None
+
+        return PeriscopeBroadcastCard(
+            title=card_title,
+            url=card_url,
+            state=_parse_card_get_str(val, "broadcast_state"),
+            broadcasterUsername=_parse_card_get_str(val, "broadcaster_username"),
+            thumbnailUrl=_parse_card_get_str(val, "full_size_thumbnail_url"),
+        )
+
+    if name == "745291183405076480:live_event":
+        val = _parse_card_prepare_values(obj)
+        card_url = _parse_card_get_str(val, "card_url")
+        card_title = _parse_card_get_str(val, "event_title")
+        if card_url is None or card_title is None:
+            return None
+
+        return LiveEventCard(
+            title=card_title,
+            url=card_url,
+            eventId=_parse_card_get_str(val, "event_id"),
+            subtitle=_parse_card_get_str(val, "event_subtitle"),
+            category=_parse_card_get_str(val, "event_category"),
+            photo=_parse_card_get_photo(val, "event_thumbnail_original"),
+        )
+
+    if name in {"promo_video_convo", "promo_image_convo"}:
+        val = _parse_card_prepare_values(obj)
+        card_title = _parse_card_get_str(val, "title")
+        if card_title is None:
+            return None
+
+        ctas = []
+        for key in ("cta_one", "cta_two", "cta_three", "cta_four"):
+            cta = _parse_card_get_str(val, key)
+            if cta is not None:
+                ctas.append(cta)
+
+        thank_you_text = _parse_card_get_str(val, "thank_you_text")
+        thank_you_url = _parse_card_get_str(val, "thank_you_url")
+
+        if name == "promo_image_convo":
+            return PromoImageConvoCard(
+                title=card_title,
+                thankYouText=thank_you_text,
+                thankYouUrl=thank_you_url,
+                ctas=ctas,
+                photo=_parse_card_get_photo(val, "promo_image_original"),
+            )
+
+        duration = _parse_card_get_str(val, "content_duration_seconds")
+        return PromoVideoConvoCard(
+            title=card_title,
+            thankYouText=thank_you_text,
+            thankYouUrl=thank_you_url,
+            videoUrl=_parse_card_get_str(val, "player_stream_url"),
+            durationSeconds=int(duration) if duration is not None else None,
+            ctas=ctas,
+            photo=_parse_card_get_photo(val, "player_image_original"),
+        )
+
+    if name == "app":
+        val = _parse_card_prepare_values(obj)
+        card_url = _parse_card_get_str(val, "card_url")
+        card_title = _parse_card_get_str(val, "title")
+        if card_url is None or card_title is None:
+            return None
+
+        rating = _parse_card_get_str(val, "app_star_rating")
+        # app_num_ratings is locale-formatted ("289,838"), keep the digits only
+        num_ratings = _parse_card_get_str(val, "app_num_ratings")
+        return AppCard(
+            title=card_title,
+            url=card_url,
+            description=_parse_card_get_str(val, "description"),
+            starRating=float(rating) if rating is not None else None,
+            numRatings=int(re.sub(r"\D", "", num_ratings)) if num_ratings else None,
+            photo=_parse_card_get_photo(val, "thumbnail_original"),
+        )
 
     logger.warning(f"Unknown card type '{name}' on {url}")
     if "PYTEST_CURRENT_TEST" in os.environ:  # help debugging tests

@@ -1,0 +1,3003 @@
+{
+  "data": {
+    "threaded_conversation_with_injections_v2": {
+      "instructions": [
+        {
+          "type": "TimelineClearCache"
+        },
+        {
+          "entries": [
+            {
+              "content": {
+                "__typename": "TimelineTimelineItem",
+                "clientEventInfo": {
+                  "component": "tweet",
+                  "element": "tweet"
+                },
+                "entryType": "TimelineTimelineItem",
+                "itemContent": {
+                  "__typename": "TimelineTweet",
+                  "itemType": "TimelineTweet",
+                  "tweetDisplayType": "Tweet",
+                  "tweet_results": {
+                    "result": {
+                      "__typename": "Tweet",
+                      "card": {
+                        "legacy": {
+                          "binding_values": [
+                            {
+                              "key": "choice1_label",
+                              "value": {
+                                "string_value": "Binge the series again.",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "player_image_large",
+                              "value": {
+                                "image_value": {
+                                  "height": 720,
+                                  "url": "https://pbs.twimg.com/amplify_video_thumb/1114573008134262784/img/B3fT3a2Ds1cjPSDv.jpg",
+                                  "width": 1280
+                                },
+                                "type": "IMAGE"
+                              }
+                            },
+                            {
+                              "key": "player_image",
+                              "value": {
+                                "image_value": {
+                                  "height": 720,
+                                  "url": "https://pbs.twimg.com/amplify_video_thumb/1114573008134262784/img/B3fT3a2Ds1cjPSDv.jpg",
+                                  "width": 1280
+                                },
+                                "type": "IMAGE"
+                              }
+                            },
+                            {
+                              "key": "choice2_label",
+                              "value": {
+                                "string_value": "Get a hobby.",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "content_duration_seconds",
+                              "value": {
+                                "string_value": "24",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "player_width",
+                              "value": {
+                                "string_value": "16",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "end_datetime_utc",
+                              "value": {
+                                "string_value": "2019-04-09T17:02:35Z",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "counts_are_final",
+                              "value": {
+                                "boolean_value": true,
+                                "type": "BOOLEAN"
+                              }
+                            },
+                            {
+                              "key": "player_image_original",
+                              "value": {
+                                "image_value": {
+                                  "height": 720,
+                                  "url": "https://pbs.twimg.com/amplify_video_thumb/1114573008134262784/img/B3fT3a2Ds1cjPSDv.jpg",
+                                  "width": 1280
+                                },
+                                "type": "IMAGE"
+                              }
+                            },
+                            {
+                              "key": "choice2_count",
+                              "value": {
+                                "string_value": "99",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "player_content_id",
+                              "value": {
+                                "string_value": "1114573008134262784",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "choice1_count",
+                              "value": {
+                                "string_value": "413",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "player_height",
+                              "value": {
+                                "string_value": "9",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "last_updated_datetime_utc",
+                              "value": {
+                                "string_value": "2019-04-09T17:02:36Z",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "duration_minutes",
+                              "value": {
+                                "string_value": "4320",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "player_owner_id",
+                              "value": {
+                                "string_value": "1639058046",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "player_hls_url",
+                              "value": {
+                                "string_value": "https://video.twimg.com/amplify_video/1114573008134262784/pl/UkCgDQwMDlx4qyF3.m3u8?tag=11",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "player_image_small",
+                              "value": {
+                                "image_value": {
+                                  "height": 720,
+                                  "url": "https://pbs.twimg.com/amplify_video_thumb/1114573008134262784/img/B3fT3a2Ds1cjPSDv.jpg",
+                                  "width": 1280
+                                },
+                                "type": "IMAGE"
+                              }
+                            },
+                            {
+                              "key": "api",
+                              "value": {
+                                "string_value": "capi://passthrough/1",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "player_stream_url",
+                              "value": {
+                                "string_value": "https://video.twimg.com/amplify_video/vmap/1114573008134262784.vmap",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "card_url",
+                              "value": {
+                                "scribe_key": "card_url",
+                                "string_value": "https://twitter.com",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "player_image_color",
+                              "value": {
+                                "image_color_value": {
+                                  "palette": [
+                                    {
+                                      "percentage": 63.27,
+                                      "rgb": {
+                                        "blue": 64,
+                                        "green": 60,
+                                        "red": 62
+                                      }
+                                    },
+                                    {
+                                      "percentage": 31.28,
+                                      "rgb": {
+                                        "blue": 120,
+                                        "green": 127,
+                                        "red": 124
+                                      }
+                                    },
+                                    {
+                                      "percentage": 2.03,
+                                      "rgb": {
+                                        "blue": 220,
+                                        "green": 227,
+                                        "red": 228
+                                      }
+                                    },
+                                    {
+                                      "percentage": 1.78,
+                                      "rgb": {
+                                        "blue": 121,
+                                        "green": 108,
+                                        "red": 94
+                                      }
+                                    },
+                                    {
+                                      "percentage": 1.48,
+                                      "rgb": {
+                                        "blue": 42,
+                                        "green": 55,
+                                        "red": 77
+                                      }
+                                    }
+                                  ]
+                                },
+                                "type": "IMAGE_COLOR"
+                              }
+                            },
+                            {
+                              "key": "player_image_x_large",
+                              "value": {
+                                "image_value": {
+                                  "height": 720,
+                                  "url": "https://pbs.twimg.com/amplify_video_thumb/1114573008134262784/img/B3fT3a2Ds1cjPSDv.jpg",
+                                  "width": 1280
+                                },
+                                "type": "IMAGE"
+                              }
+                            }
+                          ],
+                          "card_platform": {
+                            "platform": {
+                              "audience": {
+                                "name": "production"
+                              },
+                              "device": {
+                                "name": "Swift",
+                                "version": "12"
+                              }
+                            }
+                          },
+                          "name": "poll2choice_video",
+                          "url": "card://1114574133893816321",
+                          "user_refs_results": []
+                        },
+                        "rest_id": "card://1114574133893816321"
+                      },
+                      "core": {
+                        "user_results": {
+                          "result": {
+                            "__typename": "User",
+                            "action_counts": {
+                              "favorites_count": 4483
+                            },
+                            "affiliates_highlighted_label": {},
+                            "avatar": {
+                              "image_url": "https://pbs.twimg.com/profile_images/1059509547499368451/y56ON12S_normal.jpg"
+                            },
+                            "banner": {
+                              "image_url": "https://pbs.twimg.com/profile_banners/1639058046/1559603149"
+                            },
+                            "core": {
+                              "created_at": "Thu Aug 01 23:15:09 +0000 2013",
+                              "name": "You're The Worst",
+                              "screen_name": "YTWFXX"
+                            },
+                            "dm_permissions": {
+                              "can_dm": false
+                            },
+                            "follow_request_sent": false,
+                            "has_graduated_access": true,
+                            "id": "VXNlcjoxNjM5MDU4MDQ2",
+                            "is_blue_verified": false,
+                            "location": {
+                              "location": "Los Angeles, CA"
+                            },
+                            "media_permissions": {
+                              "can_media_tag": true
+                            },
+                            "notifications_settings": {
+                              "notifications_enabled": false
+                            },
+                            "pinned_items": {
+                              "tweet_ids_str": [
+                                "1234502110403710976"
+                              ]
+                            },
+                            "possibly_sensitive": false,
+                            "privacy": {
+                              "protected": false
+                            },
+                            "profile_bio": {
+                              "description": "@FXNetworks' #YoureTheWorst Is a look at love & happiness through the eyes of two people who haven't been successful with either.",
+                              "entities": {
+                                "description": {},
+                                "url": {
+                                  "urls": [
+                                    {
+                                      "display_url": "fx.tv/YTW",
+                                      "expanded_url": "https://fx.tv/YTW",
+                                      "indices": [
+                                        0,
+                                        23
+                                      ],
+                                      "url": "https://t.co/0hEY7ITJcU"
+                                    }
+                                  ]
+                                }
+                              }
+                            },
+                            "profile_description_language": "en",
+                            "profile_image_shape": "Square",
+                            "profile_metadata": {
+                              "profile_interstitial_type": ""
+                            },
+                            "profile_translation": {
+                              "translator_type": "none"
+                            },
+                            "relationship_counts": {
+                              "followers": 20091,
+                              "following": 92
+                            },
+                            "relationship_perspectives": {
+                              "blocked_by": false,
+                              "blocking": false,
+                              "followed_by": false,
+                              "following": false,
+                              "live_following": false,
+                              "muting": false
+                            },
+                            "rest_id": "1639058046",
+                            "super_follow_eligible": false,
+                            "super_followed_by": false,
+                            "super_following": false,
+                            "tipjar_settings": {},
+                            "tweet_counts": {
+                              "media_tweets": 1790,
+                              "tweets": 7753
+                            },
+                            "verification": {
+                              "verified": false,
+                              "verified_type": "Business"
+                            },
+                            "website": {
+                              "url": "https://t.co/0hEY7ITJcU"
+                            }
+                          }
+                        }
+                      },
+                      "edit_control": {
+                        "edit_tweet_ids": [
+                          "1114574134397165568"
+                        ],
+                        "editable_until_msecs": "1554571956083",
+                        "edits_remaining": "5",
+                        "is_edit_eligible": true
+                      },
+                      "grok_translated_post_with_availability": {
+                        "is_available": false
+                      },
+                      "has_birdwatch_notes": false,
+                      "is_translatable": false,
+                      "legacy": {
+                        "bookmark_count": 0,
+                        "bookmarked": false,
+                        "conversation_id_str": "1114574134397165568",
+                        "created_at": "Sat Apr 06 17:02:36 +0000 2019",
+                        "display_text_range": [
+                          0,
+                          59
+                        ],
+                        "entities": {
+                          "hashtags": [
+                            {
+                              "indices": [
+                                45,
+                                59
+                              ],
+                              "text": "YoureTheWorst"
+                            }
+                          ]
+                        },
+                        "favorite_count": 36,
+                        "favorited": false,
+                        "full_text": "What are you going to do with your life now? #YoureTheWorst",
+                        "id_str": "1114574134397165568",
+                        "is_quote_status": false,
+                        "lang": "en",
+                        "quote_count": 2,
+                        "reply_count": 14,
+                        "retweet_count": 3,
+                        "retweeted": false,
+                        "user_id_str": "1639058046"
+                      },
+                      "quick_promote_eligibility": {
+                        "eligibility": "IneligibleNotVerified"
+                      },
+                      "rest_id": "1114574134397165568",
+                      "source": "<a href=\"https://ads-api.twitter.com\" rel=\"nofollow\">Twitter for Advertisers.</a>",
+                      "unmention_data": {},
+                      "views": {
+                        "state": "Enabled"
+                      }
+                    }
+                  }
+                }
+              },
+              "entryId": "tweet-1114574134397165568",
+              "sortIndex": "2093599285965750272"
+            },
+            {
+              "content": {
+                "__typename": "TimelineTimelineModule",
+                "clientEventInfo": {
+                  "component": "tweet",
+                  "details": {
+                    "conversationDetails": {
+                      "conversationSection": "HighQuality"
+                    },
+                    "timelinesDetails": {
+                      "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBMYtj3AAAAAA=="
+                    }
+                  }
+                },
+                "displayType": "VerticalConversation",
+                "entryType": "TimelineTimelineModule",
+                "items": [
+                  {
+                    "entryId": "conversationthread-1114603223275397120-tweet-1114603223275397120",
+                    "item": {
+                      "clientEventInfo": {
+                        "component": "tweet",
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBMYtj3AAAAAA=="
+                          }
+                        },
+                        "element": "tweet"
+                      },
+                      "itemContent": {
+                        "__typename": "TimelineTweet",
+                        "itemType": "TimelineTweet",
+                        "tweetDisplayType": "Tweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "action_counts": {
+                                    "favorites_count": 25688
+                                  },
+                                  "affiliates_highlighted_label": {},
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/2989463093/9476cb15e4d9a62f1d3c3160d3eaf5bb_normal.jpeg"
+                                  },
+                                  "banner": {
+                                    "image_url": "https://pbs.twimg.com/profile_banners/23712933/1356452765"
+                                  },
+                                  "core": {
+                                    "created_at": "Wed Mar 11 03:08:44 +0000 2009",
+                                    "name": "Bionic Crouton",
+                                    "screen_name": "Bionic_Crouton"
+                                  },
+                                  "dm_permissions": {
+                                    "can_dm": false
+                                  },
+                                  "follow_request_sent": false,
+                                  "has_graduated_access": true,
+                                  "id": "VXNlcjoyMzcxMjkzMw==",
+                                  "is_blue_verified": false,
+                                  "location": {
+                                    "location": ""
+                                  },
+                                  "media_permissions": {
+                                    "can_media_tag": true
+                                  },
+                                  "notifications_settings": {
+                                    "notifications_enabled": false
+                                  },
+                                  "pinned_items": {},
+                                  "possibly_sensitive": false,
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "profile_bio": {
+                                    "description": "I taste copper...Like your hobbies are so great!",
+                                    "entities": {
+                                      "description": {}
+                                    }
+                                  },
+                                  "profile_description_language": "en",
+                                  "profile_image_shape": "Circle",
+                                  "profile_metadata": {
+                                    "profile_interstitial_type": ""
+                                  },
+                                  "profile_translation": {
+                                    "translator_type": "none"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 51,
+                                    "following": 101
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocked_by": false,
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": false,
+                                    "live_following": false,
+                                    "muting": false
+                                  },
+                                  "rest_id": "23712933",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tipjar_settings": {},
+                                  "tweet_counts": {
+                                    "media_tweets": 385,
+                                    "tweets": 3528
+                                  },
+                                  "verification": {
+                                    "verified": false
+                                  },
+                                  "website": {
+                                    "url": ""
+                                  }
+                                }
+                              }
+                            },
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1114603223275397120"
+                              ],
+                              "editable_until_msecs": "1554578891412",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": true
+                            },
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "has_birdwatch_notes": false,
+                            "is_translatable": false,
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "conversation_id_str": "1114574134397165568",
+                              "created_at": "Sat Apr 06 18:58:11 +0000 2019",
+                              "display_text_range": [
+                                8,
+                                85
+                              ],
+                              "entities": {
+                                "user_mentions": [
+                                  {
+                                    "id_str": "1639058046",
+                                    "indices": [
+                                      0,
+                                      7
+                                    ],
+                                    "name": "You're The Worst",
+                                    "screen_name": "YTWFXX"
+                                  }
+                                ]
+                              },
+                              "favorite_count": 4,
+                              "favorited": false,
+                              "full_text": "@YTWFXX Option three : Introduce the series to a friend and binge watch it with them.",
+                              "id_str": "1114603223275397120",
+                              "in_reply_to_screen_name": "YTWFXX",
+                              "in_reply_to_status_id_str": "1114574134397165568",
+                              "in_reply_to_user_id_str": "1639058046",
+                              "is_quote_status": false,
+                              "lang": "en",
+                              "quote_count": 0,
+                              "reply_count": 1,
+                              "retweet_count": 0,
+                              "retweeted": false,
+                              "user_id_str": "23712933"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "rest_id": "1114603223275397120",
+                            "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
+                            "unmention_data": {},
+                            "views": {
+                              "state": "Enabled"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "entryId": "conversationthread-1114603223275397120-tweet-1114606359801020417",
+                    "item": {
+                      "clientEventInfo": {
+                        "component": "tweet",
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBMYtj3AAAAAA=="
+                          }
+                        },
+                        "element": "tweet"
+                      },
+                      "itemContent": {
+                        "__typename": "TimelineTweet",
+                        "itemType": "TimelineTweet",
+                        "tweetDisplayType": "Tweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "action_counts": {
+                                    "favorites_count": 4483
+                                  },
+                                  "affiliates_highlighted_label": {},
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/1059509547499368451/y56ON12S_normal.jpg"
+                                  },
+                                  "banner": {
+                                    "image_url": "https://pbs.twimg.com/profile_banners/1639058046/1559603149"
+                                  },
+                                  "core": {
+                                    "created_at": "Thu Aug 01 23:15:09 +0000 2013",
+                                    "name": "You're The Worst",
+                                    "screen_name": "YTWFXX"
+                                  },
+                                  "dm_permissions": {
+                                    "can_dm": false
+                                  },
+                                  "follow_request_sent": false,
+                                  "has_graduated_access": true,
+                                  "id": "VXNlcjoxNjM5MDU4MDQ2",
+                                  "is_blue_verified": false,
+                                  "location": {
+                                    "location": "Los Angeles, CA"
+                                  },
+                                  "media_permissions": {
+                                    "can_media_tag": true
+                                  },
+                                  "notifications_settings": {
+                                    "notifications_enabled": false
+                                  },
+                                  "pinned_items": {
+                                    "tweet_ids_str": [
+                                      "1234502110403710976"
+                                    ]
+                                  },
+                                  "possibly_sensitive": false,
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "profile_bio": {
+                                    "description": "@FXNetworks' #YoureTheWorst Is a look at love & happiness through the eyes of two people who haven't been successful with either.",
+                                    "entities": {
+                                      "description": {},
+                                      "url": {
+                                        "urls": [
+                                          {
+                                            "display_url": "fx.tv/YTW",
+                                            "expanded_url": "https://fx.tv/YTW",
+                                            "indices": [
+                                              0,
+                                              23
+                                            ],
+                                            "url": "https://t.co/0hEY7ITJcU"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  "profile_description_language": "en",
+                                  "profile_image_shape": "Square",
+                                  "profile_metadata": {
+                                    "profile_interstitial_type": ""
+                                  },
+                                  "profile_translation": {
+                                    "translator_type": "none"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 20091,
+                                    "following": 92
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocked_by": false,
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": false,
+                                    "live_following": false,
+                                    "muting": false
+                                  },
+                                  "rest_id": "1639058046",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tipjar_settings": {},
+                                  "tweet_counts": {
+                                    "media_tweets": 1790,
+                                    "tweets": 7753
+                                  },
+                                  "verification": {
+                                    "verified": false,
+                                    "verified_type": "Business"
+                                  },
+                                  "website": {
+                                    "url": "https://t.co/0hEY7ITJcU"
+                                  }
+                                }
+                              }
+                            },
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1114606359801020417"
+                              ],
+                              "editable_until_msecs": "1554579639218",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": true
+                            },
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "has_birdwatch_notes": false,
+                            "is_translatable": false,
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "conversation_id_str": "1114574134397165568",
+                              "created_at": "Sat Apr 06 19:10:39 +0000 2019",
+                              "display_text_range": [
+                                16,
+                                165
+                              ],
+                              "entities": {
+                                "hashtags": [
+                                  {
+                                    "indices": [
+                                      151,
+                                      165
+                                    ],
+                                    "text": "YoureTheWorst"
+                                  }
+                                ],
+                                "user_mentions": [
+                                  {
+                                    "id_str": "23712933",
+                                    "indices": [
+                                      0,
+                                      15
+                                    ],
+                                    "name": "Bionic Crouton",
+                                    "screen_name": "Bionic_Crouton"
+                                  }
+                                ]
+                              },
+                              "favorite_count": 4,
+                              "favorited": false,
+                              "full_text": "@Bionic_Crouton That's like getting a hobby AND binging the series again. You are living your life to its full potential (can't relate), but good job! #YoureTheWorst",
+                              "id_str": "1114606359801020417",
+                              "in_reply_to_screen_name": "Bionic_Crouton",
+                              "in_reply_to_status_id_str": "1114603223275397120",
+                              "in_reply_to_user_id_str": "23712933",
+                              "is_quote_status": false,
+                              "lang": "en",
+                              "quote_count": 0,
+                              "reply_count": 0,
+                              "retweet_count": 0,
+                              "retweeted": false,
+                              "user_id_str": "1639058046"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "rest_id": "1114606359801020417",
+                            "source": "<a href=\"http://twitter.com\" rel=\"nofollow\">Twitter Web Client</a>",
+                            "unmention_data": {},
+                            "views": {
+                              "state": "Enabled"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "metadata": {
+                  "conversationMetadata": {
+                    "allTweetIds": [
+                      "1114606359801020417"
+                    ],
+                    "enableDeduplication": true
+                  }
+                }
+              },
+              "entryId": "conversationthread-1114603223275397120",
+              "sortIndex": "2093599285965750262"
+            },
+            {
+              "content": {
+                "__typename": "TimelineTimelineModule",
+                "clientEventInfo": {
+                  "component": "tweet",
+                  "details": {
+                    "conversationDetails": {
+                      "conversationSection": "HighQuality"
+                    },
+                    "timelinesDetails": {
+                      "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBMYtj3AAAAAA=="
+                    }
+                  }
+                },
+                "displayType": "VerticalConversation",
+                "entryType": "TimelineTimelineModule",
+                "items": [
+                  {
+                    "entryId": "conversationthread-1114574601714065408-tweet-1114574601714065408",
+                    "item": {
+                      "clientEventInfo": {
+                        "component": "tweet",
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBMYtj3AAAAAA=="
+                          }
+                        },
+                        "element": "tweet"
+                      },
+                      "itemContent": {
+                        "__typename": "TimelineTweet",
+                        "itemType": "TimelineTweet",
+                        "tweetDisplayType": "Tweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "action_counts": {
+                                    "favorites_count": 55423
+                                  },
+                                  "affiliates_highlighted_label": {},
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/1616523010944499721/S2az3Fm1_normal.jpg"
+                                  },
+                                  "banner": {
+                                    "image_url": "https://pbs.twimg.com/profile_banners/21970725/1656715640"
+                                  },
+                                  "core": {
+                                    "created_at": "Thu Feb 26 04:38:39 +0000 2009",
+                                    "name": "Collin Jones \ud83c\udf39",
+                                    "screen_name": "CollinJones"
+                                  },
+                                  "dm_permissions": {
+                                    "can_dm": false
+                                  },
+                                  "follow_request_sent": false,
+                                  "has_graduated_access": true,
+                                  "id": "VXNlcjoyMTk3MDcyNQ==",
+                                  "is_blue_verified": false,
+                                  "location": {
+                                    "location": "Akron, OH"
+                                  },
+                                  "media_permissions": {
+                                    "can_media_tag": false
+                                  },
+                                  "notifications_settings": {
+                                    "notifications_enabled": false
+                                  },
+                                  "pinned_items": {
+                                    "tweet_ids_str": [
+                                      "1366729163256836107"
+                                    ]
+                                  },
+                                  "possibly_sensitive": false,
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "profile_bio": {
+                                    "description": "@CavalierEternal@universeodon.com",
+                                    "entities": {
+                                      "description": {},
+                                      "url": {
+                                        "urls": [
+                                          {
+                                            "display_url": "Facebook.com/CollinAllenJon\u2026",
+                                            "expanded_url": "http://Facebook.com/CollinAllenJones",
+                                            "indices": [
+                                              0,
+                                              23
+                                            ],
+                                            "url": "https://t.co/q4pKj5tcFt"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  "profile_image_shape": "Circle",
+                                  "profile_metadata": {
+                                    "profile_interstitial_type": ""
+                                  },
+                                  "profile_translation": {
+                                    "translator_type": "none"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 565,
+                                    "following": 1343
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocked_by": false,
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": false,
+                                    "live_following": false,
+                                    "muting": false
+                                  },
+                                  "rest_id": "21970725",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tipjar_settings": {},
+                                  "tweet_counts": {
+                                    "media_tweets": 9575,
+                                    "tweets": 52199
+                                  },
+                                  "verification": {
+                                    "verified": false
+                                  },
+                                  "website": {
+                                    "url": "https://t.co/q4pKj5tcFt"
+                                  }
+                                }
+                              }
+                            },
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1114574601714065408"
+                              ],
+                              "editable_until_msecs": "1554572067500",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": true
+                            },
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "has_birdwatch_notes": false,
+                            "is_translatable": false,
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "conversation_id_str": "1114574134397165568",
+                              "created_at": "Sat Apr 06 17:04:27 +0000 2019",
+                              "display_text_range": [
+                                8,
+                                67
+                              ],
+                              "entities": {
+                                "user_mentions": [
+                                  {
+                                    "id_str": "1639058046",
+                                    "indices": [
+                                      0,
+                                      7
+                                    ],
+                                    "name": "You're The Worst",
+                                    "screen_name": "YTWFXX"
+                                  }
+                                ]
+                              },
+                              "favorite_count": 2,
+                              "favorited": false,
+                              "full_text": "@YTWFXX Why is \u201cWrite a series of erotic YTW fanfic\u201d not an option?",
+                              "id_str": "1114574601714065408",
+                              "in_reply_to_screen_name": "YTWFXX",
+                              "in_reply_to_status_id_str": "1114574134397165568",
+                              "in_reply_to_user_id_str": "1639058046",
+                              "is_quote_status": false,
+                              "lang": "en",
+                              "quote_count": 0,
+                              "reply_count": 1,
+                              "retweet_count": 0,
+                              "retweeted": false,
+                              "user_id_str": "21970725"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "rest_id": "1114574601714065408",
+                            "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
+                            "unmention_data": {},
+                            "views": {
+                              "state": "Enabled"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "entryId": "conversationthread-1114574601714065408-tweet-1114607503533154305",
+                    "item": {
+                      "clientEventInfo": {
+                        "component": "tweet",
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBMYtj3AAAAAA=="
+                          }
+                        },
+                        "element": "tweet"
+                      },
+                      "itemContent": {
+                        "__typename": "TimelineTweet",
+                        "itemType": "TimelineTweet",
+                        "tweetDisplayType": "Tweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "action_counts": {
+                                    "favorites_count": 4483
+                                  },
+                                  "affiliates_highlighted_label": {},
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/1059509547499368451/y56ON12S_normal.jpg"
+                                  },
+                                  "banner": {
+                                    "image_url": "https://pbs.twimg.com/profile_banners/1639058046/1559603149"
+                                  },
+                                  "core": {
+                                    "created_at": "Thu Aug 01 23:15:09 +0000 2013",
+                                    "name": "You're The Worst",
+                                    "screen_name": "YTWFXX"
+                                  },
+                                  "dm_permissions": {
+                                    "can_dm": false
+                                  },
+                                  "follow_request_sent": false,
+                                  "has_graduated_access": true,
+                                  "id": "VXNlcjoxNjM5MDU4MDQ2",
+                                  "is_blue_verified": false,
+                                  "location": {
+                                    "location": "Los Angeles, CA"
+                                  },
+                                  "media_permissions": {
+                                    "can_media_tag": true
+                                  },
+                                  "notifications_settings": {
+                                    "notifications_enabled": false
+                                  },
+                                  "pinned_items": {
+                                    "tweet_ids_str": [
+                                      "1234502110403710976"
+                                    ]
+                                  },
+                                  "possibly_sensitive": false,
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "profile_bio": {
+                                    "description": "@FXNetworks' #YoureTheWorst Is a look at love & happiness through the eyes of two people who haven't been successful with either.",
+                                    "entities": {
+                                      "description": {},
+                                      "url": {
+                                        "urls": [
+                                          {
+                                            "display_url": "fx.tv/YTW",
+                                            "expanded_url": "https://fx.tv/YTW",
+                                            "indices": [
+                                              0,
+                                              23
+                                            ],
+                                            "url": "https://t.co/0hEY7ITJcU"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  "profile_description_language": "en",
+                                  "profile_image_shape": "Square",
+                                  "profile_metadata": {
+                                    "profile_interstitial_type": ""
+                                  },
+                                  "profile_translation": {
+                                    "translator_type": "none"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 20091,
+                                    "following": 92
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocked_by": false,
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": false,
+                                    "live_following": false,
+                                    "muting": false
+                                  },
+                                  "rest_id": "1639058046",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tipjar_settings": {},
+                                  "tweet_counts": {
+                                    "media_tweets": 1790,
+                                    "tweets": 7753
+                                  },
+                                  "verification": {
+                                    "verified": false,
+                                    "verified_type": "Business"
+                                  },
+                                  "website": {
+                                    "url": "https://t.co/0hEY7ITJcU"
+                                  }
+                                }
+                              }
+                            },
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1114607503533154305"
+                              ],
+                              "editable_until_msecs": "1554579911905",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": true
+                            },
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "has_birdwatch_notes": false,
+                            "is_translatable": false,
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "conversation_id_str": "1114574134397165568",
+                              "created_at": "Sat Apr 06 19:15:11 +0000 2019",
+                              "display_text_range": [
+                                13,
+                                69
+                              ],
+                              "entities": {
+                                "hashtags": [
+                                  {
+                                    "indices": [
+                                      55,
+                                      69
+                                    ],
+                                    "text": "YoureTheWorst"
+                                  }
+                                ],
+                                "user_mentions": [
+                                  {
+                                    "id_str": "21970725",
+                                    "indices": [
+                                      0,
+                                      12
+                                    ],
+                                    "name": "Collin Jones \ud83c\udf39",
+                                    "screen_name": "CollinJones"
+                                  }
+                                ]
+                              },
+                              "favorite_count": 0,
+                              "favorited": false,
+                              "full_text": "@CollinJones Hella good point. *acts like we added it* #YoureTheWorst",
+                              "id_str": "1114607503533154305",
+                              "in_reply_to_screen_name": "CollinJones",
+                              "in_reply_to_status_id_str": "1114574601714065408",
+                              "in_reply_to_user_id_str": "21970725",
+                              "is_quote_status": false,
+                              "lang": "en",
+                              "quote_count": 0,
+                              "reply_count": 0,
+                              "retweet_count": 0,
+                              "retweeted": false,
+                              "user_id_str": "1639058046"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "rest_id": "1114607503533154305",
+                            "source": "<a href=\"http://twitter.com\" rel=\"nofollow\">Twitter Web Client</a>",
+                            "unmention_data": {},
+                            "views": {
+                              "state": "Enabled"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "metadata": {
+                  "conversationMetadata": {
+                    "allTweetIds": [
+                      "1114607503533154305"
+                    ],
+                    "enableDeduplication": true
+                  }
+                }
+              },
+              "entryId": "conversationthread-1114574601714065408",
+              "sortIndex": "2093599285965750252"
+            },
+            {
+              "content": {
+                "__typename": "TimelineTimelineModule",
+                "clientEventInfo": {
+                  "component": "tweet",
+                  "details": {
+                    "conversationDetails": {
+                      "conversationSection": "HighQuality"
+                    },
+                    "timelinesDetails": {
+                      "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBMYtj3AAAAAA=="
+                    }
+                  }
+                },
+                "displayType": "VerticalConversation",
+                "entryType": "TimelineTimelineModule",
+                "items": [
+                  {
+                    "entryId": "conversationthread-1114585472544722944-tweet-1114585472544722944",
+                    "item": {
+                      "clientEventInfo": {
+                        "component": "tweet",
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBMYtj3AAAAAA=="
+                          }
+                        },
+                        "element": "tweet"
+                      },
+                      "itemContent": {
+                        "__typename": "TimelineTweet",
+                        "itemType": "TimelineTweet",
+                        "tweetDisplayType": "Tweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "action_counts": {
+                                    "favorites_count": 40441
+                                  },
+                                  "affiliates_highlighted_label": {},
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/1681130392911265793/tShlJncD_normal.jpg"
+                                  },
+                                  "banner": {
+                                    "image_url": "https://pbs.twimg.com/profile_banners/507953305/1666019310"
+                                  },
+                                  "core": {
+                                    "created_at": "Tue Feb 28 21:33:44 +0000 2012",
+                                    "name": "Emil C. McClellan",
+                                    "screen_name": "Emil_McClellan"
+                                  },
+                                  "dm_permissions": {
+                                    "can_dm": true
+                                  },
+                                  "follow_request_sent": false,
+                                  "has_graduated_access": true,
+                                  "id": "VXNlcjo1MDc5NTMzMDU=",
+                                  "is_blue_verified": false,
+                                  "location": {
+                                    "location": ""
+                                  },
+                                  "media_permissions": {
+                                    "can_media_tag": false
+                                  },
+                                  "notifications_settings": {
+                                    "notifications_enabled": false
+                                  },
+                                  "pinned_items": {
+                                    "tweet_ids_str": [
+                                      "1755002419816112130"
+                                    ]
+                                  },
+                                  "possibly_sensitive": true,
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "profile_bio": {
+                                    "description": "\u26f0\ufe0f",
+                                    "entities": {
+                                      "description": {}
+                                    }
+                                  },
+                                  "profile_description_language": "art",
+                                  "profile_image_shape": "Circle",
+                                  "profile_metadata": {
+                                    "profile_interstitial_type": ""
+                                  },
+                                  "profile_translation": {
+                                    "translator_type": "none"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 397,
+                                    "following": 1568
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocked_by": false,
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": false,
+                                    "live_following": false,
+                                    "muting": false
+                                  },
+                                  "rest_id": "507953305",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tipjar_settings": {},
+                                  "tweet_counts": {
+                                    "media_tweets": 4128,
+                                    "tweets": 27005
+                                  },
+                                  "verification": {
+                                    "verified": false
+                                  },
+                                  "website": {
+                                    "url": ""
+                                  }
+                                }
+                              }
+                            },
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1114585472544722944"
+                              ],
+                              "editable_until_msecs": "1554574659308",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": true
+                            },
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "has_birdwatch_notes": false,
+                            "is_translatable": false,
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "conversation_id_str": "1114574134397165568",
+                              "created_at": "Sat Apr 06 17:47:39 +0000 2019",
+                              "display_text_range": [
+                                8,
+                                43
+                              ],
+                              "entities": {
+                                "user_mentions": [
+                                  {
+                                    "id_str": "1639058046",
+                                    "indices": [
+                                      0,
+                                      7
+                                    ],
+                                    "name": "You're The Worst",
+                                    "screen_name": "YTWFXX"
+                                  }
+                                ]
+                              },
+                              "favorite_count": 2,
+                              "favorited": false,
+                              "full_text": "@YTWFXX C. Tell everyone about this series.",
+                              "id_str": "1114585472544722944",
+                              "in_reply_to_screen_name": "YTWFXX",
+                              "in_reply_to_status_id_str": "1114574134397165568",
+                              "in_reply_to_user_id_str": "1639058046",
+                              "is_quote_status": false,
+                              "lang": "en",
+                              "quote_count": 0,
+                              "reply_count": 1,
+                              "retweet_count": 0,
+                              "retweeted": false,
+                              "user_id_str": "507953305"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "rest_id": "1114585472544722944",
+                            "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
+                            "unmention_data": {},
+                            "views": {
+                              "state": "Enabled"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "entryId": "conversationthread-1114585472544722944-tweet-1114606848970072064",
+                    "item": {
+                      "clientEventInfo": {
+                        "component": "tweet",
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBMYtj3AAAAAA=="
+                          }
+                        },
+                        "element": "tweet"
+                      },
+                      "itemContent": {
+                        "__typename": "TimelineTweet",
+                        "itemType": "TimelineTweet",
+                        "tweetDisplayType": "Tweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "action_counts": {
+                                    "favorites_count": 4483
+                                  },
+                                  "affiliates_highlighted_label": {},
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/1059509547499368451/y56ON12S_normal.jpg"
+                                  },
+                                  "banner": {
+                                    "image_url": "https://pbs.twimg.com/profile_banners/1639058046/1559603149"
+                                  },
+                                  "core": {
+                                    "created_at": "Thu Aug 01 23:15:09 +0000 2013",
+                                    "name": "You're The Worst",
+                                    "screen_name": "YTWFXX"
+                                  },
+                                  "dm_permissions": {
+                                    "can_dm": false
+                                  },
+                                  "follow_request_sent": false,
+                                  "has_graduated_access": true,
+                                  "id": "VXNlcjoxNjM5MDU4MDQ2",
+                                  "is_blue_verified": false,
+                                  "location": {
+                                    "location": "Los Angeles, CA"
+                                  },
+                                  "media_permissions": {
+                                    "can_media_tag": true
+                                  },
+                                  "notifications_settings": {
+                                    "notifications_enabled": false
+                                  },
+                                  "pinned_items": {
+                                    "tweet_ids_str": [
+                                      "1234502110403710976"
+                                    ]
+                                  },
+                                  "possibly_sensitive": false,
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "profile_bio": {
+                                    "description": "@FXNetworks' #YoureTheWorst Is a look at love & happiness through the eyes of two people who haven't been successful with either.",
+                                    "entities": {
+                                      "description": {},
+                                      "url": {
+                                        "urls": [
+                                          {
+                                            "display_url": "fx.tv/YTW",
+                                            "expanded_url": "https://fx.tv/YTW",
+                                            "indices": [
+                                              0,
+                                              23
+                                            ],
+                                            "url": "https://t.co/0hEY7ITJcU"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  "profile_description_language": "en",
+                                  "profile_image_shape": "Square",
+                                  "profile_metadata": {
+                                    "profile_interstitial_type": ""
+                                  },
+                                  "profile_translation": {
+                                    "translator_type": "none"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 20091,
+                                    "following": 92
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocked_by": false,
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": false,
+                                    "live_following": false,
+                                    "muting": false
+                                  },
+                                  "rest_id": "1639058046",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tipjar_settings": {},
+                                  "tweet_counts": {
+                                    "media_tweets": 1790,
+                                    "tweets": 7753
+                                  },
+                                  "verification": {
+                                    "verified": false,
+                                    "verified_type": "Business"
+                                  },
+                                  "website": {
+                                    "url": "https://t.co/0hEY7ITJcU"
+                                  }
+                                }
+                              }
+                            },
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1114606848970072064"
+                              ],
+                              "editable_until_msecs": "1554579755845",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": true
+                            },
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "has_birdwatch_notes": false,
+                            "is_translatable": false,
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "conversation_id_str": "1114574134397165568",
+                              "created_at": "Sat Apr 06 19:12:35 +0000 2019",
+                              "display_text_range": [
+                                17,
+                                65
+                              ],
+                              "entities": {
+                                "hashtags": [
+                                  {
+                                    "indices": [
+                                      51,
+                                      65
+                                    ],
+                                    "text": "YoureTheWorst"
+                                  }
+                                ]
+                              },
+                              "favorite_count": 1,
+                              "favorited": false,
+                              "full_text": "@McClellansPlace That's not a horrible idea, Emil! #YoureTheWorst",
+                              "id_str": "1114606848970072064",
+                              "in_reply_to_screen_name": "Emil_McClellan",
+                              "in_reply_to_status_id_str": "1114585472544722944",
+                              "in_reply_to_user_id_str": "507953305",
+                              "is_quote_status": false,
+                              "lang": "en",
+                              "quote_count": 0,
+                              "reply_count": 0,
+                              "retweet_count": 0,
+                              "retweeted": false,
+                              "user_id_str": "1639058046"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "rest_id": "1114606848970072064",
+                            "source": "<a href=\"http://twitter.com\" rel=\"nofollow\">Twitter Web Client</a>",
+                            "unmention_data": {},
+                            "views": {
+                              "state": "Enabled"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "metadata": {
+                  "conversationMetadata": {
+                    "allTweetIds": [
+                      "1114606848970072064"
+                    ],
+                    "enableDeduplication": true
+                  }
+                }
+              },
+              "entryId": "conversationthread-1114585472544722944",
+              "sortIndex": "2093599285965750242"
+            },
+            {
+              "content": {
+                "__typename": "TimelineTimelineModule",
+                "clientEventInfo": {
+                  "component": "tweet",
+                  "details": {
+                    "conversationDetails": {
+                      "conversationSection": "HighQuality"
+                    },
+                    "timelinesDetails": {
+                      "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBMYtj3AAAAAA=="
+                    }
+                  }
+                },
+                "displayType": "VerticalConversation",
+                "entryType": "TimelineTimelineModule",
+                "items": [
+                  {
+                    "entryId": "conversationthread-1114580986644373504-tweet-1114580986644373504",
+                    "item": {
+                      "clientEventInfo": {
+                        "component": "tweet",
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBMYtj3AAAAAA=="
+                          }
+                        },
+                        "element": "tweet"
+                      },
+                      "itemContent": {
+                        "__typename": "TimelineTweet",
+                        "itemType": "TimelineTweet",
+                        "tweetDisplayType": "Tweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "action_counts": {
+                                    "favorites_count": 52545
+                                  },
+                                  "affiliates_highlighted_label": {},
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/1834490701423267840/Afwpz2Mk_normal.jpg"
+                                  },
+                                  "banner": {
+                                    "image_url": "https://pbs.twimg.com/profile_banners/1255113067/1726211642"
+                                  },
+                                  "core": {
+                                    "created_at": "Sat Mar 09 18:48:47 +0000 2013",
+                                    "name": "\ud83e\udd8bKlaroline\u2019s Baby\ud83e\udd8b",
+                                    "screen_name": "Svetlana0972"
+                                  },
+                                  "dm_permissions": {
+                                    "can_dm": false
+                                  },
+                                  "follow_request_sent": false,
+                                  "has_graduated_access": true,
+                                  "id": "VXNlcjoxMjU1MTEzMDY3",
+                                  "is_blue_verified": false,
+                                  "location": {
+                                    "location": ""
+                                  },
+                                  "media_permissions": {
+                                    "can_media_tag": false
+                                  },
+                                  "notifications_settings": {
+                                    "notifications_enabled": false
+                                  },
+                                  "pinned_items": {},
+                                  "possibly_sensitive": false,
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "profile_bio": {
+                                    "description": "\ud83d\udcdabook twt \ud83d\udcda multishipper 24/7, vidder, she/her, intj\n\nHR\niwtv\ud83e\udddb\ud83c\udffb\u200d\u2642\ufe0f\ud83e\ude78\nBL\u2764\ufe0f",
+                                    "entities": {
+                                      "description": {}
+                                    }
+                                  },
+                                  "profile_image_shape": "Circle",
+                                  "profile_metadata": {
+                                    "profile_interstitial_type": ""
+                                  },
+                                  "profile_translation": {
+                                    "translator_type": "none"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 3846,
+                                    "following": 2493
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocked_by": false,
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": false,
+                                    "live_following": false,
+                                    "muting": false
+                                  },
+                                  "rest_id": "1255113067",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tipjar_settings": {},
+                                  "tweet_counts": {
+                                    "media_tweets": 12473,
+                                    "tweets": 73062
+                                  },
+                                  "verification": {
+                                    "verified": false
+                                  },
+                                  "website": {
+                                    "url": ""
+                                  }
+                                }
+                              }
+                            },
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1114580986644373504"
+                              ],
+                              "editable_until_msecs": "1554573589786",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": true
+                            },
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "has_birdwatch_notes": false,
+                            "is_translatable": false,
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "conversation_id_str": "1114574134397165568",
+                              "created_at": "Sat Apr 06 17:29:49 +0000 2019",
+                              "display_text_range": [
+                                8,
+                                160
+                              ],
+                              "entities": {
+                                "user_mentions": [
+                                  {
+                                    "id_str": "1639058046",
+                                    "indices": [
+                                      0,
+                                      7
+                                    ],
+                                    "name": "You're The Worst",
+                                    "screen_name": "YTWFXX"
+                                  }
+                                ]
+                              },
+                              "favorite_count": 2,
+                              "favorited": false,
+                              "full_text": "@YTWFXX I\u2019m gonna make sure people won\u2019t forget about this show. All these years i\u2019ve been trying to make everyone watch YTW so my life isn\u2019t gonna change much.",
+                              "id_str": "1114580986644373504",
+                              "in_reply_to_screen_name": "YTWFXX",
+                              "in_reply_to_status_id_str": "1114574134397165568",
+                              "in_reply_to_user_id_str": "1639058046",
+                              "is_quote_status": false,
+                              "lang": "en",
+                              "quote_count": 0,
+                              "reply_count": 0,
+                              "retweet_count": 0,
+                              "retweeted": false,
+                              "user_id_str": "1255113067"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "rest_id": "1114580986644373504",
+                            "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+                            "unmention_data": {},
+                            "views": {
+                              "state": "Enabled"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "metadata": {
+                  "conversationMetadata": {
+                    "allTweetIds": [
+                      "1114580986644373504"
+                    ],
+                    "enableDeduplication": true
+                  }
+                }
+              },
+              "entryId": "conversationthread-1114580986644373504",
+              "sortIndex": "2093599285965750232"
+            },
+            {
+              "content": {
+                "__typename": "TimelineTimelineModule",
+                "clientEventInfo": {
+                  "component": "tweet",
+                  "details": {
+                    "conversationDetails": {
+                      "conversationSection": "HighQuality"
+                    },
+                    "timelinesDetails": {
+                      "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBMYtj3AAAAAA=="
+                    }
+                  }
+                },
+                "displayType": "VerticalConversation",
+                "entryType": "TimelineTimelineModule",
+                "items": [
+                  {
+                    "entryId": "conversationthread-1114580325114376192-tweet-1114580325114376192",
+                    "item": {
+                      "clientEventInfo": {
+                        "component": "tweet",
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBMYtj3AAAAAA=="
+                          }
+                        },
+                        "element": "tweet"
+                      },
+                      "itemContent": {
+                        "__typename": "TimelineTweet",
+                        "itemType": "TimelineTweet",
+                        "tweetDisplayType": "Tweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "action_counts": {
+                                    "favorites_count": 2357
+                                  },
+                                  "affiliates_highlighted_label": {},
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/843399831733190660/VpjQX4mF_normal.jpg"
+                                  },
+                                  "banner": {
+                                    "image_url": ""
+                                  },
+                                  "core": {
+                                    "created_at": "Tue Jul 19 14:53:55 +0000 2011",
+                                    "name": "bry",
+                                    "screen_name": "saifulbry"
+                                  },
+                                  "dm_permissions": {
+                                    "can_dm": false
+                                  },
+                                  "follow_request_sent": false,
+                                  "has_graduated_access": true,
+                                  "id": "VXNlcjozMzg0MDc1ODY=",
+                                  "is_blue_verified": false,
+                                  "location": {
+                                    "location": ""
+                                  },
+                                  "media_permissions": {
+                                    "can_media_tag": false
+                                  },
+                                  "notifications_settings": {
+                                    "notifications_enabled": false
+                                  },
+                                  "pinned_items": {},
+                                  "possibly_sensitive": false,
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "profile_bio": {
+                                    "description": "",
+                                    "entities": {
+                                      "description": {}
+                                    }
+                                  },
+                                  "profile_description_language": "und",
+                                  "profile_image_shape": "Circle",
+                                  "profile_metadata": {
+                                    "profile_interstitial_type": ""
+                                  },
+                                  "profile_translation": {
+                                    "translator_type": "regular"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 77,
+                                    "following": 342
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocked_by": false,
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": false,
+                                    "live_following": false,
+                                    "muting": false
+                                  },
+                                  "rest_id": "338407586",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tipjar_settings": {},
+                                  "tweet_counts": {
+                                    "media_tweets": 112,
+                                    "tweets": 5847
+                                  },
+                                  "verification": {
+                                    "verified": false
+                                  },
+                                  "website": {
+                                    "url": ""
+                                  }
+                                }
+                              }
+                            },
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1114580325114376192"
+                              ],
+                              "editable_until_msecs": "1554573432065",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": true
+                            },
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "has_birdwatch_notes": false,
+                            "is_translatable": false,
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "conversation_id_str": "1114574134397165568",
+                              "created_at": "Sat Apr 06 17:27:12 +0000 2019",
+                              "display_text_range": [
+                                8,
+                                111
+                              ],
+                              "entities": {
+                                "user_mentions": [
+                                  {
+                                    "id_str": "1639058046",
+                                    "indices": [
+                                      0,
+                                      7
+                                    ],
+                                    "name": "You're The Worst",
+                                    "screen_name": "YTWFXX"
+                                  }
+                                ]
+                              },
+                              "favorite_count": 0,
+                              "favorited": false,
+                              "full_text": "@YTWFXX You're not just a television show to me. You're a part of my life. Thank you for the last five years...",
+                              "id_str": "1114580325114376192",
+                              "in_reply_to_screen_name": "YTWFXX",
+                              "in_reply_to_status_id_str": "1114574134397165568",
+                              "in_reply_to_user_id_str": "1639058046",
+                              "is_quote_status": false,
+                              "lang": "en",
+                              "quote_count": 0,
+                              "reply_count": 0,
+                              "retweet_count": 0,
+                              "retweeted": false,
+                              "user_id_str": "338407586"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "rest_id": "1114580325114376192",
+                            "source": "<a href=\"http://twitter.com\" rel=\"nofollow\">Twitter Web Client</a>",
+                            "unmention_data": {},
+                            "views": {
+                              "state": "Enabled"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "metadata": {
+                  "conversationMetadata": {
+                    "allTweetIds": [
+                      "1114580325114376192"
+                    ],
+                    "enableDeduplication": true
+                  }
+                }
+              },
+              "entryId": "conversationthread-1114580325114376192",
+              "sortIndex": "2093599285965750222"
+            },
+            {
+              "content": {
+                "__typename": "TimelineTimelineModule",
+                "clientEventInfo": {
+                  "component": "tweet",
+                  "details": {
+                    "conversationDetails": {
+                      "conversationSection": "HighQuality"
+                    },
+                    "timelinesDetails": {
+                      "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBMYtj3AAAAAA=="
+                    }
+                  }
+                },
+                "displayType": "VerticalConversation",
+                "entryType": "TimelineTimelineModule",
+                "items": [
+                  {
+                    "entryId": "conversationthread-1114574414195122178-tweet-1114574414195122178",
+                    "item": {
+                      "clientEventInfo": {
+                        "component": "tweet",
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBMYtj3AAAAAA=="
+                          }
+                        },
+                        "element": "tweet"
+                      },
+                      "itemContent": {
+                        "__typename": "TimelineTweet",
+                        "itemType": "TimelineTweet",
+                        "tweetDisplayType": "Tweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "action_counts": {
+                                    "favorites_count": 338
+                                  },
+                                  "affiliates_highlighted_label": {},
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/2074165150924394500/FmlGW_nG_normal.jpg"
+                                  },
+                                  "banner": {
+                                    "image_url": "https://pbs.twimg.com/profile_banners/203290198/1499002002"
+                                  },
+                                  "core": {
+                                    "created_at": "Fri Oct 15 23:28:40 +0000 2010",
+                                    "name": "MF",
+                                    "screen_name": "dirrty862"
+                                  },
+                                  "dm_permissions": {
+                                    "can_dm": false
+                                  },
+                                  "follow_request_sent": false,
+                                  "has_graduated_access": true,
+                                  "id": "VXNlcjoyMDMyOTAxOTg=",
+                                  "is_blue_verified": false,
+                                  "location": {
+                                    "location": "Illinois, USA"
+                                  },
+                                  "media_permissions": {
+                                    "can_media_tag": false
+                                  },
+                                  "notifications_settings": {
+                                    "notifications_enabled": false
+                                  },
+                                  "pinned_items": {},
+                                  "possibly_sensitive": false,
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "profile_bio": {
+                                    "description": "#whitesox #vegasborn #seered #gopackgo @britneyspears #justiceforbritney @backstreetboys #blackjack @wwerollins",
+                                    "entities": {
+                                      "description": {}
+                                    }
+                                  },
+                                  "profile_description_language": "qme",
+                                  "profile_image_shape": "Circle",
+                                  "profile_metadata": {
+                                    "profile_interstitial_type": ""
+                                  },
+                                  "profile_translation": {
+                                    "translator_type": "none"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 2028,
+                                    "following": 1808
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocked_by": false,
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": false,
+                                    "live_following": false,
+                                    "muting": false
+                                  },
+                                  "rest_id": "203290198",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tipjar_settings": {},
+                                  "tweet_counts": {
+                                    "media_tweets": 6849,
+                                    "tweets": 131266
+                                  },
+                                  "verification": {
+                                    "verified": false
+                                  },
+                                  "website": {
+                                    "url": ""
+                                  }
+                                }
+                              }
+                            },
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1114574414195122178"
+                              ],
+                              "editable_until_msecs": "1554572022792",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": true
+                            },
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "has_birdwatch_notes": false,
+                            "is_translatable": false,
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "conversation_id_str": "1114574134397165568",
+                              "created_at": "Sat Apr 06 17:03:42 +0000 2019",
+                              "display_text_range": [
+                                7,
+                                7
+                              ],
+                              "entities": {
+                                "media": [
+                                  {
+                                    "display_url": "pic.x.com/tzgKFVBqDV",
+                                    "expanded_url": "https://x.com/dirrty862/status/1114574414195122178/photo/1",
+                                    "ext_media_availability": {
+                                      "status": "Available"
+                                    },
+                                    "id_str": "1114574407048007680",
+                                    "indices": [
+                                      8,
+                                      31
+                                    ],
+                                    "media_key": "16_1114574407048007680",
+                                    "media_results": {
+                                      "result": {
+                                        "media_key": "16_1114574407048007680"
+                                      }
+                                    },
+                                    "media_url_https": "https://pbs.twimg.com/tweet_video_thumb/D3fDhJfWkAAuRoy.jpg",
+                                    "original_info": {
+                                      "focus_rects": [],
+                                      "height": 194,
+                                      "width": 244
+                                    },
+                                    "sizes": {
+                                      "large": {
+                                        "h": 194,
+                                        "resize": "fit",
+                                        "w": 244
+                                      },
+                                      "medium": {
+                                        "h": 194,
+                                        "resize": "fit",
+                                        "w": 244
+                                      },
+                                      "small": {
+                                        "h": 194,
+                                        "resize": "fit",
+                                        "w": 244
+                                      },
+                                      "thumb": {
+                                        "h": 150,
+                                        "resize": "crop",
+                                        "w": 150
+                                      }
+                                    },
+                                    "type": "animated_gif",
+                                    "url": "https://t.co/tzgKFVBqDV",
+                                    "video_info": {
+                                      "aspect_ratio": [
+                                        122,
+                                        97
+                                      ],
+                                      "variants": [
+                                        {
+                                          "bitrate": 0,
+                                          "content_type": "video/mp4",
+                                          "url": "https://video.twimg.com/tweet_video/D3fDhJfWkAAuRoy.mp4"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "user_mentions": [
+                                  {
+                                    "id_str": "1639058046",
+                                    "indices": [
+                                      0,
+                                      7
+                                    ],
+                                    "name": "You're The Worst",
+                                    "screen_name": "YTWFXX"
+                                  }
+                                ]
+                              },
+                              "extended_entities": {
+                                "media": [
+                                  {
+                                    "display_url": "pic.x.com/tzgKFVBqDV",
+                                    "expanded_url": "https://x.com/dirrty862/status/1114574414195122178/photo/1",
+                                    "ext_media_availability": {
+                                      "status": "Available"
+                                    },
+                                    "id_str": "1114574407048007680",
+                                    "indices": [
+                                      8,
+                                      31
+                                    ],
+                                    "media_key": "16_1114574407048007680",
+                                    "media_results": {
+                                      "result": {
+                                        "media_key": "16_1114574407048007680"
+                                      }
+                                    },
+                                    "media_url_https": "https://pbs.twimg.com/tweet_video_thumb/D3fDhJfWkAAuRoy.jpg",
+                                    "original_info": {
+                                      "focus_rects": [],
+                                      "height": 194,
+                                      "width": 244
+                                    },
+                                    "sizes": {
+                                      "large": {
+                                        "h": 194,
+                                        "resize": "fit",
+                                        "w": 244
+                                      },
+                                      "medium": {
+                                        "h": 194,
+                                        "resize": "fit",
+                                        "w": 244
+                                      },
+                                      "small": {
+                                        "h": 194,
+                                        "resize": "fit",
+                                        "w": 244
+                                      },
+                                      "thumb": {
+                                        "h": 150,
+                                        "resize": "crop",
+                                        "w": 150
+                                      }
+                                    },
+                                    "type": "animated_gif",
+                                    "url": "https://t.co/tzgKFVBqDV",
+                                    "video_info": {
+                                      "aspect_ratio": [
+                                        122,
+                                        97
+                                      ],
+                                      "variants": [
+                                        {
+                                          "bitrate": 0,
+                                          "content_type": "video/mp4",
+                                          "url": "https://video.twimg.com/tweet_video/D3fDhJfWkAAuRoy.mp4"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ]
+                              },
+                              "favorite_count": 0,
+                              "favorited": false,
+                              "full_text": "@YTWFXX https://t.co/tzgKFVBqDV",
+                              "id_str": "1114574414195122178",
+                              "in_reply_to_screen_name": "YTWFXX",
+                              "in_reply_to_status_id_str": "1114574134397165568",
+                              "in_reply_to_user_id_str": "1639058046",
+                              "is_quote_status": false,
+                              "lang": "qme",
+                              "possibly_sensitive": false,
+                              "possibly_sensitive_editable": true,
+                              "quote_count": 0,
+                              "reply_count": 0,
+                              "retweet_count": 0,
+                              "retweeted": false,
+                              "user_id_str": "203290198"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "rest_id": "1114574414195122178",
+                            "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
+                            "unmention_data": {},
+                            "views": {
+                              "state": "Enabled"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "metadata": {
+                  "conversationMetadata": {
+                    "allTweetIds": [
+                      "1114574414195122178"
+                    ],
+                    "enableDeduplication": true
+                  }
+                }
+              },
+              "entryId": "conversationthread-1114574414195122178",
+              "sortIndex": "2093599285965750212"
+            },
+            {
+              "content": {
+                "__typename": "TimelineTimelineModule",
+                "clientEventInfo": {
+                  "component": "tweet",
+                  "details": {
+                    "conversationDetails": {
+                      "conversationSection": "HighQuality"
+                    },
+                    "timelinesDetails": {
+                      "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBMYtj3AAAAAA=="
+                    }
+                  }
+                },
+                "displayType": "VerticalConversation",
+                "entryType": "TimelineTimelineModule",
+                "items": [
+                  {
+                    "entryId": "conversationthread-1114624810812878848-tweet-1114624810812878848",
+                    "item": {
+                      "clientEventInfo": {
+                        "component": "tweet",
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBMYtj3AAAAAA=="
+                          }
+                        },
+                        "element": "tweet"
+                      },
+                      "itemContent": {
+                        "__typename": "TimelineTweet",
+                        "itemType": "TimelineTweet",
+                        "tweetDisplayType": "Tweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "action_counts": {
+                                    "favorites_count": 4729
+                                  },
+                                  "affiliates_highlighted_label": {},
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/1425230901877805059/sn8jlQYW_normal.jpg"
+                                  },
+                                  "banner": {
+                                    "image_url": "https://pbs.twimg.com/profile_banners/840672104341209089/1628683850"
+                                  },
+                                  "core": {
+                                    "created_at": "Sat Mar 11 21:13:43 +0000 2017",
+                                    "name": "Samantha Angelina",
+                                    "screen_name": "Samanthahallma8"
+                                  },
+                                  "dm_permissions": {
+                                    "can_dm": false
+                                  },
+                                  "follow_request_sent": false,
+                                  "has_graduated_access": true,
+                                  "id": "VXNlcjo4NDA2NzIxMDQzNDEyMDkwODk=",
+                                  "is_blue_verified": false,
+                                  "location": {
+                                    "location": "Tupelo,ms(elvis home town)"
+                                  },
+                                  "media_permissions": {
+                                    "can_media_tag": true
+                                  },
+                                  "notifications_settings": {
+                                    "notifications_enabled": false
+                                  },
+                                  "pinned_items": {},
+                                  "possibly_sensitive": false,
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "profile_bio": {
+                                    "description": "I do https://t.co/LjEQk7yQBn artist,Muralist,& Seamstress.Favorite job loving babies.Any baby.I wanna be good to as many as I can for as long as I can.",
+                                    "entities": {
+                                      "description": {
+                                        "urls": [
+                                          {
+                                            "display_url": "stuff.Tattoo",
+                                            "expanded_url": "http://stuff.Tattoo",
+                                            "indices": [
+                                              5,
+                                              28
+                                            ],
+                                            "url": "https://t.co/LjEQk7yQBn"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  "profile_description_language": "en",
+                                  "profile_image_shape": "Circle",
+                                  "profile_metadata": {
+                                    "profile_interstitial_type": ""
+                                  },
+                                  "profile_translation": {
+                                    "translator_type": "none"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 188,
+                                    "following": 315
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocked_by": false,
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": false,
+                                    "live_following": false,
+                                    "muting": false
+                                  },
+                                  "rest_id": "840672104341209089",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tipjar_settings": {},
+                                  "tweet_counts": {
+                                    "media_tweets": 791,
+                                    "tweets": 10892
+                                  },
+                                  "verification": {
+                                    "verified": false
+                                  },
+                                  "website": {
+                                    "url": ""
+                                  }
+                                }
+                              }
+                            },
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1114624810812878848"
+                              ],
+                              "editable_until_msecs": "1554584038282",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": true
+                            },
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "has_birdwatch_notes": false,
+                            "is_translatable": false,
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "conversation_id_str": "1114574134397165568",
+                              "created_at": "Sat Apr 06 20:23:58 +0000 2019",
+                              "display_text_range": [
+                                8,
+                                47
+                              ],
+                              "entities": {
+                                "user_mentions": [
+                                  {
+                                    "id_str": "1639058046",
+                                    "indices": [
+                                      0,
+                                      7
+                                    ],
+                                    "name": "You're The Worst",
+                                    "screen_name": "YTWFXX"
+                                  }
+                                ]
+                              },
+                              "favorite_count": 0,
+                              "favorited": false,
+                              "full_text": "@YTWFXX Be overly pissed,and mock bland people.",
+                              "id_str": "1114624810812878848",
+                              "in_reply_to_screen_name": "YTWFXX",
+                              "in_reply_to_status_id_str": "1114574134397165568",
+                              "in_reply_to_user_id_str": "1639058046",
+                              "is_quote_status": false,
+                              "lang": "en",
+                              "quote_count": 0,
+                              "reply_count": 0,
+                              "retweet_count": 0,
+                              "retweeted": false,
+                              "user_id_str": "840672104341209089"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "rest_id": "1114624810812878848",
+                            "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+                            "unmention_data": {},
+                            "views": {
+                              "state": "Enabled"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "metadata": {
+                  "conversationMetadata": {
+                    "allTweetIds": [
+                      "1114624810812878848"
+                    ],
+                    "enableDeduplication": true
+                  }
+                }
+              },
+              "entryId": "conversationthread-1114624810812878848",
+              "sortIndex": "2093599285965750202"
+            },
+            {
+              "content": {
+                "__typename": "TimelineTimelineModule",
+                "clientEventInfo": {
+                  "component": "tweet",
+                  "details": {
+                    "conversationDetails": {
+                      "conversationSection": "HighQuality"
+                    },
+                    "timelinesDetails": {
+                      "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBMYtj3AAAAAA=="
+                    }
+                  }
+                },
+                "displayType": "VerticalConversation",
+                "entryType": "TimelineTimelineModule",
+                "items": [
+                  {
+                    "entryId": "conversationthread-1114699634839105536-tweet-1114699634839105536",
+                    "item": {
+                      "clientEventInfo": {
+                        "component": "tweet",
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBMYtj3AAAAAA=="
+                          }
+                        },
+                        "element": "tweet"
+                      },
+                      "itemContent": {
+                        "__typename": "TimelineTweet",
+                        "itemType": "TimelineTweet",
+                        "tweetDisplayType": "Tweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "action_counts": {
+                                    "favorites_count": 998
+                                  },
+                                  "affiliates_highlighted_label": {},
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/746100776179666944/63Ttzg4L_normal.jpg"
+                                  },
+                                  "banner": {
+                                    "image_url": "https://pbs.twimg.com/profile_banners/2561976008/1449953055"
+                                  },
+                                  "core": {
+                                    "created_at": "Wed Jun 11 19:43:41 +0000 2014",
+                                    "name": "Anthony Mitchell",
+                                    "screen_name": "AMitchell_14"
+                                  },
+                                  "dm_permissions": {
+                                    "can_dm": false
+                                  },
+                                  "follow_request_sent": false,
+                                  "has_graduated_access": true,
+                                  "id": "VXNlcjoyNTYxOTc2MDA4",
+                                  "is_blue_verified": false,
+                                  "location": {
+                                    "location": "Under The Table And Dreaming"
+                                  },
+                                  "media_permissions": {
+                                    "can_media_tag": true
+                                  },
+                                  "notifications_settings": {
+                                    "notifications_enabled": false
+                                  },
+                                  "pinned_items": {},
+                                  "possibly_sensitive": false,
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "profile_bio": {
+                                    "description": "One word of truth shall outweigh the whole world. - Aleksandr Solzhenitsyn",
+                                    "entities": {
+                                      "description": {}
+                                    }
+                                  },
+                                  "profile_description_language": "en",
+                                  "profile_image_shape": "Circle",
+                                  "profile_metadata": {
+                                    "profile_interstitial_type": ""
+                                  },
+                                  "profile_translation": {
+                                    "translator_type": "none"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 464,
+                                    "following": 205
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocked_by": false,
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": false,
+                                    "live_following": false,
+                                    "muting": false
+                                  },
+                                  "rest_id": "2561976008",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tipjar_settings": {},
+                                  "tweet_counts": {
+                                    "media_tweets": 58,
+                                    "tweets": 10333
+                                  },
+                                  "verification": {
+                                    "verified": false
+                                  },
+                                  "website": {
+                                    "url": ""
+                                  }
+                                }
+                              }
+                            },
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1114699634839105536"
+                              ],
+                              "editable_until_msecs": "1554601877720",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": true
+                            },
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "has_birdwatch_notes": false,
+                            "is_translatable": false,
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "conversation_id_str": "1114574134397165568",
+                              "created_at": "Sun Apr 07 01:21:17 +0000 2019",
+                              "display_text_range": [
+                                8,
+                                57
+                              ],
+                              "entities": {
+                                "user_mentions": [
+                                  {
+                                    "id_str": "1639058046",
+                                    "indices": [
+                                      0,
+                                      7
+                                    ],
+                                    "name": "You're The Worst",
+                                    "screen_name": "YTWFXX"
+                                  }
+                                ]
+                              },
+                              "favorite_count": 0,
+                              "favorited": false,
+                              "full_text": "@YTWFXX Wait for the spinoff with Edgar in NYC to launch.",
+                              "id_str": "1114699634839105536",
+                              "in_reply_to_screen_name": "YTWFXX",
+                              "in_reply_to_status_id_str": "1114574134397165568",
+                              "in_reply_to_user_id_str": "1639058046",
+                              "is_quote_status": false,
+                              "lang": "en",
+                              "quote_count": 0,
+                              "reply_count": 0,
+                              "retweet_count": 0,
+                              "retweeted": false,
+                              "user_id_str": "2561976008"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "rest_id": "1114699634839105536",
+                            "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
+                            "unmention_data": {},
+                            "views": {
+                              "state": "Enabled"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "metadata": {
+                  "conversationMetadata": {
+                    "allTweetIds": [
+                      "1114699634839105536"
+                    ],
+                    "enableDeduplication": true
+                  }
+                }
+              },
+              "entryId": "conversationthread-1114699634839105536",
+              "sortIndex": "2093599285965750192"
+            },
+            {
+              "content": {
+                "__typename": "TimelineTimelineModule",
+                "clientEventInfo": {
+                  "component": "tweet",
+                  "details": {
+                    "conversationDetails": {
+                      "conversationSection": "HighQuality"
+                    },
+                    "timelinesDetails": {
+                      "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBMYtj3AAAAAA=="
+                    }
+                  }
+                },
+                "displayType": "VerticalConversation",
+                "entryType": "TimelineTimelineModule",
+                "items": [
+                  {
+                    "entryId": "conversationthread-1114629865230229510-tweet-1114629865230229510",
+                    "item": {
+                      "clientEventInfo": {
+                        "component": "tweet",
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBMYtj3AAAAAA=="
+                          }
+                        },
+                        "element": "tweet"
+                      },
+                      "itemContent": {
+                        "__typename": "TimelineTweet",
+                        "itemType": "TimelineTweet",
+                        "tweetDisplayType": "Tweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "action_counts": {
+                                    "favorites_count": 72299
+                                  },
+                                  "affiliates_highlighted_label": {},
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/1223491257869258752/GP-8ICXv_normal.jpg"
+                                  },
+                                  "banner": {
+                                    "image_url": "https://pbs.twimg.com/profile_banners/499425682/1580538021"
+                                  },
+                                  "core": {
+                                    "created_at": "Wed Feb 22 03:28:06 +0000 2012",
+                                    "name": "Winter76",
+                                    "screen_name": "shep3676"
+                                  },
+                                  "dm_permissions": {
+                                    "can_dm": false
+                                  },
+                                  "follow_request_sent": false,
+                                  "has_graduated_access": true,
+                                  "id": "VXNlcjo0OTk0MjU2ODI=",
+                                  "is_blue_verified": false,
+                                  "location": {
+                                    "location": "Fort Worth, TX"
+                                  },
+                                  "media_permissions": {
+                                    "can_media_tag": true
+                                  },
+                                  "notifications_settings": {
+                                    "notifications_enabled": false
+                                  },
+                                  "pinned_items": {},
+                                  "possibly_sensitive": false,
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "profile_bio": {
+                                    "description": "Prince, photography, LakerNation, RaiderNation,politics, and music.  Opinions are never wrong,  keep an open mind and ears; think before pushing send.  No DMs",
+                                    "entities": {
+                                      "description": {}
+                                    }
+                                  },
+                                  "profile_description_language": "en",
+                                  "profile_image_shape": "Circle",
+                                  "profile_metadata": {
+                                    "profile_interstitial_type": ""
+                                  },
+                                  "profile_translation": {
+                                    "translator_type": "none"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 1079,
+                                    "following": 1746
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocked_by": false,
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": false,
+                                    "live_following": false,
+                                    "muting": false
+                                  },
+                                  "rest_id": "499425682",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tipjar_settings": {},
+                                  "tweet_counts": {
+                                    "media_tweets": 3710,
+                                    "tweets": 21948
+                                  },
+                                  "verification": {
+                                    "verified": false
+                                  },
+                                  "website": {
+                                    "url": ""
+                                  }
+                                }
+                              }
+                            },
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1114629865230229510"
+                              ],
+                              "editable_until_msecs": "1554585243349",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": true
+                            },
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "has_birdwatch_notes": false,
+                            "is_translatable": false,
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "conversation_id_str": "1114574134397165568",
+                              "created_at": "Sat Apr 06 20:44:03 +0000 2019",
+                              "display_text_range": [
+                                8,
+                                28
+                              ],
+                              "entities": {
+                                "user_mentions": [
+                                  {
+                                    "id_str": "1639058046",
+                                    "indices": [
+                                      0,
+                                      7
+                                    ],
+                                    "name": "You're The Worst",
+                                    "screen_name": "YTWFXX"
+                                  }
+                                ]
+                              },
+                              "favorite_count": 0,
+                              "favorited": false,
+                              "full_text": "@YTWFXX Especially season 3!",
+                              "id_str": "1114629865230229510",
+                              "in_reply_to_screen_name": "YTWFXX",
+                              "in_reply_to_status_id_str": "1114574134397165568",
+                              "in_reply_to_user_id_str": "1639058046",
+                              "is_quote_status": false,
+                              "lang": "en",
+                              "quote_count": 0,
+                              "reply_count": 0,
+                              "retweet_count": 0,
+                              "retweeted": false,
+                              "user_id_str": "499425682"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "rest_id": "1114629865230229510",
+                            "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
+                            "unmention_data": {},
+                            "views": {
+                              "state": "Enabled"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "metadata": {
+                  "conversationMetadata": {
+                    "allTweetIds": [
+                      "1114629865230229510"
+                    ],
+                    "enableDeduplication": true
+                  }
+                }
+              },
+              "entryId": "conversationthread-1114629865230229510",
+              "sortIndex": "2093599285965750182"
+            },
+            {
+              "content": {
+                "__typename": "TimelineTimelineCursor",
+                "cursorType": "ShowMoreThreads",
+                "displayTreatment": {
+                  "actionText": "Show probable spam"
+                },
+                "entryType": "TimelineTimelineCursor",
+                "value": "DAAKCgABHQ31dU3__6MLAAIAAACoRW1QQzZ3QUFBZlEvZ0dKTjB2R3AvQUFBQUEwUGQ4T0dRZGJnQWc5M3cwVWNsT0FBRDNmSTVvQVU4QUFQZC9YMDlSYmdCZzkzNEpRc1ZNQUJEM2Zobm5nVUlBRVBlRFZwZGRld0FBOTN5WUNHVjZBQUQzZmR1ZVRWNEFBUGQvRmNJbGF3QUE5M3paVDYxdEFBRDNmaEJoRVVJQUFQZDhPeDZ0YmdBQT09CAADAAAABwsABAAAAA9TaG93TW9yZVRocmVhZHMAAA"
+              },
+              "entryId": "cursor-showmorethreads-2093599285965750181",
+              "sortIndex": "2093599285965750181"
+            }
+          ],
+          "type": "TimelineAddEntries"
+        },
+        {
+          "direction": "Top",
+          "type": "TimelineTerminateTimeline"
+        }
+      ],
+      "metadata": {
+        "scribeConfig": {
+          "page": "ranked_replies"
+        }
+      }
+    }
+  }
+}
