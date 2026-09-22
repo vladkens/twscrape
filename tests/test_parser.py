@@ -633,6 +633,50 @@ async def test_issue_310():
     )
 
 
+async def test_issue_315():
+    """Quoted tweets must not leak as standalone timeline items.
+
+    In raw_user_tweets the quoting tweets quote tweets by other users
+    (@milichab, @XFreeze, @SpaceXAI, @nicole_clash, @agno_three, @nikitabier).
+    X returns those quoted tweets embedded in the quoting tweet's payload and
+    they must not be yielded as top-level items too:
+    https://github.com/vladkens/twscrape/issues/315
+    """
+    raw = fake_rep("raw_user_tweets").json()
+    tweets = list(parse_tweets(raw))
+    top_level_ids = {x.id_str for x in tweets}
+
+    # the fixture quotes 6 tweets by other users; none may leak top-level
+    other_user_quotes = {
+        x.quotedTweet.id_str
+        for x in tweets
+        if x.quotedTweet is not None and x.quotedTweet.user.username != x.user.username
+    }
+    assert len(other_user_quotes) == 6
+    assert not (other_user_quotes & top_level_ids), (
+        f"quoted tweets leaked as standalone items: {other_user_quotes & top_level_ids}"
+    )
+
+    # a self-quoted tweet X lists inside its own thread module entry remains a
+    # real result (5 items removed vs the pre-fix 25)
+    assert len(tweets) == 21
+    assert "2082640274845811115" in top_level_ids
+
+
+@pytest.mark.parametrize(
+    "module",
+    ["conversationthread", "list-conversation", "profile-grid", "tweetdetailrelatedtweets"],
+)
+def test_quoted_tweet_in_other_timeline_modules_is_standalone(module):
+    raw = fake_rep("raw_user_tweets").json()
+    quoted_id = "2082640274845811115"
+    entry = find_obj(raw, lambda x: x.get("entryId", "").endswith(f"-tweet-{quoted_id}"))
+    assert entry is not None
+    entry["entryId"] = entry["entryId"].replace("profile-conversation-", f"{module}-", 1)
+
+    assert quoted_id in {tweet.id_str for tweet in parse_tweets(raw)}
+
+
 async def test_cards():
     # Issues:
     # - https://github.com/vladkens/twscrape/issues/72
