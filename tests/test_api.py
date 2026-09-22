@@ -44,7 +44,9 @@ async def test_gql_params(api_mock: API, monkeypatch):
             pass
 
         assert len(args) == 1, f"{func} not called once"
-        assert args[0][1]["limit"] == 100, f"limit not changed in {func}"
+        # Parsed generators count unique items, so raw pagination runs until
+        # enough distinct results have passed the parser.
+        assert args[0][1]["limit"] == -1, f"raw limit not disabled in {func}"
         assert args[0][0][1]["count"] == 100, f"count not changed in {func}"
 
 

@@ -1173,6 +1173,8 @@ def _parse_items(
     kind: str,
     parser: Callable[[dict, dict], ParsedItem],
     limit: int = -1,
+    seen_ids: set[int | str | None] | None = None,
+    accept: Callable[[ParsedItem], bool] | None = None,
 ) -> Generator[ParsedItem, None, None]:
     key = kind if kind == "trends" else f"{kind}s"
 
@@ -1182,7 +1184,7 @@ def _parse_items(
     retweeted_ids: set[str] = obj.get("retweeted_ids", set())
     quoted_ids: set[str] = obj.get("quoted_ids", set())
 
-    ids = set()
+    ids = seen_ids if seen_ids is not None else set()
     for x in obj[key].values():
         if kind == "tweet" and x.get("id_str") in retweeted_ids:
             continue
@@ -1200,7 +1202,7 @@ def _parse_items(
 
         try:
             tmp = parser(x, obj)
-            if tmp.id not in ids:
+            if tmp.id not in ids and (accept is None or accept(tmp)):
                 ids.add(tmp.id)
                 yield tmp
         except Exception as e:
@@ -1269,13 +1271,28 @@ def parse_community(rep: Response | dict) -> Community | None:
         return None
 
 
-def parse_tweets(rep: Response, limit: int = -1) -> Generator[Tweet, None, None]:
-    return _parse_items(rep, "tweet", Tweet.parse, limit)
+def parse_tweets(
+    rep: Response,
+    limit: int = -1,
+    seen_ids: set[int | str | None] | None = None,
+    accept: Callable[[Tweet], bool] | None = None,
+) -> Generator[Tweet, None, None]:
+    return _parse_items(rep, "tweet", Tweet.parse, limit, seen_ids, accept)
 
 
-def parse_users(rep: Response, limit: int = -1) -> Generator[User, None, None]:
-    return _parse_items(rep, "user", User.parse, limit)
+def parse_users(
+    rep: Response,
+    limit: int = -1,
+    seen_ids: set[int | str | None] | None = None,
+    accept: Callable[[User], bool] | None = None,
+) -> Generator[User, None, None]:
+    return _parse_items(rep, "user", User.parse, limit, seen_ids, accept)
 
 
-def parse_trends(rep: Response, limit: int = -1) -> Generator[Trend, None, None]:
-    return _parse_items(rep, "trends", Trend.parse, limit)
+def parse_trends(
+    rep: Response,
+    limit: int = -1,
+    seen_ids: set[int | str | None] | None = None,
+    accept: Callable[[Trend], bool] | None = None,
+) -> Generator[Trend, None, None]:
+    return _parse_items(rep, "trends", Trend.parse, limit, seen_ids, accept)

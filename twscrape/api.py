@@ -106,6 +106,23 @@ KV = dict | None
 TrendId = Literal["trending", "news", "sport", "entertainment"] | str
 
 
+async def _parsed_pages(raw_pages, parser, limit: int, accept=None):
+    # Keep parser context for each page, then deduplicate accepted items across pages.
+    seen_ids: set[int | str | None] = set()
+    duplicate_pages = 0
+    async with aclosing(raw_pages) as gen:
+        async for rep in gen:
+            before = len(seen_ids)
+            for item in parser(rep, seen_ids=seen_ids, accept=accept):
+                yield item
+                if limit > 0 and len(seen_ids) >= limit:
+                    return
+            duplicate_pages = duplicate_pages + 1 if len(seen_ids) == before else 0
+            if duplicate_pages >= 3:
+                logger.debug("Stopping after 3 pages without new parsed items")
+                return
+
+
 class API:
     # Note: kv is variables, ft is features from original GQL request
     pool: AccountsPool
@@ -265,17 +282,19 @@ class API:
                 yield x
 
     async def search(self, q: str, limit=-1, kv: KV = None):
-        async with aclosing(self.search_raw(q, limit=limit, kv=kv)) as gen:
-            async for rep in gen:
-                for x in parse_tweets(rep.json(), limit):
-                    yield x
+        async with aclosing(
+            _parsed_pages(self.search_raw(q, limit=-1, kv=kv), parse_tweets, limit)
+        ) as gen:
+            async for x in gen:
+                yield x
 
     async def search_user(self, q: str, limit=-1, kv: KV = None):
         kv = {"product": "People", **(kv or {})}
-        async with aclosing(self.search_raw(q, limit=limit, kv=kv)) as gen:
-            async for rep in gen:
-                for x in parse_users(rep.json(), limit):
-                    yield x
+        async with aclosing(
+            _parsed_pages(self.search_raw(q, limit=-1, kv=kv), parse_users, limit)
+        ) as gen:
+            async for x in gen:
+                yield x
 
     # user_by_id
 
@@ -376,11 +395,12 @@ class API:
                 yield x
 
     async def tweet_replies(self, twid: int, limit=-1, kv: KV = None):
-        async with aclosing(self.tweet_replies_raw(twid, limit=limit, kv=kv)) as gen:
-            async for rep in gen:
-                for x in parse_tweets(rep.json(), limit):
-                    if x.inReplyToTweetId == twid:
-                        yield x
+        raw = self.tweet_replies_raw(twid, limit=-1, kv=kv)
+        async with aclosing(
+            _parsed_pages(raw, parse_tweets, limit, lambda x: x.inReplyToTweetId == twid)
+        ) as gen:
+            async for x in gen:
+                yield x
 
     # tweet_thread
     # Same TweetDetail family as tweet_replies, but configured to return the
@@ -439,11 +459,12 @@ class API:
                 yield x
 
     async def tweet_thread(self, twid: int, limit=-1, kv: KV = None):
-        async with aclosing(self.tweet_thread_raw(twid, limit=limit, kv=kv)) as gen:
-            async for rep in gen:
-                for x in parse_tweets(rep.json(), limit):
-                    if x.conversationId == twid:
-                        yield x
+        raw = self.tweet_thread_raw(twid, limit=-1, kv=kv)
+        async with aclosing(
+            _parsed_pages(raw, parse_tweets, limit, lambda x: x.conversationId == twid)
+        ) as gen:
+            async for x in gen:
+                yield x
 
     # followers
 
@@ -456,10 +477,11 @@ class API:
                 yield x
 
     async def followers(self, uid: int, limit=-1, kv: KV = None):
-        async with aclosing(self.followers_raw(uid, limit=limit, kv=kv)) as gen:
-            async for rep in gen:
-                for x in parse_users(rep.json(), limit):
-                    yield x
+        async with aclosing(
+            _parsed_pages(self.followers_raw(uid, limit=-1, kv=kv), parse_users, limit)
+        ) as gen:
+            async for x in gen:
+                yield x
 
     # verified_followers
 
@@ -474,10 +496,11 @@ class API:
                 yield x
 
     async def verified_followers(self, uid: int, limit=-1, kv: KV = None):
-        async with aclosing(self.verified_followers_raw(uid, limit=limit, kv=kv)) as gen:
-            async for rep in gen:
-                for x in parse_users(rep.json(), limit):
-                    yield x
+        async with aclosing(
+            _parsed_pages(self.verified_followers_raw(uid, limit=-1, kv=kv), parse_users, limit)
+        ) as gen:
+            async for x in gen:
+                yield x
 
     # following
 
@@ -489,10 +512,11 @@ class API:
                 yield x
 
     async def following(self, uid: int, limit=-1, kv: KV = None):
-        async with aclosing(self.following_raw(uid, limit=limit, kv=kv)) as gen:
-            async for rep in gen:
-                for x in parse_users(rep.json(), limit):
-                    yield x
+        async with aclosing(
+            _parsed_pages(self.following_raw(uid, limit=-1, kv=kv), parse_users, limit)
+        ) as gen:
+            async for x in gen:
+                yield x
 
     # subscriptions
 
@@ -504,10 +528,11 @@ class API:
                 yield x
 
     async def subscriptions(self, uid: int, limit=-1, kv: KV = None):
-        async with aclosing(self.subscriptions_raw(uid, limit=limit, kv=kv)) as gen:
-            async for rep in gen:
-                for x in parse_users(rep.json(), limit):
-                    yield x
+        async with aclosing(
+            _parsed_pages(self.subscriptions_raw(uid, limit=-1, kv=kv), parse_users, limit)
+        ) as gen:
+            async for x in gen:
+                yield x
 
     # retweeters
 
@@ -519,10 +544,11 @@ class API:
                 yield x
 
     async def retweeters(self, twid: int, limit=-1, kv: KV = None):
-        async with aclosing(self.retweeters_raw(twid, limit=limit, kv=kv)) as gen:
-            async for rep in gen:
-                for x in parse_users(rep.json(), limit):
-                    yield x
+        async with aclosing(
+            _parsed_pages(self.retweeters_raw(twid, limit=-1, kv=kv), parse_users, limit)
+        ) as gen:
+            async for x in gen:
+                yield x
 
     # user_tweets
 
@@ -542,10 +568,11 @@ class API:
                 yield x
 
     async def user_tweets(self, uid: int, limit=-1, kv: KV = None):
-        async with aclosing(self.user_tweets_raw(uid, limit=limit, kv=kv)) as gen:
-            async for rep in gen:
-                for x in parse_tweets(rep.json(), limit):
-                    yield x
+        async with aclosing(
+            _parsed_pages(self.user_tweets_raw(uid, limit=-1, kv=kv), parse_tweets, limit)
+        ) as gen:
+            async for x in gen:
+                yield x
 
     # user_tweets_and_replies
 
@@ -565,10 +592,13 @@ class API:
                 yield x
 
     async def user_tweets_and_replies(self, uid: int, limit=-1, kv: KV = None):
-        async with aclosing(self.user_tweets_and_replies_raw(uid, limit=limit, kv=kv)) as gen:
-            async for rep in gen:
-                for x in parse_tweets(rep.json(), limit):
-                    yield x
+        async with aclosing(
+            _parsed_pages(
+                self.user_tweets_and_replies_raw(uid, limit=-1, kv=kv), parse_tweets, limit
+            )
+        ) as gen:
+            async for x in gen:
+                yield x
 
     # user_media
 
@@ -590,18 +620,15 @@ class API:
                 yield x
 
     async def user_media(self, uid: int, limit=-1, kv: KV = None):
-        async with aclosing(self.user_media_raw(uid, limit=limit, kv=kv)) as gen:
-            async for rep in gen:
-                for x in parse_tweets(rep, limit):
-                    # sometimes some tweets without media, so skip them
-                    media_count = (
-                        len(x.media.photos) + len(x.media.videos) + len(x.media.animated)
-                        if x.media
-                        else 0
-                    )
+        # Some UserMedia entries have no attached media.
+        raw = self.user_media_raw(uid, limit=-1, kv=kv)
 
-                    if media_count > 0:
-                        yield x
+        def accept(x: Tweet) -> bool:
+            return bool(x.media and (x.media.photos or x.media.videos or x.media.animated))
+
+        async with aclosing(_parsed_pages(raw, parse_tweets, limit, accept)) as gen:
+            async for x in gen:
+                yield x
 
     # list_timeline
 
@@ -613,10 +640,11 @@ class API:
                 yield x
 
     async def list_timeline(self, list_id: int, limit=-1, kv: KV = None):
-        async with aclosing(self.list_timeline_raw(list_id, limit=limit, kv=kv)) as gen:
-            async for rep in gen:
-                for x in parse_tweets(rep, limit):
-                    yield x
+        async with aclosing(
+            _parsed_pages(self.list_timeline_raw(list_id, limit=-1, kv=kv), parse_tweets, limit)
+        ) as gen:
+            async for x in gen:
+                yield x
 
     # trends
 
@@ -641,20 +669,22 @@ class API:
                 yield x
 
     async def trends(self, trend_id: TrendId, limit=-1, kv: KV = None):
-        async with aclosing(self.trends_raw(trend_id, limit=limit, kv=kv)) as gen:
-            async for rep in gen:
-                for x in parse_trends(rep, limit):
-                    yield x
+        async with aclosing(
+            _parsed_pages(self.trends_raw(trend_id, limit=-1, kv=kv), parse_trends, limit)
+        ) as gen:
+            async for x in gen:
+                yield x
 
     async def search_trend(self, q: str, limit=-1, kv: KV = None):
         kv = {
             "querySource": "trend_click",
             **(kv or {}),
         }
-        async with aclosing(self.search_raw(q, limit=limit, kv=kv)) as gen:
-            async for rep in gen:
-                for x in parse_tweets(rep.json(), limit):
-                    yield x
+        async with aclosing(
+            _parsed_pages(self.search_raw(q, limit=-1, kv=kv), parse_tweets, limit)
+        ) as gen:
+            async for x in gen:
+                yield x
 
     # Get current user bookmarks
 
@@ -677,10 +707,11 @@ class API:
                 yield x
 
     async def bookmarks(self, limit=-1, kv: KV = None):
-        async with aclosing(self.bookmarks_raw(limit=limit, kv=kv)) as gen:
-            async for rep in gen:
-                for x in parse_tweets(rep.json(), limit):
-                    yield x
+        async with aclosing(
+            _parsed_pages(self.bookmarks_raw(limit=-1, kv=kv), parse_tweets, limit)
+        ) as gen:
+            async for x in gen:
+                yield x
 
     # list members of a List
 
@@ -692,10 +723,11 @@ class API:
                 yield page
 
     async def list_members(self, list_id: int, limit: int = -1, kv: KV = None):
-        async with aclosing(self.list_members_raw(list_id, limit=limit, kv=kv)) as gen:
-            async for page in gen:
-                for user in parse_users(page.json(), limit):
-                    yield user
+        async with aclosing(
+            _parsed_pages(self.list_members_raw(list_id, limit=-1, kv=kv), parse_users, limit)
+        ) as gen:
+            async for user in gen:
+                yield user
 
     # Community members
 
@@ -712,10 +744,13 @@ class API:
                 yield x
 
     async def community_members(self, community_id: int, limit=-1, kv: KV = None):
-        async with aclosing(self.community_members_raw(community_id, limit=limit, kv=kv)) as gen:
-            async for rep in gen:
-                for x in parse_users(rep, limit):
-                    yield x
+        async with aclosing(
+            _parsed_pages(
+                self.community_members_raw(community_id, limit=-1, kv=kv), parse_users, limit
+            )
+        ) as gen:
+            async for x in gen:
+                yield x
 
     # Community moderators
 
@@ -732,10 +767,13 @@ class API:
                 yield x
 
     async def community_moderators(self, community_id: int, limit=-1, kv: KV = None):
-        async with aclosing(self.community_moderators_raw(community_id, limit=limit, kv=kv)) as gen:
-            async for rep in gen:
-                for x in parse_users(rep, limit):
-                    yield x
+        async with aclosing(
+            _parsed_pages(
+                self.community_moderators_raw(community_id, limit=-1, kv=kv), parse_users, limit
+            )
+        ) as gen:
+            async for x in gen:
+                yield x
 
     # Community tweets timeline
 
@@ -758,10 +796,13 @@ class API:
                 yield x
 
     async def community_tweets(self, community_id: int, limit=-1, kv: KV = None):
-        async with aclosing(self.community_tweets_raw(community_id, limit=limit, kv=kv)) as gen:
-            async for rep in gen:
-                for x in parse_tweets(rep, limit):
-                    yield x
+        async with aclosing(
+            _parsed_pages(
+                self.community_tweets_raw(community_id, limit=-1, kv=kv), parse_tweets, limit
+            )
+        ) as gen:
+            async for x in gen:
+                yield x
 
     async def community_info_raw(self, community_id: int, kv: KV = None):
         op = OP_CommunityQuery
