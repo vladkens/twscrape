@@ -1,20 +1,20 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.10"
-# dependencies = ["perch"]
+# dependencies = ["perchx"]
 #
 # [tool.uv.sources]
-# perch = { path = "..", editable = true }
+# perchx = { path = "..", editable = true }
 # ///
 """
 Fetches current GraphQL operation IDs from Twitter's JS bundle
-and updates them in perch/api.py.
+and updates them in perchx/api.py.
 
 Usage:
   uv run scripts/update-gql-ops.py
 
 For a fully clean refresh, remove the temp cache first:
-  rm -rf /tmp/perch-ops
+  rm -rf /tmp/perchx-ops
 """
 
 import asyncio
@@ -23,11 +23,11 @@ import re
 import sys
 from urllib.parse import urljoin
 
-from perch.http import HttpClient, make_client
-from perch.xclid import get_scripts_list, get_tw_page_text
+from perchx.http import HttpClient, make_client
+from perchx.xclid import get_scripts_list, get_tw_page_text
 
-API_FILE = "perch/api.py"
-CACHE_DIR = "/tmp/perch-ops"
+API_FILE = "perchx/api.py"
+CACHE_DIR = "/tmp/perchx-ops"
 MARKER = "# GQL_OPS_CODEGEN"
 JS_REF_RE = re.compile(r'(?:from|import)\s*\(?\s*[`"]((?:\.{1,2}/)[^`"]+?\.js)[`"]')
 
@@ -247,6 +247,15 @@ async def main() -> int:
         for n in missing:
             print(f"  {n}")
         return 1
+
+    # surface newly-discovered operations (not tracked in api.py) so hand-maintained
+    # ops like HomeTimeline can be refreshed from an authoritative source
+    known = {gql_name for _, _, gql_name in current_ops}
+    new_ops = sorted(n for n in all_pairs if n not in known)
+    if new_ops:
+        print("\nNew operations in bundles (not tracked in api.py):")
+        for n in new_ops:
+            print(f"  {all_pairs[n][0]}/{n}")
 
     return 0
 

@@ -1,7 +1,7 @@
 import json as _json
 from unittest.mock import MagicMock
 
-from perch.http import HttpClient, HttpMethod, Response
+from perchx.http import HttpClient, HttpMethod, Response
 
 
 def _raw(*, status_code: int = 200, json_data=None, text: str = "", headers: dict | None = None):

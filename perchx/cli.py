@@ -7,6 +7,7 @@ import io
 import json
 import sqlite3
 import sys
+from datetime import timedelta
 from importlib.metadata import version
 
 from . import telemetry
@@ -16,7 +17,7 @@ from .http import Response
 from .logger import logger, set_log_level
 from .login import LoginConfig
 from .models import Tweet, User
-from .utils import print_table
+from .utils import print_table, utc
 
 
 class CustomHelpFormatter(argparse.HelpFormatter):
@@ -45,13 +46,30 @@ def to_str(doc: Response | Tweet | User | None) -> str:
     return tmp if isinstance(tmp, str) else json.dumps(tmp, default=str)
 
 
+def _rel_age(date) -> str:
+    secs = max(0, int((utc.now() - date).total_seconds()))
+    if secs < 3600:
+        return f"{secs // 60}m ago"
+    if secs < 86400:
+        return f"{secs // 3600}h ago"
+    return f"{secs // 86400}d ago"
+
+
+def _digest_line(tw: Tweet) -> str:
+    stats = f"♥{tw.likeCount} ↻{tw.retweetCount} ✉{tw.replyCount}"
+    text = tw.rawContent.replace("\n", " ")
+    if len(text) > 220:
+        text = text[:217] + "..."
+    return f"@{tw.user.username} · {_rel_age(tw.date)} · {stats}\n{text}\n{tw.url}\n"
+
+
 async def main(args):
     telemetry.set_source("cli")
     if args.debug:
         set_log_level("DEBUG")
 
     if args.command == "version":
-        print(f"perch: {version('perch')}")
+        print(f"perchx: {version('perchx')}")
         print(f"SQLite runtime: {sqlite3.sqlite_version} ({await get_sqlite_version()})")
         return
 
@@ -80,7 +98,7 @@ async def main(args):
 
     if args.command == "add_accounts":
         await pool.load_from_file(args.file_path, args.line_format)
-        print("\nNow run:\nperch login_accounts")
+        print("\nNow run:\nperchx login_accounts")
         return
 
     if args.command == "add_cookie":
@@ -140,6 +158,43 @@ async def main(args):
 
     if args.command == "delete_inactive":
         await pool.delete_inactive()
+        return
+
+    if args.command == "doctor":
+        results = await pool.revalidate_all()
+        if not results:
+            print("No accounts in database. Add one with: perchx add_cookie <username>")
+            return
+        print_table(results)
+        dead = [r for r in results if not r["active"]]
+        if dead:
+            print("\nSession expired for:")
+            for r in dead:
+                print(f"  {r['username']}: {r['error_msg']}")
+                print(f"    fix: perchx add_cookie {r['username']}")
+            sys.exit(1)
+        return
+
+    if args.command == "timeline":
+        if args.raw:
+            async for rep in api.home_timeline_raw(limit=args.limit):
+                print(to_str(rep))
+            return
+
+        cutoff = None
+        if args.since is not None:
+            cutoff = utc.now() - timedelta(hours=args.since)
+
+        n = 0
+        async for tw in api.home_timeline(limit=args.limit):
+            # For You is ranked, not strictly chronological — filter, don't break.
+            if cutoff is not None and tw.date < cutoff:
+                continue
+            n += 1
+            print(_digest_line(tw))
+
+        if n == 0:
+            logger.warning("No tweets returned (session may be invalid — run: perchx doctor)")
         return
 
     fn = args.command + "_raw" if args.raw else args.command
@@ -220,7 +275,7 @@ def run():
 
     add_cookie_local = subparsers.add_parser(
         "add_cookie_local",
-        help="Add one account by reading cookies from a local browser (requires perch[browser])",
+        help="Add one account by reading cookies from a local browser (requires perchx[browser])",
     )
     add_cookie_local.add_argument("username", help="Local account identifier")
     add_cookie_local.add_argument(
@@ -246,6 +301,17 @@ def run():
 
     subparsers.add_parser("reset_locks", help="Reset all locks")
     subparsers.add_parser("delete_inactive", help="Delete inactive accounts")
+    subparsers.add_parser("doctor", help="Re-validate every stored session live against X")
+
+    timeline_cmd = subparsers.add_parser("timeline", help="Get home timeline tweets (For You)")
+    timeline_cmd.add_argument("--limit", type=int, default=20, help="Max tweets to retrieve")
+    timeline_cmd.add_argument(
+        "--since",
+        type=float,
+        default=None,
+        help="Only show tweets newer than N hours ago (ranked feed: filters, may return fewer)",
+    )
+    timeline_cmd.add_argument("--raw", action="store_true", help="Print raw response")
 
     c_lim("search", "Search for tweets", "query", "Search query")
     c_one("tweet_details", "Get tweet details", "tweet_id", "Tweet ID", int)

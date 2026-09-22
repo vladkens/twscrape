@@ -1,9 +1,9 @@
 import pytest
 
-from perch.accounts_pool import AccountsPool, NoAccountError
-from perch.api import API
-from perch.utils import utc
-from perch.xclid import XClIdAccountError, XClIdGen
+from perchx.accounts_pool import AccountsPool, NoAccountError
+from perchx.api import API
+from perchx.utils import utc
+from perchx.xclid import XClIdAccountError, XClIdGen
 
 
 async def test_add_accounts(pool_mock: AccountsPool):
@@ -324,7 +324,7 @@ async def test_get_for_queue_or_wait_waits_for_locked_account(pool_mock: Account
         intervals.append(interval)
         await pool.unlock("user1", queue)
 
-    monkeypatch.setattr("perch.accounts_pool.asyncio.sleep", release_account)
+    monkeypatch.setattr("perchx.accounts_pool.asyncio.sleep", release_account)
 
     account = await pool.get_for_queue_or_wait(queue)
 
@@ -351,7 +351,7 @@ async def test_get_for_queue_or_wait_does_not_wait_without_active_accounts(
     async def fail_if_called(_):
         pytest.fail("should not wait when no accounts are active")
 
-    monkeypatch.setattr("perch.accounts_pool.asyncio.sleep", fail_if_called)
+    monkeypatch.setattr("perchx.accounts_pool.asyncio.sleep", fail_if_called)
 
     assert await pool.get_for_queue_or_wait("TestQueue") is None
 
@@ -383,3 +383,65 @@ async def test_load_from_file(pool_mock: AccountsPool, tmp_path):
     usernames = {x.username for x in await pool_mock.get_all()}
     assert "user1" in usernames
     assert "user2" in usernames
+
+
+async def test_revalidate_valid_stays_active(pool_mock: AccountsPool):
+    await pool_mock.add_account_cookies("user1", "auth_token=" + "tokenX; ct0=" + "csrfX")
+    active, error_msg = await pool_mock.revalidate("user1")
+
+    assert active is True
+    assert error_msg is None
+    acc = await pool_mock.get("user1")
+    assert acc.active is True
+
+
+async def test_revalidate_invalid_marks_inactive(pool_mock: AccountsPool, monkeypatch):
+    await pool_mock.add_account_cookies("user1", "auth_token=" + "tokenX; ct0=" + "csrfX")
+
+    async def mock_create(*args, **kwargs):
+        raise XClIdAccountError("Logged-out X web app")
+
+    monkeypatch.setattr(XClIdGen, "create", staticmethod(mock_create))
+    active, error_msg = await pool_mock.revalidate("user1")
+
+    assert active is False
+    assert error_msg == "Logged-out X web app"
+    acc = await pool_mock.get("user1")
+    assert acc.active is False
+    assert acc.error_msg == "Logged-out X web app"
+
+
+async def test_revalidate_network_failure_tagged(pool_mock: AccountsPool, monkeypatch):
+    await pool_mock.add_account_cookies("user1", "auth_token=" + "tokenX; ct0=" + "csrfX")
+
+    async def mock_create(*args, **kwargs):
+        raise ConnectionError("DNS resolution failed")
+
+    monkeypatch.setattr(XClIdGen, "create", staticmethod(mock_create))
+    active, error_msg = await pool_mock.revalidate("user1")
+
+    assert active is False
+    assert error_msg.startswith("Validation request failed: ConnectionError")
+    acc = await pool_mock.get("user1")
+    assert acc.active is False
+
+
+async def test_revalidate_all(pool_mock: AccountsPool, monkeypatch):
+    await pool_mock.add_account_cookies("user1", "auth_token=" + "tokenX; ct0=" + "csrfX")
+    await pool_mock.add_account_cookies("user2", "auth_token=" + "badtoken; ct0=" + "badcsrf")
+
+    async def mock_create(*args, **kwargs):
+        if kwargs.get("cookies", {}).get("auth_token") == "badtoken":
+            raise XClIdAccountError("Logged-out X web app")
+        from tests.conftest import ClIdGenMock
+
+        return ClIdGenMock()
+
+    monkeypatch.setattr(XClIdGen, "create", staticmethod(mock_create))
+    results = await pool_mock.revalidate_all()
+
+    by_user = {r["username"]: r for r in results}
+    assert by_user["user1"]["active"] is True
+    assert by_user["user1"]["login_method"] == "cookies"
+    assert by_user["user2"]["active"] is False
+    assert "Logged-out X web app" in by_user["user2"]["error_msg"]

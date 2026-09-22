@@ -3,7 +3,7 @@ from types import SimpleNamespace
 
 import pytest
 
-from perch.browser_cookies import (
+from perchx.browser_cookies import (
     BrowserCookiesError,
     get_x_cookies,
     get_x_cookies_string,

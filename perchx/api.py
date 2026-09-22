@@ -49,6 +49,15 @@ OP_membersSliceTimeline_Query = "woAp_YdzAdqnWDrqLTNpAw/membersSliceTimeline_Que
 OP_moderatorsSliceTimeline_Query = "0oYT9GRiWUhrz5xoqFE9uw/moderatorsSliceTimeline_Query"
 # GQL_OPS_CODEGEN
 
+# HomeTimeline is maintained by hand, NOT by scripts/update-gql-ops.py: the
+# logged-out JS bundles that script downloads don't include the home timeline
+# chunk, so it can't verify this ID. Query ID documented 2026-09-14 by
+# yashiels/twitter-cli (reverse-engineered from the Android APK, GraphQL GET).
+# X rotates these IDs on deploys — if `perchx timeline` starts failing with a
+# 400, grab the fresh ID from DevTools → Network → filter "graphql" while
+# loading x.com/home and update the value below.
+OP_HomeTimeline = "t_sH369wuH1CO5lbW2qlYg/HomeTimeline"
+
 GQL_URL = "https://x.com/i/api/graphql"
 GQL_FEATURES = {  # search values here (view source) https://x.com/
     "articles_preview_enabled": False,
@@ -600,6 +609,28 @@ class API:
 
     async def list_timeline(self, list_id: int, limit=-1, kv: KV = None):
         async with aclosing(self.list_timeline_raw(list_id, limit=limit, kv=kv)) as gen:
+            async for rep in gen:
+                for x in parse_tweets(rep, limit):
+                    yield x
+
+    # home timeline (For You)
+
+    async def home_timeline_raw(self, limit=-1, kv: KV = None):
+        op = OP_HomeTimeline
+        kv = {
+            "count": 20,
+            "includePromotedContent": True,
+            "latestControlAvailable": True,
+            "requestContext": "launch",
+            "withCommunity": True,
+            **(kv or {}),
+        }
+        async with aclosing(self._gql_items(op, kv, limit=limit)) as gen:
+            async for x in gen:
+                yield x
+
+    async def home_timeline(self, limit=-1, kv: KV = None):
+        async with aclosing(self.home_timeline_raw(limit=limit, kv=kv)) as gen:
             async for rep in gen:
                 for x in parse_tweets(rep, limit):
                     yield x

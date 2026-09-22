@@ -5,7 +5,7 @@ import pytest
 from curl_cffi.const import CurlECode
 from curl_cffi.requests.errors import RequestsError
 
-from perch.http import (
+from perchx.http import (
     _CURL_MAX_RETRIES,
     ConnectError,
     CurlClient,
@@ -468,7 +468,7 @@ def test_curl_client_strips_user_agent_from_session():
 
 
 def test_httpx_client_resolves_ua_hint_to_real_string():
-    from perch.http import HttpxClient
+    from perchx.http import HttpxClient
 
     expected_ua, _ = _resolve_browser("@chrome", seed=0)
     client = HttpxClient(headers={"user-agent": "@chrome"}, seed=0)

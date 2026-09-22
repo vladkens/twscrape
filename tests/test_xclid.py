@@ -2,8 +2,8 @@ from unittest.mock import MagicMock, call
 
 import pytest
 
-import perch.xclid as xclid
-from perch.http import HttpxClient, NetworkError
+import perchx.xclid as xclid
+from perchx.http import HttpxClient, NetworkError
 
 from .mock_http import MockClient
 

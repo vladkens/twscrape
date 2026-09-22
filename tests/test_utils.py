@@ -1,6 +1,6 @@
 import pytest
 
-from perch.utils import get_env_bool, parse_cookies, parse_proxy, to_old_obj
+from perchx.utils import get_env_bool, parse_cookies, parse_proxy, to_old_obj
 
 
 def test_cookies_parse():

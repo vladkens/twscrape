@@ -1,12 +1,12 @@
 import pytest
 
-from perch import telemetry
-from perch.account import Account
-from perch.accounts_pool import AccountsPool
-from perch.api import API
-from perch.logger import set_log_level
-from perch.queue_client import QueueClient, XClIdGenStore
-from perch.xclid import XClIdGen
+from perchx import telemetry
+from perchx.account import Account
+from perchx.accounts_pool import AccountsPool
+from perchx.api import API
+from perchx.logger import set_log_level
+from perchx.queue_client import QueueClient, XClIdGenStore
+from perchx.xclid import XClIdGen
 
 from .mock_http import MockClient
 

@@ -1,3 +1,18 @@
+## Unreleased
+
+### Features
+
+- Added `perchx doctor`: re-runs the live session probe for every stored account, updates `active`/`error_msg` in the DB, and exits nonzero if any session is dead — with per-account repair guidance (`perchx add_cookie <username>`)
+- Added `perchx timeline`: pulls the authenticated home timeline (For You) directly via GraphQL — no browser needed. Supports `--limit`, `--since <hours>`, and `--raw`; prints a compact digest (author, age, like/repost/reply counts, text, URL)
+- Extracted the cookie-validation probe into `AccountsPool._probe_cookies`, shared by `add_account_cookies` and the new `AccountsPool.revalidate`/`revalidate_all`
+- `scripts/update-gql-ops.py` now reports newly-discovered GraphQL operations not yet tracked in `api.py`
+
+### Notes
+
+- The `HomeTimeline` query ID is hand-maintained in `perchx/api.py` (the logged-out JS bundles don't contain the home chunk, so the update script can't refresh it). If `timeline` starts failing with a 400, the ID is stale — grab the fresh one from DevTools → Network while loading x.com/home.
+
+---
+
 ## v0.20.1 – 2026-08-25
 
 ### Features

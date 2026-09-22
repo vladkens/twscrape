@@ -4,8 +4,8 @@ from typing import Any, Callable, cast
 
 import pytest
 
-from perch import API, gather
-from perch.models import (
+from perchx import API, gather
+from perchx.models import (
     AudiospaceCard,
     BroadcastCard,
     MessageMeCard,
@@ -18,7 +18,7 @@ from perch.models import (
     parse_tweet,
     parse_tweets,
 )
-from perch.utils import find_obj, to_old_rep
+from perchx.utils import find_obj, to_old_rep
 
 BASE_DIR = os.path.dirname(__file__)
 DATA_DIR = os.path.join(BASE_DIR, "mocked-data")

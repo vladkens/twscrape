@@ -140,7 +140,7 @@ def dump_rep(rep: Response):
 
     acc = getattr(rep, "__username", "<unknown>")
     outfile = f"{count:05d}_{rep.status_code}_{acc}.txt"
-    outfile = f"/tmp/perch-{TMP_TS}/{outfile}"
+    outfile = f"/tmp/perchx-{TMP_TS}/{outfile}"
     os.makedirs(os.path.dirname(outfile), exist_ok=True)
 
     msg = []
@@ -334,7 +334,7 @@ class QueueClient:
                         "http_method": method,
                         "http_backend": getattr(ctx.clt, "backend", "unknown"),
                         "source": source,
-                        "$current_url": f"{source}://perch/gql/{self.queue}",
+                        "$current_url": f"{source}://perchx/gql/{self.queue}",
                     },
                 )
                 rep = await ctx.req(method, url, params=params)
@@ -378,7 +378,7 @@ class QueueClient:
                 msg = [
                     "Unknown error. Account timeouted for 15 minutes.",
                     "Create issue please: https://github.com/vladkens/perch/issues",
-                    "If it mistake, you can unlock accounts with `perch reset_locks`. "
+                    "If it mistake, you can unlock accounts with `perchx reset_locks`. "
                     f"Err: {self._format_ctx_error(ctx, e)}",
                 ]
 

@@ -125,25 +125,64 @@ class AccountsPool:
         await self.save(account)
         logger.info(f"Account {username} added successfully (active={account.active})")
 
-    async def add_account_cookies(self, username: str, cookies: str, proxy: str | None = None):
-        parsed = parse_cookies(cookies)
-        if not has_required_cookies(parsed):
-            raise ValueError("Cookies must include auth_token and ct0")
-
+    @staticmethod
+    async def _probe_cookies(
+        cookies: dict[str, str], proxy: str | None = None
+    ) -> tuple[bool, str | None]:
         # Probe X immediately instead of trusting the cookies blindly — a stale or
         # mismatched auth_token/ct0 pair otherwise looks "active" until the first
         # real scrape fails minutes later with no clue why.
-        active, error_msg = True, None
         try:
-            await XClIdGen.create(proxy=proxy, cookies=parsed)
+            await XClIdGen.create(proxy=proxy, cookies=cookies)
+            return True, None
         except XClIdError as e:
-            active, error_msg = False, str(e)
+            return False, str(e)
         except Exception as e:
             # Not an XClIdError (auth/parse problem) — likely network/proxy/DNS.
             # Keep the exception class name so it's distinguishable from the
             # XClIdError branch above without re-raising and losing the
             # active/error_msg bookkeeping below.
-            active, error_msg = False, f"Validation request failed: {type(e).__name__}: {e}"
+            return False, f"Validation request failed: {type(e).__name__}: {e}"
+
+    async def revalidate(self, username: str) -> tuple[bool, str | None]:
+        """Re-run the live session probe for one account and persist the result.
+
+        Returns (active, error_msg). Unlike login_accounts (password flow), this
+        never touches credentials — it just re-checks the stored cookies.
+        """
+        account = await self.get(username)
+        active, error_msg = await self._probe_cookies(account.cookies, account.proxy)
+        qs = "UPDATE accounts SET active = :active, error_msg = :error_msg WHERE username = :username"
+        await execute(
+            self._db_file, qs, {"username": username, "active": active, "error_msg": error_msg}
+        )
+        if active:
+            logger.info(f"Account {username} session is valid")
+        else:
+            logger.warning(f"Account {username} session invalid: {error_msg}")
+        return active, error_msg
+
+    async def revalidate_all(self) -> list[dict]:
+        """Revalidate every stored account; returns per-account status dicts."""
+        results = []
+        for account in await self.get_all():
+            active, error_msg = await self.revalidate(account.username)
+            results.append(
+                {
+                    "username": account.username,
+                    "login_method": account.login_method,
+                    "active": active,
+                    "error_msg": error_msg or "",
+                }
+            )
+        return results
+
+    async def add_account_cookies(self, username: str, cookies: str, proxy: str | None = None):
+        parsed = parse_cookies(cookies)
+        if not has_required_cookies(parsed):
+            raise ValueError("Cookies must include auth_token and ct0")
+
+        active, error_msg = await self._probe_cookies(parsed, proxy)
 
         qs = """
         INSERT INTO accounts

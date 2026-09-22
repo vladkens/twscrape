@@ -1,19 +1,19 @@
 """
-This example shows how to use perch in parallel with concurrency limit.
+This example shows how to use perchx in parallel with concurrency limit.
 """
 
 import asyncio
 import time
 
-import perch
+import perchx
 
 
-async def worker(queue: asyncio.Queue, api: perch.API):
+async def worker(queue: asyncio.Queue, api: perchx.API):
     while True:
         query = await queue.get()
 
         try:
-            tweets = await perch.gather(api.search(query))
+            tweets = await perchx.gather(api.search(query))
             print(f"{query} - {len(tweets)} - {int(time.time())}")
             # do something with tweets here, eg same to file, etc
         except Exception as e:
@@ -23,7 +23,7 @@ async def worker(queue: asyncio.Queue, api: perch.API):
 
 
 async def main():
-    api = perch.API()
+    api = perchx.API()
     # add accounts here or before from cli (see README.md for examples)
     await api.pool.add_account("u1", "p1", "eu1", "ep1")
     await api.pool.login_all()

@@ -2,9 +2,9 @@ import os
 
 import pytest
 
-from perch.accounts_pool import NoAccountError
-from perch.api import API
-from perch.utils import gather, get_env_bool
+from perchx.accounts_pool import NoAccountError
+from perchx.api import API
+from perchx.utils import gather, get_env_bool
 
 
 class MockedError(Exception):
@@ -64,3 +64,37 @@ async def test_raise_when_no_account(api_mock: API):
 
     del os.environ["TWS_RAISE_WHEN_NO_ACCOUNT"]
     assert get_env_bool("TWS_RAISE_WHEN_NO_ACCOUNT") is False
+
+
+async def test_home_timeline_params(api_mock: API, monkeypatch):
+    from perchx.api import OP_HomeTimeline
+
+    args = []
+
+    def mock_gql_items(*a, **kw):
+        args.append((a, kw))
+        raise MockedError()
+
+    try:
+        monkeypatch.setattr(api_mock, "_gql_items", mock_gql_items)
+        await gather(api_mock.home_timeline(limit=100, kv={"count": 100}))
+    except MockedError:
+        pass
+
+    assert len(args) == 1
+    assert args[0][0][0] == OP_HomeTimeline, "wrong GraphQL operation"
+    assert args[0][1]["limit"] == 100, "limit not propagated"
+    assert args[0][0][1]["count"] == 100, "count not overridden"
+
+
+async def test_home_timeline_parses_tweets(api_mock: API, monkeypatch):
+    from tests.test_parser import fake_rep
+
+    async def mock_raw(self, limit=-1, kv=None):
+        yield fake_rep("raw_search")
+
+    monkeypatch.setattr(API, "home_timeline_raw", mock_raw)
+
+    tweets = await gather(api_mock.home_timeline(limit=5))
+    assert len(tweets) > 0
+    assert all(t.id and t.user.username for t in tweets)

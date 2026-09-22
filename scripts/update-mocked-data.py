@@ -1,10 +1,10 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.10"
-# dependencies = ["perch", "rich>=13.0"]
+# dependencies = ["perchx", "rich>=13.0"]
 #
 # [tool.uv.sources]
-# perch = { path = "..", editable = true }
+# perchx = { path = "..", editable = true }
 # ///
 """
 Usage:
@@ -37,9 +37,9 @@ from rich.table import Table
 from rich.text import Text
 from rich.tree import Tree
 
-from perch import API, AccountsPool
-from perch import api as api_mod
-from perch.logger import set_log_level
+from perchx import API, AccountsPool
+from perchx import api as api_mod
+from perchx.logger import set_log_level
 
 OUT = "tests/mocked-data"
 META = f"{OUT}/__meta.json"

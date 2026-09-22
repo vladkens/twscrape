@@ -43,17 +43,17 @@ dev = [
 ]
 
 [project.urls]
-repository = "https://github.com/intelogroup/perch"
+repository = "https://github.com/intelogroup/perchx"
 
 [project.scripts]
-perch = "perch.cli:run"
+perchx = "perchx.cli:run"
 
 [build-system]
 requires = ["hatchling>=1.9.1"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ["perch"]
+packages = ["perchx"]
 
 [tool.pytest.ini_options]
 pythonpath = ["."]

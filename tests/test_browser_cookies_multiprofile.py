@@ -9,7 +9,7 @@ import sys
 
 import pytest
 
-from perch.browser_cookies import BrowserCookiesError, get_x_cookies
+from perchx.browser_cookies import BrowserCookiesError, get_x_cookies
 
 
 class FakeCookie:

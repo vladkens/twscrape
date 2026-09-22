@@ -254,14 +254,14 @@ def _detect_backend() -> str:
         if importlib.util.find_spec("curl_cffi") is None:
             raise ImportError(
                 "TWS_HTTP_BACKEND=curl but curl-cffi is not installed. "
-                "Run: pip install perch[curl]"
+                "Run: pip install perchx[curl]"
             )
         return "curl"
 
     if forced in ("", "httpx"):
         if importlib.util.find_spec("httpx") is None:
             raise ImportError(
-                "TWS_HTTP_BACKEND=httpx but httpx is not installed. Run: pip install perch"
+                "TWS_HTTP_BACKEND=httpx but httpx is not installed. Run: pip install perchx"
             )
         return "httpx"
 

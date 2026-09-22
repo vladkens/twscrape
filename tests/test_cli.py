@@ -5,8 +5,8 @@ from types import SimpleNamespace
 
 import pytest
 
+from perchx import cli
 from tests.test_parser import fake_rep
-from perch import cli
 
 
 def mock_get_returning(monkeypatch, *, active: bool):
@@ -137,9 +137,7 @@ async def test_add_cookie_local_uses_browser_cookies(tmp_path, monkeypatch):
         return "auth_token=tok; ct0=csrf"
 
     monkeypatch.setattr(cli.AccountsPool, "add_account_cookies", mock_add_account_cookies)
-    monkeypatch.setattr(
-        "perch.browser_cookies.get_x_cookies_string", mock_get_x_cookies_string
-    )
+    monkeypatch.setattr("perchx.browser_cookies.get_x_cookies_string", mock_get_x_cookies_string)
     mock_get_returning(monkeypatch, active=True)
 
     args = argparse.Namespace(
@@ -162,7 +160,7 @@ async def test_add_cookie_local_uses_browser_cookies(tmp_path, monkeypatch):
 
 
 async def test_add_cookie_local_extraction_failure_exits_nonzero(tmp_path, monkeypatch):
-    from perch.browser_cookies import BrowserCookiesError
+    from perchx.browser_cookies import BrowserCookiesError
 
     async def fail_if_called(self, username, cookies):
         pytest.fail("add_account_cookies should not be called on extraction failure")
@@ -171,9 +169,7 @@ async def test_add_cookie_local_extraction_failure_exits_nonzero(tmp_path, monke
         raise BrowserCookiesError("no active x.com session")
 
     monkeypatch.setattr(cli.AccountsPool, "add_account_cookies", fail_if_called)
-    monkeypatch.setattr(
-        "perch.browser_cookies.get_x_cookies_string", mock_get_x_cookies_string
-    )
+    monkeypatch.setattr("perchx.browser_cookies.get_x_cookies_string", mock_get_x_cookies_string)
 
     args = argparse.Namespace(
         command="add_cookie_local",
@@ -197,7 +193,7 @@ async def test_add_cookie_local_validation_failure_exits_nonzero(tmp_path, monke
 
     monkeypatch.setattr(cli.AccountsPool, "add_account_cookies", mock_add_account_cookies)
     monkeypatch.setattr(
-        "perch.browser_cookies.get_x_cookies_string",
+        "perchx.browser_cookies.get_x_cookies_string",
         lambda browser: "auth_token=stale; ct0=stale",
     )
     mock_get_returning(monkeypatch, active=False)
@@ -244,7 +240,7 @@ async def test_add_accounts_prints_next_step(tmp_path, monkeypatch, capsys):
         "file_path": "accounts.txt",
         "line_format": "username:password:email:email_password",
     }
-    assert "perch login_accounts" in out
+    assert "perchx login_accounts" in out
 
 
 async def test_search_prints_parsed_tweets(tmp_path, monkeypatch, capsys):
@@ -382,3 +378,92 @@ async def test_run_flushes_telemetry_on_error(monkeypatch):
         await cli._run(args)
 
     assert called == [("main", "version"), ("flush", None)]
+
+
+def _timeline_args(tmp_path, **kw):
+    base = {
+        "command": "timeline",
+        "debug": False,
+        "db": str(tmp_path / "test.db"),
+        "email_first": False,
+        "manual": False,
+        "limit": 20,
+        "since": None,
+        "raw": False,
+    }
+    base.update(kw)
+    return argparse.Namespace(**base)
+
+
+async def test_timeline_prints_digest(tmp_path, monkeypatch, capsys):
+    async def mock_home_timeline_raw(self, limit=-1, kv=None):
+        yield fake_rep("raw_search")
+
+    monkeypatch.setattr(cli.API, "home_timeline_raw", mock_home_timeline_raw)
+
+    await cli.main(_timeline_args(tmp_path))
+
+    out = capsys.readouterr().out
+    assert "https://x.com/" in out
+    assert "/status/" in out
+
+
+async def test_timeline_since_filters_old(tmp_path, monkeypatch, capsys):
+    async def mock_home_timeline_raw(self, limit=-1, kv=None):
+        yield fake_rep("raw_search")
+
+    monkeypatch.setattr(cli.API, "home_timeline_raw", mock_home_timeline_raw)
+
+    # raw_search mock tweets are ancient (2018-2025 fixtures) — a tight window yields nothing
+    await cli.main(_timeline_args(tmp_path, since=1))
+
+    out = capsys.readouterr().out
+    assert "https://x.com/" not in out
+
+
+async def test_timeline_raw(tmp_path, monkeypatch, capsys):
+    async def mock_home_timeline_raw(self, limit=-1, kv=None):
+        yield fake_rep("raw_search")
+
+    monkeypatch.setattr(cli.API, "home_timeline_raw", mock_home_timeline_raw)
+
+    await cli.main(_timeline_args(tmp_path, raw=True))
+
+    out = capsys.readouterr().out.strip().splitlines()
+    doc = json.loads(out[0])
+    assert isinstance(doc, dict)
+
+
+async def test_doctor_all_healthy(tmp_path, monkeypatch, capsys):
+    async def mock_revalidate_all(self):
+        return [{"username": "user1", "login_method": "cookies", "active": True, "error_msg": ""}]
+
+    monkeypatch.setattr(cli.AccountsPool, "revalidate_all", mock_revalidate_all)
+
+    args = argparse.Namespace(command="doctor", debug=False, db=str(tmp_path / "test.db"))
+    await cli.main(args)
+
+    out = capsys.readouterr().out
+    assert "user1" in out
+
+
+async def test_doctor_exits_nonzero_when_dead(tmp_path, monkeypatch, capsys):
+    async def mock_revalidate_all(self):
+        return [
+            {
+                "username": "user1",
+                "login_method": "cookies",
+                "active": False,
+                "error_msg": "Logged-out X web app",
+            }
+        ]
+
+    monkeypatch.setattr(cli.AccountsPool, "revalidate_all", mock_revalidate_all)
+
+    args = argparse.Namespace(command="doctor", debug=False, db=str(tmp_path / "test.db"))
+    with pytest.raises(SystemExit) as exc_info:
+        await cli.main(args)
+
+    assert exc_info.value.code == 1
+    out = capsys.readouterr().out
+    assert "perchx add_cookie user1" in out
