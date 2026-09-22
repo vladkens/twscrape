@@ -606,7 +606,7 @@ def test_article_tweet():
 
 
 def test_article_rich_content():
-    with open(os.path.join("mocked-data", "article.json")) as fp:
+    with open(os.path.join(DATA_DIR, "article.json")) as fp:
         raw = json.load(fp)
 
     source = raw["data"]["threaded_conversation_with_injections_v2"]["instructions"][1]["entries"][
@@ -657,7 +657,7 @@ def test_article_rich_content():
 
 
 async def test_tweet_details_article(api_mock: API, monkeypatch):
-    with open(os.path.join(BASE_DIR, "..", "article.json")) as fp:
+    with open(os.path.join(DATA_DIR, "article.json")) as fp:
         raw = json.load(fp)
 
     async def article_tweet_details_raw(twid: int, kv=None):
