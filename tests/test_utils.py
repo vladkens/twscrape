@@ -1,5 +1,6 @@
 import pytest
 
+from perchx.models import Tweet
 from perchx.utils import get_env_bool, parse_cookies, parse_proxy, to_old_obj
 
 
@@ -135,3 +136,63 @@ def test_to_old_obj_tweet_new_schema():
     flat = to_old_obj(obj)
     assert flat["source"] == "<a>Twitter Web App</a>"
     assert flat["id"] == 9876
+
+
+def test_to_old_obj_tweet_typed_shape_2026():
+    # X's 2026 typed shape: legacy=null, text/date/counts in details/counts.
+    obj = {
+        "__typename": "Tweet",
+        "rest_id": "2102242456251359421",
+        "legacy": None,
+        "core": {
+            "__typename": "TweetCore",
+            "user_results": {
+                "__typename": "UserResults",
+                "rest_id": "12345",
+                "result": {
+                    "__typename": "User",
+                    "rest_id": "12345",
+                    "legacy": None,
+                    "core": {
+                        "screen_name": "testuser",
+                        "name": "Test User",
+                        "created_at_ms": 1577836800000,
+                    },
+                },
+            },
+        },
+        "details": {
+            "__typename": "TBirdData",
+            "created_at_ms": 1790048634000,
+            "full_text": "hello world",
+            "display_text_range": [0, 11],
+        },
+        "counts": {
+            "__typename": "ApiCounts",
+            "reply_count": 3,
+            "retweet_count": 7,
+            "favorite_count": 42,
+            "quote_count": 1,
+            "bookmark_count": 5,
+        },
+        "place": {"__typename": "ApiPlace"},
+        "lang": "en",
+    }
+
+    flat = to_old_obj(obj)
+    assert flat["id_str"] == "2102242456251359421"
+    assert flat["full_text"] == "hello world"
+    assert flat["created_at"] == "Tue, 22 Sep 2026 03:43:54 +0000"
+    assert flat["reply_count"] == 3
+    assert flat["retweet_count"] == 7
+    assert flat["favorite_count"] == 42
+    assert flat["quote_count"] == 1
+    assert flat["bookmark_count"] == 5
+    assert flat["place"] is None
+    assert flat["display_text_range"] == [0, 11]
+
+    # And the flattened dict must parse end-to-end.
+    tweet = Tweet.parse(flat, {"tweets": {}, "users": {}})
+    assert tweet.id == 2102242456251359421
+    assert tweet.rawContent == "hello world"
+    assert tweet.likeCount == 42

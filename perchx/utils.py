@@ -1,4 +1,5 @@
 import base64
+import email.utils
 import json
 import os
 from collections import defaultdict
@@ -154,6 +155,12 @@ def _flatten_user_v2(obj: dict) -> dict:
         for k in ("screen_name", "name", "created_at"):
             if k not in flat and k in core:
                 flat[k] = core[k]
+        # New typed shape (2026): user creation time is created_at_ms in core.
+        created_ms = core.get("created_at_ms")
+        if created_ms and not flat.get("created_at"):
+            flat["created_at"] = email.utils.format_datetime(
+                datetime.fromtimestamp(created_ms / 1000, tz=timezone.utc)
+            )
 
     # See https://github.com/vladkens/perch/issues/309: treat empty legacy values as missing.
     if not flat.get("profile_image_url_https"):
@@ -243,6 +250,40 @@ def _flatten_tweet_v2(obj: dict) -> dict:
     flat["legacy"] = None
     if "source" not in flat and "source" in obj:
         flat["source"] = obj["source"]
+
+    # New typed shape (2026): text/date/counts live in details/counts
+    # sub-objects instead of the legacy flat fields.
+    details = obj.get("details") or {}
+    counts = obj.get("counts") or {}
+    if isinstance(details, dict):
+        if not flat.get("full_text") and details.get("full_text"):
+            flat["full_text"] = details["full_text"]
+        created_ms = details.get("created_at_ms")
+        if created_ms and not flat.get("created_at"):
+            flat["created_at"] = email.utils.format_datetime(
+                datetime.fromtimestamp(created_ms / 1000, tz=timezone.utc)
+            )
+        if details.get("display_text_range") is not None and "display_text_range" not in flat:
+            flat["display_text_range"] = details["display_text_range"]
+    if isinstance(counts, dict):
+        for k in (
+            "reply_count",
+            "retweet_count",
+            "favorite_count",
+            "quote_count",
+            "bookmark_count",
+        ):
+            if not flat.get(k) and counts.get(k) is not None:
+                flat[k] = counts[k]
+
+    # New typed shape (2026): place can be an empty typed stub like
+    # {"__typename": "ApiPlace"} with no fields — drop it so Place.parse
+    # is not called on a fieldless object.
+    place = flat.get("place")
+    if isinstance(place, dict) and "id" not in place:
+        flat["place"] = None
+
+    flat.setdefault("created_at", "Thu, 01 Jan 1970 00:00:00 +0000")
     flat.setdefault("full_text", "")
     flat.setdefault("lang", "")
     flat.setdefault("reply_count", 0)
