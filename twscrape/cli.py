@@ -119,6 +119,10 @@ async def main(args):
         await pool.delete_inactive()
         return
 
+    if args.command == "reactivate":
+        await pool.reactivate(args.username)
+        return
+
     fn = args.command + "_raw" if args.raw else args.command
     fn = getattr(api, fn, None)
     if fn is None:
@@ -208,6 +212,9 @@ def run():
 
     subparsers.add_parser("reset_locks", help="Reset all locks")
     subparsers.add_parser("delete_inactive", help="Delete inactive accounts")
+
+    reactivate = subparsers.add_parser("reactivate", help="Mark an account as active again")
+    reactivate.add_argument("username", help="Username of the account to reactivate")
 
     c_lim("search", "Search for tweets", "query", "Search query")
     c_one("tweet_details", "Get tweet details", "tweet_id", "Tweet ID", int)

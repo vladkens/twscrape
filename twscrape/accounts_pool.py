@@ -390,6 +390,19 @@ class AccountsPool:
         """
         await execute(self._db_file, qs, {"username": username, "error_msg": error_msg})
 
+    async def reactivate(self, username: str):
+        rs = await self.get_account(username)
+        if rs is None:
+            logger.warning(f"Account {username} not found")
+            return
+
+        qs = """
+        UPDATE accounts SET active = true, error_msg = NULL
+        WHERE username = :username
+        """
+        await execute(self._db_file, qs, {"username": username})
+        logger.info(f"Account {username} reactivated")
+
     async def stats(self):
         def locks_count(queue: str):
             return f"""
