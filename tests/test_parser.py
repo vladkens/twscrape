@@ -2,12 +2,20 @@ import json
 import os
 from typing import Any, Callable, cast
 
+import pytest
+
 from twscrape import API, gather
 from twscrape.models import (
+    AppCard,
     Article,
     AudiospaceCard,
     BroadcastCard,
+    LiveEventCard,
+    MessageMeCard,
+    PeriscopeBroadcastCard,
     PollCard,
+    PromoImageConvoCard,
+    PromoVideoConvoCard,
     SummaryCard,
     Trend,
     Tweet,
@@ -16,6 +24,7 @@ from twscrape.models import (
     parse_tweet,
     parse_tweets,
 )
+from twscrape.utils import find_obj, to_old_rep
 
 BASE_DIR = os.path.dirname(__file__)
 DATA_DIR = os.path.join(BASE_DIR, "mocked-data")
@@ -62,6 +71,25 @@ def mock_rep(fn: Callable[..., Any], filename: str, as_generator=False):
     cb.__name__ = name
     cb.__self__ = owner
     setattr(owner, name, cb)
+
+
+@pytest.mark.parametrize("path", ["core", "author_results"])
+def test_tweet_parser_uses_embedded_author_when_users_map_is_missing(path):
+    obj = to_old_rep(fake_rep("raw_search").json())
+    tweet = next(x for x in obj["tweets"].values() if x.get("user_id_str") in obj["users"])
+    user_id = tweet["user_id_str"]
+    user = obj["users"].pop(user_id)
+    tweet.pop("core", None)
+    tweet.pop("author_results", None)
+    embedded = {"__typename": "User", "rest_id": user_id, "legacy": user}
+    if path == "core":
+        tweet["core"] = {"user_results": {"result": embedded}}
+    else:
+        tweet["author_results"] = {"result": embedded}
+
+    parsed = Tweet.parse(tweet, obj)
+
+    assert parsed.user.id_str == user_id
 
 
 def check_tweet(doc: Tweet | None):
@@ -224,9 +252,28 @@ async def test_search():
 
     assert bookmarks_count > 0, (
         "`bookmark_fields` key is changed or unlucky search data. "
-        "Run: uv run scripts/update_mocked_data.py --only search"
+        "Run: uv run scripts/update-mocked-data.py fetch --only search"
     )
     check_user_field_coverage(users)
+
+
+async def test_user_by_id():
+    api = get_api()
+    mock_rep(api.user_by_id_raw, "raw_user_by_id")
+
+    doc = await api.user_by_id(2244994945)
+    assert doc is not None
+    assert doc.id == 2244994945
+    assert doc.username == "XDevelopers"
+    assert doc.blueType == "Business"
+
+    obj = doc.dict()
+    assert doc.id == obj["id"]
+    assert doc.username == obj["username"]
+
+    txt = doc.json()
+    assert isinstance(txt, str)
+    assert str(doc.id) in txt
 
 
 async def test_user_by_login():
@@ -589,7 +636,7 @@ async def test_issue_310():
 
 def test_article_tweet():
     raw = fake_rep("raw_user_tweets").json()
-    doc = parse_tweet(raw, 2065247296527204570)
+    doc = parse_tweet(raw, 2079814622639469025)
 
     assert doc is not None
     assert doc.article is None
@@ -597,12 +644,15 @@ def test_article_tweet():
 
     article = doc.retweetedTweet.article
     assert isinstance(article, Article)
-    assert article.id == "QXJ0aWNsZUVudGl0eToyMDY1MjA2MjQwMTg4MjgwODMy"
-    assert article.rest_id == "2065206240188280832"
-    assert article.title == "Articles are now available in the X API"
-    assert article.preview_text.startswith("Create and publish")
-    assert article.modified_at_secs == 1781218549
-    assert article.first_published_at_secs == 1781218549
+    assert article.id == "QXJ0aWNsZUVudGl0eToyMDc5MTYyMDYxMTQyMzM1NDg4"
+    assert article.rest_id == "2079162061142335488"
+    assert (
+        article.title
+        == "Turn your X account into a programmable intelligence system using the X API and Grok Build"
+    )
+    assert article.preview_text.startswith("Your X account can now become")
+    assert article.modified_at_secs == 1784687550
+    assert article.first_published_at_secs == 1784687550
 
 
 def test_article_rich_content():
@@ -704,6 +754,32 @@ async def test_cards():
         assert x.label is not None
         assert x.votesCount is not None
 
+    # Check PollCard with video (poll2choice_video)
+    raw = fake_rep("card_poll_video").json()
+    doc = parse_tweet(raw, 1114574134397165568)
+    assert doc is not None and doc.card is not None
+    assert isinstance(doc.card, PollCard)
+    assert doc.card._type == "poll"
+    assert len(doc.card.options) == 2
+    assert doc.card.finished is True
+    assert doc.card.videoUrl is not None
+    assert doc.card.durationSeconds == 24
+    assert doc.card.photo is not None
+
+    image_poll = fake_rep("card_poll").json()
+    card = find_obj(
+        image_poll,
+        lambda x: (
+            isinstance(x.get("legacy"), dict)
+            and str(x["legacy"].get("name", "")).startswith("poll")
+        ),
+    )
+    assert card is not None
+    card["legacy"]["name"] = "1906814671912599552:poll_choice_images"
+    doc = parse_tweet(image_poll, 1780666831310877100)
+    assert doc is not None
+    assert isinstance(doc.card, PollCard)
+
     # Check BrodcastCard
     raw = fake_rep("card_broadcast").json()
     doc = parse_tweet(raw, 1790441814857826439)
@@ -721,6 +797,81 @@ async def test_cards():
     assert doc.card._type == "audiospace"
     assert isinstance(doc.card, AudiospaceCard)
     assert doc.card.url is not None
+
+    # Check MessageMeCard
+    raw = fake_rep("card_message_me").json()
+    doc = parse_tweet(raw, 1916063270131191983)
+    assert doc is not None and doc.card is not None
+    assert doc.card._type == "message_me"
+    assert isinstance(doc.card, MessageMeCard)
+    assert doc.card.url is not None
+    assert doc.card.cta is not None
+    assert doc.card.recipientId == "85741735"
+
+    # Check PeriscopeBroadcastCard
+    raw = fake_rep("card_periscope_broadcast").json()
+    doc = parse_tweet(raw, 822817044450013184)
+    assert doc is not None and doc.card is not None
+    assert doc.card._type == "periscope_broadcast"
+    assert isinstance(doc.card, PeriscopeBroadcastCard)
+    assert doc.card.title is not None
+    assert doc.card.url is not None
+    assert doc.card.state == "ENDED"
+    assert doc.card.broadcasterUsername == "womensmarch"
+    assert doc.card.thumbnailUrl is not None
+
+    # Check PromoVideoConvoCard
+    raw = fake_rep("card_promo_video_convo").json()
+    doc = parse_tweet(raw, 1090673433690685441)
+    assert doc is not None and doc.card is not None
+    assert doc.card._type == "promo_video_convo"
+    assert isinstance(doc.card, PromoVideoConvoCard)
+    assert doc.card.title == "Add your voice."
+    assert doc.card.thankYouText is not None
+    assert doc.card.videoUrl is not None
+    assert doc.card.durationSeconds == 5
+    assert doc.card.ctas == ["#BellLetsTalk"]
+    assert doc.card.photo is not None
+
+    # Check PromoImageConvoCard
+    raw = fake_rep("card_promo_image_convo").json()
+    doc = parse_tweet(raw, 2078218219689492480)
+    assert doc is not None and doc.card is not None
+    assert doc.card._type == "promo_image_convo"
+    assert isinstance(doc.card, PromoImageConvoCard)
+    assert doc.card.title is not None
+    assert doc.card.thankYouText is not None
+    assert doc.card.thankYouUrl is not None
+    assert doc.card.ctas == ["#onerufflecheddarlong"]
+    # main image, not the cover_promo_image ad cover (that one lives under /ad_img/)
+    assert doc.card.photo is not None
+    assert "/ad_img/" not in doc.card.photo.url
+
+    # Check LiveEventCard
+    raw = fake_rep("card_live_event").json()
+    doc = parse_tweet(raw, 1463203718153703425)
+    assert doc is not None and doc.card is not None
+    assert doc.card._type == "live_event"
+    assert isinstance(doc.card, LiveEventCard)
+    assert doc.card.title is not None
+    assert doc.card.url is not None
+    assert doc.card.eventId == "1461789549739143169"
+    assert doc.card.category == "Music"
+    assert doc.card.subtitle is not None
+    assert doc.card.photo is not None
+
+    # Check AppCard
+    raw = fake_rep("card_app").json()
+    doc = parse_tweet(raw, 1249486216266788865)
+    assert doc is not None and doc.card is not None
+    assert doc.card._type == "app"
+    assert isinstance(doc.card, AppCard)
+    assert doc.card.title == "The NBC App – Stream TV Shows"
+    assert doc.card.url is not None
+    assert doc.card.description is not None
+    assert doc.card.starRating is not None and 4 < doc.card.starRating < 5
+    assert doc.card.numRatings == 289838
+    assert doc.card.photo is not None
 
 
 async def test_tweet_new_fields():

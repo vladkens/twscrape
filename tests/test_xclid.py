@@ -1,7 +1,9 @@
+from unittest.mock import MagicMock, call
+
 import pytest
 
 import twscrape.xclid as xclid
-from twscrape.http import NetworkError
+from twscrape.http import HttpxClient, NetworkError
 
 from .mock_http import MockClient
 
@@ -9,6 +11,7 @@ from .mock_http import MockClient
 class FakeClient:
     def __init__(self):
         self.closed = False
+        self.cookies = MagicMock()
 
     async def aclose(self):
         self.closed = True
@@ -45,7 +48,11 @@ async def test_xclid_create_passes_proxy_and_cookies_to_client(monkeypatch):
     assert gen.anim_key == "anim-key"
     assert seen["headers"] == {"user-agent": "@chrome"}
     assert seen["proxy"] == proxy
-    assert seen["cookies"] == cookies
+    assert seen["cookies"] is None
+    assert fake_client.cookies.set.call_args_list == [
+        call("auth_token", "abc", domain=".x.com"),
+        call("ct0", "def", domain=".x.com"),
+    ]
     assert seen["url"] == "https://x.com/tesla"
     assert seen["client"] is fake_client
     assert seen["load_client"] is fake_client
@@ -75,14 +82,83 @@ async def test_xclid_create_without_proxy_or_cookies(monkeypatch):
     assert seen == {"proxy": None, "cookies": None}
 
 
-def test_logged_out_entry_is_account_error():
+async def test_xclid_client_does_not_send_cookies_to_asset_hosts(monkeypatch):
+    monkeypatch.setenv("TWS_HTTP_BACKEND", "httpx")
+    client = xclid._make_client(cookies={"auth_token": "abc", "ct0": "def"})
+    assert isinstance(client, HttpxClient)
+    try:
+        x_request = client._client.build_request("GET", "https://x.com/tesla")
+        asset_request = client._client.build_request(
+            "GET", "https://abs.twimg.com/x-web/client-web/main.js"
+        )
+        assert x_request.headers["cookie"] == "auth_token=abc; ct0=def"
+        assert "cookie" not in asset_request.headers
+    finally:
+        await client.aclose()
+
+
+async def test_xclid_curl_client_scopes_cookies_to_x(monkeypatch):
+    monkeypatch.setenv("TWS_HTTP_BACKEND", "curl")
+    client = xclid._make_client(cookies={"auth_token": "abc"})
+    try:
+        cookies = list(client.cookies.jar)
+        assert [(x.name, x.domain) for x in cookies] == [("auth_token", ".x.com")]
+    finally:
+        await client.aclose()
+
+
+async def test_logged_out_entry_is_account_error():
     html = (
         '<script src="https://abs.twimg.com/x-web/client-web/'
         'entry-client-logged-out-a1b2c3.js"></script>'
     )
 
     with pytest.raises(xclid.XClIdAccountError, match="Logged-out X web app"):
-        xclid.get_scripts_list(html)
+        await xclid.parse_anim_idx(html, MockClient())
+
+
+def test_script_list_combines_direct_and_reconstructed_urls():
+    html = (
+        '<script src="https://abs.twimg.com/x-web/x-web/app-a1b2c3.js"></script>'
+        '<script src="https://abs.twimg.com/responsive-web/client-web/vendor.1234567a.js"></script>'
+        '<script src="/responsive-web/client-web/main.15e48250ae23af9ea.js"></script>'
+        '{100:"shared~feature"}+{100:"00c0ffee00c0ffee"}'
+    )
+
+    urls = xclid.get_scripts_list(html)
+
+    assert urls == [
+        "https://abs.twimg.com/x-web/x-web/app-a1b2c3.js",
+        "https://abs.twimg.com/responsive-web/client-web/vendor.1234567a.js",
+        "https://abs.twimg.com/responsive-web/client-web/main.15e48250ae23af9ea.js",
+        "https://abs.twimg.com/responsive-web/client-web/shared~feature.00c0ffee00c0ffeea.js",
+    ]
+
+
+# In the legacy webpack fixtures the name map comes BEFORE the hash map: hash values
+# must be excluded from the name map by format alone, or they overwrite the names.
+def test_legacy_webpack_build_with_7_hex_hashes():
+    html = '{100:"main",200:"shared~feature"}+{100:"a1b2c3d",200:"0badca4"}'
+
+    urls = xclid.get_scripts_list(html)
+
+    assert urls == [
+        "https://abs.twimg.com/responsive-web/client-web/main.a1b2c3da.js",
+        "https://abs.twimg.com/responsive-web/client-web/shared~feature.0badca4a.js",
+    ]
+
+
+def test_legacy_webpack_build_with_16_hex_hashes():
+    # Hash format served since 2026-08-24, e.g. main.15e48250ae23af9ea.js
+    # https://github.com/vladkens/twscrape/issues/327
+    html = '{100:"main",200:"shared~feature"}+{100:"15e48250ae23af9e",200:"00c0ffee00c0ffee"}'
+
+    urls = xclid.get_scripts_list(html)
+
+    assert urls == [
+        "https://abs.twimg.com/responsive-web/client-web/main.15e48250ae23af9ea.js",
+        "https://abs.twimg.com/responsive-web/client-web/shared~feature.00c0ffee00c0ffeea.js",
+    ]
 
 
 async def test_find_indices_url_complete_scan_is_parse_error():

@@ -22,31 +22,31 @@ from .utils import encode_params, find_obj, get_by_path
 
 # GraphQL operation IDs used by this module.
 # If you add a new endpoint, add it here manually.
-# Update this block with: `uv run scripts/update_gql_ops.py`
+# Update this block with: `uv run scripts/update-gql-ops.py`
 # This script rewrites the whole block automatically.
 
 # GQL_OPS_CODEGEN
 OP_AboutAccountQuery = "TzOG2twZEfhr9KmClvVVqA/AboutAccountQuery"
-OP_BlueVerifiedFollowers = "94iKIFXsW369GcGrPaEBcA/BlueVerifiedFollowers"
-OP_Bookmarks = "LoLaMO4GuHLEPJOhH9kjAw/Bookmarks"
+OP_BlueVerifiedFollowers = "u3PkPbg--arppBcwNbF1ig/BlueVerifiedFollowers"
+OP_Bookmarks = "iblrFnKr6PZUR-dWpfXG6g/Bookmarks"
 OP_CommunityQuery = "-ElI1vg3dYbttVMhBhGdLw/CommunityQuery"
-OP_CommunityTweetsTimeline = "S8rty5gPlDOnHNuay5ecag/CommunityTweetsTimeline"
-OP_Followers = "18SNsfvwgu2CYIweeUVHAw/Followers"
-OP_Following = "PEIBUtChvR2i_NZCxbK3fA/Following"
-OP_GenericTimelineById = "GswYtMwzaFKSDx_SvC-f6g/GenericTimelineById"
-OP_ListLatestTweetsTimeline = "LV64djPRhnsVhGCK76s13w/ListLatestTweetsTimeline"
-OP_ListMembers = "_G-ikUlIqZSkW3Y9Qz8Htw/ListMembers"
-OP_Retweeters = "eio_KeZrPr83caqxWGNtiw/Retweeters"
-OP_SearchTimeline = "hz_94eVAtrtQo_vO3my7Rw/SearchTimeline"
-OP_TweetDetail = "rZA6K31W4E90vZKBmxXV3g/TweetDetail"
-OP_UserByRestId = "DaeC_2LfMgwCujE03HSZtw/UserByRestId"
-OP_UserByScreenName = "2qvSHpkWTMS9i0zJAwDNiA/UserByScreenName"
-OP_UserCreatorSubscriptions = "qhT9BsaNXNYh4R-e1REj7Q/UserCreatorSubscriptions"
-OP_UserMedia = "IS3w9vvPg1SJysLErvnFGg/UserMedia"
-OP_UserTweets = "6r5OLCC_wFH4CpRyXKuAmQ/UserTweets"
-OP_UserTweetsAndReplies = "klja8a2iJX_3to5RdfVlgw/UserTweetsAndReplies"
-OP_membersSliceTimeline_Query = "WSbJGJjZaVasSj9bnqSZSA/membersSliceTimeline_Query"
-OP_moderatorsSliceTimeline_Query = "GBMT3GOWy5dYsYC4XJfvow/moderatorsSliceTimeline_Query"
+OP_CommunityTweetsTimeline = "EwftYyqQemkckQ0wzGM6uw/CommunityTweetsTimeline"
+OP_Followers = "JNyQdTISpzCkj_1fqxDvFg/Followers"
+OP_Following = "qGZZDF3mp91q7X22s3HxpA/Following"
+OP_GenericTimelineById = "ee4dBLWL8a8qg6n19m1htQ/GenericTimelineById"
+OP_ListLatestTweetsTimeline = "1LE3u14FJjPZUHKFGzos2g/ListLatestTweetsTimeline"
+OP_ListMembers = "8rYmkvWQe9jRRZdy_-vkGA/ListMembers"
+OP_Retweeters = "ROjiuYueotTnWoI8m2YaiQ/Retweeters"
+OP_SearchTimeline = "hyPfJYJ_XAtDYoslQc-Rgg/SearchTimeline"
+OP_TweetDetail = "XMOz5h24KAZ86qKffKTLdQ/TweetDetail"
+OP_UserByRestId = "xvmVfRLmnr1alc5f2dib0Q/UserByRestId"
+OP_UserByScreenName = "Gb-d6r0vxPOADdG62OEBpQ/UserByScreenName"
+OP_UserCreatorSubscriptions = "Qxe_gd-ZvdofnzSL8Ngzpw/UserCreatorSubscriptions"
+OP_UserMedia = "VyudDWQnr9vJNw7GasFz2g/UserMedia"
+OP_UserTweets = "SXVCYB8XHSS25nzIljNtZA/UserTweets"
+OP_UserTweetsAndReplies = "qUpkZU6eN8MbtQb7rC_pYg/UserTweetsAndReplies"
+OP_membersSliceTimeline_Query = "woAp_YdzAdqnWDrqLTNpAw/membersSliceTimeline_Query"
+OP_moderatorsSliceTimeline_Query = "0oYT9GRiWUhrz5xoqFE9uw/moderatorsSliceTimeline_Query"
 # GQL_OPS_CODEGEN
 
 GQL_URL = "https://x.com/i/api/graphql"
@@ -152,12 +152,31 @@ class API:
 
         return rep if is_res else None, new_total, is_cur and not is_lim
 
+    def _is_stalled(self, q: str, res: list, cur: str | None, seen: set[tuple[str, ...]]):
+        keys: list[tuple[str, ...]] = [("cursor", cur)] if cur is not None else []
+        if q == "SearchTimeline":
+            entry_ids = tuple(
+                str(x.get("entryId"))
+                for x in res
+                if isinstance(x, dict) and x.get("entryId") is not None
+            )
+            if entry_ids:
+                keys.append(("entries", *entry_ids))
+
+        if any(x in seen for x in keys):
+            return True
+
+        # Not sure whether A → B → A should count as a stall, so only compare the last page.
+        seen.clear()  # Comment this out to detect repeats across all pages.
+        seen.update(keys)
+        return False
+
     def _get_cursor(self, obj: dict, cursor_type="Bottom") -> str | None:
         # standard timeline cursor: {cursorType: "Bottom", value: "..."}
         # fallback: community endpoints use slice_info.next_cursor (plain string)
-        if cur := find_obj(obj, lambda x: x.get("cursorType") == cursor_type):
-            return cur.get("value")
-        return get_by_path(obj, "next_cursor")
+        cur = find_obj(obj, lambda x: x.get("cursorType") == cursor_type)
+        value = cur.get("value") if cur else get_by_path(obj, "next_cursor")
+        return value if isinstance(value, str) else None
 
     def _gql_entries(self, obj: dict) -> list:
         # standard timelines put items in "entries"; community endpoints use "items_results"
@@ -181,6 +200,7 @@ class API:
         queue, cur, cnt, active = op.split("/")[-1], None, 0, True
         kv, ft = {**kv}, {**GQL_FEATURES, **(ft or {})}
         empty_pages = 0
+        seen: set[tuple[str, ...]] = set()
 
         async with QueueClient(self.pool, queue, self.debug, proxy=self.proxy) as client:
             while active:
@@ -199,6 +219,10 @@ class API:
                 obj = rep.json()
                 els = self._gql_entries(obj)
                 cur = self._get_cursor(obj, cursor_type)
+
+                if self._is_stalled(queue, els, cur, seen):
+                    logger.warning(f"{queue} pagination stalled, stopping")
+                    return
 
                 rep, cnt, active = self._is_end(rep, queue, els, cur, cnt, limit)
                 if rep is None:
@@ -252,6 +276,28 @@ class API:
             async for rep in gen:
                 for x in parse_users(rep.json(), limit):
                     yield x
+
+    # user_by_id
+
+    async def user_by_id_raw(self, uid: int, kv: KV = None):
+        op = OP_UserByRestId
+        kv = {"userId": str(uid), "withSafetyModeUserFields": True, **(kv or {})}
+        ft = {
+            "highlights_tweets_tab_ui_enabled": True,
+            "hidden_profile_likes_enabled": True,
+            "creator_subscriptions_tweet_preview_api_enabled": True,
+            "hidden_profile_subscriptions_enabled": True,
+            "subscriptions_verification_info_verified_since_enabled": True,
+            "subscriptions_verification_info_is_identity_verified_enabled": False,
+            "responsive_web_twitter_article_notes_tab_enabled": False,
+            "subscriptions_feature_can_gift_premium": False,
+            "profile_label_improvements_pcf_label_in_post_enabled": False,
+        }
+        return await self._gql_item(op, kv, ft)
+
+    async def user_by_id(self, uid: int, kv: KV = None) -> User | None:
+        rep = await self.user_by_id_raw(uid, kv=kv)
+        return parse_user(rep) if rep else None
 
     # user_by_login
 

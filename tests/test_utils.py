@@ -22,7 +22,9 @@ def test_cookies_parse():
     val = '{"cookies": {"abc": "123", "def": "456", "ghi": "789"}}'
     assert parse_cookies(val) == {"abc": "123", "def": "456", "ghi": "789"}
 
-    with pytest.raises(ValueError, match=r"Invalid cookie value: .+"):
+    assert parse_cookies('{"abc": 123}') == {"abc": "123"}
+
+    with pytest.raises(ValueError, match="Invalid cookie value"):
         val = "{invalid}"
         assert parse_cookies(val) == {}
 
@@ -74,17 +76,33 @@ def test_to_old_obj_user_new_schema():
         "location": {"location": "Earth"},
         "privacy": {"protected": False},
         "verification": {"verified": True},
-        "profile_bio": {"description": "A test bio"},
+        "profile_bio": {
+            "description": "A test bio",
+            "entities": {"description": {}, "url": {}},
+        },
+        "action_counts": {"favorites_count": 11},
+        "banner": {"image_url": "https://example.com/banner.jpg"},
+        "pinned_items": {"tweet_ids_str": ["67890"]},
+        "relationship_counts": {"followers": 12, "following": 13},
+        "tweet_counts": {"media_tweets": 14, "tweets": 15},
         "is_blue_verified": True,
     }
 
     flat = to_old_obj(obj)
     assert flat["screen_name"] == "testuser"
     assert flat["profile_image_url_https"] == "https://example.com/avatar.jpg"
+    assert flat["profile_banner_url"] == "https://example.com/banner.jpg"
     assert flat["location"] == "Earth"
     assert flat["protected"] is False
     assert flat["verified"] is True
     assert flat["description"] == "A test bio"
+    assert flat["entities"] == {"description": {}, "url": {}}
+    assert flat["favourites_count"] == 11
+    assert flat["followers_count"] == 12
+    assert flat["friends_count"] == 13
+    assert flat["media_count"] == 14
+    assert flat["statuses_count"] == 15
+    assert flat["pinned_tweet_ids_str"] == ["67890"]
     assert flat["is_blue_verified"] is True
     assert flat["id"] == 12345
 

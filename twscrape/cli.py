@@ -6,6 +6,7 @@ import getpass
 import io
 import json
 import sqlite3
+import sys
 from importlib.metadata import version
 
 from . import telemetry
@@ -85,7 +86,11 @@ async def main(args):
     if args.command == "add_cookie":
         cookies = args.cookies
         if not cookies:
-            cookies = getpass.getpass("cookies (e.g. auth_token=xxx; ct0=yyy): ")
+            cookies = (
+                getpass.getpass("cookies (e.g. auth_token=xxx; ct0=yyy): ")
+                if sys.stdin.isatty()
+                else sys.stdin.read().strip()
+            )
         await pool.add_account_cookies(args.username, cookies)
         return
 
@@ -185,8 +190,8 @@ def run():
     add_accounts.add_argument("line_format", help="Account fields separated by delimiter")
 
     add_cookie = subparsers.add_parser("add_cookie", help="Add one account from cookies")
-    add_cookie.add_argument("username", help="Twitter/X username")
-    add_cookie.add_argument("cookies", nargs="?", default=None, help="Cookie string")
+    add_cookie.add_argument("username", help="Local account identifier")
+    add_cookie.add_argument("cookies", nargs="?", default=None, help="Cookie string or stdin")
 
     del_accounts = subparsers.add_parser("del_accounts", help="Delete accounts by username")
     del_accounts.add_argument("usernames", nargs="+", default=[], help="Usernames to delete")
@@ -209,6 +214,7 @@ def run():
     c_lim("tweet_replies", "Get replies  of a tweet", "tweet_id", "Tweet ID", int)
     c_lim("tweet_thread", "Get thread tweets", "tweet_id", "Tweet ID", int)
     c_lim("retweeters", "Get retweeters of a tweet", "tweet_id", "Tweet ID", int)
+    c_one("user_by_id", "Get user data by ID", "user_id", "User ID", int)
     c_one("user_by_login", "Get user data by username", "username", "Username")
     c_one("user_about", "Get about info for username", "username", "Username")
     c_lim("following", "Get user following", "user_id", "User ID", int)

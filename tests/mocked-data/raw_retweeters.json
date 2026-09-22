@@ -16,9 +16,15 @@
                     "user_results": {
                       "result": {
                         "__typename": "User",
+                        "action_counts": {
+                          "favorites_count": 4749
+                        },
                         "affiliates_highlighted_label": {},
                         "avatar": {
                           "image_url": "https://pbs.twimg.com/profile_images/2029985252857499649/T4kwWPFZ_normal.jpg"
+                        },
+                        "banner": {
+                          "image_url": "https://pbs.twimg.com/profile_banners/1615040266527703066/1768331495"
                         },
                         "core": {
                           "created_at": "Mon Jan 16 17:36:32 +0000 2023",
@@ -32,54 +38,42 @@
                         "has_graduated_access": true,
                         "id": "VXNlcjoxNjE1MDQwMjY2NTI3NzAzMDY2",
                         "is_blue_verified": false,
-                        "legacy": {
-                          "default_profile": true,
-                          "default_profile_image": false,
-                          "description": "The waves carry away regrets, leaving behind fragments of dreams | This is my corner for collecting memories.",
-                          "entities": {
-                            "description": {}
-                          },
-                          "fast_followers_count": 0,
-                          "favourites_count": 4764,
-                          "follow_request_sent": false,
-                          "followers_count": 366,
-                          "friends_count": 534,
-                          "has_custom_timelines": false,
-                          "is_translator": false,
-                          "listed_count": 0,
-                          "media_count": 81,
-                          "needs_phone_verification": false,
-                          "normal_followers_count": 366,
-                          "notifications": false,
-                          "pinned_tweet_ids_str": [
-                            "2011154675379388685"
-                          ],
-                          "possibly_sensitive": false,
-                          "profile_banner_url": "https://pbs.twimg.com/profile_banners/1615040266527703066/1768331495",
-                          "profile_interstitial_type": "",
-                          "statuses_count": 2914,
-                          "time_zone": "",
-                          "translator_type": "none",
-                          "url": "",
-                          "utc_offset": 0,
-                          "want_retweets": false,
-                          "withheld_description": "",
-                          "withheld_scope": ""
-                        },
                         "location": {
                           "location": "USA"
                         },
                         "media_permissions": {
                           "can_media_tag": true
                         },
+                        "notifications_settings": {
+                          "notifications_enabled": false
+                        },
+                        "pinned_items": {
+                          "tweet_ids_str": [
+                            "2011154675379388685"
+                          ]
+                        },
+                        "possibly_sensitive": false,
                         "privacy": {
                           "protected": false
                         },
                         "profile_bio": {
-                          "description": "The waves carry away regrets, leaving behind fragments of dreams | This is my corner for collecting memories."
+                          "description": "The waves carry away regrets, leaving behind fragments of dreams | This is my corner for collecting memories.",
+                          "entities": {
+                            "description": {}
+                          }
                         },
                         "profile_description_language": "en",
                         "profile_image_shape": "Circle",
+                        "profile_metadata": {
+                          "profile_interstitial_type": ""
+                        },
+                        "profile_translation": {
+                          "translator_type": "none"
+                        },
+                        "relationship_counts": {
+                          "followers": 363,
+                          "following": 533
+                        },
                         "relationship_perspectives": {
                           "blocked_by": false,
                           "blocking": false,
@@ -93,8 +87,15 @@
                         "super_followed_by": false,
                         "super_following": false,
                         "tipjar_settings": {},
+                        "tweet_counts": {
+                          "media_tweets": 81,
+                          "tweets": 2912
+                        },
                         "verification": {
                           "verified": false
+                        },
+                        "website": {
+                          "url": ""
                         }
                       }
                     }
@@ -114,9 +115,15 @@
                     "user_results": {
                       "result": {
                         "__typename": "User",
+                        "action_counts": {
+                          "favorites_count": 1028
+                        },
                         "affiliates_highlighted_label": {},
                         "avatar": {
                           "image_url": "https://pbs.twimg.com/profile_images/1912672555376472065/1q2tKZAA_normal.jpg"
+                        },
+                        "banner": {
+                          "image_url": "https://pbs.twimg.com/profile_banners/2807094158/1744851669"
                         },
                         "core": {
                           "created_at": "Sat Sep 13 09:00:56 +0000 2014",
@@ -130,51 +137,38 @@
                         "has_graduated_access": true,
                         "id": "VXNlcjoyODA3MDk0MTU4",
                         "is_blue_verified": false,
-                        "legacy": {
-                          "default_profile": true,
-                          "default_profile_image": false,
-                          "description": "In memory of my baby Ram, who left me in November 2024\u2615\ufe0f\u26f3\ufe0f\ud83c\udfce\ufe0f\ud83c\udfbcNews Discussion",
-                          "entities": {
-                            "description": {}
-                          },
-                          "fast_followers_count": 0,
-                          "favourites_count": 1028,
-                          "follow_request_sent": false,
-                          "followers_count": 1,
-                          "friends_count": 19,
-                          "has_custom_timelines": false,
-                          "is_translator": false,
-                          "listed_count": 0,
-                          "media_count": 2,
-                          "needs_phone_verification": false,
-                          "normal_followers_count": 1,
-                          "notifications": false,
-                          "possibly_sensitive": false,
-                          "profile_banner_url": "https://pbs.twimg.com/profile_banners/2807094158/1744851669",
-                          "profile_interstitial_type": "",
-                          "statuses_count": 1090,
-                          "time_zone": "",
-                          "translator_type": "none",
-                          "url": "",
-                          "utc_offset": 0,
-                          "want_retweets": false,
-                          "withheld_description": "",
-                          "withheld_scope": ""
-                        },
                         "location": {
                           "location": "Fresno, California"
                         },
                         "media_permissions": {
                           "can_media_tag": false
                         },
+                        "notifications_settings": {
+                          "notifications_enabled": false
+                        },
+                        "pinned_items": {},
+                        "possibly_sensitive": false,
                         "privacy": {
                           "protected": false
                         },
                         "profile_bio": {
-                          "description": "In memory of my baby Ram, who left me in November 2024\u2615\ufe0f\u26f3\ufe0f\ud83c\udfce\ufe0f\ud83c\udfbcNews Discussion"
+                          "description": "In memory of my baby Ram, who left me in November 2024\u2615\ufe0f\u26f3\ufe0f\ud83c\udfce\ufe0f\ud83c\udfbcNews Discussion",
+                          "entities": {
+                            "description": {}
+                          }
                         },
                         "profile_description_language": "en",
                         "profile_image_shape": "Circle",
+                        "profile_metadata": {
+                          "profile_interstitial_type": ""
+                        },
+                        "profile_translation": {
+                          "translator_type": "none"
+                        },
+                        "relationship_counts": {
+                          "followers": 1,
+                          "following": 19
+                        },
                         "relationship_perspectives": {
                           "blocked_by": false,
                           "blocking": false,
@@ -188,8 +182,15 @@
                         "super_followed_by": false,
                         "super_following": false,
                         "tipjar_settings": {},
+                        "tweet_counts": {
+                          "media_tweets": 2,
+                          "tweets": 1090
+                        },
                         "verification": {
                           "verified": false
+                        },
+                        "website": {
+                          "url": ""
                         }
                       }
                     }
@@ -209,9 +210,15 @@
                     "user_results": {
                       "result": {
                         "__typename": "User",
+                        "action_counts": {
+                          "favorites_count": 1200
+                        },
                         "affiliates_highlighted_label": {},
                         "avatar": {
                           "image_url": "https://pbs.twimg.com/profile_images/1857826143866626048/vAwMzAvQ_normal.jpg"
+                        },
+                        "banner": {
+                          "image_url": "https://pbs.twimg.com/profile_banners/190207978/1731875048"
                         },
                         "core": {
                           "created_at": "Mon Sep 13 10:54:41 +0000 2010",
@@ -225,51 +232,38 @@
                         "has_graduated_access": true,
                         "id": "VXNlcjoxOTAyMDc5Nzg=",
                         "is_blue_verified": false,
-                        "legacy": {
-                          "default_profile": true,
-                          "default_profile_image": false,
-                          "description": "\ud83c\udf3bcareer,  the pursuit of success\ud83c\udf3b. shopping preferences\ud83d\udc5cBeach travel \ud83c\udf0aplay golf \ud83c\udfcc\ufe0f\u200d\u2640\ufe0f and reading \ud83d\udcda .\u274cscammers, PORN stay away from me\u274c",
-                          "entities": {
-                            "description": {}
-                          },
-                          "fast_followers_count": 0,
-                          "favourites_count": 1204,
-                          "follow_request_sent": false,
-                          "followers_count": 38,
-                          "friends_count": 13,
-                          "has_custom_timelines": false,
-                          "is_translator": false,
-                          "listed_count": 0,
-                          "media_count": 2,
-                          "needs_phone_verification": false,
-                          "normal_followers_count": 38,
-                          "notifications": false,
-                          "possibly_sensitive": false,
-                          "profile_banner_url": "https://pbs.twimg.com/profile_banners/190207978/1731875048",
-                          "profile_interstitial_type": "",
-                          "statuses_count": 2310,
-                          "time_zone": "",
-                          "translator_type": "none",
-                          "url": "",
-                          "utc_offset": 0,
-                          "want_retweets": false,
-                          "withheld_description": "",
-                          "withheld_scope": ""
-                        },
                         "location": {
                           "location": "California"
                         },
                         "media_permissions": {
                           "can_media_tag": true
                         },
+                        "notifications_settings": {
+                          "notifications_enabled": false
+                        },
+                        "pinned_items": {},
+                        "possibly_sensitive": false,
                         "privacy": {
                           "protected": false
                         },
                         "profile_bio": {
-                          "description": "\ud83c\udf3bcareer,  the pursuit of success\ud83c\udf3b. shopping preferences\ud83d\udc5cBeach travel \ud83c\udf0aplay golf \ud83c\udfcc\ufe0f\u200d\u2640\ufe0f and reading \ud83d\udcda .\u274cscammers, PORN stay away from me\u274c"
+                          "description": "\ud83c\udf3bcareer,  the pursuit of success\ud83c\udf3b. shopping preferences\ud83d\udc5cBeach travel \ud83c\udf0aplay golf \ud83c\udfcc\ufe0f\u200d\u2640\ufe0f and reading \ud83d\udcda .\u274cscammers, PORN stay away from me\u274c",
+                          "entities": {
+                            "description": {}
+                          }
                         },
                         "profile_description_language": "en",
                         "profile_image_shape": "Circle",
+                        "profile_metadata": {
+                          "profile_interstitial_type": ""
+                        },
+                        "profile_translation": {
+                          "translator_type": "none"
+                        },
+                        "relationship_counts": {
+                          "followers": 36,
+                          "following": 12
+                        },
                         "relationship_perspectives": {
                           "blocked_by": false,
                           "blocking": false,
@@ -283,8 +277,15 @@
                         "super_followed_by": false,
                         "super_following": false,
                         "tipjar_settings": {},
+                        "tweet_counts": {
+                          "media_tweets": 2,
+                          "tweets": 2310
+                        },
                         "verification": {
                           "verified": false
+                        },
+                        "website": {
+                          "url": ""
                         }
                       }
                     }
@@ -304,9 +305,15 @@
                     "user_results": {
                       "result": {
                         "__typename": "User",
+                        "action_counts": {
+                          "favorites_count": 3
+                        },
                         "affiliates_highlighted_label": {},
                         "avatar": {
                           "image_url": "https://pbs.twimg.com/profile_images/1857826767869968384/pTHkP6Kw_normal.jpg"
+                        },
+                        "banner": {
+                          "image_url": "https://pbs.twimg.com/profile_banners/1693640288/1731875126"
                         },
                         "core": {
                           "created_at": "Fri Aug 23 11:52:18 +0000 2013",
@@ -320,51 +327,38 @@
                         "has_graduated_access": true,
                         "id": "VXNlcjoxNjkzNjQwMjg4",
                         "is_blue_verified": false,
-                        "legacy": {
-                          "default_profile": true,
-                          "default_profile_image": false,
-                          "description": "Playing golf\ud83c\udfcc\ufe0f\u200d\u2640\ufe0fReading\ud83d\udcdaBeach\ud83c\udf0aTraveling, cooking, music, hiking\ud83c\udf3b\ud83c\udf3b\nLove nature and most outdoor sports\n\u274cReposting does not represent my opinion",
-                          "entities": {
-                            "description": {}
-                          },
-                          "fast_followers_count": 0,
-                          "favourites_count": 3,
-                          "follow_request_sent": false,
-                          "followers_count": 20,
-                          "friends_count": 3,
-                          "has_custom_timelines": false,
-                          "is_translator": false,
-                          "listed_count": 0,
-                          "media_count": 0,
-                          "needs_phone_verification": false,
-                          "normal_followers_count": 20,
-                          "notifications": false,
-                          "possibly_sensitive": false,
-                          "profile_banner_url": "https://pbs.twimg.com/profile_banners/1693640288/1731875126",
-                          "profile_interstitial_type": "",
-                          "statuses_count": 2589,
-                          "time_zone": "",
-                          "translator_type": "none",
-                          "url": "",
-                          "utc_offset": 0,
-                          "want_retweets": false,
-                          "withheld_description": "",
-                          "withheld_scope": ""
-                        },
                         "location": {
                           "location": "California"
                         },
                         "media_permissions": {
                           "can_media_tag": true
                         },
+                        "notifications_settings": {
+                          "notifications_enabled": false
+                        },
+                        "pinned_items": {},
+                        "possibly_sensitive": false,
                         "privacy": {
                           "protected": false
                         },
                         "profile_bio": {
-                          "description": "Playing golf\ud83c\udfcc\ufe0f\u200d\u2640\ufe0fReading\ud83d\udcdaBeach\ud83c\udf0aTraveling, cooking, music, hiking\ud83c\udf3b\ud83c\udf3b\nLove nature and most outdoor sports\n\u274cReposting does not represent my opinion"
+                          "description": "Playing golf\ud83c\udfcc\ufe0f\u200d\u2640\ufe0fReading\ud83d\udcdaBeach\ud83c\udf0aTraveling, cooking, music, hiking\ud83c\udf3b\ud83c\udf3b\nLove nature and most outdoor sports\n\u274cReposting does not represent my opinion",
+                          "entities": {
+                            "description": {}
+                          }
                         },
                         "profile_description_language": "en",
                         "profile_image_shape": "Circle",
+                        "profile_metadata": {
+                          "profile_interstitial_type": ""
+                        },
+                        "profile_translation": {
+                          "translator_type": "none"
+                        },
+                        "relationship_counts": {
+                          "followers": 19,
+                          "following": 3
+                        },
                         "relationship_perspectives": {
                           "blocked_by": false,
                           "blocking": false,
@@ -378,8 +372,15 @@
                         "super_followed_by": false,
                         "super_following": false,
                         "tipjar_settings": {},
+                        "tweet_counts": {
+                          "media_tweets": 0,
+                          "tweets": 2589
+                        },
                         "verification": {
                           "verified": false
+                        },
+                        "website": {
+                          "url": ""
                         }
                       }
                     }
@@ -399,9 +400,15 @@
                     "user_results": {
                       "result": {
                         "__typename": "User",
+                        "action_counts": {
+                          "favorites_count": 461162
+                        },
                         "affiliates_highlighted_label": {},
                         "avatar": {
                           "image_url": "https://pbs.twimg.com/profile_images/1911443967071162368/o_QcYzqN_normal.jpg"
+                        },
+                        "banner": {
+                          "image_url": "https://pbs.twimg.com/profile_banners/901182779517534208/1723840399"
                         },
                         "core": {
                           "created_at": "Fri Aug 25 20:41:32 +0000 2017",
@@ -415,46 +422,21 @@
                         "has_graduated_access": true,
                         "id": "VXNlcjo5MDExODI3Nzk1MTc1MzQyMDg=",
                         "is_blue_verified": true,
-                        "legacy": {
-                          "default_profile": true,
-                          "default_profile_image": false,
-                          "description": "Biomedical Scientist \ud83d\udc68\ud83c\udffe\u200d\ud83d\udd2c\ud83d\udd2c\ud83e\uddec . \n Roman Catholic\ud83c\uddfb\ud83c\udde6\u271d\ufe0f. Ambivert.\nProudly Igbo. \nA TIRED @manutd fan. \ud83d\ude2b\n #UTFR \ud83c\uddfe\ud83c\uddea\ud83d\uded1\nVeni, Vidi, Vici.",
-                          "entities": {
-                            "description": {}
-                          },
-                          "fast_followers_count": 0,
-                          "favourites_count": 459092,
-                          "follow_request_sent": false,
-                          "followers_count": 2331,
-                          "friends_count": 2191,
-                          "has_custom_timelines": true,
-                          "is_translator": false,
-                          "listed_count": 1,
-                          "media_count": 1827,
-                          "needs_phone_verification": false,
-                          "normal_followers_count": 2331,
-                          "notifications": false,
-                          "pinned_tweet_ids_str": [
-                            "2024961003209756753"
-                          ],
-                          "possibly_sensitive": false,
-                          "profile_banner_url": "https://pbs.twimg.com/profile_banners/901182779517534208/1723840399",
-                          "profile_interstitial_type": "",
-                          "statuses_count": 238534,
-                          "time_zone": "",
-                          "translator_type": "none",
-                          "url": "",
-                          "utc_offset": 0,
-                          "want_retweets": false,
-                          "withheld_description": "",
-                          "withheld_scope": ""
-                        },
                         "location": {
                           "location": "In the Realms\ud83d\udca8"
                         },
                         "media_permissions": {
                           "can_media_tag": true
                         },
+                        "notifications_settings": {
+                          "notifications_enabled": false
+                        },
+                        "pinned_items": {
+                          "tweet_ids_str": [
+                            "2024961003209756753"
+                          ]
+                        },
+                        "possibly_sensitive": false,
                         "privacy": {
                           "protected": false
                         },
@@ -470,9 +452,22 @@
                           "rest_id": "1464943860052901890"
                         },
                         "profile_bio": {
-                          "description": "Biomedical Scientist \ud83d\udc68\ud83c\udffe\u200d\ud83d\udd2c\ud83d\udd2c\ud83e\uddec . \n Roman Catholic\ud83c\uddfb\ud83c\udde6\u271d\ufe0f. Ambivert.\nProudly Igbo. \nA TIRED @manutd fan. \ud83d\ude2b\n #UTFR \ud83c\uddfe\ud83c\uddea\ud83d\uded1\nVeni, Vidi, Vici."
+                          "description": "Biomedical Scientist \ud83d\udc68\ud83c\udffe\u200d\ud83d\udd2c\ud83d\udd2c\ud83e\uddec . \n Roman Catholic\ud83c\uddfb\ud83c\udde6\u271d\ufe0f. Ambivert.\nProudly Igbo. \nA TIRED @manutd fan. \ud83d\ude2b\n #UTFR \ud83c\uddfe\ud83c\uddea\ud83d\uded1\nVeni, Vidi, Vici.",
+                          "entities": {
+                            "description": {}
+                          }
                         },
                         "profile_image_shape": "Circle",
+                        "profile_metadata": {
+                          "profile_interstitial_type": ""
+                        },
+                        "profile_translation": {
+                          "translator_type": "none"
+                        },
+                        "relationship_counts": {
+                          "followers": 2322,
+                          "following": 2193
+                        },
                         "relationship_perspectives": {
                           "blocked_by": false,
                           "blocking": false,
@@ -489,8 +484,15 @@
                           "bitcoin_handle": "146eonMEynuyn7jWLUQNbw7nZi4eSc2cwD",
                           "is_enabled": true
                         },
+                        "tweet_counts": {
+                          "media_tweets": 1833,
+                          "tweets": 239544
+                        },
                         "verification": {
                           "verified": false
+                        },
+                        "website": {
+                          "url": ""
                         }
                       }
                     }
@@ -510,9 +512,15 @@
                     "user_results": {
                       "result": {
                         "__typename": "User",
+                        "action_counts": {
+                          "favorites_count": 440
+                        },
                         "affiliates_highlighted_label": {},
                         "avatar": {
                           "image_url": "https://pbs.twimg.com/profile_images/1886815367080894468/hvsGF3LX_normal.jpg"
+                        },
+                        "banner": {
+                          "image_url": "https://pbs.twimg.com/profile_banners/1557054697252524032/1728831040"
                         },
                         "core": {
                           "created_at": "Tue Aug 09 17:22:24 +0000 2022",
@@ -526,51 +534,38 @@
                         "has_graduated_access": true,
                         "id": "VXNlcjoxNTU3MDU0Njk3MjUyNTI0MDMy",
                         "is_blue_verified": false,
-                        "legacy": {
-                          "default_profile": true,
-                          "default_profile_image": false,
-                          "description": "\ud83e\udd0dLove outdoor fun, Love hunting and Fishing\ud83e\udd0d",
-                          "entities": {
-                            "description": {}
-                          },
-                          "fast_followers_count": 0,
-                          "favourites_count": 441,
-                          "follow_request_sent": false,
-                          "followers_count": 904,
-                          "friends_count": 1056,
-                          "has_custom_timelines": false,
-                          "is_translator": false,
-                          "listed_count": 1,
-                          "media_count": 9,
-                          "needs_phone_verification": false,
-                          "normal_followers_count": 904,
-                          "notifications": false,
-                          "possibly_sensitive": false,
-                          "profile_banner_url": "https://pbs.twimg.com/profile_banners/1557054697252524032/1728831040",
-                          "profile_interstitial_type": "",
-                          "statuses_count": 1630,
-                          "time_zone": "",
-                          "translator_type": "none",
-                          "url": "",
-                          "utc_offset": 0,
-                          "want_retweets": false,
-                          "withheld_description": "",
-                          "withheld_scope": ""
-                        },
                         "location": {
                           "location": "New York "
                         },
                         "media_permissions": {
                           "can_media_tag": true
                         },
+                        "notifications_settings": {
+                          "notifications_enabled": false
+                        },
+                        "pinned_items": {},
+                        "possibly_sensitive": false,
                         "privacy": {
                           "protected": false
                         },
                         "profile_bio": {
-                          "description": "\ud83e\udd0dLove outdoor fun, Love hunting and Fishing\ud83e\udd0d"
+                          "description": "\ud83e\udd0dLove outdoor fun, Love hunting and Fishing\ud83e\udd0d",
+                          "entities": {
+                            "description": {}
+                          }
                         },
                         "profile_description_language": "en",
                         "profile_image_shape": "Circle",
+                        "profile_metadata": {
+                          "profile_interstitial_type": ""
+                        },
+                        "profile_translation": {
+                          "translator_type": "none"
+                        },
+                        "relationship_counts": {
+                          "followers": 907,
+                          "following": 1053
+                        },
                         "relationship_perspectives": {
                           "blocked_by": false,
                           "blocking": false,
@@ -584,8 +579,15 @@
                         "super_followed_by": false,
                         "super_following": false,
                         "tipjar_settings": {},
+                        "tweet_counts": {
+                          "media_tweets": 9,
+                          "tweets": 1627
+                        },
                         "verification": {
                           "verified": false
+                        },
+                        "website": {
+                          "url": ""
                         }
                       }
                     }
@@ -605,9 +607,15 @@
                     "user_results": {
                       "result": {
                         "__typename": "User",
+                        "action_counts": {
+                          "favorites_count": 19
+                        },
                         "affiliates_highlighted_label": {},
                         "avatar": {
                           "image_url": "https://pbs.twimg.com/profile_images/1805515227418836995/CB_EKMTn_normal.jpg"
+                        },
+                        "banner": {
+                          "image_url": "https://pbs.twimg.com/profile_banners/2930110410/1719303351"
                         },
                         "core": {
                           "created_at": "Sun Dec 14 18:29:17 +0000 2014",
@@ -621,9 +629,25 @@
                         "has_graduated_access": true,
                         "id": "VXNlcjoyOTMwMTEwNDEw",
                         "is_blue_verified": false,
-                        "legacy": {
-                          "default_profile": true,
-                          "default_profile_image": false,
+                        "location": {
+                          "location": ""
+                        },
+                        "media_permissions": {
+                          "can_media_tag": false
+                        },
+                        "notifications_settings": {
+                          "notifications_enabled": false
+                        },
+                        "pinned_items": {
+                          "tweet_ids_str": [
+                            "1805317807036678312"
+                          ]
+                        },
+                        "possibly_sensitive": false,
+                        "privacy": {
+                          "protected": false
+                        },
+                        "profile_bio": {
                           "description": "\u6bcf\u65e5\u5206\u4eab\u5404\u79cd\u7d20\u4eba\u6d41\u51fa\u89c6\u9891\uff0c\u559c\u6b22\u7684\u7ed9\u4e2a\u5173\u6ce8\u3002\n\u3010 \u51fa\u552e\u5404\u79cd\u9488\u5b54\u8bbe\u5907\u63a2\u82b1\u624b\u673a  @gaizhuangchengg \u3011",
                           "entities": {
                             "description": {},
@@ -640,48 +664,20 @@
                                 }
                               ]
                             }
-                          },
-                          "fast_followers_count": 0,
-                          "favourites_count": 19,
-                          "follow_request_sent": false,
-                          "followers_count": 1124,
-                          "friends_count": 62,
-                          "has_custom_timelines": false,
-                          "is_translator": false,
-                          "listed_count": 1,
-                          "media_count": 8,
-                          "needs_phone_verification": false,
-                          "normal_followers_count": 1124,
-                          "notifications": false,
-                          "pinned_tweet_ids_str": [
-                            "1805317807036678312"
-                          ],
-                          "possibly_sensitive": false,
-                          "profile_banner_url": "https://pbs.twimg.com/profile_banners/2930110410/1719303351",
-                          "profile_interstitial_type": "",
-                          "statuses_count": 2803,
-                          "time_zone": "",
-                          "translator_type": "none",
-                          "url": "https://t.co/l8tGQQoJ0d",
-                          "utc_offset": 0,
-                          "want_retweets": false,
-                          "withheld_description": "",
-                          "withheld_scope": ""
-                        },
-                        "location": {
-                          "location": ""
-                        },
-                        "media_permissions": {
-                          "can_media_tag": false
-                        },
-                        "privacy": {
-                          "protected": false
-                        },
-                        "profile_bio": {
-                          "description": "\u6bcf\u65e5\u5206\u4eab\u5404\u79cd\u7d20\u4eba\u6d41\u51fa\u89c6\u9891\uff0c\u559c\u6b22\u7684\u7ed9\u4e2a\u5173\u6ce8\u3002\n\u3010 \u51fa\u552e\u5404\u79cd\u9488\u5b54\u8bbe\u5907\u63a2\u82b1\u624b\u673a  @gaizhuangchengg \u3011"
+                          }
                         },
                         "profile_description_language": "zh",
                         "profile_image_shape": "Circle",
+                        "profile_metadata": {
+                          "profile_interstitial_type": ""
+                        },
+                        "profile_translation": {
+                          "translator_type": "none"
+                        },
+                        "relationship_counts": {
+                          "followers": 1111,
+                          "following": 62
+                        },
                         "relationship_perspectives": {
                           "blocked_by": false,
                           "blocking": false,
@@ -695,8 +691,15 @@
                         "super_followed_by": false,
                         "super_following": false,
                         "tipjar_settings": {},
+                        "tweet_counts": {
+                          "media_tweets": 8,
+                          "tweets": 2801
+                        },
                         "verification": {
                           "verified": false
+                        },
+                        "website": {
+                          "url": "https://t.co/l8tGQQoJ0d"
                         }
                       }
                     }
@@ -736,9 +739,15 @@
                     "user_results": {
                       "result": {
                         "__typename": "User",
+                        "action_counts": {
+                          "favorites_count": 39
+                        },
                         "affiliates_highlighted_label": {},
                         "avatar": {
                           "image_url": "https://pbs.twimg.com/profile_images/1758980371532976128/QsPqSIXR_normal.jpg"
+                        },
+                        "banner": {
+                          "image_url": ""
                         },
                         "core": {
                           "created_at": "Sun Jul 16 02:34:29 +0000 2023",
@@ -752,43 +761,17 @@
                         "has_graduated_access": true,
                         "id": "VXNlcjoxNjgwNDA1NDYxMjc3ODU1NzQ0",
                         "is_blue_verified": false,
-                        "legacy": {
-                          "default_profile": true,
-                          "default_profile_image": false,
-                          "description": "God bless u all",
-                          "entities": {
-                            "description": {}
-                          },
-                          "fast_followers_count": 0,
-                          "favourites_count": 39,
-                          "follow_request_sent": false,
-                          "followers_count": 5,
-                          "friends_count": 46,
-                          "has_custom_timelines": false,
-                          "is_translator": false,
-                          "listed_count": 0,
-                          "media_count": 2,
-                          "needs_phone_verification": false,
-                          "normal_followers_count": 5,
-                          "notifications": false,
-                          "possibly_sensitive": false,
-                          "profile_banner_url": "",
-                          "profile_interstitial_type": "",
-                          "statuses_count": 55,
-                          "time_zone": "",
-                          "translator_type": "none",
-                          "url": "",
-                          "utc_offset": 0,
-                          "want_retweets": false,
-                          "withheld_description": "",
-                          "withheld_scope": ""
-                        },
                         "location": {
                           "location": ""
                         },
                         "media_permissions": {
                           "can_media_tag": true
                         },
+                        "notifications_settings": {
+                          "notifications_enabled": false
+                        },
+                        "pinned_items": {},
+                        "possibly_sensitive": false,
                         "privacy": {
                           "protected": false
                         },
@@ -804,10 +787,23 @@
                           "rest_id": "1764894647313166748"
                         },
                         "profile_bio": {
-                          "description": "God bless u all"
+                          "description": "God bless u all",
+                          "entities": {
+                            "description": {}
+                          }
                         },
                         "profile_description_language": "en",
                         "profile_image_shape": "Circle",
+                        "profile_metadata": {
+                          "profile_interstitial_type": ""
+                        },
+                        "profile_translation": {
+                          "translator_type": "none"
+                        },
+                        "relationship_counts": {
+                          "followers": 5,
+                          "following": 46
+                        },
                         "relationship_perspectives": {
                           "blocked_by": false,
                           "blocking": false,
@@ -821,8 +817,15 @@
                         "super_followed_by": false,
                         "super_following": false,
                         "tipjar_settings": {},
+                        "tweet_counts": {
+                          "media_tweets": 2,
+                          "tweets": 55
+                        },
                         "verification": {
                           "verified": false
+                        },
+                        "website": {
+                          "url": ""
                         }
                       }
                     }
@@ -842,9 +845,15 @@
                     "user_results": {
                       "result": {
                         "__typename": "User",
+                        "action_counts": {
+                          "favorites_count": 15
+                        },
                         "affiliates_highlighted_label": {},
                         "avatar": {
                           "image_url": "https://pbs.twimg.com/profile_images/1748373013148446720/xDqxtCUx_normal.jpg"
+                        },
+                        "banner": {
+                          "image_url": "https://pbs.twimg.com/profile_banners/1706929807328706560/1705679588"
                         },
                         "core": {
                           "created_at": "Wed Sep 27 07:14:02 +0000 2023",
@@ -858,51 +867,38 @@
                         "has_graduated_access": true,
                         "id": "VXNlcjoxNzA2OTI5ODA3MzI4NzA2NTYw",
                         "is_blue_verified": false,
-                        "legacy": {
-                          "default_profile": true,
-                          "default_profile_image": false,
-                          "description": "Byte by byte, I'm decoding the language of computers. Let's explore the syntax and semantics of the digital world together! \ud83e\udd16\ud83d\udcac #DigitalExplorer",
-                          "entities": {
-                            "description": {}
-                          },
-                          "fast_followers_count": 0,
-                          "favourites_count": 15,
-                          "follow_request_sent": false,
-                          "followers_count": 5,
-                          "friends_count": 27,
-                          "has_custom_timelines": false,
-                          "is_translator": false,
-                          "listed_count": 0,
-                          "media_count": 0,
-                          "needs_phone_verification": false,
-                          "normal_followers_count": 5,
-                          "notifications": false,
-                          "possibly_sensitive": false,
-                          "profile_banner_url": "https://pbs.twimg.com/profile_banners/1706929807328706560/1705679588",
-                          "profile_interstitial_type": "",
-                          "statuses_count": 48,
-                          "time_zone": "",
-                          "translator_type": "none",
-                          "url": "",
-                          "utc_offset": 0,
-                          "want_retweets": false,
-                          "withheld_description": "",
-                          "withheld_scope": ""
-                        },
                         "location": {
                           "location": ""
                         },
                         "media_permissions": {
                           "can_media_tag": true
                         },
+                        "notifications_settings": {
+                          "notifications_enabled": false
+                        },
+                        "pinned_items": {},
+                        "possibly_sensitive": false,
                         "privacy": {
                           "protected": false
                         },
                         "profile_bio": {
-                          "description": "Byte by byte, I'm decoding the language of computers. Let's explore the syntax and semantics of the digital world together! \ud83e\udd16\ud83d\udcac #DigitalExplorer"
+                          "description": "Byte by byte, I'm decoding the language of computers. Let's explore the syntax and semantics of the digital world together! \ud83e\udd16\ud83d\udcac #DigitalExplorer",
+                          "entities": {
+                            "description": {}
+                          }
                         },
                         "profile_description_language": "en",
                         "profile_image_shape": "Circle",
+                        "profile_metadata": {
+                          "profile_interstitial_type": ""
+                        },
+                        "profile_translation": {
+                          "translator_type": "none"
+                        },
+                        "relationship_counts": {
+                          "followers": 5,
+                          "following": 27
+                        },
                         "relationship_perspectives": {
                           "blocked_by": false,
                           "blocking": false,
@@ -916,8 +912,15 @@
                         "super_followed_by": false,
                         "super_following": false,
                         "tipjar_settings": {},
+                        "tweet_counts": {
+                          "media_tweets": 0,
+                          "tweets": 48
+                        },
                         "verification": {
                           "verified": false
+                        },
+                        "website": {
+                          "url": ""
                         }
                       }
                     }
@@ -937,9 +940,15 @@
                     "user_results": {
                       "result": {
                         "__typename": "User",
+                        "action_counts": {
+                          "favorites_count": 22
+                        },
                         "affiliates_highlighted_label": {},
                         "avatar": {
                           "image_url": "https://pbs.twimg.com/profile_images/1748369534061281280/Uq7kCY_m_normal.jpg"
+                        },
+                        "banner": {
+                          "image_url": "https://pbs.twimg.com/profile_banners/1706876370268422144/1705678757"
                         },
                         "core": {
                           "created_at": "Wed Sep 27 03:40:35 +0000 2023",
@@ -953,51 +962,38 @@
                         "has_graduated_access": true,
                         "id": "VXNlcjoxNzA2ODc2MzcwMjY4NDIyMTQ0",
                         "is_blue_verified": false,
-                        "legacy": {
-                          "default_profile": true,
-                          "default_profile_image": false,
-                          "description": "Compiler of dreams, debugger of reality. Passionate about programming and the endless potential it brings to life. \ud83d\ude80\ud83d\udcbb #DreamCompiler #ProgrammingDreamer",
-                          "entities": {
-                            "description": {}
-                          },
-                          "fast_followers_count": 0,
-                          "favourites_count": 22,
-                          "follow_request_sent": false,
-                          "followers_count": 2,
-                          "friends_count": 48,
-                          "has_custom_timelines": false,
-                          "is_translator": false,
-                          "listed_count": 0,
-                          "media_count": 0,
-                          "needs_phone_verification": false,
-                          "normal_followers_count": 2,
-                          "notifications": false,
-                          "possibly_sensitive": false,
-                          "profile_banner_url": "https://pbs.twimg.com/profile_banners/1706876370268422144/1705678757",
-                          "profile_interstitial_type": "",
-                          "statuses_count": 44,
-                          "time_zone": "",
-                          "translator_type": "none",
-                          "url": "",
-                          "utc_offset": 0,
-                          "want_retweets": false,
-                          "withheld_description": "",
-                          "withheld_scope": ""
-                        },
                         "location": {
                           "location": ""
                         },
                         "media_permissions": {
                           "can_media_tag": false
                         },
+                        "notifications_settings": {
+                          "notifications_enabled": false
+                        },
+                        "pinned_items": {},
+                        "possibly_sensitive": false,
                         "privacy": {
                           "protected": false
                         },
                         "profile_bio": {
-                          "description": "Compiler of dreams, debugger of reality. Passionate about programming and the endless potential it brings to life. \ud83d\ude80\ud83d\udcbb #DreamCompiler #ProgrammingDreamer"
+                          "description": "Compiler of dreams, debugger of reality. Passionate about programming and the endless potential it brings to life. \ud83d\ude80\ud83d\udcbb #DreamCompiler #ProgrammingDreamer",
+                          "entities": {
+                            "description": {}
+                          }
                         },
                         "profile_description_language": "en",
                         "profile_image_shape": "Circle",
+                        "profile_metadata": {
+                          "profile_interstitial_type": ""
+                        },
+                        "profile_translation": {
+                          "translator_type": "none"
+                        },
+                        "relationship_counts": {
+                          "followers": 2,
+                          "following": 48
+                        },
                         "relationship_perspectives": {
                           "blocked_by": false,
                           "blocking": false,
@@ -1011,8 +1007,15 @@
                         "super_followed_by": false,
                         "super_following": false,
                         "tipjar_settings": {},
+                        "tweet_counts": {
+                          "media_tweets": 0,
+                          "tweets": 44
+                        },
                         "verification": {
                           "verified": false
+                        },
+                        "website": {
+                          "url": ""
                         }
                       }
                     }
@@ -1032,9 +1035,15 @@
                     "user_results": {
                       "result": {
                         "__typename": "User",
+                        "action_counts": {
+                          "favorites_count": 15
+                        },
                         "affiliates_highlighted_label": {},
                         "avatar": {
                           "image_url": "https://pbs.twimg.com/profile_images/1748348766296432640/MS1VwyMf_normal.jpg"
+                        },
+                        "banner": {
+                          "image_url": "https://pbs.twimg.com/profile_banners/1706571709682503680/1705673806"
                         },
                         "core": {
                           "created_at": "Tue Sep 26 07:29:49 +0000 2023",
@@ -1048,51 +1057,38 @@
                         "has_graduated_access": true,
                         "id": "VXNlcjoxNzA2NTcxNzA5NjgyNTAzNjgw",
                         "is_blue_verified": false,
-                        "legacy": {
-                          "default_profile": true,
-                          "default_profile_image": false,
-                          "description": "From algorithms to syntax, I love the poetry of programming. Embracing the digital dance of logic and creativity. \ud83d\udc83\ud83d\udda5\ufe0f #CodePoet #ProgrammingEnthusiast",
-                          "entities": {
-                            "description": {}
-                          },
-                          "fast_followers_count": 0,
-                          "favourites_count": 15,
-                          "follow_request_sent": false,
-                          "followers_count": 3,
-                          "friends_count": 29,
-                          "has_custom_timelines": false,
-                          "is_translator": false,
-                          "listed_count": 0,
-                          "media_count": 0,
-                          "needs_phone_verification": false,
-                          "normal_followers_count": 3,
-                          "notifications": false,
-                          "possibly_sensitive": false,
-                          "profile_banner_url": "https://pbs.twimg.com/profile_banners/1706571709682503680/1705673806",
-                          "profile_interstitial_type": "",
-                          "statuses_count": 44,
-                          "time_zone": "",
-                          "translator_type": "none",
-                          "url": "",
-                          "utc_offset": 0,
-                          "want_retweets": false,
-                          "withheld_description": "",
-                          "withheld_scope": ""
-                        },
                         "location": {
                           "location": ""
                         },
                         "media_permissions": {
                           "can_media_tag": true
                         },
+                        "notifications_settings": {
+                          "notifications_enabled": false
+                        },
+                        "pinned_items": {},
+                        "possibly_sensitive": false,
                         "privacy": {
                           "protected": false
                         },
                         "profile_bio": {
-                          "description": "From algorithms to syntax, I love the poetry of programming. Embracing the digital dance of logic and creativity. \ud83d\udc83\ud83d\udda5\ufe0f #CodePoet #ProgrammingEnthusiast"
+                          "description": "From algorithms to syntax, I love the poetry of programming. Embracing the digital dance of logic and creativity. \ud83d\udc83\ud83d\udda5\ufe0f #CodePoet #ProgrammingEnthusiast",
+                          "entities": {
+                            "description": {}
+                          }
                         },
                         "profile_description_language": "en",
                         "profile_image_shape": "Circle",
+                        "profile_metadata": {
+                          "profile_interstitial_type": ""
+                        },
+                        "profile_translation": {
+                          "translator_type": "none"
+                        },
+                        "relationship_counts": {
+                          "followers": 3,
+                          "following": 29
+                        },
                         "relationship_perspectives": {
                           "blocked_by": false,
                           "blocking": false,
@@ -1106,8 +1102,15 @@
                         "super_followed_by": false,
                         "super_following": false,
                         "tipjar_settings": {},
+                        "tweet_counts": {
+                          "media_tweets": 0,
+                          "tweets": 44
+                        },
                         "verification": {
                           "verified": false
+                        },
+                        "website": {
+                          "url": ""
                         }
                       }
                     }
@@ -1127,9 +1130,15 @@
                     "user_results": {
                       "result": {
                         "__typename": "User",
+                        "action_counts": {
+                          "favorites_count": 70
+                        },
                         "affiliates_highlighted_label": {},
                         "avatar": {
                           "image_url": "https://pbs.twimg.com/profile_images/1672593859107233792/H3qlwWDJ_normal.jpg"
+                        },
+                        "banner": {
+                          "image_url": ""
                         },
                         "core": {
                           "created_at": "Sat Jun 24 13:13:34 +0000 2023",
@@ -1143,50 +1152,37 @@
                         "has_graduated_access": true,
                         "id": "VXNlcjoxNjcyNTkzNzc5NTQ1NzYzODQw",
                         "is_blue_verified": false,
-                        "legacy": {
-                          "default_profile": true,
-                          "default_profile_image": false,
-                          "description": "",
-                          "entities": {
-                            "description": {}
-                          },
-                          "fast_followers_count": 0,
-                          "favourites_count": 70,
-                          "follow_request_sent": false,
-                          "followers_count": 22,
-                          "friends_count": 64,
-                          "has_custom_timelines": false,
-                          "is_translator": false,
-                          "listed_count": 0,
-                          "media_count": 8,
-                          "needs_phone_verification": false,
-                          "normal_followers_count": 22,
-                          "notifications": false,
-                          "possibly_sensitive": false,
-                          "profile_banner_url": "",
-                          "profile_interstitial_type": "",
-                          "statuses_count": 64,
-                          "time_zone": "",
-                          "translator_type": "none",
-                          "url": "",
-                          "utc_offset": 0,
-                          "want_retweets": false,
-                          "withheld_description": "",
-                          "withheld_scope": ""
-                        },
                         "location": {
                           "location": ""
                         },
                         "media_permissions": {
                           "can_media_tag": true
                         },
+                        "notifications_settings": {
+                          "notifications_enabled": false
+                        },
+                        "pinned_items": {},
+                        "possibly_sensitive": false,
                         "privacy": {
                           "protected": false
                         },
                         "profile_bio": {
-                          "description": ""
+                          "description": "",
+                          "entities": {
+                            "description": {}
+                          }
                         },
                         "profile_image_shape": "Circle",
+                        "profile_metadata": {
+                          "profile_interstitial_type": ""
+                        },
+                        "profile_translation": {
+                          "translator_type": "none"
+                        },
+                        "relationship_counts": {
+                          "followers": 22,
+                          "following": 64
+                        },
                         "relationship_perspectives": {
                           "blocked_by": false,
                           "blocking": false,
@@ -1200,8 +1196,15 @@
                         "super_followed_by": false,
                         "super_following": false,
                         "tipjar_settings": {},
+                        "tweet_counts": {
+                          "media_tweets": 8,
+                          "tweets": 64
+                        },
                         "verification": {
                           "verified": false
+                        },
+                        "website": {
+                          "url": ""
                         }
                       }
                     }
@@ -1221,9 +1224,15 @@
                     "user_results": {
                       "result": {
                         "__typename": "User",
+                        "action_counts": {
+                          "favorites_count": 8
+                        },
                         "affiliates_highlighted_label": {},
                         "avatar": {
                           "image_url": "https://pbs.twimg.com/profile_images/1734356958675685376/HpcVGQYJ_normal.png"
+                        },
+                        "banner": {
+                          "image_url": "https://pbs.twimg.com/profile_banners/1720674052715790336/1699561883"
                         },
                         "core": {
                           "created_at": "Sat Nov 04 05:27:22 +0000 2023",
@@ -1237,50 +1246,37 @@
                         "has_graduated_access": true,
                         "id": "VXNlcjoxNzIwNjc0MDUyNzE1NzkwMzM2",
                         "is_blue_verified": false,
-                        "legacy": {
-                          "default_profile": true,
-                          "default_profile_image": false,
-                          "description": "Art|Fashion|Design\ud83c\udf93Marketing/Advertising \ud83d\udcdc  nPhoto|Gunpla|Graffiti enthusiastnn@BadInfluence0xn@ColonyNFTn@augmintedlabs Scientist",
-                          "entities": {
-                            "description": {}
-                          },
-                          "fast_followers_count": 0,
-                          "favourites_count": 8,
-                          "follow_request_sent": false,
-                          "followers_count": 14,
-                          "friends_count": 33,
-                          "has_custom_timelines": false,
-                          "is_translator": false,
-                          "listed_count": 0,
-                          "media_count": 0,
-                          "needs_phone_verification": false,
-                          "normal_followers_count": 14,
-                          "notifications": false,
-                          "possibly_sensitive": false,
-                          "profile_banner_url": "https://pbs.twimg.com/profile_banners/1720674052715790336/1699561883",
-                          "profile_interstitial_type": "",
-                          "statuses_count": 55,
-                          "time_zone": "",
-                          "translator_type": "none",
-                          "url": "",
-                          "utc_offset": 0,
-                          "want_retweets": false,
-                          "withheld_description": "",
-                          "withheld_scope": ""
-                        },
                         "location": {
                           "location": " Glenview, IL "
                         },
                         "media_permissions": {
                           "can_media_tag": true
                         },
+                        "notifications_settings": {
+                          "notifications_enabled": false
+                        },
+                        "pinned_items": {},
+                        "possibly_sensitive": false,
                         "privacy": {
                           "protected": false
                         },
                         "profile_bio": {
-                          "description": "Art|Fashion|Design\ud83c\udf93Marketing/Advertising \ud83d\udcdc  nPhoto|Gunpla|Graffiti enthusiastnn@BadInfluence0xn@ColonyNFTn@augmintedlabs Scientist"
+                          "description": "Art|Fashion|Design\ud83c\udf93Marketing/Advertising \ud83d\udcdc  nPhoto|Gunpla|Graffiti enthusiastnn@BadInfluence0xn@ColonyNFTn@augmintedlabs Scientist",
+                          "entities": {
+                            "description": {}
+                          }
                         },
                         "profile_image_shape": "Circle",
+                        "profile_metadata": {
+                          "profile_interstitial_type": ""
+                        },
+                        "profile_translation": {
+                          "translator_type": "none"
+                        },
+                        "relationship_counts": {
+                          "followers": 14,
+                          "following": 32
+                        },
                         "relationship_perspectives": {
                           "blocked_by": false,
                           "blocking": false,
@@ -1294,8 +1290,15 @@
                         "super_followed_by": false,
                         "super_following": false,
                         "tipjar_settings": {},
+                        "tweet_counts": {
+                          "media_tweets": 0,
+                          "tweets": 55
+                        },
                         "verification": {
                           "verified": false
+                        },
+                        "website": {
+                          "url": ""
                         }
                       }
                     }
@@ -1315,9 +1318,15 @@
                     "user_results": {
                       "result": {
                         "__typename": "User",
+                        "action_counts": {
+                          "favorites_count": 260
+                        },
                         "affiliates_highlighted_label": {},
                         "avatar": {
                           "image_url": "https://pbs.twimg.com/profile_images/1863637297486499840/Oj48Ers9_normal.jpg"
+                        },
+                        "banner": {
+                          "image_url": "https://pbs.twimg.com/profile_banners/2534108054/1704819706"
                         },
                         "core": {
                           "created_at": "Fri May 30 04:15:49 +0000 2014",
@@ -1331,51 +1340,38 @@
                         "has_graduated_access": true,
                         "id": "VXNlcjoyNTM0MTA4MDU0",
                         "is_blue_verified": false,
-                        "legacy": {
-                          "default_profile": true,
-                          "default_profile_image": false,
-                          "description": "I never wanted luxury,  I just wanted to be understood and trusted.",
-                          "entities": {
-                            "description": {}
-                          },
-                          "fast_followers_count": 0,
-                          "favourites_count": 260,
-                          "follow_request_sent": false,
-                          "followers_count": 300,
-                          "friends_count": 3378,
-                          "has_custom_timelines": false,
-                          "is_translator": false,
-                          "listed_count": 0,
-                          "media_count": 5,
-                          "needs_phone_verification": false,
-                          "normal_followers_count": 300,
-                          "notifications": false,
-                          "possibly_sensitive": false,
-                          "profile_banner_url": "https://pbs.twimg.com/profile_banners/2534108054/1704819706",
-                          "profile_interstitial_type": "",
-                          "statuses_count": 521,
-                          "time_zone": "",
-                          "translator_type": "none",
-                          "url": "",
-                          "utc_offset": 0,
-                          "want_retweets": false,
-                          "withheld_description": "",
-                          "withheld_scope": ""
-                        },
                         "location": {
                           "location": ""
                         },
                         "media_permissions": {
                           "can_media_tag": true
                         },
+                        "notifications_settings": {
+                          "notifications_enabled": false
+                        },
+                        "pinned_items": {},
+                        "possibly_sensitive": false,
                         "privacy": {
                           "protected": false
                         },
                         "profile_bio": {
-                          "description": "I never wanted luxury,  I just wanted to be understood and trusted."
+                          "description": "I never wanted luxury,  I just wanted to be understood and trusted.",
+                          "entities": {
+                            "description": {}
+                          }
                         },
                         "profile_description_language": "en",
                         "profile_image_shape": "Circle",
+                        "profile_metadata": {
+                          "profile_interstitial_type": ""
+                        },
+                        "profile_translation": {
+                          "translator_type": "none"
+                        },
+                        "relationship_counts": {
+                          "followers": 299,
+                          "following": 3373
+                        },
                         "relationship_perspectives": {
                           "blocked_by": false,
                           "blocking": false,
@@ -1389,8 +1385,15 @@
                         "super_followed_by": false,
                         "super_following": false,
                         "tipjar_settings": {},
+                        "tweet_counts": {
+                          "media_tweets": 5,
+                          "tweets": 521
+                        },
                         "verification": {
                           "verified": false
+                        },
+                        "website": {
+                          "url": ""
                         }
                       }
                     }
@@ -1410,9 +1413,15 @@
                     "user_results": {
                       "result": {
                         "__typename": "User",
+                        "action_counts": {
+                          "favorites_count": 20
+                        },
                         "affiliates_highlighted_label": {},
                         "avatar": {
                           "image_url": "https://pbs.twimg.com/profile_images/1733406221191778304/kOqTZUS9_normal.jpg"
+                        },
+                        "banner": {
+                          "image_url": "https://pbs.twimg.com/profile_banners/1698255639015727104/1702111228"
                         },
                         "core": {
                           "created_at": "Sun Sep 03 08:44:46 +0000 2023",
@@ -1426,51 +1435,38 @@
                         "has_graduated_access": true,
                         "id": "VXNlcjoxNjk4MjU1NjM5MDE1NzI3MTA0",
                         "is_blue_verified": false,
-                        "legacy": {
-                          "default_profile": true,
-                          "default_profile_image": false,
-                          "description": "frog (formerly) online",
-                          "entities": {
-                            "description": {}
-                          },
-                          "fast_followers_count": 0,
-                          "favourites_count": 20,
-                          "follow_request_sent": false,
-                          "followers_count": 17,
-                          "friends_count": 66,
-                          "has_custom_timelines": false,
-                          "is_translator": false,
-                          "listed_count": 0,
-                          "media_count": 0,
-                          "needs_phone_verification": false,
-                          "normal_followers_count": 17,
-                          "notifications": false,
-                          "possibly_sensitive": false,
-                          "profile_banner_url": "https://pbs.twimg.com/profile_banners/1698255639015727104/1702111228",
-                          "profile_interstitial_type": "",
-                          "statuses_count": 30,
-                          "time_zone": "",
-                          "translator_type": "none",
-                          "url": "",
-                          "utc_offset": 0,
-                          "want_retweets": false,
-                          "withheld_description": "",
-                          "withheld_scope": ""
-                        },
                         "location": {
                           "location": ""
                         },
                         "media_permissions": {
                           "can_media_tag": true
                         },
+                        "notifications_settings": {
+                          "notifications_enabled": false
+                        },
+                        "pinned_items": {},
+                        "possibly_sensitive": false,
                         "privacy": {
                           "protected": false
                         },
                         "profile_bio": {
-                          "description": "frog (formerly) online"
+                          "description": "frog (formerly) online",
+                          "entities": {
+                            "description": {}
+                          }
                         },
                         "profile_description_language": "en",
                         "profile_image_shape": "Circle",
+                        "profile_metadata": {
+                          "profile_interstitial_type": ""
+                        },
+                        "profile_translation": {
+                          "translator_type": "none"
+                        },
+                        "relationship_counts": {
+                          "followers": 17,
+                          "following": 66
+                        },
                         "relationship_perspectives": {
                           "blocked_by": false,
                           "blocking": false,
@@ -1484,8 +1480,15 @@
                         "super_followed_by": false,
                         "super_following": false,
                         "tipjar_settings": {},
+                        "tweet_counts": {
+                          "media_tweets": 0,
+                          "tweets": 30
+                        },
                         "verification": {
                           "verified": false
+                        },
+                        "website": {
+                          "url": ""
                         }
                       }
                     }
@@ -1505,9 +1508,15 @@
                     "user_results": {
                       "result": {
                         "__typename": "User",
+                        "action_counts": {
+                          "favorites_count": 18
+                        },
                         "affiliates_highlighted_label": {},
                         "avatar": {
                           "image_url": "https://pbs.twimg.com/profile_images/1733187996885700608/3U18y-35_normal.jpg"
+                        },
+                        "banner": {
+                          "image_url": "https://pbs.twimg.com/profile_banners/1698206963614547968/1702059199"
                         },
                         "core": {
                           "created_at": "Sun Sep 03 05:31:31 +0000 2023",
@@ -1521,51 +1530,38 @@
                         "has_graduated_access": true,
                         "id": "VXNlcjoxNjk4MjA2OTYzNjE0NTQ3OTY4",
                         "is_blue_verified": false,
-                        "legacy": {
-                          "default_profile": true,
-                          "default_profile_image": false,
-                          "description": "***A collector of many worldly things***",
-                          "entities": {
-                            "description": {}
-                          },
-                          "fast_followers_count": 0,
-                          "favourites_count": 18,
-                          "follow_request_sent": false,
-                          "followers_count": 17,
-                          "friends_count": 41,
-                          "has_custom_timelines": false,
-                          "is_translator": false,
-                          "listed_count": 0,
-                          "media_count": 0,
-                          "needs_phone_verification": false,
-                          "normal_followers_count": 17,
-                          "notifications": false,
-                          "possibly_sensitive": false,
-                          "profile_banner_url": "https://pbs.twimg.com/profile_banners/1698206963614547968/1702059199",
-                          "profile_interstitial_type": "",
-                          "statuses_count": 26,
-                          "time_zone": "",
-                          "translator_type": "none",
-                          "url": "",
-                          "utc_offset": 0,
-                          "want_retweets": false,
-                          "withheld_description": "",
-                          "withheld_scope": ""
-                        },
                         "location": {
                           "location": ""
                         },
                         "media_permissions": {
                           "can_media_tag": true
                         },
+                        "notifications_settings": {
+                          "notifications_enabled": false
+                        },
+                        "pinned_items": {},
+                        "possibly_sensitive": false,
                         "privacy": {
                           "protected": false
                         },
                         "profile_bio": {
-                          "description": "***A collector of many worldly things***"
+                          "description": "***A collector of many worldly things***",
+                          "entities": {
+                            "description": {}
+                          }
                         },
                         "profile_description_language": "en",
                         "profile_image_shape": "Circle",
+                        "profile_metadata": {
+                          "profile_interstitial_type": ""
+                        },
+                        "profile_translation": {
+                          "translator_type": "none"
+                        },
+                        "relationship_counts": {
+                          "followers": 17,
+                          "following": 41
+                        },
                         "relationship_perspectives": {
                           "blocked_by": false,
                           "blocking": false,
@@ -1579,8 +1575,15 @@
                         "super_followed_by": false,
                         "super_following": false,
                         "tipjar_settings": {},
+                        "tweet_counts": {
+                          "media_tweets": 0,
+                          "tweets": 26
+                        },
                         "verification": {
                           "verified": false
+                        },
+                        "website": {
+                          "url": ""
                         }
                       }
                     }
@@ -1600,9 +1603,15 @@
                     "user_results": {
                       "result": {
                         "__typename": "User",
+                        "action_counts": {
+                          "favorites_count": 46
+                        },
                         "affiliates_highlighted_label": {},
                         "avatar": {
                           "image_url": "https://pbs.twimg.com/profile_images/1715451645759197184/yELXrbDF_normal.jpg"
+                        },
+                        "banner": {
+                          "image_url": "https://pbs.twimg.com/profile_banners/1698190145453785089/1697830592"
                         },
                         "core": {
                           "created_at": "Sun Sep 03 04:24:38 +0000 2023",
@@ -1616,50 +1625,37 @@
                         "has_graduated_access": true,
                         "id": "VXNlcjoxNjk4MTkwMTQ1NDUzNzg1MDg5",
                         "is_blue_verified": false,
-                        "legacy": {
-                          "default_profile": true,
-                          "default_profile_image": false,
-                          "description": "Lil Pudgy #1058, Atama #251",
-                          "entities": {
-                            "description": {}
-                          },
-                          "fast_followers_count": 0,
-                          "favourites_count": 46,
-                          "follow_request_sent": false,
-                          "followers_count": 99,
-                          "friends_count": 89,
-                          "has_custom_timelines": false,
-                          "is_translator": false,
-                          "listed_count": 0,
-                          "media_count": 0,
-                          "needs_phone_verification": false,
-                          "normal_followers_count": 99,
-                          "notifications": false,
-                          "possibly_sensitive": false,
-                          "profile_banner_url": "https://pbs.twimg.com/profile_banners/1698190145453785089/1697830592",
-                          "profile_interstitial_type": "",
-                          "statuses_count": 64,
-                          "time_zone": "",
-                          "translator_type": "none",
-                          "url": "",
-                          "utc_offset": 0,
-                          "want_retweets": false,
-                          "withheld_description": "",
-                          "withheld_scope": ""
-                        },
                         "location": {
                           "location": ""
                         },
                         "media_permissions": {
                           "can_media_tag": true
                         },
+                        "notifications_settings": {
+                          "notifications_enabled": false
+                        },
+                        "pinned_items": {},
+                        "possibly_sensitive": false,
                         "privacy": {
                           "protected": false
                         },
                         "profile_bio": {
-                          "description": "Lil Pudgy #1058, Atama #251"
+                          "description": "Lil Pudgy #1058, Atama #251",
+                          "entities": {
+                            "description": {}
+                          }
                         },
                         "profile_image_shape": "Circle",
+                        "profile_metadata": {
+                          "profile_interstitial_type": ""
+                        },
+                        "profile_translation": {
+                          "translator_type": "none"
+                        },
+                        "relationship_counts": {
+                          "followers": 99,
+                          "following": 88
+                        },
                         "relationship_perspectives": {
                           "blocked_by": false,
                           "blocking": false,
@@ -1673,8 +1669,15 @@
                         "super_followed_by": false,
                         "super_following": false,
                         "tipjar_settings": {},
+                        "tweet_counts": {
+                          "media_tweets": 0,
+                          "tweets": 64
+                        },
                         "verification": {
                           "verified": false
+                        },
+                        "website": {
+                          "url": ""
                         }
                       }
                     }
@@ -1694,9 +1697,15 @@
                     "user_results": {
                       "result": {
                         "__typename": "User",
+                        "action_counts": {
+                          "favorites_count": 75
+                        },
                         "affiliates_highlighted_label": {},
                         "avatar": {
                           "image_url": "https://pbs.twimg.com/profile_images/1561752631520796674/T5Yi082I_normal.jpg"
+                        },
+                        "banner": {
+                          "image_url": "https://pbs.twimg.com/profile_banners/1561752128921538561/1661185825"
                         },
                         "core": {
                           "created_at": "Mon Aug 22 16:28:38 +0000 2022",
@@ -1710,51 +1719,38 @@
                         "has_graduated_access": true,
                         "id": "VXNlcjoxNTYxNzUyMTI4OTIxNTM4NTYx",
                         "is_blue_verified": false,
-                        "legacy": {
-                          "default_profile": true,
-                          "default_profile_image": false,
-                          "description": "Love owes us nothing, so don't blame it.",
-                          "entities": {
-                            "description": {}
-                          },
-                          "fast_followers_count": 0,
-                          "favourites_count": 75,
-                          "follow_request_sent": false,
-                          "followers_count": 24,
-                          "friends_count": 43,
-                          "has_custom_timelines": false,
-                          "is_translator": false,
-                          "listed_count": 0,
-                          "media_count": 3,
-                          "needs_phone_verification": false,
-                          "normal_followers_count": 24,
-                          "notifications": false,
-                          "possibly_sensitive": false,
-                          "profile_banner_url": "https://pbs.twimg.com/profile_banners/1561752128921538561/1661185825",
-                          "profile_interstitial_type": "",
-                          "statuses_count": 28,
-                          "time_zone": "",
-                          "translator_type": "none",
-                          "url": "",
-                          "utc_offset": 0,
-                          "want_retweets": false,
-                          "withheld_description": "",
-                          "withheld_scope": ""
-                        },
                         "location": {
                           "location": ""
                         },
                         "media_permissions": {
                           "can_media_tag": true
                         },
+                        "notifications_settings": {
+                          "notifications_enabled": false
+                        },
+                        "pinned_items": {},
+                        "possibly_sensitive": false,
                         "privacy": {
                           "protected": false
                         },
                         "profile_bio": {
-                          "description": "Love owes us nothing, so don't blame it."
+                          "description": "Love owes us nothing, so don't blame it.",
+                          "entities": {
+                            "description": {}
+                          }
                         },
                         "profile_description_language": "en",
                         "profile_image_shape": "Circle",
+                        "profile_metadata": {
+                          "profile_interstitial_type": ""
+                        },
+                        "profile_translation": {
+                          "translator_type": "none"
+                        },
+                        "relationship_counts": {
+                          "followers": 24,
+                          "following": 43
+                        },
                         "relationship_perspectives": {
                           "blocked_by": false,
                           "blocking": false,
@@ -1768,8 +1764,15 @@
                         "super_followed_by": false,
                         "super_following": false,
                         "tipjar_settings": {},
+                        "tweet_counts": {
+                          "media_tweets": 3,
+                          "tweets": 28
+                        },
                         "verification": {
                           "verified": false
+                        },
+                        "website": {
+                          "url": ""
                         }
                       }
                     }
@@ -1789,9 +1792,15 @@
                     "user_results": {
                       "result": {
                         "__typename": "User",
+                        "action_counts": {
+                          "favorites_count": 3632
+                        },
                         "affiliates_highlighted_label": {},
                         "avatar": {
                           "image_url": "https://pbs.twimg.com/profile_images/1458139026653913097/_g_iVgA3_normal.jpg"
+                        },
+                        "banner": {
+                          "image_url": "https://pbs.twimg.com/profile_banners/1458127552351023113/1656057728"
                         },
                         "core": {
                           "created_at": "Tue Nov 09 17:41:47 +0000 2021",
@@ -1805,9 +1814,36 @@
                         "has_graduated_access": true,
                         "id": "VXNlcjoxNDU4MTI3NTUyMzUxMDIzMTEz",
                         "is_blue_verified": false,
-                        "legacy": {
-                          "default_profile": true,
-                          "default_profile_image": false,
+                        "location": {
+                          "location": "everywhere and nowhere"
+                        },
+                        "media_permissions": {
+                          "can_media_tag": false
+                        },
+                        "notifications_settings": {
+                          "notifications_enabled": false
+                        },
+                        "pinned_items": {
+                          "tweet_ids_str": [
+                            "1837901752177230164"
+                          ]
+                        },
+                        "possibly_sensitive": false,
+                        "privacy": {
+                          "protected": false
+                        },
+                        "professional": {
+                          "category": [
+                            {
+                              "icon_name": "IconBriefcaseStroke",
+                              "id": 920,
+                              "name": "Other"
+                            }
+                          ],
+                          "professional_type": "Business",
+                          "rest_id": "1485767557080662016"
+                        },
+                        "profile_bio": {
                           "description": "I am aDreamy dreamilyDreamer;dreamingly dreaming,dreams of an unseen self only seen by dreamy dreamers dreamed dream dreamt!https://t.co/jjxnMZ54H1",
                           "entities": {
                             "description": {
@@ -1836,59 +1872,20 @@
                                 }
                               ]
                             }
-                          },
-                          "fast_followers_count": 0,
-                          "favourites_count": 3642,
-                          "follow_request_sent": false,
-                          "followers_count": 131,
-                          "friends_count": 589,
-                          "has_custom_timelines": false,
-                          "is_translator": false,
-                          "listed_count": 7,
-                          "media_count": 395,
-                          "needs_phone_verification": false,
-                          "normal_followers_count": 131,
-                          "notifications": false,
-                          "pinned_tweet_ids_str": [
-                            "1837901752177230164"
-                          ],
-                          "possibly_sensitive": false,
-                          "profile_banner_url": "https://pbs.twimg.com/profile_banners/1458127552351023113/1656057728",
-                          "profile_interstitial_type": "",
-                          "statuses_count": 1903,
-                          "time_zone": "",
-                          "translator_type": "none",
-                          "url": "https://t.co/rmpkFCvG9r",
-                          "utc_offset": 0,
-                          "want_retweets": false,
-                          "withheld_description": "",
-                          "withheld_scope": ""
-                        },
-                        "location": {
-                          "location": "everywhere and nowhere"
-                        },
-                        "media_permissions": {
-                          "can_media_tag": false
-                        },
-                        "privacy": {
-                          "protected": false
-                        },
-                        "professional": {
-                          "category": [
-                            {
-                              "icon_name": "IconBriefcaseStroke",
-                              "id": 920,
-                              "name": "Other"
-                            }
-                          ],
-                          "professional_type": "Business",
-                          "rest_id": "1485767557080662016"
-                        },
-                        "profile_bio": {
-                          "description": "I am aDreamy dreamilyDreamer;dreamingly dreaming,dreams of an unseen self only seen by dreamy dreamers dreamed dream dreamt!https://t.co/jjxnMZ54H1"
+                          }
                         },
                         "profile_description_language": "en",
                         "profile_image_shape": "Circle",
+                        "profile_metadata": {
+                          "profile_interstitial_type": ""
+                        },
+                        "profile_translation": {
+                          "translator_type": "none"
+                        },
+                        "relationship_counts": {
+                          "followers": 130,
+                          "following": 589
+                        },
                         "relationship_perspectives": {
                           "blocked_by": false,
                           "blocking": false,
@@ -1904,8 +1901,15 @@
                         "tipjar_settings": {
                           "is_enabled": true
                         },
+                        "tweet_counts": {
+                          "media_tweets": 395,
+                          "tweets": 1902
+                        },
                         "verification": {
                           "verified": false
+                        },
+                        "website": {
+                          "url": "https://t.co/rmpkFCvG9r"
                         }
                       }
                     }

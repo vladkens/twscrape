@@ -105,7 +105,6 @@ async def migrate(db: aiosqlite.Connection):
 
 
 class DB:
-    _init_queries: defaultdict[str, list[str]] = defaultdict(list)
     _init_once: defaultdict[str, bool] = defaultdict(bool)
 
     def __init__(self, db_path):

@@ -28,9 +28,15 @@
                       "user_results": {
                         "result": {
                           "__typename": "User",
+                          "action_counts": {
+                            "favorites_count": 5537
+                          },
                           "affiliates_highlighted_label": {},
                           "avatar": {
                             "image_url": "https://pbs.twimg.com/profile_images/1567241311131942912/4Wd2cwyk_normal.jpg"
+                          },
+                          "banner": {
+                            "image_url": "https://pbs.twimg.com/profile_banners/1498176452084256772/1650276836"
                           },
                           "core": {
                             "created_at": "Mon Feb 28 06:01:33 +0000 2022",
@@ -44,9 +50,26 @@
                           "has_graduated_access": true,
                           "id": "VXNlcjoxNDk4MTc2NDUyMDg0MjU2Nzcy",
                           "is_blue_verified": true,
-                          "legacy": {
-                            "default_profile": true,
-                            "default_profile_image": false,
+                          "location": {
+                            "location": "Ukraine"
+                          },
+                          "media_permissions": {
+                            "can_media_tag": true
+                          },
+                          "notifications_settings": {
+                            "notifications_enabled": false
+                          },
+                          "pinned_items": {},
+                          "possibly_sensitive": false,
+                          "privacy": {
+                            "protected": false
+                          },
+                          "professional": {
+                            "category": [],
+                            "professional_type": "Creator",
+                            "rest_id": "1498179841644019714"
+                          },
+                          "profile_bio": {
                             "description": "Mykhailo Podolyak. Advisor to the Office of the President of Ukraine Volodymyr Zelenskyy",
                             "entities": {
                               "description": {},
@@ -63,49 +86,19 @@
                                   }
                                 ]
                               }
-                            },
-                            "fast_followers_count": 0,
-                            "favourites_count": 5539,
-                            "follow_request_sent": false,
-                            "followers_count": 1770399,
-                            "friends_count": 300,
-                            "has_custom_timelines": false,
-                            "is_translator": false,
-                            "listed_count": 3086,
-                            "media_count": 437,
-                            "needs_phone_verification": false,
-                            "normal_followers_count": 1770399,
-                            "notifications": false,
-                            "possibly_sensitive": false,
-                            "profile_banner_url": "https://pbs.twimg.com/profile_banners/1498176452084256772/1650276836",
-                            "profile_interstitial_type": "",
-                            "statuses_count": 3438,
-                            "time_zone": "",
-                            "translator_type": "none",
-                            "url": "https://t.co/WxdotH6u6G",
-                            "utc_offset": 0,
-                            "want_retweets": false,
-                            "withheld_description": "",
-                            "withheld_scope": ""
-                          },
-                          "location": {
-                            "location": "Ukraine"
-                          },
-                          "media_permissions": {
-                            "can_media_tag": true
-                          },
-                          "privacy": {
-                            "protected": false
-                          },
-                          "professional": {
-                            "category": [],
-                            "professional_type": "Creator",
-                            "rest_id": "1498179841644019714"
-                          },
-                          "profile_bio": {
-                            "description": "Mykhailo Podolyak. Advisor to the Office of the President of Ukraine Volodymyr Zelenskyy"
+                            }
                           },
                           "profile_image_shape": "Circle",
+                          "profile_metadata": {
+                            "profile_interstitial_type": ""
+                          },
+                          "profile_translation": {
+                            "translator_type": "none"
+                          },
+                          "relationship_counts": {
+                            "followers": 1768150,
+                            "following": 300
+                          },
                           "relationship_perspectives": {
                             "blocked_by": false,
                             "blocking": false,
@@ -119,15 +112,22 @@
                           "super_followed_by": false,
                           "super_following": false,
                           "tipjar_settings": {},
+                          "tweet_counts": {
+                            "media_tweets": 437,
+                            "tweets": 3438
+                          },
                           "verification": {
                             "verified": false
+                          },
+                          "website": {
+                            "url": "https://t.co/WxdotH6u6G"
                           }
                         }
                       }
                     }
                   },
                   "entryId": "user-1498176452084256772",
-                  "sortIndex": "2079663799433953280"
+                  "sortIndex": "2085474419655835648"
                 },
                 {
                   "content": {
@@ -144,6 +144,9 @@
                       "user_results": {
                         "result": {
                           "__typename": "User",
+                          "action_counts": {
+                            "favorites_count": 3123
+                          },
                           "affiliates_highlighted_label": {
                             "label": {
                               "badge": {
@@ -161,6 +164,9 @@
                           "avatar": {
                             "image_url": "https://pbs.twimg.com/profile_images/1885081620073324544/wc4EnUmY_normal.jpg"
                           },
+                          "banner": {
+                            "image_url": "https://pbs.twimg.com/profile_banners/1495480590572961792/1737660509"
+                          },
                           "core": {
                             "created_at": "Sun Feb 20 19:29:22 +0000 2022",
                             "name": "Polymarket Intel",
@@ -173,9 +179,32 @@
                           "has_graduated_access": true,
                           "id": "VXNlcjoxNDk1NDgwNTkwNTcyOTYxNzky",
                           "is_blue_verified": true,
-                          "legacy": {
-                            "default_profile": true,
-                            "default_profile_image": false,
+                          "location": {
+                            "location": ""
+                          },
+                          "media_permissions": {
+                            "can_media_tag": true
+                          },
+                          "notifications_settings": {
+                            "notifications_enabled": false
+                          },
+                          "pinned_items": {},
+                          "possibly_sensitive": false,
+                          "privacy": {
+                            "protected": false
+                          },
+                          "professional": {
+                            "category": [
+                              {
+                                "icon_name": "IconBriefcaseStroke",
+                                "id": 580,
+                                "name": "Media & News Company"
+                              }
+                            ],
+                            "professional_type": "Business",
+                            "rest_id": "1501574896693960704"
+                          },
+                          "profile_bio": {
                             "description": "Breaking news & geopolitical insights from across the globe. Turn on notifications! Community ran account, powered by @Polymarket.",
                             "entities": {
                               "description": {},
@@ -192,56 +221,20 @@
                                   }
                                 ]
                               }
-                            },
-                            "fast_followers_count": 0,
-                            "favourites_count": 3119,
-                            "follow_request_sent": false,
-                            "followers_count": 828998,
-                            "friends_count": 199,
-                            "has_custom_timelines": true,
-                            "is_translator": false,
-                            "listed_count": 11440,
-                            "media_count": 18196,
-                            "needs_phone_verification": false,
-                            "normal_followers_count": 828998,
-                            "notifications": false,
-                            "possibly_sensitive": false,
-                            "profile_banner_url": "https://pbs.twimg.com/profile_banners/1495480590572961792/1737660509",
-                            "profile_interstitial_type": "",
-                            "statuses_count": 23673,
-                            "time_zone": "",
-                            "translator_type": "none",
-                            "url": "https://t.co/W1Z5T8mXI2",
-                            "utc_offset": 0,
-                            "want_retweets": false,
-                            "withheld_description": "",
-                            "withheld_scope": ""
-                          },
-                          "location": {
-                            "location": ""
-                          },
-                          "media_permissions": {
-                            "can_media_tag": true
-                          },
-                          "privacy": {
-                            "protected": false
-                          },
-                          "professional": {
-                            "category": [
-                              {
-                                "icon_name": "IconBriefcaseStroke",
-                                "id": 580,
-                                "name": "Media & News Company"
-                              }
-                            ],
-                            "professional_type": "Business",
-                            "rest_id": "1501574896693960704"
-                          },
-                          "profile_bio": {
-                            "description": "Breaking news & geopolitical insights from across the globe. Turn on notifications! Community ran account, powered by @Polymarket."
+                            }
                           },
                           "profile_description_language": "en",
                           "profile_image_shape": "Square",
+                          "profile_metadata": {
+                            "profile_interstitial_type": ""
+                          },
+                          "profile_translation": {
+                            "translator_type": "none"
+                          },
+                          "relationship_counts": {
+                            "followers": 828585,
+                            "following": 198
+                          },
                           "relationship_perspectives": {
                             "blocked_by": false,
                             "blocking": false,
@@ -255,16 +248,23 @@
                           "super_followed_by": false,
                           "super_following": false,
                           "tipjar_settings": {},
+                          "tweet_counts": {
+                            "media_tweets": 18343,
+                            "tweets": 24006
+                          },
                           "verification": {
                             "verified": false,
                             "verified_type": "Business"
+                          },
+                          "website": {
+                            "url": "https://t.co/W1Z5T8mXI2"
                           }
                         }
                       }
                     }
                   },
                   "entryId": "user-1495480590572961792",
-                  "sortIndex": "2079663799433953279"
+                  "sortIndex": "2085474419655835647"
                 },
                 {
                   "content": {
@@ -281,9 +281,15 @@
                       "user_results": {
                         "result": {
                           "__typename": "User",
+                          "action_counts": {
+                            "favorites_count": 364
+                          },
                           "affiliates_highlighted_label": {},
                           "avatar": {
                             "image_url": "https://pbs.twimg.com/profile_images/1590969128474525702/SoCJ_k1L_normal.jpg"
+                          },
+                          "banner": {
+                            "image_url": "https://pbs.twimg.com/profile_banners/1462548977367359490/1782900770"
                           },
                           "core": {
                             "created_at": "Sun Nov 21 22:30:41 +0000 2021",
@@ -297,9 +303,26 @@
                           "has_graduated_access": true,
                           "id": "VXNlcjoxNDYyNTQ4OTc3MzY3MzU5NDkw",
                           "is_blue_verified": true,
-                          "legacy": {
-                            "default_profile": true,
-                            "default_profile_image": false,
+                          "location": {
+                            "location": "Kyiv"
+                          },
+                          "media_permissions": {
+                            "can_media_tag": true
+                          },
+                          "notifications_settings": {
+                            "notifications_enabled": false
+                          },
+                          "pinned_items": {},
+                          "possibly_sensitive": false,
+                          "privacy": {
+                            "protected": false
+                          },
+                          "professional": {
+                            "category": [],
+                            "professional_type": "Business",
+                            "rest_id": "1595086441079513088"
+                          },
+                          "profile_bio": {
                             "description": "Independent English-language journalism in Ukraine. \n\nBecome a member: https://t.co/ZnSQWYU6Xx",
                             "entities": {
                               "description": {
@@ -328,49 +351,19 @@
                                   }
                                 ]
                               }
-                            },
-                            "fast_followers_count": 0,
-                            "favourites_count": 364,
-                            "follow_request_sent": false,
-                            "followers_count": 1853707,
-                            "friends_count": 38,
-                            "has_custom_timelines": true,
-                            "is_translator": false,
-                            "listed_count": 17994,
-                            "media_count": 6211,
-                            "needs_phone_verification": false,
-                            "normal_followers_count": 1853707,
-                            "notifications": false,
-                            "possibly_sensitive": false,
-                            "profile_banner_url": "https://pbs.twimg.com/profile_banners/1462548977367359490/1782900770",
-                            "profile_interstitial_type": "",
-                            "statuses_count": 69980,
-                            "time_zone": "",
-                            "translator_type": "none",
-                            "url": "https://t.co/WZvsaFqqRy",
-                            "utc_offset": 0,
-                            "want_retweets": false,
-                            "withheld_description": "",
-                            "withheld_scope": ""
-                          },
-                          "location": {
-                            "location": "Kyiv"
-                          },
-                          "media_permissions": {
-                            "can_media_tag": true
-                          },
-                          "privacy": {
-                            "protected": false
-                          },
-                          "professional": {
-                            "category": [],
-                            "professional_type": "Business",
-                            "rest_id": "1595086441079513088"
-                          },
-                          "profile_bio": {
-                            "description": "Independent English-language journalism in Ukraine. \n\nBecome a member: https://t.co/ZnSQWYU6Xx"
+                            }
                           },
                           "profile_image_shape": "Circle",
+                          "profile_metadata": {
+                            "profile_interstitial_type": ""
+                          },
+                          "profile_translation": {
+                            "translator_type": "none"
+                          },
+                          "relationship_counts": {
+                            "followers": 1851912,
+                            "following": 38
+                          },
                           "relationship_perspectives": {
                             "blocked_by": false,
                             "blocking": false,
@@ -384,15 +377,22 @@
                           "super_followed_by": false,
                           "super_following": false,
                           "tipjar_settings": {},
+                          "tweet_counts": {
+                            "media_tweets": 6253,
+                            "tweets": 70322
+                          },
                           "verification": {
                             "verified": false
+                          },
+                          "website": {
+                            "url": "https://t.co/WZvsaFqqRy"
                           }
                         }
                       }
                     }
                   },
                   "entryId": "user-1462548977367359490",
-                  "sortIndex": "2079663799433953278"
+                  "sortIndex": "2085474419655835646"
                 },
                 {
                   "content": {
@@ -409,9 +409,15 @@
                       "user_results": {
                         "result": {
                           "__typename": "User",
+                          "action_counts": {
+                            "favorites_count": 6006
+                          },
                           "affiliates_highlighted_label": {},
                           "avatar": {
                             "image_url": "https://pbs.twimg.com/profile_images/1482420026753921026/rWZRbEqN_normal.jpg"
+                          },
+                          "banner": {
+                            "image_url": "https://pbs.twimg.com/profile_banners/1378947769184976896/1689946967"
                           },
                           "core": {
                             "created_at": "Mon Apr 05 05:49:20 +0000 2021",
@@ -425,9 +431,32 @@
                           "has_graduated_access": true,
                           "id": "VXNlcjoxMzc4OTQ3NzY5MTg0OTc2ODk2",
                           "is_blue_verified": true,
-                          "legacy": {
-                            "default_profile": true,
-                            "default_profile_image": false,
+                          "location": {
+                            "location": "Ukraine "
+                          },
+                          "media_permissions": {
+                            "can_media_tag": true
+                          },
+                          "notifications_settings": {
+                            "notifications_enabled": false
+                          },
+                          "pinned_items": {},
+                          "possibly_sensitive": false,
+                          "privacy": {
+                            "protected": false
+                          },
+                          "professional": {
+                            "category": [
+                              {
+                                "icon_name": "IconBriefcaseStroke",
+                                "id": 957,
+                                "name": "Author"
+                              }
+                            ],
+                            "professional_type": "Creator",
+                            "rest_id": "1692598619482862021"
+                          },
+                          "profile_bio": {
                             "description": "Aiden Aslin\nBritish national. \nUkrainian marine 2018-2022\nhttps://t.co/VtqxD1m31q",
                             "entities": {
                               "description": {
@@ -456,55 +485,19 @@
                                   }
                                 ]
                               }
-                            },
-                            "fast_followers_count": 0,
-                            "favourites_count": 5999,
-                            "follow_request_sent": false,
-                            "followers_count": 118932,
-                            "friends_count": 443,
-                            "has_custom_timelines": true,
-                            "is_translator": false,
-                            "listed_count": 1640,
-                            "media_count": 1592,
-                            "needs_phone_verification": false,
-                            "normal_followers_count": 118932,
-                            "notifications": false,
-                            "possibly_sensitive": false,
-                            "profile_banner_url": "https://pbs.twimg.com/profile_banners/1378947769184976896/1689946967",
-                            "profile_interstitial_type": "",
-                            "statuses_count": 7610,
-                            "time_zone": "",
-                            "translator_type": "none",
-                            "url": "https://t.co/3V9PARYv3z",
-                            "utc_offset": 0,
-                            "want_retweets": false,
-                            "withheld_description": "",
-                            "withheld_scope": ""
-                          },
-                          "location": {
-                            "location": "Ukraine "
-                          },
-                          "media_permissions": {
-                            "can_media_tag": true
-                          },
-                          "privacy": {
-                            "protected": false
-                          },
-                          "professional": {
-                            "category": [
-                              {
-                                "icon_name": "IconBriefcaseStroke",
-                                "id": 957,
-                                "name": "Author"
-                              }
-                            ],
-                            "professional_type": "Creator",
-                            "rest_id": "1692598619482862021"
-                          },
-                          "profile_bio": {
-                            "description": "Aiden Aslin\nBritish national. \nUkrainian marine 2018-2022\nhttps://t.co/VtqxD1m31q"
+                            }
                           },
                           "profile_image_shape": "Circle",
+                          "profile_metadata": {
+                            "profile_interstitial_type": ""
+                          },
+                          "profile_translation": {
+                            "translator_type": "none"
+                          },
+                          "relationship_counts": {
+                            "followers": 118774,
+                            "following": 445
+                          },
                           "relationship_perspectives": {
                             "blocked_by": false,
                             "blocking": false,
@@ -518,15 +511,22 @@
                           "super_followed_by": false,
                           "super_following": false,
                           "tipjar_settings": {},
+                          "tweet_counts": {
+                            "media_tweets": 1593,
+                            "tweets": 7612
+                          },
                           "verification": {
                             "verified": false
+                          },
+                          "website": {
+                            "url": "https://t.co/3V9PARYv3z"
                           }
                         }
                       }
                     }
                   },
                   "entryId": "user-1378947769184976896",
-                  "sortIndex": "2079663799433953277"
+                  "sortIndex": "2085474419655835645"
                 },
                 {
                   "content": {
@@ -543,9 +543,15 @@
                       "user_results": {
                         "result": {
                           "__typename": "User",
+                          "action_counts": {
+                            "favorites_count": 12
+                          },
                           "affiliates_highlighted_label": {},
                           "avatar": {
                             "image_url": "https://pbs.twimg.com/profile_images/1357033238083084288/Y3GbMYWz_normal.jpg"
+                          },
+                          "banner": {
+                            "image_url": "https://pbs.twimg.com/profile_banners/1356782857549676544/1612318340"
                           },
                           "core": {
                             "created_at": "Wed Feb 03 01:55:49 +0000 2021",
@@ -559,9 +565,21 @@
                           "has_graduated_access": true,
                           "id": "VXNlcjoxMzU2NzgyODU3NTQ5Njc2NTQ0",
                           "is_blue_verified": false,
-                          "legacy": {
-                            "default_profile": true,
-                            "default_profile_image": false,
+                          "location": {
+                            "location": ""
+                          },
+                          "media_permissions": {
+                            "can_media_tag": false
+                          },
+                          "notifications_settings": {
+                            "notifications_enabled": false
+                          },
+                          "pinned_items": {},
+                          "possibly_sensitive": false,
+                          "privacy": {
+                            "protected": false
+                          },
+                          "profile_bio": {
                             "description": "This is an archive of a Biden administration account, maintained by the National Archives and Records Administration.",
                             "entities": {
                               "description": {},
@@ -578,45 +596,20 @@
                                   }
                                 ]
                               }
-                            },
-                            "fast_followers_count": 0,
-                            "favourites_count": 12,
-                            "follow_request_sent": false,
-                            "followers_count": 160174,
-                            "friends_count": 11,
-                            "has_custom_timelines": false,
-                            "is_translator": false,
-                            "listed_count": 1371,
-                            "media_count": 50,
-                            "needs_phone_verification": false,
-                            "normal_followers_count": 160174,
-                            "notifications": false,
-                            "possibly_sensitive": false,
-                            "profile_banner_url": "https://pbs.twimg.com/profile_banners/1356782857549676544/1612318340",
-                            "profile_interstitial_type": "",
-                            "statuses_count": 474,
-                            "time_zone": "",
-                            "translator_type": "none",
-                            "url": "https://t.co/qb3FNrBpbq",
-                            "utc_offset": 0,
-                            "want_retweets": false,
-                            "withheld_description": "",
-                            "withheld_scope": ""
-                          },
-                          "location": {
-                            "location": ""
-                          },
-                          "media_permissions": {
-                            "can_media_tag": false
-                          },
-                          "privacy": {
-                            "protected": false
-                          },
-                          "profile_bio": {
-                            "description": "This is an archive of a Biden administration account, maintained by the National Archives and Records Administration."
+                            }
                           },
                           "profile_description_language": "en",
                           "profile_image_shape": "Circle",
+                          "profile_metadata": {
+                            "profile_interstitial_type": ""
+                          },
+                          "profile_translation": {
+                            "translator_type": "none"
+                          },
+                          "relationship_counts": {
+                            "followers": 160133,
+                            "following": 11
+                          },
                           "relationship_perspectives": {
                             "blocked_by": false,
                             "blocking": false,
@@ -630,16 +623,23 @@
                           "super_followed_by": false,
                           "super_following": false,
                           "tipjar_settings": {},
+                          "tweet_counts": {
+                            "media_tweets": 50,
+                            "tweets": 474
+                          },
                           "verification": {
                             "verified": false,
                             "verified_type": "Government"
+                          },
+                          "website": {
+                            "url": "https://t.co/qb3FNrBpbq"
                           }
                         }
                       }
                     }
                   },
                   "entryId": "user-1356782857549676544",
-                  "sortIndex": "2079663799433953276"
+                  "sortIndex": "2085474419655835644"
                 },
                 {
                   "content": {
@@ -656,6 +656,9 @@
                       "user_results": {
                         "result": {
                           "__typename": "User",
+                          "action_counts": {
+                            "favorites_count": 263
+                          },
                           "affiliates_highlighted_label": {
                             "label": {
                               "badge": {
@@ -673,6 +676,9 @@
                           "avatar": {
                             "image_url": "https://pbs.twimg.com/profile_images/2077795134381457408/RmYOMWrE_normal.jpg"
                           },
+                          "banner": {
+                            "image_url": "https://pbs.twimg.com/profile_banners/1354525155238801413/1758568157"
+                          },
                           "core": {
                             "created_at": "Wed Jan 27 20:25:49 +0000 2021",
                             "name": "Ambassador Mike Waltz",
@@ -685,9 +691,21 @@
                           "has_graduated_access": true,
                           "id": "VXNlcjoxMzU0NTI1MTU1MjM4ODAxNDEz",
                           "is_blue_verified": true,
-                          "legacy": {
-                            "default_profile": true,
-                            "default_profile_image": false,
+                          "location": {
+                            "location": "New York City"
+                          },
+                          "media_permissions": {
+                            "can_media_tag": true
+                          },
+                          "notifications_settings": {
+                            "notifications_enabled": false
+                          },
+                          "pinned_items": {},
+                          "possibly_sensitive": false,
+                          "privacy": {
+                            "protected": false
+                          },
+                          "profile_bio": {
                             "description": "Official account of Ambassador Mike Waltz, U.S. Representative to the United Nations.  Full terms of use: https://t.co/lL94MfhQ2V",
                             "entities": {
                               "description": {
@@ -716,45 +734,20 @@
                                   }
                                 ]
                               }
-                            },
-                            "fast_followers_count": 0,
-                            "favourites_count": 255,
-                            "follow_request_sent": false,
-                            "followers_count": 434050,
-                            "friends_count": 231,
-                            "has_custom_timelines": true,
-                            "is_translator": false,
-                            "listed_count": 2168,
-                            "media_count": 441,
-                            "needs_phone_verification": false,
-                            "normal_followers_count": 434050,
-                            "notifications": false,
-                            "possibly_sensitive": false,
-                            "profile_banner_url": "https://pbs.twimg.com/profile_banners/1354525155238801413/1758568157",
-                            "profile_interstitial_type": "",
-                            "statuses_count": 1397,
-                            "time_zone": "",
-                            "translator_type": "none",
-                            "url": "https://t.co/yf9whPwUKy",
-                            "utc_offset": 0,
-                            "want_retweets": false,
-                            "withheld_description": "",
-                            "withheld_scope": ""
-                          },
-                          "location": {
-                            "location": "New York City"
-                          },
-                          "media_permissions": {
-                            "can_media_tag": true
-                          },
-                          "privacy": {
-                            "protected": false
-                          },
-                          "profile_bio": {
-                            "description": "Official account of Ambassador Mike Waltz, U.S. Representative to the United Nations.  Full terms of use: https://t.co/lL94MfhQ2V"
+                            }
                           },
                           "profile_description_language": "en",
                           "profile_image_shape": "Circle",
+                          "profile_metadata": {
+                            "profile_interstitial_type": ""
+                          },
+                          "profile_translation": {
+                            "translator_type": "none"
+                          },
+                          "relationship_counts": {
+                            "followers": 434955,
+                            "following": 231
+                          },
                           "relationship_perspectives": {
                             "blocked_by": false,
                             "blocking": false,
@@ -768,16 +761,23 @@
                           "super_followed_by": false,
                           "super_following": false,
                           "tipjar_settings": {},
+                          "tweet_counts": {
+                            "media_tweets": 455,
+                            "tweets": 1432
+                          },
                           "verification": {
                             "verified": false,
                             "verified_type": "Government"
+                          },
+                          "website": {
+                            "url": "https://t.co/yf9whPwUKy"
                           }
                         }
                       }
                     }
                   },
                   "entryId": "user-1354525155238801413",
-                  "sortIndex": "2079663799433953275"
+                  "sortIndex": "2085474419655835643"
                 },
                 {
                   "content": {
@@ -794,9 +794,15 @@
                       "user_results": {
                         "result": {
                           "__typename": "User",
+                          "action_counts": {
+                            "favorites_count": 238
+                          },
                           "affiliates_highlighted_label": {},
                           "avatar": {
                             "image_url": "https://pbs.twimg.com/profile_images/1828501850099687424/9ieGlSCY_normal.jpg"
+                          },
+                          "banner": {
+                            "image_url": "https://pbs.twimg.com/profile_banners/1354494993218613251/1612239079"
                           },
                           "core": {
                             "created_at": "Wed Jan 27 18:23:16 +0000 2021",
@@ -810,9 +816,25 @@
                           "has_graduated_access": true,
                           "id": "VXNlcjoxMzU0NDk0OTkzMjE4NjEzMjUx",
                           "is_blue_verified": true,
-                          "legacy": {
-                            "default_profile": true,
-                            "default_profile_image": false,
+                          "location": {
+                            "location": ""
+                          },
+                          "media_permissions": {
+                            "can_media_tag": false
+                          },
+                          "notifications_settings": {
+                            "notifications_enabled": false
+                          },
+                          "pinned_items": {
+                            "tweet_ids_str": [
+                              "1881353841326866444"
+                            ]
+                          },
+                          "possibly_sensitive": false,
+                          "privacy": {
+                            "protected": false
+                          },
+                          "profile_bio": {
                             "description": "This is an archive of a Biden administration account, maintained by the National Archives and Records Administration.",
                             "entities": {
                               "description": {},
@@ -829,48 +851,20 @@
                                   }
                                 ]
                               }
-                            },
-                            "fast_followers_count": 0,
-                            "favourites_count": 238,
-                            "follow_request_sent": false,
-                            "followers_count": 53375,
-                            "friends_count": 43,
-                            "has_custom_timelines": false,
-                            "is_translator": false,
-                            "listed_count": 665,
-                            "media_count": 100,
-                            "needs_phone_verification": false,
-                            "normal_followers_count": 53375,
-                            "notifications": false,
-                            "pinned_tweet_ids_str": [
-                              "1881353841326866444"
-                            ],
-                            "possibly_sensitive": false,
-                            "profile_banner_url": "https://pbs.twimg.com/profile_banners/1354494993218613251/1612239079",
-                            "profile_interstitial_type": "",
-                            "statuses_count": 1272,
-                            "time_zone": "",
-                            "translator_type": "none",
-                            "url": "https://t.co/7vmvwx6AKQ",
-                            "utc_offset": 0,
-                            "want_retweets": false,
-                            "withheld_description": "",
-                            "withheld_scope": ""
-                          },
-                          "location": {
-                            "location": ""
-                          },
-                          "media_permissions": {
-                            "can_media_tag": false
-                          },
-                          "privacy": {
-                            "protected": false
-                          },
-                          "profile_bio": {
-                            "description": "This is an archive of a Biden administration account, maintained by the National Archives and Records Administration."
+                            }
                           },
                           "profile_description_language": "en",
                           "profile_image_shape": "Circle",
+                          "profile_metadata": {
+                            "profile_interstitial_type": ""
+                          },
+                          "profile_translation": {
+                            "translator_type": "none"
+                          },
+                          "relationship_counts": {
+                            "followers": 53307,
+                            "following": 43
+                          },
                           "relationship_perspectives": {
                             "blocked_by": false,
                             "blocking": false,
@@ -884,15 +878,22 @@
                           "super_followed_by": false,
                           "super_following": false,
                           "tipjar_settings": {},
+                          "tweet_counts": {
+                            "media_tweets": 100,
+                            "tweets": 1272
+                          },
                           "verification": {
                             "verified": false
+                          },
+                          "website": {
+                            "url": "https://t.co/7vmvwx6AKQ"
                           }
                         }
                       }
                     }
                   },
                   "entryId": "user-1354494993218613251",
-                  "sortIndex": "2079663799433953274"
+                  "sortIndex": "2085474419655835642"
                 },
                 {
                   "content": {
@@ -909,9 +910,15 @@
                       "user_results": {
                         "result": {
                           "__typename": "User",
+                          "action_counts": {
+                            "favorites_count": 5
+                          },
                           "affiliates_highlighted_label": {},
                           "avatar": {
                             "image_url": "https://pbs.twimg.com/profile_images/1363277550928158722/LzlIxuhQ_normal.jpg"
+                          },
+                          "banner": {
+                            "image_url": "https://pbs.twimg.com/profile_banners/1350150750966603777/1714470334"
                           },
                           "core": {
                             "created_at": "Fri Jan 15 18:40:52 +0000 2021",
@@ -925,9 +932,25 @@
                           "has_graduated_access": true,
                           "id": "VXNlcjoxMzUwMTUwNzUwOTY2NjAzNzc3",
                           "is_blue_verified": true,
-                          "legacy": {
-                            "default_profile": true,
-                            "default_profile_image": false,
+                          "location": {
+                            "location": ""
+                          },
+                          "media_permissions": {
+                            "can_media_tag": false
+                          },
+                          "notifications_settings": {
+                            "notifications_enabled": false
+                          },
+                          "pinned_items": {
+                            "tweet_ids_str": [
+                              "1881133791558984029"
+                            ]
+                          },
+                          "possibly_sensitive": false,
+                          "privacy": {
+                            "protected": false
+                          },
+                          "profile_bio": {
                             "description": "This account has been archived. You can follow former U.S. Secretary of State Antony Blinken at @ablinken. For U.S. State Department updates, follow @StateDept.",
                             "entities": {
                               "description": {},
@@ -944,48 +967,20 @@
                                   }
                                 ]
                               }
-                            },
-                            "fast_followers_count": 0,
-                            "favourites_count": 5,
-                            "follow_request_sent": false,
-                            "followers_count": 2174537,
-                            "friends_count": 54,
-                            "has_custom_timelines": false,
-                            "is_translator": false,
-                            "listed_count": 7230,
-                            "media_count": 2792,
-                            "needs_phone_verification": false,
-                            "normal_followers_count": 2174537,
-                            "notifications": false,
-                            "pinned_tweet_ids_str": [
-                              "1881133791558984029"
-                            ],
-                            "possibly_sensitive": false,
-                            "profile_banner_url": "https://pbs.twimg.com/profile_banners/1350150750966603777/1714470334",
-                            "profile_interstitial_type": "",
-                            "statuses_count": 6081,
-                            "time_zone": "",
-                            "translator_type": "none",
-                            "url": "https://t.co/BiRYoSfsw4",
-                            "utc_offset": 0,
-                            "want_retweets": false,
-                            "withheld_description": "",
-                            "withheld_scope": ""
-                          },
-                          "location": {
-                            "location": ""
-                          },
-                          "media_permissions": {
-                            "can_media_tag": false
-                          },
-                          "privacy": {
-                            "protected": false
-                          },
-                          "profile_bio": {
-                            "description": "This account has been archived. You can follow former U.S. Secretary of State Antony Blinken at @ablinken. For U.S. State Department updates, follow @StateDept."
+                            }
                           },
                           "profile_description_language": "en",
                           "profile_image_shape": "Circle",
+                          "profile_metadata": {
+                            "profile_interstitial_type": ""
+                          },
+                          "profile_translation": {
+                            "translator_type": "none"
+                          },
+                          "relationship_counts": {
+                            "followers": 2172807,
+                            "following": 54
+                          },
                           "relationship_perspectives": {
                             "blocked_by": false,
                             "blocking": false,
@@ -999,15 +994,22 @@
                           "super_followed_by": false,
                           "super_following": false,
                           "tipjar_settings": {},
+                          "tweet_counts": {
+                            "media_tweets": 2792,
+                            "tweets": 6081
+                          },
                           "verification": {
                             "verified": false
+                          },
+                          "website": {
+                            "url": "https://t.co/BiRYoSfsw4"
                           }
                         }
                       }
                     }
                   },
                   "entryId": "user-1350150750966603777",
-                  "sortIndex": "2079663799433953273"
+                  "sortIndex": "2085474419655835641"
                 },
                 {
                   "content": {
@@ -1024,9 +1026,15 @@
                       "user_results": {
                         "result": {
                           "__typename": "User",
+                          "action_counts": {
+                            "favorites_count": 1235
+                          },
                           "affiliates_highlighted_label": {},
                           "avatar": {
                             "image_url": "https://pbs.twimg.com/profile_images/1724790094589263872/F9JvyDbg_normal.jpg"
+                          },
+                          "banner": {
+                            "image_url": "https://pbs.twimg.com/profile_banners/1262845575147458560/1700056990"
                           },
                           "core": {
                             "created_at": "Tue May 19 20:40:40 +0000 2020",
@@ -1040,9 +1048,21 @@
                           "has_graduated_access": true,
                           "id": "VXNlcjoxMjYyODQ1NTc1MTQ3NDU4NTYw",
                           "is_blue_verified": true,
-                          "legacy": {
-                            "default_profile": true,
-                            "default_profile_image": false,
+                          "location": {
+                            "location": "Washington, D.C. area"
+                          },
+                          "media_permissions": {
+                            "can_media_tag": true
+                          },
+                          "notifications_settings": {
+                            "notifications_enabled": false
+                          },
+                          "pinned_items": {},
+                          "possibly_sensitive": false,
+                          "privacy": {
+                            "protected": false
+                          },
+                          "profile_bio": {
                             "description": "Senior Fellow, Carnegie Endowment. Defense analysis with a focus on the Russian and Ukrainian militaries.",
                             "entities": {
                               "description": {},
@@ -1059,45 +1079,20 @@
                                   }
                                 ]
                               }
-                            },
-                            "fast_followers_count": 0,
-                            "favourites_count": 1235,
-                            "follow_request_sent": false,
-                            "followers_count": 435793,
-                            "friends_count": 406,
-                            "has_custom_timelines": true,
-                            "is_translator": false,
-                            "listed_count": 11504,
-                            "media_count": 263,
-                            "needs_phone_verification": false,
-                            "normal_followers_count": 435793,
-                            "notifications": false,
-                            "possibly_sensitive": false,
-                            "profile_banner_url": "https://pbs.twimg.com/profile_banners/1262845575147458560/1700056990",
-                            "profile_interstitial_type": "",
-                            "statuses_count": 7787,
-                            "time_zone": "",
-                            "translator_type": "none",
-                            "url": "https://t.co/FzObMDSRjE",
-                            "utc_offset": 0,
-                            "want_retweets": false,
-                            "withheld_description": "",
-                            "withheld_scope": ""
-                          },
-                          "location": {
-                            "location": "Washington, D.C. area"
-                          },
-                          "media_permissions": {
-                            "can_media_tag": true
-                          },
-                          "privacy": {
-                            "protected": false
-                          },
-                          "profile_bio": {
-                            "description": "Senior Fellow, Carnegie Endowment. Defense analysis with a focus on the Russian and Ukrainian militaries."
+                            }
                           },
                           "profile_description_language": "en",
                           "profile_image_shape": "Circle",
+                          "profile_metadata": {
+                            "profile_interstitial_type": ""
+                          },
+                          "profile_translation": {
+                            "translator_type": "none"
+                          },
+                          "relationship_counts": {
+                            "followers": 435970,
+                            "following": 408
+                          },
                           "relationship_perspectives": {
                             "blocked_by": false,
                             "blocking": false,
@@ -1111,15 +1106,22 @@
                           "super_followed_by": false,
                           "super_following": false,
                           "tipjar_settings": {},
+                          "tweet_counts": {
+                            "media_tweets": 266,
+                            "tweets": 7867
+                          },
                           "verification": {
                             "verified": false
+                          },
+                          "website": {
+                            "url": "https://t.co/FzObMDSRjE"
                           }
                         }
                       }
                     }
                   },
                   "entryId": "user-1262845575147458560",
-                  "sortIndex": "2079663799433953272"
+                  "sortIndex": "2085474419655835640"
                 },
                 {
                   "content": {
@@ -1136,9 +1138,15 @@
                       "user_results": {
                         "result": {
                           "__typename": "User",
+                          "action_counts": {
+                            "favorites_count": 21631
+                          },
                           "affiliates_highlighted_label": {},
                           "avatar": {
                             "image_url": "https://pbs.twimg.com/profile_images/1477691921988562952/Gl5efsml_normal.jpg"
+                          },
+                          "banner": {
+                            "image_url": "https://pbs.twimg.com/profile_banners/1226113371482808321/1657659785"
                           },
                           "core": {
                             "created_at": "Sat Feb 08 12:00:26 +0000 2020",
@@ -1152,9 +1160,21 @@
                           "has_graduated_access": true,
                           "id": "VXNlcjoxMjI2MTEzMzcxNDgyODA4MzIx",
                           "is_blue_verified": false,
-                          "legacy": {
-                            "default_profile": true,
-                            "default_profile_image": false,
+                          "location": {
+                            "location": "Berlin, Deutschland"
+                          },
+                          "media_permissions": {
+                            "can_media_tag": true
+                          },
+                          "notifications_settings": {
+                            "notifications_enabled": false
+                          },
+                          "pinned_items": {},
+                          "possibly_sensitive": false,
+                          "privacy": {
+                            "protected": false
+                          },
+                          "profile_bio": {
                             "description": "Diplomat / former Spokesperson of the German Foreign Office (@GermanyDiplo) & the German EU Council Presidency / All views are my own. RT \u2260 endorsement \ud83c\udde9\ud83c\uddea\ud83c\uddea\ud83c\uddfa",
                             "entities": {
                               "description": {},
@@ -1171,45 +1191,20 @@
                                   }
                                 ]
                               }
-                            },
-                            "fast_followers_count": 0,
-                            "favourites_count": 21602,
-                            "follow_request_sent": false,
-                            "followers_count": 13134,
-                            "friends_count": 2850,
-                            "has_custom_timelines": true,
-                            "is_translator": false,
-                            "listed_count": 201,
-                            "media_count": 703,
-                            "needs_phone_verification": false,
-                            "normal_followers_count": 13134,
-                            "notifications": false,
-                            "possibly_sensitive": false,
-                            "profile_banner_url": "https://pbs.twimg.com/profile_banners/1226113371482808321/1657659785",
-                            "profile_interstitial_type": "",
-                            "statuses_count": 8951,
-                            "time_zone": "",
-                            "translator_type": "none",
-                            "url": "https://t.co/5TkOoKgTQG",
-                            "utc_offset": 0,
-                            "want_retweets": false,
-                            "withheld_description": "",
-                            "withheld_scope": ""
-                          },
-                          "location": {
-                            "location": "Berlin, Deutschland"
-                          },
-                          "media_permissions": {
-                            "can_media_tag": true
-                          },
-                          "privacy": {
-                            "protected": false
-                          },
-                          "profile_bio": {
-                            "description": "Diplomat / former Spokesperson of the German Foreign Office (@GermanyDiplo) & the German EU Council Presidency / All views are my own. RT \u2260 endorsement \ud83c\udde9\ud83c\uddea\ud83c\uddea\ud83c\uddfa"
+                            }
                           },
                           "profile_description_language": "en",
                           "profile_image_shape": "Circle",
+                          "profile_metadata": {
+                            "profile_interstitial_type": ""
+                          },
+                          "profile_translation": {
+                            "translator_type": "none"
+                          },
+                          "relationship_counts": {
+                            "followers": 13124,
+                            "following": 2851
+                          },
                           "relationship_perspectives": {
                             "blocked_by": false,
                             "blocking": false,
@@ -1223,15 +1218,22 @@
                           "super_followed_by": false,
                           "super_following": false,
                           "tipjar_settings": {},
+                          "tweet_counts": {
+                            "media_tweets": 703,
+                            "tweets": 8970
+                          },
                           "verification": {
                             "verified": false
+                          },
+                          "website": {
+                            "url": "https://t.co/5TkOoKgTQG"
                           }
                         }
                       }
                     }
                   },
                   "entryId": "user-1226113371482808321",
-                  "sortIndex": "2079663799433953271"
+                  "sortIndex": "2085474419655835639"
                 },
                 {
                   "content": {
@@ -1248,9 +1250,15 @@
                       "user_results": {
                         "result": {
                           "__typename": "User",
+                          "action_counts": {
+                            "favorites_count": 9
+                          },
                           "affiliates_highlighted_label": {},
                           "avatar": {
                             "image_url": "https://pbs.twimg.com/profile_images/1799873368264470528/i1DOJkkH_normal.jpg"
+                          },
+                          "banner": {
+                            "image_url": "https://pbs.twimg.com/profile_banners/1149271028390146048/1751572036"
                           },
                           "core": {
                             "created_at": "Thu Jul 11 10:55:40 +0000 2019",
@@ -1264,9 +1272,21 @@
                           "has_graduated_access": true,
                           "id": "VXNlcjoxMTQ5MjcxMDI4MzkwMTQ2MDQ4",
                           "is_blue_verified": false,
-                          "legacy": {
-                            "default_profile": true,
-                            "default_profile_image": false,
+                          "location": {
+                            "location": ""
+                          },
+                          "media_permissions": {
+                            "can_media_tag": true
+                          },
+                          "notifications_settings": {
+                            "notifications_enabled": false
+                          },
+                          "pinned_items": {},
+                          "possibly_sensitive": false,
+                          "privacy": {
+                            "protected": false
+                          },
+                          "profile_bio": {
                             "description": "\u041a\u0435\u0440\u0456\u0432\u043d\u0438\u043a \u041e\u0444\u0456\u0441\u0443 \u041f\u0440\u0435\u0437\u0438\u0434\u0435\u043d\u0442\u0430 \u0423\u043a\u0440\u0430\u0457\u043d\u0438 (11 \u043b\u044e\u0442\u043e\u0433\u043e 2020 \u2014 28 \u043b\u0438\u0441\u0442\u043e\u043f\u0430\u0434\u0430 2025)",
                             "entities": {
                               "description": {},
@@ -1283,45 +1303,20 @@
                                   }
                                 ]
                               }
-                            },
-                            "fast_followers_count": 0,
-                            "favourites_count": 9,
-                            "follow_request_sent": false,
-                            "followers_count": 269266,
-                            "friends_count": 463,
-                            "has_custom_timelines": false,
-                            "is_translator": false,
-                            "listed_count": 1702,
-                            "media_count": 3352,
-                            "needs_phone_verification": false,
-                            "normal_followers_count": 269266,
-                            "notifications": false,
-                            "possibly_sensitive": false,
-                            "profile_banner_url": "https://pbs.twimg.com/profile_banners/1149271028390146048/1751572036",
-                            "profile_interstitial_type": "",
-                            "statuses_count": 8462,
-                            "time_zone": "",
-                            "translator_type": "none",
-                            "url": "https://t.co/zBq1PkNaWq",
-                            "utc_offset": 0,
-                            "want_retweets": false,
-                            "withheld_description": "",
-                            "withheld_scope": ""
-                          },
-                          "location": {
-                            "location": ""
-                          },
-                          "media_permissions": {
-                            "can_media_tag": true
-                          },
-                          "privacy": {
-                            "protected": false
-                          },
-                          "profile_bio": {
-                            "description": "\u041a\u0435\u0440\u0456\u0432\u043d\u0438\u043a \u041e\u0444\u0456\u0441\u0443 \u041f\u0440\u0435\u0437\u0438\u0434\u0435\u043d\u0442\u0430 \u0423\u043a\u0440\u0430\u0457\u043d\u0438 (11 \u043b\u044e\u0442\u043e\u0433\u043e 2020 \u2014 28 \u043b\u0438\u0441\u0442\u043e\u043f\u0430\u0434\u0430 2025)"
+                            }
                           },
                           "profile_description_language": "uk",
                           "profile_image_shape": "Circle",
+                          "profile_metadata": {
+                            "profile_interstitial_type": ""
+                          },
+                          "profile_translation": {
+                            "translator_type": "none"
+                          },
+                          "relationship_counts": {
+                            "followers": 268876,
+                            "following": 463
+                          },
                           "relationship_perspectives": {
                             "blocked_by": false,
                             "blocking": false,
@@ -1335,15 +1330,22 @@
                           "super_followed_by": false,
                           "super_following": false,
                           "tipjar_settings": {},
+                          "tweet_counts": {
+                            "media_tweets": 3352,
+                            "tweets": 8462
+                          },
                           "verification": {
                             "verified": false
+                          },
+                          "website": {
+                            "url": "https://t.co/zBq1PkNaWq"
                           }
                         }
                       }
                     }
                   },
                   "entryId": "user-1149271028390146048",
-                  "sortIndex": "2079663799433953270"
+                  "sortIndex": "2085474419655835638"
                 },
                 {
                   "content": {
@@ -1360,9 +1362,15 @@
                       "user_results": {
                         "result": {
                           "__typename": "User",
+                          "action_counts": {
+                            "favorites_count": 214
+                          },
                           "affiliates_highlighted_label": {},
                           "avatar": {
                             "image_url": "https://pbs.twimg.com/profile_images/1585550046740848642/OpGKpqx9_normal.jpg"
+                          },
+                          "banner": {
+                            "image_url": "https://pbs.twimg.com/profile_banners/1120633726478823425/1692773060"
                           },
                           "core": {
                             "created_at": "Tue Apr 23 10:21:15 +0000 2019",
@@ -1376,9 +1384,21 @@
                           "has_graduated_access": true,
                           "id": "VXNlcjoxMTIwNjMzNzI2NDc4ODIzNDI1",
                           "is_blue_verified": true,
-                          "legacy": {
-                            "default_profile": true,
-                            "default_profile_image": false,
+                          "location": {
+                            "location": "\u0423\u043a\u0440\u0430\u0457\u043d\u0430"
+                          },
+                          "media_permissions": {
+                            "can_media_tag": false
+                          },
+                          "notifications_settings": {
+                            "notifications_enabled": false
+                          },
+                          "pinned_items": {},
+                          "possibly_sensitive": false,
+                          "privacy": {
+                            "protected": false
+                          },
+                          "profile_bio": {
                             "description": "President of Ukraine / \u041f\u0440\u0435\u0437\u0438\u0434\u0435\u043d\u0442 \u0423\u043a\u0440\u0430\u0457\u043d\u0438",
                             "entities": {
                               "description": {},
@@ -1395,44 +1415,19 @@
                                   }
                                 ]
                               }
-                            },
-                            "fast_followers_count": 0,
-                            "favourites_count": 214,
-                            "follow_request_sent": false,
-                            "followers_count": 8686916,
-                            "friends_count": 1,
-                            "has_custom_timelines": true,
-                            "is_translator": false,
-                            "listed_count": 18845,
-                            "media_count": 7840,
-                            "needs_phone_verification": false,
-                            "normal_followers_count": 8686916,
-                            "notifications": false,
-                            "possibly_sensitive": false,
-                            "profile_banner_url": "https://pbs.twimg.com/profile_banners/1120633726478823425/1692773060",
-                            "profile_interstitial_type": "",
-                            "statuses_count": 16158,
-                            "time_zone": "",
-                            "translator_type": "none",
-                            "url": "https://t.co/ctVL0atMBQ",
-                            "utc_offset": 0,
-                            "want_retweets": false,
-                            "withheld_description": "",
-                            "withheld_scope": ""
-                          },
-                          "location": {
-                            "location": "\u0423\u043a\u0440\u0430\u0457\u043d\u0430"
-                          },
-                          "media_permissions": {
-                            "can_media_tag": false
-                          },
-                          "privacy": {
-                            "protected": false
-                          },
-                          "profile_bio": {
-                            "description": "President of Ukraine / \u041f\u0440\u0435\u0437\u0438\u0434\u0435\u043d\u0442 \u0423\u043a\u0440\u0430\u0457\u043d\u0438"
+                            }
                           },
                           "profile_image_shape": "Circle",
+                          "profile_metadata": {
+                            "profile_interstitial_type": ""
+                          },
+                          "profile_translation": {
+                            "translator_type": "none"
+                          },
+                          "relationship_counts": {
+                            "followers": 8750417,
+                            "following": 1
+                          },
                           "relationship_perspectives": {
                             "blocked_by": false,
                             "blocking": false,
@@ -1446,16 +1441,23 @@
                           "super_followed_by": false,
                           "super_following": false,
                           "tipjar_settings": {},
+                          "tweet_counts": {
+                            "media_tweets": 7963,
+                            "tweets": 16343
+                          },
                           "verification": {
                             "verified": false,
                             "verified_type": "Government"
+                          },
+                          "website": {
+                            "url": "https://t.co/ctVL0atMBQ"
                           }
                         }
                       }
                     }
                   },
                   "entryId": "user-1120633726478823425",
-                  "sortIndex": "2079663799433953269"
+                  "sortIndex": "2085474419655835637"
                 },
                 {
                   "content": {
@@ -1472,9 +1474,15 @@
                       "user_results": {
                         "result": {
                           "__typename": "User",
+                          "action_counts": {
+                            "favorites_count": 26424
+                          },
                           "affiliates_highlighted_label": {},
                           "avatar": {
                             "image_url": "https://pbs.twimg.com/profile_images/1438653431837872135/6170zRMd_normal.jpg"
+                          },
+                          "banner": {
+                            "image_url": "https://pbs.twimg.com/profile_banners/1005846500583321601/1779199640"
                           },
                           "core": {
                             "created_at": "Sun Jun 10 16:17:48 +0000 2018",
@@ -1488,9 +1496,36 @@
                           "has_graduated_access": true,
                           "id": "VXNlcjoxMDA1ODQ2NTAwNTgzMzIxNjAx",
                           "is_blue_verified": true,
-                          "legacy": {
-                            "default_profile": true,
-                            "default_profile_image": false,
+                          "location": {
+                            "location": "Florida, USA"
+                          },
+                          "media_permissions": {
+                            "can_media_tag": false
+                          },
+                          "notifications_settings": {
+                            "notifications_enabled": false
+                          },
+                          "pinned_items": {
+                            "tweet_ids_str": [
+                              "2016105590653669438"
+                            ]
+                          },
+                          "possibly_sensitive": false,
+                          "privacy": {
+                            "protected": false
+                          },
+                          "professional": {
+                            "category": [
+                              {
+                                "icon_name": "IconBriefcaseStroke",
+                                "id": 956,
+                                "name": "Writer"
+                              }
+                            ],
+                            "professional_type": "Business",
+                            "rest_id": "1469829466885132297"
+                          },
+                          "profile_bio": {
                             "description": "Dad. Husband. Vet. Ex National Security Council/White House Staff. Florida Man. Running for U.S. Senate: @AlexVindmanHQ.",
                             "entities": {
                               "description": {},
@@ -1507,59 +1542,20 @@
                                   }
                                 ]
                               }
-                            },
-                            "fast_followers_count": 0,
-                            "favourites_count": 26368,
-                            "follow_request_sent": false,
-                            "followers_count": 954353,
-                            "friends_count": 2042,
-                            "has_custom_timelines": true,
-                            "is_translator": false,
-                            "listed_count": 5395,
-                            "media_count": 730,
-                            "needs_phone_verification": false,
-                            "normal_followers_count": 954353,
-                            "notifications": false,
-                            "pinned_tweet_ids_str": [
-                              "2016105590653669438"
-                            ],
-                            "possibly_sensitive": false,
-                            "profile_banner_url": "https://pbs.twimg.com/profile_banners/1005846500583321601/1779199640",
-                            "profile_interstitial_type": "",
-                            "statuses_count": 10184,
-                            "time_zone": "",
-                            "translator_type": "none",
-                            "url": "https://t.co/mSmVpA0QRa",
-                            "utc_offset": 0,
-                            "want_retweets": false,
-                            "withheld_description": "",
-                            "withheld_scope": ""
-                          },
-                          "location": {
-                            "location": "Florida, USA"
-                          },
-                          "media_permissions": {
-                            "can_media_tag": false
-                          },
-                          "privacy": {
-                            "protected": false
-                          },
-                          "professional": {
-                            "category": [
-                              {
-                                "icon_name": "IconBriefcaseStroke",
-                                "id": 956,
-                                "name": "Writer"
-                              }
-                            ],
-                            "professional_type": "Business",
-                            "rest_id": "1469829466885132297"
-                          },
-                          "profile_bio": {
-                            "description": "Dad. Husband. Vet. Ex National Security Council/White House Staff. Florida Man. Running for U.S. Senate: @AlexVindmanHQ."
+                            }
                           },
                           "profile_description_language": "en",
                           "profile_image_shape": "Circle",
+                          "profile_metadata": {
+                            "profile_interstitial_type": ""
+                          },
+                          "profile_translation": {
+                            "translator_type": "none"
+                          },
+                          "relationship_counts": {
+                            "followers": 954947,
+                            "following": 2043
+                          },
                           "relationship_perspectives": {
                             "blocked_by": false,
                             "blocking": false,
@@ -1573,15 +1569,22 @@
                           "super_followed_by": false,
                           "super_following": false,
                           "tipjar_settings": {},
+                          "tweet_counts": {
+                            "media_tweets": 757,
+                            "tweets": 10235
+                          },
                           "verification": {
                             "verified": false
+                          },
+                          "website": {
+                            "url": "https://t.co/mSmVpA0QRa"
                           }
                         }
                       }
                     }
                   },
                   "entryId": "user-1005846500583321601",
-                  "sortIndex": "2079663799433953268"
+                  "sortIndex": "2085474419655835636"
                 },
                 {
                   "content": {
@@ -1598,9 +1601,15 @@
                       "user_results": {
                         "result": {
                           "__typename": "User",
+                          "action_counts": {
+                            "favorites_count": 1038
+                          },
                           "affiliates_highlighted_label": {},
                           "avatar": {
                             "image_url": "https://pbs.twimg.com/profile_images/1671519652848041991/RqZD-gdE_normal.jpg"
+                          },
+                          "banner": {
+                            "image_url": "https://pbs.twimg.com/profile_banners/985924615338897408/1561145471"
                           },
                           "core": {
                             "created_at": "Mon Apr 16 16:55:20 +0000 2018",
@@ -1614,9 +1623,25 @@
                           "has_graduated_access": true,
                           "id": "VXNlcjo5ODU5MjQ2MTUzMzg4OTc0MDg=",
                           "is_blue_verified": false,
-                          "legacy": {
-                            "default_profile": false,
-                            "default_profile_image": false,
+                          "location": {
+                            "location": "Washington, DC"
+                          },
+                          "media_permissions": {
+                            "can_media_tag": false
+                          },
+                          "notifications_settings": {
+                            "notifications_enabled": false
+                          },
+                          "pinned_items": {
+                            "tweet_ids_str": [
+                              "1975870359476859118"
+                            ]
+                          },
+                          "possibly_sensitive": false,
+                          "privacy": {
+                            "protected": false
+                          },
+                          "profile_bio": {
                             "description": "Senior Fellow, Carnegie Endowment for International Peace, Russia and Eurasia Program, focusing on defense issues in Russia. Opinions mine RTs not endorsements.",
                             "entities": {
                               "description": {},
@@ -1633,47 +1658,19 @@
                                   }
                                 ]
                               }
-                            },
-                            "fast_followers_count": 0,
-                            "favourites_count": 1004,
-                            "follow_request_sent": false,
-                            "followers_count": 82299,
-                            "friends_count": 737,
-                            "has_custom_timelines": true,
-                            "is_translator": false,
-                            "listed_count": 2866,
-                            "media_count": 302,
-                            "needs_phone_verification": false,
-                            "normal_followers_count": 82299,
-                            "notifications": false,
-                            "pinned_tweet_ids_str": [
-                              "1975870359476859118"
-                            ],
-                            "possibly_sensitive": false,
-                            "profile_banner_url": "https://pbs.twimg.com/profile_banners/985924615338897408/1561145471",
-                            "profile_interstitial_type": "",
-                            "statuses_count": 2806,
-                            "time_zone": "",
-                            "translator_type": "none",
-                            "url": "https://t.co/aUt3olzPOr",
-                            "utc_offset": 0,
-                            "want_retweets": false,
-                            "withheld_description": "",
-                            "withheld_scope": ""
-                          },
-                          "location": {
-                            "location": "Washington, DC"
-                          },
-                          "media_permissions": {
-                            "can_media_tag": false
-                          },
-                          "privacy": {
-                            "protected": false
-                          },
-                          "profile_bio": {
-                            "description": "Senior Fellow, Carnegie Endowment for International Peace, Russia and Eurasia Program, focusing on defense issues in Russia. Opinions mine RTs not endorsements."
+                            }
                           },
                           "profile_image_shape": "Circle",
+                          "profile_metadata": {
+                            "profile_interstitial_type": ""
+                          },
+                          "profile_translation": {
+                            "translator_type": "none"
+                          },
+                          "relationship_counts": {
+                            "followers": 82806,
+                            "following": 747
+                          },
                           "relationship_perspectives": {
                             "blocked_by": false,
                             "blocking": false,
@@ -1687,15 +1684,22 @@
                           "super_followed_by": false,
                           "super_following": false,
                           "tipjar_settings": {},
+                          "tweet_counts": {
+                            "media_tweets": 306,
+                            "tweets": 2838
+                          },
                           "verification": {
                             "verified": false
+                          },
+                          "website": {
+                            "url": "https://t.co/aUt3olzPOr"
                           }
                         }
                       }
                     }
                   },
                   "entryId": "user-985924615338897408",
-                  "sortIndex": "2079663799433953267"
+                  "sortIndex": "2085474419655835635"
                 },
                 {
                   "content": {
@@ -1712,9 +1716,15 @@
                       "user_results": {
                         "result": {
                           "__typename": "User",
+                          "action_counts": {
+                            "favorites_count": 13842
+                          },
                           "affiliates_highlighted_label": {},
                           "avatar": {
                             "image_url": "https://pbs.twimg.com/profile_images/1956613686614745088/2wTdCTRY_normal.jpg"
+                          },
+                          "banner": {
+                            "image_url": "https://pbs.twimg.com/profile_banners/824325992827252736/1668523345"
                           },
                           "core": {
                             "created_at": "Wed Jan 25 18:40:06 +0000 2017",
@@ -1728,10 +1738,31 @@
                           "has_graduated_access": true,
                           "id": "VXNlcjo4MjQzMjU5OTI4MjcyNTI3MzY=",
                           "is_blue_verified": false,
-                          "legacy": {
-                            "default_profile": false,
-                            "default_profile_image": false,
-                            "description": "Currently studying International Security @PSIASciencesPo, back watching Russia for @BBCMonitoring in summer \u201826",
+                          "location": {
+                            "location": "United Kingdom "
+                          },
+                          "media_permissions": {
+                            "can_media_tag": false
+                          },
+                          "notifications_settings": {
+                            "notifications_enabled": false
+                          },
+                          "pinned_items": {
+                            "tweet_ids_str": [
+                              "1580066665353519104"
+                            ]
+                          },
+                          "possibly_sensitive": false,
+                          "privacy": {
+                            "protected": false
+                          },
+                          "professional": {
+                            "category": [],
+                            "professional_type": "Creator",
+                            "rest_id": "1554045572872642561"
+                          },
+                          "profile_bio": {
+                            "description": "Reporting on Russia for @BBCMonitoring | International security graduate from @PSIASciencesPo 2026",
                             "entities": {
                               "description": {},
                               "url": {
@@ -1747,53 +1778,20 @@
                                   }
                                 ]
                               }
-                            },
-                            "fast_followers_count": 0,
-                            "favourites_count": 13853,
-                            "follow_request_sent": false,
-                            "followers_count": 108794,
-                            "friends_count": 3117,
-                            "has_custom_timelines": false,
-                            "is_translator": false,
-                            "listed_count": 2514,
-                            "media_count": 2283,
-                            "needs_phone_verification": false,
-                            "normal_followers_count": 108794,
-                            "notifications": false,
-                            "pinned_tweet_ids_str": [
-                              "1580066665353519104"
-                            ],
-                            "possibly_sensitive": false,
-                            "profile_banner_url": "https://pbs.twimg.com/profile_banners/824325992827252736/1668523345",
-                            "profile_interstitial_type": "",
-                            "statuses_count": 6033,
-                            "time_zone": "",
-                            "translator_type": "none",
-                            "url": "https://t.co/DSwdAzVI4J",
-                            "utc_offset": 0,
-                            "want_retweets": false,
-                            "withheld_description": "",
-                            "withheld_scope": ""
-                          },
-                          "location": {
-                            "location": "United Kingdom "
-                          },
-                          "media_permissions": {
-                            "can_media_tag": false
-                          },
-                          "privacy": {
-                            "protected": false
-                          },
-                          "professional": {
-                            "category": [],
-                            "professional_type": "Creator",
-                            "rest_id": "1554045572872642561"
-                          },
-                          "profile_bio": {
-                            "description": "Currently studying International Security @PSIASciencesPo, back watching Russia for @BBCMonitoring in summer \u201826"
+                            }
                           },
                           "profile_description_language": "en",
                           "profile_image_shape": "Circle",
+                          "profile_metadata": {
+                            "profile_interstitial_type": ""
+                          },
+                          "profile_translation": {
+                            "translator_type": "none"
+                          },
+                          "relationship_counts": {
+                            "followers": 108660,
+                            "following": 3120
+                          },
                           "relationship_perspectives": {
                             "blocked_by": false,
                             "blocking": false,
@@ -1807,15 +1805,22 @@
                           "super_followed_by": false,
                           "super_following": false,
                           "tipjar_settings": {},
+                          "tweet_counts": {
+                            "media_tweets": 2283,
+                            "tweets": 6033
+                          },
                           "verification": {
                             "verified": false
+                          },
+                          "website": {
+                            "url": "https://t.co/DSwdAzVI4J"
                           }
                         }
                       }
                     }
                   },
                   "entryId": "user-824325992827252736",
-                  "sortIndex": "2079663799433953266"
+                  "sortIndex": "2085474419655835634"
                 },
                 {
                   "content": {
@@ -1832,9 +1837,15 @@
                       "user_results": {
                         "result": {
                           "__typename": "User",
+                          "action_counts": {
+                            "favorites_count": 232
+                          },
                           "affiliates_highlighted_label": {},
                           "avatar": {
                             "image_url": "https://pbs.twimg.com/profile_images/1507165810753781760/rQFtN1Ct_normal.jpg"
+                          },
+                          "banner": {
+                            "image_url": "https://pbs.twimg.com/profile_banners/812247555493003264/1648173956"
                           },
                           "core": {
                             "created_at": "Fri Dec 23 10:44:42 +0000 2016",
@@ -1848,9 +1859,32 @@
                           "has_graduated_access": true,
                           "id": "VXNlcjo4MTIyNDc1NTU0OTMwMDMyNjQ=",
                           "is_blue_verified": true,
-                          "legacy": {
-                            "default_profile": false,
-                            "default_profile_image": false,
+                          "location": {
+                            "location": "Kyiv, Ukraine"
+                          },
+                          "media_permissions": {
+                            "can_media_tag": true
+                          },
+                          "notifications_settings": {
+                            "notifications_enabled": false
+                          },
+                          "pinned_items": {},
+                          "possibly_sensitive": false,
+                          "privacy": {
+                            "protected": false
+                          },
+                          "professional": {
+                            "category": [
+                              {
+                                "icon_name": "IconBriefcaseStroke",
+                                "id": 921,
+                                "name": "Defense Company"
+                              }
+                            ],
+                            "professional_type": "Creator",
+                            "rest_id": "1493677481286676491"
+                          },
+                          "profile_bio": {
                             "description": "Minister of Defence of @Ukraine \ud83c\uddfa\ud83c\udde6 (2019-2020) Chairman of @Defence_Centre Distinguished fellow @AtlanticCouncil Non-resident scholar @CarnegieEndow",
                             "entities": {
                               "description": {},
@@ -1867,56 +1901,20 @@
                                   }
                                 ]
                               }
-                            },
-                            "fast_followers_count": 0,
-                            "favourites_count": 232,
-                            "follow_request_sent": false,
-                            "followers_count": 13847,
-                            "friends_count": 538,
-                            "has_custom_timelines": true,
-                            "is_translator": false,
-                            "listed_count": 356,
-                            "media_count": 180,
-                            "needs_phone_verification": false,
-                            "normal_followers_count": 13847,
-                            "notifications": false,
-                            "possibly_sensitive": false,
-                            "profile_banner_url": "https://pbs.twimg.com/profile_banners/812247555493003264/1648173956",
-                            "profile_interstitial_type": "",
-                            "statuses_count": 690,
-                            "time_zone": "",
-                            "translator_type": "none",
-                            "url": "https://t.co/1E0kN5Bj3u",
-                            "utc_offset": 0,
-                            "want_retweets": false,
-                            "withheld_description": "",
-                            "withheld_scope": ""
-                          },
-                          "location": {
-                            "location": "Kyiv, Ukraine"
-                          },
-                          "media_permissions": {
-                            "can_media_tag": true
-                          },
-                          "privacy": {
-                            "protected": false
-                          },
-                          "professional": {
-                            "category": [
-                              {
-                                "icon_name": "IconBriefcaseStroke",
-                                "id": 921,
-                                "name": "Defense Company"
-                              }
-                            ],
-                            "professional_type": "Creator",
-                            "rest_id": "1493677481286676491"
-                          },
-                          "profile_bio": {
-                            "description": "Minister of Defence of @Ukraine \ud83c\uddfa\ud83c\udde6 (2019-2020) Chairman of @Defence_Centre Distinguished fellow @AtlanticCouncil Non-resident scholar @CarnegieEndow"
+                            }
                           },
                           "profile_description_language": "en",
                           "profile_image_shape": "Circle",
+                          "profile_metadata": {
+                            "profile_interstitial_type": ""
+                          },
+                          "profile_translation": {
+                            "translator_type": "none"
+                          },
+                          "relationship_counts": {
+                            "followers": 13838,
+                            "following": 538
+                          },
                           "relationship_perspectives": {
                             "blocked_by": false,
                             "blocking": false,
@@ -1930,15 +1928,22 @@
                           "super_followed_by": false,
                           "super_following": false,
                           "tipjar_settings": {},
+                          "tweet_counts": {
+                            "media_tweets": 180,
+                            "tweets": 691
+                          },
                           "verification": {
                             "verified": false
+                          },
+                          "website": {
+                            "url": "https://t.co/1E0kN5Bj3u"
                           }
                         }
                       }
                     }
                   },
                   "entryId": "user-812247555493003264",
-                  "sortIndex": "2079663799433953265"
+                  "sortIndex": "2085474419655835633"
                 },
                 {
                   "content": {
@@ -1955,9 +1960,15 @@
                       "user_results": {
                         "result": {
                           "__typename": "User",
+                          "action_counts": {
+                            "favorites_count": 32507
+                          },
                           "affiliates_highlighted_label": {},
                           "avatar": {
                             "image_url": "https://pbs.twimg.com/profile_images/1965729526614220800/MwJnnRtG_normal.jpg"
+                          },
+                          "banner": {
+                            "image_url": "https://pbs.twimg.com/profile_banners/718916004072570880/1592809393"
                           },
                           "core": {
                             "created_at": "Sat Apr 09 21:38:26 +0000 2016",
@@ -1971,9 +1982,36 @@
                           "has_graduated_access": true,
                           "id": "VXNlcjo3MTg5MTYwMDQwNzI1NzA4ODA=",
                           "is_blue_verified": true,
-                          "legacy": {
-                            "default_profile": true,
-                            "default_profile_image": false,
+                          "location": {
+                            "location": ""
+                          },
+                          "media_permissions": {
+                            "can_media_tag": false
+                          },
+                          "notifications_settings": {
+                            "notifications_enabled": false
+                          },
+                          "pinned_items": {
+                            "tweet_ids_str": [
+                              "2073807923189522775"
+                            ]
+                          },
+                          "possibly_sensitive": false,
+                          "privacy": {
+                            "protected": false
+                          },
+                          "professional": {
+                            "category": [
+                              {
+                                "icon_name": "IconBriefcaseStroke",
+                                "id": 477,
+                                "name": "Professional Services"
+                              }
+                            ],
+                            "professional_type": "Business",
+                            "rest_id": "1488984057576923151"
+                          },
+                          "profile_bio": {
                             "description": "Independent Defence Analyst focusing on Russia and Belarus / Director of Rochan Consulting. Normal caveats apply.",
                             "entities": {
                               "description": {},
@@ -1990,59 +2028,20 @@
                                   }
                                 ]
                               }
-                            },
-                            "fast_followers_count": 0,
-                            "favourites_count": 32319,
-                            "follow_request_sent": false,
-                            "followers_count": 114234,
-                            "friends_count": 655,
-                            "has_custom_timelines": true,
-                            "is_translator": false,
-                            "listed_count": 3756,
-                            "media_count": 573,
-                            "needs_phone_verification": false,
-                            "normal_followers_count": 114234,
-                            "notifications": false,
-                            "pinned_tweet_ids_str": [
-                              "2073807923189522775"
-                            ],
-                            "possibly_sensitive": false,
-                            "profile_banner_url": "https://pbs.twimg.com/profile_banners/718916004072570880/1592809393",
-                            "profile_interstitial_type": "",
-                            "statuses_count": 7382,
-                            "time_zone": "",
-                            "translator_type": "none",
-                            "url": "https://t.co/cRvidHQ0j7",
-                            "utc_offset": 0,
-                            "want_retweets": false,
-                            "withheld_description": "",
-                            "withheld_scope": ""
-                          },
-                          "location": {
-                            "location": ""
-                          },
-                          "media_permissions": {
-                            "can_media_tag": false
-                          },
-                          "privacy": {
-                            "protected": false
-                          },
-                          "professional": {
-                            "category": [
-                              {
-                                "icon_name": "IconBriefcaseStroke",
-                                "id": 477,
-                                "name": "Professional Services"
-                              }
-                            ],
-                            "professional_type": "Business",
-                            "rest_id": "1488984057576923151"
-                          },
-                          "profile_bio": {
-                            "description": "Independent Defence Analyst focusing on Russia and Belarus / Director of Rochan Consulting. Normal caveats apply."
+                            }
                           },
                           "profile_description_language": "en",
                           "profile_image_shape": "Circle",
+                          "profile_metadata": {
+                            "profile_interstitial_type": ""
+                          },
+                          "profile_translation": {
+                            "translator_type": "none"
+                          },
+                          "relationship_counts": {
+                            "followers": 114220,
+                            "following": 652
+                          },
                           "relationship_perspectives": {
                             "blocked_by": false,
                             "blocking": false,
@@ -2056,15 +2055,22 @@
                           "super_followed_by": false,
                           "super_following": false,
                           "tipjar_settings": {},
+                          "tweet_counts": {
+                            "media_tweets": 576,
+                            "tweets": 7407
+                          },
                           "verification": {
                             "verified": false
+                          },
+                          "website": {
+                            "url": "https://t.co/cRvidHQ0j7"
                           }
                         }
                       }
                     }
                   },
                   "entryId": "user-718916004072570880",
-                  "sortIndex": "2079663799433953264"
+                  "sortIndex": "2085474419655835632"
                 },
                 {
                   "content": {
@@ -2081,9 +2087,15 @@
                       "user_results": {
                         "result": {
                           "__typename": "User",
+                          "action_counts": {
+                            "favorites_count": 4383
+                          },
                           "affiliates_highlighted_label": {},
                           "avatar": {
                             "image_url": "https://pbs.twimg.com/profile_images/920322599736840192/iOC3Zcrq_normal.jpg"
+                          },
+                          "banner": {
+                            "image_url": "https://pbs.twimg.com/profile_banners/702643881054089216/1645907046"
                           },
                           "core": {
                             "created_at": "Wed Feb 24 23:58:50 +0000 2016",
@@ -2097,51 +2109,38 @@
                           "has_graduated_access": true,
                           "id": "VXNlcjo3MDI2NDM4ODEwNTQwODkyMTY=",
                           "is_blue_verified": false,
-                          "legacy": {
-                            "default_profile": true,
-                            "default_profile_image": false,
-                            "description": "Retired CIA. CNN contributor. Watching Russia. Trying to be anti-racist. Loving sunflowers.",
-                            "entities": {
-                              "description": {}
-                            },
-                            "fast_followers_count": 0,
-                            "favourites_count": 4383,
-                            "follow_request_sent": false,
-                            "followers_count": 50741,
-                            "friends_count": 395,
-                            "has_custom_timelines": true,
-                            "is_translator": false,
-                            "listed_count": 647,
-                            "media_count": 34,
-                            "needs_phone_verification": false,
-                            "normal_followers_count": 50741,
-                            "notifications": false,
-                            "possibly_sensitive": false,
-                            "profile_banner_url": "https://pbs.twimg.com/profile_banners/702643881054089216/1645907046",
-                            "profile_interstitial_type": "",
-                            "statuses_count": 16274,
-                            "time_zone": "",
-                            "translator_type": "none",
-                            "url": "",
-                            "utc_offset": 0,
-                            "want_retweets": false,
-                            "withheld_description": "",
-                            "withheld_scope": ""
-                          },
                           "location": {
                             "location": ""
                           },
                           "media_permissions": {
                             "can_media_tag": false
                           },
+                          "notifications_settings": {
+                            "notifications_enabled": false
+                          },
+                          "pinned_items": {},
+                          "possibly_sensitive": false,
                           "privacy": {
                             "protected": false
                           },
                           "profile_bio": {
-                            "description": "Retired CIA. CNN contributor. Watching Russia. Trying to be anti-racist. Loving sunflowers."
+                            "description": "Retired CIA. CNN contributor. Watching Russia. Trying to be anti-racist. Loving sunflowers.",
+                            "entities": {
+                              "description": {}
+                            }
                           },
                           "profile_description_language": "en",
                           "profile_image_shape": "Circle",
+                          "profile_metadata": {
+                            "profile_interstitial_type": ""
+                          },
+                          "profile_translation": {
+                            "translator_type": "none"
+                          },
+                          "relationship_counts": {
+                            "followers": 50669,
+                            "following": 395
+                          },
                           "relationship_perspectives": {
                             "blocked_by": false,
                             "blocking": false,
@@ -2155,15 +2154,22 @@
                           "super_followed_by": false,
                           "super_following": false,
                           "tipjar_settings": {},
+                          "tweet_counts": {
+                            "media_tweets": 34,
+                            "tweets": 16273
+                          },
                           "verification": {
                             "verified": false
+                          },
+                          "website": {
+                            "url": ""
                           }
                         }
                       }
                     }
                   },
                   "entryId": "user-702643881054089216",
-                  "sortIndex": "2079663799433953263"
+                  "sortIndex": "2085474419655835631"
                 },
                 {
                   "content": {
@@ -2180,9 +2186,15 @@
                       "user_results": {
                         "result": {
                           "__typename": "User",
+                          "action_counts": {
+                            "favorites_count": 101
+                          },
                           "affiliates_highlighted_label": {},
                           "avatar": {
                             "image_url": "https://pbs.twimg.com/profile_images/1566347556157800448/7EVzAocx_normal.jpg"
+                          },
+                          "banner": {
+                            "image_url": "https://pbs.twimg.com/profile_banners/3987701367/1649580773"
                           },
                           "core": {
                             "created_at": "Sun Oct 18 15:03:56 +0000 2015",
@@ -2196,9 +2208,21 @@
                           "has_graduated_access": true,
                           "id": "VXNlcjozOTg3NzAxMzY3",
                           "is_blue_verified": false,
-                          "legacy": {
-                            "default_profile": true,
-                            "default_profile_image": false,
+                          "location": {
+                            "location": "Kyiv"
+                          },
+                          "media_permissions": {
+                            "can_media_tag": true
+                          },
+                          "notifications_settings": {
+                            "notifications_enabled": false
+                          },
+                          "pinned_items": {},
+                          "possibly_sensitive": false,
+                          "privacy": {
+                            "protected": false
+                          },
+                          "profile_bio": {
                             "description": "Minister of Defence of Ukraine November 2021 - September 2023",
                             "entities": {
                               "description": {},
@@ -2215,45 +2239,20 @@
                                   }
                                 ]
                               }
-                            },
-                            "fast_followers_count": 0,
-                            "favourites_count": 101,
-                            "follow_request_sent": false,
-                            "followers_count": 590664,
-                            "friends_count": 189,
-                            "has_custom_timelines": true,
-                            "is_translator": false,
-                            "listed_count": 4925,
-                            "media_count": 730,
-                            "needs_phone_verification": false,
-                            "normal_followers_count": 590664,
-                            "notifications": false,
-                            "possibly_sensitive": false,
-                            "profile_banner_url": "https://pbs.twimg.com/profile_banners/3987701367/1649580773",
-                            "profile_interstitial_type": "",
-                            "statuses_count": 1042,
-                            "time_zone": "",
-                            "translator_type": "none",
-                            "url": "https://t.co/oEJKQp58ky",
-                            "utc_offset": 0,
-                            "want_retweets": false,
-                            "withheld_description": "",
-                            "withheld_scope": ""
-                          },
-                          "location": {
-                            "location": "Kyiv"
-                          },
-                          "media_permissions": {
-                            "can_media_tag": true
-                          },
-                          "privacy": {
-                            "protected": false
-                          },
-                          "profile_bio": {
-                            "description": "Minister of Defence of Ukraine November 2021 - September 2023"
+                            }
                           },
                           "profile_description_language": "en",
                           "profile_image_shape": "Circle",
+                          "profile_metadata": {
+                            "profile_interstitial_type": ""
+                          },
+                          "profile_translation": {
+                            "translator_type": "none"
+                          },
+                          "relationship_counts": {
+                            "followers": 590060,
+                            "following": 189
+                          },
                           "relationship_perspectives": {
                             "blocked_by": false,
                             "blocking": false,
@@ -2267,16 +2266,23 @@
                           "super_followed_by": false,
                           "super_following": false,
                           "tipjar_settings": {},
+                          "tweet_counts": {
+                            "media_tweets": 730,
+                            "tweets": 1042
+                          },
                           "verification": {
                             "verified": false,
                             "verified_type": "Government"
+                          },
+                          "website": {
+                            "url": "https://t.co/oEJKQp58ky"
                           }
                         }
                       }
                     }
                   },
                   "entryId": "user-3987701367",
-                  "sortIndex": "2079663799433953262"
+                  "sortIndex": "2085474419655835630"
                 },
                 {
                   "content": {
@@ -2293,9 +2299,15 @@
                       "user_results": {
                         "result": {
                           "__typename": "User",
+                          "action_counts": {
+                            "favorites_count": 436
+                          },
                           "affiliates_highlighted_label": {},
                           "avatar": {
                             "image_url": "https://pbs.twimg.com/profile_images/1209243143830474752/ea-FU7es_normal.jpg"
+                          },
+                          "banner": {
+                            "image_url": "https://pbs.twimg.com/profile_banners/2996337411/1606153339"
                           },
                           "core": {
                             "created_at": "Sat Jan 24 19:22:34 +0000 2015",
@@ -2309,9 +2321,21 @@
                           "has_graduated_access": true,
                           "id": "VXNlcjoyOTk2MzM3NDEx",
                           "is_blue_verified": true,
-                          "legacy": {
-                            "default_profile": true,
-                            "default_profile_image": false,
+                          "location": {
+                            "location": ""
+                          },
+                          "media_permissions": {
+                            "can_media_tag": true
+                          },
+                          "notifications_settings": {
+                            "notifications_enabled": false
+                          },
+                          "pinned_items": {},
+                          "possibly_sensitive": false,
+                          "privacy": {
+                            "protected": false
+                          },
+                          "profile_bio": {
                             "description": "National Security Advisor to President Biden.",
                             "entities": {
                               "description": {},
@@ -2328,45 +2352,20 @@
                                   }
                                 ]
                               }
-                            },
-                            "fast_followers_count": 0,
-                            "favourites_count": 436,
-                            "follow_request_sent": false,
-                            "followers_count": 176240,
-                            "friends_count": 626,
-                            "has_custom_timelines": true,
-                            "is_translator": false,
-                            "listed_count": 1679,
-                            "media_count": 0,
-                            "needs_phone_verification": false,
-                            "normal_followers_count": 176240,
-                            "notifications": false,
-                            "possibly_sensitive": false,
-                            "profile_banner_url": "https://pbs.twimg.com/profile_banners/2996337411/1606153339",
-                            "profile_interstitial_type": "",
-                            "statuses_count": 23,
-                            "time_zone": "",
-                            "translator_type": "none",
-                            "url": "https://t.co/dLgIbugOdh",
-                            "utc_offset": 0,
-                            "want_retweets": false,
-                            "withheld_description": "",
-                            "withheld_scope": ""
-                          },
-                          "location": {
-                            "location": ""
-                          },
-                          "media_permissions": {
-                            "can_media_tag": true
-                          },
-                          "privacy": {
-                            "protected": false
-                          },
-                          "profile_bio": {
-                            "description": "National Security Advisor to President Biden."
+                            }
                           },
                           "profile_description_language": "en",
                           "profile_image_shape": "Circle",
+                          "profile_metadata": {
+                            "profile_interstitial_type": ""
+                          },
+                          "profile_translation": {
+                            "translator_type": "none"
+                          },
+                          "relationship_counts": {
+                            "followers": 176038,
+                            "following": 626
+                          },
                           "relationship_perspectives": {
                             "blocked_by": false,
                             "blocking": false,
@@ -2380,35 +2379,42 @@
                           "super_followed_by": false,
                           "super_following": false,
                           "tipjar_settings": {},
+                          "tweet_counts": {
+                            "media_tweets": 0,
+                            "tweets": 23
+                          },
                           "verification": {
                             "verified": false
+                          },
+                          "website": {
+                            "url": "https://t.co/dLgIbugOdh"
                           }
                         }
                       }
                     }
                   },
                   "entryId": "user-2996337411",
-                  "sortIndex": "2079663799433953261"
+                  "sortIndex": "2085474419655835629"
                 },
                 {
                   "content": {
                     "__typename": "TimelineTimelineCursor",
                     "cursorType": "Bottom",
                     "entryType": "TimelineTimelineCursor",
-                    "value": "4611686021423725315|2079663799433953258"
+                    "value": "4611686021423725315|2085474419655835626"
                   },
-                  "entryId": "cursor-bottom-2079663799433953260",
-                  "sortIndex": "2079663799433953260"
+                  "entryId": "cursor-bottom-2085474419655835628",
+                  "sortIndex": "2085474419655835628"
                 },
                 {
                   "content": {
                     "__typename": "TimelineTimelineCursor",
                     "cursorType": "Top",
                     "entryType": "TimelineTimelineCursor",
-                    "value": "-1|2079663799433953281"
+                    "value": "-1|2085474419655835649"
                   },
-                  "entryId": "cursor-top-2079663799433953281",
-                  "sortIndex": "2079663799433953281"
+                  "entryId": "cursor-top-2085474419655835649",
+                  "sortIndex": "2085474419655835649"
                 }
               ],
               "type": "TimelineAddEntries"

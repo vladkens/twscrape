@@ -1,0 +1,3606 @@
+{
+  "data": {
+    "threaded_conversation_with_injections_v2": {
+      "instructions": [
+        {
+          "type": "TimelineClearCache"
+        },
+        {
+          "entries": [
+            {
+              "content": {
+                "__typename": "TimelineTimelineItem",
+                "clientEventInfo": {
+                  "component": "tweet",
+                  "element": "tweet"
+                },
+                "entryType": "TimelineTimelineItem",
+                "itemContent": {
+                  "__typename": "TimelineTweet",
+                  "itemType": "TimelineTweet",
+                  "tweetDisplayType": "Tweet",
+                  "tweet_results": {
+                    "result": {
+                      "__typename": "Tweet",
+                      "card": {
+                        "legacy": {
+                          "binding_values": [
+                            {
+                              "key": "event_thumbnail_color",
+                              "value": {
+                                "image_color_value": {
+                                  "palette": [
+                                    {
+                                      "percentage": 38.68,
+                                      "rgb": {
+                                        "blue": 8,
+                                        "green": 13,
+                                        "red": 16
+                                      }
+                                    },
+                                    {
+                                      "percentage": 28.22,
+                                      "rgb": {
+                                        "blue": 199,
+                                        "green": 203,
+                                        "red": 208
+                                      }
+                                    },
+                                    {
+                                      "percentage": 15.48,
+                                      "rgb": {
+                                        "blue": 20,
+                                        "green": 56,
+                                        "red": 96
+                                      }
+                                    },
+                                    {
+                                      "percentage": 5.17,
+                                      "rgb": {
+                                        "blue": 82,
+                                        "green": 138,
+                                        "red": 179
+                                      }
+                                    },
+                                    {
+                                      "percentage": 3.52,
+                                      "rgb": {
+                                        "blue": 28,
+                                        "green": 104,
+                                        "red": 170
+                                      }
+                                    }
+                                  ]
+                                },
+                                "type": "IMAGE_COLOR"
+                              }
+                            },
+                            {
+                              "key": "event_category",
+                              "value": {
+                                "string_value": "Music",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "broadcast_width",
+                              "value": {
+                                "string_value": "1920",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "event_thumbnail_original",
+                              "value": {
+                                "image_value": {
+                                  "height": 680,
+                                  "url": "https://pbs.twimg.com/semantic_core_img/1463196034834653197/laCi4ben?format=jpg&name=orig",
+                                  "width": 1024
+                                },
+                                "type": "IMAGE"
+                              }
+                            },
+                            {
+                              "key": "square_thumbnail",
+                              "value": {
+                                "image_value": {
+                                  "height": 680,
+                                  "url": "https://pbs.twimg.com/semantic_core_img/1463196034834653197/laCi4ben?format=jpg&name=orig",
+                                  "width": 1024
+                                },
+                                "type": "IMAGE"
+                              }
+                            },
+                            {
+                              "key": "square_thumbnail_color",
+                              "value": {
+                                "image_color_value": {
+                                  "palette": [
+                                    {
+                                      "percentage": 38.68,
+                                      "rgb": {
+                                        "blue": 8,
+                                        "green": 13,
+                                        "red": 16
+                                      }
+                                    },
+                                    {
+                                      "percentage": 28.22,
+                                      "rgb": {
+                                        "blue": 199,
+                                        "green": 203,
+                                        "red": 208
+                                      }
+                                    },
+                                    {
+                                      "percentage": 15.48,
+                                      "rgb": {
+                                        "blue": 20,
+                                        "green": 56,
+                                        "red": 96
+                                      }
+                                    },
+                                    {
+                                      "percentage": 5.17,
+                                      "rgb": {
+                                        "blue": 82,
+                                        "green": 138,
+                                        "red": 179
+                                      }
+                                    },
+                                    {
+                                      "percentage": 3.52,
+                                      "rgb": {
+                                        "blue": 28,
+                                        "green": 104,
+                                        "red": 170
+                                      }
+                                    }
+                                  ]
+                                },
+                                "type": "IMAGE_COLOR"
+                              }
+                            },
+                            {
+                              "key": "square_thumbnail_original",
+                              "value": {
+                                "image_value": {
+                                  "height": 680,
+                                  "url": "https://pbs.twimg.com/semantic_core_img/1463196034834653197/laCi4ben?format=jpg&name=orig",
+                                  "width": 1024
+                                },
+                                "type": "IMAGE"
+                              }
+                            },
+                            {
+                              "key": "media_tweet_id",
+                              "value": {
+                                "string_value": "1462832246390288384",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "event_thumbnail_x_large",
+                              "value": {
+                                "image_value": {
+                                  "height": 680,
+                                  "url": "https://pbs.twimg.com/semantic_core_img/1463196034834653197/laCi4ben?format=jpg&name=orig",
+                                  "width": 1024
+                                },
+                                "type": "IMAGE"
+                              }
+                            },
+                            {
+                              "key": "broadcast_title",
+                              "value": {
+                                "string_value": "2022 GRAMMY Nominations Announced",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "broadcast_source",
+                              "value": {
+                                "string_value": "livecms",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "event_title",
+                              "value": {
+                                "string_value": "The 64th annual GRAMMY Awards nominees have been announced \ud83c\udfb6",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "broadcast_orientation",
+                              "value": {
+                                "string_value": "0",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "remind_me_toggle_visible",
+                              "value": {
+                                "boolean_value": false,
+                                "type": "BOOLEAN"
+                              }
+                            },
+                            {
+                              "key": "event_timeline_id",
+                              "value": {
+                                "string_value": "matchup",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "event_subtitle",
+                              "value": {
+                                "string_value": "The Recording Academy announced the nominees for the 64th Annual GRAMMY Awards on Tuesday. Artists nominated include Cardi B, Megan Thee Stallion, H.E.R., Ariana Grande, Selena Gomez, Justin Bieber,  Olivia Rodrigo, Billie Eilish, the Foo Fighters, Kanye West and Barack Obama, who was nominated for his audiobook A Promised Land. This is the first time in 30 years the finalists were determined solely by votes from the Academy's thousands of members and not filtered through anonymous committees of experts, the New York Times reports. The ceremony will be held on January 31, 2022, at the Crypto.com Arena in Los Angeles.",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "broadcast_id",
+                              "value": {
+                                "string_value": "1eaJbNMnWXoJX",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "broadcaster_twitter_id",
+                              "value": {
+                                "string_value": "17243213",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "broadcast_height",
+                              "value": {
+                                "string_value": "1080",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "broadcaster_username",
+                              "value": {
+                                "string_value": "RecordingAcad",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "square_thumbnail_x_large",
+                              "value": {
+                                "image_value": {
+                                  "height": 680,
+                                  "url": "https://pbs.twimg.com/semantic_core_img/1463196034834653197/laCi4ben?format=jpg&name=orig",
+                                  "width": 1024
+                                },
+                                "type": "IMAGE"
+                              }
+                            },
+                            {
+                              "key": "event_thumbnail_small",
+                              "value": {
+                                "image_value": {
+                                  "height": 680,
+                                  "url": "https://pbs.twimg.com/semantic_core_img/1463196034834653197/laCi4ben?format=jpg&name=orig",
+                                  "width": 1024
+                                },
+                                "type": "IMAGE"
+                              }
+                            },
+                            {
+                              "key": "broadcast_media_key",
+                              "value": {
+                                "string_value": "28_1460713369799774208",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "square_thumbnail_small",
+                              "value": {
+                                "image_value": {
+                                  "height": 680,
+                                  "url": "https://pbs.twimg.com/semantic_core_img/1463196034834653197/laCi4ben?format=jpg&name=orig",
+                                  "width": 1024
+                                },
+                                "type": "IMAGE"
+                              }
+                            },
+                            {
+                              "key": "broadcaster_display_name",
+                              "value": {
+                                "string_value": "Recording Acad / GRAMMYs",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "media_type",
+                              "value": {
+                                "string_value": "broadcast",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "event_id",
+                              "value": {
+                                "string_value": "1461789549739143169",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "square_thumbnail_large",
+                              "value": {
+                                "image_value": {
+                                  "height": 680,
+                                  "url": "https://pbs.twimg.com/semantic_core_img/1463196034834653197/laCi4ben?format=jpg&name=orig",
+                                  "width": 1024
+                                },
+                                "type": "IMAGE"
+                              }
+                            },
+                            {
+                              "key": "broadcast_media_id",
+                              "value": {
+                                "string_value": "1460713369799774208",
+                                "type": "STRING"
+                              }
+                            },
+                            {
+                              "key": "event_thumbnail_large",
+                              "value": {
+                                "image_value": {
+                                  "height": 680,
+                                  "url": "https://pbs.twimg.com/semantic_core_img/1463196034834653197/laCi4ben?format=jpg&name=orig",
+                                  "width": 1024
+                                },
+                                "type": "IMAGE"
+                              }
+                            },
+                            {
+                              "key": "event_thumbnail",
+                              "value": {
+                                "image_value": {
+                                  "height": 680,
+                                  "url": "https://pbs.twimg.com/semantic_core_img/1463196034834653197/laCi4ben?format=jpg&name=orig",
+                                  "width": 1024
+                                },
+                                "type": "IMAGE"
+                              }
+                            },
+                            {
+                              "key": "card_url",
+                              "value": {
+                                "scribe_key": "card_url",
+                                "string_value": "https://t.co/WzKIndGKqJ",
+                                "type": "STRING"
+                              }
+                            }
+                          ],
+                          "card_platform": {
+                            "platform": {
+                              "audience": {
+                                "name": "production"
+                              },
+                              "device": {
+                                "name": "Swift",
+                                "version": "12"
+                              }
+                            }
+                          },
+                          "name": "745291183405076480:live_event",
+                          "url": "https://t.co/WzKIndGKqJ",
+                          "user_refs_results": []
+                        },
+                        "rest_id": "https://t.co/WzKIndGKqJ"
+                      },
+                      "core": {
+                        "user_results": {
+                          "result": {
+                            "__typename": "User",
+                            "action_counts": {
+                              "favorites_count": 8887
+                            },
+                            "affiliates_highlighted_label": {},
+                            "avatar": {
+                              "image_url": "https://pbs.twimg.com/profile_images/1896639558655062016/8R5kEhP3_normal.jpg"
+                            },
+                            "banner": {
+                              "image_url": "https://pbs.twimg.com/profile_banners/17243213/1759361334"
+                            },
+                            "core": {
+                              "created_at": "Sat Nov 08 02:03:24 +0000 2008",
+                              "name": "GRAMMYS",
+                              "screen_name": "RecordingAcad"
+                            },
+                            "dm_permissions": {
+                              "can_dm": true
+                            },
+                            "follow_request_sent": false,
+                            "has_graduated_access": true,
+                            "id": "VXNlcjoxNzI0MzIxMw==",
+                            "is_blue_verified": true,
+                            "location": {
+                              "location": "Santa Monica"
+                            },
+                            "media_permissions": {
+                              "can_media_tag": true
+                            },
+                            "notifications_settings": {
+                              "notifications_enabled": false
+                            },
+                            "pinned_items": {},
+                            "possibly_sensitive": false,
+                            "privacy": {
+                              "protected": false
+                            },
+                            "profile_bio": {
+                              "description": "Celebrating music through the #GRAMMYs. Fostering a stronger and more inspiring world for creators through @GRAMMYAdvocacy, @MusiCares, and the @GRAMMYMuseum.",
+                              "entities": {
+                                "description": {},
+                                "url": {
+                                  "urls": [
+                                    {
+                                      "display_url": "grm.my/49eZIgr",
+                                      "expanded_url": "http://grm.my/49eZIgr",
+                                      "indices": [
+                                        0,
+                                        23
+                                      ],
+                                      "url": "https://t.co/9qDNK0TwLx"
+                                    }
+                                  ]
+                                }
+                              }
+                            },
+                            "profile_description_language": "en",
+                            "profile_image_shape": "Square",
+                            "profile_metadata": {
+                              "profile_interstitial_type": ""
+                            },
+                            "profile_translation": {
+                              "translator_type": "regular"
+                            },
+                            "relationship_counts": {
+                              "followers": 5556686,
+                              "following": 17887
+                            },
+                            "relationship_perspectives": {
+                              "blocked_by": false,
+                              "blocking": false,
+                              "followed_by": false,
+                              "following": false,
+                              "live_following": false,
+                              "muting": false
+                            },
+                            "rest_id": "17243213",
+                            "super_follow_eligible": false,
+                            "super_followed_by": false,
+                            "super_following": false,
+                            "tipjar_settings": {},
+                            "tweet_counts": {
+                              "media_tweets": 17444,
+                              "tweets": 63165
+                            },
+                            "verification": {
+                              "verified": false,
+                              "verified_type": "Business"
+                            },
+                            "website": {
+                              "url": "https://t.co/9qDNK0TwLx"
+                            }
+                          }
+                        }
+                      },
+                      "edit_control": {
+                        "edit_tweet_ids": [
+                          "1463203718153703425"
+                        ],
+                        "editable_until_msecs": "1637691726075",
+                        "edits_remaining": "5",
+                        "is_edit_eligible": true
+                      },
+                      "grok_translated_post_with_availability": {
+                        "is_available": false
+                      },
+                      "has_birdwatch_notes": false,
+                      "is_translatable": false,
+                      "legacy": {
+                        "bookmark_count": 6,
+                        "bookmarked": false,
+                        "conversation_id_str": "1463203718153703425",
+                        "created_at": "Tue Nov 23 17:52:06 +0000 2021",
+                        "display_text_range": [
+                          0,
+                          192
+                        ],
+                        "entities": {
+                          "urls": [
+                            {
+                              "display_url": "x.com/i/events/14617\u2026",
+                              "expanded_url": "https://x.com/i/events/1461789549739143169",
+                              "indices": [
+                                169,
+                                192
+                              ],
+                              "url": "https://t.co/WzKIndGKqJ"
+                            }
+                          ],
+                          "user_mentions": [
+                            {
+                              "id_str": "1865772373863202816",
+                              "indices": [
+                                65,
+                                73
+                              ],
+                              "name": "Cruel",
+                              "screen_name": "cruella"
+                            },
+                            {
+                              "id_str": "1390420550497996812",
+                              "indices": [
+                                75,
+                                84
+                              ],
+                              "name": "Dear Evan Hansen Movie",
+                              "screen_name": "dehmovie"
+                            },
+                            {
+                              "id_str": "1004849101052055552",
+                              "indices": [
+                                86,
+                                99
+                              ],
+                              "name": "In The Heights Movie",
+                              "screen_name": "intheheights"
+                            },
+                            {
+                              "id_str": "1148889196272242688",
+                              "indices": [
+                                101,
+                                110
+                              ],
+                              "name": "One Night In Miami...",
+                              "screen_name": "ONIMfilm"
+                            },
+                            {
+                              "id_str": "1133859529278468096",
+                              "indices": [
+                                112,
+                                125
+                              ],
+                              "name": "RESPECT: The Aretha Franklin Movie",
+                              "screen_name": "RespectMovie"
+                            },
+                            {
+                              "id_str": "1165251197596557312",
+                              "indices": [
+                                155,
+                                166
+                              ],
+                              "name": "The U.S. vs. Billie Holiday",
+                              "screen_name": "USvsBillie"
+                            }
+                          ]
+                        },
+                        "favorite_count": 506,
+                        "favorited": false,
+                        "full_text": "\ud83c\udf89Congrats Best Compilation Soundtrack For Visual Media nominees: @cruella, @dehmovie, @intheheights, @ONIMfilm, @RespectMovie, Schmigadoon! Episode 1, and @UsvsBillie. \nhttps://t.co/WzKIndGKqJ",
+                        "id_str": "1463203718153703425",
+                        "is_quote_status": false,
+                        "lang": "en",
+                        "possibly_sensitive": false,
+                        "possibly_sensitive_editable": true,
+                        "quote_count": 112,
+                        "reply_count": 15,
+                        "retweet_count": 117,
+                        "retweeted": false,
+                        "user_id_str": "17243213"
+                      },
+                      "quick_promote_eligibility": {
+                        "eligibility": "IneligibleNotVerified"
+                      },
+                      "rest_id": "1463203718153703425",
+                      "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+                      "unmention_data": {},
+                      "views": {
+                        "state": "Enabled"
+                      }
+                    }
+                  }
+                }
+              },
+              "entryId": "tweet-1463203718153703425",
+              "sortIndex": "2093598831756181504"
+            },
+            {
+              "content": {
+                "__typename": "TimelineTimelineModule",
+                "clientEventInfo": {
+                  "component": "tweet",
+                  "details": {
+                    "conversationDetails": {
+                      "conversationSection": "HighQuality"
+                    },
+                    "timelinesDetails": {
+                      "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBMYTH0AAAAAA=="
+                    }
+                  }
+                },
+                "displayType": "VerticalConversation",
+                "entryType": "TimelineTimelineModule",
+                "items": [
+                  {
+                    "entryId": "conversationthread-1463225912737026059-tweet-1463225912737026059",
+                    "item": {
+                      "clientEventInfo": {
+                        "component": "tweet",
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBMYTH0AAAAAA=="
+                          }
+                        },
+                        "element": "tweet"
+                      },
+                      "itemContent": {
+                        "__typename": "TimelineTweet",
+                        "itemType": "TimelineTweet",
+                        "tweetDisplayType": "Tweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "action_counts": {
+                                    "favorites_count": 4788
+                                  },
+                                  "affiliates_highlighted_label": {},
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/1689719186149318656/Kb3_DIJl_normal.jpg"
+                                  },
+                                  "banner": {
+                                    "image_url": "https://pbs.twimg.com/profile_banners/1208091543636189184/1640382162"
+                                  },
+                                  "core": {
+                                    "created_at": "Fri Dec 20 18:27:34 +0000 2019",
+                                    "name": "Leonela",
+                                    "screen_name": "95LESLIEGM"
+                                  },
+                                  "dm_permissions": {
+                                    "can_dm": true
+                                  },
+                                  "follow_request_sent": false,
+                                  "has_graduated_access": true,
+                                  "id": "VXNlcjoxMjA4MDkxNTQzNjM2MTg5MTg0",
+                                  "is_blue_verified": false,
+                                  "location": {
+                                    "location": "Your Grace"
+                                  },
+                                  "media_permissions": {
+                                    "can_media_tag": false
+                                  },
+                                  "notifications_settings": {
+                                    "notifications_enabled": false
+                                  },
+                                  "pinned_items": {
+                                    "tweet_ids_str": [
+                                      "1471667344065900546"
+                                    ]
+                                  },
+                                  "possibly_sensitive": false,
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "profile_bio": {
+                                    "description": "GRACENATION\ud83c\udde9\ud83c\uddf4/\ud83c\uddea\ud83c\udde8",
+                                    "entities": {
+                                      "description": {}
+                                    }
+                                  },
+                                  "profile_description_language": "en",
+                                  "profile_image_shape": "Circle",
+                                  "profile_metadata": {
+                                    "profile_interstitial_type": ""
+                                  },
+                                  "profile_translation": {
+                                    "translator_type": "none"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 28,
+                                    "following": 11
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocked_by": false,
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": false,
+                                    "live_following": false,
+                                    "muting": false
+                                  },
+                                  "rest_id": "1208091543636189184",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tipjar_settings": {},
+                                  "tweet_counts": {
+                                    "media_tweets": 165,
+                                    "tweets": 2841
+                                  },
+                                  "verification": {
+                                    "verified": false
+                                  },
+                                  "website": {
+                                    "url": ""
+                                  }
+                                }
+                              }
+                            },
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1463225912737026059"
+                              ],
+                              "editable_until_msecs": "1637697017676",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": true
+                            },
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "has_birdwatch_notes": false,
+                            "is_translatable": false,
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "conversation_id_str": "1463203718153703425",
+                              "created_at": "Tue Nov 23 19:20:17 +0000 2021",
+                              "display_text_range": [
+                                29,
+                                44
+                              ],
+                              "entities": {
+                                "user_mentions": [
+                                  {
+                                    "id_str": "17243213",
+                                    "indices": [
+                                      0,
+                                      14
+                                    ],
+                                    "name": "GRAMMYS",
+                                    "screen_name": "RecordingAcad"
+                                  },
+                                  {
+                                    "id_str": "1004849101052055552",
+                                    "indices": [
+                                      15,
+                                      28
+                                    ],
+                                    "name": "In The Heights Movie",
+                                    "screen_name": "intheheights"
+                                  }
+                                ]
+                              },
+                              "favorite_count": 2,
+                              "favorited": false,
+                              "full_text": "@RecordingAcad @intheheights IN THE HEIGHTS!",
+                              "id_str": "1463225912737026059",
+                              "in_reply_to_screen_name": "RecordingAcad",
+                              "in_reply_to_status_id_str": "1463203718153703425",
+                              "in_reply_to_user_id_str": "17243213",
+                              "is_quote_status": false,
+                              "lang": "en",
+                              "quote_count": 0,
+                              "reply_count": 0,
+                              "retweet_count": 0,
+                              "retweeted": false,
+                              "user_id_str": "1208091543636189184"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "rest_id": "1463225912737026059",
+                            "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
+                            "unmention_data": {},
+                            "views": {
+                              "state": "Enabled"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "metadata": {
+                  "conversationMetadata": {
+                    "allTweetIds": [
+                      "1463225912737026059"
+                    ],
+                    "enableDeduplication": true
+                  }
+                }
+              },
+              "entryId": "conversationthread-1463225912737026059",
+              "sortIndex": "2093598831756181494"
+            },
+            {
+              "content": {
+                "__typename": "TimelineTimelineModule",
+                "clientEventInfo": {
+                  "component": "tweet",
+                  "details": {
+                    "conversationDetails": {
+                      "conversationSection": "HighQuality"
+                    },
+                    "timelinesDetails": {
+                      "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBMYTH0AAAAAA=="
+                    }
+                  }
+                },
+                "displayType": "VerticalConversation",
+                "entryType": "TimelineTimelineModule",
+                "items": [
+                  {
+                    "entryId": "conversationthread-1463234622146465797-tweet-1463234622146465797",
+                    "item": {
+                      "clientEventInfo": {
+                        "component": "tweet",
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBMYTH0AAAAAA=="
+                          }
+                        },
+                        "element": "tweet"
+                      },
+                      "itemContent": {
+                        "__typename": "TimelineTweet",
+                        "itemType": "TimelineTweet",
+                        "tweetDisplayType": "Tweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "card": {
+                              "rest_id": "https://t.co/D24TA1au9x"
+                            },
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "action_counts": {
+                                    "favorites_count": 72000
+                                  },
+                                  "affiliates_highlighted_label": {},
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/2062584272133738496/SuyJXhGk_normal.jpg"
+                                  },
+                                  "banner": {
+                                    "image_url": "https://pbs.twimg.com/profile_banners/982660079777472513/1780593504"
+                                  },
+                                  "core": {
+                                    "created_at": "Sat Apr 07 16:43:14 +0000 2018",
+                                    "name": "ju \u266a\u266b",
+                                    "screen_name": "hugmeanawar"
+                                  },
+                                  "dm_permissions": {
+                                    "can_dm": false
+                                  },
+                                  "follow_request_sent": false,
+                                  "has_graduated_access": true,
+                                  "id": "VXNlcjo5ODI2NjAwNzk3Nzc0NzI1MTM=",
+                                  "is_blue_verified": false,
+                                  "location": {
+                                    "location": ""
+                                  },
+                                  "media_permissions": {
+                                    "can_media_tag": true
+                                  },
+                                  "notifications_settings": {
+                                    "notifications_enabled": false
+                                  },
+                                  "pinned_items": {
+                                    "tweet_ids_str": [
+                                      "1703027221235920981"
+                                    ]
+                                  },
+                                  "possibly_sensitive": false,
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "profile_bio": {
+                                    "description": "thank you for the music\u2727\u2060*\u2060\u3002",
+                                    "entities": {
+                                      "description": {},
+                                      "url": {
+                                        "urls": [
+                                          {
+                                            "display_url": "hugmeanawar.carrd.co",
+                                            "expanded_url": "https://hugmeanawar.carrd.co",
+                                            "indices": [
+                                              0,
+                                              23
+                                            ],
+                                            "url": "https://t.co/H8Xgx1uVUY"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  "profile_description_language": "en",
+                                  "profile_image_shape": "Circle",
+                                  "profile_metadata": {
+                                    "profile_interstitial_type": ""
+                                  },
+                                  "profile_translation": {
+                                    "translator_type": "none"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 987,
+                                    "following": 926
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocked_by": false,
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": false,
+                                    "live_following": false,
+                                    "muting": false
+                                  },
+                                  "rest_id": "982660079777472513",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tipjar_settings": {},
+                                  "tweet_counts": {
+                                    "media_tweets": 5639,
+                                    "tweets": 22275
+                                  },
+                                  "verification": {
+                                    "verified": false
+                                  },
+                                  "website": {
+                                    "url": "https://t.co/H8Xgx1uVUY"
+                                  }
+                                }
+                              }
+                            },
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1463234622146465797"
+                              ],
+                              "editable_until_msecs": "1637699094161",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": true
+                            },
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "has_birdwatch_notes": false,
+                            "is_translatable": false,
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "conversation_id_str": "1463203718153703425",
+                              "created_at": "Tue Nov 23 19:54:54 +0000 2021",
+                              "display_text_range": [
+                                84,
+                                118
+                              ],
+                              "entities": {
+                                "media": [
+                                  {
+                                    "additional_media_info": {
+                                      "monetizable": false,
+                                      "source_user": {
+                                        "user_results": {
+                                          "result": {
+                                            "__typename": "User",
+                                            "action_counts": {
+                                              "favorites_count": 1
+                                            },
+                                            "affiliates_highlighted_label": {},
+                                            "avatar": {
+                                              "image_url": "https://pbs.twimg.com/profile_images/1423510459538415618/fvp4UTG9_normal.jpg"
+                                            },
+                                            "banner": {
+                                              "image_url": "https://pbs.twimg.com/profile_banners/1339609263803645952/1619208916"
+                                            },
+                                            "core": {
+                                              "created_at": "Thu Dec 17 16:32:08 +0000 2020",
+                                              "name": "lua\u2019s media",
+                                              "screen_name": "tvrminal"
+                                            },
+                                            "dm_permissions": {
+                                              "can_dm": false
+                                            },
+                                            "follow_request_sent": false,
+                                            "has_graduated_access": true,
+                                            "id": "VXNlcjoxMzM5NjA5MjYzODAzNjQ1OTUy",
+                                            "is_blue_verified": false,
+                                            "location": {
+                                              "location": ""
+                                            },
+                                            "media_permissions": {
+                                              "can_media_tag": false
+                                            },
+                                            "notifications_settings": {
+                                              "notifications_enabled": false
+                                            },
+                                            "pinned_items": {},
+                                            "possibly_sensitive": false,
+                                            "privacy": {
+                                              "protected": false
+                                            },
+                                            "profile_bio": {
+                                              "description": "edits and fancams made by @rcbinbckley",
+                                              "entities": {
+                                                "description": {}
+                                              }
+                                            },
+                                            "profile_description_language": "en",
+                                            "profile_image_shape": "Circle",
+                                            "profile_metadata": {
+                                              "profile_interstitial_type": ""
+                                            },
+                                            "profile_translation": {
+                                              "translator_type": "none"
+                                            },
+                                            "relationship_counts": {
+                                              "followers": 8,
+                                              "following": 3
+                                            },
+                                            "relationship_perspectives": {
+                                              "blocked_by": false,
+                                              "blocking": false,
+                                              "followed_by": false,
+                                              "following": false,
+                                              "live_following": false,
+                                              "muting": false
+                                            },
+                                            "rest_id": "1339609263803645952",
+                                            "super_follow_eligible": false,
+                                            "super_followed_by": false,
+                                            "super_following": false,
+                                            "tipjar_settings": {},
+                                            "tweet_counts": {
+                                              "media_tweets": 44,
+                                              "tweets": 46
+                                            },
+                                            "verification": {
+                                              "verified": false
+                                            },
+                                            "website": {
+                                              "url": ""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    },
+                                    "display_url": "pic.x.com/D24TA1au9x",
+                                    "expanded_url": "https://x.com/ravkane/status/1401669820630843405/video/1",
+                                    "ext_media_availability": {
+                                      "status": "Available"
+                                    },
+                                    "id_str": "1401669781292527617",
+                                    "indices": [
+                                      95,
+                                      118
+                                    ],
+                                    "media_key": "7_1401669781292527617",
+                                    "media_results": {
+                                      "result": {
+                                        "media_key": "7_1401669781292527617"
+                                      }
+                                    },
+                                    "media_url_https": "https://pbs.twimg.com/ext_tw_video_thumb/1401669781292527617/pu/img/nzVjn7IUkWexSIPd.jpg",
+                                    "original_info": {
+                                      "focus_rects": [],
+                                      "height": 720,
+                                      "width": 720
+                                    },
+                                    "sizes": {
+                                      "large": {
+                                        "h": 720,
+                                        "resize": "fit",
+                                        "w": 720
+                                      },
+                                      "medium": {
+                                        "h": 720,
+                                        "resize": "fit",
+                                        "w": 720
+                                      },
+                                      "small": {
+                                        "h": 680,
+                                        "resize": "fit",
+                                        "w": 680
+                                      },
+                                      "thumb": {
+                                        "h": 150,
+                                        "resize": "crop",
+                                        "w": 150
+                                      }
+                                    },
+                                    "source_status_id_str": "1401669820630843405",
+                                    "source_user_id_str": "1339609263803645952",
+                                    "type": "video",
+                                    "url": "https://t.co/D24TA1au9x",
+                                    "video_info": {
+                                      "aspect_ratio": [
+                                        1,
+                                        1
+                                      ],
+                                      "duration_millis": 25367,
+                                      "variants": [
+                                        {
+                                          "content_type": "application/x-mpegURL",
+                                          "url": "https://video.twimg.com/ext_tw_video/1401669781292527617/pu/pl/CYFrpKjbBEmm4TLm.m3u8?tag=12"
+                                        },
+                                        {
+                                          "bitrate": 432000,
+                                          "content_type": "video/mp4",
+                                          "url": "https://video.twimg.com/ext_tw_video/1401669781292527617/pu/vid/320x320/HLY6PRqsA4nC-TWq.mp4?tag=12"
+                                        },
+                                        {
+                                          "bitrate": 832000,
+                                          "content_type": "video/mp4",
+                                          "url": "https://video.twimg.com/ext_tw_video/1401669781292527617/pu/vid/540x540/kwblhpPYtupdNEJS.mp4?tag=12"
+                                        },
+                                        {
+                                          "bitrate": 1280000,
+                                          "content_type": "video/mp4",
+                                          "url": "https://video.twimg.com/ext_tw_video/1401669781292527617/pu/vid/720x720/ZKIC1jRwT3b_Alfc.mp4?tag=12"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "user_mentions": [
+                                  {
+                                    "id_str": "17243213",
+                                    "indices": [
+                                      0,
+                                      14
+                                    ],
+                                    "name": "GRAMMYS",
+                                    "screen_name": "RecordingAcad"
+                                  },
+                                  {
+                                    "id_str": "1865772373863202816",
+                                    "indices": [
+                                      15,
+                                      23
+                                    ],
+                                    "name": "Cruel",
+                                    "screen_name": "cruella"
+                                  },
+                                  {
+                                    "id_str": "1390420550497996812",
+                                    "indices": [
+                                      24,
+                                      33
+                                    ],
+                                    "name": "Dear Evan Hansen Movie",
+                                    "screen_name": "dehmovie"
+                                  },
+                                  {
+                                    "id_str": "1004849101052055552",
+                                    "indices": [
+                                      34,
+                                      47
+                                    ],
+                                    "name": "In The Heights Movie",
+                                    "screen_name": "intheheights"
+                                  },
+                                  {
+                                    "id_str": "1148889196272242688",
+                                    "indices": [
+                                      48,
+                                      57
+                                    ],
+                                    "name": "One Night In Miami...",
+                                    "screen_name": "ONIMfilm"
+                                  },
+                                  {
+                                    "id_str": "1133859529278468096",
+                                    "indices": [
+                                      58,
+                                      71
+                                    ],
+                                    "name": "RESPECT: The Aretha Franklin Movie",
+                                    "screen_name": "RespectMovie"
+                                  },
+                                  {
+                                    "id_str": "1165251197596557312",
+                                    "indices": [
+                                      72,
+                                      83
+                                    ],
+                                    "name": "The U.S. vs. Billie Holiday",
+                                    "screen_name": "USvsBillie"
+                                  }
+                                ]
+                              },
+                              "extended_entities": {
+                                "media": [
+                                  {
+                                    "additional_media_info": {
+                                      "monetizable": false,
+                                      "source_user": {
+                                        "user_results": {
+                                          "result": {
+                                            "__typename": "User",
+                                            "action_counts": {
+                                              "favorites_count": 1
+                                            },
+                                            "affiliates_highlighted_label": {},
+                                            "avatar": {
+                                              "image_url": "https://pbs.twimg.com/profile_images/1423510459538415618/fvp4UTG9_normal.jpg"
+                                            },
+                                            "banner": {
+                                              "image_url": "https://pbs.twimg.com/profile_banners/1339609263803645952/1619208916"
+                                            },
+                                            "core": {
+                                              "created_at": "Thu Dec 17 16:32:08 +0000 2020",
+                                              "name": "lua\u2019s media",
+                                              "screen_name": "tvrminal"
+                                            },
+                                            "dm_permissions": {
+                                              "can_dm": false
+                                            },
+                                            "follow_request_sent": false,
+                                            "has_graduated_access": true,
+                                            "id": "VXNlcjoxMzM5NjA5MjYzODAzNjQ1OTUy",
+                                            "is_blue_verified": false,
+                                            "location": {
+                                              "location": ""
+                                            },
+                                            "media_permissions": {
+                                              "can_media_tag": false
+                                            },
+                                            "notifications_settings": {
+                                              "notifications_enabled": false
+                                            },
+                                            "pinned_items": {},
+                                            "possibly_sensitive": false,
+                                            "privacy": {
+                                              "protected": false
+                                            },
+                                            "profile_bio": {
+                                              "description": "edits and fancams made by @rcbinbckley",
+                                              "entities": {
+                                                "description": {}
+                                              }
+                                            },
+                                            "profile_description_language": "en",
+                                            "profile_image_shape": "Circle",
+                                            "profile_metadata": {
+                                              "profile_interstitial_type": ""
+                                            },
+                                            "profile_translation": {
+                                              "translator_type": "none"
+                                            },
+                                            "relationship_counts": {
+                                              "followers": 8,
+                                              "following": 3
+                                            },
+                                            "relationship_perspectives": {
+                                              "blocked_by": false,
+                                              "blocking": false,
+                                              "followed_by": false,
+                                              "following": false,
+                                              "live_following": false,
+                                              "muting": false
+                                            },
+                                            "rest_id": "1339609263803645952",
+                                            "super_follow_eligible": false,
+                                            "super_followed_by": false,
+                                            "super_following": false,
+                                            "tipjar_settings": {},
+                                            "tweet_counts": {
+                                              "media_tweets": 44,
+                                              "tweets": 46
+                                            },
+                                            "verification": {
+                                              "verified": false
+                                            },
+                                            "website": {
+                                              "url": ""
+                                            }
+                                          }
+                                        }
+                                      }
+                                    },
+                                    "display_url": "pic.x.com/D24TA1au9x",
+                                    "expanded_url": "https://x.com/ravkane/status/1401669820630843405/video/1",
+                                    "ext_media_availability": {
+                                      "status": "Available"
+                                    },
+                                    "id_str": "1401669781292527617",
+                                    "indices": [
+                                      95,
+                                      118
+                                    ],
+                                    "media_key": "7_1401669781292527617",
+                                    "media_results": {
+                                      "result": {
+                                        "media_key": "7_1401669781292527617"
+                                      }
+                                    },
+                                    "media_url_https": "https://pbs.twimg.com/ext_tw_video_thumb/1401669781292527617/pu/img/nzVjn7IUkWexSIPd.jpg",
+                                    "original_info": {
+                                      "focus_rects": [],
+                                      "height": 720,
+                                      "width": 720
+                                    },
+                                    "sizes": {
+                                      "large": {
+                                        "h": 720,
+                                        "resize": "fit",
+                                        "w": 720
+                                      },
+                                      "medium": {
+                                        "h": 720,
+                                        "resize": "fit",
+                                        "w": 720
+                                      },
+                                      "small": {
+                                        "h": 680,
+                                        "resize": "fit",
+                                        "w": 680
+                                      },
+                                      "thumb": {
+                                        "h": 150,
+                                        "resize": "crop",
+                                        "w": 150
+                                      }
+                                    },
+                                    "source_status_id_str": "1401669820630843405",
+                                    "source_user_id_str": "1339609263803645952",
+                                    "type": "video",
+                                    "url": "https://t.co/D24TA1au9x",
+                                    "video_info": {
+                                      "aspect_ratio": [
+                                        1,
+                                        1
+                                      ],
+                                      "duration_millis": 25367,
+                                      "variants": [
+                                        {
+                                          "content_type": "application/x-mpegURL",
+                                          "url": "https://video.twimg.com/ext_tw_video/1401669781292527617/pu/pl/CYFrpKjbBEmm4TLm.m3u8?tag=12"
+                                        },
+                                        {
+                                          "bitrate": 432000,
+                                          "content_type": "video/mp4",
+                                          "url": "https://video.twimg.com/ext_tw_video/1401669781292527617/pu/vid/320x320/HLY6PRqsA4nC-TWq.mp4?tag=12"
+                                        },
+                                        {
+                                          "bitrate": 832000,
+                                          "content_type": "video/mp4",
+                                          "url": "https://video.twimg.com/ext_tw_video/1401669781292527617/pu/vid/540x540/kwblhpPYtupdNEJS.mp4?tag=12"
+                                        },
+                                        {
+                                          "bitrate": 1280000,
+                                          "content_type": "video/mp4",
+                                          "url": "https://video.twimg.com/ext_tw_video/1401669781292527617/pu/vid/720x720/ZKIC1jRwT3b_Alfc.mp4?tag=12"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ]
+                              },
+                              "favorite_count": 3,
+                              "favorited": false,
+                              "full_text": "@RecordingAcad @cruella @dehmovie @intheheights @ONIMfilm @RespectMovie @USvsBillie cruella\ud83d\udda4\ud83e\udd0d\ud83d\udda4\ud83e\udd0dhttps://t.co/D24TA1au9x",
+                              "id_str": "1463234622146465797",
+                              "in_reply_to_screen_name": "RecordingAcad",
+                              "in_reply_to_status_id_str": "1463203718153703425",
+                              "in_reply_to_user_id_str": "17243213",
+                              "is_quote_status": false,
+                              "lang": "es",
+                              "possibly_sensitive": false,
+                              "possibly_sensitive_editable": true,
+                              "quote_count": 0,
+                              "reply_count": 1,
+                              "retweet_count": 0,
+                              "retweeted": false,
+                              "user_id_str": "982660079777472513"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "rest_id": "1463234622146465797",
+                            "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
+                            "unmention_data": {},
+                            "views": {
+                              "state": "Enabled"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "metadata": {
+                  "conversationMetadata": {
+                    "allTweetIds": [
+                      "1463234622146465797"
+                    ],
+                    "enableDeduplication": true
+                  }
+                }
+              },
+              "entryId": "conversationthread-1463234622146465797",
+              "sortIndex": "2093598831756181484"
+            },
+            {
+              "content": {
+                "__typename": "TimelineTimelineModule",
+                "clientEventInfo": {
+                  "component": "tweet",
+                  "details": {
+                    "conversationDetails": {
+                      "conversationSection": "HighQuality"
+                    },
+                    "timelinesDetails": {
+                      "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBMYTH0AAAAAA=="
+                    }
+                  }
+                },
+                "displayType": "VerticalConversation",
+                "entryType": "TimelineTimelineModule",
+                "items": [
+                  {
+                    "entryId": "conversationthread-1463209244287770630-tweet-1463209244287770630",
+                    "item": {
+                      "clientEventInfo": {
+                        "component": "tweet",
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBMYTH0AAAAAA=="
+                          }
+                        },
+                        "element": "tweet"
+                      },
+                      "itemContent": {
+                        "__typename": "TimelineTweet",
+                        "itemType": "TimelineTweet",
+                        "tweetDisplayType": "Tweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "action_counts": {
+                                    "favorites_count": 71193
+                                  },
+                                  "affiliates_highlighted_label": {},
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/1977069030142889984/Joc9fwfB_normal.jpg"
+                                  },
+                                  "banner": {
+                                    "image_url": "https://pbs.twimg.com/profile_banners/1133880141300490240/1736012689"
+                                  },
+                                  "core": {
+                                    "created_at": "Wed May 29 23:37:46 +0000 2019",
+                                    "name": "Jenni\u2606\ud83c\uddf5\ud83c\uddea \ud83c\udfad",
+                                    "screen_name": "lowrossdel"
+                                  },
+                                  "dm_permissions": {
+                                    "can_dm": true
+                                  },
+                                  "follow_request_sent": false,
+                                  "has_graduated_access": true,
+                                  "id": "VXNlcjoxMTMzODgwMTQxMzAwNDkwMjQw",
+                                  "is_blue_verified": false,
+                                  "location": {
+                                    "location": "En Washington Heights \ud83d\udcab"
+                                  },
+                                  "media_permissions": {
+                                    "can_media_tag": false
+                                  },
+                                  "notifications_settings": {
+                                    "notifications_enabled": false
+                                  },
+                                  "pinned_items": {
+                                    "tweet_ids_str": [
+                                      "1704171347771822578"
+                                    ]
+                                  },
+                                  "possibly_sensitive": false,
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "profile_bio": {
+                                    "description": "Theater kid \u2606 ~ Hamilton, ITH, Disney, Marvel, TDE, Sabrina, Laura.M. , LinMan ~ Mi vida se basa en ser FANGIRL \ud83e\ude77",
+                                    "entities": {
+                                      "description": {}
+                                    }
+                                  },
+                                  "profile_image_shape": "Circle",
+                                  "profile_metadata": {
+                                    "profile_interstitial_type": ""
+                                  },
+                                  "profile_translation": {
+                                    "translator_type": "none"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 920,
+                                    "following": 1260
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocked_by": false,
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": false,
+                                    "live_following": false,
+                                    "muting": false
+                                  },
+                                  "rest_id": "1133880141300490240",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tipjar_settings": {},
+                                  "tweet_counts": {
+                                    "media_tweets": 6156,
+                                    "tweets": 45055
+                                  },
+                                  "verification": {
+                                    "verified": false
+                                  },
+                                  "website": {
+                                    "url": ""
+                                  }
+                                }
+                              }
+                            },
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1463209244287770630"
+                              ],
+                              "editable_until_msecs": "1637693043608",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": true
+                            },
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "has_birdwatch_notes": false,
+                            "is_translatable": false,
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "conversation_id_str": "1463203718153703425",
+                              "created_at": "Tue Nov 23 18:14:03 +0000 2021",
+                              "display_text_range": [
+                                84,
+                                115
+                              ],
+                              "entities": {
+                                "user_mentions": [
+                                  {
+                                    "id_str": "17243213",
+                                    "indices": [
+                                      0,
+                                      14
+                                    ],
+                                    "name": "GRAMMYS",
+                                    "screen_name": "RecordingAcad"
+                                  },
+                                  {
+                                    "id_str": "1865772373863202816",
+                                    "indices": [
+                                      15,
+                                      23
+                                    ],
+                                    "name": "Cruel",
+                                    "screen_name": "cruella"
+                                  },
+                                  {
+                                    "id_str": "1390420550497996812",
+                                    "indices": [
+                                      24,
+                                      33
+                                    ],
+                                    "name": "Dear Evan Hansen Movie",
+                                    "screen_name": "dehmovie"
+                                  },
+                                  {
+                                    "id_str": "1004849101052055552",
+                                    "indices": [
+                                      34,
+                                      47
+                                    ],
+                                    "name": "In The Heights Movie",
+                                    "screen_name": "intheheights"
+                                  },
+                                  {
+                                    "id_str": "1148889196272242688",
+                                    "indices": [
+                                      48,
+                                      57
+                                    ],
+                                    "name": "One Night In Miami...",
+                                    "screen_name": "ONIMfilm"
+                                  },
+                                  {
+                                    "id_str": "1133859529278468096",
+                                    "indices": [
+                                      58,
+                                      71
+                                    ],
+                                    "name": "RESPECT: The Aretha Franklin Movie",
+                                    "screen_name": "RespectMovie"
+                                  },
+                                  {
+                                    "id_str": "1165251197596557312",
+                                    "indices": [
+                                      72,
+                                      83
+                                    ],
+                                    "name": "The U.S. vs. Billie Holiday",
+                                    "screen_name": "USvsBillie"
+                                  }
+                                ]
+                              },
+                              "favorite_count": 2,
+                              "favorited": false,
+                              "full_text": "@RecordingAcad @cruella @dehmovie @intheheights @ONIMfilm @RespectMovie @USvsBillie IN THE HEIGHTSSSSS!!! OMG AAAAA",
+                              "id_str": "1463209244287770630",
+                              "in_reply_to_screen_name": "RecordingAcad",
+                              "in_reply_to_status_id_str": "1463203718153703425",
+                              "in_reply_to_user_id_str": "17243213",
+                              "is_quote_status": false,
+                              "lang": "en",
+                              "quote_count": 0,
+                              "reply_count": 0,
+                              "retweet_count": 0,
+                              "retweeted": false,
+                              "user_id_str": "1133880141300490240"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "rest_id": "1463209244287770630",
+                            "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+                            "unmention_data": {},
+                            "views": {
+                              "state": "Enabled"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "metadata": {
+                  "conversationMetadata": {
+                    "allTweetIds": [
+                      "1463209244287770630"
+                    ],
+                    "enableDeduplication": true
+                  }
+                }
+              },
+              "entryId": "conversationthread-1463209244287770630",
+              "sortIndex": "2093598831756181474"
+            },
+            {
+              "content": {
+                "__typename": "TimelineTimelineModule",
+                "clientEventInfo": {
+                  "component": "tweet",
+                  "details": {
+                    "conversationDetails": {
+                      "conversationSection": "HighQuality"
+                    },
+                    "timelinesDetails": {
+                      "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBMYTH0AAAAAA=="
+                    }
+                  }
+                },
+                "displayType": "VerticalConversation",
+                "entryType": "TimelineTimelineModule",
+                "items": [
+                  {
+                    "entryId": "conversationthread-1463230322066268172-tweet-1463230322066268172",
+                    "item": {
+                      "clientEventInfo": {
+                        "component": "tweet",
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBMYTH0AAAAAA=="
+                          }
+                        },
+                        "element": "tweet"
+                      },
+                      "itemContent": {
+                        "__typename": "TimelineTweet",
+                        "itemType": "TimelineTweet",
+                        "tweetDisplayType": "Tweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "action_counts": {
+                                    "favorites_count": 40308
+                                  },
+                                  "affiliates_highlighted_label": {},
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/1651944138655387648/vnLVBEjK_normal.jpg"
+                                  },
+                                  "banner": {
+                                    "image_url": "https://pbs.twimg.com/profile_banners/3131589324/1626199417"
+                                  },
+                                  "core": {
+                                    "created_at": "Thu Apr 02 15:59:35 +0000 2015",
+                                    "name": "Lau \ud83e\udd96\ud83c\udf42",
+                                    "screen_name": "brokenjukebox_"
+                                  },
+                                  "dm_permissions": {
+                                    "can_dm": true
+                                  },
+                                  "follow_request_sent": false,
+                                  "has_graduated_access": true,
+                                  "id": "VXNlcjozMTMxNTg5MzI0",
+                                  "is_blue_verified": false,
+                                  "location": {
+                                    "location": " 23yo \ud83c\udde8\ud83c\uddf5\ud83c\udff3\ufe0f\u200d\ud83c\udf08\ud83e\ude77\ud83d\udc9b\ud83e\ude75 she/her"
+                                  },
+                                  "media_permissions": {
+                                    "can_media_tag": false
+                                  },
+                                  "notifications_settings": {
+                                    "notifications_enabled": false
+                                  },
+                                  "pinned_items": {
+                                    "tweet_ids_str": [
+                                      "1426247716309438464"
+                                    ]
+                                  },
+                                  "possibly_sensitive": false,
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "profile_bio": {
+                                    "description": "\u1160\u1160\u1160\u1160\u1160\u1160\u1160\u1160\u1160\u1160\u1160\u1160\u1160\u1160\u1160\u1160\u1160\u1160\u1160\u1160\u1160\u1160\n \u1160\u1160\u1160\u1160 GO STREAM MY MIND & ME \n\u1160\u1160\u1160\u1160\u1160\u1160\u1160  BY QUEEN SELENA GOMEZ.\n\u1160\u1160\u1160\u1160\u1160\u1160\u1160\u1160\u1160\u1160\u1160\u1160\u1160\u1160\u1160\u1160\u1160\u1160\u1160\u1160\u1160\u1160",
+                                    "entities": {
+                                      "description": {}
+                                    }
+                                  },
+                                  "profile_description_language": "ko",
+                                  "profile_image_shape": "Circle",
+                                  "profile_metadata": {
+                                    "profile_interstitial_type": ""
+                                  },
+                                  "profile_translation": {
+                                    "translator_type": "none"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 288,
+                                    "following": 395
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocked_by": false,
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": false,
+                                    "live_following": false,
+                                    "muting": false
+                                  },
+                                  "rest_id": "3131589324",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tipjar_settings": {},
+                                  "tweet_counts": {
+                                    "media_tweets": 821,
+                                    "tweets": 11663
+                                  },
+                                  "verification": {
+                                    "verified": false
+                                  },
+                                  "website": {
+                                    "url": ""
+                                  }
+                                }
+                              }
+                            },
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1463230322066268172"
+                              ],
+                              "editable_until_msecs": "1637698068942",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": true
+                            },
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "has_birdwatch_notes": false,
+                            "is_translatable": false,
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "conversation_id_str": "1463203718153703425",
+                              "created_at": "Tue Nov 23 19:37:48 +0000 2021",
+                              "display_text_range": [
+                                84,
+                                140
+                              ],
+                              "entities": {
+                                "user_mentions": [
+                                  {
+                                    "id_str": "17243213",
+                                    "indices": [
+                                      0,
+                                      14
+                                    ],
+                                    "name": "GRAMMYS",
+                                    "screen_name": "RecordingAcad"
+                                  },
+                                  {
+                                    "id_str": "1865772373863202816",
+                                    "indices": [
+                                      15,
+                                      23
+                                    ],
+                                    "name": "Cruel",
+                                    "screen_name": "cruella"
+                                  },
+                                  {
+                                    "id_str": "1390420550497996812",
+                                    "indices": [
+                                      24,
+                                      33
+                                    ],
+                                    "name": "Dear Evan Hansen Movie",
+                                    "screen_name": "dehmovie"
+                                  },
+                                  {
+                                    "id_str": "1004849101052055552",
+                                    "indices": [
+                                      34,
+                                      47
+                                    ],
+                                    "name": "In The Heights Movie",
+                                    "screen_name": "intheheights"
+                                  },
+                                  {
+                                    "id_str": "1148889196272242688",
+                                    "indices": [
+                                      48,
+                                      57
+                                    ],
+                                    "name": "One Night In Miami...",
+                                    "screen_name": "ONIMfilm"
+                                  },
+                                  {
+                                    "id_str": "1133859529278468096",
+                                    "indices": [
+                                      58,
+                                      71
+                                    ],
+                                    "name": "RESPECT: The Aretha Franklin Movie",
+                                    "screen_name": "RespectMovie"
+                                  },
+                                  {
+                                    "id_str": "1165251197596557312",
+                                    "indices": [
+                                      72,
+                                      83
+                                    ],
+                                    "name": "The U.S. vs. Billie Holiday",
+                                    "screen_name": "USvsBillie"
+                                  }
+                                ]
+                              },
+                              "favorite_count": 2,
+                              "favorited": false,
+                              "full_text": "@RecordingAcad @cruella @dehmovie @intheheights @ONIMfilm @RespectMovie @USvsBillie OMG DEAR EVAN HANSEN AND IN THE HEIGHTS LETS GO MUSICALS",
+                              "id_str": "1463230322066268172",
+                              "in_reply_to_screen_name": "RecordingAcad",
+                              "in_reply_to_status_id_str": "1463203718153703425",
+                              "in_reply_to_user_id_str": "17243213",
+                              "is_quote_status": false,
+                              "lang": "en",
+                              "quote_count": 0,
+                              "reply_count": 0,
+                              "retweet_count": 0,
+                              "retweeted": false,
+                              "user_id_str": "3131589324"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "rest_id": "1463230322066268172",
+                            "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
+                            "unmention_data": {},
+                            "views": {
+                              "state": "Enabled"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "metadata": {
+                  "conversationMetadata": {
+                    "allTweetIds": [
+                      "1463230322066268172"
+                    ],
+                    "enableDeduplication": true
+                  }
+                }
+              },
+              "entryId": "conversationthread-1463230322066268172",
+              "sortIndex": "2093598831756181464"
+            },
+            {
+              "content": {
+                "__typename": "TimelineTimelineModule",
+                "clientEventInfo": {
+                  "component": "tweet",
+                  "details": {
+                    "conversationDetails": {
+                      "conversationSection": "HighQuality"
+                    },
+                    "timelinesDetails": {
+                      "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBMYTH0AAAAAA=="
+                    }
+                  }
+                },
+                "displayType": "VerticalConversation",
+                "entryType": "TimelineTimelineModule",
+                "items": [
+                  {
+                    "entryId": "conversationthread-1463203896214568970-tweet-1463203896214568970",
+                    "item": {
+                      "clientEventInfo": {
+                        "component": "tweet",
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBMYTH0AAAAAA=="
+                          }
+                        },
+                        "element": "tweet"
+                      },
+                      "itemContent": {
+                        "__typename": "TimelineTweet",
+                        "itemType": "TimelineTweet",
+                        "tweetDisplayType": "Tweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "action_counts": {
+                                    "favorites_count": 317253
+                                  },
+                                  "affiliates_highlighted_label": {},
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/2072445811711967232/m3eUif1V_normal.jpg"
+                                  },
+                                  "banner": {
+                                    "image_url": "https://pbs.twimg.com/profile_banners/1067388838446882816/1774578250"
+                                  },
+                                  "core": {
+                                    "created_at": "Tue Nov 27 12:05:04 +0000 2018",
+                                    "name": "the life of brazils sweetheart \u2764\ufe0f\u200d\ud83d\udd25",
+                                    "screen_name": "you_dontyield"
+                                  },
+                                  "dm_permissions": {
+                                    "can_dm": true
+                                  },
+                                  "follow_request_sent": false,
+                                  "has_graduated_access": true,
+                                  "id": "VXNlcjoxMDY3Mzg4ODM4NDQ2ODgyODE2",
+                                  "is_blue_verified": false,
+                                  "location": {
+                                    "location": "Brasil "
+                                  },
+                                  "media_permissions": {
+                                    "can_media_tag": false
+                                  },
+                                  "notifications_settings": {
+                                    "notifications_enabled": false
+                                  },
+                                  "pinned_items": {
+                                    "tweet_ids_str": [
+                                      "1293920251143389186"
+                                    ]
+                                  },
+                                  "possibly_sensitive": false,
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "professional": {
+                                    "category": [],
+                                    "professional_type": "Creator",
+                                    "rest_id": "1470560183315271683"
+                                  },
+                                  "profile_bio": {
+                                    "description": "\ud83c\udf49 MVP (most valuable princess)",
+                                    "entities": {
+                                      "description": {}
+                                    }
+                                  },
+                                  "profile_description_language": "en",
+                                  "profile_image_shape": "Circle",
+                                  "profile_metadata": {
+                                    "profile_interstitial_type": ""
+                                  },
+                                  "profile_translation": {
+                                    "translator_type": "none"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 2777,
+                                    "following": 2724
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocked_by": false,
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": false,
+                                    "live_following": false,
+                                    "muting": false
+                                  },
+                                  "rest_id": "1067388838446882816",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tipjar_settings": {},
+                                  "tweet_counts": {
+                                    "media_tweets": 4236,
+                                    "tweets": 71983
+                                  },
+                                  "verification": {
+                                    "verified": false
+                                  },
+                                  "website": {
+                                    "url": ""
+                                  }
+                                }
+                              }
+                            },
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1463203896214568970"
+                              ],
+                              "editable_until_msecs": "1637691768528",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": true
+                            },
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "has_birdwatch_notes": false,
+                            "is_translatable": false,
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "conversation_id_str": "1463203718153703425",
+                              "created_at": "Tue Nov 23 17:52:48 +0000 2021",
+                              "display_text_range": [
+                                84,
+                                110
+                              ],
+                              "entities": {
+                                "user_mentions": [
+                                  {
+                                    "id_str": "17243213",
+                                    "indices": [
+                                      0,
+                                      14
+                                    ],
+                                    "name": "GRAMMYS",
+                                    "screen_name": "RecordingAcad"
+                                  },
+                                  {
+                                    "id_str": "1865772373863202816",
+                                    "indices": [
+                                      15,
+                                      23
+                                    ],
+                                    "name": "Cruel",
+                                    "screen_name": "cruella"
+                                  },
+                                  {
+                                    "id_str": "1390420550497996812",
+                                    "indices": [
+                                      24,
+                                      33
+                                    ],
+                                    "name": "Dear Evan Hansen Movie",
+                                    "screen_name": "dehmovie"
+                                  },
+                                  {
+                                    "id_str": "1004849101052055552",
+                                    "indices": [
+                                      34,
+                                      47
+                                    ],
+                                    "name": "In The Heights Movie",
+                                    "screen_name": "intheheights"
+                                  },
+                                  {
+                                    "id_str": "1148889196272242688",
+                                    "indices": [
+                                      48,
+                                      57
+                                    ],
+                                    "name": "One Night In Miami...",
+                                    "screen_name": "ONIMfilm"
+                                  },
+                                  {
+                                    "id_str": "1133859529278468096",
+                                    "indices": [
+                                      58,
+                                      71
+                                    ],
+                                    "name": "RESPECT: The Aretha Franklin Movie",
+                                    "screen_name": "RespectMovie"
+                                  },
+                                  {
+                                    "id_str": "1165251197596557312",
+                                    "indices": [
+                                      72,
+                                      83
+                                    ],
+                                    "name": "The U.S. vs. Billie Holiday",
+                                    "screen_name": "USvsBillie"
+                                  }
+                                ]
+                              },
+                              "favorite_count": 1,
+                              "favorited": false,
+                              "full_text": "@RecordingAcad @cruella @dehmovie @intheheights @ONIMfilm @RespectMovie @USvsBillie Cruella coming for the win",
+                              "id_str": "1463203896214568970",
+                              "in_reply_to_screen_name": "RecordingAcad",
+                              "in_reply_to_status_id_str": "1463203718153703425",
+                              "in_reply_to_user_id_str": "17243213",
+                              "is_quote_status": false,
+                              "lang": "en",
+                              "quote_count": 0,
+                              "reply_count": 0,
+                              "retweet_count": 1,
+                              "retweeted": false,
+                              "user_id_str": "1067388838446882816"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "rest_id": "1463203896214568970",
+                            "source": "<a href=\"http://twitter.com/#!/download/ipad\" rel=\"nofollow\">Twitter for iPad</a>",
+                            "unmention_data": {},
+                            "views": {
+                              "state": "Enabled"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "metadata": {
+                  "conversationMetadata": {
+                    "allTweetIds": [
+                      "1463203896214568970"
+                    ],
+                    "enableDeduplication": true
+                  }
+                }
+              },
+              "entryId": "conversationthread-1463203896214568970",
+              "sortIndex": "2093598831756181454"
+            },
+            {
+              "content": {
+                "__typename": "TimelineTimelineModule",
+                "clientEventInfo": {
+                  "component": "tweet",
+                  "details": {
+                    "conversationDetails": {
+                      "conversationSection": "HighQuality"
+                    },
+                    "timelinesDetails": {
+                      "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBMYTH0AAAAAA=="
+                    }
+                  }
+                },
+                "displayType": "VerticalConversation",
+                "entryType": "TimelineTimelineModule",
+                "items": [
+                  {
+                    "entryId": "conversationthread-1463640354327048194-tweet-1463640354327048194",
+                    "item": {
+                      "clientEventInfo": {
+                        "component": "tweet",
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBMYTH0AAAAAA=="
+                          }
+                        },
+                        "element": "tweet"
+                      },
+                      "itemContent": {
+                        "__typename": "TimelineTweet",
+                        "itemType": "TimelineTweet",
+                        "tweetDisplayType": "Tweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "action_counts": {
+                                    "favorites_count": 95352
+                                  },
+                                  "affiliates_highlighted_label": {},
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/1339586497930960897/RLFFF2jX_normal.jpg"
+                                  },
+                                  "banner": {
+                                    "image_url": "https://pbs.twimg.com/profile_banners/2900204559/1660946016"
+                                  },
+                                  "core": {
+                                    "created_at": "Mon Dec 01 06:18:41 +0000 2014",
+                                    "name": "Temper-Le Bleu",
+                                    "screen_name": "TemperLeBleu"
+                                  },
+                                  "dm_permissions": {
+                                    "can_dm": true
+                                  },
+                                  "follow_request_sent": false,
+                                  "has_graduated_access": true,
+                                  "id": "VXNlcjoyOTAwMjA0NTU5",
+                                  "is_blue_verified": false,
+                                  "location": {
+                                    "location": "Tamarac, FL"
+                                  },
+                                  "media_permissions": {
+                                    "can_media_tag": true
+                                  },
+                                  "notifications_settings": {
+                                    "notifications_enabled": false
+                                  },
+                                  "pinned_items": {},
+                                  "possibly_sensitive": false,
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "profile_bio": {
+                                    "description": "HBCU Graduate (Atlanta, Ga.), Psychotherapist,#BlueCrew, Vote Blue,& Democrats must save democracy. Vote Florida!",
+                                    "entities": {
+                                      "description": {}
+                                    }
+                                  },
+                                  "profile_image_shape": "Circle",
+                                  "profile_metadata": {
+                                    "profile_interstitial_type": ""
+                                  },
+                                  "profile_translation": {
+                                    "translator_type": "none"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 2530,
+                                    "following": 2905
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocked_by": false,
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": false,
+                                    "live_following": false,
+                                    "muting": false
+                                  },
+                                  "rest_id": "2900204559",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tipjar_settings": {},
+                                  "tweet_counts": {
+                                    "media_tweets": 260,
+                                    "tweets": 108298
+                                  },
+                                  "verification": {
+                                    "verified": false
+                                  },
+                                  "website": {
+                                    "url": ""
+                                  }
+                                }
+                              }
+                            },
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1463640354327048194"
+                              ],
+                              "editable_until_msecs": "1637795828251",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": true
+                            },
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "has_birdwatch_notes": false,
+                            "is_translatable": false,
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "conversation_id_str": "1463203718153703425",
+                              "created_at": "Wed Nov 24 22:47:08 +0000 2021",
+                              "display_text_range": [
+                                84,
+                                173
+                              ],
+                              "entities": {
+                                "user_mentions": [
+                                  {
+                                    "id_str": "17243213",
+                                    "indices": [
+                                      0,
+                                      14
+                                    ],
+                                    "name": "GRAMMYS",
+                                    "screen_name": "RecordingAcad"
+                                  },
+                                  {
+                                    "id_str": "1865772373863202816",
+                                    "indices": [
+                                      15,
+                                      23
+                                    ],
+                                    "name": "Cruel",
+                                    "screen_name": "cruella"
+                                  },
+                                  {
+                                    "id_str": "1390420550497996812",
+                                    "indices": [
+                                      24,
+                                      33
+                                    ],
+                                    "name": "Dear Evan Hansen Movie",
+                                    "screen_name": "dehmovie"
+                                  },
+                                  {
+                                    "id_str": "1004849101052055552",
+                                    "indices": [
+                                      34,
+                                      47
+                                    ],
+                                    "name": "In The Heights Movie",
+                                    "screen_name": "intheheights"
+                                  },
+                                  {
+                                    "id_str": "1148889196272242688",
+                                    "indices": [
+                                      48,
+                                      57
+                                    ],
+                                    "name": "One Night In Miami...",
+                                    "screen_name": "ONIMfilm"
+                                  },
+                                  {
+                                    "id_str": "1133859529278468096",
+                                    "indices": [
+                                      58,
+                                      71
+                                    ],
+                                    "name": "RESPECT: The Aretha Franklin Movie",
+                                    "screen_name": "RespectMovie"
+                                  },
+                                  {
+                                    "id_str": "1165251197596557312",
+                                    "indices": [
+                                      72,
+                                      83
+                                    ],
+                                    "name": "The U.S. vs. Billie Holiday",
+                                    "screen_name": "USvsBillie"
+                                  }
+                                ]
+                              },
+                              "favorite_count": 1,
+                              "favorited": false,
+                              "full_text": "@RecordingAcad @cruella @dehmovie @intheheights @ONIMfilm @RespectMovie @USvsBillie Let go Jennifer Hudson and Carole King for that covenant Grammy. Oscars will be next.\ud83d\ude02\ud83d\ude02\ud83d\ude02\ud83d\ude02",
+                              "id_str": "1463640354327048194",
+                              "in_reply_to_screen_name": "RecordingAcad",
+                              "in_reply_to_status_id_str": "1463203718153703425",
+                              "in_reply_to_user_id_str": "17243213",
+                              "is_quote_status": false,
+                              "lang": "en",
+                              "quote_count": 0,
+                              "reply_count": 0,
+                              "retweet_count": 0,
+                              "retweeted": false,
+                              "user_id_str": "2900204559"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "rest_id": "1463640354327048194",
+                            "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
+                            "unmention_data": {},
+                            "views": {
+                              "state": "Enabled"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "metadata": {
+                  "conversationMetadata": {
+                    "allTweetIds": [
+                      "1463640354327048194"
+                    ],
+                    "enableDeduplication": true
+                  }
+                }
+              },
+              "entryId": "conversationthread-1463640354327048194",
+              "sortIndex": "2093598831756181444"
+            },
+            {
+              "content": {
+                "__typename": "TimelineTimelineModule",
+                "clientEventInfo": {
+                  "component": "tweet",
+                  "details": {
+                    "conversationDetails": {
+                      "conversationSection": "HighQuality"
+                    },
+                    "timelinesDetails": {
+                      "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBMYTH0AAAAAA=="
+                    }
+                  }
+                },
+                "displayType": "VerticalConversation",
+                "entryType": "TimelineTimelineModule",
+                "items": [
+                  {
+                    "entryId": "conversationthread-1463206693475655680-tweet-1463206693475655680",
+                    "item": {
+                      "clientEventInfo": {
+                        "component": "tweet",
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBMYTH0AAAAAA=="
+                          }
+                        },
+                        "element": "tweet"
+                      },
+                      "itemContent": {
+                        "__typename": "TimelineTweet",
+                        "itemType": "TimelineTweet",
+                        "tweetDisplayType": "Tweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "action_counts": {
+                                    "favorites_count": 96252
+                                  },
+                                  "affiliates_highlighted_label": {},
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/1962579134837657600/RXPSTvYj_normal.jpg"
+                                  },
+                                  "banner": {
+                                    "image_url": "https://pbs.twimg.com/profile_banners/1246907117040214017/1756745527"
+                                  },
+                                  "core": {
+                                    "created_at": "Sun Apr 05 21:06:49 +0000 2020",
+                                    "name": "\u0b68\u09ce",
+                                    "screen_name": "nonscse"
+                                  },
+                                  "dm_permissions": {
+                                    "can_dm": true
+                                  },
+                                  "follow_request_sent": false,
+                                  "has_graduated_access": true,
+                                  "id": "VXNlcjoxMjQ2OTA3MTE3MDQwMjE0MDE3",
+                                  "is_blue_verified": false,
+                                  "location": {
+                                    "location": ""
+                                  },
+                                  "media_permissions": {
+                                    "can_media_tag": false
+                                  },
+                                  "notifications_settings": {
+                                    "notifications_enabled": false
+                                  },
+                                  "pinned_items": {
+                                    "tweet_ids_str": [
+                                      "1962364114140905850"
+                                    ]
+                                  },
+                                  "possibly_sensitive": false,
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "profile_bio": {
+                                    "description": "this too shall pass",
+                                    "entities": {
+                                      "description": {}
+                                    }
+                                  },
+                                  "profile_description_language": "en",
+                                  "profile_image_shape": "Circle",
+                                  "profile_metadata": {
+                                    "profile_interstitial_type": ""
+                                  },
+                                  "profile_translation": {
+                                    "translator_type": "none"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 3088,
+                                    "following": 1650
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocked_by": false,
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": false,
+                                    "live_following": false,
+                                    "muting": false
+                                  },
+                                  "rest_id": "1246907117040214017",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tipjar_settings": {},
+                                  "tweet_counts": {
+                                    "media_tweets": 12579,
+                                    "tweets": 56935
+                                  },
+                                  "verification": {
+                                    "verified": false
+                                  },
+                                  "website": {
+                                    "url": ""
+                                  }
+                                }
+                              }
+                            },
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1463206693475655680"
+                              ],
+                              "editable_until_msecs": "1637692435447",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": true
+                            },
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "has_birdwatch_notes": false,
+                            "is_translatable": false,
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "conversation_id_str": "1463203718153703425",
+                              "created_at": "Tue Nov 23 18:03:55 +0000 2021",
+                              "display_text_range": [
+                                99,
+                                118
+                              ],
+                              "entities": {
+                                "user_mentions": [
+                                  {
+                                    "id_str": "17243213",
+                                    "indices": [
+                                      0,
+                                      14
+                                    ],
+                                    "name": "GRAMMYS",
+                                    "screen_name": "RecordingAcad"
+                                  },
+                                  {
+                                    "id_str": "2257779877",
+                                    "indices": [
+                                      15,
+                                      29
+                                    ],
+                                    "name": "Dove Cameron Brasil",
+                                    "screen_name": "dovecameronbr"
+                                  },
+                                  {
+                                    "id_str": "1865772373863202816",
+                                    "indices": [
+                                      30,
+                                      38
+                                    ],
+                                    "name": "Cruel",
+                                    "screen_name": "cruella"
+                                  },
+                                  {
+                                    "id_str": "1390420550497996812",
+                                    "indices": [
+                                      39,
+                                      48
+                                    ],
+                                    "name": "Dear Evan Hansen Movie",
+                                    "screen_name": "dehmovie"
+                                  },
+                                  {
+                                    "id_str": "1004849101052055552",
+                                    "indices": [
+                                      49,
+                                      62
+                                    ],
+                                    "name": "In The Heights Movie",
+                                    "screen_name": "intheheights"
+                                  },
+                                  {
+                                    "id_str": "1148889196272242688",
+                                    "indices": [
+                                      63,
+                                      72
+                                    ],
+                                    "name": "One Night In Miami...",
+                                    "screen_name": "ONIMfilm"
+                                  },
+                                  {
+                                    "id_str": "1133859529278468096",
+                                    "indices": [
+                                      73,
+                                      86
+                                    ],
+                                    "name": "RESPECT: The Aretha Franklin Movie",
+                                    "screen_name": "RespectMovie"
+                                  },
+                                  {
+                                    "id_str": "1165251197596557312",
+                                    "indices": [
+                                      87,
+                                      98
+                                    ],
+                                    "name": "The U.S. vs. Billie Holiday",
+                                    "screen_name": "USvsBillie"
+                                  }
+                                ]
+                              },
+                              "favorite_count": 1,
+                              "favorited": false,
+                              "full_text": "@RecordingAcad @dovecameronbr @cruella @dehmovie @intheheights @ONIMfilm @RespectMovie @USvsBillie SCHMIGADOON EXATCLY",
+                              "id_str": "1463206693475655680",
+                              "in_reply_to_screen_name": "RecordingAcad",
+                              "in_reply_to_status_id_str": "1463203718153703425",
+                              "in_reply_to_user_id_str": "17243213",
+                              "is_quote_status": false,
+                              "lang": "en",
+                              "quote_count": 0,
+                              "reply_count": 0,
+                              "retweet_count": 0,
+                              "retweeted": false,
+                              "user_id_str": "1246907117040214017"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "rest_id": "1463206693475655680",
+                            "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
+                            "unmention_data": {},
+                            "views": {
+                              "state": "Enabled"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "metadata": {
+                  "conversationMetadata": {
+                    "allTweetIds": [
+                      "1463206693475655680"
+                    ],
+                    "enableDeduplication": true
+                  }
+                }
+              },
+              "entryId": "conversationthread-1463206693475655680",
+              "sortIndex": "2093598831756181434"
+            },
+            {
+              "content": {
+                "__typename": "TimelineTimelineModule",
+                "clientEventInfo": {
+                  "component": "tweet",
+                  "details": {
+                    "conversationDetails": {
+                      "conversationSection": "HighQuality"
+                    },
+                    "timelinesDetails": {
+                      "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBMYTH0AAAAAA=="
+                    }
+                  }
+                },
+                "displayType": "VerticalConversation",
+                "entryType": "TimelineTimelineModule",
+                "items": [
+                  {
+                    "entryId": "conversationthread-1463214175489228800-tweet-1463214175489228800",
+                    "item": {
+                      "clientEventInfo": {
+                        "component": "tweet",
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBMYTH0AAAAAA=="
+                          }
+                        },
+                        "element": "tweet"
+                      },
+                      "itemContent": {
+                        "__typename": "TimelineTweet",
+                        "itemType": "TimelineTweet",
+                        "tweetDisplayType": "Tweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "card": {
+                              "legacy": {
+                                "binding_values": [
+                                  {
+                                    "key": "description",
+                                    "value": {
+                                      "string_value": "Choose your preferred music service",
+                                      "type": "STRING"
+                                    }
+                                  },
+                                  {
+                                    "key": "domain",
+                                    "value": {
+                                      "string_value": "stem.ffm.to",
+                                      "type": "STRING"
+                                    }
+                                  },
+                                  {
+                                    "key": "vanity_url",
+                                    "value": {
+                                      "scribe_key": "vanity_url",
+                                      "string_value": "stem.ffm.to",
+                                      "type": "STRING"
+                                    }
+                                  },
+                                  {
+                                    "key": "title",
+                                    "value": {
+                                      "string_value": "Lea Michele - Forever",
+                                      "type": "STRING"
+                                    }
+                                  },
+                                  {
+                                    "key": "card_url",
+                                    "value": {
+                                      "scribe_key": "card_url",
+                                      "string_value": "https://t.co/mzP84NNMWI",
+                                      "type": "STRING"
+                                    }
+                                  }
+                                ],
+                                "card_platform": {
+                                  "platform": {
+                                    "audience": {
+                                      "name": "production"
+                                    },
+                                    "device": {
+                                      "name": "Swift",
+                                      "version": "12"
+                                    }
+                                  }
+                                },
+                                "name": "summary_large_image",
+                                "url": "https://t.co/mzP84NNMWI",
+                                "user_refs_results": []
+                              },
+                              "rest_id": "https://t.co/mzP84NNMWI"
+                            },
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "action_counts": {
+                                    "favorites_count": 250450
+                                  },
+                                  "affiliates_highlighted_label": {},
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/1747922943357685760/e8lkQdE__normal.jpg"
+                                  },
+                                  "banner": {
+                                    "image_url": "https://pbs.twimg.com/profile_banners/877774857517375489/1690582786"
+                                  },
+                                  "core": {
+                                    "created_at": "Thu Jun 22 06:26:49 +0000 2017",
+                                    "name": "Adry Ram\u00edrez \ud83e\udd85\ud83c\uddf2\ud83c\uddfd \u265f\ufe0f",
+                                    "screen_name": "AdryRamiss"
+                                  },
+                                  "dm_permissions": {
+                                    "can_dm": false
+                                  },
+                                  "follow_request_sent": false,
+                                  "has_graduated_access": true,
+                                  "id": "VXNlcjo4Nzc3NzQ4NTc1MTczNzU0ODk=",
+                                  "is_blue_verified": false,
+                                  "location": {
+                                    "location": "M\u00e9xico"
+                                  },
+                                  "media_permissions": {
+                                    "can_media_tag": false
+                                  },
+                                  "notifications_settings": {
+                                    "notifications_enabled": false
+                                  },
+                                  "pinned_items": {
+                                    "tweet_ids_str": [
+                                      "1668121007041957888"
+                                    ]
+                                  },
+                                  "possibly_sensitive": false,
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "profile_bio": {
+                                    "description": "Americanista \ud83e\udd85. Fan de Lea Michele, Darren Criss, Taylor Swift, Camila Cabello \ud83c\udfb6",
+                                    "entities": {
+                                      "description": {}
+                                    }
+                                  },
+                                  "profile_image_shape": "Circle",
+                                  "profile_metadata": {
+                                    "profile_interstitial_type": ""
+                                  },
+                                  "profile_translation": {
+                                    "translator_type": "none"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 730,
+                                    "following": 458
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocked_by": false,
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": false,
+                                    "live_following": false,
+                                    "muting": false
+                                  },
+                                  "rest_id": "877774857517375489",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tipjar_settings": {},
+                                  "tweet_counts": {
+                                    "media_tweets": 2929,
+                                    "tweets": 103690
+                                  },
+                                  "verification": {
+                                    "verified": false
+                                  },
+                                  "website": {
+                                    "url": ""
+                                  }
+                                }
+                              }
+                            },
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1463214175489228800"
+                              ],
+                              "editable_until_msecs": "1637694219298",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": true
+                            },
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "has_birdwatch_notes": false,
+                            "is_translatable": false,
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "conversation_id_str": "1463203718153703425",
+                              "created_at": "Tue Nov 23 18:33:39 +0000 2021",
+                              "display_text_range": [
+                                84,
+                                147
+                              ],
+                              "entities": {
+                                "urls": [
+                                  {
+                                    "display_url": "stem.ffm.to/forever",
+                                    "expanded_url": "https://stem.ffm.to/forever",
+                                    "indices": [
+                                      124,
+                                      147
+                                    ],
+                                    "url": "https://t.co/mzP84NNMWI"
+                                  }
+                                ],
+                                "user_mentions": [
+                                  {
+                                    "id_str": "17243213",
+                                    "indices": [
+                                      0,
+                                      14
+                                    ],
+                                    "name": "GRAMMYS",
+                                    "screen_name": "RecordingAcad"
+                                  },
+                                  {
+                                    "id_str": "1865772373863202816",
+                                    "indices": [
+                                      15,
+                                      23
+                                    ],
+                                    "name": "Cruel",
+                                    "screen_name": "cruella"
+                                  },
+                                  {
+                                    "id_str": "1390420550497996812",
+                                    "indices": [
+                                      24,
+                                      33
+                                    ],
+                                    "name": "Dear Evan Hansen Movie",
+                                    "screen_name": "dehmovie"
+                                  },
+                                  {
+                                    "id_str": "1004849101052055552",
+                                    "indices": [
+                                      34,
+                                      47
+                                    ],
+                                    "name": "In The Heights Movie",
+                                    "screen_name": "intheheights"
+                                  },
+                                  {
+                                    "id_str": "1148889196272242688",
+                                    "indices": [
+                                      48,
+                                      57
+                                    ],
+                                    "name": "One Night In Miami...",
+                                    "screen_name": "ONIMfilm"
+                                  },
+                                  {
+                                    "id_str": "1133859529278468096",
+                                    "indices": [
+                                      58,
+                                      71
+                                    ],
+                                    "name": "RESPECT: The Aretha Franklin Movie",
+                                    "screen_name": "RespectMovie"
+                                  },
+                                  {
+                                    "id_str": "1165251197596557312",
+                                    "indices": [
+                                      72,
+                                      83
+                                    ],
+                                    "name": "The U.S. vs. Billie Holiday",
+                                    "screen_name": "USvsBillie"
+                                  }
+                                ]
+                              },
+                              "favorite_count": 0,
+                              "favorited": false,
+                              "full_text": "@RecordingAcad @cruella @dehmovie @intheheights @ONIMfilm @RespectMovie @USvsBillie Buy and Stream Forever by Lea Michele \n\nhttps://t.co/mzP84NNMWI",
+                              "id_str": "1463214175489228800",
+                              "in_reply_to_screen_name": "RecordingAcad",
+                              "in_reply_to_status_id_str": "1463203718153703425",
+                              "in_reply_to_user_id_str": "17243213",
+                              "is_quote_status": false,
+                              "lang": "en",
+                              "possibly_sensitive": false,
+                              "possibly_sensitive_editable": true,
+                              "quote_count": 0,
+                              "reply_count": 0,
+                              "retweet_count": 0,
+                              "retweeted": false,
+                              "user_id_str": "877774857517375489"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "rest_id": "1463214175489228800",
+                            "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
+                            "unmention_data": {},
+                            "views": {
+                              "state": "Enabled"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "metadata": {
+                  "conversationMetadata": {
+                    "allTweetIds": [
+                      "1463214175489228800"
+                    ],
+                    "enableDeduplication": true
+                  }
+                }
+              },
+              "entryId": "conversationthread-1463214175489228800",
+              "sortIndex": "2093598831756181424"
+            },
+            {
+              "content": {
+                "__typename": "TimelineTimelineModule",
+                "clientEventInfo": {
+                  "component": "tweet",
+                  "details": {
+                    "conversationDetails": {
+                      "conversationSection": "HighQuality"
+                    },
+                    "timelinesDetails": {
+                      "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBMYTH0AAAAAA=="
+                    }
+                  }
+                },
+                "displayType": "VerticalConversation",
+                "entryType": "TimelineTimelineModule",
+                "items": [
+                  {
+                    "entryId": "conversationthread-1463205963511451653-tweet-1463205963511451653",
+                    "item": {
+                      "clientEventInfo": {
+                        "component": "tweet",
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBMYTH0AAAAAA=="
+                          }
+                        },
+                        "element": "tweet"
+                      },
+                      "itemContent": {
+                        "__typename": "TimelineTweet",
+                        "itemType": "TimelineTweet",
+                        "tweetDisplayType": "Tweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "action_counts": {
+                                    "favorites_count": 170670
+                                  },
+                                  "affiliates_highlighted_label": {},
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/1937917422423482368/dC0Qxto2_normal.jpg"
+                                  },
+                                  "banner": {
+                                    "image_url": "https://pbs.twimg.com/profile_banners/2293104132/1705411820"
+                                  },
+                                  "core": {
+                                    "created_at": "Wed Jan 15 18:33:56 +0000 2014",
+                                    "name": "diya",
+                                    "screen_name": "slythrndove"
+                                  },
+                                  "dm_permissions": {
+                                    "can_dm": false
+                                  },
+                                  "follow_request_sent": false,
+                                  "has_graduated_access": true,
+                                  "id": "VXNlcjoyMjkzMTA0MTMy",
+                                  "is_blue_verified": false,
+                                  "location": {
+                                    "location": "the house of cameron | 23"
+                                  },
+                                  "media_permissions": {
+                                    "can_media_tag": false
+                                  },
+                                  "notifications_settings": {
+                                    "notifications_enabled": false
+                                  },
+                                  "pinned_items": {
+                                    "tweet_ids_str": [
+                                      "1432378855482789888"
+                                    ]
+                                  },
+                                  "possibly_sensitive": false,
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "profile_bio": {
+                                    "description": "aim higher babe\u2661 | she/her",
+                                    "entities": {
+                                      "description": {}
+                                    }
+                                  },
+                                  "profile_description_language": "en",
+                                  "profile_image_shape": "Circle",
+                                  "profile_metadata": {
+                                    "profile_interstitial_type": ""
+                                  },
+                                  "profile_translation": {
+                                    "translator_type": "none"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 4468,
+                                    "following": 536
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocked_by": false,
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": false,
+                                    "live_following": false,
+                                    "muting": false
+                                  },
+                                  "rest_id": "2293104132",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tipjar_settings": {},
+                                  "tweet_counts": {
+                                    "media_tweets": 5204,
+                                    "tweets": 36001
+                                  },
+                                  "verification": {
+                                    "verified": false
+                                  },
+                                  "website": {
+                                    "url": ""
+                                  }
+                                }
+                              }
+                            },
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1463205963511451653"
+                              ],
+                              "editable_until_msecs": "1637692261410",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": true
+                            },
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "has_birdwatch_notes": false,
+                            "is_translatable": false,
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "conversation_id_str": "1463203718153703425",
+                              "created_at": "Tue Nov 23 18:01:01 +0000 2021",
+                              "display_text_range": [
+                                84,
+                                100
+                              ],
+                              "entities": {
+                                "user_mentions": [
+                                  {
+                                    "id_str": "17243213",
+                                    "indices": [
+                                      0,
+                                      14
+                                    ],
+                                    "name": "GRAMMYS",
+                                    "screen_name": "RecordingAcad"
+                                  },
+                                  {
+                                    "id_str": "1865772373863202816",
+                                    "indices": [
+                                      15,
+                                      23
+                                    ],
+                                    "name": "Cruel",
+                                    "screen_name": "cruella"
+                                  },
+                                  {
+                                    "id_str": "1390420550497996812",
+                                    "indices": [
+                                      24,
+                                      33
+                                    ],
+                                    "name": "Dear Evan Hansen Movie",
+                                    "screen_name": "dehmovie"
+                                  },
+                                  {
+                                    "id_str": "1004849101052055552",
+                                    "indices": [
+                                      34,
+                                      47
+                                    ],
+                                    "name": "In The Heights Movie",
+                                    "screen_name": "intheheights"
+                                  },
+                                  {
+                                    "id_str": "1148889196272242688",
+                                    "indices": [
+                                      48,
+                                      57
+                                    ],
+                                    "name": "One Night In Miami...",
+                                    "screen_name": "ONIMfilm"
+                                  },
+                                  {
+                                    "id_str": "1133859529278468096",
+                                    "indices": [
+                                      58,
+                                      71
+                                    ],
+                                    "name": "RESPECT: The Aretha Franklin Movie",
+                                    "screen_name": "RespectMovie"
+                                  },
+                                  {
+                                    "id_str": "1165251197596557312",
+                                    "indices": [
+                                      72,
+                                      83
+                                    ],
+                                    "name": "The U.S. vs. Billie Holiday",
+                                    "screen_name": "USvsBillie"
+                                  }
+                                ]
+                              },
+                              "favorite_count": 0,
+                              "favorited": false,
+                              "full_text": "@RecordingAcad @cruella @dehmovie @intheheights @ONIMfilm @RespectMovie @USvsBillie schmigadoon!!!!!",
+                              "id_str": "1463205963511451653",
+                              "in_reply_to_screen_name": "RecordingAcad",
+                              "in_reply_to_status_id_str": "1463203718153703425",
+                              "in_reply_to_user_id_str": "17243213",
+                              "is_quote_status": false,
+                              "lang": "fi",
+                              "quote_count": 0,
+                              "reply_count": 0,
+                              "retweet_count": 0,
+                              "retweeted": false,
+                              "user_id_str": "2293104132"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "rest_id": "1463205963511451653",
+                            "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
+                            "unmention_data": {},
+                            "views": {
+                              "state": "Enabled"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "metadata": {
+                  "conversationMetadata": {
+                    "allTweetIds": [
+                      "1463205963511451653"
+                    ],
+                    "enableDeduplication": true
+                  }
+                }
+              },
+              "entryId": "conversationthread-1463205963511451653",
+              "sortIndex": "2093598831756181414"
+            },
+            {
+              "content": {
+                "__typename": "TimelineTimelineModule",
+                "clientEventInfo": {
+                  "component": "tweet",
+                  "details": {
+                    "conversationDetails": {
+                      "conversationSection": "HighQuality"
+                    },
+                    "timelinesDetails": {
+                      "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBMYTH0AAAAAA=="
+                    }
+                  }
+                },
+                "displayType": "VerticalConversation",
+                "entryType": "TimelineTimelineModule",
+                "items": [
+                  {
+                    "entryId": "conversationthread-1463227167232466948-tweet-1463227167232466948",
+                    "item": {
+                      "clientEventInfo": {
+                        "component": "tweet",
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaBMYTH0AAAAAA=="
+                          }
+                        },
+                        "element": "tweet"
+                      },
+                      "itemContent": {
+                        "__typename": "TimelineTweet",
+                        "itemType": "TimelineTweet",
+                        "tweetDisplayType": "Tweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "action_counts": {
+                                    "favorites_count": 18161
+                                  },
+                                  "affiliates_highlighted_label": {},
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/1928740162265067521/pEdzArHJ_normal.jpg"
+                                  },
+                                  "banner": {
+                                    "image_url": "https://pbs.twimg.com/profile_banners/87731444/1778091023"
+                                  },
+                                  "core": {
+                                    "created_at": "Thu Nov 05 17:00:05 +0000 2009",
+                                    "name": "Grogu \ud83c\udde6\ud83c\uddf9\ud83d\udda4\ud83d\udc09\ud83d\udc9a#13 \ud83c\udf20 \ud83d\udc3b\ud83e\udd70",
+                                    "screen_name": "KhaleesiKerscht"
+                                  },
+                                  "dm_permissions": {
+                                    "can_dm": true
+                                  },
+                                  "follow_request_sent": false,
+                                  "has_graduated_access": true,
+                                  "id": "VXNlcjo4NzczMTQ0NA==",
+                                  "is_blue_verified": false,
+                                  "location": {
+                                    "location": "Vienna"
+                                  },
+                                  "media_permissions": {
+                                    "can_media_tag": false
+                                  },
+                                  "notifications_settings": {
+                                    "notifications_enabled": false
+                                  },
+                                  "pinned_items": {},
+                                  "possibly_sensitive": false,
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "profile_bio": {
+                                    "description": "I .AM . Me \nIG : jedikerscht",
+                                    "entities": {
+                                      "description": {}
+                                    }
+                                  },
+                                  "profile_image_shape": "Circle",
+                                  "profile_metadata": {
+                                    "profile_interstitial_type": ""
+                                  },
+                                  "profile_translation": {
+                                    "translator_type": "none"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 581,
+                                    "following": 220
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocked_by": false,
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": false,
+                                    "live_following": false,
+                                    "muting": false
+                                  },
+                                  "rest_id": "87731444",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tipjar_settings": {},
+                                  "tweet_counts": {
+                                    "media_tweets": 4776,
+                                    "tweets": 118907
+                                  },
+                                  "verification": {
+                                    "verified": false
+                                  },
+                                  "website": {
+                                    "url": ""
+                                  }
+                                }
+                              }
+                            },
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1463227167232466948"
+                              ],
+                              "editable_until_msecs": "1637697316771",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": true
+                            },
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "has_birdwatch_notes": false,
+                            "is_translatable": false,
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "conversation_id_str": "1463203718153703425",
+                              "created_at": "Tue Nov 23 19:25:16 +0000 2021",
+                              "display_text_range": [
+                                84,
+                                97
+                              ],
+                              "entities": {
+                                "user_mentions": [
+                                  {
+                                    "id_str": "17243213",
+                                    "indices": [
+                                      0,
+                                      14
+                                    ],
+                                    "name": "GRAMMYS",
+                                    "screen_name": "RecordingAcad"
+                                  },
+                                  {
+                                    "id_str": "1865772373863202816",
+                                    "indices": [
+                                      15,
+                                      23
+                                    ],
+                                    "name": "Cruel",
+                                    "screen_name": "cruella"
+                                  },
+                                  {
+                                    "id_str": "1390420550497996812",
+                                    "indices": [
+                                      24,
+                                      33
+                                    ],
+                                    "name": "Dear Evan Hansen Movie",
+                                    "screen_name": "dehmovie"
+                                  },
+                                  {
+                                    "id_str": "1004849101052055552",
+                                    "indices": [
+                                      34,
+                                      47
+                                    ],
+                                    "name": "In The Heights Movie",
+                                    "screen_name": "intheheights"
+                                  },
+                                  {
+                                    "id_str": "1148889196272242688",
+                                    "indices": [
+                                      48,
+                                      57
+                                    ],
+                                    "name": "One Night In Miami...",
+                                    "screen_name": "ONIMfilm"
+                                  },
+                                  {
+                                    "id_str": "1133859529278468096",
+                                    "indices": [
+                                      58,
+                                      71
+                                    ],
+                                    "name": "RESPECT: The Aretha Franklin Movie",
+                                    "screen_name": "RespectMovie"
+                                  },
+                                  {
+                                    "id_str": "1165251197596557312",
+                                    "indices": [
+                                      72,
+                                      83
+                                    ],
+                                    "name": "The U.S. vs. Billie Holiday",
+                                    "screen_name": "USvsBillie"
+                                  }
+                                ]
+                              },
+                              "favorite_count": 0,
+                              "favorited": false,
+                              "full_text": "@RecordingAcad @cruella @dehmovie @intheheights @ONIMfilm @RespectMovie @USvsBillie Cruella yeees",
+                              "id_str": "1463227167232466948",
+                              "in_reply_to_screen_name": "RecordingAcad",
+                              "in_reply_to_status_id_str": "1463203718153703425",
+                              "in_reply_to_user_id_str": "17243213",
+                              "is_quote_status": false,
+                              "lang": "fr",
+                              "quote_count": 0,
+                              "reply_count": 0,
+                              "retweet_count": 0,
+                              "retweeted": false,
+                              "user_id_str": "87731444"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "rest_id": "1463227167232466948",
+                            "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
+                            "unmention_data": {},
+                            "views": {
+                              "state": "Enabled"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "metadata": {
+                  "conversationMetadata": {
+                    "allTweetIds": [
+                      "1463227167232466948"
+                    ],
+                    "enableDeduplication": true
+                  }
+                }
+              },
+              "entryId": "conversationthread-1463227167232466948",
+              "sortIndex": "2093598831756181404"
+            },
+            {
+              "content": {
+                "__typename": "TimelineTimelineCursor",
+                "cursorType": "ShowMoreThreads",
+                "displayTreatment": {
+                  "actionText": "Show probable spam"
+                },
+                "entryType": "TimelineTimelineCursor",
+                "value": "DAAKCgABHQ31C4z__5kLAAIAAACQRW1QQzZ3QUFBZlEvZ0dKTjB2R3AvQUFBQUFzVVRsME9KZGNnQmhST1dydzlseUFBRkU1WUIzNlZFQUVVVG1HS1NGb0FBQlJPYkRjUzFsQUxGRS9sSmNhWE1BSVVUbkE1czFjZ0RCUk9iVnNvbDZBRUZFNVlNUFBXUUFvVVRsb1NTRlZRQlJST2RDTGtGOUFGCAADAAAABwsABAAAAA9TaG93TW9yZVRocmVhZHMAAA"
+              },
+              "entryId": "cursor-showmorethreads-2093598831756181403",
+              "sortIndex": "2093598831756181403"
+            }
+          ],
+          "type": "TimelineAddEntries"
+        },
+        {
+          "direction": "Top",
+          "type": "TimelineTerminateTimeline"
+        }
+      ],
+      "metadata": {
+        "scribeConfig": {
+          "page": "ranked_replies"
+        }
+      }
+    }
+  }
+}

@@ -8,11 +8,11 @@ import sys
 import traceback
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
-from typing import Generator, Optional, Union
+from typing import Callable, Generator, Optional, TypeVar, Union, cast
 
 from .http import Response
 from .logger import logger
-from .utils import find_item, get_or, int_or, to_old_rep, utc
+from .utils import find_item, get_or, int_or, to_old_obj, to_old_rep, utc
 
 
 @dataclass
@@ -94,7 +94,7 @@ class AccountAbout(JSONTrait):
     verified_since_msec: int | None
 
     @staticmethod
-    def parse(obj: dict):
+    def parse(obj: dict) -> "AccountAbout":
         about = obj.get("about_profile") or {}
         core = obj.get("core") or {}
         verification = obj.get("verification_info", {}) or {}
@@ -123,7 +123,7 @@ class CommunityRule(JSONTrait):
     description: str
 
     @staticmethod
-    def parse(obj: dict):
+    def parse(obj: dict) -> "CommunityRule":
         return CommunityRule(
             id_str=str(obj.get("rest_id", obj.get("id_str", ""))),
             name=obj.get("name", ""),
@@ -145,7 +145,7 @@ class Community(JSONTrait):
     isNsfw: bool | None = None
 
     @staticmethod
-    def parse(obj: dict):
+    def parse(obj: dict) -> "Community":
         id_str = str(obj.get("rest_id") or obj.get("id_str") or "")
         topic = obj.get("primary_community_topic") or {}
         rules = [CommunityRule.parse(x) for x in obj.get("rules", [])]
@@ -212,7 +212,7 @@ class User(JSONTrait):
     # label: typing.Optional["UserLabel"] = None
 
     @staticmethod
-    def parse(obj: dict, res=None):
+    def parse(obj: dict, res=None) -> "User":
         return User(
             id=int(obj["id_str"]),
             id_str=obj["id_str"],
@@ -411,7 +411,19 @@ class Tweet(JSONTrait):
     source: str | None = None
     sourceUrl: str | None = None
     sourceLabel: str | None = None
-    card: Union[None, "SummaryCard", "PollCard", "BroadcastCard", "AudiospaceCard"] = None
+    card: Union[
+        None,
+        "SummaryCard",
+        "PollCard",
+        "BroadcastCard",
+        "AudiospaceCard",
+        "MessageMeCard",
+        "PeriscopeBroadcastCard",
+        "PromoVideoConvoCard",
+        "PromoImageConvoCard",
+        "LiveEventCard",
+        "AppCard",
+    ] = None
     possibly_sensitive: bool | None = None
     isQuoteStatus: bool = False
     isTranslatable: bool = False
@@ -427,8 +439,8 @@ class Tweet(JSONTrait):
     # vibe: Optional["Vibe"] = None
 
     @staticmethod
-    def parse(obj: dict, res: dict):
-        tw_usr = User.parse(res["users"][obj["user_id_str"]])
+    def parse(obj: dict, res: dict) -> "Tweet":
+        tw_usr = User.parse(_get_tweet_user_obj(obj, res))
 
         rt_id_path = [
             "retweeted_status_id_str",
@@ -618,6 +630,9 @@ class PollOption(JSONTrait):
 class PollCard(Card):
     options: list[PollOption]
     finished: bool
+    videoUrl: str | None = None
+    durationSeconds: int | None = None
+    photo: MediaPhoto | None = None
     _type: str = "poll"
 
 
@@ -633,6 +648,68 @@ class BroadcastCard(Card):
 class AudiospaceCard(Card):
     url: str
     _type: str = "audiospace"
+
+
+@dataclass
+class MessageMeCard(Card):
+    url: str
+    cta: str | None = None
+    recipientId: str | None = None
+    _type: str = "message_me"
+
+
+@dataclass
+class PeriscopeBroadcastCard(Card):
+    title: str
+    url: str
+    state: str | None = None
+    broadcasterUsername: str | None = None
+    thumbnailUrl: str | None = None
+    _type: str = "periscope_broadcast"
+
+
+@dataclass
+class LiveEventCard(Card):
+    title: str
+    url: str
+    eventId: str | None = None
+    subtitle: str | None = None
+    category: str | None = None
+    photo: MediaPhoto | None = None
+    _type: str = "live_event"
+
+
+@dataclass
+class PromoVideoConvoCard(Card):
+    title: str
+    thankYouText: str | None = None
+    thankYouUrl: str | None = None
+    videoUrl: str | None = None
+    durationSeconds: int | None = None
+    ctas: list[str] = field(default_factory=list)
+    photo: MediaPhoto | None = None
+    _type: str = "promo_video_convo"
+
+
+@dataclass
+class PromoImageConvoCard(Card):
+    title: str
+    thankYouText: str | None = None
+    thankYouUrl: str | None = None
+    ctas: list[str] = field(default_factory=list)
+    photo: MediaPhoto | None = None
+    _type: str = "promo_image_convo"
+
+
+@dataclass
+class AppCard(Card):
+    title: str
+    url: str
+    description: str | None = None
+    starRating: float | None = None
+    numRatings: int | None = None
+    photo: MediaPhoto | None = None
+    _type: str = "app"
 
 
 @dataclass
@@ -698,7 +775,7 @@ class Trend(JSONTrait):
     _type: str = "timelinetrend"
 
     @staticmethod
-    def parse(obj: dict, res=None):
+    def parse(obj: dict, res=None) -> "Trend":
         grouped_trends = [GroupedTrend.parse(x) for x in obj.get("grouped_trends", [])]
         return Trend(
             id=f"trend-{obj['name']}",
@@ -717,11 +794,18 @@ def _parse_card_get_bool(values: list[dict], key: str):
     return False
 
 
-def _parse_card_get_str(values: list[dict], key: str, defaultVal=None) -> str | None:
+def _parse_card_get_str(values: list[dict], key: str, defaultVal: str | None = None) -> str | None:
     for x in values:
         if x["key"] == key:
-            return x["value"]["string_value"]
+            return cast(str, x["value"]["string_value"])
     return defaultVal
+
+
+def _parse_card_get_photo(values: list[dict], key: str):
+    for x in values:
+        if x["key"] == key and x["value"]["type"] == "IMAGE":
+            return MediaPhoto(url=x["value"]["image_value"]["url"])
+    return None
 
 
 def _parse_card_extract_str(values: list[dict], key: str):
@@ -812,7 +896,7 @@ def _parse_card(obj: dict, url: str):
             video=video,
         )
 
-    if re.match(r"poll\d+choice_text_only", name):
+    if re.match(r"(?:\d+:)?poll(?:\d+choice_(?:text_only|video|images?)|_choice_images)", name):
         val = _parse_card_prepare_values(obj)
 
         options = []
@@ -828,7 +912,19 @@ def _parse_card(obj: dict, url: str):
         # duration_minutes = int(_parse_card_get_str(val, "duration_minutes") or "0")
         # end_datetime_utc = _parse_card_get_str(val, "end_datetime_utc")
         # print(json.dumps(val, indent=2))
-        return PollCard(options=options, finished=finished)
+
+        # poll{n}choice_video cards carry the video in binding_values only (not in
+        # extended_entities). Lookup by key, not by IMAGE type: on poll_choice_images
+        # cards the IMAGE bindings are the per-choice images, not a player thumbnail.
+        duration = _parse_card_get_str(val, "content_duration_seconds")
+        photo = _parse_card_get_photo(val, "player_image_original")
+        return PollCard(
+            options=options,
+            finished=finished,
+            videoUrl=_parse_card_get_str(val, "player_hls_url"),
+            durationSeconds=int(duration) if duration is not None else None,
+            photo=photo,
+        )
 
     if name == "745291183405076480:broadcast":
         val = _parse_card_prepare_values(obj)
@@ -849,6 +945,108 @@ def _parse_card(obj: dict, url: str):
 
         # print(json.dumps(val, indent=2))
         return AudiospaceCard(url=card_url)
+
+    if name == "2586390716:message_me":
+        val = _parse_card_prepare_values(obj)
+        card_url = _parse_card_get_str(val, "card_url")
+        if card_url is None:
+            return None
+
+        cta = _parse_card_get_str(val, "cta")
+        recipient_id = next(
+            (
+                x["value"]["user_value"]["id_str"]
+                for x in val
+                if x["key"] == "recipient" and x["value"]["type"] == "USER"
+            ),
+            None,
+        )
+        return MessageMeCard(url=card_url, cta=cta, recipientId=recipient_id)
+
+    if name == "3691233323:periscope_broadcast":
+        val = _parse_card_prepare_values(obj)
+        card_url = _parse_card_get_str(val, "url", _parse_card_get_str(val, "card_url"))
+        card_title = _parse_card_get_str(val, "title")
+        if card_url is None or card_title is None:
+            return None
+
+        return PeriscopeBroadcastCard(
+            title=card_title,
+            url=card_url,
+            state=_parse_card_get_str(val, "broadcast_state"),
+            broadcasterUsername=_parse_card_get_str(val, "broadcaster_username"),
+            thumbnailUrl=_parse_card_get_str(val, "full_size_thumbnail_url"),
+        )
+
+    if name == "745291183405076480:live_event":
+        val = _parse_card_prepare_values(obj)
+        card_url = _parse_card_get_str(val, "card_url")
+        card_title = _parse_card_get_str(val, "event_title")
+        if card_url is None or card_title is None:
+            return None
+
+        return LiveEventCard(
+            title=card_title,
+            url=card_url,
+            eventId=_parse_card_get_str(val, "event_id"),
+            subtitle=_parse_card_get_str(val, "event_subtitle"),
+            category=_parse_card_get_str(val, "event_category"),
+            photo=_parse_card_get_photo(val, "event_thumbnail_original"),
+        )
+
+    if name in {"promo_video_convo", "promo_image_convo"}:
+        val = _parse_card_prepare_values(obj)
+        card_title = _parse_card_get_str(val, "title")
+        if card_title is None:
+            return None
+
+        ctas = []
+        for key in ("cta_one", "cta_two", "cta_three", "cta_four"):
+            cta = _parse_card_get_str(val, key)
+            if cta is not None:
+                ctas.append(cta)
+
+        thank_you_text = _parse_card_get_str(val, "thank_you_text")
+        thank_you_url = _parse_card_get_str(val, "thank_you_url")
+
+        if name == "promo_image_convo":
+            return PromoImageConvoCard(
+                title=card_title,
+                thankYouText=thank_you_text,
+                thankYouUrl=thank_you_url,
+                ctas=ctas,
+                photo=_parse_card_get_photo(val, "promo_image_original"),
+            )
+
+        duration = _parse_card_get_str(val, "content_duration_seconds")
+        return PromoVideoConvoCard(
+            title=card_title,
+            thankYouText=thank_you_text,
+            thankYouUrl=thank_you_url,
+            videoUrl=_parse_card_get_str(val, "player_stream_url"),
+            durationSeconds=int(duration) if duration is not None else None,
+            ctas=ctas,
+            photo=_parse_card_get_photo(val, "player_image_original"),
+        )
+
+    if name == "app":
+        val = _parse_card_prepare_values(obj)
+        card_url = _parse_card_get_str(val, "card_url")
+        card_title = _parse_card_get_str(val, "title")
+        if card_url is None or card_title is None:
+            return None
+
+        rating = _parse_card_get_str(val, "app_star_rating")
+        # app_num_ratings is locale-formatted ("289,838"), keep the digits only
+        num_ratings = _parse_card_get_str(val, "app_num_ratings")
+        return AppCard(
+            title=card_title,
+            url=card_url,
+            description=_parse_card_get_str(val, "description"),
+            starRating=float(rating) if rating is not None else None,
+            numRatings=int(re.sub(r"\D", "", num_ratings)) if num_ratings else None,
+            photo=_parse_card_get_photo(val, "thumbnail_original"),
+        )
 
     logger.warning(f"Unknown card type '{name}' on {url}")
     if "PYTEST_CURRENT_TEST" in os.environ:  # help debugging tests
@@ -875,6 +1073,24 @@ def _get_reply_user(tw_obj: dict, res: dict):
 
     # todo: user not found in reply (probably deleted or hidden)
     return None
+
+
+def _get_tweet_user_obj(tw_obj: dict, res: dict) -> dict:
+    """Return the referenced user or an author embedded in the tweet."""
+    user_id = tw_obj.get("user_id_str")
+    users = res.get("users", {})
+    if user_id is not None and user_id in users:
+        return users[user_id]
+
+    for path in ("core.user_results.result", "author_results.result"):
+        user_obj = get_or(tw_obj, path)
+        if not isinstance(user_obj, dict) or user_obj.get("__typename") == "UserUnavailable":
+            continue
+        if "legacy" in user_obj and "rest_id" in user_obj:
+            return to_old_obj(user_obj)
+        return user_obj
+
+    raise KeyError(f"user {user_id} not found in response payload")
 
 
 def _get_source_url(tw_obj: dict):
@@ -949,15 +1165,16 @@ def _write_dump(kind: str, e: Exception, x: dict, obj: dict):
     logger.error(f"Failed to parse response of {kind}, writing dump to {dumpfile}")
 
 
-def _parse_items(rep: Response, kind: str, limit: int = -1):
-    if kind == "user":
-        Cls, key = User, "users"
-    elif kind == "tweet":
-        Cls, key = Tweet, "tweets"
-    elif kind == "trends":
-        Cls, key = Trend, "trends"
-    else:
-        raise ValueError(f"Invalid kind: {kind}")
+ParsedItem = TypeVar("ParsedItem", Tweet, User, Trend)
+
+
+def _parse_items(
+    rep: Response,
+    kind: str,
+    parser: Callable[[dict, dict], ParsedItem],
+    limit: int = -1,
+) -> Generator[ParsedItem, None, None]:
+    key = kind if kind == "trends" else f"{kind}s"
 
     # check for dict, because Response can be mocked in tests with different type
     res = rep if isinstance(rep, dict) else rep.json()
@@ -975,7 +1192,7 @@ def _parse_items(rep: Response, kind: str, limit: int = -1):
             pass
 
         try:
-            tmp = Cls.parse(x, obj)
+            tmp = parser(x, obj)
             if tmp.id not in ids:
                 ids.add(tmp.id)
                 yield tmp
@@ -1046,12 +1263,12 @@ def parse_community(rep: Response | dict) -> Community | None:
 
 
 def parse_tweets(rep: Response, limit: int = -1) -> Generator[Tweet, None, None]:
-    return _parse_items(rep, "tweet", limit)
+    return _parse_items(rep, "tweet", Tweet.parse, limit)
 
 
 def parse_users(rep: Response, limit: int = -1) -> Generator[User, None, None]:
-    return _parse_items(rep, "user", limit)
+    return _parse_items(rep, "user", User.parse, limit)
 
 
 def parse_trends(rep: Response, limit: int = -1) -> Generator[Trend, None, None]:
-    return _parse_items(rep, kind="trends", limit=limit)
+    return _parse_items(rep, "trends", Trend.parse, limit)

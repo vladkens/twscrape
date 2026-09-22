@@ -4,7 +4,7 @@
       "result": {
         "__typename": "User",
         "action_counts": {
-          "favorites_count": 2642
+          "favorites_count": 2659
         },
         "affiliates_highlighted_label": {
           "label": {
@@ -45,8 +45,6 @@
         },
         "id": "VXNlcjoyMjQ0OTk0OTQ1",
         "is_blue_verified": true,
-        "is_profile_translatable": false,
-        "legacy_extended_profile": {},
         "location": {
           "location": "127.0.0.1"
         },
@@ -105,14 +103,14 @@
           "translator_type": "regular"
         },
         "relationship_counts": {
-          "followers": 695695,
-          "following": 762
+          "followers": 697752,
+          "following": 763
         },
         "relationship_perspectives": {
           "blocked_by": false,
           "blocking": false,
           "followed_by": false,
-          "following": true,
+          "following": false,
           "live_following": false,
           "muting": false
         },
@@ -123,37 +121,11 @@
         "tipjar_settings": {},
         "tweet_counts": {
           "media_tweets": 829,
-          "tweets": 4319
+          "tweets": 4332
         },
         "verification": {
           "verified": false,
           "verified_type": "Business"
-        },
-        "verification_info": {
-          "reason": {
-            "description": {
-              "entities": [
-                {
-                  "from_index": 53,
-                  "ref": {
-                    "url": "https://twitter.com/X",
-                    "url_type": "ExternalUrl"
-                  },
-                  "to_index": 55
-                },
-                {
-                  "from_index": 62,
-                  "ref": {
-                    "url": "https://help.twitter.com/en/rules-and-policies/profile-labels",
-                    "url_type": "ExternalUrl"
-                  },
-                  "to_index": 72
-                }
-              ],
-              "text": "This account is Premium because it's an affiliate of @X on X. Learn more"
-            },
-            "verified_since_msec": "1395425700472"
-          }
         },
         "website": {
           "url": "https://t.co/NIwHVIVyrN"

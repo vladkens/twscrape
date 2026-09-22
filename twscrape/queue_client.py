@@ -1,6 +1,7 @@
 import asyncio
 import json
 import os
+from enum import Enum, auto
 from typing import Any
 from urllib.parse import urlparse
 
@@ -16,7 +17,7 @@ from .http import (
     Response,
     format_error,
 )
-from .logger import logger
+from .logger import LogOnce, logger
 from .utils import utc
 from .xclid import XClIdAccountError, XClIdGen, XClIdParseError
 
@@ -28,6 +29,16 @@ class HandledError(Exception): ...
 
 
 class AbortReqError(Exception): ...
+
+
+class GqlFeaturesOutdatedError(AbortReqError):
+    """GQL_FEATURES in api.py no longer matches the X API. Retrying cannot help."""
+
+
+class FailKind(Enum):
+    TRANSPORT = auto()
+    LOADSHED = auto()
+    UNKNOWN = auto()
 
 
 class XClIdGenStore:
@@ -55,6 +66,20 @@ class Ctx:
         self.acc = acc
         self.clt = clt
         self.proxy = proxy
+        self.fails = {FailKind.TRANSPORT: 0, FailKind.LOADSHED: 0, FailKind.UNKNOWN: 0}
+
+    def fail(self, kind: FailKind) -> bool:
+        """Count a failed attempt of this kind, return whether it's still worth retrying."""
+        fail_limit, total_fail_limit = 3, 4
+        self.fails[kind] += 1
+        return self.fails[kind] < fail_limit and sum(self.fails.values()) < total_fail_limit
+
+    async def retry(self, kind: FailKind) -> bool:
+        """Count a failure and back off while retry budget remains."""
+        if not self.fail(kind):
+            return False
+        await asyncio.sleep(2 ** self.fails[kind])
+        return True
 
     async def aclose(self):
         await self.clt.aclose()
@@ -94,6 +119,19 @@ def req_id(rep: Response):
 
     username = getattr(rep, "__username", "<UNKNOWN>")
     return f"{lr}/{ll} - {username}"
+
+
+def has_data(rep: Response, res: Any) -> bool:
+    """Return True for successful responses with at least one non-null data field."""
+    if rep.status_code != 200 or not isinstance(res, dict):
+        return False
+
+    data = res.get("data")
+    return isinstance(data, dict) and any(value is not None for value in data.values())
+
+
+def has_error(errors: list[str], prefix: str) -> bool:
+    return any(error.startswith(prefix) for error in errors)
 
 
 def dump_rep(rep: Response):
@@ -156,7 +194,7 @@ class QueueClient:
 
         await self.pool.unlock(ctx.acc.username, self.queue, ctx.req_count)
 
-    async def _get_ctx(self):
+    async def _get_ctx(self) -> Ctx | None:
         if self.ctx:
             return self.ctx
 
@@ -198,73 +236,75 @@ class QueueClient:
         limit_reset = int(rep.headers.get("x-rate-limit-reset", -1))
         # limit_max = int(rep.headers.get("x-rate-limit-limit", -1))
 
-        err_msg = "OK"
-        if "errors" in res:
-            err_msg = {f"({x.get('code', -1)}) {x['message']}" for x in res["errors"]}
-            err_msg = "; ".join(list(err_msg))
+        errors: list[str] = []
+        if isinstance(res, dict) and "errors" in res:
+            errors = [f"({x.get('code', -1)}) {x['message']}" for x in res["errors"]]
+            errors = list(dict.fromkeys(errors))
 
-        log_msg = f"{rep.status_code:3d} - {req_id(rep)} - {err_msg}"
-        logger.trace(log_msg)
+        err_msg = "; ".join(errors) or "OK"
+        log_key = (self.queue, rep.status_code, frozenset(errors))
+
+        # Request logs identify an account; summaries group errors across accounts.
+        request_log = f"{rep.status_code:3d} - {req_id(rep)} - {err_msg}"
+        summary_log = f"{rep.status_code:3d} - {self.queue} - {err_msg}"
+        logger.trace(request_log)
 
         # for dev: need to add some features in api.py
-        if err_msg.startswith("(336) The following features cannot be null"):
+        if has_error(errors, "(336) The following features cannot be null"):
             logger.error(f"[DEV] Update required: {err_msg}")
-            exit(1)
+            raise GqlFeaturesOutdatedError(f"Update GQL_FEATURES in api.py: {err_msg}")
 
         # general api rate limit
         if limit_remaining == 0 and limit_reset > 0:
-            logger.debug(f"Rate limited: {log_msg}")
+            logger.debug(f"Rate limited: {request_log}")
             await self._close_ctx(limit_reset)
             raise HandledError()
 
         # no way to check is account banned in direct way, but this check should work
-        if err_msg.startswith("(88) Rate limit exceeded") and limit_remaining > 0:
-            logger.warning(f"Ban detected: {log_msg}")
+        if has_error(errors, "(88) Rate limit exceeded") and limit_remaining > 0:
+            logger.warning(f"Ban detected: {request_log}")
             await self._close_ctx(-1, inactive=True, msg=err_msg)
             raise HandledError()
 
-        if err_msg.startswith("(326) Authorization: Denied by access control"):
-            logger.warning(f"Ban detected: {log_msg}")
+        if has_error(errors, "(326) Authorization: Denied by access control"):
+            logger.warning(f"Ban detected: {request_log}")
             await self._close_ctx(-1, inactive=True, msg=err_msg)
             raise HandledError()
 
-        if err_msg.startswith("(32) Could not authenticate you"):
-            logger.warning(f"Session expired or banned: {log_msg}")
+        if has_error(errors, "(32) Could not authenticate you"):
+            logger.warning(f"Session expired or banned: {request_log}")
             await self._close_ctx(-1, inactive=True, msg=err_msg)
             raise HandledError()
 
         if err_msg == "OK" and rep.status_code == 403:
-            logger.warning(f"Session expired or banned: {log_msg}")
+            logger.warning(f"Session expired or banned: {request_log}")
             await self._close_ctx(-1, inactive=True, msg=None)
             raise HandledError()
-
-        # something from twitter side - abort all queries, see: https://github.com/vladkens/twscrape/pull/80
-        if err_msg.startswith("(131) Dependency: Internal error"):
-            # looks like when data exists, we can ignore this error
-            # https://github.com/vladkens/twscrape/issues/166
-            if rep.status_code == 200 and "data" in res and "user" in res["data"]:
-                err_msg = "OK"
-            else:
-                logger.warning(f"Dependency error (request skipped): {err_msg}")
-                raise AbortReqError()
 
         # content not found
         if rep.status_code == 200 and "_Missing: No status found with that ID" in err_msg:
             return  # ignore this error
 
-        # something from twitter side - just ignore it, see: https://github.com/vladkens/twscrape/pull/95
-        if rep.status_code == 200 and "Authorization" in err_msg:
-            logger.warning(f"Authorization unknown error: {log_msg}")
-            return
-
         if err_msg != "OK":
-            logger.warning(f"API unknown error: {log_msg}")
-            return  # ignore any other unknown errors
+            if has_data(rep, res):
+                LogOnce.throttled(log_key, "DEBUG", f"API warning with data: {summary_log}")
+                return
+
+            # X is overloaded and dropping work; retry without penalizing the account.
+            if has_error(errors, "(-1) LoadShed"):
+                LogOnce.throttled(log_key, "WARNING", f"API busy: {summary_log}")
+                ctx = self.ctx
+                if ctx is not None and await ctx.retry(FailKind.LOADSHED):
+                    raise HandledError()
+                return
+
+            LogOnce.once(log_key, "WARNING", f"API unknown error: {summary_log}")
+            return
 
         try:
             rep.raise_for_status()
         except HttpStatusError:
-            logger.error(f"Unhandled API response code: {log_msg}")
+            logger.error(f"Unhandled API response code: {request_log}")
             await self._close_ctx(utc.ts() + 60 * 15)  # 15 minutes
             raise HandledError()
 
@@ -272,10 +312,10 @@ class QueueClient:
         return await self.req("GET", url, params=params)
 
     async def req(self, method: HttpMethod, url: str, params: ReqParams = None) -> Response | None:
-        unknown_retry, connection_retry = 0, 0
-
         while True:
-            ctx = await self._get_ctx()  # not need to close client, class implements __aexit__
+            # 1. same ctx until _close_ctx() clears it — that's retry vs rotate
+            # 2. no aclose() needed here, __aexit__ handles it
+            ctx = await self._get_ctx()
             if ctx is None:
                 return None
 
@@ -302,8 +342,10 @@ class QueueClient:
                 await self._check_rep(rep)
 
                 ctx.req_count += 1  # count only successful
-                unknown_retry, connection_retry = 0, 0
                 return rep
+            except GqlFeaturesOutdatedError:
+                # structurally invalid request, retrying cannot help — let the caller see it
+                raise
             except AbortReqError:
                 # abort all queries
                 return
@@ -321,23 +363,24 @@ class QueueClient:
                 )
                 await self._close_ctx()
                 return None
-            except NetworkError:
-                # http transport failed, just retry with same account
-                continue
-            except ConnectError as e:
-                # if proxy misconfigured or host unreachable
-                connection_retry += 1
-                if connection_retry >= 3:
-                    raise e
-            except Exception as e:
-                unknown_retry += 1
-                if unknown_retry >= 3:
-                    msg = [
-                        "Unknown error. Account timeouted for 15 minutes.",
-                        "Create issue please: https://github.com/vladkens/twscrape/issues",
-                        "If it mistake, you can unlock accounts with `twscrape reset_locks`. "
-                        f"Err: {self._format_ctx_error(ctx, e)}",
-                    ]
+            except (NetworkError, ConnectError) as e:
+                # transport failed, retry same account with backoff, then cool it down and rotate
+                if await ctx.retry(FailKind.TRANSPORT):
+                    continue
 
-                    logger.warning(" ".join(msg))
-                    await self._close_ctx(utc.ts() + 60 * 15)  # 15 minutes
+                logger.warning(f"{self._format_ctx_error(ctx, e)}; cooling account for 60s")
+                await self._close_ctx(utc.ts() + 60)
+                continue
+            except Exception as e:
+                if ctx.fail(FailKind.UNKNOWN):
+                    continue
+
+                msg = [
+                    "Unknown error. Account timeouted for 15 minutes.",
+                    "Create issue please: https://github.com/vladkens/twscrape/issues",
+                    "If it mistake, you can unlock accounts with `twscrape reset_locks`. "
+                    f"Err: {self._format_ctx_error(ctx, e)}",
+                ]
+
+                logger.warning(" ".join(msg))
+                await self._close_ctx(utc.ts() + 60 * 15)  # 15 minutes

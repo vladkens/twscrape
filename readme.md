@@ -43,37 +43,36 @@ TWS_HTTP_BACKEND=curl twscrape user_by_login xdevelopers
 ## Sponsor
 
 <p align="center">
-  <a href="https://www.swiftproxy.net/?ref=twscrape">
-    <img src=".github/swiftproxy.png" alt="Swiftproxy residential proxies" width="460">
+  <a href="https://www.rapidproxy.io/?ref=twscrape">
+    <img src=".github/rapidproxy.jpg" alt="RapidProxy logo" width="460">
   </a>
 </p>
 
 <p align="center">
-  <a href="https://www.swiftproxy.net/?ref=twscrape"><strong>Swiftproxy</strong></a>
-  provides 90M+ residential IPs across 220+ locations for web scraping,
-  automation, and data collection. Non-expiring traffic, city-level targeting,
-  and a free trial. Use code <code>PROXY90</code> for 10% off.
+  <a href="https://www.rapidproxy.io/?ref=twscrape"><strong>RapidProxy</strong></a> is a residential proxy platform with 90M+ real IPs across 200+ countries. It supports rotation, geo-targeting, and high concurrency to improve scraping success and reduce bans. Start your free trial today!
 </p>
+
+<p align="center">Discount Code: <code>RAPID10</code> to get 10% off.</p>
 
 ## Start With Cookies
 
-twscrape requires authorized X/Twitter accounts. The most stable setup is to add an account from browser cookies containing `auth_token` and `ct0`.
+twscrape requires authorized X/Twitter accounts. The most stable setup is to add an account from browser cookies containing `auth_token` and `ct0`. The recommended way to export them from your current browser profile is [unjar](https://github.com/vladkens/unjar):
 
 ```bash
-twscrape add_cookie my_account "auth_token=xxx; ct0=yyy"
+unjar x.com -f header | twscrape add_cookie my_account
 twscrape accounts
 twscrape search "from:xdevelopers lang:en" --limit=20
 ```
 
-Or let the CLI prompt for the cookie value:
+`my_account` is a local identifier; twscrape does not verify that it matches the X username stored in the cookies. Run the same command again to replace its saved session while preserving credentials, statistics, locks, and proxy settings.
+
+Alternatively, let the CLI prompt securely for cookies copied from x.com -> DevTools (F12) -> Application -> Cookies:
 
 ```bash
 twscrape add_cookie my_account
 ```
 
-Cookie accounts that include `ct0` are activated immediately; no `login_accounts` step is needed.
-
-To get cookies: open x.com -> DevTools (F12) -> Application -> Cookies -> copy `auth_token` and `ct0` values.
+Cookie accounts that include `auth_token` and `ct0` are activated immediately; no `login_accounts` step is needed.
 
 Ready-to-use cookie accounts are available from [this provider](https://kutt.to/ueeM5f). Proxy users can bring their own proxies or use [this provider](https://kutt.to/eb3rXk). These are referral links.
 
@@ -172,6 +171,7 @@ Users and timelines:
 user_login = "xdevelopers"
 user_id = 2244994945
 
+await api.user_by_id(user_id)  # User
 await api.user_by_login(user_login)  # User
 await api.user_about(user_login)  # AccountAbout
 await gather(api.following(user_id, limit=20))  # list[User]
@@ -229,6 +229,7 @@ twscrape tweet_details TWEET_ID
 twscrape tweet_replies TWEET_ID --limit=20
 twscrape tweet_thread TWEET_ID --limit=20
 twscrape retweeters TWEET_ID --limit=20
+twscrape user_by_id USER_ID
 twscrape user_by_login USERNAME
 twscrape user_about USERNAME
 twscrape user_media USER_ID --limit=20
