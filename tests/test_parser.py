@@ -8,6 +8,7 @@ from twscrape import API, gather
 from twscrape.models import (
     AudiospaceCard,
     BroadcastCard,
+    MessageMeCard,
     PollCard,
     SummaryCard,
     Trend,
@@ -688,6 +689,16 @@ async def test_cards():
     assert doc.card._type == "audiospace"
     assert isinstance(doc.card, AudiospaceCard)
     assert doc.card.url is not None
+
+    # Check MessageMeCard
+    raw = fake_rep("card_message_me").json()
+    doc = parse_tweet(raw, 1916063270131191983)
+    assert doc is not None and doc.card is not None
+    assert doc.card._type == "message_me"
+    assert isinstance(doc.card, MessageMeCard)
+    assert doc.card.url is not None
+    assert doc.card.cta is not None
+    assert doc.card.recipientId == "85741735"
 
 
 async def test_tweet_new_fields():
