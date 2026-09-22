@@ -1,8 +1,8 @@
 [project]
-name = "twscrape"
+name = "perch"
 version = "0.20.1"
 authors = [{ name = "vladkens", email = "v.pronsky@gmail.com" }]
-description = "Twitter GraphQL and Search API implementation with SNScrape data models"
+description = "Async Python library and CLI for X/Twitter scraping — reads your session straight from the browser, no cookie copy-paste"
 readme = "readme.md"
 requires-python = ">=3.10"
 keywords = ["twitter", "scrape", "scrapper", "api", "snscrape"]
@@ -43,17 +43,17 @@ dev = [
 ]
 
 [project.urls]
-repository = "https://github.com/vladkens/twscrape"
+repository = "https://github.com/intelogroup/perch"
 
 [project.scripts]
-twscrape = "twscrape.cli:run"
+perch = "perch.cli:run"
 
 [build-system]
 requires = ["hatchling>=1.9.1"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ["twscrape"]
+packages = ["perch"]
 
 [tool.pytest.ini_options]
 pythonpath = ["."]

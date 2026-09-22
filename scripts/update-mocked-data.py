@@ -1,10 +1,10 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.10"
-# dependencies = ["twscrape", "rich>=13.0"]
+# dependencies = ["perch", "rich>=13.0"]
 #
 # [tool.uv.sources]
-# twscrape = { path = "..", editable = true }
+# perch = { path = "..", editable = true }
 # ///
 """
 Usage:
@@ -37,9 +37,9 @@ from rich.table import Table
 from rich.text import Text
 from rich.tree import Tree
 
-from twscrape import API, AccountsPool
-from twscrape import api as api_mod
-from twscrape.logger import set_log_level
+from perch import API, AccountsPool
+from perch import api as api_mod
+from perch.logger import set_log_level
 
 OUT = "tests/mocked-data"
 META = f"{OUT}/__meta.json"

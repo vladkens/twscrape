@@ -86,7 +86,7 @@ class Ctx:
 
     async def req(self, method: HttpMethod, url: str, params: ReqParams = None) -> Response:
         # if code 404 on first try then generate new x-client-transaction-id and retry
-        # https://github.com/vladkens/twscrape/issues/248
+        # https://github.com/vladkens/perch/issues/248
         path = urlparse(url).path or "/"
 
         tries = 0
@@ -107,7 +107,7 @@ class Ctx:
             await asyncio.sleep(1)
 
         raise AbortReqError(
-            "Faield to get XClIdGen. See: https://github.com/vladkens/twscrape/issues/248"
+            "Faield to get XClIdGen. See: https://github.com/vladkens/perch/issues/248"
         )
 
 
@@ -140,7 +140,7 @@ def dump_rep(rep: Response):
 
     acc = getattr(rep, "__username", "<unknown>")
     outfile = f"{count:05d}_{rep.status_code}_{acc}.txt"
-    outfile = f"/tmp/twscrape-{TMP_TS}/{outfile}"
+    outfile = f"/tmp/perch-{TMP_TS}/{outfile}"
     os.makedirs(os.path.dirname(outfile), exist_ok=True)
 
     msg = []
@@ -334,7 +334,7 @@ class QueueClient:
                         "http_method": method,
                         "http_backend": getattr(ctx.clt, "backend", "unknown"),
                         "source": source,
-                        "$current_url": f"{source}://twscrape/gql/{self.queue}",
+                        "$current_url": f"{source}://perch/gql/{self.queue}",
                     },
                 )
                 rep = await ctx.req(method, url, params=params)
@@ -359,7 +359,7 @@ class QueueClient:
             except XClIdParseError as e:
                 logger.error(
                     f"{self._format_ctx_error(ctx, e)}; "
-                    "Report: https://github.com/vladkens/twscrape/issues"
+                    "Report: https://github.com/vladkens/perch/issues"
                 )
                 await self._close_ctx()
                 return None
@@ -377,8 +377,8 @@ class QueueClient:
 
                 msg = [
                     "Unknown error. Account timeouted for 15 minutes.",
-                    "Create issue please: https://github.com/vladkens/twscrape/issues",
-                    "If it mistake, you can unlock accounts with `twscrape reset_locks`. "
+                    "Create issue please: https://github.com/vladkens/perch/issues",
+                    "If it mistake, you can unlock accounts with `perch reset_locks`. "
                     f"Err: {self._format_ctx_error(ctx, e)}",
                 ]
 

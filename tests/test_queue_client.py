@@ -3,13 +3,13 @@ from contextlib import aclosing
 
 import pytest
 
-import twscrape.queue_client as queue_client_module
-from twscrape.account import Account
-from twscrape.accounts_pool import AccountsPool
-from twscrape.http import ConnectError, NetworkError
-from twscrape.queue_client import GqlFeaturesOutdatedError, QueueClient, XClIdGenStore
-from twscrape.utils import utc
-from twscrape.xclid import XClIdAccountError, XClIdGen, XClIdParseError
+import perch.queue_client as queue_client_module
+from perch.account import Account
+from perch.accounts_pool import AccountsPool
+from perch.http import ConnectError, NetworkError
+from perch.queue_client import GqlFeaturesOutdatedError, QueueClient, XClIdGenStore
+from perch.utils import utc
+from perch.xclid import XClIdAccountError, XClIdGen, XClIdParseError
 
 from .mock_http import MockClient
 
@@ -104,7 +104,7 @@ async def test_retry_with_same_acc_on_network_error(client_fixture: CF, monkeypa
     async def fake_sleep(secs):
         sleeps.append(secs)
 
-    monkeypatch.setattr("twscrape.queue_client.asyncio.sleep", fake_sleep)
+    monkeypatch.setattr("perch.queue_client.asyncio.sleep", fake_sleep)
 
     await client.__aenter__()
     locked1 = await get_locked(pool)
@@ -132,7 +132,7 @@ async def test_network_error_rotates_account_after_3_failures(client_fixture: CF
     async def fake_sleep(secs):
         sleeps.append(secs)
 
-    monkeypatch.setattr("twscrape.queue_client.asyncio.sleep", fake_sleep)
+    monkeypatch.setattr("perch.queue_client.asyncio.sleep", fake_sleep)
 
     await client.__aenter__()
     assert await get_locked(pool) == {"user1"}
@@ -161,7 +161,7 @@ async def test_network_error_counter_resets_on_account_change(client_fixture: CF
     async def fake_sleep(secs):
         pass
 
-    monkeypatch.setattr("twscrape.queue_client.asyncio.sleep", fake_sleep)
+    monkeypatch.setattr("perch.queue_client.asyncio.sleep", fake_sleep)
 
     await client.__aenter__()
 
@@ -275,7 +275,7 @@ async def test_connect_error_cools_account_and_rotates_after_3_retries(
     async def fake_sleep(secs):
         sleeps.append(secs)
 
-    monkeypatch.setattr("twscrape.queue_client.asyncio.sleep", fake_sleep)
+    monkeypatch.setattr("perch.queue_client.asyncio.sleep", fake_sleep)
 
     await client.__aenter__()
     assert await get_locked(pool) == {"user1"}
@@ -305,7 +305,7 @@ async def test_connect_error_recovers_before_3_retries(client_fixture: CF, monke
     async def fake_sleep(secs):
         pass
 
-    monkeypatch.setattr("twscrape.queue_client.asyncio.sleep", fake_sleep)
+    monkeypatch.setattr("perch.queue_client.asyncio.sleep", fake_sleep)
 
     await client.__aenter__()
 
@@ -327,7 +327,7 @@ async def test_alternating_categories_trip_total_safety_net(client_fixture: CF, 
     async def fake_sleep(secs):
         pass
 
-    monkeypatch.setattr("twscrape.queue_client.asyncio.sleep", fake_sleep)
+    monkeypatch.setattr("perch.queue_client.asyncio.sleep", fake_sleep)
 
     await client.__aenter__()
     assert await get_locked(pool) == {"user1"}
@@ -356,7 +356,7 @@ async def test_transport_error_retry_budget_is_per_account(client_fixture: CF, m
     async def fake_sleep(secs):
         pass
 
-    monkeypatch.setattr("twscrape.queue_client.asyncio.sleep", fake_sleep)
+    monkeypatch.setattr("perch.queue_client.asyncio.sleep", fake_sleep)
 
     await client.__aenter__()
 
@@ -646,7 +646,7 @@ async def test_loadshed_without_data_retries_same_account(client_fixture: CF, mo
     async def fake_sleep(secs):
         sleeps.append(secs)
 
-    monkeypatch.setattr("twscrape.queue_client.asyncio.sleep", fake_sleep)
+    monkeypatch.setattr("perch.queue_client.asyncio.sleep", fake_sleep)
     await client.__aenter__()
 
     mock.add_response(json={"errors": [{"code": -1, "message": "LoadShed: Unspecified"}]})
@@ -784,7 +784,7 @@ async def test_404_retries_exhaust_and_abort(client_fixture: CF):
     mock.add_response(status_code=404, json={})
     mock.add_response(status_code=404, json={})
 
-    with patch("twscrape.queue_client.asyncio.sleep"):
+    with patch("perch.queue_client.asyncio.sleep"):
         rep = await client.get(URL)
     assert rep is None
 
@@ -807,7 +807,7 @@ async def test_404_refreshes_generator_and_retries(client_fixture: CF, monkeypat
         return None
 
     monkeypatch.setattr(XClIdGenStore, "get", classmethod(fake_get))
-    monkeypatch.setattr("twscrape.queue_client.asyncio.sleep", no_sleep)
+    monkeypatch.setattr("perch.queue_client.asyncio.sleep", no_sleep)
     mock.add_response(status_code=404, json={})
     mock.add_response(json={"ok": True})
 
@@ -991,7 +991,7 @@ async def test_xclid_parse_error_aborts_without_account_state_change(
         raise XClIdParseError("Signing script not found (3/3 assets loaded)")
 
     monkeypatch.setattr(XClIdGenStore, "get", classmethod(fake_get))
-    monkeypatch.setattr("twscrape.queue_client.logger.error", messages.append)
+    monkeypatch.setattr("perch.queue_client.logger.error", messages.append)
 
     client = QueueClient(pool_mock, "SearchTimeline")
     rep = await client.get(URL)

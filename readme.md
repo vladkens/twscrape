@@ -1,16 +1,13 @@
-# twscrape
+# perch
 
 <div align="center">
 
-[<img src="https://badges.ws/pypi/v/twscrape" alt="version" />](https://pypi.org/project/twscrape)
-[<img src="https://badges.ws/pypi/python/twscrape" alt="py versions" />](https://pypi.org/project/twscrape)
-[<img src="https://badges.ws/pypi/dm/twscrape" alt="downloads" />](https://pypi.org/project/twscrape)
 [<img src="https://badges.ws/github/license/vladkens/twscrape" alt="license" />](https://github.com/vladkens/twscrape/blob/main/LICENSE)
 [<img src="https://badges.ws/badge/-/buy%20me%20a%20coffee/ff813f?icon=buymeacoffee&label" alt="donate" />](https://buymeacoffee.com/vladkens)
 
 </div>
 
-twscrape is an async Python library and CLI for X/Twitter Search and GraphQL endpoints. It runs on your own account pool, keeps sessions in SQLite, rotates accounts when an endpoint is rate-limited, and returns either parsed SNScrape-style models or raw API responses.
+perch is an async Python library and CLI for X/Twitter Search and GraphQL endpoints. It runs on your own account pool, keeps sessions in SQLite, rotates accounts when an endpoint is rate-limited, and returns either parsed SNScrape-style models or raw API responses.
 
 <div align="center">
   <img src=".github/example.png" alt="example of cli usage" height="400px">
@@ -19,15 +16,15 @@ twscrape is an async Python library and CLI for X/Twitter Search and GraphQL end
 ## Install
 
 ```bash
-pip install twscrape
+pip install git+https://github.com/intelogroup/perch.git
 ```
 
 `httpx` is the default HTTP backend. For browser-like TLS fingerprinting, install the optional `curl-cffi` backend:
 
 ```bash
-pip install "twscrape[curl]"
+pip install "perch[curl]"  # after PyPI publish; until then use the git URL above
 
-TWS_HTTP_BACKEND=curl twscrape user_by_login xdevelopers
+TWS_HTTP_BACKEND=curl perch user_by_login xdevelopers
 ```
 
 ## Features
@@ -43,46 +40,46 @@ TWS_HTTP_BACKEND=curl twscrape user_by_login xdevelopers
 ## Sponsor
 
 <p align="center">
-  <a href="https://www.rapidproxy.io/?ref=twscrape">
+  <a href="https://www.rapidproxy.io/?ref=perch">
     <img src=".github/rapidproxy.jpg" alt="RapidProxy logo" width="460">
   </a>
 </p>
 
 <p align="center">
-  <a href="https://www.rapidproxy.io/?ref=twscrape"><strong>RapidProxy</strong></a> is a residential proxy platform with 90M+ real IPs across 200+ countries. It supports rotation, geo-targeting, and high concurrency to improve scraping success and reduce bans. Start your free trial today!
+  <a href="https://www.rapidproxy.io/?ref=perch"><strong>RapidProxy</strong></a> is a residential proxy platform with 90M+ real IPs across 200+ countries. It supports rotation, geo-targeting, and high concurrency to improve scraping success and reduce bans. Start your free trial today!
 </p>
 
 <p align="center">Discount Code: <code>RAPID10</code> to get 10% off.</p>
 
 ## Start With Cookies
 
-twscrape requires authorized X/Twitter accounts. The most stable setup is to add an account from browser cookies containing `auth_token` and `ct0`.
+perch requires authorized X/Twitter accounts. The most stable setup is to add an account from browser cookies containing `auth_token` and `ct0`.
 
 **Recommended (this fork): read cookies straight from a local browser, no copy-paste.**
 
 ```bash
-pip install "twscrape[browser]"
-twscrape add_cookie_local my_account --browser chrome  # or firefox, edge, safari, brave, opera, chromium
-twscrape accounts
-twscrape search "from:xdevelopers lang:en" --limit=20
+pip install "perch[browser]"  # after PyPI publish; until then use the git URL above
+perch add_cookie_local my_account --browser chrome  # or firefox, edge, safari, brave, opera, chromium
+perch accounts
+perch search "from:xdevelopers lang:en" --limit=20
 ```
 
 Requires being logged into x.com in that browser already — nothing is automated beyond reading the local cookie store (via [browser_cookie3](https://github.com/borisbabic/browser_cookie3)). No new browser window opens, no login is scripted. First run on macOS triggers a one-time Keychain permission prompt to decrypt Chrome's cookie store.
 
-`my_account` is a local identifier; twscrape does not verify that it matches the X username stored in the cookies. Run the same command again to replace its saved session while preserving credentials, statistics, locks, and proxy settings.
+`my_account` is a local identifier; perch does not verify that it matches the X username stored in the cookies. Run the same command again to replace its saved session while preserving credentials, statistics, locks, and proxy settings.
 
 Cookies are validated live against X immediately on add — the account log line tells you right away whether it worked (`... updated successfully (validated live)`) or why not (`... stored but NOT active: <reason>`), instead of only surfacing on the first real scrape.
 
 **Alternative: [unjar](https://github.com/vladkens/unjar)**, a separate CLI that also exports cookies from a browser profile:
 
 ```bash
-unjar x.com -f header | twscrape add_cookie my_account
+unjar x.com -f header | perch add_cookie my_account
 ```
 
 **Alternative: manual paste.** Let the CLI prompt securely for cookies copied from x.com -> DevTools (F12) -> Application -> Cookies. Both values must be on **one line**, with the literal key names, e.g. `auth_token=xxx; ct0=yyy` — a common failure mode is pasting just the raw values without the `auth_token=`/`ct0=` prefixes, or pasting them on separate lines (the prompt only reads one line):
 
 ```bash
-twscrape add_cookie my_account
+perch add_cookie my_account
 ```
 
 Cookie accounts that include `auth_token` and `ct0` are activated immediately; no `login_accounts` step is needed.
@@ -91,7 +88,7 @@ Cookie accounts that include `auth_token` and `ct0` are activated immediately; n
 
 ### Rate limits
 
-Limits are per-account, per-endpoint, and set by X — not configurable in twscrape. Observed live (may drift over time): search ~50 requests/15min, user lookup (`user_by_login`/`user_by_id`) ~150 requests/15min, `followers`/`following` ~50 requests/15min. twscrape reads X's own `x-rate-limit-*` response headers and auto-locks an account for that specific endpoint until reset, rotating to another active account if one exists — you don't need to implement backoff yourself, but budget for the ceiling if running a single account.
+Limits are per-account, per-endpoint, and set by X — not configurable in perch. Observed live (may drift over time): search ~50 requests/15min, user lookup (`user_by_login`/`user_by_id`) ~150 requests/15min, `followers`/`following` ~50 requests/15min. perch reads X's own `x-rate-limit-*` response headers and auto-locks an account for that specific endpoint until reset, rotating to another active account if one exists — you don't need to implement backoff yourself, but budget for the ceiling if running a single account.
 
 Ready-to-use cookie accounts are available from [this provider](https://kutt.to/ueeM5f). Proxy users can bring their own proxies or use [this provider](https://kutt.to/eb3rXk). These are referral links.
 
@@ -101,7 +98,7 @@ X/Twitter's Terms of Service discourage using multiple accounts. Use this projec
 
 ```python
 import asyncio
-from twscrape import API, gather
+from perch import API, gather
 
 
 async def main():
@@ -135,7 +132,7 @@ Configure what happens when no account is immediately available:
 api = API(raise_when_no_account=True, wait_timeout=30, wait_interval=1)
 ```
 
-`wait_timeout` limits how long to wait for a locked account, `wait_interval` controls how often the pool checks again, and `raise_when_no_account` raises `NoAccountError` instead of ending the operation. By default, twscrape waits indefinitely while active accounts are locked.
+`wait_timeout` limits how long to wait for a locked account, `wait_interval` controls how often the pool checks again, and `raise_when_no_account` raises `NoAccountError` instead of ending the operation. By default, perch waits indefinitely while active accounts are locked.
 
 Search defaults to the Latest tab. Pass `kv={"product": "Top"}` or `kv={"product": "Media"}` to use another search product:
 
@@ -236,48 +233,48 @@ Parsed `Tweet`, `User`, `Community`, and trend objects can be converted with `.d
 ## CLI
 
 ```bash
-twscrape
-twscrape search --help
+perch
+perch search --help
 ```
 
 Commands:
 
 ```bash
-twscrape search "QUERY" --limit=20
-twscrape tweet_details TWEET_ID
-twscrape tweet_replies TWEET_ID --limit=20
-twscrape tweet_thread TWEET_ID --limit=20
-twscrape retweeters TWEET_ID --limit=20
-twscrape user_by_id USER_ID
-twscrape user_by_login USERNAME
-twscrape user_about USERNAME
-twscrape user_media USER_ID --limit=20
-twscrape following USER_ID --limit=20
-twscrape followers USER_ID --limit=20
-twscrape verified_followers USER_ID --limit=20
-twscrape subscriptions USER_ID --limit=20
-twscrape user_tweets USER_ID --limit=20
-twscrape user_tweets_and_replies USER_ID --limit=20
-twscrape list_timeline LIST_ID --limit=20
-twscrape list_members LIST_ID --limit=20
-twscrape community_info COMMUNITY_ID
-twscrape community_members COMMUNITY_ID --limit=20
-twscrape community_moderators COMMUNITY_ID --limit=20
-twscrape community_tweets COMMUNITY_ID --limit=20
-twscrape trends sport
+perch search "QUERY" --limit=20
+perch tweet_details TWEET_ID
+perch tweet_replies TWEET_ID --limit=20
+perch tweet_thread TWEET_ID --limit=20
+perch retweeters TWEET_ID --limit=20
+perch user_by_id USER_ID
+perch user_by_login USERNAME
+perch user_about USERNAME
+perch user_media USER_ID --limit=20
+perch following USER_ID --limit=20
+perch followers USER_ID --limit=20
+perch verified_followers USER_ID --limit=20
+perch subscriptions USER_ID --limit=20
+perch user_tweets USER_ID --limit=20
+perch user_tweets_and_replies USER_ID --limit=20
+perch list_timeline LIST_ID --limit=20
+perch list_members LIST_ID --limit=20
+perch community_info COMMUNITY_ID
+perch community_members COMMUNITY_ID --limit=20
+perch community_moderators COMMUNITY_ID --limit=20
+perch community_tweets COMMUNITY_ID --limit=20
+perch trends sport
 ```
 
 CLI output is JSON Lines: one document per line.
 
 ```bash
-twscrape search "elon musk lang:es" --limit=20 > tweets.jsonl
-twscrape search "elon musk lang:es" --limit=20 --raw
+perch search "elon musk lang:es" --limit=20 > tweets.jsonl
+perch search "elon musk lang:es" --limit=20 --raw
 ```
 
 Use a separate account database when you need isolated account pools:
 
 ```bash
-twscrape --db research.db search "python lang:en" --limit=100
+perch --db research.db search "python lang:en" --limit=100
 ```
 
 ## Accounts
@@ -285,11 +282,11 @@ twscrape --db research.db search "python lang:en" --limit=100
 Add username/password accounts from a file:
 
 ```bash
-twscrape add_accounts ./accounts.txt username:password:email:email_password
-twscrape login_accounts
+perch add_accounts ./accounts.txt username:password:email:email_password
+perch login_accounts
 ```
 
-`twscrape login_accounts` starts the login flow for each inactive account. If X asks for email verification and `email_password` is available, twscrape tries to read the code through IMAP and saves the resulting cookies for later use.
+`perch login_accounts` starts the login flow for each inactive account. If X asks for email verification and `email_password` is available, perch tries to read the code through IMAP and saves the resulting cookies for later use.
 
 `line_format` describes how each line is split. Supported tokens:
 
@@ -309,30 +306,30 @@ username:password:email:email password:user_agent:cookies
 Command:
 
 ```bash
-twscrape add_accounts ./accounts.txt username:password:email:email_password:_:cookies
+perch add_accounts ./accounts.txt username:password:email:email_password:_:cookies
 ```
 
 If IMAP is unavailable, enter verification codes manually:
 
 ```bash
-twscrape login_accounts --manual
-twscrape relogin user1 user2 --manual
-twscrape relogin_failed --manual
+perch login_accounts --manual
+perch relogin user1 user2 --manual
+perch relogin_failed --manual
 ```
 
 Inspect and maintain the pool:
 
 ```bash
-twscrape accounts
-twscrape stats
-twscrape relogin user1 user2
-twscrape relogin_failed
-twscrape reset_locks
-twscrape delete_inactive
-twscrape del_accounts user1 user2
+perch accounts
+perch stats
+perch relogin user1 user2
+perch relogin_failed
+perch reset_locks
+perch delete_inactive
+perch del_accounts user1 user2
 ```
 
-`twscrape accounts` prints the current account state:
+`perch accounts` prints the current account state:
 
 ```text
 username  logged_in  active  last_used            total_req  error_msg
@@ -345,7 +342,7 @@ user3     False      False   None                 120        Login error
 
 `limit` is the target number of parsed objects, not a page size. X/Twitter controls page size per endpoint, so a call can return fewer or more objects than requested.
 
-Rate limits are tracked per account and per endpoint. When an account is limited for one operation, twscrape locks it for that operation until the reset time and tries another active account.
+Rate limits are tracked per account and per endpoint. When an account is limited for one operation, perch locks it for that operation until the reset time and tries another active account.
 
 `user_tweets` and `user_tweets_and_replies` are limited by X/Twitter to about 3200 tweets.
 
@@ -367,7 +364,7 @@ doc = await api.user_by_login("xdevelopers")
 ```
 
 ```bash
-TWS_PROXY=socks5://user:pass@127.0.0.1:1080 twscrape user_by_login xdevelopers
+TWS_PROXY=socks5://user:pass@127.0.0.1:1080 perch user_by_login xdevelopers
 ```
 
 Proxy priority:
@@ -389,7 +386,7 @@ Do not set `api.proxy` or `TWS_PROXY` when you want per-account proxies to be us
 
 ## Telemetry
 
-twscrape collects anonymous, aggregated telemetry about used GraphQL operation names and the selected HTTP backend. It does not collect usernames, cookies, proxies, queries, request URLs, or response bodies. Disable it with `TWS_TELEMETRY=0`.
+perch collects anonymous, aggregated telemetry about used GraphQL operation names and the selected HTTP backend. It does not collect usernames, cookies, proxies, queries, request URLs, or response bodies. Disable it with `TWS_TELEMETRY=0`.
 
 ## See Also
 

@@ -51,7 +51,7 @@ async def main(args):
         set_log_level("DEBUG")
 
     if args.command == "version":
-        print(f"twscrape: {version('twscrape')}")
+        print(f"perch: {version('perch')}")
         print(f"SQLite runtime: {sqlite3.sqlite_version} ({await get_sqlite_version()})")
         return
 
@@ -80,7 +80,7 @@ async def main(args):
 
     if args.command == "add_accounts":
         await pool.load_from_file(args.file_path, args.line_format)
-        print("\nNow run:\ntwscrape login_accounts")
+        print("\nNow run:\nperch login_accounts")
         return
 
     if args.command == "add_cookie":
@@ -220,7 +220,7 @@ def run():
 
     add_cookie_local = subparsers.add_parser(
         "add_cookie_local",
-        help="Add one account by reading cookies from a local browser (requires twscrape[browser])",
+        help="Add one account by reading cookies from a local browser (requires perch[browser])",
     )
     add_cookie_local.add_argument("username", help="Local account identifier")
     add_cookie_local.add_argument(

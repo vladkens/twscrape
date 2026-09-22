@@ -155,7 +155,7 @@ def _flatten_user_v2(obj: dict) -> dict:
             if k not in flat and k in core:
                 flat[k] = core[k]
 
-    # See https://github.com/vladkens/twscrape/issues/309: treat empty legacy values as missing.
+    # See https://github.com/vladkens/perch/issues/309: treat empty legacy values as missing.
     if not flat.get("profile_image_url_https"):
         avatar_url = (obj.get("avatar") or {}).get("image_url")
         if avatar_url:
@@ -275,7 +275,7 @@ def to_old_rep(obj: dict) -> dict[str, Any]:
     tw1 = [x for x in tmp.get("Tweet", []) if "legacy" in x]
     tw1 = {str(x["rest_id"]): to_old_obj(x) for x in tw1}
 
-    # https://github.com/vladkens/twscrape/issues/53
+    # https://github.com/vladkens/perch/issues/53
     tw2 = [x["tweet"] for x in tmp.get("TweetWithVisibilityResults", []) if "legacy" in x["tweet"]]
     tw2 = {str(x["rest_id"]): to_old_obj(x) for x in tw2}
 

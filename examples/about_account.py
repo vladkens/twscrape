@@ -1,6 +1,6 @@
 import asyncio
 
-from twscrape import API
+from perch import API
 
 
 async def main():

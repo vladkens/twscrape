@@ -2,9 +2,9 @@ import os
 
 import pytest
 
-from twscrape.accounts_pool import NoAccountError
-from twscrape.api import API
-from twscrape.utils import gather, get_env_bool
+from perch.accounts_pool import NoAccountError
+from perch.api import API
+from perch.utils import gather, get_env_bool
 
 
 class MockedError(Exception):

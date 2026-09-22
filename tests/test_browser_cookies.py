@@ -3,7 +3,7 @@ from types import SimpleNamespace
 
 import pytest
 
-from twscrape.browser_cookies import (
+from perch.browser_cookies import (
     BrowserCookiesError,
     get_x_cookies,
     get_x_cookies_string,
@@ -55,7 +55,7 @@ def test_get_x_cookies_unsupported_browser(monkeypatch):
 def test_get_x_cookies_not_installed(monkeypatch):
     monkeypatch.setitem(sys.modules, "browser_cookie3", None)
 
-    with pytest.raises(BrowserCookiesError, match="pip install twscrape\\[browser\\]"):
+    with pytest.raises(BrowserCookiesError, match="pip install perch\\[browser\\]"):
         get_x_cookies("firefox")
 
 

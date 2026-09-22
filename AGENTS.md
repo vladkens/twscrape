@@ -1,6 +1,6 @@
-# AGENTS.md — twscrape (intelogroup fork)
+# AGENTS.md — perch
 
-This fork adds cookie-handling fixes on top of upstream `vladkens/twscrape`.
+perch is intelogroup's fork of `vladkens/twscrape`, renamed and extended with browser-cookie session handling.
 If you're an agent wiring this into a project, read this first — it covers
 the exact failure modes that cost real debugging time before these fixes
 existed.
@@ -8,8 +8,8 @@ existed.
 ## Getting an account working, fastest path
 
 ```bash
-pip install "twscrape[curl,browser]"
-twscrape --db path/to/accounts.db add_cookie_local <local_username> --browser chrome
+pip install "perch[curl,browser]"
+perch --db path/to/accounts.db add_cookie_local <local_username> --browser chrome
 ```
 
 Requires the operator already logged into x.com in that browser. This reads
@@ -22,7 +22,7 @@ fingerprints `navigator.webdriver` and blocks it; this is why
 Check the account actually worked before doing anything else:
 
 ```python
-from twscrape import API
+from perch import API
 api = API("path/to/accounts.db")
 accs = await api.pool.get_all()
 for a in accs:
@@ -37,7 +37,7 @@ cookie domain). Don't wait for a real scrape to discover this.
 
 ## Manual cookie format (if `add_cookie_local` isn't available)
 
-`twscrape add_cookie <username>` prompts for a cookie string. It must be:
+`perch add_cookie <username>` prompts for a cookie string. It must be:
 - **One line**, both values present
 - Literal key names included: `auth_token=<value>; ct0=<value>`
 - Not just the raw values — `<value1>;<value2>` alone will fail with
@@ -47,7 +47,7 @@ cookie domain). Don't wait for a real scrape to discover this.
 
 `del_accounts`/`del_account` and `add_cookie`/`add_cookies` both work
 (singular/plural aliases). If a command errors with "invalid choice", check
-`twscrape --help` for the exact current command list rather than guessing.
+`perch --help` for the exact current command list rather than guessing.
 
 ## Rate limits (real numbers, per account, per endpoint — observed live, may drift)
 
@@ -57,7 +57,7 @@ cookie domain). Don't wait for a real scrape to discover this.
 | `user_by_login` / `user_by_id` | ~150 requests | 15 min |
 | `followers` / `following` | ~50 requests | 15 min |
 
-twscrape reads these from X's own `x-rate-limit-*` response headers per
+perch reads these from X's own `x-rate-limit-*` response headers per
 request and auto-locks an account for that specific endpoint until reset,
 rotating to another active account if the pool has one — no manual backoff
 needed. With a single account, budget calls under the ceiling above; X does
@@ -73,5 +73,5 @@ not publish these numbers officially and they can change.
   the accounts DB directly) — the validation only runs through
   `add_account_cookies()`.
 - Don't hardcode the rate-limit numbers above into retry logic — read the
-  live headers via twscrape's own account-lock behavior instead; the table
+  live headers via perch's own account-lock behavior instead; the table
   is for capacity planning, not a guaranteed contract from X.

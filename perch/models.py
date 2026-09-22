@@ -839,7 +839,7 @@ def _get_views(obj: dict, rt_obj: dict):
 def _write_dump(kind: str, e: Exception, x: dict, obj: dict):
     uniq = "".join(random.choice(string.ascii_lowercase) for _ in range(5))
     time = utc.now().strftime("%Y-%m-%d_%H-%M-%S")
-    dumpfile = f"/tmp/twscrape/twscrape_parse_error_{time}_{uniq}.txt"
+    dumpfile = f"/tmp/perch/perch_parse_error_{time}_{uniq}.txt"
     os.makedirs(os.path.dirname(dumpfile), exist_ok=True)
 
     with open(dumpfile, "w") as fp:
@@ -876,7 +876,7 @@ def _parse_items(
             continue
         if limit != -1 and len(ids) >= limit:
             # todo: move somewhere in configuration like force_limit
-            # https://github.com/vladkens/twscrape/issues/26#issuecomment-1656875132
+            # https://github.com/vladkens/perch/issues/26#issuecomment-1656875132
             # break
             pass
 

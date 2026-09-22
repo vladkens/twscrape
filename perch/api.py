@@ -339,7 +339,7 @@ class API:
         return parse_tweet(rep, twid) if rep else None
 
     # tweet_replies
-    # note: uses same op as tweet_details, see: https://github.com/vladkens/twscrape/issues/104
+    # note: uses same op as tweet_details, see: https://github.com/vladkens/perch/issues/104
 
     async def tweet_replies_raw(self, twid: int, limit=-1, kv: KV = None):
         op = OP_TweetDetail

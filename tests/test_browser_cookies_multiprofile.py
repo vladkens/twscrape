@@ -9,7 +9,7 @@ import sys
 
 import pytest
 
-from twscrape.browser_cookies import BrowserCookiesError, get_x_cookies
+from perch.browser_cookies import BrowserCookiesError, get_x_cookies
 
 
 class FakeCookie:

@@ -6,7 +6,7 @@ from types import SimpleNamespace
 import pytest
 
 from tests.test_parser import fake_rep
-from twscrape import cli
+from perch import cli
 
 
 def mock_get_returning(monkeypatch, *, active: bool):
@@ -138,7 +138,7 @@ async def test_add_cookie_local_uses_browser_cookies(tmp_path, monkeypatch):
 
     monkeypatch.setattr(cli.AccountsPool, "add_account_cookies", mock_add_account_cookies)
     monkeypatch.setattr(
-        "twscrape.browser_cookies.get_x_cookies_string", mock_get_x_cookies_string
+        "perch.browser_cookies.get_x_cookies_string", mock_get_x_cookies_string
     )
     mock_get_returning(monkeypatch, active=True)
 
@@ -162,7 +162,7 @@ async def test_add_cookie_local_uses_browser_cookies(tmp_path, monkeypatch):
 
 
 async def test_add_cookie_local_extraction_failure_exits_nonzero(tmp_path, monkeypatch):
-    from twscrape.browser_cookies import BrowserCookiesError
+    from perch.browser_cookies import BrowserCookiesError
 
     async def fail_if_called(self, username, cookies):
         pytest.fail("add_account_cookies should not be called on extraction failure")
@@ -172,7 +172,7 @@ async def test_add_cookie_local_extraction_failure_exits_nonzero(tmp_path, monke
 
     monkeypatch.setattr(cli.AccountsPool, "add_account_cookies", fail_if_called)
     monkeypatch.setattr(
-        "twscrape.browser_cookies.get_x_cookies_string", mock_get_x_cookies_string
+        "perch.browser_cookies.get_x_cookies_string", mock_get_x_cookies_string
     )
 
     args = argparse.Namespace(
@@ -197,7 +197,7 @@ async def test_add_cookie_local_validation_failure_exits_nonzero(tmp_path, monke
 
     monkeypatch.setattr(cli.AccountsPool, "add_account_cookies", mock_add_account_cookies)
     monkeypatch.setattr(
-        "twscrape.browser_cookies.get_x_cookies_string",
+        "perch.browser_cookies.get_x_cookies_string",
         lambda browser: "auth_token=stale; ct0=stale",
     )
     mock_get_returning(monkeypatch, active=False)
@@ -244,7 +244,7 @@ async def test_add_accounts_prints_next_step(tmp_path, monkeypatch, capsys):
         "file_path": "accounts.txt",
         "line_format": "username:password:email:email_password",
     }
-    assert "twscrape login_accounts" in out
+    assert "perch login_accounts" in out
 
 
 async def test_search_prints_parsed_tweets(tmp_path, monkeypatch, capsys):

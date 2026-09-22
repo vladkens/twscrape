@@ -12,7 +12,7 @@ from typing import Any, Literal
 import httpx
 import machineid
 
-APP_NAME = "twscrape"
+APP_NAME = "perch"
 POSTHOG_KEY = "phc_giRHYHo4460O5UPxySajdO9L4KDRsjSmNQACA7uG9px"
 POSTHOG_BATCH_URL = "https://app.posthog.com/batch/"
 _lock = threading.Lock()

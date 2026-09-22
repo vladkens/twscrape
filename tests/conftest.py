@@ -1,12 +1,12 @@
 import pytest
 
-from twscrape import telemetry
-from twscrape.account import Account
-from twscrape.accounts_pool import AccountsPool
-from twscrape.api import API
-from twscrape.logger import set_log_level
-from twscrape.queue_client import QueueClient, XClIdGenStore
-from twscrape.xclid import XClIdGen
+from perch import telemetry
+from perch.account import Account
+from perch.accounts_pool import AccountsPool
+from perch.api import API
+from perch.logger import set_log_level
+from perch.queue_client import QueueClient, XClIdGenStore
+from perch.xclid import XClIdGen
 
 from .mock_http import MockClient
 

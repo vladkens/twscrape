@@ -1,9 +1,9 @@
 import pytest
 
-from twscrape.accounts_pool import AccountsPool, NoAccountError
-from twscrape.api import API
-from twscrape.utils import utc
-from twscrape.xclid import XClIdAccountError, XClIdGen
+from perch.accounts_pool import AccountsPool, NoAccountError
+from perch.api import API
+from perch.utils import utc
+from perch.xclid import XClIdAccountError, XClIdGen
 
 
 async def test_add_accounts(pool_mock: AccountsPool):
@@ -324,7 +324,7 @@ async def test_get_for_queue_or_wait_waits_for_locked_account(pool_mock: Account
         intervals.append(interval)
         await pool.unlock("user1", queue)
 
-    monkeypatch.setattr("twscrape.accounts_pool.asyncio.sleep", release_account)
+    monkeypatch.setattr("perch.accounts_pool.asyncio.sleep", release_account)
 
     account = await pool.get_for_queue_or_wait(queue)
 
@@ -351,7 +351,7 @@ async def test_get_for_queue_or_wait_does_not_wait_without_active_accounts(
     async def fail_if_called(_):
         pytest.fail("should not wait when no accounts are active")
 
-    monkeypatch.setattr("twscrape.accounts_pool.asyncio.sleep", fail_if_called)
+    monkeypatch.setattr("perch.accounts_pool.asyncio.sleep", fail_if_called)
 
     assert await pool.get_for_queue_or_wait("TestQueue") is None
 

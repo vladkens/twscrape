@@ -1,6 +1,6 @@
 import pytest
 
-from twscrape import telemetry
+from perch import telemetry
 
 URL = "https://x.com/i/api/graphql/id/SearchTimeline"
 
@@ -46,14 +46,14 @@ async def test_telemetry_tracks_gql_request(client_fixture):
     )
 
     assert event["count"] == 1
-    assert event["properties"]["$lib"] == "twscrape"
+    assert event["properties"]["$lib"] == "perch"
     assert event["properties"]["$process_person_profile"] is False
     assert event["properties"]["$session_id"]
     assert event["properties"]["distinct_id"]
     assert event["properties"]["app_version"]
     assert event["properties"]["platform"]
     assert event["properties"]["python"]
-    assert event["properties"]["$current_url"] == "lib://twscrape/gql/SearchTimeline"
+    assert event["properties"]["$current_url"] == "lib://perch/gql/SearchTimeline"
 
 
 async def test_telemetry_tracks_cli_source_on_gql_request(client_fixture):
@@ -76,14 +76,14 @@ async def test_telemetry_tracks_cli_source_on_gql_request(client_fixture):
     )
 
     assert event["count"] == 1
-    assert event["properties"]["$lib"] == "twscrape"
+    assert event["properties"]["$lib"] == "perch"
     assert event["properties"]["$process_person_profile"] is False
     assert event["properties"]["$session_id"]
     assert event["properties"]["distinct_id"]
     assert event["properties"]["app_version"]
     assert event["properties"]["platform"]
     assert event["properties"]["python"]
-    assert event["properties"]["$current_url"] == "cli://twscrape/gql/SearchTimeline"
+    assert event["properties"]["$current_url"] == "cli://perch/gql/SearchTimeline"
 
 
 def test_telemetry_capture_aggregates_events():
@@ -92,7 +92,7 @@ def test_telemetry_capture_aggregates_events():
 
     event = find_event("gql_request", operation="SearchTimeline", http_backend="httpx")
     assert event["count"] == 2
-    assert event["properties"]["$lib"] == "twscrape"
+    assert event["properties"]["$lib"] == "perch"
     assert event["properties"]["$process_person_profile"] is False
     assert event["properties"]["$session_id"]
     assert event["properties"]["distinct_id"]

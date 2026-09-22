@@ -1,20 +1,20 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.10"
-# dependencies = ["twscrape"]
+# dependencies = ["perch"]
 #
 # [tool.uv.sources]
-# twscrape = { path = "..", editable = true }
+# perch = { path = "..", editable = true }
 # ///
 """
 Fetches current GraphQL operation IDs from Twitter's JS bundle
-and updates them in twscrape/api.py.
+and updates them in perch/api.py.
 
 Usage:
   uv run scripts/update-gql-ops.py
 
 For a fully clean refresh, remove the temp cache first:
-  rm -rf /tmp/twscrape-ops
+  rm -rf /tmp/perch-ops
 """
 
 import asyncio
@@ -23,11 +23,11 @@ import re
 import sys
 from urllib.parse import urljoin
 
-from twscrape.http import HttpClient, make_client
-from twscrape.xclid import get_scripts_list, get_tw_page_text
+from perch.http import HttpClient, make_client
+from perch.xclid import get_scripts_list, get_tw_page_text
 
-API_FILE = "twscrape/api.py"
-CACHE_DIR = "/tmp/twscrape-ops"
+API_FILE = "perch/api.py"
+CACHE_DIR = "/tmp/perch-ops"
 MARKER = "# GQL_OPS_CODEGEN"
 JS_REF_RE = re.compile(r'(?:from|import)\s*\(?\s*[`"]((?:\.{1,2}/)[^`"]+?\.js)[`"]')
 

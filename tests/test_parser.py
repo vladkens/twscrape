@@ -4,8 +4,8 @@ from typing import Any, Callable, cast
 
 import pytest
 
-from twscrape import API, gather
-from twscrape.models import (
+from perch import API, gather
+from perch.models import (
     AudiospaceCard,
     BroadcastCard,
     MessageMeCard,
@@ -18,7 +18,7 @@ from twscrape.models import (
     parse_tweet,
     parse_tweets,
 )
-from twscrape.utils import find_obj, to_old_rep
+from perch.utils import find_obj, to_old_rep
 
 BASE_DIR = os.path.dirname(__file__)
 DATA_DIR = os.path.join(BASE_DIR, "mocked-data")
@@ -630,8 +630,8 @@ async def test_issue_310():
 
 async def test_cards():
     # Issues:
-    # - https://github.com/vladkens/twscrape/issues/72
-    # - https://github.com/vladkens/twscrape/issues/191
+    # - https://github.com/vladkens/perch/issues/72
+    # - https://github.com/vladkens/perch/issues/191
 
     # Check SummaryCard
     raw = fake_rep("card_summary").json()

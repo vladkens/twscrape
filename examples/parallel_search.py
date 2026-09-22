@@ -1,14 +1,14 @@
 """
-This example shows how to use twscrape to complete some queries in parallel.
+This example shows how to use perch to complete some queries in parallel.
 To limit the number of concurrent requests, see examples/parallel_search_with_limit.py
 """
 
 import asyncio
 
-import twscrape
+import perch
 
 
-async def worker(api: twscrape.API, q: str):
+async def worker(api: perch.API, q: str):
     tweets = []
     try:
         async for doc in api.search(q):
@@ -19,7 +19,7 @@ async def worker(api: twscrape.API, q: str):
 
 
 async def main():
-    api = twscrape.API()
+    api = perch.API()
     # add accounts here or before from cli (see README.md for examples)
     await api.pool.add_account("u1", "p1", "eu1", "ep1")
     await api.pool.login_all()
