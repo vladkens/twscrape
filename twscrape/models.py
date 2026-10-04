@@ -439,8 +439,9 @@ class Tweet(JSONTrait):
     # vibe: Optional["Vibe"] = None
 
     @staticmethod
-    def parse(obj: dict, res: dict) -> "Tweet":
-        tw_usr = User.parse(_get_tweet_user_obj(obj, res))
+    def parse(obj: dict, res: dict, author: dict | None = None) -> "Tweet":
+        # author: flat user used when the tweet's own author has no profile in the response
+        tw_usr = User.parse(_get_tweet_user_obj(obj, res, author))
 
         rt_id_path = [
             "retweeted_status_id_str",
@@ -480,8 +481,12 @@ class Tweet(JSONTrait):
                 obj, ["entities.urls", "note_tweet.note_tweet_results.result.entity_set.urls"]
             ),
             viewCount=_get_views(obj, rt_obj or {}),
-            retweetedTweet=Tweet.parse(rt_obj, res) if rt_obj else None,
-            quotedTweet=Tweet.parse(qt_obj, res) if qt_obj else None,
+            retweetedTweet=Tweet.parse(rt_obj, res, _referenced_author(obj, rt_obj))
+            if rt_obj
+            else None,
+            quotedTweet=Tweet.parse(qt_obj, res, _referenced_author(obj, qt_obj))
+            if qt_obj
+            else None,
             place=Place.parse(obj["place"]) if obj.get("place") else None,
             coordinates=Coordinates.parse(obj),
             inReplyToTweetId=int_or(obj, "in_reply_to_status_id_str"),
@@ -1075,8 +1080,8 @@ def _get_reply_user(tw_obj: dict, res: dict):
     return None
 
 
-def _get_tweet_user_obj(tw_obj: dict, res: dict) -> dict:
-    """Return the referenced user or an author embedded in the tweet."""
+def _get_tweet_user_obj(tw_obj: dict, res: dict, fallback: dict | None = None) -> dict:
+    """Return the referenced user, an author embedded in the tweet, or the fallback."""
     user_id = tw_obj.get("user_id_str")
     users = res.get("users", {})
     if user_id is not None and user_id in users:
@@ -1088,9 +1093,60 @@ def _get_tweet_user_obj(tw_obj: dict, res: dict) -> dict:
             continue
         if "legacy" in user_obj and "rest_id" in user_obj:
             return to_old_obj(user_obj)
+        # a User stub without core carries no profile at all:
+        # https://github.com/vladkens/twscrape/issues/342
+        if "core" not in user_obj:
+            continue
         return user_obj
 
+    if fallback is not None:
+        return fallback
+
     raise KeyError(f"user {user_id} not found in response payload")
+
+
+def _referenced_author(ref_obj: dict, tw_obj: dict) -> dict | None:
+    """
+    Author of a retweeted or quoted tweet as described by the tweet referencing it.
+
+    X can send that author without a profile (UserUnavailable, or a User stub without core)
+    while the nested tweet itself is complete. The referencing tweet still names the author
+    in its user_mentions (retweets) or quoted_status_permalink (quotes), so the nested tweet
+    is kept with this minimal user instead of failing the referencing tweet:
+    https://github.com/vladkens/twscrape/issues/342
+    https://github.com/vladkens/twscrape/issues/343
+    """
+    user_id = tw_obj.get("user_id_str")
+    if user_id is None:
+        return None
+
+    mentions = get_or(ref_obj, "entities.user_mentions", [])
+    mention = find_item(mentions, lambda x: x.get("id_str") == user_id)
+    screen_name, name = (mention["screen_name"], mention.get("name", "")) if mention else (None, "")
+
+    if screen_name is None:
+        link = get_or(ref_obj, "quoted_status_permalink.expanded", "")
+        match = re.match(r"https?://(?:twitter|x)\.com/(\w+)/status/(\d+)", link)
+        if match and match.group(2) == tw_obj.get("id_str"):
+            screen_name = match.group(1)
+
+    if screen_name is None:
+        return None
+
+    return {
+        "id_str": user_id,
+        "screen_name": screen_name,
+        "name": name,
+        "description": "",
+        "followers_count": 0,
+        "friends_count": 0,
+        "statuses_count": 0,
+        "favourites_count": 0,
+        "listed_count": 0,
+        "media_count": 0,
+        "location": "",
+        "profile_image_url_https": "",
+    }
 
 
 def _get_source_url(tw_obj: dict):

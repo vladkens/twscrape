@@ -821,6 +821,42 @@ def test_partial_only_user_keeps_user_lookup_single():
     assert doc.id == expected.id
 
 
+def test_nested_author_without_profile_keeps_outer_tweet():
+    # https://github.com/vladkens/twscrape/issues/342
+    # https://github.com/vladkens/twscrape/issues/343
+    # UserTweets page from raw_user_tweets, with nested authors replaced by the shapes X sent
+    # in production: UserUnavailable (#343) and a User stub without core (#342).
+    tweets = {x.id: x for x in parse_tweets(fake_rep("_issue_342_343").json())}
+
+    # retweet of an unavailable author: handle and name from the retweet's user_mentions
+    rt = tweets[2083305234688803178].retweetedTweet
+    assert rt is not None
+    assert rt.id == 2083289084567724316
+    assert rt.rawContent.startswith("Overhauled the 𝕏 Developer Console")
+    assert (rt.user.id, rt.user.username, rt.user.displayname) == (
+        2606432720,
+        "benjitaylor",
+        "Benji Taylor",
+    )
+
+    # unavailable author of a tweet quoted by a retweet: handle from quoted_status_permalink
+    rt = tweets[2082157691451920667].retweetedTweet
+    assert rt is not None
+    qt = rt.quotedTweet
+    assert qt is not None
+    assert qt.id == 2082134521370272218
+    assert (qt.user.id, qt.user.username) == (2867234365, "milichab")
+
+    # retweet of a stub author
+    rt = tweets[2079814622639469025].retweetedTweet
+    assert rt is not None
+    assert (rt.user.id, rt.user.username, rt.user.displayname) == (
+        1818311005698678784,
+        "XFreeze",
+        "X Freeze",
+    )
+
+
 async def test_cards():
     # Issues:
     # - https://github.com/vladkens/twscrape/issues/72
