@@ -1,0 +1,1165 @@
+{
+  "data": {
+    "user": {
+      "result": {
+        "__typename": "User",
+        "timeline": {
+          "timeline": {
+            "instructions": [
+              {
+                "type": "TimelineClearCache"
+              },
+              {
+                "entries": [
+                  {
+                    "content": {
+                      "__typename": "TimelineTimelineItem",
+                      "clientEventInfo": {
+                        "component": "tweet",
+                        "details": {
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAABDAABCgABAAAAAAAAAAAKAAkcayCSNFYgAQoACgAAAaEGfi8RAAAAAA==",
+                            "injectionType": "RankedOrganicTweet"
+                          }
+                        },
+                        "element": "tweet"
+                      },
+                      "entryType": "TimelineTimelineItem",
+                      "itemContent": {
+                        "__typename": "TimelineTweet",
+                        "itemType": "TimelineTweet",
+                        "tweetDisplayType": "Tweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "action_counts": {
+                                    "favorites_count": 4564
+                                  },
+                                  "affiliates_highlighted_label": {},
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/1888858568947834880/COkhWDor_normal.jpg"
+                                  },
+                                  "banner": {
+                                    "image_url": "https://pbs.twimg.com/profile_banners/110405142/1739961667"
+                                  },
+                                  "core": {
+                                    "created_at": "Mon Feb 01 12:36:23 +0000 2010",
+                                    "name": "Territori",
+                                    "screen_name": "territoricat"
+                                  },
+                                  "dm_permissions": {
+                                    "can_dm": false
+                                  },
+                                  "follow_request_sent": false,
+                                  "has_graduated_access": true,
+                                  "id": "VXNlcjoxMTA0MDUxNDI=",
+                                  "is_blue_verified": true,
+                                  "location": {
+                                    "location": "Catalunya"
+                                  },
+                                  "media_permissions": {
+                                    "can_media_tag": true
+                                  },
+                                  "notifications_settings": {
+                                    "notifications_enabled": false
+                                  },
+                                  "pinned_items": {
+                                    "tweet_ids_str": [
+                                      "2100240775858528609"
+                                    ]
+                                  },
+                                  "possibly_sensitive": false,
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "profile_bio": {
+                                    "description": "Departament de Territori, Habitatge i Transici\u00f3 Ecol\u00f2gica \ud83d\udccc Normes de participaci\u00f3 https://t.co/TUnBWJEL29",
+                                    "entities": {
+                                      "description": {
+                                        "urls": [
+                                          {
+                                            "display_url": "gen.cat/normesparticip\u2026",
+                                            "expanded_url": "https://gen.cat/normesparticipacio",
+                                            "indices": [
+                                              83,
+                                              106
+                                            ],
+                                            "url": "https://t.co/TUnBWJEL29"
+                                          }
+                                        ]
+                                      },
+                                      "url": {
+                                        "urls": [
+                                          {
+                                            "display_url": "territori.gencat.cat/ca/inici",
+                                            "expanded_url": "http://territori.gencat.cat/ca/inici",
+                                            "indices": [
+                                              0,
+                                              23
+                                            ],
+                                            "url": "https://t.co/9q2QswwnOF"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  "profile_description_language": "ca",
+                                  "profile_image_shape": "Circle",
+                                  "profile_metadata": {
+                                    "profile_interstitial_type": ""
+                                  },
+                                  "profile_translation": {
+                                    "translator_type": "none"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 37557,
+                                    "following": 197
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocked_by": false,
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": false,
+                                    "live_following": false,
+                                    "muting": false
+                                  },
+                                  "rest_id": "110405142",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tipjar_settings": {},
+                                  "tweet_counts": {
+                                    "media_tweets": 12190,
+                                    "tweets": 37967
+                                  },
+                                  "verification": {
+                                    "verified": false
+                                  },
+                                  "website": {
+                                    "url": "https://t.co/9q2QswwnOF"
+                                  }
+                                }
+                              }
+                            },
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "2106637440312369380"
+                              ],
+                              "editable_until_msecs": "1791100079858",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": false
+                            },
+                            "grok_translated_post_with_availability": {
+                              "data": {
+                                "associated_data": {},
+                                "destination_language": "en",
+                                "entities": {
+                                  "hashtags": [],
+                                  "symbols": [],
+                                  "urls": [],
+                                  "user_mentions": []
+                                },
+                                "source_language": "ca",
+                                "translation": "Following the activation by Civil Protection of the Flood Plan due to the forecast of very heavy rainfall, the circulation of Rodalies de Catalunya trains is suspended until further notice."
+                              },
+                              "is_available": true
+                            },
+                            "is_translatable": true,
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "conversation_id_str": "2106637440312369380",
+                              "created_at": "Sun Oct 04 06:47:59 +0000 2026",
+                              "display_text_range": [
+                                0,
+                                140
+                              ],
+                              "entities": {
+                                "user_mentions": [
+                                  {
+                                    "id_str": "110680768",
+                                    "indices": [
+                                      3,
+                                      12
+                                    ],
+                                    "name": "Rodalies Catalunya",
+                                    "screen_name": "rodalies"
+                                  }
+                                ]
+                              },
+                              "favorite_count": 0,
+                              "favorited": false,
+                              "full_text": "RT @rodalies: Davant l'activaci\u00f3 per part de Protecci\u00f3 Civil del Pla Inuncat per previsi\u00f3 de pluges molt intenses, queda suspesa la circula\u2026",
+                              "id_str": "2106637440312369380",
+                              "is_quote_status": false,
+                              "lang": "ca",
+                              "quote_count": 0,
+                              "reply_count": 0,
+                              "retweet_count": 18,
+                              "retweeted": false,
+                              "retweeted_status_result": {
+                                "result": {
+                                  "__typename": "Tweet",
+                                  "core": {
+                                    "user_results": {
+                                      "result": {
+                                        "__typename": "User",
+                                        "action_counts": {
+                                          "favorites_count": 4163
+                                        },
+                                        "affiliates_highlighted_label": {},
+                                        "avatar": {
+                                          "image_url": "https://pbs.twimg.com/profile_images/1152191567219822592/fBeRl53I_normal.png"
+                                        },
+                                        "banner": {
+                                          "image_url": "https://pbs.twimg.com/profile_banners/110680768/1591699526"
+                                        },
+                                        "core": {
+                                          "created_at": "Tue Feb 02 11:58:04 +0000 2010",
+                                          "name": "Rodalies Catalunya",
+                                          "screen_name": "rodalies"
+                                        },
+                                        "dm_permissions": {
+                                          "can_dm": true
+                                        },
+                                        "follow_request_sent": false,
+                                        "has_graduated_access": true,
+                                        "id": "VXNlcjoxMTA2ODA3Njg=",
+                                        "is_blue_verified": false,
+                                        "location": {
+                                          "location": "Catalunya"
+                                        },
+                                        "media_permissions": {
+                                          "can_media_tag": true
+                                        },
+                                        "notifications_settings": {
+                                          "notifications_enabled": false
+                                        },
+                                        "pinned_items": {},
+                                        "possibly_sensitive": false,
+                                        "privacy": {
+                                          "protected": false
+                                        },
+                                        "profile_bio": {
+                                          "description": "Perfil oficial de Rodalies de Catalunya (Generalitat de Catalunya). \nInforma l\u2019operador del servei, Renfe\n\n\u231aDe 6 a 22h de dl a dv i de 8 a 20h ds, dg i festius",
+                                          "entities": {
+                                            "description": {},
+                                            "url": {
+                                              "urls": [
+                                                {
+                                                  "display_url": "rodalies.gencat.cat",
+                                                  "expanded_url": "http://rodalies.gencat.cat/",
+                                                  "indices": [
+                                                    0,
+                                                    23
+                                                  ],
+                                                  "url": "https://t.co/ia44hQrzPo"
+                                                }
+                                              ]
+                                            }
+                                          }
+                                        },
+                                        "profile_image_shape": "Circle",
+                                        "profile_metadata": {
+                                          "profile_interstitial_type": ""
+                                        },
+                                        "profile_translation": {
+                                          "translator_type": "none"
+                                        },
+                                        "relationship_counts": {
+                                          "followers": 143085,
+                                          "following": 40
+                                        },
+                                        "relationship_perspectives": {
+                                          "blocked_by": false,
+                                          "blocking": false,
+                                          "followed_by": false,
+                                          "following": false,
+                                          "live_following": false,
+                                          "muting": false
+                                        },
+                                        "rest_id": "110680768",
+                                        "super_follow_eligible": false,
+                                        "super_followed_by": false,
+                                        "super_following": false,
+                                        "tipjar_settings": {},
+                                        "tweet_counts": {
+                                          "media_tweets": 8816,
+                                          "tweets": 164957
+                                        },
+                                        "verification": {
+                                          "verified": false
+                                        },
+                                        "website": {
+                                          "url": "https://t.co/ia44hQrzPo"
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "edit_control": {
+                                    "edit_tweet_ids": [
+                                      "2106572563228803116"
+                                    ],
+                                    "editable_until_msecs": "1791084611000",
+                                    "edits_remaining": "5",
+                                    "is_edit_eligible": true
+                                  },
+                                  "grok_translated_post_with_availability": {
+                                    "data": {
+                                      "associated_data": {},
+                                      "destination_language": "en",
+                                      "entities": {
+                                        "hashtags": [],
+                                        "symbols": [],
+                                        "urls": [],
+                                        "user_mentions": []
+                                      },
+                                      "source_language": "ca",
+                                      "translation": "Following the activation by Civil Protection of the Flood Plan due to the forecast of very heavy rainfall, the circulation of Rodalies de Catalunya trains is suspended until further notice."
+                                    },
+                                    "is_available": true
+                                  },
+                                  "is_translatable": true,
+                                  "legacy": {
+                                    "bookmark_count": 2,
+                                    "bookmarked": false,
+                                    "conversation_id_str": "2106572563228803116",
+                                    "created_at": "Sun Oct 04 02:30:11 +0000 2026",
+                                    "display_text_range": [
+                                      0,
+                                      181
+                                    ],
+                                    "entities": {},
+                                    "favorite_count": 49,
+                                    "favorited": false,
+                                    "full_text": "Davant l'activaci\u00f3 per part de Protecci\u00f3 Civil del Pla Inuncat per previsi\u00f3 de pluges molt intenses, queda suspesa la circulaci\u00f3 dels trens de Rodalies de Catalunya fins a nou av\u00eds.",
+                                    "id_str": "2106572563228803116",
+                                    "is_quote_status": false,
+                                    "lang": "ca",
+                                    "quote_count": 6,
+                                    "reply_count": 15,
+                                    "retweet_count": 18,
+                                    "retweeted": false,
+                                    "user_id_str": "110680768"
+                                  },
+                                  "rest_id": "2106572563228803116",
+                                  "unmention_data": {},
+                                  "views": {
+                                    "count": "21473",
+                                    "state": "EnabledWithCount"
+                                  }
+                                }
+                              },
+                              "user_id_str": "110405142"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "rest_id": "2106637440312369380",
+                            "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
+                            "unmention_data": {},
+                            "views": {
+                              "count": "43",
+                              "state": "EnabledWithCount"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "entryId": "tweet-2106637440312369380",
+                    "sortIndex": "2106695386864287741"
+                  },
+                  {
+                    "content": {
+                      "__typename": "TimelineTimelineItem",
+                      "clientEventInfo": {
+                        "component": "tweet",
+                        "details": {
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAABDAABCgABAAAAAAAAAAAKAAkcayCSNFYgAQoACgAAAaEGfi8RAAAAAA==",
+                            "injectionType": "RankedOrganicTweet"
+                          }
+                        },
+                        "element": "tweet"
+                      },
+                      "entryType": "TimelineTimelineItem",
+                      "itemContent": {
+                        "__typename": "TimelineTweet",
+                        "itemType": "TimelineTweet",
+                        "tweetDisplayType": "Tweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "action_counts": {
+                                    "favorites_count": 4564
+                                  },
+                                  "affiliates_highlighted_label": {},
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/1888858568947834880/COkhWDor_normal.jpg"
+                                  },
+                                  "banner": {
+                                    "image_url": "https://pbs.twimg.com/profile_banners/110405142/1739961667"
+                                  },
+                                  "core": {
+                                    "created_at": "Mon Feb 01 12:36:23 +0000 2010",
+                                    "name": "Territori",
+                                    "screen_name": "territoricat"
+                                  },
+                                  "dm_permissions": {
+                                    "can_dm": false
+                                  },
+                                  "follow_request_sent": false,
+                                  "has_graduated_access": true,
+                                  "id": "VXNlcjoxMTA0MDUxNDI=",
+                                  "is_blue_verified": true,
+                                  "location": {
+                                    "location": "Catalunya"
+                                  },
+                                  "media_permissions": {
+                                    "can_media_tag": true
+                                  },
+                                  "notifications_settings": {
+                                    "notifications_enabled": false
+                                  },
+                                  "pinned_items": {
+                                    "tweet_ids_str": [
+                                      "2100240775858528609"
+                                    ]
+                                  },
+                                  "possibly_sensitive": false,
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "profile_bio": {
+                                    "description": "Departament de Territori, Habitatge i Transici\u00f3 Ecol\u00f2gica \ud83d\udccc Normes de participaci\u00f3 https://t.co/TUnBWJEL29",
+                                    "entities": {
+                                      "description": {
+                                        "urls": [
+                                          {
+                                            "display_url": "gen.cat/normesparticip\u2026",
+                                            "expanded_url": "https://gen.cat/normesparticipacio",
+                                            "indices": [
+                                              83,
+                                              106
+                                            ],
+                                            "url": "https://t.co/TUnBWJEL29"
+                                          }
+                                        ]
+                                      },
+                                      "url": {
+                                        "urls": [
+                                          {
+                                            "display_url": "territori.gencat.cat/ca/inici",
+                                            "expanded_url": "http://territori.gencat.cat/ca/inici",
+                                            "indices": [
+                                              0,
+                                              23
+                                            ],
+                                            "url": "https://t.co/9q2QswwnOF"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  "profile_description_language": "ca",
+                                  "profile_image_shape": "Circle",
+                                  "profile_metadata": {
+                                    "profile_interstitial_type": ""
+                                  },
+                                  "profile_translation": {
+                                    "translator_type": "none"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 37557,
+                                    "following": 197
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocked_by": false,
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": false,
+                                    "live_following": false,
+                                    "muting": false
+                                  },
+                                  "rest_id": "110405142",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tipjar_settings": {},
+                                  "tweet_counts": {
+                                    "media_tweets": 12190,
+                                    "tweets": 37967
+                                  },
+                                  "verification": {
+                                    "verified": false
+                                  },
+                                  "website": {
+                                    "url": "https://t.co/9q2QswwnOF"
+                                  }
+                                }
+                              }
+                            },
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "2106444684209893707"
+                              ],
+                              "editable_until_msecs": "1791054123222",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": false
+                            },
+                            "grok_translated_post_with_availability": {
+                              "data": {
+                                "associated_data": {},
+                                "destination_language": "en",
+                                "entities": {
+                                  "hashtags": [],
+                                  "symbols": [],
+                                  "urls": [],
+                                  "user_mentions": []
+                                },
+                                "source_language": "ca",
+                                "translation": "Following the activation by Civil Protection of the Flood Plan due to the forecast of very heavy rains, train services on Rodalies de Catalunya have been suspended as of 8:00 p.m. today."
+                              },
+                              "is_available": true
+                            },
+                            "is_translatable": true,
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "conversation_id_str": "2106444684209893707",
+                              "created_at": "Sat Oct 03 18:02:03 +0000 2026",
+                              "display_text_range": [
+                                0,
+                                140
+                              ],
+                              "entities": {
+                                "user_mentions": [
+                                  {
+                                    "id_str": "110680768",
+                                    "indices": [
+                                      3,
+                                      12
+                                    ],
+                                    "name": "Rodalies Catalunya",
+                                    "screen_name": "rodalies"
+                                  }
+                                ]
+                              },
+                              "favorite_count": 0,
+                              "favorited": false,
+                              "full_text": "RT @rodalies: Davant l'activaci\u00f3 per part de Protecci\u00f3 Civil del Pla Inuncat per previsi\u00f3 de pluges molt intenses, s'ha susp\u00e8s la circulaci\u2026",
+                              "id_str": "2106444684209893707",
+                              "is_quote_status": false,
+                              "lang": "ca",
+                              "quote_count": 0,
+                              "reply_count": 0,
+                              "retweet_count": 100,
+                              "retweeted": false,
+                              "retweeted_status_result": {
+                                "result": {
+                                  "__typename": "Tweet",
+                                  "core": {
+                                    "user_results": {
+                                      "result": {
+                                        "__typename": "User",
+                                        "action_counts": {
+                                          "favorites_count": 4163
+                                        },
+                                        "affiliates_highlighted_label": {},
+                                        "avatar": {
+                                          "image_url": "https://pbs.twimg.com/profile_images/1152191567219822592/fBeRl53I_normal.png"
+                                        },
+                                        "banner": {
+                                          "image_url": "https://pbs.twimg.com/profile_banners/110680768/1591699526"
+                                        },
+                                        "core": {
+                                          "created_at": "Tue Feb 02 11:58:04 +0000 2010",
+                                          "name": "Rodalies Catalunya",
+                                          "screen_name": "rodalies"
+                                        },
+                                        "dm_permissions": {
+                                          "can_dm": true
+                                        },
+                                        "follow_request_sent": false,
+                                        "has_graduated_access": true,
+                                        "id": "VXNlcjoxMTA2ODA3Njg=",
+                                        "is_blue_verified": false,
+                                        "location": {
+                                          "location": "Catalunya"
+                                        },
+                                        "media_permissions": {
+                                          "can_media_tag": true
+                                        },
+                                        "notifications_settings": {
+                                          "notifications_enabled": false
+                                        },
+                                        "pinned_items": {},
+                                        "possibly_sensitive": false,
+                                        "privacy": {
+                                          "protected": false
+                                        },
+                                        "profile_bio": {
+                                          "description": "Perfil oficial de Rodalies de Catalunya (Generalitat de Catalunya). \nInforma l\u2019operador del servei, Renfe\n\n\u231aDe 6 a 22h de dl a dv i de 8 a 20h ds, dg i festius",
+                                          "entities": {
+                                            "description": {},
+                                            "url": {
+                                              "urls": [
+                                                {
+                                                  "display_url": "rodalies.gencat.cat",
+                                                  "expanded_url": "http://rodalies.gencat.cat/",
+                                                  "indices": [
+                                                    0,
+                                                    23
+                                                  ],
+                                                  "url": "https://t.co/ia44hQrzPo"
+                                                }
+                                              ]
+                                            }
+                                          }
+                                        },
+                                        "profile_image_shape": "Circle",
+                                        "profile_metadata": {
+                                          "profile_interstitial_type": ""
+                                        },
+                                        "profile_translation": {
+                                          "translator_type": "none"
+                                        },
+                                        "relationship_counts": {
+                                          "followers": 143085,
+                                          "following": 40
+                                        },
+                                        "relationship_perspectives": {
+                                          "blocked_by": false,
+                                          "blocking": false,
+                                          "followed_by": false,
+                                          "following": false,
+                                          "live_following": false,
+                                          "muting": false
+                                        },
+                                        "rest_id": "110680768",
+                                        "super_follow_eligible": false,
+                                        "super_followed_by": false,
+                                        "super_following": false,
+                                        "tipjar_settings": {},
+                                        "tweet_counts": {
+                                          "media_tweets": 8816,
+                                          "tweets": 164957
+                                        },
+                                        "verification": {
+                                          "verified": false
+                                        },
+                                        "website": {
+                                          "url": "https://t.co/ia44hQrzPo"
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "edit_control": {
+                                    "edit_tweet_ids": [
+                                      "2106436060922126656"
+                                    ],
+                                    "editable_until_msecs": "1791052067000",
+                                    "edits_remaining": "5",
+                                    "is_edit_eligible": false
+                                  },
+                                  "grok_translated_post_with_availability": {
+                                    "data": {
+                                      "associated_data": {},
+                                      "destination_language": "en",
+                                      "entities": {
+                                        "hashtags": [],
+                                        "symbols": [],
+                                        "urls": [],
+                                        "user_mentions": []
+                                      },
+                                      "source_language": "ca",
+                                      "translation": "Following the activation by Civil Protection of the Flood Plan due to the forecast of very heavy rains, train services on Rodalies de Catalunya have been suspended as of 8:00 p.m. today."
+                                    },
+                                    "is_available": true
+                                  },
+                                  "is_translatable": true,
+                                  "legacy": {
+                                    "bookmark_count": 26,
+                                    "bookmarked": false,
+                                    "conversation_id_str": "2106436060922126656",
+                                    "created_at": "Sat Oct 03 17:27:47 +0000 2026",
+                                    "display_text_range": [
+                                      0,
+                                      198
+                                    ],
+                                    "entities": {},
+                                    "favorite_count": 227,
+                                    "favorited": false,
+                                    "full_text": "Davant l'activaci\u00f3 per part de Protecci\u00f3 Civil del Pla Inuncat per previsi\u00f3 de pluges molt intenses, s'ha susp\u00e8s la circulaci\u00f3 dels trens de Rodalies de Catalunya a partir de les 20.00 hores d'avui.",
+                                    "id_str": "2106436060922126656",
+                                    "is_quote_status": false,
+                                    "lang": "ca",
+                                    "quote_count": 67,
+                                    "reply_count": 95,
+                                    "retweet_count": 100,
+                                    "retweeted": false,
+                                    "user_id_str": "110680768"
+                                  },
+                                  "rest_id": "2106436060922126656",
+                                  "unmention_data": {},
+                                  "views": {
+                                    "count": "228752",
+                                    "state": "EnabledWithCount"
+                                  }
+                                }
+                              },
+                              "user_id_str": "110405142"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "rest_id": "2106444684209893707",
+                            "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>",
+                            "unmention_data": {},
+                            "views": {
+                              "count": "52",
+                              "state": "EnabledWithCount"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "entryId": "tweet-2106444684209893707",
+                    "sortIndex": "2106695386864287737"
+                  },
+                  {
+                    "content": {
+                      "__typename": "TimelineTimelineItem",
+                      "clientEventInfo": {
+                        "component": "tweet",
+                        "details": {
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAABDAABCgABAAAAAAAAAAAKAAkcayCSNFYgAQoACgAAAaEGfi8RAAAAAA==",
+                            "injectionType": "RankedOrganicTweet"
+                          }
+                        },
+                        "element": "tweet"
+                      },
+                      "entryType": "TimelineTimelineItem",
+                      "itemContent": {
+                        "__typename": "TimelineTweet",
+                        "itemType": "TimelineTweet",
+                        "tweetDisplayType": "Tweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "action_counts": {
+                                    "favorites_count": 4564
+                                  },
+                                  "affiliates_highlighted_label": {},
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/1888858568947834880/COkhWDor_normal.jpg"
+                                  },
+                                  "banner": {
+                                    "image_url": "https://pbs.twimg.com/profile_banners/110405142/1739961667"
+                                  },
+                                  "core": {
+                                    "created_at": "Mon Feb 01 12:36:23 +0000 2010",
+                                    "name": "Territori",
+                                    "screen_name": "territoricat"
+                                  },
+                                  "dm_permissions": {
+                                    "can_dm": false
+                                  },
+                                  "follow_request_sent": false,
+                                  "has_graduated_access": true,
+                                  "id": "VXNlcjoxMTA0MDUxNDI=",
+                                  "is_blue_verified": true,
+                                  "location": {
+                                    "location": "Catalunya"
+                                  },
+                                  "media_permissions": {
+                                    "can_media_tag": true
+                                  },
+                                  "notifications_settings": {
+                                    "notifications_enabled": false
+                                  },
+                                  "pinned_items": {
+                                    "tweet_ids_str": [
+                                      "2100240775858528609"
+                                    ]
+                                  },
+                                  "possibly_sensitive": false,
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "profile_bio": {
+                                    "description": "Departament de Territori, Habitatge i Transici\u00f3 Ecol\u00f2gica \ud83d\udccc Normes de participaci\u00f3 https://t.co/TUnBWJEL29",
+                                    "entities": {
+                                      "description": {
+                                        "urls": [
+                                          {
+                                            "display_url": "gen.cat/normesparticip\u2026",
+                                            "expanded_url": "https://gen.cat/normesparticipacio",
+                                            "indices": [
+                                              83,
+                                              106
+                                            ],
+                                            "url": "https://t.co/TUnBWJEL29"
+                                          }
+                                        ]
+                                      },
+                                      "url": {
+                                        "urls": [
+                                          {
+                                            "display_url": "territori.gencat.cat/ca/inici",
+                                            "expanded_url": "http://territori.gencat.cat/ca/inici",
+                                            "indices": [
+                                              0,
+                                              23
+                                            ],
+                                            "url": "https://t.co/9q2QswwnOF"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  "profile_description_language": "ca",
+                                  "profile_image_shape": "Circle",
+                                  "profile_metadata": {
+                                    "profile_interstitial_type": ""
+                                  },
+                                  "profile_translation": {
+                                    "translator_type": "none"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 37557,
+                                    "following": 197
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocked_by": false,
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": false,
+                                    "live_following": false,
+                                    "muting": false
+                                  },
+                                  "rest_id": "110405142",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tipjar_settings": {},
+                                  "tweet_counts": {
+                                    "media_tweets": 12190,
+                                    "tweets": 37967
+                                  },
+                                  "verification": {
+                                    "verified": false
+                                  },
+                                  "website": {
+                                    "url": "https://t.co/9q2QswwnOF"
+                                  }
+                                }
+                              }
+                            },
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "2106015223509336332"
+                              ],
+                              "editable_until_msecs": "1790951731812",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": false
+                            },
+                            "grok_translated_post_with_availability": {
+                              "data": {
+                                "associated_data": {},
+                                "destination_language": "en",
+                                "entities": {
+                                  "hashtags": [],
+                                  "symbols": [],
+                                  "urls": [],
+                                  "user_mentions": []
+                                },
+                                "source_language": "ca",
+                                "translation": "Train 15864 Portbou 13:24 h - 15:40 h Barcelona-Sants is running with a delay of 23 minutes due to an incident in the infrastructure at Portbou station."
+                              },
+                              "is_available": true
+                            },
+                            "is_translatable": true,
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "conversation_id_str": "2106015223509336332",
+                              "created_at": "Fri Oct 02 13:35:31 +0000 2026",
+                              "display_text_range": [
+                                0,
+                                140
+                              ],
+                              "entities": {
+                                "user_mentions": [
+                                  {
+                                    "id_str": "296710094",
+                                    "indices": [
+                                      3,
+                                      12
+                                    ],
+                                    "name": "R11 Rodalies \ud83e\udd16",
+                                    "screen_name": "rod11cat"
+                                  }
+                                ]
+                              },
+                              "favorite_count": 0,
+                              "favorited": false,
+                              "full_text": "RT @rod11cat: Tren 15864 Portbou 13:24 h - 15:40 h Barcelona-Sants circula amb una demora de 23 minuts a causa d'una incid\u00e8ncia en les infr\u2026",
+                              "id_str": "2106015223509336332",
+                              "is_quote_status": false,
+                              "lang": "ca",
+                              "quote_count": 0,
+                              "reply_count": 0,
+                              "retweet_count": 2,
+                              "retweeted": false,
+                              "retweeted_status_result": {
+                                "result": {
+                                  "__typename": "Tweet",
+                                  "core": {
+                                    "user_results": {
+                                      "result": {
+                                        "__typename": "User",
+                                        "action_counts": {
+                                          "favorites_count": 7
+                                        },
+                                        "affiliates_highlighted_label": {
+                                          "label": {
+                                            "badge": {
+                                              "url": "https://pbs.twimg.com/semantic_core_img/1428827730364096519/4ZXpTBhS?format=png&name=orig"
+                                            },
+                                            "description": "Automated",
+                                            "longDescription": {
+                                              "entities": [
+                                                {
+                                                  "fromIndex": 13,
+                                                  "ref": {
+                                                    "mention_results": {
+                                                      "result": {
+                                                        "__typename": "User",
+                                                        "core": {
+                                                          "screen_name": "rodalies"
+                                                        },
+                                                        "rest_id": "110680768"
+                                                      }
+                                                    },
+                                                    "screen_name": "rodalies",
+                                                    "type": "TimelineRichTextMention"
+                                                  },
+                                                  "toIndex": 22
+                                                }
+                                              ],
+                                              "text": "Automated by @rodalies"
+                                            },
+                                            "userLabelType": "AutomatedLabel"
+                                          }
+                                        },
+                                        "avatar": {
+                                          "image_url": "https://pbs.twimg.com/profile_images/662589256188239873/xmpRFsRz_normal.jpg"
+                                        },
+                                        "banner": {
+                                          "image_url": "https://pbs.twimg.com/profile_banners/296710094/1446646483"
+                                        },
+                                        "core": {
+                                          "created_at": "Wed May 11 08:23:53 +0000 2011",
+                                          "name": "R11 Rodalies \ud83e\udd16",
+                                          "screen_name": "rod11cat"
+                                        },
+                                        "dm_permissions": {
+                                          "can_dm": false
+                                        },
+                                        "follow_request_sent": false,
+                                        "has_graduated_access": true,
+                                        "id": "VXNlcjoyOTY3MTAwOTQ=",
+                                        "is_blue_verified": false,
+                                        "location": {
+                                          "location": "Catalunya"
+                                        },
+                                        "media_permissions": {
+                                          "can_media_tag": true
+                                        },
+                                        "notifications_settings": {
+                                          "notifications_enabled": false
+                                        },
+                                        "pinned_items": {},
+                                        "possibly_sensitive": false,
+                                        "privacy": {
+                                          "protected": false
+                                        },
+                                        "profile_bio": {
+                                          "description": "Estat del servei de la l\u00ednia R11. Barcelona Sants - Portbou (per Girona)(Generalitat de Catalunya) operat per Renfe.",
+                                          "entities": {
+                                            "description": {},
+                                            "url": {
+                                              "urls": [
+                                                {
+                                                  "display_url": "rodalies.gencat.cat",
+                                                  "expanded_url": "http://rodalies.gencat.cat",
+                                                  "indices": [
+                                                    0,
+                                                    23
+                                                  ],
+                                                  "url": "https://t.co/44Jsa9Zoj5"
+                                                }
+                                              ]
+                                            }
+                                          }
+                                        },
+                                        "profile_description_language": "ca",
+                                        "profile_image_shape": "Circle",
+                                        "profile_metadata": {
+                                          "profile_interstitial_type": ""
+                                        },
+                                        "profile_translation": {
+                                          "translator_type": "none"
+                                        },
+                                        "relationship_counts": {
+                                          "followers": 12256,
+                                          "following": 15
+                                        },
+                                        "relationship_perspectives": {
+                                          "blocked_by": false,
+                                          "blocking": false,
+                                          "followed_by": false,
+                                          "following": false,
+                                          "live_following": false,
+                                          "muting": false
+                                        },
+                                        "rest_id": "296710094",
+                                        "super_follow_eligible": false,
+                                        "super_followed_by": false,
+                                        "super_following": false,
+                                        "tipjar_settings": {},
+                                        "tweet_counts": {
+                                          "media_tweets": 223,
+                                          "tweets": 11723
+                                        },
+                                        "verification": {
+                                          "verified": false
+                                        },
+                                        "website": {
+                                          "url": "https://t.co/44Jsa9Zoj5"
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "edit_control": {
+                                    "edit_tweet_ids": [
+                                      "2106008107881267206"
+                                    ],
+                                    "editable_until_msecs": "1790950035000",
+                                    "edits_remaining": "5",
+                                    "is_edit_eligible": true
+                                  },
+                                  "grok_translated_post_with_availability": {
+                                    "data": {
+                                      "associated_data": {},
+                                      "destination_language": "en",
+                                      "entities": {
+                                        "hashtags": [],
+                                        "symbols": [],
+                                        "urls": [],
+                                        "user_mentions": []
+                                      },
+                                      "source_language": "ca",
+                                      "translation": "Train 15864 Portbou 13:24 h - 15:40 h Barcelona-Sants is running with a delay of 23 minutes due to an incident in the infrastructure at Portbou station."
+                                    },
+                                    "is_available": true
+                                  },
+                                  "is_translatable": true,
+                                  "legacy": {
+                                    "bookmark_count": 0,
+                                    "bookmarked": false,
+                                    "conversation_id_str": "2106008107881267206",
+                                    "created_at": "Fri Oct 02 13:07:15 +0000 2026",
+                                    "display_text_range": [
+                                      0,
+                                      161
+                                    ],
+                                    "entities": {},
+                                    "favorite_count": 1,
+                                    "favorited": false,
+                                    "full_text": "Tren 15864 Portbou 13:24 h - 15:40 h Barcelona-Sants circula amb una demora de 23 minuts a causa d'una incid\u00e8ncia en les infraestructures a l'estaci\u00f3 de Portbou.",
+                                    "id_str": "2106008107881267206",
+                                    "is_quote_status": false,
+                                    "lang": "ca",
+                                    "quote_count": 1,
+                                    "reply_count": 3,
+                                    "retweet_count": 2,
+                                    "retweeted": false,
+                                    "user_id_str": "296710094"
+                                  },
+                                  "rest_id": "2106008107881267206",
+                                  "unmention_data": {},
+                                  "views": {
+                                    "count": "1739",
+                                    "state": "EnabledWithCount"
+                                  }
+                                }
+                              },
+                              "user_id_str": "110405142"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "rest_id": "2106015223509336332",
+                            "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
+                            "unmention_data": {},
+                            "views": {
+                              "count": "83",
+                              "state": "EnabledWithCount"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "entryId": "tweet-2106015223509336332",
+                    "sortIndex": "2106695386864287732"
+                  },
+                  {
+                    "content": {
+                      "__typename": "TimelineTimelineCursor",
+                      "cursorType": "Top",
+                      "entryType": "TimelineTimelineCursor",
+                      "value": "DAAHCgABHTx8SugAJxELAAIAAAATMjEwNjYzNzc1MTIxMDcyNTUyNggAAwAAAAEAAA"
+                    },
+                    "entryId": "cursor-top-2106695386864287745",
+                    "sortIndex": "2106695386864287745"
+                  },
+                  {
+                    "content": {
+                      "__typename": "TimelineTimelineCursor",
+                      "cursorType": "Bottom",
+                      "entryType": "TimelineTimelineCursor",
+                      "value": "DAAHCgABHTx8Suf__-oLAAIAAAATMjEwNTkzODA1MzYyOTk0NDEyNAgAAwAAAAIAAA"
+                    },
+                    "entryId": "cursor-bottom-2106695386864287722",
+                    "sortIndex": "2106695386864287722"
+                  }
+                ],
+                "type": "TimelineAddEntries"
+              }
+            ],
+            "metadata": {
+              "scribeConfig": {
+                "page": "profileBest"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

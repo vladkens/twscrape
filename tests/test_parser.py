@@ -23,6 +23,7 @@ from twscrape.models import (
     UserRef,
     parse_tweet,
     parse_tweets,
+    parse_user,
 )
 from twscrape.utils import find_obj, to_old_rep
 
@@ -766,6 +767,58 @@ def test_quoted_tweet_in_other_timeline_modules_is_standalone(module):
     entry["entryId"] = entry["entryId"].replace("profile-conversation-", f"{module}-", 1)
 
     assert quoted_id in {tweet.id_str for tweet in parse_tweets(raw)}
+
+
+def _users_in_order(obj, res: list | None = None) -> list[dict]:
+    # User objects in the order get_typed_object visits them
+    res = [] if res is None else res
+    if isinstance(obj, dict):
+        if obj.get("__typename") == "User":
+            res.append(obj)
+        for v in obj.values():
+            _users_in_order(v, res)
+    elif isinstance(obj, list):
+        for v in obj:
+            _users_in_order(v, res)
+    return res
+
+
+def _automated_by_label(user_id: str, screen_name: str) -> dict:
+    # A bot's "Automated by @operator" label embeds the operator as a partial User
+    mention = {"__typename": "User", "rest_id": user_id, "core": {"screen_name": screen_name}}
+    entity = {"ref": {"mention_results": {"result": mention}}}
+    return {"label": {"longDescription": {"entities": [entity]}}}
+
+
+def test_partial_user_does_not_overwrite_full_user():
+    # https://github.com/vladkens/twscrape/issues/341
+    # Real UserTweets page: two retweets of @rodalies, then a retweet of the bot @rod11cat
+    # whose "Automated by @rodalies" label embeds @rodalies as a partial User.
+    raw = fake_rep("_issue_341").json()
+
+    assert to_old_rep(raw)["users"]["110680768"]["name"] == "Rodalies Catalunya"
+
+    tweets = {x.id: x for x in parse_tweets(raw)}
+    for twid in (2106637440312369380, 2106444684209893707):
+        rt = tweets[twid].retweetedTweet
+        assert rt is not None
+        assert rt.user.username == "rodalies"
+
+
+def test_partial_only_user_keeps_user_lookup_single():
+    # The operator of a looked-up bot exists only as a partial User: it must stay
+    # unparseable, or parse_user sees two users and returns None.
+    expected = parse_user(fake_rep("raw_user_by_login").json())
+    assert expected is not None
+
+    raw = fake_rep("raw_user_by_login").json()
+    _users_in_order(raw)[-1]["affiliates_highlighted_label"] = _automated_by_label(
+        "123456789", "operator_account"
+    )
+
+    doc = parse_user(raw)
+    assert doc is not None
+    assert doc.id == expected.id
 
 
 async def test_cards():
