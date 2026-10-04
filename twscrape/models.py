@@ -1231,6 +1231,7 @@ def _parse_items(
     limit: int = -1,
     seen_ids: set[int | str | None] | None = None,
     accept: Callable[[ParsedItem], bool] | None = None,
+    errors: list[Exception] | None = None,
 ) -> Generator[ParsedItem, None, None]:
     key = kind if kind == "trends" else f"{kind}s"
 
@@ -1263,6 +1264,8 @@ def _parse_items(
                 yield tmp
         except Exception as e:
             _write_dump(kind, e, x, obj)
+            if errors is not None:
+                errors.append(e)
             continue
 
 
@@ -1282,14 +1285,15 @@ def parse_tweet(rep: Response, twid: int) -> Tweet | None:
 
 
 def parse_user(rep: Response) -> User | None:
-    try:
-        docs = list(parse_users(rep))
-        if len(docs) == 1:
-            return docs[0]
-        return None
-    except Exception as e:
-        logger.error(f"Failed to parse user - {type(e)}:\n{traceback.format_exc()}")
-        return None
+    # None means X sent no user; a user that fails to parse raises instead:
+    # https://github.com/vladkens/twscrape/issues/346
+    errors: list[Exception] = []
+    docs = list(_parse_items(rep, "user", User.parse, errors=errors))
+    if len(docs) == 1:
+        return docs[0]
+    if not docs and errors:
+        raise errors[0]
+    return None
 
 
 def parse_trend(rep: Response) -> Trend | None:
