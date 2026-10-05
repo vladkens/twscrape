@@ -1285,7 +1285,7 @@ def parse_tweet(rep: Response, twid: int) -> Tweet | None:
 
 
 def parse_user(rep: Response) -> User | None:
-    # None means X sent no user; a user that fails to parse raises instead:
+    # Propagate parsing failures instead of treating them as missing users:
     # https://github.com/vladkens/twscrape/issues/346
     errors: list[Exception] = []
     docs = list(_parse_items(rep, "user", User.parse, errors=errors))
@@ -1293,6 +1293,13 @@ def parse_user(rep: Response) -> User | None:
         return docs[0]
     if not docs and errors:
         raise errors[0]
+    if not docs:
+        res = rep if isinstance(rep, dict) else rep.json()
+        user = get_or(res, "data.user", {}) or {}
+        user = user.get("result")
+        if isinstance(user, dict) and user.get("__typename") == "User":
+            raise ValueError(f"Failed to parse user {user.get('rest_id', '')}")
+
     return None
 
 
