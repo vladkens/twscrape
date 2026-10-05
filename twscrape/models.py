@@ -1093,9 +1093,9 @@ def _get_tweet_user_obj(tw_obj: dict, res: dict, fallback: dict | None = None) -
             continue
         if "legacy" in user_obj and "rest_id" in user_obj:
             return to_old_obj(user_obj)
-        # a User stub without core carries no profile at all:
+        # Skip profile-less stubs, but keep flattened authors with screen_name:
         # https://github.com/vladkens/twscrape/issues/342
-        if "core" not in user_obj:
+        if "core" not in user_obj and "screen_name" not in user_obj:
             continue
         return user_obj
 

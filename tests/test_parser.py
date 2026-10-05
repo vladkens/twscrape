@@ -75,7 +75,8 @@ def mock_rep(fn: Callable[..., Any], filename: str, as_generator=False):
 
 
 @pytest.mark.parametrize("path", ["core", "author_results"])
-def test_tweet_parser_uses_embedded_author_when_users_map_is_missing(path):
+@pytest.mark.parametrize("user_format", ["legacy", "flat"])
+def test_tweet_parser_uses_embedded_author_when_users_map_is_missing(path, user_format):
     obj = to_old_rep(fake_rep("raw_search").json())
     tweet = next(x for x in obj["tweets"].values() if x.get("user_id_str") in obj["users"])
     user_id = tweet["user_id_str"]
@@ -83,6 +84,9 @@ def test_tweet_parser_uses_embedded_author_when_users_map_is_missing(path):
     tweet.pop("core", None)
     tweet.pop("author_results", None)
     embedded = {"__typename": "User", "rest_id": user_id, "legacy": user}
+    if user_format == "flat":
+        embedded = {k: v for k, v in user.items() if k not in {"core", "legacy", "rest_id"}}
+
     if path == "core":
         tweet["core"] = {"user_results": {"result": embedded}}
     else:
