@@ -132,12 +132,14 @@ def req_id(rep: Response):
 
 
 def has_data(rep: Response, res: Any) -> bool:
-    """Return True for successful responses with at least one non-null data field."""
+    """Return True for successful responses with at least one non-empty data field."""
     if rep.status_code != 200 or not isinstance(res, dict):
         return False
 
+    # An empty field is no data: on a timeout X sends {"data": {"user": {}}}
+    # with DeadlineExceeded at path user.result.
     data = res.get("data")
-    return isinstance(data, dict) and any(value is not None for value in data.values())
+    return isinstance(data, dict) and any(value not in (None, {}, []) for value in data.values())
 
 
 def has_error(errors: list[str], prefix: str) -> bool:

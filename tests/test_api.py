@@ -31,6 +31,10 @@ def load(name: str) -> dict:
         return json.load(f)
 
 
+# Seen in production on UserByRestId: the error comes with an empty `user`
+DEADLINE_EXCEEDED_EMPTY_USER = {"json": load("_issue_346_deadline_exceeded_empty_user")}
+
+
 @pytest.fixture
 def api_http(api_mock: API, monkeypatch):
     mock = MockClient()
@@ -137,7 +141,11 @@ async def test_user_lookup_returns_none_when_x_has_no_user(api_http, method, arg
 
 @pytest.mark.parametrize(
     "response,error",
-    [(CLOUDFLARE_BLOCK, AbortReqError), (DEADLINE_EXCEEDED, ApiError)],
+    [
+        (CLOUDFLARE_BLOCK, AbortReqError),
+        (DEADLINE_EXCEEDED, ApiError),
+        (DEADLINE_EXCEEDED_EMPTY_USER, ApiError),
+    ],
 )
 @pytest.mark.parametrize("method,arg", [("user_by_id", 123), ("user_by_login", "someone")])
 async def test_user_lookup_raises_when_request_fails(api_http, method, arg, response, error):
@@ -158,7 +166,11 @@ async def test_user_tweets_of_unavailable_user_ends_without_error(api_http):
 
 @pytest.mark.parametrize(
     "response,error",
-    [(CLOUDFLARE_BLOCK, AbortReqError), (DEADLINE_EXCEEDED, ApiError)],
+    [
+        (CLOUDFLARE_BLOCK, AbortReqError),
+        (DEADLINE_EXCEEDED, ApiError),
+        (DEADLINE_EXCEEDED_EMPTY_USER, ApiError),
+    ],
 )
 async def test_user_tweets_raises_when_page_fails_mid_pagination(api_http, response, error):
     api, mock = api_http

@@ -815,7 +815,7 @@ async def test_api_error_with_data_is_throttled(client_fixture: CF, monkeypatch)
     await client.__aexit__(None, None, None)
 
 
-@pytest.mark.parametrize("data", [None, {}, {"user": None}])
+@pytest.mark.parametrize("data", [None, {}, {"user": None}, {"user": {}}])
 async def test_api_error_without_useful_data_is_warned_and_raises(
     client_fixture: CF, monkeypatch, data
 ):
