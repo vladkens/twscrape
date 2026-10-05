@@ -315,10 +315,17 @@ def to_old_rep(obj: dict) -> dict[str, Any]:
         except Exception:
             return None
 
+    # A bot's "Automated by @operator" label embeds the operator as a partial User
+    # (core holds only screen_name). It must not replace the operator's full entry,
+    # or User.parse fails on the missing name: https://github.com/vladkens/twscrape/issues/341
+    # A partial-only user is still kept: it stays unparseable, which keeps parse_user
+    # at a single result for a bot lookup.
     users = {}
     for x in tmp.get("User", []):
         if res := _to_old_user(x):
-            users[str(res["id_str"])] = res
+            uid = str(res["id_str"])
+            if uid not in users or "name" in res:
+                users[uid] = res
 
     trends = list(tmp.get("TimelineTrend", []))
     trends = {x["name"]: x for x in trends}
