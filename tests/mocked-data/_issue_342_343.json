@@ -1,0 +1,2057 @@
+{
+  "data": {
+    "user": {
+      "result": {
+        "__typename": "User",
+        "timeline": {
+          "timeline": {
+            "instructions": [
+              {
+                "type": "TimelineClearCache"
+              },
+              {
+                "entries": [
+                  {
+                    "content": {
+                      "__typename": "TimelineTimelineItem",
+                      "clientEventInfo": {
+                        "component": "tweet",
+                        "details": {
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAABDAABCgABAAAAAAAAAAAKAAkSNrKmoVewBAoACgAAAZ/Y7KtBAAAAAA==",
+                            "injectionType": "RankedOrganicTweet"
+                          }
+                        },
+                        "element": "tweet"
+                      },
+                      "entryType": "TimelineTimelineItem",
+                      "itemContent": {
+                        "__typename": "TimelineTweet",
+                        "itemType": "TimelineTweet",
+                        "tweetDisplayType": "Tweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "card": {
+                              "legacy": {
+                                "binding_values": [
+                                  {
+                                    "key": "photo_image_full_size_large",
+                                    "value": {
+                                      "image_value": {
+                                        "height": 419,
+                                        "url": "https://pbs.twimg.com/card_img/2083263150464360448/MMDBH2eH?format=png&name=800x419",
+                                        "width": 800
+                                      },
+                                      "type": "IMAGE"
+                                    }
+                                  },
+                                  {
+                                    "key": "thumbnail_image",
+                                    "value": {
+                                      "image_value": {
+                                        "height": 147,
+                                        "url": "https://pbs.twimg.com/card_img/2083263150464360448/MMDBH2eH?format=png&name=280x150",
+                                        "width": 280
+                                      },
+                                      "type": "IMAGE"
+                                    }
+                                  },
+                                  {
+                                    "key": "description",
+                                    "value": {
+                                      "string_value": "Use the X API with an all-new Developer Console and consumption-based billing. No fixed monthly costs, no monthly caps.",
+                                      "type": "STRING"
+                                    }
+                                  },
+                                  {
+                                    "key": "domain",
+                                    "value": {
+                                      "string_value": "console.x.com",
+                                      "type": "STRING"
+                                    }
+                                  },
+                                  {
+                                    "key": "thumbnail_image_large",
+                                    "value": {
+                                      "image_value": {
+                                        "height": 315,
+                                        "url": "https://pbs.twimg.com/card_img/2083263150464360448/MMDBH2eH?format=png&name=600x600",
+                                        "width": 600
+                                      },
+                                      "type": "IMAGE"
+                                    }
+                                  },
+                                  {
+                                    "key": "summary_photo_image_small",
+                                    "value": {
+                                      "image_value": {
+                                        "height": 202,
+                                        "url": "https://pbs.twimg.com/card_img/2083263150464360448/MMDBH2eH?format=png&name=386x202",
+                                        "width": 386
+                                      },
+                                      "type": "IMAGE"
+                                    }
+                                  },
+                                  {
+                                    "key": "thumbnail_image_original",
+                                    "value": {
+                                      "image_value": {
+                                        "height": 1050,
+                                        "url": "https://pbs.twimg.com/card_img/2083263150464360448/MMDBH2eH?format=png&name=orig",
+                                        "width": 2000
+                                      },
+                                      "type": "IMAGE"
+                                    }
+                                  },
+                                  {
+                                    "key": "photo_image_full_size_small",
+                                    "value": {
+                                      "image_value": {
+                                        "height": 202,
+                                        "url": "https://pbs.twimg.com/card_img/2083263150464360448/MMDBH2eH?format=png&name=386x202",
+                                        "width": 386
+                                      },
+                                      "type": "IMAGE"
+                                    }
+                                  },
+                                  {
+                                    "key": "summary_photo_image_large",
+                                    "value": {
+                                      "image_value": {
+                                        "height": 419,
+                                        "url": "https://pbs.twimg.com/card_img/2083263150464360448/MMDBH2eH?format=png&name=800x419",
+                                        "width": 800
+                                      },
+                                      "type": "IMAGE"
+                                    }
+                                  },
+                                  {
+                                    "key": "thumbnail_image_small",
+                                    "value": {
+                                      "image_value": {
+                                        "height": 76,
+                                        "url": "https://pbs.twimg.com/card_img/2083263150464360448/MMDBH2eH?format=png&name=144x144",
+                                        "width": 144
+                                      },
+                                      "type": "IMAGE"
+                                    }
+                                  },
+                                  {
+                                    "key": "thumbnail_image_x_large",
+                                    "value": {
+                                      "image_value": {
+                                        "height": 1050,
+                                        "url": "https://pbs.twimg.com/card_img/2083263150464360448/MMDBH2eH?format=png&name=2048x2048_2_exp",
+                                        "width": 2000
+                                      },
+                                      "type": "IMAGE"
+                                    }
+                                  },
+                                  {
+                                    "key": "photo_image_full_size_original",
+                                    "value": {
+                                      "image_value": {
+                                        "height": 1050,
+                                        "url": "https://pbs.twimg.com/card_img/2083263150464360448/MMDBH2eH?format=png&name=orig",
+                                        "width": 2000
+                                      },
+                                      "type": "IMAGE"
+                                    }
+                                  },
+                                  {
+                                    "key": "vanity_url",
+                                    "value": {
+                                      "scribe_key": "vanity_url",
+                                      "string_value": "console.x.com",
+                                      "type": "STRING"
+                                    }
+                                  },
+                                  {
+                                    "key": "photo_image_full_size",
+                                    "value": {
+                                      "image_value": {
+                                        "height": 314,
+                                        "url": "https://pbs.twimg.com/card_img/2083263150464360448/MMDBH2eH?format=png&name=600x314",
+                                        "width": 600
+                                      },
+                                      "type": "IMAGE"
+                                    }
+                                  },
+                                  {
+                                    "key": "thumbnail_image_color",
+                                    "value": {
+                                      "image_color_value": {
+                                        "palette": [
+                                          {
+                                            "percentage": 96.25,
+                                            "rgb": {
+                                              "blue": 255,
+                                              "green": 255,
+                                              "red": 255
+                                            }
+                                          },
+                                          {
+                                            "percentage": 2.55,
+                                            "rgb": {
+                                              "blue": 62,
+                                              "green": 62,
+                                              "red": 62
+                                            }
+                                          }
+                                        ]
+                                      },
+                                      "type": "IMAGE_COLOR"
+                                    }
+                                  },
+                                  {
+                                    "key": "title",
+                                    "value": {
+                                      "string_value": "Developer Console",
+                                      "type": "STRING"
+                                    }
+                                  },
+                                  {
+                                    "key": "summary_photo_image_color",
+                                    "value": {
+                                      "image_color_value": {
+                                        "palette": [
+                                          {
+                                            "percentage": 96.25,
+                                            "rgb": {
+                                              "blue": 255,
+                                              "green": 255,
+                                              "red": 255
+                                            }
+                                          },
+                                          {
+                                            "percentage": 2.55,
+                                            "rgb": {
+                                              "blue": 62,
+                                              "green": 62,
+                                              "red": 62
+                                            }
+                                          }
+                                        ]
+                                      },
+                                      "type": "IMAGE_COLOR"
+                                    }
+                                  },
+                                  {
+                                    "key": "summary_photo_image_x_large",
+                                    "value": {
+                                      "image_value": {
+                                        "height": 1050,
+                                        "url": "https://pbs.twimg.com/card_img/2083263150464360448/MMDBH2eH?format=png&name=2048x2048_2_exp",
+                                        "width": 2000
+                                      },
+                                      "type": "IMAGE"
+                                    }
+                                  },
+                                  {
+                                    "key": "summary_photo_image",
+                                    "value": {
+                                      "image_value": {
+                                        "height": 314,
+                                        "url": "https://pbs.twimg.com/card_img/2083263150464360448/MMDBH2eH?format=png&name=600x314",
+                                        "width": 600
+                                      },
+                                      "type": "IMAGE"
+                                    }
+                                  },
+                                  {
+                                    "key": "photo_image_full_size_color",
+                                    "value": {
+                                      "image_color_value": {
+                                        "palette": [
+                                          {
+                                            "percentage": 96.25,
+                                            "rgb": {
+                                              "blue": 255,
+                                              "green": 255,
+                                              "red": 255
+                                            }
+                                          },
+                                          {
+                                            "percentage": 2.55,
+                                            "rgb": {
+                                              "blue": 62,
+                                              "green": 62,
+                                              "red": 62
+                                            }
+                                          }
+                                        ]
+                                      },
+                                      "type": "IMAGE_COLOR"
+                                    }
+                                  },
+                                  {
+                                    "key": "photo_image_full_size_x_large",
+                                    "value": {
+                                      "image_value": {
+                                        "height": 1050,
+                                        "url": "https://pbs.twimg.com/card_img/2083263150464360448/MMDBH2eH?format=png&name=2048x2048_2_exp",
+                                        "width": 2000
+                                      },
+                                      "type": "IMAGE"
+                                    }
+                                  },
+                                  {
+                                    "key": "card_url",
+                                    "value": {
+                                      "scribe_key": "card_url",
+                                      "string_value": "https://t.co/7MkjBRWz9P",
+                                      "type": "STRING"
+                                    }
+                                  },
+                                  {
+                                    "key": "summary_photo_image_original",
+                                    "value": {
+                                      "image_value": {
+                                        "height": 1050,
+                                        "url": "https://pbs.twimg.com/card_img/2083263150464360448/MMDBH2eH?format=png&name=orig",
+                                        "width": 2000
+                                      },
+                                      "type": "IMAGE"
+                                    }
+                                  }
+                                ],
+                                "card_platform": {
+                                  "platform": {
+                                    "audience": {
+                                      "name": "production"
+                                    },
+                                    "device": {
+                                      "name": "Swift",
+                                      "version": "12"
+                                    }
+                                  }
+                                },
+                                "name": "summary_large_image",
+                                "url": "https://t.co/7MkjBRWz9P",
+                                "user_refs_results": []
+                              },
+                              "rest_id": "https://t.co/7MkjBRWz9P"
+                            },
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "action_counts": {
+                                    "favorites_count": 2642
+                                  },
+                                  "affiliates_highlighted_label": {
+                                    "label": {
+                                      "badge": {
+                                        "url": "https://pbs.twimg.com/profile_images/1955359038532653056/OSHY3ewP_bigger.jpg"
+                                      },
+                                      "description": "X",
+                                      "url": {
+                                        "url": "https://twitter.com/X",
+                                        "urlType": "DeepLink"
+                                      },
+                                      "userLabelDisplayType": "Badge",
+                                      "userLabelType": "BusinessLabel"
+                                    }
+                                  },
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/1683501992314798080/xl1POYLw_normal.jpg"
+                                  },
+                                  "banner": {
+                                    "image_url": "https://pbs.twimg.com/profile_banners/2244994945/1690213128"
+                                  },
+                                  "core": {
+                                    "created_at": "Sat Dec 14 04:35:55 +0000 2013",
+                                    "name": "Developers",
+                                    "screen_name": "XDevelopers"
+                                  },
+                                  "dm_permissions": {
+                                    "can_dm": true
+                                  },
+                                  "follow_request_sent": false,
+                                  "has_graduated_access": true,
+                                  "id": "VXNlcjoyMjQ0OTk0OTQ1",
+                                  "is_blue_verified": true,
+                                  "location": {
+                                    "location": "127.0.0.1"
+                                  },
+                                  "media_permissions": {
+                                    "can_media_tag": true
+                                  },
+                                  "notifications_settings": {
+                                    "notifications_enabled": false
+                                  },
+                                  "pinned_items": {
+                                    "tweet_ids_str": [
+                                      "2019881223666233717"
+                                    ]
+                                  },
+                                  "possibly_sensitive": false,
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "professional": {
+                                    "category": [
+                                      {
+                                        "icon_name": "IconBriefcaseStroke",
+                                        "id": 1009,
+                                        "name": "Community"
+                                      }
+                                    ],
+                                    "professional_type": "Business",
+                                    "rest_id": "1516891231749517312"
+                                  },
+                                  "profile_bio": {
+                                    "description": "The voice of the X Dev team and your official source for updates, news, and events, related to the X API.",
+                                    "entities": {
+                                      "description": {},
+                                      "url": {
+                                        "urls": [
+                                          {
+                                            "display_url": "docs.x.com",
+                                            "expanded_url": "https://docs.x.com/",
+                                            "indices": [
+                                              0,
+                                              23
+                                            ],
+                                            "url": "https://t.co/NIwHVIVyrN"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  "profile_description_language": "en",
+                                  "profile_image_shape": "Square",
+                                  "profile_metadata": {
+                                    "profile_interstitial_type": ""
+                                  },
+                                  "profile_translation": {
+                                    "translator_type": "regular"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 695695,
+                                    "following": 762
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocked_by": false,
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": true,
+                                    "live_following": false,
+                                    "muting": false
+                                  },
+                                  "rest_id": "2244994945",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tipjar_settings": {},
+                                  "tweet_counts": {
+                                    "media_tweets": 829,
+                                    "tweets": 4319
+                                  },
+                                  "verification": {
+                                    "verified": false,
+                                    "verified_type": "Business"
+                                  },
+                                  "website": {
+                                    "url": "https://t.co/NIwHVIVyrN"
+                                  }
+                                }
+                              }
+                            },
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "2083305234688803178"
+                              ],
+                              "editable_until_msecs": "1785537248546",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": false
+                            },
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "is_translatable": false,
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "conversation_id_str": "2083305234688803178",
+                              "created_at": "Fri Jul 31 21:34:08 +0000 2026",
+                              "display_text_range": [
+                                0,
+                                140
+                              ],
+                              "entities": {
+                                "user_mentions": [
+                                  {
+                                    "id_str": "2606432720",
+                                    "indices": [
+                                      3,
+                                      15
+                                    ],
+                                    "name": "Benji Taylor",
+                                    "screen_name": "benjitaylor"
+                                  }
+                                ]
+                              },
+                              "favorite_count": 0,
+                              "favorited": false,
+                              "full_text": "RT @benjitaylor: Overhauled the \ud835\udd4f Developer Console with a fresh coat of paint. More improvements to come as we continue investing in our D\u2026",
+                              "id_str": "2083305234688803178",
+                              "is_quote_status": false,
+                              "lang": "en",
+                              "quote_count": 0,
+                              "reply_count": 0,
+                              "retweet_count": 31,
+                              "retweeted": false,
+                              "retweeted_status_result": {
+                                "result": {
+                                  "__typename": "Tweet",
+                                  "card": {
+                                    "legacy": {
+                                      "binding_values": [
+                                        {
+                                          "key": "photo_image_full_size_large",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 419,
+                                              "url": "https://pbs.twimg.com/card_img/2083263150464360448/MMDBH2eH?format=png&name=800x419",
+                                              "width": 800
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "thumbnail_image",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 147,
+                                              "url": "https://pbs.twimg.com/card_img/2083263150464360448/MMDBH2eH?format=png&name=280x150",
+                                              "width": 280
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "description",
+                                          "value": {
+                                            "string_value": "Use the X API with an all-new Developer Console and consumption-based billing. No fixed monthly costs, no monthly caps.",
+                                            "type": "STRING"
+                                          }
+                                        },
+                                        {
+                                          "key": "domain",
+                                          "value": {
+                                            "string_value": "console.x.com",
+                                            "type": "STRING"
+                                          }
+                                        },
+                                        {
+                                          "key": "thumbnail_image_large",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 315,
+                                              "url": "https://pbs.twimg.com/card_img/2083263150464360448/MMDBH2eH?format=png&name=600x600",
+                                              "width": 600
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "summary_photo_image_small",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 202,
+                                              "url": "https://pbs.twimg.com/card_img/2083263150464360448/MMDBH2eH?format=png&name=386x202",
+                                              "width": 386
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "thumbnail_image_original",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 1050,
+                                              "url": "https://pbs.twimg.com/card_img/2083263150464360448/MMDBH2eH?format=png&name=orig",
+                                              "width": 2000
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "photo_image_full_size_small",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 202,
+                                              "url": "https://pbs.twimg.com/card_img/2083263150464360448/MMDBH2eH?format=png&name=386x202",
+                                              "width": 386
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "summary_photo_image_large",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 419,
+                                              "url": "https://pbs.twimg.com/card_img/2083263150464360448/MMDBH2eH?format=png&name=800x419",
+                                              "width": 800
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "thumbnail_image_small",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 76,
+                                              "url": "https://pbs.twimg.com/card_img/2083263150464360448/MMDBH2eH?format=png&name=144x144",
+                                              "width": 144
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "thumbnail_image_x_large",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 1050,
+                                              "url": "https://pbs.twimg.com/card_img/2083263150464360448/MMDBH2eH?format=png&name=2048x2048_2_exp",
+                                              "width": 2000
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "photo_image_full_size_original",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 1050,
+                                              "url": "https://pbs.twimg.com/card_img/2083263150464360448/MMDBH2eH?format=png&name=orig",
+                                              "width": 2000
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "vanity_url",
+                                          "value": {
+                                            "scribe_key": "vanity_url",
+                                            "string_value": "console.x.com",
+                                            "type": "STRING"
+                                          }
+                                        },
+                                        {
+                                          "key": "photo_image_full_size",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 314,
+                                              "url": "https://pbs.twimg.com/card_img/2083263150464360448/MMDBH2eH?format=png&name=600x314",
+                                              "width": 600
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "thumbnail_image_color",
+                                          "value": {
+                                            "image_color_value": {
+                                              "palette": [
+                                                {
+                                                  "percentage": 96.25,
+                                                  "rgb": {
+                                                    "blue": 255,
+                                                    "green": 255,
+                                                    "red": 255
+                                                  }
+                                                },
+                                                {
+                                                  "percentage": 2.55,
+                                                  "rgb": {
+                                                    "blue": 62,
+                                                    "green": 62,
+                                                    "red": 62
+                                                  }
+                                                }
+                                              ]
+                                            },
+                                            "type": "IMAGE_COLOR"
+                                          }
+                                        },
+                                        {
+                                          "key": "title",
+                                          "value": {
+                                            "string_value": "Developer Console",
+                                            "type": "STRING"
+                                          }
+                                        },
+                                        {
+                                          "key": "summary_photo_image_color",
+                                          "value": {
+                                            "image_color_value": {
+                                              "palette": [
+                                                {
+                                                  "percentage": 96.25,
+                                                  "rgb": {
+                                                    "blue": 255,
+                                                    "green": 255,
+                                                    "red": 255
+                                                  }
+                                                },
+                                                {
+                                                  "percentage": 2.55,
+                                                  "rgb": {
+                                                    "blue": 62,
+                                                    "green": 62,
+                                                    "red": 62
+                                                  }
+                                                }
+                                              ]
+                                            },
+                                            "type": "IMAGE_COLOR"
+                                          }
+                                        },
+                                        {
+                                          "key": "summary_photo_image_x_large",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 1050,
+                                              "url": "https://pbs.twimg.com/card_img/2083263150464360448/MMDBH2eH?format=png&name=2048x2048_2_exp",
+                                              "width": 2000
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "summary_photo_image",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 314,
+                                              "url": "https://pbs.twimg.com/card_img/2083263150464360448/MMDBH2eH?format=png&name=600x314",
+                                              "width": 600
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "photo_image_full_size_color",
+                                          "value": {
+                                            "image_color_value": {
+                                              "palette": [
+                                                {
+                                                  "percentage": 96.25,
+                                                  "rgb": {
+                                                    "blue": 255,
+                                                    "green": 255,
+                                                    "red": 255
+                                                  }
+                                                },
+                                                {
+                                                  "percentage": 2.55,
+                                                  "rgb": {
+                                                    "blue": 62,
+                                                    "green": 62,
+                                                    "red": 62
+                                                  }
+                                                }
+                                              ]
+                                            },
+                                            "type": "IMAGE_COLOR"
+                                          }
+                                        },
+                                        {
+                                          "key": "photo_image_full_size_x_large",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 1050,
+                                              "url": "https://pbs.twimg.com/card_img/2083263150464360448/MMDBH2eH?format=png&name=2048x2048_2_exp",
+                                              "width": 2000
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "card_url",
+                                          "value": {
+                                            "scribe_key": "card_url",
+                                            "string_value": "https://t.co/7MkjBRWz9P",
+                                            "type": "STRING"
+                                          }
+                                        },
+                                        {
+                                          "key": "summary_photo_image_original",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 1050,
+                                              "url": "https://pbs.twimg.com/card_img/2083263150464360448/MMDBH2eH?format=png&name=orig",
+                                              "width": 2000
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        }
+                                      ],
+                                      "card_platform": {
+                                        "platform": {
+                                          "audience": {
+                                            "name": "production"
+                                          },
+                                          "device": {
+                                            "name": "Swift",
+                                            "version": "12"
+                                          }
+                                        }
+                                      },
+                                      "name": "summary_large_image",
+                                      "url": "https://t.co/7MkjBRWz9P",
+                                      "user_refs_results": []
+                                    },
+                                    "rest_id": "https://t.co/7MkjBRWz9P"
+                                  },
+                                  "core": {
+                                    "user_results": {
+                                      "result": {
+                                        "__typename": "UserUnavailable",
+                                        "message": "User is not available",
+                                        "reason": "NoReason"
+                                      }
+                                    }
+                                  },
+                                  "edit_control": {
+                                    "edit_tweet_ids": [
+                                      "2083289084567724316"
+                                    ],
+                                    "editable_until_msecs": "1785533398000",
+                                    "edits_remaining": "5",
+                                    "is_edit_eligible": true
+                                  },
+                                  "grok_translated_post_with_availability": {
+                                    "is_available": false
+                                  },
+                                  "is_translatable": false,
+                                  "legacy": {
+                                    "bookmark_count": 117,
+                                    "bookmarked": false,
+                                    "conversation_id_str": "2083289084567724316",
+                                    "created_at": "Fri Jul 31 20:29:58 +0000 2026",
+                                    "display_text_range": [
+                                      0,
+                                      148
+                                    ],
+                                    "entities": {
+                                      "urls": [
+                                        {
+                                          "display_url": "console.x.com",
+                                          "expanded_url": "http://console.x.com",
+                                          "indices": [
+                                            125,
+                                            148
+                                          ],
+                                          "url": "https://t.co/7MkjBRWz9P"
+                                        }
+                                      ]
+                                    },
+                                    "favorite_count": 674,
+                                    "favorited": false,
+                                    "full_text": "Overhauled the \ud835\udd4f Developer Console with a fresh coat of paint. More improvements to come as we continue investing in our DX! https://t.co/7MkjBRWz9P",
+                                    "id_str": "2083289084567724316",
+                                    "is_quote_status": false,
+                                    "lang": "en",
+                                    "possibly_sensitive": false,
+                                    "possibly_sensitive_editable": true,
+                                    "quote_count": 13,
+                                    "reply_count": 44,
+                                    "retweet_count": 31,
+                                    "retweeted": false,
+                                    "user_id_str": "2606432720"
+                                  },
+                                  "rest_id": "2083289084567724316",
+                                  "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+                                  "unmention_data": {},
+                                  "views": {
+                                    "count": "104358",
+                                    "state": "EnabledWithCount"
+                                  }
+                                }
+                              },
+                              "user_id_str": "2244994945"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleTweet"
+                            },
+                            "rest_id": "2083305234688803178",
+                            "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
+                            "unmention_data": {},
+                            "views": {
+                              "count": "2062",
+                              "state": "EnabledWithCount"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "entryId": "tweet-2083305234688803178",
+                    "sortIndex": "2085474396218064895"
+                  },
+                  {
+                    "content": {
+                      "__typename": "TimelineTimelineItem",
+                      "clientEventInfo": {
+                        "component": "tweet",
+                        "details": {
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAABDAABCgABAAAAAAAAAAAKAAkSNrKmoVewBAoACgAAAZ/Y7KtBAAAAAA==",
+                            "injectionType": "RankedOrganicTweet"
+                          }
+                        },
+                        "element": "tweet"
+                      },
+                      "entryType": "TimelineTimelineItem",
+                      "itemContent": {
+                        "__typename": "TimelineTweet",
+                        "itemType": "TimelineTweet",
+                        "tweetDisplayType": "Tweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "action_counts": {
+                                    "favorites_count": 2642
+                                  },
+                                  "affiliates_highlighted_label": {
+                                    "label": {
+                                      "badge": {
+                                        "url": "https://pbs.twimg.com/profile_images/1955359038532653056/OSHY3ewP_bigger.jpg"
+                                      },
+                                      "description": "X",
+                                      "url": {
+                                        "url": "https://twitter.com/X",
+                                        "urlType": "DeepLink"
+                                      },
+                                      "userLabelDisplayType": "Badge",
+                                      "userLabelType": "BusinessLabel"
+                                    }
+                                  },
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/1683501992314798080/xl1POYLw_normal.jpg"
+                                  },
+                                  "banner": {
+                                    "image_url": "https://pbs.twimg.com/profile_banners/2244994945/1690213128"
+                                  },
+                                  "core": {
+                                    "created_at": "Sat Dec 14 04:35:55 +0000 2013",
+                                    "name": "Developers",
+                                    "screen_name": "XDevelopers"
+                                  },
+                                  "dm_permissions": {
+                                    "can_dm": true
+                                  },
+                                  "follow_request_sent": false,
+                                  "has_graduated_access": true,
+                                  "id": "VXNlcjoyMjQ0OTk0OTQ1",
+                                  "is_blue_verified": true,
+                                  "location": {
+                                    "location": "127.0.0.1"
+                                  },
+                                  "media_permissions": {
+                                    "can_media_tag": true
+                                  },
+                                  "notifications_settings": {
+                                    "notifications_enabled": false
+                                  },
+                                  "pinned_items": {
+                                    "tweet_ids_str": [
+                                      "2019881223666233717"
+                                    ]
+                                  },
+                                  "possibly_sensitive": false,
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "professional": {
+                                    "category": [
+                                      {
+                                        "icon_name": "IconBriefcaseStroke",
+                                        "id": 1009,
+                                        "name": "Community"
+                                      }
+                                    ],
+                                    "professional_type": "Business",
+                                    "rest_id": "1516891231749517312"
+                                  },
+                                  "profile_bio": {
+                                    "description": "The voice of the X Dev team and your official source for updates, news, and events, related to the X API.",
+                                    "entities": {
+                                      "description": {},
+                                      "url": {
+                                        "urls": [
+                                          {
+                                            "display_url": "docs.x.com",
+                                            "expanded_url": "https://docs.x.com/",
+                                            "indices": [
+                                              0,
+                                              23
+                                            ],
+                                            "url": "https://t.co/NIwHVIVyrN"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  "profile_description_language": "en",
+                                  "profile_image_shape": "Square",
+                                  "profile_metadata": {
+                                    "profile_interstitial_type": ""
+                                  },
+                                  "profile_translation": {
+                                    "translator_type": "regular"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 695695,
+                                    "following": 762
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocked_by": false,
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": true,
+                                    "live_following": false,
+                                    "muting": false
+                                  },
+                                  "rest_id": "2244994945",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tipjar_settings": {},
+                                  "tweet_counts": {
+                                    "media_tweets": 829,
+                                    "tweets": 4319
+                                  },
+                                  "verification": {
+                                    "verified": false,
+                                    "verified_type": "Business"
+                                  },
+                                  "website": {
+                                    "url": "https://t.co/NIwHVIVyrN"
+                                  }
+                                }
+                              }
+                            },
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "2082157691451920667"
+                              ],
+                              "editable_until_msecs": "1785263652918",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": false
+                            },
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "is_translatable": false,
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "conversation_id_str": "2082157691451920667",
+                              "created_at": "Tue Jul 28 17:34:12 +0000 2026",
+                              "display_text_range": [
+                                0,
+                                140
+                              ],
+                              "entities": {
+                                "user_mentions": [
+                                  {
+                                    "id_str": "2533341854",
+                                    "indices": [
+                                      3,
+                                      14
+                                    ],
+                                    "name": "Chris Park",
+                                    "screen_name": "chrisparkX"
+                                  },
+                                  {
+                                    "id_str": "1661523610111193088",
+                                    "indices": [
+                                      74,
+                                      83
+                                    ],
+                                    "name": "SpaceXAI",
+                                    "screen_name": "SpaceXAI"
+                                  },
+                                  {
+                                    "id_str": "1720665183188922368",
+                                    "indices": [
+                                      111,
+                                      116
+                                    ],
+                                    "name": "Grok",
+                                    "screen_name": "grok"
+                                  }
+                                ]
+                              },
+                              "favorite_count": 0,
+                              "favorited": false,
+                              "full_text": "RT @chrisparkX: Developers are central to our focus present and future at @SpaceXAI.\n\nThis is a major leap for @grok to enable anyone to pr\u2026",
+                              "id_str": "2082157691451920667",
+                              "is_quote_status": true,
+                              "lang": "en",
+                              "quote_count": 0,
+                              "quoted_status_id_str": "2082134521370272218",
+                              "quoted_status_permalink": {
+                                "display": "x.com/milichab/statu\u2026",
+                                "expanded": "https://twitter.com/milichab/status/2082134521370272218",
+                                "url": "https://t.co/PCqye3nsRp"
+                              },
+                              "reply_count": 0,
+                              "retweet_count": 18,
+                              "retweeted": false,
+                              "retweeted_status_result": {
+                                "result": {
+                                  "__typename": "Tweet",
+                                  "core": {
+                                    "user_results": {
+                                      "result": {
+                                        "__typename": "User",
+                                        "action_counts": {
+                                          "favorites_count": 48223
+                                        },
+                                        "affiliates_highlighted_label": {
+                                          "label": {
+                                            "badge": {
+                                              "url": "https://pbs.twimg.com/profile_images/1955359038532653056/OSHY3ewP_bigger.jpg"
+                                            },
+                                            "description": "X",
+                                            "url": {
+                                              "url": "https://twitter.com/X",
+                                              "urlType": "DeepLink"
+                                            },
+                                            "userLabelDisplayType": "Badge",
+                                            "userLabelType": "BusinessLabel"
+                                          }
+                                        },
+                                        "avatar": {
+                                          "image_url": "https://pbs.twimg.com/profile_images/1770195415729569792/wUEX1LCO_normal.jpg"
+                                        },
+                                        "banner": {
+                                          "image_url": "https://pbs.twimg.com/profile_banners/2533341854/1638372155"
+                                        },
+                                        "core": {
+                                          "created_at": "Thu May 29 20:24:26 +0000 2014",
+                                          "name": "Chris Park",
+                                          "screen_name": "chrisparkX"
+                                        },
+                                        "dm_permissions": {
+                                          "can_dm": true
+                                        },
+                                        "follow_request_sent": false,
+                                        "has_graduated_access": true,
+                                        "id": "VXNlcjoyNTMzMzQxODU0",
+                                        "is_blue_verified": true,
+                                        "location": {
+                                          "location": "New York, NY"
+                                        },
+                                        "media_permissions": {
+                                          "can_media_tag": false
+                                        },
+                                        "notifications_settings": {
+                                          "notifications_enabled": false
+                                        },
+                                        "pinned_items": {
+                                          "tweet_ids_str": [
+                                            "2040770361566826685"
+                                          ]
+                                        },
+                                        "possibly_sensitive": false,
+                                        "privacy": {
+                                          "protected": false
+                                        },
+                                        "profile_bio": {
+                                          "description": "\ud835\udd4f | @X @API @XDevelopers",
+                                          "entities": {
+                                            "description": {}
+                                          }
+                                        },
+                                        "profile_image_shape": "Circle",
+                                        "profile_metadata": {
+                                          "profile_interstitial_type": ""
+                                        },
+                                        "profile_translation": {
+                                          "translator_type": "none"
+                                        },
+                                        "relationship_counts": {
+                                          "followers": 27160,
+                                          "following": 1724
+                                        },
+                                        "relationship_perspectives": {
+                                          "blocked_by": false,
+                                          "blocking": false,
+                                          "followed_by": false,
+                                          "following": false,
+                                          "live_following": false,
+                                          "muting": false
+                                        },
+                                        "rest_id": "2533341854",
+                                        "super_follow_eligible": false,
+                                        "super_followed_by": false,
+                                        "super_following": false,
+                                        "tipjar_settings": {
+                                          "is_enabled": true
+                                        },
+                                        "tweet_counts": {
+                                          "media_tweets": 266,
+                                          "tweets": 3061
+                                        },
+                                        "verification": {
+                                          "verified": false
+                                        },
+                                        "website": {
+                                          "url": ""
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "edit_control": {
+                                    "edit_tweet_ids": [
+                                      "2082157309279588463"
+                                    ],
+                                    "editable_until_msecs": "1785263561000",
+                                    "edits_remaining": "5",
+                                    "is_edit_eligible": true
+                                  },
+                                  "grok_translated_post_with_availability": {
+                                    "is_available": false
+                                  },
+                                  "is_translatable": false,
+                                  "legacy": {
+                                    "bookmark_count": 14,
+                                    "bookmarked": false,
+                                    "conversation_id_str": "2082157309279588463",
+                                    "created_at": "Tue Jul 28 17:32:41 +0000 2026",
+                                    "display_text_range": [
+                                      0,
+                                      243
+                                    ],
+                                    "entities": {
+                                      "user_mentions": [
+                                        {
+                                          "id_str": "1661523610111193088",
+                                          "indices": [
+                                            58,
+                                            67
+                                          ],
+                                          "name": "SpaceXAI",
+                                          "screen_name": "SpaceXAI"
+                                        },
+                                        {
+                                          "id_str": "1720665183188922368",
+                                          "indices": [
+                                            95,
+                                            100
+                                          ],
+                                          "name": "Grok",
+                                          "screen_name": "grok"
+                                        }
+                                      ]
+                                    },
+                                    "favorite_count": 291,
+                                    "favorited": false,
+                                    "full_text": "Developers are central to our focus present and future at @SpaceXAI.\n\nThis is a major leap for @grok to enable anyone to prompt:build:ship quality projects. \n\nWe will launch our most important developer tool powered by X API &amp; Grok soon. \ud83d\udea2",
+                                    "id_str": "2082157309279588463",
+                                    "is_quote_status": true,
+                                    "lang": "en",
+                                    "quote_count": 0,
+                                    "quoted_status_id_str": "2082134521370272218",
+                                    "quoted_status_permalink": {
+                                      "display": "x.com/milichab/statu\u2026",
+                                      "expanded": "https://twitter.com/milichab/status/2082134521370272218",
+                                      "url": "https://t.co/PCqye3nsRp"
+                                    },
+                                    "reply_count": 21,
+                                    "retweet_count": 18,
+                                    "retweeted": false,
+                                    "user_id_str": "2533341854"
+                                  },
+                                  "quoted_status_result": {
+                                    "result": {
+                                      "__typename": "Tweet",
+                                      "card": {
+                                        "legacy": {
+                                          "binding_values": [
+                                            {
+                                              "key": "thumbnail_image",
+                                              "value": {
+                                                "image_value": {
+                                                  "height": 144,
+                                                  "url": "https://pbs.twimg.com/card_img/2082124548401401857/2v8mu0Kq?format=png&name=144x144_2",
+                                                  "width": 144
+                                                },
+                                                "type": "IMAGE"
+                                              }
+                                            },
+                                            {
+                                              "key": "description",
+                                              "value": {
+                                                "string_value": "Grok is an AI assistant built by SpaceXAI. Chat, create images, write code, and get real-time answers from the web and X.",
+                                                "type": "STRING"
+                                              }
+                                            },
+                                            {
+                                              "key": "domain",
+                                              "value": {
+                                                "string_value": "grok.com",
+                                                "type": "STRING"
+                                              }
+                                            },
+                                            {
+                                              "key": "thumbnail_image_large",
+                                              "value": {
+                                                "image_value": {
+                                                  "height": 420,
+                                                  "url": "https://pbs.twimg.com/card_img/2082124548401401857/2v8mu0Kq?format=png&name=420x420_2",
+                                                  "width": 420
+                                                },
+                                                "type": "IMAGE"
+                                              }
+                                            },
+                                            {
+                                              "key": "thumbnail_image_original",
+                                              "value": {
+                                                "image_value": {
+                                                  "height": 512,
+                                                  "url": "https://pbs.twimg.com/card_img/2082124548401401857/2v8mu0Kq?format=png&name=orig",
+                                                  "width": 512
+                                                },
+                                                "type": "IMAGE"
+                                              }
+                                            },
+                                            {
+                                              "key": "site",
+                                              "value": {
+                                                "scribe_key": "publisher_id",
+                                                "type": "USER",
+                                                "user_value": {
+                                                  "id_str": "1720665183188922368",
+                                                  "path": []
+                                                }
+                                              }
+                                            },
+                                            {
+                                              "key": "thumbnail_image_small",
+                                              "value": {
+                                                "image_value": {
+                                                  "height": 100,
+                                                  "url": "https://pbs.twimg.com/card_img/2082124548401401857/2v8mu0Kq?format=png&name=100x100_2",
+                                                  "width": 100
+                                                },
+                                                "type": "IMAGE"
+                                              }
+                                            },
+                                            {
+                                              "key": "thumbnail_image_x_large",
+                                              "value": {
+                                                "image_value": {
+                                                  "height": 512,
+                                                  "url": "https://pbs.twimg.com/card_img/2082124548401401857/2v8mu0Kq?format=png&name=2048x2048_2_exp",
+                                                  "width": 512
+                                                },
+                                                "type": "IMAGE"
+                                              }
+                                            },
+                                            {
+                                              "key": "vanity_url",
+                                              "value": {
+                                                "scribe_key": "vanity_url",
+                                                "string_value": "grok.com",
+                                                "type": "STRING"
+                                              }
+                                            },
+                                            {
+                                              "key": "thumbnail_image_color",
+                                              "value": {
+                                                "image_color_value": {
+                                                  "palette": [
+                                                    {
+                                                      "percentage": 80.71,
+                                                      "rgb": {
+                                                        "blue": 0,
+                                                        "green": 0,
+                                                        "red": 0
+                                                      }
+                                                    },
+                                                    {
+                                                      "percentage": 18.23,
+                                                      "rgb": {
+                                                        "blue": 255,
+                                                        "green": 255,
+                                                        "red": 255
+                                                      }
+                                                    }
+                                                  ]
+                                                },
+                                                "type": "IMAGE_COLOR"
+                                              }
+                                            },
+                                            {
+                                              "key": "title",
+                                              "value": {
+                                                "string_value": "Grok",
+                                                "type": "STRING"
+                                              }
+                                            },
+                                            {
+                                              "key": "card_url",
+                                              "value": {
+                                                "scribe_key": "card_url",
+                                                "string_value": "https://t.co/KK3GRsBfBH",
+                                                "type": "STRING"
+                                              }
+                                            }
+                                          ],
+                                          "card_platform": {
+                                            "platform": {
+                                              "audience": {
+                                                "name": "production"
+                                              },
+                                              "device": {
+                                                "name": "Swift",
+                                                "version": "12"
+                                              }
+                                            }
+                                          },
+                                          "name": "summary",
+                                          "url": "https://t.co/KK3GRsBfBH",
+                                          "user_refs_results": [
+                                            {
+                                              "result": {
+                                                "__typename": "User",
+                                                "action_counts": {
+                                                  "favorites_count": 122
+                                                },
+                                                "affiliates_highlighted_label": {
+                                                  "label": {
+                                                    "badge": {
+                                                      "url": "https://pbs.twimg.com/profile_images/2074224934159876096/aelorWHq_bigger.jpg"
+                                                    },
+                                                    "description": "SpaceXAI",
+                                                    "url": {
+                                                      "url": "https://twitter.com/SpaceXAI",
+                                                      "urlType": "DeepLink"
+                                                    },
+                                                    "userLabelDisplayType": "Badge",
+                                                    "userLabelType": "BusinessLabel"
+                                                  }
+                                                },
+                                                "avatar": {
+                                                  "image_url": "https://pbs.twimg.com/profile_images/2057885623374290944/lmj0pawP_normal.jpg"
+                                                },
+                                                "banner": {
+                                                  "image_url": "https://pbs.twimg.com/profile_banners/1720665183188922368/1778202520"
+                                                },
+                                                "core": {
+                                                  "created_at": "Sat Nov 04 04:52:34 +0000 2023",
+                                                  "name": "Grok",
+                                                  "screen_name": "grok"
+                                                },
+                                                "dm_permissions": {
+                                                  "can_dm": false
+                                                },
+                                                "follow_request_sent": false,
+                                                "has_graduated_access": true,
+                                                "id": "VXNlcjoxNzIwNjY1MTgzMTg4OTIyMzY4",
+                                                "is_blue_verified": true,
+                                                "location": {
+                                                  "location": ""
+                                                },
+                                                "media_permissions": {
+                                                  "can_media_tag": true
+                                                },
+                                                "notifications_settings": {
+                                                  "notifications_enabled": false
+                                                },
+                                                "pinned_items": {},
+                                                "possibly_sensitive": false,
+                                                "privacy": {
+                                                  "protected": false
+                                                },
+                                                "profile_bio": {
+                                                  "description": "@grok it",
+                                                  "entities": {
+                                                    "description": {},
+                                                    "url": {
+                                                      "urls": [
+                                                        {
+                                                          "display_url": "grok.com/download",
+                                                          "expanded_url": "http://grok.com/download",
+                                                          "indices": [
+                                                            0,
+                                                            23
+                                                          ],
+                                                          "url": "https://t.co/fqNKQSjjG9"
+                                                        }
+                                                      ]
+                                                    }
+                                                  }
+                                                },
+                                                "profile_image_shape": "Square",
+                                                "profile_metadata": {
+                                                  "profile_interstitial_type": ""
+                                                },
+                                                "profile_translation": {
+                                                  "translator_type": "none"
+                                                },
+                                                "relationship_counts": {
+                                                  "followers": 8926991,
+                                                  "following": 5
+                                                },
+                                                "relationship_perspectives": {
+                                                  "blocked_by": false,
+                                                  "blocking": false,
+                                                  "followed_by": false,
+                                                  "following": false,
+                                                  "live_following": false,
+                                                  "muting": false
+                                                },
+                                                "rest_id": "1720665183188922368",
+                                                "super_follow_eligible": false,
+                                                "super_followed_by": false,
+                                                "super_following": false,
+                                                "tipjar_settings": {},
+                                                "tweet_counts": {
+                                                  "media_tweets": 9228695,
+                                                  "tweets": 134594958
+                                                },
+                                                "verification": {
+                                                  "verified": false,
+                                                  "verified_type": "Business"
+                                                },
+                                                "website": {
+                                                  "url": "https://t.co/fqNKQSjjG9"
+                                                }
+                                              }
+                                            }
+                                          ]
+                                        },
+                                        "rest_id": "https://t.co/KK3GRsBfBH"
+                                      },
+                                      "core": {
+                                        "user_results": {
+                                          "result": {
+                                            "__typename": "UserUnavailable",
+                                            "message": "User is not available",
+                                            "reason": "NoReason"
+                                          }
+                                        }
+                                      },
+                                      "edit_control": {
+                                        "edit_tweet_ids": [
+                                          "2082134521370272218"
+                                        ],
+                                        "editable_until_msecs": "1785258128000",
+                                        "edits_remaining": "5",
+                                        "is_edit_eligible": true
+                                      },
+                                      "grok_translated_post_with_availability": {
+                                        "is_available": false
+                                      },
+                                      "is_translatable": false,
+                                      "legacy": {
+                                        "bookmark_count": 18,
+                                        "bookmarked": false,
+                                        "conversation_id_str": "2082134521370272218",
+                                        "created_at": "Tue Jul 28 16:02:08 +0000 2026",
+                                        "display_text_range": [
+                                          0,
+                                          135
+                                        ],
+                                        "entities": {
+                                          "urls": [
+                                            {
+                                              "display_url": "grok.com",
+                                              "expanded_url": "http://grok.com",
+                                              "indices": [
+                                                93,
+                                                116
+                                              ],
+                                              "url": "https://t.co/KK3GRsBfBH"
+                                            }
+                                          ]
+                                        },
+                                        "favorite_count": 357,
+                                        "favorited": false,
+                                        "full_text": "Turn prompts into productivity apps, games, dashboards, and personal sites. Now available on https://t.co/KK3GRsBfBH, iOS, and Android.",
+                                        "id_str": "2082134521370272218",
+                                        "is_quote_status": true,
+                                        "lang": "en",
+                                        "possibly_sensitive": false,
+                                        "possibly_sensitive_editable": true,
+                                        "quote_count": 1,
+                                        "quoted_status_id_str": "2082134072793637196",
+                                        "quoted_status_permalink": {
+                                          "display": "x.com/grok/status/20\u2026",
+                                          "expanded": "https://twitter.com/grok/status/2082134072793637196",
+                                          "url": "https://t.co/77A886taTa"
+                                        },
+                                        "reply_count": 31,
+                                        "retweet_count": 22,
+                                        "retweeted": false,
+                                        "user_id_str": "2867234365"
+                                      },
+                                      "quotedRefResult": {
+                                        "result": {
+                                          "__typename": "Tweet",
+                                          "rest_id": "2082134072793637196"
+                                        }
+                                      },
+                                      "rest_id": "2082134521370272218",
+                                      "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+                                      "unmention_data": {},
+                                      "views": {
+                                        "count": "40281",
+                                        "state": "EnabledWithCount"
+                                      }
+                                    }
+                                  },
+                                  "rest_id": "2082157309279588463",
+                                  "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
+                                  "unmention_data": {},
+                                  "views": {
+                                    "count": "16322",
+                                    "state": "EnabledWithCount"
+                                  }
+                                }
+                              },
+                              "user_id_str": "2244994945"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleTweet"
+                            },
+                            "rest_id": "2082157691451920667",
+                            "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
+                            "unmention_data": {},
+                            "views": {
+                              "count": "2135",
+                              "state": "EnabledWithCount"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "entryId": "tweet-2082157691451920667",
+                    "sortIndex": "2085474396218064888"
+                  },
+                  {
+                    "content": {
+                      "__typename": "TimelineTimelineItem",
+                      "clientEventInfo": {
+                        "component": "tweet",
+                        "details": {
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAABDAABCgABAAAAAAAAAAAKAAkSNrKmoVewBAoACgAAAZ/Y7KtBAAAAAA==",
+                            "injectionType": "RankedOrganicTweet"
+                          }
+                        },
+                        "element": "tweet"
+                      },
+                      "entryType": "TimelineTimelineItem",
+                      "itemContent": {
+                        "__typename": "TimelineTweet",
+                        "itemType": "TimelineTweet",
+                        "tweetDisplayType": "Tweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "card": {
+                              "rest_id": "https://t.co/A4f4RmdYe7"
+                            },
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "action_counts": {
+                                    "favorites_count": 2642
+                                  },
+                                  "affiliates_highlighted_label": {
+                                    "label": {
+                                      "badge": {
+                                        "url": "https://pbs.twimg.com/profile_images/1955359038532653056/OSHY3ewP_bigger.jpg"
+                                      },
+                                      "description": "X",
+                                      "url": {
+                                        "url": "https://twitter.com/X",
+                                        "urlType": "DeepLink"
+                                      },
+                                      "userLabelDisplayType": "Badge",
+                                      "userLabelType": "BusinessLabel"
+                                    }
+                                  },
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/1683501992314798080/xl1POYLw_normal.jpg"
+                                  },
+                                  "banner": {
+                                    "image_url": "https://pbs.twimg.com/profile_banners/2244994945/1690213128"
+                                  },
+                                  "core": {
+                                    "created_at": "Sat Dec 14 04:35:55 +0000 2013",
+                                    "name": "Developers",
+                                    "screen_name": "XDevelopers"
+                                  },
+                                  "dm_permissions": {
+                                    "can_dm": true
+                                  },
+                                  "follow_request_sent": false,
+                                  "has_graduated_access": true,
+                                  "id": "VXNlcjoyMjQ0OTk0OTQ1",
+                                  "is_blue_verified": true,
+                                  "location": {
+                                    "location": "127.0.0.1"
+                                  },
+                                  "media_permissions": {
+                                    "can_media_tag": true
+                                  },
+                                  "notifications_settings": {
+                                    "notifications_enabled": false
+                                  },
+                                  "pinned_items": {
+                                    "tweet_ids_str": [
+                                      "2019881223666233717"
+                                    ]
+                                  },
+                                  "possibly_sensitive": false,
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "professional": {
+                                    "category": [
+                                      {
+                                        "icon_name": "IconBriefcaseStroke",
+                                        "id": 1009,
+                                        "name": "Community"
+                                      }
+                                    ],
+                                    "professional_type": "Business",
+                                    "rest_id": "1516891231749517312"
+                                  },
+                                  "profile_bio": {
+                                    "description": "The voice of the X Dev team and your official source for updates, news, and events, related to the X API.",
+                                    "entities": {
+                                      "description": {},
+                                      "url": {
+                                        "urls": [
+                                          {
+                                            "display_url": "docs.x.com",
+                                            "expanded_url": "https://docs.x.com/",
+                                            "indices": [
+                                              0,
+                                              23
+                                            ],
+                                            "url": "https://t.co/NIwHVIVyrN"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  "profile_description_language": "en",
+                                  "profile_image_shape": "Square",
+                                  "profile_metadata": {
+                                    "profile_interstitial_type": ""
+                                  },
+                                  "profile_translation": {
+                                    "translator_type": "regular"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 695695,
+                                    "following": 762
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocked_by": false,
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": true,
+                                    "live_following": false,
+                                    "muting": false
+                                  },
+                                  "rest_id": "2244994945",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tipjar_settings": {},
+                                  "tweet_counts": {
+                                    "media_tweets": 829,
+                                    "tweets": 4319
+                                  },
+                                  "verification": {
+                                    "verified": false,
+                                    "verified_type": "Business"
+                                  },
+                                  "website": {
+                                    "url": "https://t.co/NIwHVIVyrN"
+                                  }
+                                }
+                              }
+                            },
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "2079814622639469025"
+                              ],
+                              "editable_until_msecs": "1784705021781",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": false
+                            },
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "is_translatable": false,
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "conversation_id_str": "2079814622639469025",
+                              "created_at": "Wed Jul 22 06:23:41 +0000 2026",
+                              "display_text_range": [
+                                0,
+                                36
+                              ],
+                              "entities": {
+                                "urls": [
+                                  {
+                                    "display_url": "x.com/i/article/2079\u2026",
+                                    "expanded_url": "http://x.com/i/article/2079162061142335488",
+                                    "indices": [
+                                      13,
+                                      36
+                                    ],
+                                    "url": "https://t.co/A4f4RmdYe7"
+                                  }
+                                ],
+                                "user_mentions": [
+                                  {
+                                    "id_str": "1818311005698678784",
+                                    "indices": [
+                                      3,
+                                      11
+                                    ],
+                                    "name": "X Freeze",
+                                    "screen_name": "XFreeze"
+                                  }
+                                ]
+                              },
+                              "favorite_count": 0,
+                              "favorited": false,
+                              "full_text": "RT @XFreeze: https://t.co/A4f4RmdYe7",
+                              "id_str": "2079814622639469025",
+                              "is_quote_status": false,
+                              "lang": "zxx",
+                              "possibly_sensitive": false,
+                              "possibly_sensitive_editable": true,
+                              "quote_count": 0,
+                              "reply_count": 0,
+                              "retweet_count": 43,
+                              "retweeted": false,
+                              "retweeted_status_result": {
+                                "result": {
+                                  "__typename": "Tweet",
+                                  "article": {
+                                    "article_results": {
+                                      "result": {
+                                        "cover_media": {
+                                          "id": "QXBpTWVkaWE6DAAFCgABHNy/nAybwAAKAAIZO/A50dpgAAAA",
+                                          "media_id": "2079747804885663744",
+                                          "media_info": {
+                                            "__typename": "ApiImage",
+                                            "color_info": {
+                                              "palette": [
+                                                {
+                                                  "percentage": 92.46,
+                                                  "rgb": {
+                                                    "blue": 9,
+                                                    "green": 6,
+                                                    "red": 4
+                                                  }
+                                                },
+                                                {
+                                                  "percentage": 3.54,
+                                                  "rgb": {
+                                                    "blue": 89,
+                                                    "green": 51,
+                                                    "red": 26
+                                                  }
+                                                },
+                                                {
+                                                  "percentage": 2.91,
+                                                  "rgb": {
+                                                    "blue": 130,
+                                                    "green": 130,
+                                                    "red": 130
+                                                  }
+                                                },
+                                                {
+                                                  "percentage": 0.49,
+                                                  "rgb": {
+                                                    "blue": 171,
+                                                    "green": 78,
+                                                    "red": 53
+                                                  }
+                                                },
+                                                {
+                                                  "percentage": 0.25,
+                                                  "rgb": {
+                                                    "blue": 191,
+                                                    "green": 191,
+                                                    "red": 191
+                                                  }
+                                                }
+                                              ]
+                                            },
+                                            "original_img_height": 766,
+                                            "original_img_url": "https://pbs.twimg.com/media/HNy_nAybwAAj4Gl.jpg",
+                                            "original_img_width": 1916
+                                          },
+                                          "media_key": "3_2079747804885663744"
+                                        },
+                                        "id": "QXJ0aWNsZUVudGl0eToyMDc5MTYyMDYxMTQyMzM1NDg4",
+                                        "lifecycle_state": {
+                                          "modified_at_secs": 1784687550
+                                        },
+                                        "metadata": {
+                                          "first_published_at_secs": 1784687550
+                                        },
+                                        "preview_text": "Your X account can now become a programmable intelligence system. Most people use X bookmarks as a graveyard. You see something useful, save it, and tell yourself you will come back later\nBut after",
+                                        "rest_id": "2079162061142335488",
+                                        "title": "Turn your X account into a programmable intelligence system using the X API and Grok Build"
+                                      }
+                                    }
+                                  },
+                                  "card": {
+                                    "rest_id": "https://t.co/A4f4RmdYe7"
+                                  },
+                                  "core": {
+                                    "user_results": {
+                                      "result": {
+                                        "__typename": "User",
+                                        "action_counts": {
+                                          "favorites_count": 41998
+                                        },
+                                        "affiliates_highlighted_label": {},
+                                        "id": "VXNlcjoxODE4MzExMDA1Njk4Njc4Nzg0",
+                                        "profile_description_language": "en",
+                                        "profile_image_shape": "Circle",
+                                        "rest_id": "1818311005698678784",
+                                        "super_follow_eligible": false,
+                                        "super_followed_by": false,
+                                        "super_following": false,
+                                        "tipjar_settings": {}
+                                      }
+                                    }
+                                  },
+                                  "edit_control": {
+                                    "edit_tweet_ids": [
+                                      "2079756440722665849"
+                                    ],
+                                    "editable_until_msecs": "1784691150000",
+                                    "edits_remaining": "5",
+                                    "is_edit_eligible": false
+                                  },
+                                  "grok_translated_post_with_availability": {
+                                    "is_available": false
+                                  },
+                                  "is_translatable": false,
+                                  "legacy": {
+                                    "bookmark_count": 330,
+                                    "bookmarked": false,
+                                    "conversation_id_str": "2079756440722665849",
+                                    "created_at": "Wed Jul 22 02:32:30 +0000 2026",
+                                    "display_text_range": [
+                                      0,
+                                      23
+                                    ],
+                                    "entities": {
+                                      "urls": [
+                                        {
+                                          "display_url": "x.com/i/article/2079\u2026",
+                                          "expanded_url": "http://x.com/i/article/2079162061142335488",
+                                          "indices": [
+                                            0,
+                                            23
+                                          ],
+                                          "url": "https://t.co/A4f4RmdYe7"
+                                        }
+                                      ]
+                                    },
+                                    "favorite_count": 251,
+                                    "favorited": false,
+                                    "full_text": "https://t.co/A4f4RmdYe7",
+                                    "id_str": "2079756440722665849",
+                                    "is_quote_status": false,
+                                    "lang": "zxx",
+                                    "possibly_sensitive": false,
+                                    "possibly_sensitive_editable": true,
+                                    "quote_count": 8,
+                                    "reply_count": 22,
+                                    "retweet_count": 43,
+                                    "retweeted": false,
+                                    "user_id_str": "1818311005698678784"
+                                  },
+                                  "rest_id": "2079756440722665849",
+                                  "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+                                  "unmention_data": {},
+                                  "views": {
+                                    "count": "68715",
+                                    "state": "EnabledWithCount"
+                                  }
+                                }
+                              },
+                              "user_id_str": "2244994945"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleTweet"
+                            },
+                            "rest_id": "2079814622639469025",
+                            "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
+                            "unmention_data": {},
+                            "views": {
+                              "count": "1749",
+                              "state": "EnabledWithCount"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "entryId": "tweet-2079814622639469025",
+                    "sortIndex": "2085474396218064886"
+                  },
+                  {
+                    "content": {
+                      "__typename": "TimelineTimelineCursor",
+                      "cursorType": "Top",
+                      "entryType": "TimelineTimelineCursor",
+                      "value": "DAAHCgABHPEX6f7AJxELAAIAAAATMjA4MzMwNTIzNDY4ODgwMzE3OAgAAwAAAAEAAA"
+                    },
+                    "entryId": "cursor-top-2085474396218064897",
+                    "sortIndex": "2085474396218064897"
+                  },
+                  {
+                    "content": {
+                      "__typename": "TimelineTimelineCursor",
+                      "cursorType": "Bottom",
+                      "entryType": "TimelineTimelineCursor",
+                      "value": "DAAHCgABHPEX6f6__-sLAAIAAAATMjA3MjEyNjY3NzUzNTM0Njc3OQgAAwAAAAIAAA"
+                    },
+                    "entryId": "cursor-bottom-2085474396218064875",
+                    "sortIndex": "2085474396218064875"
+                  }
+                ],
+                "type": "TimelineAddEntries"
+              }
+            ],
+            "metadata": {
+              "scribeConfig": {
+                "page": "profileBest"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
