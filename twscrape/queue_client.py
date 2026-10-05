@@ -37,6 +37,14 @@ class GqlFeaturesOutdatedError(AbortReqError):
     """GQL_FEATURES in api.py no longer matches the X API and self-healing did not resolve it."""
 
 
+class ApiError(AbortReqError):
+    """X answered with errors and without data."""
+
+    def __init__(self, msg: str, errors: list[str]):
+        super().__init__(msg)
+        self.errors = errors
+
+
 class FailKind(Enum):
     TRANSPORT = auto()
     LOADSHED = auto()
@@ -109,7 +117,7 @@ class Ctx:
             await asyncio.sleep(1)
 
         raise AbortReqError(
-            "Faield to get XClIdGen. See: https://github.com/vladkens/twscrape/issues/248"
+            "Failed to get XClIdGen. See: https://github.com/vladkens/twscrape/issues/248"
         )
 
 
@@ -124,12 +132,14 @@ def req_id(rep: Response):
 
 
 def has_data(rep: Response, res: Any) -> bool:
-    """Return True for successful responses with at least one non-null data field."""
+    """Return True for successful responses with at least one non-empty data field."""
     if rep.status_code != 200 or not isinstance(res, dict):
         return False
 
+    # An empty field is no data: on a timeout X sends {"data": {"user": {}}}
+    # with DeadlineExceeded at path user.result.
     data = res.get("data")
-    return isinstance(data, dict) and any(value is not None for value in data.values())
+    return isinstance(data, dict) and any(value not in (None, {}, []) for value in data.values())
 
 
 def has_error(errors: list[str], prefix: str) -> bool:
@@ -256,8 +266,9 @@ class QueueClient:
 
         if "text/html" in rep.headers.get("content-type", "") and rep.status_code >= 400:
             src = "Cloudflare" if "cf-ray" in rep.headers else "HTML"
-            logger.warning(f"Blocked by {src}: {rep.status_code} - {req_id(rep)}")
-            raise AbortReqError()
+            msg = f"Blocked by {src}: {rep.status_code} - {req_id(rep)}"
+            logger.warning(msg)
+            raise AbortReqError(msg)
 
         try:
             res = rep.json()
@@ -328,10 +339,12 @@ class QueueClient:
                 ctx = self.ctx
                 if ctx is not None and await ctx.retry(FailKind.LOADSHED):
                     raise HandledError()
-                return
+            else:
+                LogOnce.once(log_key, "WARNING", f"API unknown error: {summary_log}")
 
-            LogOnce.once(log_key, "WARNING", f"API unknown error: {summary_log}")
-            return
+            # Without data the parser would find nothing, and the caller would read
+            # a failure as an empty result.
+            raise ApiError(f"API error: {summary_log}", errors)
 
         try:
             rep.raise_for_status()
@@ -394,8 +407,9 @@ class QueueClient:
                 )
                 continue
             except AbortReqError:
-                # abort all queries
-                return
+                # abort all queries; raise rather than return None, which callers
+                # can't tell from "no data"
+                raise
             except HandledError:
                 # retry with new account
                 continue
@@ -409,7 +423,7 @@ class QueueClient:
                     "Report: https://github.com/vladkens/twscrape/issues"
                 )
                 await self._close_ctx()
-                return None
+                raise
             except (NetworkError, ConnectError) as e:
                 # transport failed, retry same account with backoff, then cool it down and rotate
                 if await ctx.retry(FailKind.TRANSPORT):

@@ -825,6 +825,30 @@ def test_partial_only_user_keeps_user_lookup_single():
     assert doc.id == expected.id
 
 
+def test_user_lookup_parse_failure_raises():
+    # https://github.com/vladkens/twscrape/issues/346
+    # A user X sent but that can't be parsed must not read as "no user". Here the
+    # looked-up user lacks its name, like the partial users of #341 and #342.
+    raw = fake_rep("raw_user_by_id").json()
+    del raw["data"]["user"]["result"]["core"]["name"]
+
+    with pytest.raises(KeyError, match="name"):
+        parse_user(raw)
+
+
+@pytest.mark.parametrize("missing", ["screen_name", "core"])
+def test_user_lookup_normalization_failure_raises(missing):
+    raw = fake_rep("raw_user_by_id").json()
+    user = raw["data"]["user"]["result"]
+    if missing == "core":
+        del user["core"]
+    else:
+        del user["core"][missing]
+
+    with pytest.raises(ValueError, match="Failed to parse user"):
+        parse_user(raw)
+
+
 def test_nested_author_without_profile_keeps_outer_tweet():
     # https://github.com/vladkens/twscrape/issues/342
     # https://github.com/vladkens/twscrape/issues/343
