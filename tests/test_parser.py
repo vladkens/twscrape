@@ -885,6 +885,31 @@ def test_nested_author_without_profile_keeps_outer_tweet():
     )
 
 
+def test_retweet_author_from_text_prefix_without_mention():
+    # The retweet of an unavailable author from _issue_342_343, without the user_mentions
+    # entry that names the author: the handle comes from the retweet's "RT @handle: " prefix,
+    # so the truncated retweet text is still restored with it.
+    raw = fake_rep("_issue_342_343").json()
+
+    def drop_mention(obj):
+        if isinstance(obj, dict):
+            if obj.get("rest_id") == "2083305234688803178" and "legacy" in obj:
+                obj["legacy"]["entities"]["user_mentions"] = []
+            for v in obj.values():
+                drop_mention(v)
+        elif isinstance(obj, list):
+            for v in obj:
+                drop_mention(v)
+
+    drop_mention(raw)
+
+    tweet = {x.id: x for x in parse_tweets(raw)}[2083305234688803178]
+    rt = tweet.retweetedTweet
+    assert rt is not None
+    assert (rt.user.id, rt.user.username, rt.user.displayname) == (2606432720, "benjitaylor", "")
+    assert tweet.rawContent == f"RT @benjitaylor: {rt.rawContent}"
+
+
 @pytest.mark.parametrize("shape", ["empty", "stub", "absent"])
 def test_own_author_without_profile_keeps_tweets(shape):
     # Real UserTweets page of @scottyenor (April 2023 part, trimmed to 4 entries), with the

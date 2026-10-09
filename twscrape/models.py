@@ -379,6 +379,14 @@ class Article(JSONTrait):
         )
 
 
+# Where a retweet holds the ID of the retweeted tweet
+_RT_ID_PATH = [
+    "retweeted_status_id_str",
+    "retweeted_status_result.result.rest_id",
+    "retweeted_status_result.result.tweet.rest_id",
+]
+
+
 @dataclass
 class Tweet(JSONTrait):
     id: int
@@ -443,19 +451,13 @@ class Tweet(JSONTrait):
         # author: flat user used when the tweet's own author has no profile in the response
         tw_usr = User.parse(_get_tweet_user_obj(obj, res, author))
 
-        rt_id_path = [
-            "retweeted_status_id_str",
-            "retweeted_status_result.result.rest_id",
-            "retweeted_status_result.result.tweet.rest_id",
-        ]
-
         qt_id_path = [
             "quoted_status_id_str",
             "quoted_status_result.result.rest_id",
             "quoted_status_result.result.tweet.rest_id",
         ]
 
-        rt_obj = get_or(res, f"tweets.{_first(obj, rt_id_path)}")
+        rt_obj = get_or(res, f"tweets.{_first(obj, _RT_ID_PATH)}")
         qt_obj = get_or(res, f"tweets.{_first(obj, qt_id_path)}")
 
         # x.com/i/status/{id} serves any tweet, for a placeholder author without username
@@ -1146,8 +1148,9 @@ def _referenced_author(ref_obj: dict, tw_obj: dict) -> dict | None:
 
     X can send that author without a profile (UserUnavailable, or a User stub without core)
     while the nested tweet itself is complete. The referencing tweet still names the author
-    in its user_mentions (retweets) or quoted_status_permalink (quotes), so the nested tweet
-    is kept with this minimal user instead of failing the referencing tweet:
+    in its user_mentions (retweets), its "RT @handle: " text prefix (retweets without that
+    mention) or quoted_status_permalink (quotes), so the nested tweet is kept with this
+    minimal user instead of failing the referencing tweet:
     https://github.com/vladkens/twscrape/issues/342
     https://github.com/vladkens/twscrape/issues/343
     """
@@ -1158,6 +1161,13 @@ def _referenced_author(ref_obj: dict, tw_obj: dict) -> dict | None:
     mentions = get_or(ref_obj, "entities.user_mentions", [])
     mention = find_item(mentions, lambda x: x.get("id_str") == user_id)
     screen_name, name = (mention["screen_name"], mention.get("name", "")) if mention else (None, "")
+
+    # Only when tw_obj is the retweeted tweet: a retweet of a quote also references the quoted
+    # tweet, whose author is not the one in the prefix
+    if screen_name is None and _first(ref_obj, _RT_ID_PATH) == tw_obj.get("id_str"):
+        match = re.match(r"RT @(\w+): ", ref_obj.get("full_text", ""))
+        if match:
+            screen_name = match.group(1)
 
     if screen_name is None:
         link = get_or(ref_obj, "quoted_status_permalink.expanded", "")
