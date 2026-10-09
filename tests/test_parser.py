@@ -885,6 +885,56 @@ def test_nested_author_without_profile_keeps_outer_tweet():
     )
 
 
+@pytest.mark.parametrize("shape", ["empty", "stub", "absent"])
+def test_own_author_without_profile_keeps_tweets(shape):
+    # Real UserTweets page of @scottyenor (April 2023 part, trimmed to 4 entries), with the
+    # author of every own tweet sent as empty user_results, as X did in production for this
+    # page on 2026-10-05. The other shapes seen that day, a User stub without core and no
+    # core at all, are applied over it. The tweets are complete: kept, with an ID-only author.
+    raw = fake_rep("_user_tweets_own_author_without_profile").json()
+    uid = "1380623475023355907"
+
+    def set_own_author(obj):
+        if isinstance(obj, dict):
+            if obj.get("__typename") == "Tweet" and obj["legacy"]["user_id_str"] == uid:
+                if shape == "stub":
+                    stub = {"__typename": "User", "rest_id": uid, "privacy": {"protected": False}}
+                    obj["core"] = {"user_results": {"result": stub}}
+                else:
+                    del obj["core"]
+            for v in obj.values():
+                set_own_author(v)
+        elif isinstance(obj, list):
+            for v in obj:
+                set_own_author(v)
+
+    if shape != "empty":
+        set_own_author(raw)
+    assert uid not in to_old_rep(raw)["users"]
+
+    tweets = {x.id: x for x in parse_tweets(raw)}
+    assert len(tweets) == 7
+    for tw in tweets.values():
+        assert (tw.user.id_str, tw.user.username, tw.user.displayname) == (uid, "", "")
+        assert tw.url == f"https://x.com/i/status/{tw.id}"
+
+    # self-replies of two threads: the replied-to user comes from the reply's own fields
+    for twid in (
+        1643335556762329089,
+        1643612772930813956,
+        1643335820617678854,
+        1643336000138092545,
+    ):
+        reply_to = tweets[twid].inReplyToUser
+        assert reply_to is not None
+        assert (reply_to.id_str, reply_to.username) == (uid, "scottyenor")
+
+    # the retweeted author is unaffected
+    rt = tweets[1645841834814341125].retweetedTweet
+    assert rt is not None
+    assert rt.user.username == "megbasham"
+
+
 async def test_cards():
     # Issues:
     # - https://github.com/vladkens/twscrape/issues/72

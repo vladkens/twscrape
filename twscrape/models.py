@@ -216,7 +216,7 @@ class User(JSONTrait):
         return User(
             id=int(obj["id_str"]),
             id_str=obj["id_str"],
-            url=f"https://x.com/{obj['screen_name']}",
+            url=f"https://x.com/{obj['screen_name'] or 'i/user/' + obj['id_str']}",
             username=obj["screen_name"],
             displayname=obj["name"],
             rawDescription=obj["description"],
@@ -458,7 +458,8 @@ class Tweet(JSONTrait):
         rt_obj = get_or(res, f"tweets.{_first(obj, rt_id_path)}")
         qt_obj = get_or(res, f"tweets.{_first(obj, qt_id_path)}")
 
-        url = f"https://x.com/{tw_usr.username}/status/{obj['id_str']}"
+        # x.com/i/status/{id} serves any tweet, for a placeholder author without username
+        url = f"https://x.com/{tw_usr.username or 'i'}/status/{obj['id_str']}"
         doc = Tweet(
             id=int(obj["id_str"]),
             id_str=obj["id_str"],
@@ -1076,12 +1077,18 @@ def _get_reply_user(tw_obj: dict, res: dict):
     if mention:
         return UserRef.parse(mention)
 
+    # Absent from both, e.g. a self-reply on a page sent without its author's profile (see
+    # _get_tweet_user_obj): the reply still names the user
+    screen_name = tw_obj.get("in_reply_to_screen_name")
+    if screen_name:
+        return UserRef(id=int(user_id), id_str=user_id, username=screen_name, displayname="")
+
     # todo: user not found in reply (probably deleted or hidden)
     return None
 
 
 def _get_tweet_user_obj(tw_obj: dict, res: dict, fallback: dict | None = None) -> dict:
-    """Return the referenced user, an author embedded in the tweet, or the fallback."""
+    """Return the referenced user, an embedded author, the fallback, or a placeholder."""
     user_id = tw_obj.get("user_id_str")
     users = res.get("users", {})
     if user_id is not None and user_id in users:
@@ -1102,7 +1109,35 @@ def _get_tweet_user_obj(tw_obj: dict, res: dict, fallback: dict | None = None) -
     if fallback is not None:
         return fallback
 
+    # X can also send a page whose tweets carry no profile of their author anywhere (a User
+    # stub without core, empty user_results, no core), and the same page complete later.
+    # The tweet itself is complete: keep it, with an author known only by its ID.
+    if user_id is not None:
+        logger.warning(
+            f"Author {user_id} of tweet {tw_obj.get('id_str')} has no profile in the response,"
+            " using a placeholder"
+        )
+        return _placeholder_user(user_id)
+
     raise KeyError(f"user {user_id} not found in response payload")
+
+
+def _placeholder_user(user_id: str, screen_name: str = "", name: str = "") -> dict:
+    """Flat user for an author X sent without a profile, parseable by User.parse."""
+    return {
+        "id_str": user_id,
+        "screen_name": screen_name,
+        "name": name,
+        "description": "",
+        "followers_count": 0,
+        "friends_count": 0,
+        "statuses_count": 0,
+        "favourites_count": 0,
+        "listed_count": 0,
+        "media_count": 0,
+        "location": "",
+        "profile_image_url_https": "",
+    }
 
 
 def _referenced_author(ref_obj: dict, tw_obj: dict) -> dict | None:
@@ -1133,20 +1168,7 @@ def _referenced_author(ref_obj: dict, tw_obj: dict) -> dict | None:
     if screen_name is None:
         return None
 
-    return {
-        "id_str": user_id,
-        "screen_name": screen_name,
-        "name": name,
-        "description": "",
-        "followers_count": 0,
-        "friends_count": 0,
-        "statuses_count": 0,
-        "favourites_count": 0,
-        "listed_count": 0,
-        "media_count": 0,
-        "location": "",
-        "profile_image_url_https": "",
-    }
+    return _placeholder_user(user_id, screen_name, name)
 
 
 def _get_source_url(tw_obj: dict):
