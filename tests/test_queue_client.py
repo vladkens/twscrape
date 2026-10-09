@@ -9,6 +9,8 @@ from twscrape.account import Account
 from twscrape.accounts_pool import AccountsPool
 from twscrape.http import ConnectError, HttpMethod, NetworkError, Response
 from twscrape.queue_client import (
+    AbortReqError,
+    ApiError,
     GqlFeaturesOutdatedError,
     QueueClient,
     ReqParams,
@@ -476,7 +478,8 @@ async def test_403_no_errors_marks_account_inactive(client_fixture: CF):
 # --- Cloudflare / HTML block ---
 
 
-async def test_cloudflare_block_returns_none(client_fixture: CF):
+async def test_cloudflare_block_raises(client_fixture: CF):
+    # https://github.com/vladkens/twscrape/issues/346
     pool, client, mock = client_fixture
     await client.__aenter__()
 
@@ -486,13 +489,13 @@ async def test_cloudflare_block_returns_none(client_fixture: CF):
         headers={"content-type": "text/html", "cf-ray": "abc123"},
     )
 
-    rep = await client.get(URL)
-    assert rep is None
+    with pytest.raises(AbortReqError, match="Blocked by Cloudflare: 403"):
+        await client.get(URL)
 
     await client.__aexit__(None, None, None)
 
 
-async def test_html_block_without_cf_returns_none(client_fixture: CF):
+async def test_html_block_without_cf_raises(client_fixture: CF):
     pool, client, mock = client_fixture
     await client.__aenter__()
 
@@ -502,8 +505,8 @@ async def test_html_block_without_cf_returns_none(client_fixture: CF):
         headers={"content-type": "text/html"},
     )
 
-    rep = await client.get(URL)
-    assert rep is None
+    with pytest.raises(AbortReqError, match="Blocked by HTML: 503"):
+        await client.get(URL)
 
     await client.__aexit__(None, None, None)
 
@@ -528,14 +531,15 @@ async def test_131_with_user_data_continues(client_fixture: CF):
     await client.__aexit__(None, None, None)
 
 
-async def test_131_without_user_data_continues(client_fixture: CF):
+async def test_131_without_user_data_raises(client_fixture: CF):
     pool, client, mock = client_fixture
     await client.__aenter__()
 
     mock.add_response(json={"errors": [{"code": 131, "message": "Dependency: Internal error"}]})
 
-    rep = await client.get(URL)
-    assert rep is not None
+    with pytest.raises(ApiError) as exc:
+        await client.get(URL)
+    assert exc.value.errors == ["(131) Dependency: Internal error"]
 
     await client.__aexit__(None, None, None)
 
@@ -671,7 +675,7 @@ async def test_missing_status_error_ignored(client_fixture: CF):
     await client.__aexit__(None, None, None)
 
 
-async def test_authorization_error_200_ignored(client_fixture: CF):
+async def test_authorization_error_200_raises(client_fixture: CF):
     pool, client, mock = client_fixture
     await client.__aenter__()
 
@@ -679,8 +683,23 @@ async def test_authorization_error_200_ignored(client_fixture: CF):
         json={"errors": [{"code": -1, "message": "Authorization: Denied by unknown rule"}]}
     )
 
-    rep = await client.get(URL)
-    assert rep is not None
+    with pytest.raises(ApiError, match="Authorization: Denied by unknown rule"):
+        await client.get(URL)
+
+    await client.__aexit__(None, None, None)
+
+
+async def test_deadline_exceeded_without_data_raises(client_fixture: CF):
+    # Seen in production: "API unknown error: 200 - ... - (-1) DeadlineExceeded: Unspecified"
+    pool, client, mock = client_fixture
+    await client.__aenter__()
+
+    mock.add_response(json={"errors": [{"code": -1, "message": "DeadlineExceeded: Unspecified"}]})
+
+    with pytest.raises(ApiError) as exc:
+        await client.get(URL)
+    assert exc.value.errors == ["(-1) DeadlineExceeded: Unspecified"]
+    assert "SearchTimeline" in str(exc.value)
 
     await client.__aexit__(None, None, None)
 
@@ -696,8 +715,8 @@ async def test_unknown_error_warned_once(client_fixture: CF, monkeypatch):
 
     for _ in range(2):
         mock.add_response(json={"errors": [{"code": 999, "message": "Some unfamiliar error"}]})
-        rep = await client.get(URL)
-        assert rep is not None
+        with pytest.raises(ApiError):
+            await client.get(URL)
 
     assert [level for level, _msg in logs] == ["WARNING"]
 
@@ -718,8 +737,8 @@ async def test_unknown_error_statuses_are_logged_separately(client_fixture: CF, 
             status_code=status_code,
             json={"errors": [{"code": 999, "message": "Some unfamiliar error"}]},
         )
-        rep = await client.get(URL)
-        assert rep is not None
+        with pytest.raises(ApiError):
+            await client.get(URL)
 
     assert [level for level, _msg in logs] == ["WARNING", "WARNING"]
     await client.__aexit__(None, None, None)
@@ -744,6 +763,25 @@ async def test_loadshed_without_data_retries_same_account(client_fixture: CF, mo
     assert rep.json() == {"ok": True}
     assert getattr(rep, "__username", None) == "user1"
     assert sleeps == [2]
+    await client.__aexit__(None, None, None)
+
+
+async def test_loadshed_without_data_raises_when_retries_exhausted(client_fixture: CF, monkeypatch):
+    _pool, client, mock = client_fixture
+
+    async def fake_sleep(secs):
+        pass
+
+    monkeypatch.setattr("twscrape.queue_client.asyncio.sleep", fake_sleep)
+    await client.__aenter__()
+
+    for _ in range(3):
+        mock.add_response(json={"errors": [{"code": -1, "message": "LoadShed: Unspecified"}]})
+
+    with pytest.raises(ApiError, match="LoadShed"):
+        await client.get(URL)
+    assert mock._queue == []
+
     await client.__aexit__(None, None, None)
 
 
@@ -777,8 +815,10 @@ async def test_api_error_with_data_is_throttled(client_fixture: CF, monkeypatch)
     await client.__aexit__(None, None, None)
 
 
-@pytest.mark.parametrize("data", [None, {}, {"user": None}])
-async def test_api_error_without_useful_data_is_warned(client_fixture: CF, monkeypatch, data):
+@pytest.mark.parametrize("data", [None, {}, {"user": None}, {"user": {}}])
+async def test_api_error_without_useful_data_is_warned_and_raises(
+    client_fixture: CF, monkeypatch, data
+):
     _pool, client, mock = client_fixture
     logs = []
     monkeypatch.setattr(queue_client_module.LogOnce, "seen", OrderedDict())
@@ -793,9 +833,9 @@ async def test_api_error_without_useful_data_is_warned(client_fixture: CF, monke
             "errors": [{"code": -1, "message": "Dependency: Unspecified"}],
         }
     )
-    rep = await client.get(URL)
+    with pytest.raises(ApiError):
+        await client.get(URL)
 
-    assert rep is not None
     assert [level for level, _msg in logs] == ["WARNING"]
     await client.__aexit__(None, None, None)
 
@@ -870,9 +910,11 @@ async def test_404_retries_exhaust_and_abort(client_fixture: CF):
     mock.add_response(status_code=404, json={})
     mock.add_response(status_code=404, json={})
 
-    with patch("twscrape.queue_client.asyncio.sleep"):
-        rep = await client.get(URL)
-    assert rep is None
+    with (
+        patch("twscrape.queue_client.asyncio.sleep"),
+        pytest.raises(AbortReqError, match="XClIdGen"),
+    ):
+        await client.get(URL)
 
     await client.__aexit__(None, None, None)
 
@@ -1080,9 +1122,9 @@ async def test_xclid_parse_error_aborts_without_account_state_change(
     monkeypatch.setattr("twscrape.queue_client.logger.error", messages.append)
 
     client = QueueClient(pool_mock, "SearchTimeline")
-    rep = await client.get(URL)
+    with pytest.raises(XClIdParseError, match="Signing script not found"):
+        await client.get(URL)
 
-    assert rep is None
     user1 = await pool_mock.get("user1")
     assert user1.active is True
     assert "SearchTimeline" not in user1.locks

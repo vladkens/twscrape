@@ -216,7 +216,7 @@ class User(JSONTrait):
         return User(
             id=int(obj["id_str"]),
             id_str=obj["id_str"],
-            url=f"https://x.com/{obj['screen_name']}",
+            url=f"https://x.com/{obj['screen_name'] or 'i/user/' + obj['id_str']}",
             username=obj["screen_name"],
             displayname=obj["name"],
             rawDescription=obj["description"],
@@ -379,6 +379,14 @@ class Article(JSONTrait):
         )
 
 
+# Where a retweet holds the ID of the retweeted tweet
+_RT_ID_PATH = [
+    "retweeted_status_id_str",
+    "retweeted_status_result.result.rest_id",
+    "retweeted_status_result.result.tweet.rest_id",
+]
+
+
 @dataclass
 class Tweet(JSONTrait):
     id: int
@@ -443,22 +451,17 @@ class Tweet(JSONTrait):
         # author: flat user used when the tweet's own author has no profile in the response
         tw_usr = User.parse(_get_tweet_user_obj(obj, res, author))
 
-        rt_id_path = [
-            "retweeted_status_id_str",
-            "retweeted_status_result.result.rest_id",
-            "retweeted_status_result.result.tweet.rest_id",
-        ]
-
         qt_id_path = [
             "quoted_status_id_str",
             "quoted_status_result.result.rest_id",
             "quoted_status_result.result.tweet.rest_id",
         ]
 
-        rt_obj = get_or(res, f"tweets.{_first(obj, rt_id_path)}")
+        rt_obj = get_or(res, f"tweets.{_first(obj, _RT_ID_PATH)}")
         qt_obj = get_or(res, f"tweets.{_first(obj, qt_id_path)}")
 
-        url = f"https://x.com/{tw_usr.username}/status/{obj['id_str']}"
+        # x.com/i/status/{id} serves any tweet, for a placeholder author without username
+        url = f"https://x.com/{tw_usr.username or 'i'}/status/{obj['id_str']}"
         doc = Tweet(
             id=int(obj["id_str"]),
             id_str=obj["id_str"],
@@ -1076,12 +1079,18 @@ def _get_reply_user(tw_obj: dict, res: dict):
     if mention:
         return UserRef.parse(mention)
 
+    # Absent from both, e.g. a self-reply on a page sent without its author's profile (see
+    # _get_tweet_user_obj): the reply still names the user
+    screen_name = tw_obj.get("in_reply_to_screen_name")
+    if screen_name:
+        return UserRef(id=int(user_id), id_str=user_id, username=screen_name, displayname="")
+
     # todo: user not found in reply (probably deleted or hidden)
     return None
 
 
 def _get_tweet_user_obj(tw_obj: dict, res: dict, fallback: dict | None = None) -> dict:
-    """Return the referenced user, an author embedded in the tweet, or the fallback."""
+    """Return the referenced user, an embedded author, the fallback, or a placeholder."""
     user_id = tw_obj.get("user_id_str")
     users = res.get("users", {})
     if user_id is not None and user_id in users:
@@ -1102,37 +1111,21 @@ def _get_tweet_user_obj(tw_obj: dict, res: dict, fallback: dict | None = None) -
     if fallback is not None:
         return fallback
 
+    # X can also send a page whose tweets carry no profile of their author anywhere (a User
+    # stub without core, empty user_results, no core), and the same page complete later.
+    # The tweet itself is complete: keep it, with an author known only by its ID.
+    if user_id is not None:
+        logger.warning(
+            f"Author {user_id} of tweet {tw_obj.get('id_str')} has no profile in the response,"
+            " using a placeholder"
+        )
+        return _placeholder_user(user_id)
+
     raise KeyError(f"user {user_id} not found in response payload")
 
 
-def _referenced_author(ref_obj: dict, tw_obj: dict) -> dict | None:
-    """
-    Author of a retweeted or quoted tweet as described by the tweet referencing it.
-
-    X can send that author without a profile (UserUnavailable, or a User stub without core)
-    while the nested tweet itself is complete. The referencing tweet still names the author
-    in its user_mentions (retweets) or quoted_status_permalink (quotes), so the nested tweet
-    is kept with this minimal user instead of failing the referencing tweet:
-    https://github.com/vladkens/twscrape/issues/342
-    https://github.com/vladkens/twscrape/issues/343
-    """
-    user_id = tw_obj.get("user_id_str")
-    if user_id is None:
-        return None
-
-    mentions = get_or(ref_obj, "entities.user_mentions", [])
-    mention = find_item(mentions, lambda x: x.get("id_str") == user_id)
-    screen_name, name = (mention["screen_name"], mention.get("name", "")) if mention else (None, "")
-
-    if screen_name is None:
-        link = get_or(ref_obj, "quoted_status_permalink.expanded", "")
-        match = re.match(r"https?://(?:twitter|x)\.com/(\w+)/status/(\d+)", link)
-        if match and match.group(2) == tw_obj.get("id_str"):
-            screen_name = match.group(1)
-
-    if screen_name is None:
-        return None
-
+def _placeholder_user(user_id: str, screen_name: str = "", name: str = "") -> dict:
+    """Flat user for an author X sent without a profile, parseable by User.parse."""
     return {
         "id_str": user_id,
         "screen_name": screen_name,
@@ -1147,6 +1140,45 @@ def _referenced_author(ref_obj: dict, tw_obj: dict) -> dict | None:
         "location": "",
         "profile_image_url_https": "",
     }
+
+
+def _referenced_author(ref_obj: dict, tw_obj: dict) -> dict | None:
+    """
+    Author of a retweeted or quoted tweet as described by the tweet referencing it.
+
+    X can send that author without a profile (UserUnavailable, or a User stub without core)
+    while the nested tweet itself is complete. The referencing tweet still names the author
+    in its user_mentions (retweets), its "RT @handle: " text prefix (retweets without that
+    mention) or quoted_status_permalink (quotes), so the nested tweet is kept with this
+    minimal user instead of failing the referencing tweet:
+    https://github.com/vladkens/twscrape/issues/342
+    https://github.com/vladkens/twscrape/issues/343
+    """
+    user_id = tw_obj.get("user_id_str")
+    if user_id is None:
+        return None
+
+    mentions = get_or(ref_obj, "entities.user_mentions", [])
+    mention = find_item(mentions, lambda x: x.get("id_str") == user_id)
+    screen_name, name = (mention["screen_name"], mention.get("name", "")) if mention else (None, "")
+
+    # Only when tw_obj is the retweeted tweet: a retweet of a quote also references the quoted
+    # tweet, whose author is not the one in the prefix
+    if screen_name is None and _first(ref_obj, _RT_ID_PATH) == tw_obj.get("id_str"):
+        match = re.match(r"RT @(\w+): ", ref_obj.get("full_text", ""))
+        if match:
+            screen_name = match.group(1)
+
+    if screen_name is None:
+        link = get_or(ref_obj, "quoted_status_permalink.expanded", "")
+        match = re.match(r"https?://(?:twitter|x)\.com/(\w+)/status/(\d+)", link)
+        if match and match.group(2) == tw_obj.get("id_str"):
+            screen_name = match.group(1)
+
+    if screen_name is None:
+        return None
+
+    return _placeholder_user(user_id, screen_name, name)
 
 
 def _get_source_url(tw_obj: dict):
@@ -1231,6 +1263,7 @@ def _parse_items(
     limit: int = -1,
     seen_ids: set[int | str | None] | None = None,
     accept: Callable[[ParsedItem], bool] | None = None,
+    errors: list[Exception] | None = None,
 ) -> Generator[ParsedItem, None, None]:
     key = kind if kind == "trends" else f"{kind}s"
 
@@ -1263,6 +1296,8 @@ def _parse_items(
                 yield tmp
         except Exception as e:
             _write_dump(kind, e, x, obj)
+            if errors is not None:
+                errors.append(e)
             continue
 
 
@@ -1282,14 +1317,22 @@ def parse_tweet(rep: Response, twid: int) -> Tweet | None:
 
 
 def parse_user(rep: Response) -> User | None:
-    try:
-        docs = list(parse_users(rep))
-        if len(docs) == 1:
-            return docs[0]
-        return None
-    except Exception as e:
-        logger.error(f"Failed to parse user - {type(e)}:\n{traceback.format_exc()}")
-        return None
+    # Propagate parsing failures instead of treating them as missing users:
+    # https://github.com/vladkens/twscrape/issues/346
+    errors: list[Exception] = []
+    docs = list(_parse_items(rep, "user", User.parse, errors=errors))
+    if len(docs) == 1:
+        return docs[0]
+    if not docs and errors:
+        raise errors[0]
+    if not docs:
+        res = rep if isinstance(rep, dict) else rep.json()
+        user = get_or(res, "data.user", {}) or {}
+        user = user.get("result")
+        if isinstance(user, dict) and user.get("__typename") == "User":
+            raise ValueError(f"Failed to parse user {user.get('rest_id', '')}")
+
+    return None
 
 
 def parse_trend(rep: Response) -> Trend | None:
