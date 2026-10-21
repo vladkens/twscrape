@@ -118,6 +118,8 @@ api = API(raise_when_no_account=True, wait_timeout=30, wait_interval=1)
 
 `wait_timeout` limits how long to wait for a locked account, `wait_interval` controls how often the pool checks again, and `raise_when_no_account` raises `NoAccountError` instead of ending the operation. By default, twscrape waits indefinitely while active accounts are locked.
 
+X sometimes sends a tweet without its author's profile. The tweet is still returned, with a placeholder `tweet.user` (the same goes for retweeted and quoted tweets): only `id` is known, plus `username` and sometimes `displayname` when the referencing tweet names the author. Its counts are 0, `created` is the Unix epoch and `profileImageUrl` is empty, which never happens for a real profile, so check `tweet.user.profileImageUrl == ""` before storing user stats.
+
 Search defaults to the Latest tab. Pass `kv={"product": "Top"}` or `kv={"product": "Media"}` to use another search product:
 
 ```python
