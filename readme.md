@@ -118,6 +118,8 @@ api = API(raise_when_no_account=True, wait_timeout=30, wait_interval=1)
 
 `wait_timeout` limits how long to wait for a locked account, `wait_interval` controls how often the pool checks again, and `raise_when_no_account` raises `NoAccountError` instead of ending the operation. By default, twscrape waits indefinitely while active accounts are locked.
 
+A failed request raises instead of looking like an empty result: `AbortReqError` when twscrape gives up on it (for example an HTML block page), its subclass `ApiError` when X answers with errors and no data, and `XClIdParseError` when the X client transaction ID can't be generated. A paginated method raises on the page that failed, after yielding the earlier pages. `user_by_id()` and `user_by_login()` also raise when X sends a user twscrape can't parse, so `None` means X has no such user (or no account was available and `raise_when_no_account` is off).
+
 Search defaults to the Latest tab. Pass `kv={"product": "Top"}` or `kv={"product": "Media"}` to use another search product:
 
 ```python
