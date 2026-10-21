@@ -61,7 +61,6 @@ ARTICLE_FIELD_TOGGLES = {
 }
 
 GQL_FEATURES = {  # search values here (view source) https://x.com/
-    # "articles_preview_enabled": False,
     "articles_preview_enabled": True,
     "c9s_tweet_anatomy_moderator_badge_enabled": True,
     "communities_web_enable_tweet_community_results_fetch": True,
@@ -225,7 +224,13 @@ class API:
     # gql helpers
 
     async def _gql_items(
-        self, op: str, kv: dict, ft: dict | None = None, limit=-1, cursor_type="Bottom"
+        self,
+        op: str,
+        kv: dict,
+        ft: dict | None = None,
+        limit=-1,
+        cursor_type="Bottom",
+        toggles: dict | None = None,
     ):
         queue, cur, cnt, active = op.split("/")[-1], None, 0, True
         kv, ft = {**kv}, {**GQL_FEATURES, **(ft or {})}
@@ -237,10 +242,8 @@ class API:
                 params = {"variables": kv, "features": ft}
                 if cur is not None:
                     params["variables"]["cursor"] = cur
-                if queue in ("SearchTimeline", "ListLatestTweetsTimeline"):
-                    params["fieldToggles"] = {"withArticleRichContentState": True}
-                if queue in ("UserMedia",):
-                    params["fieldToggles"] = {"withArticlePlainText": False}
+                if toggles:
+                    params["fieldToggles"] = toggles
 
                 rep = await client.get(f"{GQL_URL}/{op}", params=encode_params(params))
                 if rep is None:
@@ -269,14 +272,14 @@ class API:
                 yield rep
 
     async def _gql_item(
-        self, op: str, kv: dict, ft: dict | None = None, field_toggles: dict | None = None
+        self, op: str, kv: dict, ft: dict | None = None, toggles: dict | None = None
     ):
         ft = ft or {}
         queue = op.split("/")[-1]
         async with QueueClient(self.pool, queue, self.debug, proxy=self.proxy) as client:
             params = {"variables": {**kv}, "features": {**GQL_FEATURES, **ft}}
-            if field_toggles:
-                params["fieldToggles"] = field_toggles
+            if toggles:
+                params["fieldToggles"] = toggles
             return await client.get(f"{GQL_URL}/{op}", params=encode_params(params))
 
     # search
@@ -290,7 +293,8 @@ class API:
             "querySource": "typed_query",
             **(kv or {}),
         }
-        async with aclosing(self._gql_items(op, kv, limit=limit)) as gen:
+        toggles = {"withArticleRichContentState": False}
+        async with aclosing(self._gql_items(op, kv, limit=limit, toggles=toggles)) as gen:
             async for x in gen:
                 yield x
 
@@ -378,7 +382,7 @@ class API:
             "withV2Timeline": True,
             **(kv or {}),
         }
-        return await self._gql_item(op, kv, field_toggles=ARTICLE_FIELD_TOGGLES)
+        return await self._gql_item(op, kv, toggles=ARTICLE_FIELD_TOGGLES)
 
     async def tweet_details(self, twid: int, kv: KV = None) -> Tweet | None:
         rep = await self.tweet_details_raw(twid, kv=kv)
@@ -627,8 +631,8 @@ class API:
             "withV2Timeline": True,
             **(kv or {}),
         }
-
-        async with aclosing(self._gql_items(op, kv, limit=limit)) as gen:
+        toggles = {"withArticlePlainText": False}
+        async with aclosing(self._gql_items(op, kv, limit=limit, toggles=toggles)) as gen:
             async for x in gen:
                 yield x
 
@@ -648,7 +652,8 @@ class API:
     async def list_timeline_raw(self, list_id: int, limit=-1, kv: KV = None):
         op = OP_ListLatestTweetsTimeline
         kv = {"listId": str(list_id), "count": 20, **(kv or {})}
-        async with aclosing(self._gql_items(op, kv, limit=limit)) as gen:
+        toggles = {"withArticleRichContentState": False}
+        async with aclosing(self._gql_items(op, kv, limit=limit, toggles=toggles)) as gen:
             async for x in gen:
                 yield x
 

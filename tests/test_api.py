@@ -85,24 +85,26 @@ async def test_gql_params(api_mock: API, monkeypatch):
         assert args[0][0][1]["count"] == 100, f"count not changed in {func}"
 
 
-async def test_tweet_details_article_toggles(api_mock: API, monkeypatch):
+async def test_article_rich_content_only_in_tweet_details(api_mock: API, monkeypatch):
+    # full article content state is ~80 KB per tweet, so timelines request previews only
     args = []
 
+    def mock_gql_items(*a, **kw):
+        args.append(kw)
+        raise MockedError()
+
     async def mock_gql_item(*a, **kw):
-        args.append((a, kw))
+        args.append(kw)
 
+    monkeypatch.setattr(api_mock, "_gql_items", mock_gql_items)
     monkeypatch.setattr(api_mock, "_gql_item", mock_gql_item)
-    await api_mock.tweet_details_raw(2075503860689281453)
+    for func in ("search", "list_timeline"):
+        with pytest.raises(MockedError):
+            await gather(getattr(api_mock, func)("1", limit=10))
 
-    assert len(args) == 1
-    assert args[0][1]["field_toggles"] == {
-        "withArticleRichContentState": True,
-        "withArticlePlainText": False,
-        "withArticleSummaryText": True,
-        "withArticleVoiceOver": True,
-        "withGrokAnalyze": False,
-        "withDisallowedReplyControls": False,
-    }
+    await api_mock.tweet_details(1)
+    rich = [x["toggles"]["withArticleRichContentState"] for x in args]
+    assert rich == [False, False, True]
 
 
 async def test_raise_when_no_account(api_mock: API):
