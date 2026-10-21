@@ -270,6 +270,11 @@ class QueueClient:
         if "text/html" in rep.headers.get("content-type", "") and rep.status_code >= 400:
             src = "Cloudflare" if "cf-ray" in rep.headers else "HTML"
             msg = f"Blocked by {src}: {rep.status_code} - {req_id(rep)}"
+            # Cloudflare blocks the httpx TLS fingerprint on some ops (UserByRestId), see #337
+            backend = getattr(self.ctx.clt, "backend", None) if self.ctx else None
+            if src == "Cloudflare" and backend == "httpx":
+                msg += "; retry with TWS_HTTP_BACKEND=curl (pip install 'twscrape[curl]')"
+
             logger.warning(msg)
             raise AbortReqError(msg)
 

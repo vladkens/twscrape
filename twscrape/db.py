@@ -2,6 +2,7 @@ import asyncio
 import random
 import sqlite3
 from collections import defaultdict
+from typing import Awaitable, Callable, ParamSpec, TypeVar
 
 import aiosqlite
 
@@ -12,21 +13,30 @@ MIN_SQLITE_VERSION = "3.24"
 _lock = asyncio.Lock()
 
 
-def lock_retry(max_retries=10):
+P = ParamSpec("P")
+R = TypeVar("R")
+AsyncFn = Callable[P, Awaitable[R]]
+
+
+def lock_retry(max_retries: int = 10) -> Callable[[AsyncFn[P, R]], AsyncFn[P, R]]:
     # this lock decorator has double nature:
     # 1. it uses asyncio lock in same process
     # 2. it retries when db locked by other process (eg. two cli instances running)
-    def decorator(func):
-        async def wrapper(*args, **kwargs):
-            for i in range(max_retries):
+    def decorator(func: AsyncFn[P, R]) -> AsyncFn[P, R]:
+        async def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
+            for _ in range(max_retries - 1):
                 try:
                     async with _lock:
                         return await func(*args, **kwargs)
                 except sqlite3.OperationalError as e:
-                    if i == max_retries - 1 or "database is locked" not in str(e):
+                    if "database is locked" not in str(e):
                         raise e
 
                     await asyncio.sleep(random.uniform(0.5, 1.0))
+
+            # last attempt, errors are raised as is
+            async with _lock:
+                return await func(*args, **kwargs)
 
         return wrapper
 

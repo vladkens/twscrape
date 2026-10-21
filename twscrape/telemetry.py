@@ -13,7 +13,7 @@ import httpx
 import machineid
 
 APP_NAME = "twscrape"
-POSTHOG_KEY = "phc_giRHYHo4460O5UPxySajdO9L4KDRsjSmNQACA7uG9px"
+POSTHOG_KEY: str = "phc_giRHYHo4460O5UPxySajdO9L4KDRsjSmNQACA7uG9px"
 POSTHOG_BATCH_URL = "https://app.posthog.com/batch/"
 _lock = threading.Lock()
 _events: defaultdict[tuple[str, tuple[tuple[str, Any], ...]], int] = defaultdict(int)

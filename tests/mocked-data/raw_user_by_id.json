@@ -4,7 +4,7 @@
       "result": {
         "__typename": "User",
         "action_counts": {
-          "favorites_count": 2659
+          "favorites_count": 2762
         },
         "affiliates_highlighted_label": {
           "label": {
@@ -33,9 +33,6 @@
           "screen_name": "XDevelopers"
         },
         "creator_subscriptions_count": 0,
-        "dm_permissions": {
-          "can_dm": true
-        },
         "follow_request_sent": false,
         "has_graduated_access": true,
         "has_hidden_subscriptions_on_profile": false,
@@ -103,14 +100,14 @@
           "translator_type": "regular"
         },
         "relationship_counts": {
-          "followers": 697752,
-          "following": 763
+          "followers": 697884,
+          "following": 770
         },
         "relationship_perspectives": {
           "blocked_by": false,
           "blocking": false,
           "followed_by": false,
-          "following": false,
+          "following": true,
           "live_following": false,
           "muting": false
         },
@@ -120,8 +117,8 @@
         "super_following": false,
         "tipjar_settings": {},
         "tweet_counts": {
-          "media_tweets": 829,
-          "tweets": 4332
+          "media_tweets": 832,
+          "tweets": 4379
         },
         "verification": {
           "verified": false,

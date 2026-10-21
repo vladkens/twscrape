@@ -22,7 +22,7 @@ twscrape is an async Python library and CLI for X/Twitter Search and GraphQL end
 pip install twscrape
 ```
 
-`httpx` is the default HTTP backend. For browser-like TLS fingerprinting, install the optional `curl-cffi` backend:
+`httpx` is the default HTTP backend. For browser-like TLS fingerprinting, install the optional `curl-cffi` backend. Cloudflare blocks `httpx` on some operations, for example `user_by_id`, so they need `curl-cffi`:
 
 ```bash
 pip install "twscrape[curl]"

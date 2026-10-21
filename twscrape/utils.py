@@ -98,7 +98,7 @@ def find_or_fail(lst: list[T], fn: Callable[[T], bool]) -> T:
     return item
 
 
-def find_obj(obj: dict, fn: Callable[[dict], bool]) -> Any | None:
+def find_obj(obj: Any, fn: Callable[[dict], bool]) -> Any | None:
     if not isinstance(obj, dict):
         return None
 
