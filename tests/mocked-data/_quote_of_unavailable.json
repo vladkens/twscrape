@@ -1,0 +1,224 @@
+{
+  "data": {
+    "threaded_conversation_with_injections_v2": {
+      "instructions": [
+        {
+          "type": "TimelineClearCache"
+        },
+        {
+          "entries": [
+            {
+              "content": {
+                "__typename": "TimelineTimelineItem",
+                "clientEventInfo": {
+                  "component": "tweet",
+                  "element": "tweet"
+                },
+                "entryType": "TimelineTimelineItem",
+                "itemContent": {
+                  "__typename": "TimelineTweet",
+                  "itemType": "TimelineTweet",
+                  "tweetDisplayType": "Tweet",
+                  "tweet_results": {
+                    "result": {
+                      "__typename": "Tweet",
+                      "core": {
+                        "user_results": {
+                          "result": {
+                            "__typename": "User",
+                            "action_counts": {
+                              "favorites_count": 151
+                            },
+                            "affiliates_highlighted_label": {},
+                            "avatar": {
+                              "image_url": "https://pbs.twimg.com/profile_images/1512075844415471624/2aL156WZ_normal.jpg"
+                            },
+                            "banner": {
+                              "image_url": "https://pbs.twimg.com/profile_banners/3001492857/1744623694"
+                            },
+                            "core": {
+                              "created_at": "Tue Jan 27 15:28:47 +0000 2015",
+                              "name": "STELIA Aerospace",
+                              "screen_name": "steliaaerospace"
+                            },
+                            "dm_permissions": {
+                              "can_dm": false
+                            },
+                            "follow_request_sent": false,
+                            "has_graduated_access": true,
+                            "id": "VXNlcjozMDAxNDkyODU3",
+                            "is_blue_verified": false,
+                            "location": {
+                              "location": "Rochefort, France"
+                            },
+                            "media_permissions": {
+                              "can_media_tag": true
+                            },
+                            "notifications_settings": {
+                              "notifications_enabled": false
+                            },
+                            "pinned_items": {},
+                            "possibly_sensitive": false,
+                            "privacy": {
+                              "protected": false
+                            },
+                            "professional": {
+                              "category": [
+                                {
+                                  "icon_name": "IconBriefcaseStroke",
+                                  "id": 138,
+                                  "name": "Commercial & Industrial Equipment Supplier"
+                                }
+                              ],
+                              "professional_type": "Business",
+                              "rest_id": "1528665475655380993"
+                            },
+                            "profile_bio": {
+                              "description": "Welcome to STELIA Aerospace! As of January 1st 2022, STELIA Aerospace is the Airbus Atlantic brand dedicated to Cabin Interior activity.",
+                              "entities": {
+                                "description": {},
+                                "url": {
+                                  "urls": [
+                                    {
+                                      "display_url": "stelia-aerospace.com",
+                                      "expanded_url": "http://www.stelia-aerospace.com",
+                                      "indices": [
+                                        0,
+                                        23
+                                      ],
+                                      "url": "https://t.co/1JmTuBhGCo"
+                                    }
+                                  ]
+                                }
+                              }
+                            },
+                            "profile_description_language": "en",
+                            "profile_image_shape": "Circle",
+                            "profile_metadata": {
+                              "profile_interstitial_type": ""
+                            },
+                            "profile_translation": {
+                              "translator_type": "none"
+                            },
+                            "relationship_counts": {
+                              "followers": 1822,
+                              "following": 95
+                            },
+                            "relationship_perspectives": {
+                              "blocked_by": false,
+                              "blocking": false,
+                              "followed_by": false,
+                              "following": false,
+                              "live_following": false,
+                              "muting": false
+                            },
+                            "rest_id": "3001492857",
+                            "super_follow_eligible": false,
+                            "super_followed_by": false,
+                            "super_following": false,
+                            "tipjar_settings": {},
+                            "tweet_counts": {
+                              "media_tweets": 268,
+                              "tweets": 529
+                            },
+                            "verification": {
+                              "verified": false
+                            },
+                            "website": {
+                              "url": "https://t.co/1JmTuBhGCo"
+                            }
+                          }
+                        }
+                      },
+                      "edit_control": {
+                        "edit_tweet_ids": [
+                          "1864361260982083963"
+                        ],
+                        "editable_until_msecs": "1733336937000",
+                        "edits_remaining": "5",
+                        "is_edit_eligible": true
+                      },
+                      "grok_translated_post_with_availability": {
+                        "is_available": false
+                      },
+                      "has_birdwatch_notes": false,
+                      "is_translatable": false,
+                      "legacy": {
+                        "bookmark_count": 0,
+                        "bookmarked": false,
+                        "conversation_id_str": "1864361260982083963",
+                        "created_at": "Wed Dec 04 17:28:57 +0000 2024",
+                        "display_text_range": [
+                          0,
+                          230
+                        ],
+                        "entities": {},
+                        "favorite_count": 0,
+                        "favorited": false,
+                        "full_text": "Earlier today, we were invited to discuss a key item of customer flight experience: innovation in seating comfort. \n\nThank you for inviting us to this event, which brings together leaders and innovators in the aviation industry \u2708\ufe0f",
+                        "id_str": "1864361260982083963",
+                        "is_quote_status": true,
+                        "lang": "en",
+                        "quote_count": 0,
+                        "quoted_status_id_str": "1864142818312171743",
+                        "quoted_status_permalink": {
+                          "display": "x.com/RedCabin_Event\u2026",
+                          "expanded": "https://twitter.com/RedCabin_Events/status/1864142818312171743",
+                          "url": "https://t.co/xnriaIwlvT"
+                        },
+                        "reply_count": 0,
+                        "retweet_count": 0,
+                        "retweeted": false,
+                        "user_id_str": "3001492857"
+                      },
+                      "quick_promote_eligibility": {
+                        "eligibility": "IneligibleNotVerified"
+                      },
+                      "quoted_status_result": {
+                        "result": {
+                          "__typename": "TweetUnavailable"
+                        }
+                      },
+                      "rest_id": "1864361260982083963",
+                      "unmention_data": {},
+                      "views": {
+                        "count": "251",
+                        "state": "EnabledWithCount"
+                      }
+                    }
+                  }
+                }
+              },
+              "entryId": "tweet-1864361260982083963",
+              "sortIndex": "2113001654952394752"
+            },
+            {
+              "content": {
+                "__typename": "TimelineTimelineCursor",
+                "cursorType": "Bottom",
+                "entryType": "TimelineTimelineCursor",
+                "value": "DAAKCgABHVLjz10___0LAAIAAAAoRW1QQzZ3QUFBZlEvZ0dKTjB2R3AvQUFBQUFFWjM0cXdaZFloZXc9PQgAAwAAAAILAAQAAAAGQm90dG9tAAA"
+              },
+              "entryId": "cursor-bottom-2113001654952394751",
+              "sortIndex": "2113001654952394751"
+            }
+          ],
+          "type": "TimelineAddEntries"
+        },
+        {
+          "direction": "Top",
+          "type": "TimelineTerminateTimeline"
+        },
+        {
+          "direction": "Bottom",
+          "type": "TimelineTerminateTimeline"
+        }
+      ],
+      "metadata": {
+        "scribeConfig": {
+          "page": "ranked_replies"
+        }
+      }
+    }
+  }
+}
