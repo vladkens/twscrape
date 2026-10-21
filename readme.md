@@ -13,7 +13,7 @@
 twscrape is an async Python library and CLI for X/Twitter Search and GraphQL endpoints. It runs on your own account pool, keeps sessions in SQLite, rotates accounts when an endpoint is rate-limited, and returns either parsed SNScrape-style models or raw API responses.
 
 <div align="center">
-  <img src=".github/example.png" alt="example of cli usage" height="400px">
+  <img src="https://raw.githubusercontent.com/vladkens/twscrape/main/.github/example.png" alt="example of cli usage" height="400px">
 </div>
 
 ## Install
