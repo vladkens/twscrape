@@ -410,6 +410,53 @@ async def test_rate_limit_locks_account_and_switches(client_fixture: CF):
     await client.__aexit__(None, None, None)
 
 
+RATE_LIMIT_88 = {"errors": [{"code": 88, "message": "Rate limit exceeded"}]}
+
+
+@pytest.mark.parametrize(
+    "status, json, headers",
+    [
+        (429, {}, None),
+        (429, RATE_LIMIT_88, None),
+        (200, RATE_LIMIT_88, None),
+        (429, RATE_LIMIT_88, {"x-rate-limit-remaining": "1"}),  # 429 is never a ban
+    ],
+)
+async def test_rate_limit_without_headers_locks_and_switches(
+    client_fixture: CF, status, json, headers
+):
+    # https://github.com/vladkens/twscrape/issues/351
+    pool, client, mock = client_fixture
+    await client.__aenter__()
+
+    mock.add_response(status_code=status, json=json, headers=headers)
+    mock.add_response(json={"ok": True})
+
+    rep = await client.get(URL)
+    assert rep is not None
+    assert rep.json() == {"ok": True}
+
+    user1 = next(x for x in await pool.get_all() if x.username == "user1")
+    assert user1.active
+    assert int(user1.locks["SearchTimeline"].timestamp()) > utc.ts() + 60 * 10
+
+    await client.__aexit__(None, None, None)
+
+
+async def test_rate_limit_88_with_data_returns_response(client_fixture: CF):
+    pool, client, mock = client_fixture
+    await client.__aenter__()
+
+    mock.add_response(json={**RATE_LIMIT_88, "data": {"user": {"id": "1"}}})
+
+    rep = await client.get(URL)
+    assert rep is not None
+    assert rep.json()["data"] == {"user": {"id": "1"}}
+    assert await get_inactive(pool) == set()
+
+    await client.__aexit__(None, None, None)
+
+
 # --- Ban / inactive ---
 
 
@@ -442,6 +489,26 @@ async def test_ban_326_marks_account_inactive(client_fixture: CF):
     rep = await client.get(URL)
     assert rep is not None
     assert "user1" in await get_inactive(pool)
+
+    await client.__aexit__(None, None, None)
+
+
+async def test_suspended_64_marks_account_inactive(client_fixture: CF):
+    # https://github.com/vladkens/twscrape/issues/211
+    pool, client, mock = client_fixture
+    await client.__aenter__()
+
+    msg = "Your account is suspended and is not permitted to access this feature."
+    mock.add_response(status_code=403, json={"errors": [{"code": 64, "message": msg}]})
+    mock.add_response(json={"ok": True})
+
+    rep = await client.get(URL)
+    assert rep is not None
+    assert rep.json() == {"ok": True}
+
+    user1 = next(x for x in await pool.get_all() if x.username == "user1")
+    assert not user1.active
+    assert user1.error_msg == f"(64) {msg}"
 
     await client.__aexit__(None, None, None)
 

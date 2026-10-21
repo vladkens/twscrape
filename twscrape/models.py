@@ -25,7 +25,11 @@ from .utils import (
 )
 
 
-class UserParseError(Exception):
+class ParseError(Exception):
+    """X sent an object that twscrape can't parse."""
+
+
+class UserParseError(ParseError):
     """X sent a user that twscrape can't parse."""
 
 
@@ -1317,15 +1321,19 @@ def _parse_items(
 
 
 def parse_tweet(rep: Response, twid: int) -> Tweet | None:
+    # Only the requested tweet can fail the call, not a broken reply in the same response:
+    # https://github.com/vladkens/twscrape/issues/348
+    res = rep if isinstance(rep, dict) else rep.json()
+    obj = to_old_rep(res)
+    x = obj["tweets"].get(str(twid))
+    if x is None:
+        return None  # tombstone or not found
+
     try:
-        docs = list(parse_tweets(rep))
-        for x in docs:
-            if x.id == twid:
-                return x
-        return None
+        return Tweet.parse(x, obj)
     except Exception as e:
-        logger.error(f"Failed to parse tweet {twid} - {type(e)}:\n{traceback.format_exc()}")
-        return None
+        _write_dump("tweet", e, x, obj)
+        raise ParseError(f"Failed to parse tweet {twid}: {e!r}") from e
 
 
 def parse_user(rep: Response) -> User | None:
@@ -1348,38 +1356,40 @@ def parse_user(rep: Response) -> User | None:
 
 
 def parse_trend(rep: Response) -> Trend | None:
-    try:
-        docs = list(parse_trends(rep))
-        if len(docs) == 1:
-            return docs[0]
-        return None
-    except Exception as e:
-        logger.error(f"Failed to parse trend - {type(e)}:\n{traceback.format_exc()}")
-        return None
+    errors: list[Exception] = []
+    docs = list(_parse_items(rep, "trends", Trend.parse, errors=errors))
+    if len(docs) == 1:
+        return docs[0]
+    if not docs and errors:
+        raise ParseError(f"Failed to parse trend: {errors[0]!r}") from errors[0]
+
+    return None
 
 
 def parse_about(rep: Response | dict) -> AccountAbout | None:
+    res = rep if isinstance(rep, dict) else rep.json()
+    obj = get_or(res, "data.user_result_by_screen_name.result")
+    if not obj or obj.get("__typename", "User") != "User":
+        return None  # not found or UserUnavailable
+
     try:
-        res = rep if isinstance(rep, dict) else rep.json()
-        obj = get_or(res, "data.user_result_by_screen_name.result")
-        if not obj:
-            return None
         return AccountAbout.parse(obj)
     except Exception as e:
-        logger.error(f"Failed to parse about profile - {type(e)}:\n{traceback.format_exc()}")
-        return None
+        _write_dump("about", e, obj, res)
+        raise ParseError(f"Failed to parse about profile: {e!r}") from e
 
 
 def parse_community(rep: Response | dict) -> Community | None:
+    res = rep if isinstance(rep, dict) else rep.json()
+    obj = get_or(res, "data.communityResults.result")
+    if not obj or obj.get("__typename", "Community") != "Community":
+        return None  # not found or unavailable
+
     try:
-        res = rep if isinstance(rep, dict) else rep.json()
-        community = get_or(res, "data.communityResults.result")
-        if not community:
-            return None
-        return Community.parse(community)
+        return Community.parse(obj)
     except Exception as e:
-        logger.error(f"Failed to parse community - {type(e)}:\n{traceback.format_exc()}")
-        return None
+        _write_dump("community", e, obj, res)
+        raise ParseError(f"Failed to parse community: {e!r}") from e
 
 
 def parse_tweets(
