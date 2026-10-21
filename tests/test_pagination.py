@@ -8,8 +8,10 @@ Regression tests for pagination bugs:
 
 import json
 import os
+from types import SimpleNamespace
 
 from twscrape import API, gather
+from twscrape.api import _parsed_pages
 from twscrape.models import parse_tweets
 from twscrape.queue_client import QueueClient
 from twscrape.utils import find_obj
@@ -212,6 +214,35 @@ async def test_user_tweets_stops_after_repeated_duplicate_pages(monkeypatch, api
 
     assert len(tweets) == 21
     assert fetched == 4
+
+
+async def parse_pages(pages: list[list[int]], limit=-1):
+    async def raw():
+        for x in pages:
+            yield x
+
+    def parser(rep, seen_ids, accept=None):
+        for x in rep:
+            if x not in seen_ids:
+                seen_ids.add(x)
+                yield SimpleNamespace(id=x)
+
+    return [x.id for x in await gather(_parsed_pages(raw(), parser, limit))]
+
+
+async def test_dedup_keeps_only_first_and_recent_pages():
+    # The first page (pinned tweet) and the last 10 pages are remembered, older pages are not
+    pages = [[1, 2], *[[x] for x in range(3, 14)], [1, 3, 13]]
+
+    assert await parse_pages(pages) == [*range(1, 14), 3]
+
+
+async def test_dedup_warns_when_stopping_on_duplicate_pages(monkeypatch):
+    logs = []
+    monkeypatch.setattr("twscrape.api.logger.warning", logs.append)
+
+    assert await parse_pages([[1], [1], [1], [1], [2]]) == [1]
+    assert logs == ["Stopping after 3 pages without new parsed items"]
 
 
 async def test_nested_quote_does_not_hide_later_standalone_tweet(monkeypatch, api_mock: API):

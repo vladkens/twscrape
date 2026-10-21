@@ -1,3 +1,4 @@
+from collections import deque
 from contextlib import aclosing
 from typing import Literal
 
@@ -108,18 +109,30 @@ TrendId = Literal["trending", "news", "sport", "entertainment"] | str
 
 async def _parsed_pages(raw_pages, parser, limit: int, accept=None):
     # Keep parser context for each page, then deduplicate accepted items across pages.
-    seen_ids: set[int | str | None] = set()
-    duplicate_pages = 0
+    # Repeats come from adjacent pages and from the pinned tweet on the first page, so
+    # only those ids are kept: a set of every id grows without bound on long crawls.
+    first_ids: set[int | str | None] = set()
+    recent_ids: deque[set[int | str | None]] = deque(maxlen=10)
+    count, duplicate_pages = 0, 0
     async with aclosing(raw_pages) as gen:
         async for rep in gen:
-            before = len(seen_ids)
+            seen_ids = first_ids.union(*recent_ids)
+            page_ids = set()
             for item in parser(rep, seen_ids=seen_ids, accept=accept):
+                page_ids.add(item.id)
+                count += 1
                 yield item
-                if limit > 0 and len(seen_ids) >= limit:
+                if limit > 0 and count >= limit:
                     return
-            duplicate_pages = duplicate_pages + 1 if len(seen_ids) == before else 0
+
+            if first_ids:
+                recent_ids.append(page_ids)
+            else:
+                first_ids = page_ids
+
+            duplicate_pages = 0 if page_ids else duplicate_pages + 1
             if duplicate_pages >= 3:
-                logger.debug("Stopping after 3 pages without new parsed items")
+                logger.warning("Stopping after 3 pages without new parsed items")
                 return
 
 
