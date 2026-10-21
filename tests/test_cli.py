@@ -13,19 +13,22 @@ def test_reactivate_command(tmp_path, monkeypatch):
     db_path = tmp_path / "accounts.db"
     pool = cli.AccountsPool(db_path)
 
-    async def add_inactive_account():
-        await pool.add_account("user1", "pass1", "email1", "ep1")
-        await pool.mark_inactive("user1", "session expired")
+    async def add_inactive_accounts():
+        for x in ("user1", "user2"):
+            await pool.add_account(x, "pass1", "email1", "ep1", cookies="auth_token=a; ct0=b")
+            await pool.mark_inactive(x, "session expired")
 
-    asyncio.run(add_inactive_account())
+    asyncio.run(add_inactive_accounts())
     monkeypatch.setenv("TWS_TELEMETRY", "0")
-    monkeypatch.setattr(cli.sys, "argv", ["twscrape", "--db", str(db_path), "reactivate", "user1"])
+    argv = ["twscrape", "--db", str(db_path), "reactivate", "user1", "user2"]
+    monkeypatch.setattr(cli.sys, "argv", argv)
 
     cli.run()
 
-    account = asyncio.run(pool.get("user1"))
-    assert account.active is True
-    assert account.error_msg is None
+    for x in ("user1", "user2"):
+        account = asyncio.run(pool.get(x))
+        assert account.active is True
+        assert account.error_msg is None
 
 
 @pytest.mark.parametrize(

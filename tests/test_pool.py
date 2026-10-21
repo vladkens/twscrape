@@ -268,17 +268,34 @@ async def test_mark_inactive(pool_mock: AccountsPool):
     assert acc.error_msg == "banned by system"
 
 
-async def test_reactivate(pool_mock: AccountsPool):
-    await pool_mock.add_account("user1", "pass1", "email1", "ep1")
+async def test_reactivate(pool_mock: AccountsPool, monkeypatch):
+    await pool_mock.add_account("user1", "pass1", "email1", "ep1", cookies="auth_token=a; ct0=b")
+    await pool_mock.add_account("user2", "pass2", "email2", "ep2")
+    for x in ("user1", "user2"):
+        await pool_mock.mark_inactive(x, "banned by system")
+
+    warnings = []
+    monkeypatch.setattr("twscrape.accounts_pool.logger.warning", warnings.append)
+    await pool_mock.reactivate(["user1", "user2", "nope"])
+
+    acc = await pool_mock.get("user1")
+    assert acc.active is True
+    assert acc.error_msg is None
+
+    # without session cookies the account stays inactive, an unknown username is skipped
+    acc = await pool_mock.get("user2")
+    assert acc.active is False
+    assert acc.error_msg == "banned by system"
+    assert warnings == ["Account user2 has no session, use relogin or add_cookie"]
+
+
+async def test_reactivate_one_username(pool_mock: AccountsPool):
+    await pool_mock.add_account("user1", "pass1", "email1", "ep1", cookies="auth_token=a; ct0=b")
     await pool_mock.mark_inactive("user1", "banned by system")
 
     await pool_mock.reactivate("user1")
     acc = await pool_mock.get("user1")
     assert acc.active is True
-    assert acc.error_msg is None
-
-    # unknown username is a warning, not an error
-    await pool_mock.reactivate("nope")
 
 
 async def test_next_available_at_none_when_empty(pool_mock: AccountsPool):

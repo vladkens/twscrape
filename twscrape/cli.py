@@ -122,7 +122,7 @@ async def main(args):
         return
 
     if args.command == "reactivate":
-        await pool.reactivate(args.username)
+        await pool.reactivate(args.usernames)
         return
 
     fn = args.command + "_raw" if args.raw else args.command
@@ -215,8 +215,8 @@ def run():
     subparsers.add_parser("reset_locks", help="Reset all locks")
     subparsers.add_parser("delete_inactive", help="Delete inactive accounts")
 
-    reactivate = subparsers.add_parser("reactivate", help="Mark an account as active again")
-    reactivate.add_argument("username", help="Username of the account to reactivate")
+    reactivate = subparsers.add_parser("reactivate", help="Mark accounts with a session active")
+    reactivate.add_argument("usernames", nargs="+", default=[], help="Usernames to reactivate")
 
     c_lim("search", "Search for tweets", "query", "Search query")
     c_one("tweet_details", "Get tweet details", "tweet_id", "Tweet ID", int)

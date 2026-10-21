@@ -321,6 +321,7 @@ twscrape accounts
 twscrape stats
 twscrape relogin user1 user2
 twscrape relogin_failed
+twscrape reactivate user1 user2
 twscrape reset_locks
 twscrape delete_inactive
 twscrape del_accounts user1 user2
