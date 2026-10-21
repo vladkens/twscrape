@@ -819,11 +819,18 @@ def _parse_card_get_str(values: list[dict], key: str, defaultVal: str | None = N
 Num = TypeVar("Num", int, float)
 
 
-def _parse_card_get_num(values: list[dict], key: str, fn: Callable[[str], Num]) -> Num | None:
+def _parse_card_get_num(
+    values: list[dict], key: str, fn: Callable[[str], Num], url: str
+) -> Num | None:
+    val = _parse_card_get_str(values, key)
+    if val is None:
+        return None
+
+    # a format not seen yet must not drop the tweet, but must be seen to be parsed later
     try:
-        val = _parse_card_get_str(values, key)
-        return fn(val) if val is not None else None
+        return fn(val)
     except ValueError:
+        logger.warning(f"Unparsable card value {key}={val!r} on {url}")
         return None
 
 
@@ -947,7 +954,7 @@ def _parse_card(obj: dict, url: str):
             options=options,
             finished=finished,
             videoUrl=_parse_card_get_str(val, "player_hls_url"),
-            durationSeconds=_parse_card_get_num(val, "content_duration_seconds", int),
+            durationSeconds=_parse_card_get_num(val, "content_duration_seconds", int, url),
             photo=photo,
         )
 
@@ -1048,7 +1055,7 @@ def _parse_card(obj: dict, url: str):
             thankYouText=thank_you_text,
             thankYouUrl=thank_you_url,
             videoUrl=_parse_card_get_str(val, "player_stream_url"),
-            durationSeconds=_parse_card_get_num(val, "content_duration_seconds", int),
+            durationSeconds=_parse_card_get_num(val, "content_duration_seconds", int, url),
             ctas=ctas,
             photo=_parse_card_get_photo(val, "player_image_original"),
         )
@@ -1061,14 +1068,15 @@ def _parse_card(obj: dict, url: str):
             return None
 
         # app_num_ratings is locale-formatted ("289,838"), but can be abbreviated ("1.2K")
-        num_ratings = _parse_card_get_str(val, "app_num_ratings") or ""
-        num_ratings = re.sub(r"[\s,.'\u00a0]", "", num_ratings)
+        def num_ratings(x: str):
+            return int(re.sub(r"[\s,.'\u00a0]", "", x))
+
         return AppCard(
             title=card_title,
             url=card_url,
             description=_parse_card_get_str(val, "description"),
-            starRating=_parse_card_get_num(val, "app_star_rating", float),
-            numRatings=int(num_ratings) if num_ratings.isdecimal() else None,
+            starRating=_parse_card_get_num(val, "app_star_rating", float, url),
+            numRatings=_parse_card_get_num(val, "app_num_ratings", num_ratings, url),
             photo=_parse_card_get_photo(val, "thumbnail_original"),
         )
 
