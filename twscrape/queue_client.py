@@ -204,13 +204,15 @@ def dump_rep(rep: Response):
 
 
 class QueueClient:
+    # Flags self-healed per operation, shared so later clients don't repeat the failed request
+    healed_features: dict[str, set[str]] = {}
+
     def __init__(self, pool: AccountsPool, queue: str, debug=False, proxy: str | None = None):
         self.pool = pool
         self.queue = queue
         self.debug = debug
         self.ctx: Ctx | None = None
         self.proxy = proxy
-        self._healed_features: set[str] = set()
 
     async def __aenter__(self):
         await self._get_ctx()
@@ -295,7 +297,6 @@ class QueueClient:
 
         # for dev: need to add some features in api.py
         if has_error(errors, "(336) The following features cannot be null"):
-            logger.error(f"[DEV] Update required: {err_msg}")
             raise GqlFeaturesOutdatedError(f"Update GQL_FEATURES in api.py: {err_msg}")
 
         # general api rate limit
@@ -334,8 +335,8 @@ class QueueClient:
                 LogOnce.throttled(log_key, "DEBUG", f"API warning with data: {summary_log}")
                 return
 
-            # X is overloaded and dropping work; retry without penalizing the account.
-            if has_error(errors, "(-1) LoadShed"):
+            # X is overloaded or timed out; retry without penalizing the account.
+            if has_error(errors, "(-1) LoadShed") or has_error(errors, "(-1) DeadlineExceeded"):
                 LogOnce.throttled(log_key, "WARNING", f"API busy: {summary_log}")
                 ctx = self.ctx
                 if ctx is not None and await ctx.retry(FailKind.LOADSHED):
@@ -358,8 +359,10 @@ class QueueClient:
         return await self.req("GET", url, params=params)
 
     async def req(self, method: HttpMethod, url: str, params: ReqParams = None) -> Response | None:
-        if self._healed_features:
-            add_missing_features(params, list(self._healed_features))
+        healed = self.healed_features.setdefault(self.queue, set())
+        if healed:
+            add_missing_features(params, list(healed))
+
         features_retried = False
         while True:
             # 1. same ctx until _close_ctx() clears it — that's retry vs rotate
@@ -391,6 +394,7 @@ class QueueClient:
                 await self._check_rep(rep)
 
                 ctx.req_count += 1  # count only successful
+                ctx.fails = dict.fromkeys(ctx.fails, 0)  # budget is per request, not per crawl
                 return rep
             except GqlFeaturesOutdatedError as e:
                 # X names the flags it wants, so set them and retry once. GQL_FEATURES still
@@ -398,13 +402,16 @@ class QueueClient:
                 # take every caller down until the next release.
                 missing = parse_missing_features(str(e))
                 if features_retried or not add_missing_features(params, missing):
+                    LogOnce.once((self.queue, str(e)), "ERROR", f"[DEV] {e}")
                     raise
 
-                self._healed_features.update(missing)
+                healed.update(missing)
                 features_retried = True
-                logger.warning(
-                    f"{self.queue}: GQL_FEATURES missing {missing}, set true and retrying. "
-                    "Update GQL_FEATURES in api.py to fix this permanently."
+                LogOnce.once(
+                    (self.queue, "healed", frozenset(missing)),
+                    "WARNING",
+                    f"[DEV] Update required: {self.queue} needs GQL_FEATURES {missing}, "
+                    "set true for now. Update GQL_FEATURES in api.py to fix this permanently.",
                 )
                 continue
             except AbortReqError:

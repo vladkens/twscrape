@@ -23,6 +23,11 @@ def reset_telemetry():
 
 
 @pytest.fixture(autouse=True)
+def reset_healed_features(monkeypatch):
+    monkeypatch.setattr(QueueClient, "healed_features", {})
+
+
+@pytest.fixture(autouse=True)
 def mock_xclidgenstore(monkeypatch):
     async def mock_get(*args, **kwargs):
         return ClIdGenMock()
