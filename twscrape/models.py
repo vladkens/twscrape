@@ -519,7 +519,7 @@ class Tweet(JSONTrait):
 
         # issue #42 – restore full rt text
         rt = doc.retweetedTweet
-        if rt is not None and rt.user is not None and doc.rawContent.endswith("…"):
+        if rt is not None and doc.rawContent.endswith("…"):
             rt_msg = f"RT @{rt.user.username}: {rt.rawContent}"
             if doc.rawContent != rt_msg:
                 doc.rawContent = rt_msg
@@ -889,14 +889,14 @@ def _parse_card(obj: dict, url: str):
         title, val = _parse_card_extract_title(val)
         description, val = _parse_card_extract_str(val, "description")
         vanity_url, val = _parse_card_extract_str(val, "vanity_url")
-        url, val = _parse_card_extract_str(val, "card_url")
+        card_url, val = _parse_card_extract_str(val, "card_url")
         photo, val = _parse_card_extract_largest_photo(val)
 
         return SummaryCard(
             title=title,
             description=description,
             vanityUrl=vanity_url,
-            url=url,
+            url=card_url,
             photo=photo,
         )
 
@@ -916,7 +916,7 @@ def _parse_card(obj: dict, url: str):
         title = get_or(co, "details_1.data.title.content", "")
         description = get_or(co, "details_1.data.subtitle.content", "")
         vanity_url = get_or(do, "browser_with_docked_media_1.data.url_data.vanity", "")
-        url = get_or(do, "browser_with_docked_media_1.data.url_data.url", "")
+        card_url = get_or(do, "browser_with_docked_media_1.data.url_data.url", "")
         video = MediaVideo.parse(me) if me and me["type"] == "video" else None
         photo = MediaPhoto.parse(me) if me and me["type"] == "photo" else None
 
@@ -924,7 +924,7 @@ def _parse_card(obj: dict, url: str):
             title=title,
             description=description,
             vanityUrl=vanity_url,
-            url=url,
+            url=card_url,
             photo=photo,
             video=video,
         )
@@ -1282,8 +1282,8 @@ def _parse_items(
     # check for dict, because Response can be mocked in tests with different type
     res = rep if isinstance(rep, dict) else rep.json()
     obj = to_old_rep(res)
-    retweeted_ids: set[str] = obj.get("retweeted_ids", set())
-    quoted_ids: set[str] = obj.get("quoted_ids", set())
+    retweeted_ids = cast(set[str], obj.get("retweeted_ids", set()))
+    quoted_ids = cast(set[str], obj.get("quoted_ids", set()))
 
     ids = seen_ids if seen_ids is not None else set()
     for x in obj[key].values():

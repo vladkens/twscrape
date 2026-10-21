@@ -17,7 +17,7 @@
                       "result": {
                         "__typename": "User",
                         "action_counts": {
-                          "favorites_count": 4749
+                          "favorites_count": 4842
                         },
                         "affiliates_highlighted_label": {},
                         "avatar": {
@@ -30,9 +30,6 @@
                           "created_at": "Mon Jan 16 17:36:32 +0000 2023",
                           "name": "Four-leaf clover\u2618",
                           "screen_name": "Four_leafc1988"
-                        },
-                        "dm_permissions": {
-                          "can_dm": false
                         },
                         "follow_request_sent": false,
                         "has_graduated_access": true,
@@ -71,8 +68,8 @@
                           "translator_type": "none"
                         },
                         "relationship_counts": {
-                          "followers": 363,
-                          "following": 533
+                          "followers": 736,
+                          "following": 622
                         },
                         "relationship_perspectives": {
                           "blocked_by": false,
@@ -88,8 +85,8 @@
                         "super_following": false,
                         "tipjar_settings": {},
                         "tweet_counts": {
-                          "media_tweets": 81,
-                          "tweets": 2912
+                          "media_tweets": 82,
+                          "tweets": 2929
                         },
                         "verification": {
                           "verified": false
@@ -129,9 +126,6 @@
                           "created_at": "Sat Sep 13 09:00:56 +0000 2014",
                           "name": "Ram's mother",
                           "screen_name": "alibdor99"
-                        },
-                        "dm_permissions": {
-                          "can_dm": true
                         },
                         "follow_request_sent": false,
                         "has_graduated_access": true,
@@ -209,84 +203,9 @@
                     "userDisplayType": "User",
                     "user_results": {
                       "result": {
-                        "__typename": "User",
-                        "action_counts": {
-                          "favorites_count": 1200
-                        },
-                        "affiliates_highlighted_label": {},
-                        "avatar": {
-                          "image_url": "https://pbs.twimg.com/profile_images/1857826143866626048/vAwMzAvQ_normal.jpg"
-                        },
-                        "banner": {
-                          "image_url": "https://pbs.twimg.com/profile_banners/190207978/1731875048"
-                        },
-                        "core": {
-                          "created_at": "Mon Sep 13 10:54:41 +0000 2010",
-                          "name": "Lydia",
-                          "screen_name": "Lydia870818"
-                        },
-                        "dm_permissions": {
-                          "can_dm": false
-                        },
-                        "follow_request_sent": false,
-                        "has_graduated_access": true,
-                        "id": "VXNlcjoxOTAyMDc5Nzg=",
-                        "is_blue_verified": false,
-                        "location": {
-                          "location": "California"
-                        },
-                        "media_permissions": {
-                          "can_media_tag": true
-                        },
-                        "notifications_settings": {
-                          "notifications_enabled": false
-                        },
-                        "pinned_items": {},
-                        "possibly_sensitive": false,
-                        "privacy": {
-                          "protected": false
-                        },
-                        "profile_bio": {
-                          "description": "\ud83c\udf3bcareer,  the pursuit of success\ud83c\udf3b. shopping preferences\ud83d\udc5cBeach travel \ud83c\udf0aplay golf \ud83c\udfcc\ufe0f\u200d\u2640\ufe0f and reading \ud83d\udcda .\u274cscammers, PORN stay away from me\u274c",
-                          "entities": {
-                            "description": {}
-                          }
-                        },
-                        "profile_description_language": "en",
-                        "profile_image_shape": "Circle",
-                        "profile_metadata": {
-                          "profile_interstitial_type": ""
-                        },
-                        "profile_translation": {
-                          "translator_type": "none"
-                        },
-                        "relationship_counts": {
-                          "followers": 36,
-                          "following": 12
-                        },
-                        "relationship_perspectives": {
-                          "blocked_by": false,
-                          "blocking": false,
-                          "followed_by": false,
-                          "following": false,
-                          "live_following": false,
-                          "muting": false
-                        },
-                        "rest_id": "190207978",
-                        "super_follow_eligible": false,
-                        "super_followed_by": false,
-                        "super_following": false,
-                        "tipjar_settings": {},
-                        "tweet_counts": {
-                          "media_tweets": 2,
-                          "tweets": 2310
-                        },
-                        "verification": {
-                          "verified": false
-                        },
-                        "website": {
-                          "url": ""
-                        }
+                        "__typename": "UserUnavailable",
+                        "message": "User is not available",
+                        "reason": "NoReason"
                       }
                     }
                   }
@@ -304,84 +223,9 @@
                     "userDisplayType": "User",
                     "user_results": {
                       "result": {
-                        "__typename": "User",
-                        "action_counts": {
-                          "favorites_count": 3
-                        },
-                        "affiliates_highlighted_label": {},
-                        "avatar": {
-                          "image_url": "https://pbs.twimg.com/profile_images/1857826767869968384/pTHkP6Kw_normal.jpg"
-                        },
-                        "banner": {
-                          "image_url": "https://pbs.twimg.com/profile_banners/1693640288/1731875126"
-                        },
-                        "core": {
-                          "created_at": "Fri Aug 23 11:52:18 +0000 2013",
-                          "name": "Angelina",
-                          "screen_name": "Angelina1986714"
-                        },
-                        "dm_permissions": {
-                          "can_dm": false
-                        },
-                        "follow_request_sent": false,
-                        "has_graduated_access": true,
-                        "id": "VXNlcjoxNjkzNjQwMjg4",
-                        "is_blue_verified": false,
-                        "location": {
-                          "location": "California"
-                        },
-                        "media_permissions": {
-                          "can_media_tag": true
-                        },
-                        "notifications_settings": {
-                          "notifications_enabled": false
-                        },
-                        "pinned_items": {},
-                        "possibly_sensitive": false,
-                        "privacy": {
-                          "protected": false
-                        },
-                        "profile_bio": {
-                          "description": "Playing golf\ud83c\udfcc\ufe0f\u200d\u2640\ufe0fReading\ud83d\udcdaBeach\ud83c\udf0aTraveling, cooking, music, hiking\ud83c\udf3b\ud83c\udf3b\nLove nature and most outdoor sports\n\u274cReposting does not represent my opinion",
-                          "entities": {
-                            "description": {}
-                          }
-                        },
-                        "profile_description_language": "en",
-                        "profile_image_shape": "Circle",
-                        "profile_metadata": {
-                          "profile_interstitial_type": ""
-                        },
-                        "profile_translation": {
-                          "translator_type": "none"
-                        },
-                        "relationship_counts": {
-                          "followers": 19,
-                          "following": 3
-                        },
-                        "relationship_perspectives": {
-                          "blocked_by": false,
-                          "blocking": false,
-                          "followed_by": false,
-                          "following": false,
-                          "live_following": false,
-                          "muting": false
-                        },
-                        "rest_id": "1693640288",
-                        "super_follow_eligible": false,
-                        "super_followed_by": false,
-                        "super_following": false,
-                        "tipjar_settings": {},
-                        "tweet_counts": {
-                          "media_tweets": 0,
-                          "tweets": 2589
-                        },
-                        "verification": {
-                          "verified": false
-                        },
-                        "website": {
-                          "url": ""
-                        }
+                        "__typename": "UserUnavailable",
+                        "message": "User is not available",
+                        "reason": "NoReason"
                       }
                     }
                   }
@@ -401,7 +245,7 @@
                       "result": {
                         "__typename": "User",
                         "action_counts": {
-                          "favorites_count": 461162
+                          "favorites_count": 470659
                         },
                         "affiliates_highlighted_label": {},
                         "avatar": {
@@ -415,13 +259,10 @@
                           "name": "Dera-Jenkins\ud83e\udd34\ud83c\udfff",
                           "screen_name": "GENTLE_JENKINS"
                         },
-                        "dm_permissions": {
-                          "can_dm": true
-                        },
                         "follow_request_sent": false,
                         "has_graduated_access": true,
                         "id": "VXNlcjo5MDExODI3Nzk1MTc1MzQyMDg=",
-                        "is_blue_verified": true,
+                        "is_blue_verified": false,
                         "location": {
                           "location": "In the Realms\ud83d\udca8"
                         },
@@ -452,7 +293,7 @@
                           "rest_id": "1464943860052901890"
                         },
                         "profile_bio": {
-                          "description": "Biomedical Scientist \ud83d\udc68\ud83c\udffe\u200d\ud83d\udd2c\ud83d\udd2c\ud83e\uddec . \n Roman Catholic\ud83c\uddfb\ud83c\udde6\u271d\ufe0f. Ambivert.\nProudly Igbo. \nA TIRED @manutd fan. \ud83d\ude2b\n #UTFR \ud83c\uddfe\ud83c\uddea\ud83d\uded1\nVeni, Vidi, Vici.",
+                          "description": "Biomedical Scientist \ud83d\udc68\ud83c\udffe\u200d\ud83d\udd2c\ud83d\udd2c\ud83e\uddec . \n Roman Catholic\ud83c\uddfb\ud83c\udde6\u271d\ufe0f. Ambivert.\nProudly Igbo. \nA TIRED @manutd fan. \ud83d\ude2b\nVeni, Vidi, Vici. \u270c\ufe0f",
                           "entities": {
                             "description": {}
                           }
@@ -465,8 +306,8 @@
                           "translator_type": "none"
                         },
                         "relationship_counts": {
-                          "followers": 2322,
-                          "following": 2193
+                          "followers": 2306,
+                          "following": 2199
                         },
                         "relationship_perspectives": {
                           "blocked_by": false,
@@ -485,8 +326,8 @@
                           "is_enabled": true
                         },
                         "tweet_counts": {
-                          "media_tweets": 1833,
-                          "tweets": 239544
+                          "media_tweets": 1840,
+                          "tweets": 243906
                         },
                         "verification": {
                           "verified": false
@@ -513,7 +354,7 @@
                       "result": {
                         "__typename": "User",
                         "action_counts": {
-                          "favorites_count": 440
+                          "favorites_count": 437
                         },
                         "affiliates_highlighted_label": {},
                         "avatar": {
@@ -526,9 +367,6 @@
                           "created_at": "Tue Aug 09 17:22:24 +0000 2022",
                           "name": "Anika Mortel",
                           "screen_name": "AnikaMortel"
-                        },
-                        "dm_permissions": {
-                          "can_dm": false
                         },
                         "follow_request_sent": false,
                         "has_graduated_access": true,
@@ -563,8 +401,8 @@
                           "translator_type": "none"
                         },
                         "relationship_counts": {
-                          "followers": 907,
-                          "following": 1053
+                          "followers": 815,
+                          "following": 1032
                         },
                         "relationship_perspectives": {
                           "blocked_by": false,
@@ -581,7 +419,7 @@
                         "tipjar_settings": {},
                         "tweet_counts": {
                           "media_tweets": 9,
-                          "tweets": 1627
+                          "tweets": 1620
                         },
                         "verification": {
                           "verified": false
@@ -595,118 +433,6 @@
                 },
                 "entryId": "user-1557054697252524032",
                 "sortIndex": "1812403375373031783"
-              },
-              {
-                "content": {
-                  "__typename": "TimelineTimelineItem",
-                  "entryType": "TimelineTimelineItem",
-                  "itemContent": {
-                    "__typename": "TimelineUser",
-                    "itemType": "TimelineUser",
-                    "userDisplayType": "User",
-                    "user_results": {
-                      "result": {
-                        "__typename": "User",
-                        "action_counts": {
-                          "favorites_count": 19
-                        },
-                        "affiliates_highlighted_label": {},
-                        "avatar": {
-                          "image_url": "https://pbs.twimg.com/profile_images/1805515227418836995/CB_EKMTn_normal.jpg"
-                        },
-                        "banner": {
-                          "image_url": "https://pbs.twimg.com/profile_banners/2930110410/1719303351"
-                        },
-                        "core": {
-                          "created_at": "Sun Dec 14 18:29:17 +0000 2014",
-                          "name": "\u5976\u916a\u3010\u4e92\u63a8\u79c1\u4fe1\u3011",
-                          "screen_name": "almothanna1998"
-                        },
-                        "dm_permissions": {
-                          "can_dm": true
-                        },
-                        "follow_request_sent": false,
-                        "has_graduated_access": true,
-                        "id": "VXNlcjoyOTMwMTEwNDEw",
-                        "is_blue_verified": false,
-                        "location": {
-                          "location": ""
-                        },
-                        "media_permissions": {
-                          "can_media_tag": false
-                        },
-                        "notifications_settings": {
-                          "notifications_enabled": false
-                        },
-                        "pinned_items": {
-                          "tweet_ids_str": [
-                            "1805317807036678312"
-                          ]
-                        },
-                        "possibly_sensitive": false,
-                        "privacy": {
-                          "protected": false
-                        },
-                        "profile_bio": {
-                          "description": "\u6bcf\u65e5\u5206\u4eab\u5404\u79cd\u7d20\u4eba\u6d41\u51fa\u89c6\u9891\uff0c\u559c\u6b22\u7684\u7ed9\u4e2a\u5173\u6ce8\u3002\n\u3010 \u51fa\u552e\u5404\u79cd\u9488\u5b54\u8bbe\u5907\u63a2\u82b1\u624b\u673a  @gaizhuangchengg \u3011",
-                          "entities": {
-                            "description": {},
-                            "url": {
-                              "urls": [
-                                {
-                                  "display_url": "t.me/gaizhuangcheng\u2026",
-                                  "expanded_url": "https://t.me/gaizhuangcheng123",
-                                  "indices": [
-                                    0,
-                                    23
-                                  ],
-                                  "url": "https://t.co/l8tGQQoJ0d"
-                                }
-                              ]
-                            }
-                          }
-                        },
-                        "profile_description_language": "zh",
-                        "profile_image_shape": "Circle",
-                        "profile_metadata": {
-                          "profile_interstitial_type": ""
-                        },
-                        "profile_translation": {
-                          "translator_type": "none"
-                        },
-                        "relationship_counts": {
-                          "followers": 1111,
-                          "following": 62
-                        },
-                        "relationship_perspectives": {
-                          "blocked_by": false,
-                          "blocking": false,
-                          "followed_by": false,
-                          "following": false,
-                          "live_following": false,
-                          "muting": false
-                        },
-                        "rest_id": "2930110410",
-                        "super_follow_eligible": false,
-                        "super_followed_by": false,
-                        "super_following": false,
-                        "tipjar_settings": {},
-                        "tweet_counts": {
-                          "media_tweets": 8,
-                          "tweets": 2801
-                        },
-                        "verification": {
-                          "verified": false
-                        },
-                        "website": {
-                          "url": "https://t.co/l8tGQQoJ0d"
-                        }
-                      }
-                    }
-                  }
-                },
-                "entryId": "user-2930110410",
-                "sortIndex": "1802821949192546266"
               },
               {
                 "content": {
@@ -753,9 +479,6 @@
                           "created_at": "Sun Jul 16 02:34:29 +0000 2023",
                           "name": "Evan MacGuffie",
                           "screen_name": "evanmacguffie"
-                        },
-                        "dm_permissions": {
-                          "can_dm": false
                         },
                         "follow_request_sent": false,
                         "has_graduated_access": true,
@@ -860,9 +583,6 @@
                           "name": "Christopher Cameron",
                           "screen_name": "ChristCamerons"
                         },
-                        "dm_permissions": {
-                          "can_dm": false
-                        },
                         "follow_request_sent": false,
                         "has_graduated_access": true,
                         "id": "VXNlcjoxNzA2OTI5ODA3MzI4NzA2NTYw",
@@ -954,9 +674,6 @@
                           "created_at": "Wed Sep 27 03:40:35 +0000 2023",
                           "name": "Elijah Montgomery",
                           "screen_name": "ElijahMontgome"
-                        },
-                        "dm_permissions": {
-                          "can_dm": false
                         },
                         "follow_request_sent": false,
                         "has_graduated_access": true,
@@ -1050,9 +767,6 @@
                           "name": "Joseph Griffin",
                           "screen_name": "JosephGriffins"
                         },
-                        "dm_permissions": {
-                          "can_dm": false
-                        },
                         "follow_request_sent": false,
                         "has_graduated_access": true,
                         "id": "VXNlcjoxNzA2NTcxNzA5NjgyNTAzNjgw",
@@ -1086,7 +800,7 @@
                           "translator_type": "none"
                         },
                         "relationship_counts": {
-                          "followers": 3,
+                          "followers": 2,
                           "following": 29
                         },
                         "relationship_perspectives": {
@@ -1144,9 +858,6 @@
                           "created_at": "Sat Jun 24 13:13:34 +0000 2023",
                           "name": "Dong Regn",
                           "screen_name": "DongRegn42047"
-                        },
-                        "dm_permissions": {
-                          "can_dm": false
                         },
                         "follow_request_sent": false,
                         "has_graduated_access": true,
@@ -1239,9 +950,6 @@
                           "name": "The Wolf of Memes Street \ud83d\ude80",
                           "screen_name": "0xSmartSloth"
                         },
-                        "dm_permissions": {
-                          "can_dm": false
-                        },
                         "follow_request_sent": false,
                         "has_graduated_access": true,
                         "id": "VXNlcjoxNzIwNjc0MDUyNzE1NzkwMzM2",
@@ -1319,7 +1027,7 @@
                       "result": {
                         "__typename": "User",
                         "action_counts": {
-                          "favorites_count": 260
+                          "favorites_count": 258
                         },
                         "affiliates_highlighted_label": {},
                         "avatar": {
@@ -1332,9 +1040,6 @@
                           "created_at": "Fri May 30 04:15:49 +0000 2014",
                           "name": "one heart",
                           "screen_name": "liaherawati705"
-                        },
-                        "dm_permissions": {
-                          "can_dm": true
                         },
                         "follow_request_sent": false,
                         "has_graduated_access": true,
@@ -1369,8 +1074,8 @@
                           "translator_type": "none"
                         },
                         "relationship_counts": {
-                          "followers": 299,
-                          "following": 3373
+                          "followers": 295,
+                          "following": 3336
                         },
                         "relationship_perspectives": {
                           "blocked_by": false,
@@ -1387,7 +1092,7 @@
                         "tipjar_settings": {},
                         "tweet_counts": {
                           "media_tweets": 5,
-                          "tweets": 521
+                          "tweets": 519
                         },
                         "verification": {
                           "verified": false
@@ -1428,9 +1133,6 @@
                           "name": "Allison Simmons",
                           "screen_name": "hugesenpaiv"
                         },
-                        "dm_permissions": {
-                          "can_dm": false
-                        },
                         "follow_request_sent": false,
                         "has_graduated_access": true,
                         "id": "VXNlcjoxNjk4MjU1NjM5MDE1NzI3MTA0",
@@ -1464,7 +1166,7 @@
                           "translator_type": "none"
                         },
                         "relationship_counts": {
-                          "followers": 17,
+                          "followers": 18,
                           "following": 66
                         },
                         "relationship_perspectives": {
@@ -1522,9 +1224,6 @@
                           "created_at": "Sun Sep 03 05:31:31 +0000 2023",
                           "name": "Stephanie Mitchell",
                           "screen_name": "StephanieM35847"
-                        },
-                        "dm_permissions": {
-                          "can_dm": false
                         },
                         "follow_request_sent": false,
                         "has_graduated_access": true,
@@ -1618,9 +1317,6 @@
                           "name": "mangch1nance",
                           "screen_name": "mangch1nance"
                         },
-                        "dm_permissions": {
-                          "can_dm": false
-                        },
                         "follow_request_sent": false,
                         "has_graduated_access": true,
                         "id": "VXNlcjoxNjk4MTkwMTQ1NDUzNzg1MDg5",
@@ -1653,8 +1349,8 @@
                           "translator_type": "none"
                         },
                         "relationship_counts": {
-                          "followers": 99,
-                          "following": 88
+                          "followers": 97,
+                          "following": 85
                         },
                         "relationship_perspectives": {
                           "blocked_by": false,
@@ -1711,9 +1407,6 @@
                           "created_at": "Mon Aug 22 16:28:38 +0000 2022",
                           "name": "HochardThian1999",
                           "screen_name": "HThian1999"
-                        },
-                        "dm_permissions": {
-                          "can_dm": false
                         },
                         "follow_request_sent": false,
                         "has_graduated_access": true,
@@ -1793,7 +1486,7 @@
                       "result": {
                         "__typename": "User",
                         "action_counts": {
-                          "favorites_count": 3632
+                          "favorites_count": 3580
                         },
                         "affiliates_highlighted_label": {},
                         "avatar": {
@@ -1806,9 +1499,6 @@
                           "created_at": "Tue Nov 09 17:41:47 +0000 2021",
                           "name": "The Whole E Bubble",
                           "screen_name": "Whole_e_Bubble"
-                        },
-                        "dm_permissions": {
-                          "can_dm": true
                         },
                         "follow_request_sent": false,
                         "has_graduated_access": true,
@@ -1883,8 +1573,8 @@
                           "translator_type": "none"
                         },
                         "relationship_counts": {
-                          "followers": 130,
-                          "following": 589
+                          "followers": 129,
+                          "following": 588
                         },
                         "relationship_perspectives": {
                           "blocked_by": false,
@@ -1903,7 +1593,7 @@
                         },
                         "tweet_counts": {
                           "media_tweets": 395,
-                          "tweets": 1902
+                          "tweets": 1891
                         },
                         "verification": {
                           "verified": false
@@ -1917,6 +1607,97 @@
                 },
                 "entryId": "user-1458127552351023113",
                 "sortIndex": "1780040376568990355"
+              },
+              {
+                "content": {
+                  "__typename": "TimelineTimelineItem",
+                  "entryType": "TimelineTimelineItem",
+                  "itemContent": {
+                    "__typename": "TimelineUser",
+                    "itemType": "TimelineUser",
+                    "userDisplayType": "User",
+                    "user_results": {
+                      "result": {
+                        "__typename": "User",
+                        "action_counts": {
+                          "favorites_count": 2
+                        },
+                        "affiliates_highlighted_label": {},
+                        "avatar": {
+                          "image_url": "https://pbs.twimg.com/profile_images/1704516360636686336/j760CcMX_normal.jpg"
+                        },
+                        "banner": {
+                          "image_url": "https://pbs.twimg.com/profile_banners/1701703907959816192/1695223363"
+                        },
+                        "core": {
+                          "created_at": "Tue Sep 12 21:06:43 +0000 2023",
+                          "name": "Mia Noland",
+                          "screen_name": "00xxNolandMia"
+                        },
+                        "follow_request_sent": false,
+                        "has_graduated_access": true,
+                        "id": "VXNlcjoxNzAxNzAzOTA3OTU5ODE2MTky",
+                        "is_blue_verified": false,
+                        "location": {
+                          "location": ""
+                        },
+                        "media_permissions": {
+                          "can_media_tag": true
+                        },
+                        "notifications_settings": {
+                          "notifications_enabled": false
+                        },
+                        "pinned_items": {},
+                        "possibly_sensitive": false,
+                        "privacy": {
+                          "protected": false
+                        },
+                        "profile_bio": {
+                          "description": "",
+                          "entities": {
+                            "description": {}
+                          }
+                        },
+                        "profile_image_shape": "Circle",
+                        "profile_metadata": {
+                          "profile_interstitial_type": ""
+                        },
+                        "profile_translation": {
+                          "translator_type": "none"
+                        },
+                        "relationship_counts": {
+                          "followers": 1,
+                          "following": 12
+                        },
+                        "relationship_perspectives": {
+                          "blocked_by": false,
+                          "blocking": false,
+                          "followed_by": false,
+                          "following": false,
+                          "live_following": false,
+                          "muting": false
+                        },
+                        "rest_id": "1701703907959816192",
+                        "super_follow_eligible": false,
+                        "super_followed_by": false,
+                        "super_following": false,
+                        "tipjar_settings": {},
+                        "tweet_counts": {
+                          "media_tweets": 0,
+                          "tweets": 66
+                        },
+                        "verification": {
+                          "verified": false
+                        },
+                        "website": {
+                          "url": ""
+                        }
+                      }
+                    }
+                  }
+                },
+                "entryId": "user-1701703907959816192",
+                "sortIndex": "1779934377746383163"
               },
               {
                 "content": {
@@ -1934,10 +1715,10 @@
                   "cursorType": "Bottom",
                   "entryType": "TimelineTimelineCursor",
                   "stopOnEmptyResponse": true,
-                  "value": "HBamqvqz09L8szEAAA=="
+                  "value": "HBb2hKLR2rjMszEAAA=="
                 },
-                "entryId": "cursor-bottom-1780040376568990354",
-                "sortIndex": "1780040376568990354"
+                "entryId": "cursor-bottom-1779934377746383162",
+                "sortIndex": "1779934377746383162"
               }
             ],
             "type": "TimelineAddEntries"

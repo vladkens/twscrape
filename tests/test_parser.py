@@ -143,18 +143,17 @@ def check_tweet(doc: Tweet | None):
     assert isinstance(txt, str)
     assert str(doc.id) in txt
 
-    if doc.media is not None:
-        if len(doc.media.photos) > 0:
-            assert doc.media.photos[0].url is not None
+    if len(doc.media.photos) > 0:
+        assert doc.media.photos[0].url is not None
 
-        if len(doc.media.videos) > 0:
-            for x in doc.media.videos:
-                assert x.thumbnailUrl is not None
-                assert x.duration is not None
-                for v in x.variants:
-                    assert v.url is not None
-                    assert v.bitrate is not None
-                    assert v.contentType is not None
+    if len(doc.media.videos) > 0:
+        for x in doc.media.videos:
+            assert x.thumbnailUrl is not None
+            assert x.duration is not None
+            for v in x.variants:
+                assert v.url is not None
+                assert v.bitrate is not None
+                assert v.contentType is not None
 
     if doc.retweetedTweet is not None:
         try:

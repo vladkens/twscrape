@@ -116,7 +116,7 @@ async def _parsed_pages(raw_pages, parser, limit: int, accept=None):
     async with aclosing(raw_pages) as gen:
         async for rep in gen:
             seen_ids = first_ids.union(*recent_ids)
-            page_ids = set()
+            page_ids: set[int | str | None] = set()
             for item in parser(rep, seen_ids=seen_ids, accept=accept):
                 page_ids.add(item.id)
                 count += 1

@@ -62,6 +62,8 @@ filterwarnings = ["ignore::DeprecationWarning"]
 
 [tool.uv]
 exclude-newer = "7 days"
+# certifi 2026.7.22 has known vulnerabilities, fixed in 2026.10.19
+exclude-newer-package = { certifi = false }
 
 [tool.ruff]
 line-length = 100
@@ -82,3 +84,4 @@ error-on-warning = true
 all = "error"
 missing-type-argument = "ignore"
 missing-override-decorator = "ignore"
+truthiness-test-of-none-union = "ignore"
