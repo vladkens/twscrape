@@ -1,4 +1,5 @@
 import json
+import pickle
 from collections import OrderedDict
 from contextlib import aclosing
 
@@ -702,6 +703,14 @@ async def test_deadline_exceeded_without_data_raises(client_fixture: CF):
     assert "SearchTimeline" in str(exc.value)
 
     await client.__aexit__(None, None, None)
+
+
+def test_api_error_pickles():
+    # Process pools send exceptions back to the parent with pickle
+    err = pickle.loads(pickle.dumps(ApiError("API error: x", ["(-1) LoadShed: Unspecified"])))
+
+    assert str(err) == "API error: x"
+    assert err.errors == ["(-1) LoadShed: Unspecified"]
 
 
 async def test_unknown_error_warned_once(client_fixture: CF, monkeypatch):

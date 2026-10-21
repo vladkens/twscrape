@@ -1071,8 +1071,11 @@ def _get_reply_user(tw_obj: dict, res: dict):
     if user_id is None:
         return None
 
-    if user_id in res["users"]:
-        return UserRef.parse(res["users"][user_id])
+    # Skip a partial user (no name), e.g. the operator of a bot replying to it, known on the
+    # page only from the bot's "Automated by @operator" label (see to_old_rep)
+    user = res["users"].get(user_id)
+    if user is not None and "name" in user:
+        return UserRef.parse(user)
 
     mentions = get_or(tw_obj, "entities.user_mentions", [])
     mention = find_item(mentions, lambda x: x["id_str"] == tw_obj["in_reply_to_user_id_str"])
