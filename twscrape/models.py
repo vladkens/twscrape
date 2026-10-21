@@ -12,7 +12,7 @@ from typing import Callable, Generator, Optional, TypeVar, Union, cast
 
 from .http import Response
 from .logger import logger
-from .utils import find_item, get_or, int_or, to_old_obj, to_old_rep, utc
+from .utils import find_item, get_or, int_or, to_old_rep, to_old_user, utc
 
 
 @dataclass
@@ -1071,11 +1071,8 @@ def _get_reply_user(tw_obj: dict, res: dict):
     if user_id is None:
         return None
 
-    # Skip a partial user (no name), e.g. the operator of a bot replying to it, known on the
-    # page only from the bot's "Automated by @operator" label (see to_old_rep)
-    user = res["users"].get(user_id)
-    if user is not None and "name" in user:
-        return UserRef.parse(user)
+    if user_id in res["users"]:
+        return UserRef.parse(res["users"][user_id])
 
     mentions = get_or(tw_obj, "entities.user_mentions", [])
     mention = find_item(mentions, lambda x: x["id_str"] == tw_obj["in_reply_to_user_id_str"])
@@ -1099,17 +1096,11 @@ def _get_tweet_user_obj(tw_obj: dict, res: dict, fallback: dict | None = None) -
     if user_id is not None and user_id in users:
         return users[user_id]
 
+    # Skip UserUnavailable and profile-less stubs: https://github.com/vladkens/twscrape/issues/342
     for path in ("core.user_results.result", "author_results.result"):
         user_obj = get_or(tw_obj, path)
-        if not isinstance(user_obj, dict) or user_obj.get("__typename") == "UserUnavailable":
-            continue
-        if "legacy" in user_obj and "rest_id" in user_obj:
-            return to_old_obj(user_obj)
-        # Skip profile-less stubs, but keep flattened authors with screen_name:
-        # https://github.com/vladkens/twscrape/issues/342
-        if "core" not in user_obj and "screen_name" not in user_obj:
-            continue
-        return user_obj
+        if isinstance(user_obj, dict) and (user := to_old_user(user_obj)):
+            return user
 
     if fallback is not None:
         return fallback

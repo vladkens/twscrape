@@ -271,6 +271,24 @@ def to_old_obj(obj: dict):
     return _flatten_tweet_v2(obj)
 
 
+def to_old_user(obj: dict) -> dict | None:
+    # None for a user X sent without a full profile: a stub without core, or a partial
+    # user with only screen_name, like the operator in a bot's "Automated by @operator"
+    # label: https://github.com/vladkens/twscrape/issues/341
+    if obj.get("__typename") != "User":
+        return None
+
+    try:
+        user = to_old_obj(obj)
+    except Exception:
+        return None
+
+    if not user.get("screen_name") or "name" not in user:
+        return None
+
+    return user
+
+
 def to_old_rep(obj: dict) -> dict[str, Any]:
     tmp = get_typed_object(obj, defaultdict(list))
 
@@ -283,49 +301,10 @@ def to_old_rep(obj: dict) -> dict[str, Any]:
     tw2 = [x["tweet"] for x in tmp.get("TweetWithVisibilityResults", []) if "legacy" in x["tweet"]]
     tw2 = {str(x["rest_id"]): to_old_obj(x) for x in tw2}
 
-    def _to_old_user(obj: dict) -> dict | None:
-        legacy = obj.get("legacy") or {}
-        core = obj.get("core") or {}
-
-        # fill required fields for legacy-based parser
-        for k in ("screen_name", "name", "created_at"):
-            if k not in legacy and k in core:
-                legacy[k] = core[k]
-
-        if not legacy.get("screen_name"):
-            return None
-
-        defaults = {
-            "description": "",
-            "followers_count": 0,
-            "friends_count": 0,
-            "statuses_count": 0,
-            "favourites_count": 0,
-            "listed_count": 0,
-            "media_count": 0,
-            "location": "",
-            "profile_image_url_https": "",
-        }
-        for k, v in defaults.items():
-            legacy.setdefault(k, v)
-
-        obj = {**obj, "legacy": legacy, "rest_id": obj.get("rest_id") or obj.get("id_str")}
-        try:
-            return to_old_obj(obj)
-        except Exception:
-            return None
-
-    # A bot's "Automated by @operator" label embeds the operator as a partial User
-    # (core holds only screen_name). It must not replace the operator's full entry,
-    # or User.parse fails on the missing name: https://github.com/vladkens/twscrape/issues/341
-    # A partial-only user is still kept: it stays unparseable, which keeps parse_user
-    # at a single result for a bot lookup.
     users = {}
     for x in tmp.get("User", []):
-        if res := _to_old_user(x):
-            uid = str(res["id_str"])
-            if uid not in users or "name" in res:
-                users[uid] = res
+        if res := to_old_user(x):
+            users[str(res["id_str"])] = res
 
     trends = list(tmp.get("TimelineTrend", []))
     trends = {x["name"]: x for x in trends}

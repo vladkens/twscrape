@@ -1,10 +1,11 @@
 import json
 import os
+from collections import defaultdict
 from typing import Any, Callable, cast
 
 import pytest
 
-from twscrape import API, gather
+from twscrape import API, gather, models
 from twscrape.models import (
     AppCard,
     Article,
@@ -25,7 +26,7 @@ from twscrape.models import (
     parse_tweets,
     parse_user,
 )
-from twscrape.utils import find_obj, to_old_rep
+from twscrape.utils import find_obj, get_typed_object, to_old_rep
 
 BASE_DIR = os.path.dirname(__file__)
 DATA_DIR = os.path.join(BASE_DIR, "mocked-data")
@@ -773,20 +774,6 @@ def test_quoted_tweet_in_other_timeline_modules_is_standalone(module):
     assert quoted_id in {tweet.id_str for tweet in parse_tweets(raw)}
 
 
-def _users_in_order(obj, res: list | None = None) -> list[dict]:
-    # User objects in the order get_typed_object visits them
-    res = [] if res is None else res
-    if isinstance(obj, dict):
-        if obj.get("__typename") == "User":
-            res.append(obj)
-        for v in obj.values():
-            _users_in_order(v, res)
-    elif isinstance(obj, list):
-        for v in obj:
-            _users_in_order(v, res)
-    return res
-
-
 def _automated_by_label(user_id: str, screen_name: str) -> dict:
     # A bot's "Automated by @operator" label embeds the operator as a partial User
     mention = {"__typename": "User", "rest_id": user_id, "core": {"screen_name": screen_name}}
@@ -809,35 +796,27 @@ def test_partial_user_does_not_overwrite_full_user():
         assert rt.user.username == "rodalies"
 
 
-def test_partial_only_user_keeps_user_lookup_single():
-    # The operator of a looked-up bot exists only as a partial User: it must stay
-    # unparseable, or parse_user sees two users and returns None.
+def test_partial_only_user_keeps_user_lookup_single(monkeypatch):
+    # The operator of a looked-up bot exists only as a partial User: the lookup returns the
+    # bot, without a parse error for the operator.
     expected = parse_user(fake_rep("raw_user_by_login").json())
     assert expected is not None
 
     raw = fake_rep("raw_user_by_login").json()
-    _users_in_order(raw)[-1]["affiliates_highlighted_label"] = _automated_by_label(
-        "123456789", "operator_account"
-    )
+    label = _automated_by_label("123456789", "operator_account")
+    raw["data"]["user"]["result"]["affiliates_highlighted_label"] = label
 
-    doc = parse_user(raw)
-    assert doc is not None
-    assert doc.id == expected.id
-
-
-def test_user_lookup_parse_failure_raises():
-    # https://github.com/vladkens/twscrape/issues/346
-    # A user X sent but that can't be parsed must not read as "no user". Here the
-    # looked-up user lacks its name, like the partial users of #341 and #342.
-    raw = fake_rep("raw_user_by_id").json()
-    del raw["data"]["user"]["result"]["core"]["name"]
-
-    with pytest.raises(KeyError, match="name"):
-        parse_user(raw)
+    dumps = []
+    monkeypatch.setattr(models, "_write_dump", lambda *args: dumps.append(args))
+    assert parse_user(raw) == expected
+    assert dumps == []
 
 
-@pytest.mark.parametrize("missing", ["screen_name", "core"])
+@pytest.mark.parametrize("missing", ["name", "screen_name", "core"])
 def test_user_lookup_normalization_failure_raises(missing):
+    # https://github.com/vladkens/twscrape/issues/346
+    # A user X sent but that can't be parsed must not read as "no user", e.g. the looked-up
+    # user lacks its name, like the partial users of #341 and #342.
     raw = fake_rep("raw_user_by_id").json()
     user = raw["data"]["user"]["result"]
     if missing == "core":
@@ -852,11 +831,8 @@ def test_user_lookup_normalization_failure_raises(missing):
 def test_bot_reply_to_partial_only_operator():
     # Two own retweets from production UserTweets pages (@NatMus_SWE, @betaworks). Each
     # retweets a bot's reply to its operator, whose "Automated by @operator" label is the
-    # only User of the operator on the page: users keeps it partial, without name.
-    raw = fake_rep("_user_tweets_bot_reply_to_operator").json()
-    users = to_old_rep(raw)["users"]
-
-    tweets = {x.id: x for x in parse_tweets(raw)}
+    # only User of the operator on the page, partial, without name.
+    tweets = {x.id: x for x in parse_tweets(fake_rep("_user_tweets_bot_reply_to_operator").json())}
     for twid, bot, operator in (
         (
             956082660291555328,
@@ -865,8 +841,6 @@ def test_bot_reply_to_partial_only_operator():
         ),
         (1934744325579051137, "opus_genesis", (1614308799220695045, "veryvanya", "veryvanya")),
     ):
-        assert "name" not in users[str(operator[0])]
-
         rt = tweets[twid].retweetedTweet
         assert rt is not None
         assert rt.user.username == bot
@@ -936,31 +910,34 @@ def test_retweet_author_from_text_prefix_without_mention():
     assert tweet.rawContent == f"RT @benjitaylor: {rt.rawContent}"
 
 
-@pytest.mark.parametrize("shape", ["empty", "stub", "absent"])
+@pytest.mark.parametrize(
+    "shape", ["empty", "stub", "stub_empty_core", "stub_empty_legacy", "partial", "absent"]
+)
 def test_own_author_without_profile_keeps_tweets(shape):
     # Real UserTweets page of @scottyenor (April 2023 part, trimmed to 4 entries), with the
     # author of every own tweet sent as empty user_results, as X did in production for this
     # page on 2026-10-05. The other shapes seen that day, a User stub without core and no
-    # core at all, are applied over it. The tweets are complete: kept, with an ID-only author.
+    # core at all, are applied over it, as well as stubs with empty core or legacy and a
+    # partial User with only screen_name. The tweets are complete: kept, with an ID-only author.
     raw = fake_rep("_user_tweets_own_author_without_profile").json()
     uid = "1380623475023355907"
+    stubs = {
+        "stub": {"privacy": {"protected": False}},
+        "stub_empty_core": {"core": {}},
+        "stub_empty_legacy": {"legacy": {}},
+        "partial": {"core": {"screen_name": "scottyenor"}},
+    }
 
-    def set_own_author(obj):
-        if isinstance(obj, dict):
-            if obj.get("__typename") == "Tweet" and obj["legacy"]["user_id_str"] == uid:
-                if shape == "stub":
-                    stub = {"__typename": "User", "rest_id": uid, "privacy": {"protected": False}}
-                    obj["core"] = {"user_results": {"result": stub}}
-                else:
-                    del obj["core"]
-            for v in obj.values():
-                set_own_author(v)
-        elif isinstance(obj, list):
-            for v in obj:
-                set_own_author(v)
+    for x in get_typed_object(raw, defaultdict(list))["Tweet"]:
+        if shape == "empty" or x["legacy"]["user_id_str"] != uid:
+            continue
 
-    if shape != "empty":
-        set_own_author(raw)
+        if shape == "absent":
+            del x["core"]
+        else:
+            stub = {"__typename": "User", "rest_id": uid, **stubs[shape]}
+            x["core"] = {"user_results": {"result": stub}}
+
     assert uid not in to_old_rep(raw)["users"]
 
     tweets = {x.id: x for x in parse_tweets(raw)}
