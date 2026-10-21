@@ -849,6 +849,32 @@ def test_user_lookup_normalization_failure_raises(missing):
         parse_user(raw)
 
 
+def test_bot_reply_to_partial_only_operator():
+    # Two own retweets from production UserTweets pages (@NatMus_SWE, @betaworks). Each
+    # retweets a bot's reply to its operator, whose "Automated by @operator" label is the
+    # only User of the operator on the page: users keeps it partial, without name.
+    raw = fake_rep("_user_tweets_bot_reply_to_operator").json()
+    users = to_old_rep(raw)["users"]
+
+    tweets = {x.id: x for x in parse_tweets(raw)}
+    for twid, bot, operator in (
+        (
+            956082660291555328,
+            "Emojimuseet",
+            (185260921, "AronAmbrosiani", "Aron Ambrosiani @aronambrosiani@glammr.us"),
+        ),
+        (1934744325579051137, "opus_genesis", (1614308799220695045, "veryvanya", "veryvanya")),
+    ):
+        assert "name" not in users[str(operator[0])]
+
+        rt = tweets[twid].retweetedTweet
+        assert rt is not None
+        assert rt.user.username == bot
+        reply_to = rt.inReplyToUser
+        assert reply_to is not None
+        assert (reply_to.id, reply_to.username, reply_to.displayname) == operator
+
+
 def test_nested_author_without_profile_keeps_outer_tweet():
     # https://github.com/vladkens/twscrape/issues/342
     # https://github.com/vladkens/twscrape/issues/343
