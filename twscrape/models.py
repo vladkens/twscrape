@@ -250,9 +250,9 @@ class ArticleInlineStyleRange(JSONTrait):
     @staticmethod
     def parse(obj: dict):
         return ArticleInlineStyleRange(
-            offset=obj["offset"],
-            length=obj["length"],
-            style=obj["style"],
+            offset=obj.get("offset", 0),
+            length=obj.get("length", 0),
+            style=obj.get("style", ""),
         )
 
 
@@ -265,9 +265,9 @@ class ArticleEntityRange(JSONTrait):
     @staticmethod
     def parse(obj: dict):
         return ArticleEntityRange(
-            key=str(obj["key"]),
-            offset=obj["offset"],
-            length=obj["length"],
+            key=str(obj.get("key", "")),
+            offset=obj.get("offset", 0),
+            length=obj.get("length", 0),
         )
 
 
@@ -283,14 +283,14 @@ class ArticleBlock(JSONTrait):
     @staticmethod
     def parse(obj: dict):
         return ArticleBlock(
-            key=obj["key"],
-            type=obj["type"],
-            text=obj["text"],
-            data=obj.get("data", {}),
+            key=obj.get("key", ""),
+            type=obj.get("type", "unstyled"),
+            text=obj.get("text", ""),
+            data=obj.get("data") or {},
             inlineStyleRanges=[
-                ArticleInlineStyleRange.parse(x) for x in obj.get("inlineStyleRanges", [])
+                ArticleInlineStyleRange.parse(x) for x in obj.get("inlineStyleRanges") or []
             ],
-            entityRanges=[ArticleEntityRange.parse(x) for x in obj.get("entityRanges", [])],
+            entityRanges=[ArticleEntityRange.parse(x) for x in obj.get("entityRanges") or []],
         )
 
 
@@ -303,9 +303,9 @@ class ArticleEntity(JSONTrait):
     @staticmethod
     def parse(obj: dict):
         return ArticleEntity(
-            type=obj["type"],
-            mutability=obj["mutability"],
-            data=obj.get("data", {}),
+            type=obj.get("type", ""),
+            mutability=obj.get("mutability", ""),
+            data=obj.get("data") or {},
         )
 
 
@@ -317,16 +317,16 @@ class ArticleContentState(JSONTrait):
     @staticmethod
     def parse(obj: dict):
         return ArticleContentState(
-            blocks=[ArticleBlock.parse(x) for x in obj.get("blocks", [])],
+            blocks=[ArticleBlock.parse(x) for x in obj.get("blocks") or []],
             entityMap={
-                str(x["key"]): ArticleEntity.parse(x["value"]) for x in obj.get("entityMap", [])
+                str(x.get("key")): ArticleEntity.parse(x.get("value") or {})
+                for x in obj.get("entityMap") or []
             },
         )
 
 
 @dataclass
 class ArticleCoverMedia(JSONTrait):
-    id: str
     mediaId: str
     mediaKey: str
     mediaInfo: dict
@@ -334,21 +334,20 @@ class ArticleCoverMedia(JSONTrait):
     @staticmethod
     def parse(obj: dict):
         return ArticleCoverMedia(
-            id=obj["id"],
-            mediaId=obj["media_id"],
-            mediaKey=obj["media_key"],
-            mediaInfo=obj.get("media_info", {}),
+            mediaId=obj.get("media_id", ""),
+            mediaKey=obj.get("media_key", ""),
+            mediaInfo=obj.get("media_info") or {},
         )
 
 
 @dataclass
 class Article(JSONTrait):
-    id: str
-    rest_id: str
+    id: int
+    id_str: str
     title: str
-    preview_text: str
-    modified_at_secs: int | None = None
-    first_published_at_secs: int | None = None
+    previewText: str
+    publishedAt: datetime | None = None
+    modifiedAt: datetime | None = None
     contentState: ArticleContentState | None = None
     coverMedia: ArticleCoverMedia | None = None
     mediaEntities: list[dict] = field(default_factory=list)
@@ -357,26 +356,34 @@ class Article(JSONTrait):
 
     @staticmethod
     def parse(obj: dict):
-        result = get_or(obj, "article.article_results.result")
-        if not result:
-            return None
+        def ts(res: dict, key: str):
+            val = int_or(res, key)
+            return datetime.fromtimestamp(val, timezone.utc) if val is not None else None
 
-        content_state = result.get("content_state")
-        cover_media = result.get("cover_media")
-        # ponytail: article media variants need a non-empty fixture before typing.
-        return Article(
-            id=result["id"],
-            rest_id=result["rest_id"],
-            title=result.get("title", ""),
-            preview_text=result.get("preview_text", ""),
-            modified_at_secs=int_or(result, "lifecycle_state.modified_at_secs"),
-            first_published_at_secs=int_or(result, "metadata.first_published_at_secs"),
-            contentState=ArticleContentState.parse(content_state) if content_state else None,
-            coverMedia=ArticleCoverMedia.parse(cover_media) if cover_media else None,
-            mediaEntities=result.get("media_entities", []),
-            summaryText=result.get("summary_text"),
-            isGrokSummaryEligible=result.get("is_grok_summary_eligible"),
-        )
+        # a malformed article must not drop its tweet, so any failure gives no article
+        try:
+            res = get_or(obj, "article.article_results.result")
+            if not res:
+                return None
+
+            content_state = res.get("content_state")
+            cover_media = res.get("cover_media")
+            return Article(
+                id=int(res["rest_id"]),
+                id_str=res["rest_id"],
+                title=res.get("title", ""),
+                previewText=res.get("preview_text", ""),
+                publishedAt=ts(res, "metadata.first_published_at_secs"),
+                modifiedAt=ts(res, "lifecycle_state.modified_at_secs"),
+                contentState=ArticleContentState.parse(content_state) if content_state else None,
+                coverMedia=ArticleCoverMedia.parse(cover_media) if cover_media else None,
+                mediaEntities=res.get("media_entities") or [],
+                summaryText=res.get("summary_text"),
+                isGrokSummaryEligible=res.get("is_grok_summary_eligible"),
+            )
+        except Exception as e:
+            logger.warning(f"Failed to parse article of tweet {obj.get('id_str')}: {e!r}")
+            return None
 
 
 # Where a retweet holds the ID of the retweeted tweet
@@ -809,6 +816,17 @@ def _parse_card_get_str(values: list[dict], key: str, defaultVal: str | None = N
     return defaultVal
 
 
+Num = TypeVar("Num", int, float)
+
+
+def _parse_card_get_num(values: list[dict], key: str, fn: Callable[[str], Num]) -> Num | None:
+    try:
+        val = _parse_card_get_str(values, key)
+        return fn(val) if val is not None else None
+    except ValueError:
+        return None
+
+
 def _parse_card_get_photo(values: list[dict], key: str):
     for x in values:
         if x["key"] == key and x["value"]["type"] == "IMAGE":
@@ -924,13 +942,12 @@ def _parse_card(obj: dict, url: str):
         # poll{n}choice_video cards carry the video in binding_values only (not in
         # extended_entities). Lookup by key, not by IMAGE type: on poll_choice_images
         # cards the IMAGE bindings are the per-choice images, not a player thumbnail.
-        duration = _parse_card_get_str(val, "content_duration_seconds")
         photo = _parse_card_get_photo(val, "player_image_original")
         return PollCard(
             options=options,
             finished=finished,
             videoUrl=_parse_card_get_str(val, "player_hls_url"),
-            durationSeconds=int(duration) if duration is not None else None,
+            durationSeconds=_parse_card_get_num(val, "content_duration_seconds", int),
             photo=photo,
         )
 
@@ -1026,13 +1043,12 @@ def _parse_card(obj: dict, url: str):
                 photo=_parse_card_get_photo(val, "promo_image_original"),
             )
 
-        duration = _parse_card_get_str(val, "content_duration_seconds")
         return PromoVideoConvoCard(
             title=card_title,
             thankYouText=thank_you_text,
             thankYouUrl=thank_you_url,
             videoUrl=_parse_card_get_str(val, "player_stream_url"),
-            durationSeconds=int(duration) if duration is not None else None,
+            durationSeconds=_parse_card_get_num(val, "content_duration_seconds", int),
             ctas=ctas,
             photo=_parse_card_get_photo(val, "player_image_original"),
         )
@@ -1044,15 +1060,15 @@ def _parse_card(obj: dict, url: str):
         if card_url is None or card_title is None:
             return None
 
-        rating = _parse_card_get_str(val, "app_star_rating")
-        # app_num_ratings is locale-formatted ("289,838"), keep the digits only
-        num_ratings = _parse_card_get_str(val, "app_num_ratings")
+        # app_num_ratings is locale-formatted ("289,838"), but can be abbreviated ("1.2K")
+        num_ratings = _parse_card_get_str(val, "app_num_ratings") or ""
+        num_ratings = re.sub(r"[\s,.'\u00a0]", "", num_ratings)
         return AppCard(
             title=card_title,
             url=card_url,
             description=_parse_card_get_str(val, "description"),
-            starRating=float(rating) if rating is not None else None,
-            numRatings=int(re.sub(r"\D", "", num_ratings)) if num_ratings else None,
+            starRating=_parse_card_get_num(val, "app_star_rating", float),
+            numRatings=int(num_ratings) if num_ratings.isdecimal() else None,
             photo=_parse_card_get_photo(val, "thumbnail_original"),
         )
 

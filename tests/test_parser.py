@@ -1,5 +1,6 @@
 import json
 import os
+from datetime import datetime, timezone
 from typing import Any, Callable, cast
 
 import pytest
@@ -641,48 +642,47 @@ async def test_issue_310():
 
 def test_article_tweet():
     raw = fake_rep("raw_user_tweets").json()
-    doc = parse_tweet(raw, 2079814622639469025)
+    source = find_obj(raw, lambda x: "preview_text" in x)
+    assert source is not None
 
-    assert doc is not None
-    assert doc.article is None
-    assert doc.retweetedTweet is not None
+    # articles can be nested in retweets and quotes
+    docs, articles = list(parse_tweets(raw)), {}
+    while docs:
+        x = docs.pop()
+        docs.extend(y for y in (x.retweetedTweet, x.quotedTweet) if y)
+        if x.article:
+            articles[x.article.id_str] = x.article
 
-    article = doc.retweetedTweet.article
-    assert isinstance(article, Article)
-    assert article.id == "QXJ0aWNsZUVudGl0eToyMDc5MTYyMDYxMTQyMzM1NDg4"
-    assert article.rest_id == "2079162061142335488"
-    assert (
-        article.title
-        == "Turn your X account into a programmable intelligence system using the X API and Grok Build"
+    article = articles[source["rest_id"]]
+    assert article.id == int(source["rest_id"])
+    assert article.title == source["title"]
+    assert article.previewText == source["preview_text"]
+    assert article.contentState is None
+    assert article.publishedAt == datetime.fromtimestamp(
+        source["metadata"]["first_published_at_secs"], timezone.utc
     )
-    assert article.preview_text.startswith("Your X account can now become")
-    assert article.modified_at_secs == 1784687550
-    assert article.first_published_at_secs == 1784687550
+    assert article.modifiedAt == datetime.fromtimestamp(
+        source["lifecycle_state"]["modified_at_secs"], timezone.utc
+    )
 
 
 def test_article_rich_content():
-    with open(os.path.join(DATA_DIR, "article.json")) as fp:
-        raw = json.load(fp)
+    raw = fake_rep("article").json()
+    source = find_obj(raw, lambda x: "content_state" in x)
+    assert source is not None
 
-    source = raw["data"]["threaded_conversation_with_injections_v2"]["instructions"][1]["entries"][
-        0
-    ]["content"]["itemContent"]["tweet_results"]["result"]["article"]["article_results"]["result"]
     doc = parse_tweet(raw, 2075503860689281453)
-
     assert doc is not None
     assert isinstance(doc.article, Article)
+
     article = doc.article
+    assert article.id_str == source["rest_id"]
     assert article.title == source["title"]
     assert article.summaryText == source["summary_text"]
     assert article.isGrokSummaryEligible is True
     assert article.coverMedia is not None
     assert article.coverMedia.mediaId == source["cover_media"]["media_id"]
-    assert (
-        article.coverMedia.mediaInfo["original_img_url"]
-        == (source["cover_media"]["media_info"]["original_img_url"])
-    )
-    assert article.coverMedia.mediaInfo["original_img_width"] == 1024
-    assert article.coverMedia.mediaInfo["original_img_height"] == 410
+    assert article.coverMedia.mediaInfo == source["cover_media"]["media_info"]
     assert article.mediaEntities == source["media_entities"]
 
     assert article.contentState is not None
@@ -711,22 +711,25 @@ def test_article_rich_content():
     assert parsed["contentState"]["entityMap"].keys() == content.entityMap.keys()
 
 
-async def test_tweet_details_article(api_mock: API, monkeypatch):
-    with open(os.path.join(DATA_DIR, "article.json")) as fp:
-        raw = json.load(fp)
+def test_article_malformed():
+    # a bad article must never drop its tweet
+    raw = fake_rep("article").json()
+    source = find_obj(raw, lambda x: "content_state" in x)
+    assert source is not None
 
-    async def article_tweet_details_raw(twid: int, kv=None):
-        assert twid == 2075503860689281453
-        return raw
-
-    monkeypatch.setattr(api_mock, "tweet_details_raw", article_tweet_details_raw)
-    doc = await api_mock.tweet_details(2075503860689281453)
-
-    assert doc is not None
-    assert doc.article is not None
+    source["content_state"]["blocks"][0] = {"key": "k1"}
+    del source["cover_media"]["media_key"]
+    doc = parse_tweet(raw, 2075503860689281453)
+    assert doc is not None and doc.article is not None
     assert doc.article.contentState is not None
-    assert doc.article.coverMedia is not None
-    assert doc.article.summaryText is not None
+    assert doc.article.contentState.blocks[0].text == ""
+    assert doc.article.coverMedia is not None and doc.article.coverMedia.mediaKey == ""
+
+    source["content_state"]["blocks"][0] = None
+    source["rest_id"] = None
+    doc = parse_tweet(raw, 2075503860689281453)
+    assert doc is not None
+    assert doc.article is None
 
 
 async def test_issue_315():
@@ -1134,6 +1137,31 @@ async def test_cards():
     assert doc.card.starRating is not None and 4 < doc.card.starRating < 5
     assert doc.card.numRatings == 289838
     assert doc.card.photo is not None
+
+
+@pytest.mark.parametrize(
+    "name, twid, key, value, attr",
+    [
+        ("card_app", 1249486216266788865, "app_star_rating", "n/a", "starRating"),
+        ("card_app", 1249486216266788865, "app_num_ratings", "1.2K", "numRatings"),
+        (
+            "card_promo_video_convo",
+            1090673433690685441,
+            "content_duration_seconds",
+            "",
+            "durationSeconds",
+        ),
+    ],
+)
+def test_card_bad_numbers(name, twid, key, value, attr):
+    raw = fake_rep(name).json()
+    item = find_obj(raw, lambda x: x.get("key") == key)
+    assert item is not None
+
+    item["value"]["string_value"] = value
+    doc = parse_tweet(raw, twid)
+    assert doc is not None and doc.card is not None
+    assert getattr(doc.card, attr) is None
 
 
 async def test_tweet_new_fields():
