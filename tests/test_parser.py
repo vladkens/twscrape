@@ -643,19 +643,16 @@ async def test_issue_310():
 
 
 def test_article_tweet():
-    raw = fake_rep("raw_user_tweets").json()
+    # timelines get the article preview, without its content state
+    raw = fake_rep("_issue_342_343").json()
     source = find_obj(raw, lambda x: "preview_text" in x)
     assert source is not None
 
-    # articles can be nested in retweets and quotes
-    docs, articles = list(parse_tweets(raw)), {}
-    while docs:
-        x = docs.pop()
-        docs.extend(y for y in (x.retweetedTweet, x.quotedTweet) if y)
-        if x.article:
-            articles[x.article.id_str] = x.article
+    doc = {x.id: x for x in parse_tweets(raw)}[2079814622639469025]
+    assert doc.retweetedTweet is not None
 
-    article = articles[source["rest_id"]]
+    article = doc.retweetedTweet.article
+    assert article is not None
     assert article.id == int(source["rest_id"])
     assert article.title == source["title"]
     assert article.previewText == source["preview_text"]
@@ -737,31 +734,29 @@ def test_article_malformed():
 async def test_issue_315():
     """Quoted tweets must not leak as standalone timeline items.
 
-    In raw_user_tweets the quoting tweets quote tweets by other users
-    (@milichab, @XFreeze, @SpaceXAI, @nicole_clash, @agno_three, @nikitabier).
-    X returns those quoted tweets embedded in the quoting tweet's payload and
-    they must not be yielded as top-level items too:
-    https://github.com/vladkens/twscrape/issues/315
+    UserTweets page of @XDevelopers, trimmed to retweets quoting @XDevelopers and @agno_three,
+    a retweet of the @agno_three tweet and the thread module of the quoted @XDevelopers tweet.
+    X returns quoted tweets embedded in the quoting tweet's payload and they must not be
+    yielded as top-level items too: https://github.com/vladkens/twscrape/issues/315
     """
-    raw = fake_rep("raw_user_tweets").json()
-    tweets = list(parse_tweets(raw))
-    top_level_ids = {x.id_str for x in tweets}
+    tweets = list(parse_tweets(fake_rep("_issue_315").json()))
+    top_level_ids = [x.id_str for x in tweets]
 
-    # the fixture quotes 6 tweets by other users; none may leak top-level
+    # a self-quoted tweet X lists inside its own thread module entry remains a real result
+    assert top_level_ids == [
+        "2082669627528601817",
+        "2082640274845811115",
+        "2082640276389249363",
+        "2075724225273323678",
+        "2075722586172846484",
+    ]
+
     other_user_quotes = {
         x.quotedTweet.id_str
         for x in tweets
         if x.quotedTweet is not None and x.quotedTweet.user.username != x.user.username
     }
-    assert len(other_user_quotes) == 6
-    assert not (other_user_quotes & top_level_ids), (
-        f"quoted tweets leaked as standalone items: {other_user_quotes & top_level_ids}"
-    )
-
-    # a self-quoted tweet X lists inside its own thread module entry remains a
-    # real result (5 items removed vs the pre-fix 25)
-    assert len(tweets) == 21
-    assert "2082640274845811115" in top_level_ids
+    assert other_user_quotes == {"2075716337603907695"}
 
 
 @pytest.mark.parametrize(
@@ -769,7 +764,7 @@ async def test_issue_315():
     ["conversationthread", "list-conversation", "profile-grid", "tweetdetailrelatedtweets"],
 )
 def test_quoted_tweet_in_other_timeline_modules_is_standalone(module):
-    raw = fake_rep("raw_user_tweets").json()
+    raw = fake_rep("_issue_315").json()
     quoted_id = "2082640274845811115"
     entry = find_obj(raw, lambda x: x.get("entryId", "").endswith(f"-tweet-{quoted_id}"))
     assert entry is not None
@@ -972,154 +967,165 @@ def test_own_author_without_profile_keeps_tweets(shape, monkeypatch):
     assert rt.user.username == "megbasham"
 
 
-async def test_cards():
-    # Issues:
-    # - https://github.com/vladkens/twscrape/issues/72
-    # - https://github.com/vladkens/twscrape/issues/191
+# Issues:
+# - https://github.com/vladkens/twscrape/issues/72
+# - https://github.com/vladkens/twscrape/issues/191
+# fixture, tweet id, card class, expected attrs (`...` means not None)
+CARDS = {
+    "summary": (
+        "card_summary",
+        1696922210588410217,
+        SummaryCard,
+        {"_type": "summary", "title": ..., "description": ..., "url": ...},
+    ),
+    "poll": (
+        "card_poll",
+        1780666831310877100,
+        PollCard,
+        {"_type": "poll", "finished": ..., "options": ...},
+    ),
+    "poll2choice_video": (
+        "card_poll_video",
+        1114574134397165568,
+        PollCard,
+        {"_type": "poll", "finished": True, "videoUrl": ..., "durationSeconds": 24, "photo": ...},
+    ),
+    "broadcast": (
+        "card_broadcast",
+        1790441814857826439,
+        BroadcastCard,
+        {"_type": "broadcast", "title": ..., "url": ..., "photo": ...},
+    ),
+    "audiospace": (
+        "card_audiospace",
+        1789054061729173804,
+        AudiospaceCard,
+        {"_type": "audiospace", "url": ...},
+    ),
+    "message_me": (
+        "card_message_me",
+        1916063270131191983,
+        MessageMeCard,
+        {"_type": "message_me", "url": ..., "cta": ..., "recipientId": "85741735"},
+    ),
+    "periscope_broadcast": (
+        "card_periscope_broadcast",
+        822817044450013184,
+        PeriscopeBroadcastCard,
+        {
+            "_type": "periscope_broadcast",
+            "title": ...,
+            "url": ...,
+            "state": "ENDED",
+            "broadcasterUsername": "womensmarch",
+            "thumbnailUrl": ...,
+        },
+    ),
+    "promo_video_convo": (
+        "card_promo_video_convo",
+        1090673433690685441,
+        PromoVideoConvoCard,
+        {
+            "_type": "promo_video_convo",
+            "title": "Add your voice.",
+            "thankYouText": ...,
+            "videoUrl": ...,
+            "durationSeconds": 5,
+            "ctas": ["#BellLetsTalk"],
+            "photo": ...,
+        },
+    ),
+    "promo_image_convo": (
+        "card_promo_image_convo",
+        2078218219689492480,
+        PromoImageConvoCard,
+        {
+            "_type": "promo_image_convo",
+            "title": ...,
+            "thankYouText": ...,
+            "thankYouUrl": ...,
+            "ctas": ["#onerufflecheddarlong"],
+            "photo": ...,
+        },
+    ),
+    "live_event": (
+        "card_live_event",
+        1463203718153703425,
+        LiveEventCard,
+        {
+            "_type": "live_event",
+            "title": ...,
+            "url": ...,
+            "eventId": "1461789549739143169",
+            "category": "Music",
+            "subtitle": ...,
+            "photo": ...,
+        },
+    ),
+    "app": (
+        "card_app",
+        1249486216266788865,
+        AppCard,
+        {
+            "_type": "app",
+            "title": "The NBC App – Stream TV Shows",
+            "url": ...,
+            "description": ...,
+            "starRating": 4.57233,
+            "numRatings": 289838,
+            "photo": ...,
+        },
+    ),
+}
 
-    # Check SummaryCard
-    raw = fake_rep("card_summary").json()
-    doc = parse_tweet(raw, 1696922210588410217)
-    assert doc is not None
-    assert doc.card is not None
-    assert isinstance(doc.card, SummaryCard)
-    assert doc.card._type == "summary"
-    assert doc.card.title is not None
-    assert doc.card.description is not None
-    assert doc.card.url is not None
 
-    # Check PollCard
-    raw = fake_rep("card_poll").json()
-    doc = parse_tweet(raw, 1780666831310877100)
+@pytest.mark.parametrize("name, twid, cls, attrs", CARDS.values(), ids=CARDS.keys())
+def test_cards(name, twid, cls, attrs):
+    doc = parse_tweet(fake_rep(name).json(), twid)
     assert doc is not None
-    assert doc.card is not None
-    assert isinstance(doc.card, PollCard)
-    assert doc.card._type == "poll"
-    assert doc.card.finished is not None
-    assert doc.card.options is not None
-    assert len(doc.card.options) > 0
+    assert isinstance(doc.card, cls)
+
+    for k, v in attrs.items():
+        x = getattr(doc.card, k)
+        assert x is not None if v is ... else x == v, k
+
+
+@pytest.mark.parametrize(
+    "name, twid, count",
+    [("card_poll", 1780666831310877100, 2), ("card_poll_video", 1114574134397165568, 2)],
+)
+def test_poll_card_options(name, twid, count):
+    doc = parse_tweet(fake_rep(name).json(), twid)
+    assert doc is not None and isinstance(doc.card, PollCard)
+    assert len(doc.card.options) == count
     for x in doc.card.options:
         assert x.label is not None
         assert x.votesCount is not None
 
-    # Check PollCard with video (poll2choice_video)
-    raw = fake_rep("card_poll_video").json()
-    doc = parse_tweet(raw, 1114574134397165568)
-    assert doc is not None and doc.card is not None
-    assert isinstance(doc.card, PollCard)
-    assert doc.card._type == "poll"
-    assert len(doc.card.options) == 2
-    assert doc.card.finished is True
-    assert doc.card.videoUrl is not None
-    assert doc.card.durationSeconds == 24
-    assert doc.card.photo is not None
 
-    image_poll = fake_rep("card_poll").json()
+def test_poll_card_with_choice_images():
+    raw = fake_rep("card_poll").json()
     card = find_obj(
-        image_poll,
+        raw,
         lambda x: (
             isinstance(x.get("legacy"), dict)
             and str(x["legacy"].get("name", "")).startswith("poll")
         ),
     )
     assert card is not None
+
     card["legacy"]["name"] = "1906814671912599552:poll_choice_images"
-    doc = parse_tweet(image_poll, 1780666831310877100)
+    doc = parse_tweet(raw, 1780666831310877100)
     assert doc is not None
     assert isinstance(doc.card, PollCard)
 
-    # Check BrodcastCard
-    raw = fake_rep("card_broadcast").json()
-    doc = parse_tweet(raw, 1790441814857826439)
-    assert doc is not None and doc.card is not None
-    assert doc.card._type == "broadcast"
-    assert isinstance(doc.card, BroadcastCard)
-    assert doc.card.title is not None
-    assert doc.card.url is not None
-    assert doc.card.photo is not None
 
-    # Check AudiospaceCard
-    raw = fake_rep("card_audiospace").json()
-    doc = parse_tweet(raw, 1789054061729173804)
-    assert doc is not None and doc.card is not None
-    assert doc.card._type == "audiospace"
-    assert isinstance(doc.card, AudiospaceCard)
-    assert doc.card.url is not None
-
-    # Check MessageMeCard
-    raw = fake_rep("card_message_me").json()
-    doc = parse_tweet(raw, 1916063270131191983)
-    assert doc is not None and doc.card is not None
-    assert doc.card._type == "message_me"
-    assert isinstance(doc.card, MessageMeCard)
-    assert doc.card.url is not None
-    assert doc.card.cta is not None
-    assert doc.card.recipientId == "85741735"
-
-    # Check PeriscopeBroadcastCard
-    raw = fake_rep("card_periscope_broadcast").json()
-    doc = parse_tweet(raw, 822817044450013184)
-    assert doc is not None and doc.card is not None
-    assert doc.card._type == "periscope_broadcast"
-    assert isinstance(doc.card, PeriscopeBroadcastCard)
-    assert doc.card.title is not None
-    assert doc.card.url is not None
-    assert doc.card.state == "ENDED"
-    assert doc.card.broadcasterUsername == "womensmarch"
-    assert doc.card.thumbnailUrl is not None
-
-    # Check PromoVideoConvoCard
-    raw = fake_rep("card_promo_video_convo").json()
-    doc = parse_tweet(raw, 1090673433690685441)
-    assert doc is not None and doc.card is not None
-    assert doc.card._type == "promo_video_convo"
-    assert isinstance(doc.card, PromoVideoConvoCard)
-    assert doc.card.title == "Add your voice."
-    assert doc.card.thankYouText is not None
-    assert doc.card.videoUrl is not None
-    assert doc.card.durationSeconds == 5
-    assert doc.card.ctas == ["#BellLetsTalk"]
-    assert doc.card.photo is not None
-
-    # Check PromoImageConvoCard
-    raw = fake_rep("card_promo_image_convo").json()
-    doc = parse_tweet(raw, 2078218219689492480)
-    assert doc is not None and doc.card is not None
-    assert doc.card._type == "promo_image_convo"
-    assert isinstance(doc.card, PromoImageConvoCard)
-    assert doc.card.title is not None
-    assert doc.card.thankYouText is not None
-    assert doc.card.thankYouUrl is not None
-    assert doc.card.ctas == ["#onerufflecheddarlong"]
+def test_promo_image_convo_card_photo():
     # main image, not the cover_promo_image ad cover (that one lives under /ad_img/)
+    doc = parse_tweet(fake_rep("card_promo_image_convo").json(), 2078218219689492480)
+    assert doc is not None and isinstance(doc.card, PromoImageConvoCard)
     assert doc.card.photo is not None
     assert "/ad_img/" not in doc.card.photo.url
-
-    # Check LiveEventCard
-    raw = fake_rep("card_live_event").json()
-    doc = parse_tweet(raw, 1463203718153703425)
-    assert doc is not None and doc.card is not None
-    assert doc.card._type == "live_event"
-    assert isinstance(doc.card, LiveEventCard)
-    assert doc.card.title is not None
-    assert doc.card.url is not None
-    assert doc.card.eventId == "1461789549739143169"
-    assert doc.card.category == "Music"
-    assert doc.card.subtitle is not None
-    assert doc.card.photo is not None
-
-    # Check AppCard
-    raw = fake_rep("card_app").json()
-    doc = parse_tweet(raw, 1249486216266788865)
-    assert doc is not None and doc.card is not None
-    assert doc.card._type == "app"
-    assert isinstance(doc.card, AppCard)
-    assert doc.card.title == "The NBC App – Stream TV Shows"
-    assert doc.card.url is not None
-    assert doc.card.description is not None
-    assert doc.card.starRating is not None and 4 < doc.card.starRating < 5
-    assert doc.card.numRatings == 289838
-    assert doc.card.photo is not None
 
 
 @pytest.mark.parametrize(

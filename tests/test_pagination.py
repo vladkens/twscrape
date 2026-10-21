@@ -136,39 +136,6 @@ async def test_followers_stops_after_too_many_consecutive_empty_pages(monkeypatc
     assert idx < 10, f"too many requests ({idx}); should have stopped after a few empty pages"
 
 
-async def test_user_tweets_dedup_across_pages(monkeypatch, api_mock: API):
-    """user_tweets() must yield a tweet once even if it appears on several pages
-    (e.g. the pinned tweet shows up on page 1 and again at its chronological position)."""
-    with open(os.path.join(DATA_DIR, "raw_user_tweets.json")) as f:
-        page1 = json.load(f)
-
-    # page 2 repeats the same tweets under a fresh cursor
-    page2 = json.loads(json.dumps(page1))
-    cur = find_obj(page2, lambda x: x.get("cursorType") == "Bottom")
-    assert cur is not None
-    cur["value"] = "page2-cursor"
-
-    pages = [page1, page2]
-    idx = 0
-
-    async def mock_get(self, url, params=None):
-        nonlocal idx
-        if idx >= len(pages):
-            return None
-        data = pages[idx]
-        idx += 1
-        return FakeRep(data)
-
-    monkeypatch.setattr(QueueClient, "get", mock_get)
-
-    tweets = await gather(api_mock.user_tweets(123))
-    ids = [x.id for x in tweets]
-
-    assert idx == 2, "both pages should be fetched"
-    assert len(ids) > 0, "expected tweets from page 1"
-    assert len(ids) == len(set(ids)), "a tweet repeated across pages must be yielded once"
-
-
 async def test_user_tweets_limit_counts_unique_items(monkeypatch, api_mock: API):
     with open(os.path.join(DATA_DIR, "raw_user_tweets.json")) as f:
         page = json.load(f)
@@ -176,7 +143,7 @@ async def test_user_tweets_limit_counts_unique_items(monkeypatch, api_mock: API)
         next_page = json.load(f)
 
     first_page_ids = {x.id for x in parse_tweets(page)}
-    assert len(first_page_ids) == 21
+    limit = len(first_page_ids) + 1
     assert any(x.id not in first_page_ids for x in parse_tweets(next_page))
 
     pages = [page, page, next_page]
@@ -190,15 +157,16 @@ async def test_user_tweets_limit_counts_unique_items(monkeypatch, api_mock: API)
             yield FakeRep(data)
 
     monkeypatch.setattr(api_mock, "user_tweets_raw", raw)
-    tweets = await gather(api_mock.user_tweets(123, limit=22))
+    tweets = await gather(api_mock.user_tweets(123, limit=limit))
 
     assert fetched == 3
-    assert len(tweets) == len({x.id for x in tweets}) == 22
+    assert len(tweets) == len({x.id for x in tweets}) == limit
 
 
 async def test_user_tweets_stops_after_repeated_duplicate_pages(monkeypatch, api_mock: API):
     with open(os.path.join(DATA_DIR, "raw_user_tweets.json")) as f:
         page = json.load(f)
+    page_ids = {x.id for x in parse_tweets(page)}
     fetched = 0
 
     async def raw(uid, limit=-1, kv=None):
@@ -210,9 +178,9 @@ async def test_user_tweets_stops_after_repeated_duplicate_pages(monkeypatch, api
             yield FakeRep(page)
 
     monkeypatch.setattr(api_mock, "user_tweets_raw", raw)
-    tweets = await gather(api_mock.user_tweets(123, limit=30))
+    tweets = await gather(api_mock.user_tweets(123, limit=len(page_ids) + 10))
 
-    assert len(tweets) == 21
+    assert {x.id for x in tweets} == page_ids
     assert fetched == 4
 
 
@@ -246,7 +214,7 @@ async def test_dedup_warns_when_stopping_on_duplicate_pages(monkeypatch):
 
 
 async def test_nested_quote_does_not_hide_later_standalone_tweet(monkeypatch, api_mock: API):
-    with open(os.path.join(DATA_DIR, "raw_user_tweets.json")) as f:
+    with open(os.path.join(DATA_DIR, "_issue_315.json")) as f:
         standalone_page = json.load(f)
     nested_page = json.loads(json.dumps(standalone_page))
 

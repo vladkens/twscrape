@@ -1,11 +1,13 @@
 import json
 import os
+from typing import Any
 
 import pytest
 
 from twscrape.account import Account
 from twscrape.accounts_pool import NoAccountError
 from twscrape.api import API
+from twscrape.models import parse_tweets
 from twscrape.queue_client import AbortReqError, ApiError
 from twscrape.utils import gather, get_env_bool
 
@@ -26,13 +28,20 @@ class MockedError(Exception):
     pass
 
 
-def load(name: str) -> dict:
+def load(name: str) -> Any:
     with open(os.path.join(DATA_DIR, f"{name}.json")) as f:
         return json.load(f)
 
 
 # Seen in production on UserByRestId: the error comes with an empty `user`
 DEADLINE_EXCEEDED_EMPTY_USER = {"json": load("_issue_346_deadline_exceeded_empty_user")}
+
+FAILED_REQUESTS = [
+    (CLOUDFLARE_BLOCK, 1, AbortReqError),
+    # DeadlineExceeded is retried on the same account before it raises
+    (DEADLINE_EXCEEDED, 3, ApiError),
+    (DEADLINE_EXCEEDED_EMPTY_USER, 3, ApiError),
+]
 
 
 @pytest.fixture
@@ -145,15 +154,7 @@ async def test_user_lookup_returns_none_when_x_has_no_user(api_http, method, arg
     assert await getattr(api, method)(arg) is None
 
 
-@pytest.mark.parametrize(
-    "response,tries,error",
-    [
-        (CLOUDFLARE_BLOCK, 1, AbortReqError),
-        # DeadlineExceeded is retried on the same account before it raises
-        (DEADLINE_EXCEEDED, 3, ApiError),
-        (DEADLINE_EXCEEDED_EMPTY_USER, 3, ApiError),
-    ],
-)
+@pytest.mark.parametrize("response,tries,error", FAILED_REQUESTS)
 @pytest.mark.parametrize("method,arg", [("user_by_id", 123), ("user_by_login", "someone")])
 async def test_user_lookup_raises_when_request_fails(api_http, method, arg, response, tries, error):
     api, mock = api_http
@@ -172,18 +173,11 @@ async def test_user_tweets_of_unavailable_user_ends_without_error(api_http):
     assert await gather(api.user_tweets(123)) == []
 
 
-@pytest.mark.parametrize(
-    "response,tries,error",
-    [
-        (CLOUDFLARE_BLOCK, 1, AbortReqError),
-        # DeadlineExceeded is retried on the same account before it raises
-        (DEADLINE_EXCEEDED, 3, ApiError),
-        (DEADLINE_EXCEEDED_EMPTY_USER, 3, ApiError),
-    ],
-)
+@pytest.mark.parametrize("response,tries,error", FAILED_REQUESTS)
 async def test_user_tweets_raises_when_page_fails_mid_pagination(api_http, response, tries, error):
     api, mock = api_http
-    mock.add_response(json=load("raw_user_tweets"))  # has a Bottom cursor
+    page = load("raw_user_tweets")  # has a Bottom cursor
+    mock.add_response(json=page)
     for _ in range(tries):
         mock.add_response(**response)
 
@@ -193,5 +187,5 @@ async def test_user_tweets_raises_when_page_fails_mid_pagination(api_http, respo
             tweets.append(tweet)
 
     # the caller keeps what was yielded before the failure
-    assert len(tweets) == 21
+    assert [x.id for x in tweets] == [x.id for x in parse_tweets(page)]
     assert mock._queue == []
