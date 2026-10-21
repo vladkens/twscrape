@@ -23,13 +23,15 @@ import re
 import sys
 from urllib.parse import urljoin
 
-from twscrape.http import HttpClient, make_client
+from twscrape.http import HttpClient, HttpError, Response, format_error, make_client
 from twscrape.xclid import get_scripts_list, get_tw_page_text
 
 API_FILE = "twscrape/api.py"
 CACHE_DIR = "/tmp/twscrape-ops"
 MARKER = "# GQL_OPS_CODEGEN"
 JS_REF_RE = re.compile(r'(?:from|import)\s*\(?\s*[`"]((?:\.{1,2}/)[^`"]+?\.js)[`"]')
+TIMEOUT = 30  # seconds, httpx default of 5s is too tight for large bundles
+RETRIES = 3
 
 
 def _is_relevant_script(url: str) -> bool:
@@ -72,49 +74,77 @@ def _discover_scripts(scripts: list[tuple[str, str]]) -> list[tuple[str, str]]:
     return [_script_entry(x) for x in found]
 
 
-async def fetch_scripts(scripts: list[tuple[str, str]], force: bool) -> list[tuple[str, str]]:
+async def fetch_scripts(
+    scripts: list[tuple[str, str]], force: bool
+) -> tuple[list[tuple[str, str]], list[str]]:
     all_scripts = list(dict.fromkeys(scripts))
     seen = {url for url, _ in all_scripts}
     batch = all_scripts
+    failed: list[str] = []
 
     while batch:
-        await _fetch_scripts_batch(batch, force)
+        failed.extend(await _fetch_scripts_batch(batch, force))
         discovered = _discover_scripts(batch)
         batch = [x for x in discovered if x[0] not in seen]
         seen.update(url for url, _ in batch)
         all_scripts.extend(batch)
 
-    return all_scripts
+    return all_scripts, failed
 
 
-async def _fetch_scripts_batch(scripts: list[tuple[str, str]], force: bool) -> None:
+async def _get_script(clt: HttpClient, url: str) -> Response:
+    for attempt in range(RETRIES + 1):
+        try:
+            rep = await clt.get(url, timeout=TIMEOUT)
+            if rep.status_code == 429 or rep.status_code >= 500:
+                rep.raise_for_status()
+            return rep
+        except HttpError:
+            if attempt == RETRIES:
+                raise
+            await asyncio.sleep(2**attempt)
+
+    raise AssertionError("unreachable")
+
+
+async def _fetch_scripts_batch(scripts: list[tuple[str, str]], force: bool) -> list[str]:
     todo = scripts if force else [x for x in scripts if not os.path.exists(x[1])]
     cached = len(scripts) - len(todo)
     print(f"Scripts: {len(scripts)} total, {cached} cached, {len(todo)} to download.")
 
     if not todo:
         print("Nothing to download.")
-        return
+        return []
 
     print(f"Downloading {len(todo)} scripts.")
     sem = asyncio.Semaphore(10)
+    failed: list[str] = []
 
     async def fetch(clt: HttpClient, i: int, url: str, path: str) -> None:
         async with sem:
             print(f"  ({i:3d}/{len(todo):3d}) {url}")
-            rep = await clt.get(url)
-            if rep.status_code == 404:
-                print("             skipped (404)")
+            try:
+                rep = await _get_script(clt, url)
+                if rep.status_code == 404:
+                    print("             skipped (404)")
+                    return
+
+                rep.raise_for_status()
+                ct = rep.headers.get("content-type", "")
+                if "javascript" not in ct:
+                    raise ValueError(f"Unexpected content-type '{ct}' — rate limited?")
+            except (HttpError, ValueError) as e:
+                print(f"             failed ({format_error(e)}) {url}")
+                failed.append(url)
                 return
-            rep.raise_for_status()
-            ct = rep.headers.get("content-type", "")
-            if "javascript" not in ct:
-                raise ValueError(f"Unexpected content-type '{ct}' for {url} — rate limited?")
+
             with open(path, "w", encoding="utf-8") as fp:
                 fp.write(rep.text)
 
     async with make_client() as clt:
         await asyncio.gather(*[fetch(clt, i, url, path) for i, (url, path) in enumerate(todo, 1)])
+
+    return failed
 
 
 def parse_ops(content: str) -> tuple[str, list[tuple[str, str, str]]]:
@@ -175,7 +205,14 @@ async def main() -> int:
     print("")
     print("Downloading scripts...")
     scripts = await get_scripts()
-    scripts = await fetch_scripts(scripts, force)
+    scripts, failed = await fetch_scripts(scripts, force)
+    if failed:
+        print(f"\nFailed to download {len(failed)} scripts:")
+        for url in failed:
+            print(f"  {url}")
+        print("ERROR: downloads failed; rerun to continue (downloaded scripts are cached).")
+        return 1
+
     print("")
     print("Analyzing scripts...")
 
