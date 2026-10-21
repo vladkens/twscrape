@@ -1,0 +1,11 @@
+{
+  "data": {
+    "user": {
+      "result": {
+        "__typename": "UserUnavailable",
+        "message": "User is suspended",
+        "reason": "Suspended"
+      }
+    }
+  }
+}

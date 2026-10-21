@@ -1,0 +1,28 @@
+{
+  "data": {
+    "user": {}
+  },
+  "errors": [
+    {
+      "extensions": {
+        "kind": "ServiceLevel",
+        "name": "DeadlineExceeded",
+        "source": "Server"
+      },
+      "kind": "ServiceLevel",
+      "locations": [
+        {
+          "column": 5,
+          "line": 3
+        }
+      ],
+      "message": "DeadlineExceeded: Unspecified",
+      "name": "DeadlineExceeded",
+      "path": [
+        "user",
+        "result"
+      ],
+      "source": "Server"
+    }
+  ]
+}
