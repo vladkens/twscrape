@@ -41,9 +41,14 @@ def _is_relevant_script(url: str) -> bool:
 async def get_scripts() -> list[tuple[str, str]]:
     os.makedirs(CACHE_DIR, exist_ok=True)
 
+    # As of 2026-10 profile and home pages serve only the x-web app, which has its own Relay ops.
+    # Routes not ported to x-web (any unknown /i/ path) still serve the legacy responsive-web
+    # app, whose chunks define the ops twscrape uses (SearchTimeline, Followers, ...).
+    pages = ("https://x.com/xdevelopers", "https://x.com/home", "https://x.com/i/embed")
+
     urls: list[str] = []
     async with make_client() as clt:
-        for page_url in ("https://x.com/xdevelopers", "https://x.com/home"):
+        for page_url in pages:
             text = await get_tw_page_text(page_url, clt)
             urls.extend(get_scripts_list(text))
 
