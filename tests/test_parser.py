@@ -1142,15 +1142,18 @@ def test_promo_image_convo_card_photo():
         ),
     ],
 )
-def test_card_bad_numbers(name, twid, key, value, attr):
+def test_card_bad_numbers(name, twid, key, value, attr, monkeypatch):
     raw = fake_rep(name).json()
     item = find_obj(raw, lambda x: x.get("key") == key)
     assert item is not None
 
     item["value"]["string_value"] = value
+    warnings = []
+    monkeypatch.setattr(models.logger, "warning", warnings.append)
     doc = parse_tweet(raw, twid)
     assert doc is not None and doc.card is not None
     assert getattr(doc.card, attr) is None
+    assert len(warnings) == 1 and f"{key}={value!r}" in warnings[0]
 
 
 async def test_tweet_new_fields():
