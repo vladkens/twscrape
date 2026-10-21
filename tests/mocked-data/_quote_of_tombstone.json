@@ -1,0 +1,241 @@
+{
+  "data": {
+    "threaded_conversation_with_injections_v2": {
+      "instructions": [
+        {
+          "type": "TimelineClearCache"
+        },
+        {
+          "entries": [
+            {
+              "content": {
+                "__typename": "TimelineTimelineItem",
+                "clientEventInfo": {
+                  "component": "tweet",
+                  "element": "tweet"
+                },
+                "entryType": "TimelineTimelineItem",
+                "itemContent": {
+                  "__typename": "TimelineTweet",
+                  "itemType": "TimelineTweet",
+                  "tweetDisplayType": "Tweet",
+                  "tweet_results": {
+                    "result": {
+                      "__typename": "Tweet",
+                      "core": {
+                        "user_results": {
+                          "result": {
+                            "__typename": "User",
+                            "action_counts": {
+                              "favorites_count": 1796
+                            },
+                            "affiliates_highlighted_label": {},
+                            "avatar": {
+                              "image_url": "https://pbs.twimg.com/profile_images/2028879289039331328/0txmMuSw_normal.jpg"
+                            },
+                            "banner": {
+                              "image_url": "https://pbs.twimg.com/profile_banners/367796799/1772557541"
+                            },
+                            "core": {
+                              "created_at": "Sun Sep 04 15:47:29 +0000 2011",
+                              "name": "Adore Me",
+                              "screen_name": "AdoreMe"
+                            },
+                            "dm_permissions": {
+                              "can_dm": true
+                            },
+                            "follow_request_sent": false,
+                            "has_graduated_access": true,
+                            "id": "VXNlcjozNjc3OTY3OTk=",
+                            "is_blue_verified": false,
+                            "location": {
+                              "location": "New York, New York"
+                            },
+                            "media_permissions": {
+                              "can_media_tag": true
+                            },
+                            "notifications_settings": {
+                              "notifications_enabled": false
+                            },
+                            "pinned_items": {},
+                            "possibly_sensitive": false,
+                            "privacy": {
+                              "protected": false
+                            },
+                            "professional": {
+                              "category": [
+                                {
+                                  "icon_name": "IconBriefcaseStroke",
+                                  "id": 731,
+                                  "name": "Apparel Company"
+                                }
+                              ],
+                              "professional_type": "Business",
+                              "rest_id": "1514059123280818181"
+                            },
+                            "profile_bio": {
+                              "description": "It\u2019s so you.",
+                              "entities": {
+                                "description": {},
+                                "url": {
+                                  "urls": [
+                                    {
+                                      "display_url": "adoreme.com",
+                                      "expanded_url": "http://www.adoreme.com",
+                                      "indices": [
+                                        0,
+                                        23
+                                      ],
+                                      "url": "https://t.co/tM7zQcYx4z"
+                                    }
+                                  ]
+                                }
+                              }
+                            },
+                            "profile_description_language": "en",
+                            "profile_image_shape": "Circle",
+                            "profile_metadata": {
+                              "profile_interstitial_type": ""
+                            },
+                            "profile_translation": {
+                              "translator_type": "none"
+                            },
+                            "relationship_counts": {
+                              "followers": 18269,
+                              "following": 1316
+                            },
+                            "relationship_perspectives": {
+                              "blocked_by": false,
+                              "blocking": false,
+                              "followed_by": false,
+                              "following": false,
+                              "live_following": false,
+                              "muting": false
+                            },
+                            "rest_id": "367796799",
+                            "super_follow_eligible": false,
+                            "super_followed_by": false,
+                            "super_following": false,
+                            "tipjar_settings": {},
+                            "tweet_counts": {
+                              "media_tweets": 4141,
+                              "tweets": 14434
+                            },
+                            "verification": {
+                              "verified": false
+                            },
+                            "website": {
+                              "url": "https://t.co/tM7zQcYx4z"
+                            }
+                          }
+                        }
+                      },
+                      "edit_control": {
+                        "edit_tweet_ids": [
+                          "1553061790468161538"
+                        ],
+                        "editable_until_msecs": "1659115559000",
+                        "edits_remaining": "5",
+                        "is_edit_eligible": true
+                      },
+                      "grok_translated_post_with_availability": {
+                        "is_available": false
+                      },
+                      "has_birdwatch_notes": false,
+                      "is_translatable": false,
+                      "legacy": {
+                        "bookmark_count": 0,
+                        "bookmarked": false,
+                        "conversation_id_str": "1553061790468161538",
+                        "created_at": "Fri Jul 29 16:55:59 +0000 2022",
+                        "display_text_range": [
+                          0,
+                          16
+                        ],
+                        "entities": {},
+                        "favorite_count": 3,
+                        "favorited": false,
+                        "full_text": "Yasssss queeeen!",
+                        "id_str": "1553061790468161538",
+                        "is_quote_status": true,
+                        "lang": "es",
+                        "quote_count": 0,
+                        "quoted_status_id_str": "1552999455422664704",
+                        "quoted_status_permalink": {
+                          "display": "t.co/pRwKBcyGab",
+                          "expanded": "https://t.co/pRwKBcyGab",
+                          "url": "https://t.co/pRwKBcyGab"
+                        },
+                        "reply_count": 0,
+                        "retweet_count": 0,
+                        "retweeted": false,
+                        "user_id_str": "367796799"
+                      },
+                      "quick_promote_eligibility": {
+                        "eligibility": "IneligibleNotVerified"
+                      },
+                      "quoted_status_result": {
+                        "result": {
+                          "__typename": "TweetTombstone",
+                          "tombstone": {
+                            "__typename": "TextTombstone",
+                            "text": {
+                              "entities": [
+                                {
+                                  "fromIndex": 52,
+                                  "ref": {
+                                    "type": "TimelineUrl",
+                                    "url": "https://help.x.com/rules-and-policies/notices-on-x",
+                                    "urlType": "ExternalUrl"
+                                  },
+                                  "toIndex": 62
+                                }
+                              ],
+                              "rtl": false,
+                              "text": "This Post is from an account that no longer exists. Learn more"
+                            }
+                          }
+                        }
+                      },
+                      "rest_id": "1553061790468161538",
+                      "unmention_data": {},
+                      "views": {
+                        "state": "Enabled"
+                      }
+                    }
+                  }
+                }
+              },
+              "entryId": "tweet-1553061790468161538",
+              "sortIndex": "2113001662514724864"
+            },
+            {
+              "content": {
+                "__typename": "TimelineTimelineCursor",
+                "cursorType": "Bottom",
+                "entryType": "TimelineTimelineCursor",
+                "value": "DAAKCgABHVLj0R____0LAAIAAAAoRW1QQzZ3QUFBZlEvZ0dKTjB2R3AvQUFBQUFFVmpaVjRUeFpBQWc9PQgAAwAAAAILAAQAAAAGQm90dG9tAAA"
+              },
+              "entryId": "cursor-bottom-2113001662514724863",
+              "sortIndex": "2113001662514724863"
+            }
+          ],
+          "type": "TimelineAddEntries"
+        },
+        {
+          "direction": "Top",
+          "type": "TimelineTerminateTimeline"
+        },
+        {
+          "direction": "Bottom",
+          "type": "TimelineTerminateTimeline"
+        }
+      ],
+      "metadata": {
+        "scribeConfig": {
+          "page": "ranked_replies"
+        }
+      }
+    }
+  }
+}
