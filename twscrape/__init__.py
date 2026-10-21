@@ -5,6 +5,7 @@ from .api import API
 from .http import ConnectError, HttpError, HttpStatusError, NetworkError, Response
 from .logger import set_log_level
 from .models import *  # noqa: F403
+from .models import UserParseError
 from .queue_client import AbortReqError, ApiError, GqlFeaturesOutdatedError
 from .utils import gather
 from .xclid import XClIdParseError

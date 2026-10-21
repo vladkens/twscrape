@@ -15,6 +15,10 @@ from .logger import logger
 from .utils import find_item, get_or, int_or, to_old_obj, to_old_rep, utc
 
 
+class UserParseError(Exception):
+    """X sent a user that twscrape can't parse."""
+
+
 @dataclass
 class JSONTrait:
     def dict(self):
@@ -1327,13 +1331,13 @@ def parse_user(rep: Response) -> User | None:
     if len(docs) == 1:
         return docs[0]
     if not docs and errors:
-        raise errors[0]
+        raise UserParseError(f"Failed to parse user: {errors[0]!r}") from errors[0]
     if not docs:
         res = rep if isinstance(rep, dict) else rep.json()
         user = get_or(res, "data.user", {}) or {}
         user = user.get("result")
         if isinstance(user, dict) and user.get("__typename") == "User":
-            raise ValueError(f"Failed to parse user {user.get('rest_id', '')}")
+            raise UserParseError(f"Failed to parse user {user.get('rest_id', '')}")
 
     return None
 

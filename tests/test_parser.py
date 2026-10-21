@@ -20,6 +20,7 @@ from twscrape.models import (
     Trend,
     Tweet,
     User,
+    UserParseError,
     UserRef,
     parse_tweet,
     parse_tweets,
@@ -832,8 +833,9 @@ def test_user_lookup_parse_failure_raises():
     raw = fake_rep("raw_user_by_id").json()
     del raw["data"]["user"]["result"]["core"]["name"]
 
-    with pytest.raises(KeyError, match="name"):
+    with pytest.raises(UserParseError, match="name") as exc:
         parse_user(raw)
+    assert isinstance(exc.value.__cause__, KeyError)
 
 
 @pytest.mark.parametrize("missing", ["screen_name", "core"])
@@ -845,7 +847,7 @@ def test_user_lookup_normalization_failure_raises(missing):
     else:
         del user["core"][missing]
 
-    with pytest.raises(ValueError, match="Failed to parse user"):
+    with pytest.raises(UserParseError, match="Failed to parse user"):
         parse_user(raw)
 
 
