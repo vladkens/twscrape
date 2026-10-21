@@ -14,6 +14,7 @@ from twscrape.models import (
     BroadcastCard,
     LiveEventCard,
     MessageMeCard,
+    ParseError,
     PeriscopeBroadcastCard,
     PollCard,
     PromoImageConvoCard,
@@ -24,6 +25,9 @@ from twscrape.models import (
     User,
     UserParseError,
     UserRef,
+    parse_about,
+    parse_community,
+    parse_trend,
     parse_tweet,
     parse_tweets,
     parse_user,
@@ -833,6 +837,65 @@ def test_user_lookup_parse_failure_keeps_cause():
 
     with pytest.raises(UserParseError, match="Failed to parse user") as exc:
         parse_user(raw)
+
+    assert isinstance(exc.value.__cause__, ValueError)
+
+
+def _break_tweet(raw: dict, fn: Callable[[str], bool]):
+    tw = find_obj(raw, lambda x: "legacy" in x and "rest_id" in x and fn(x["rest_id"]))
+    assert tw is not None
+    tw["legacy"]["created_at"] = "not a date"
+
+
+def test_tweet_lookup_parse_failure_raises():
+    # https://github.com/vladkens/twscrape/issues/348
+    twid = 1649191520250245121
+    raw = fake_rep("raw_tweet_details").json()
+    _break_tweet(raw, lambda x: x == str(twid))
+
+    with pytest.raises(ParseError, match=f"Failed to parse tweet {twid}") as exc:
+        parse_tweet(raw, twid)
+
+    assert isinstance(exc.value.__cause__, ValueError)
+
+
+def test_tweet_lookup_ignores_broken_reply():
+    twid = 1649191520250245121
+    raw = fake_rep("raw_tweet_details").json()
+    _break_tweet(raw, lambda x: x != str(twid))
+
+    doc = parse_tweet(raw, twid)
+    assert doc is not None and doc.id == twid
+    assert parse_tweet(raw, 1) is None  # not in the response
+
+
+def test_about_and_community_parse_failure_raises():
+    raw = fake_rep("raw_user_about").json()
+    raw["data"]["user_result_by_screen_name"]["result"]["about_profile"] = ["broken"]
+    with pytest.raises(ParseError, match="Failed to parse about profile"):
+        parse_about(raw)
+
+    raw = fake_rep("raw_community_info").json()
+    del raw["data"]["communityResults"]["result"]["rest_id"]
+    with pytest.raises(ParseError, match="Failed to parse community"):
+        parse_community(raw)
+
+
+def test_unavailable_about_and_community_return_none():
+    raw = {"data": {"user_result_by_screen_name": {"result": {"__typename": "UserUnavailable"}}}}
+    assert parse_about(raw) is None
+
+    raw = {"data": {"communityResults": {"result": {"__typename": "CommunityUnavailable"}}}}
+    assert parse_community(raw) is None
+
+
+def test_trend_parse_failure_raises(monkeypatch):
+    def fail(*args):
+        raise ValueError("broken trend")
+
+    monkeypatch.setattr(models.Trend, "parse", fail)
+    with pytest.raises(ParseError, match="Failed to parse trend") as exc:
+        parse_trend(fake_rep("raw_trends").json())
 
     assert isinstance(exc.value.__cause__, ValueError)
 
