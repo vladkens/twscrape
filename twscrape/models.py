@@ -12,7 +12,17 @@ from typing import Callable, Generator, Optional, TypeVar, Union, cast
 
 from .http import Response
 from .logger import logger
-from .utils import find_item, get_or, int_or, to_old_rep, to_old_user, utc
+from .utils import (
+    QT_ID_PATH,
+    RT_ID_PATH,
+    find_item,
+    get_or,
+    int_or,
+    to_old_obj,
+    to_old_rep,
+    to_old_user,
+    utc,
+)
 
 
 @dataclass
@@ -379,14 +389,6 @@ class Article(JSONTrait):
         )
 
 
-# Where a retweet holds the ID of the retweeted tweet
-_RT_ID_PATH = [
-    "retweeted_status_id_str",
-    "retweeted_status_result.result.rest_id",
-    "retweeted_status_result.result.tweet.rest_id",
-]
-
-
 @dataclass
 class Tweet(JSONTrait):
     id: int
@@ -451,14 +453,8 @@ class Tweet(JSONTrait):
         # author: flat user used when the tweet's own author has no profile in the response
         tw_usr = User.parse(_get_tweet_user_obj(obj, res, author))
 
-        qt_id_path = [
-            "quoted_status_id_str",
-            "quoted_status_result.result.rest_id",
-            "quoted_status_result.result.tweet.rest_id",
-        ]
-
-        rt_obj = get_or(res, f"tweets.{_first(obj, _RT_ID_PATH)}")
-        qt_obj = get_or(res, f"tweets.{_first(obj, qt_id_path)}")
+        rt_obj = get_or(res, f"tweets.{_first(obj, RT_ID_PATH)}")
+        qt_obj = get_or(res, f"tweets.{_first(obj, QT_ID_PATH)}")
 
         # x.com/i/status/{id} serves any tweet, for a placeholder author without username
         url = f"https://x.com/{tw_usr.username or 'i'}/status/{obj['id_str']}"
@@ -1109,31 +1105,25 @@ def _get_tweet_user_obj(tw_obj: dict, res: dict, fallback: dict | None = None) -
     # stub without core, empty user_results, no core), and the same page complete later.
     # The tweet itself is complete: keep it, with an author known only by its ID.
     if user_id is not None:
-        logger.warning(
-            f"Author {user_id} of tweet {tw_obj.get('id_str')} has no profile in the response,"
-            " using a placeholder"
-        )
+        # res is one response page: warn once per author on it
+        warned = res.setdefault("placeholder_ids", set())
+        if user_id not in warned:
+            warned.add(user_id)
+            logger.warning(f"Author {user_id} has no profile in the response, using a placeholder")
+
         return _placeholder_user(user_id)
 
     raise KeyError(f"user {user_id} not found in response payload")
 
 
 def _placeholder_user(user_id: str, screen_name: str = "", name: str = "") -> dict:
-    """Flat user for an author X sent without a profile, parseable by User.parse."""
-    return {
-        "id_str": user_id,
-        "screen_name": screen_name,
-        "name": name,
-        "description": "",
-        "followers_count": 0,
-        "friends_count": 0,
-        "statuses_count": 0,
-        "favourites_count": 0,
-        "listed_count": 0,
-        "media_count": 0,
-        "location": "",
-        "profile_image_url_https": "",
-    }
+    """
+    Flat user for an author X sent without a profile, parseable by User.parse. Counts are 0
+    and User.created is the Unix epoch. X sends every real user with an avatar URL, so the
+    empty profileImageUrl marks a placeholder (see readme).
+    """
+    core = {"screen_name": screen_name, "name": name}
+    return to_old_obj({"__typename": "User", "rest_id": user_id, "core": core})
 
 
 def _referenced_author(ref_obj: dict, tw_obj: dict) -> dict | None:
@@ -1158,7 +1148,7 @@ def _referenced_author(ref_obj: dict, tw_obj: dict) -> dict | None:
 
     # Only when tw_obj is the retweeted tweet: a retweet of a quote also references the quoted
     # tweet, whose author is not the one in the prefix
-    if screen_name is None and _first(ref_obj, _RT_ID_PATH) == tw_obj.get("id_str"):
+    if screen_name is None and _first(ref_obj, RT_ID_PATH) == tw_obj.get("id_str"):
         match = re.match(r"RT @(\w+): ", ref_obj.get("full_text", ""))
         if match:
             screen_name = match.group(1)
@@ -1271,8 +1261,8 @@ def _parse_items(
     for x in obj[key].values():
         if kind == "tweet" and x.get("id_str") in retweeted_ids:
             continue
-        # Quoted tweets of other users are embedded in the quoting tweet and
-        # must not be yielded as standalone items:
+        # Quoted tweets are embedded in the quoting tweet and are not yielded on their own,
+        # unless X lists them as timeline entries (see to_old_rep):
         # https://github.com/vladkens/twscrape/issues/315
         # https://github.com/vladkens/twscrape/issues/300
         if kind == "tweet" and x.get("id_str") in quoted_ids:

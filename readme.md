@@ -120,6 +120,8 @@ api = API(raise_when_no_account=True, wait_timeout=30, wait_interval=1)
 
 A failed request raises instead of looking like an empty result: `AbortReqError` when twscrape gives up on it (for example an HTML block page), its subclass `ApiError` when X answers with errors and no data, and `XClIdParseError` when the X client transaction ID can't be generated. A paginated method raises on the page that failed, after yielding the earlier pages. `user_by_id()` and `user_by_login()` also raise when X sends a user twscrape can't parse, so `None` means X has no such user (or no account was available and `raise_when_no_account` is off).
 
+X sometimes sends a tweet without its author's profile. The tweet is still returned, with a placeholder `tweet.user` (the same goes for retweeted and quoted tweets): only `id` is known, plus `username` and sometimes `displayname` when the referencing tweet names the author. Its counts are 0, `created` is the Unix epoch and `profileImageUrl` is empty, which never happens for a real profile, so check `tweet.user.profileImageUrl == ""` before storing user stats.
+
 Search defaults to the Latest tab. Pass `kv={"product": "Top"}` or `kv={"product": "Media"}` to use another search product:
 
 ```python

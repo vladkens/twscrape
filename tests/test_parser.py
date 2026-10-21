@@ -890,18 +890,9 @@ def test_retweet_author_from_text_prefix_without_mention():
     # entry that names the author: the handle comes from the retweet's "RT @handle: " prefix,
     # so the truncated retweet text is still restored with it.
     raw = fake_rep("_issue_342_343").json()
-
-    def drop_mention(obj):
-        if isinstance(obj, dict):
-            if obj.get("rest_id") == "2083305234688803178" and "legacy" in obj:
-                obj["legacy"]["entities"]["user_mentions"] = []
-            for v in obj.values():
-                drop_mention(v)
-        elif isinstance(obj, list):
-            for v in obj:
-                drop_mention(v)
-
-    drop_mention(raw)
+    tweet = find_obj(raw, lambda x: x.get("rest_id") == "2083305234688803178" and "legacy" in x)
+    assert tweet is not None
+    tweet["legacy"]["entities"]["user_mentions"] = []
 
     tweet = {x.id: x for x in parse_tweets(raw)}[2083305234688803178]
     rt = tweet.retweetedTweet
@@ -913,7 +904,7 @@ def test_retweet_author_from_text_prefix_without_mention():
 @pytest.mark.parametrize(
     "shape", ["empty", "stub", "stub_empty_core", "stub_empty_legacy", "partial", "absent"]
 )
-def test_own_author_without_profile_keeps_tweets(shape):
+def test_own_author_without_profile_keeps_tweets(shape, monkeypatch):
     # Real UserTweets page of @scottyenor (April 2023 part, trimmed to 4 entries), with the
     # author of every own tweet sent as empty user_results, as X did in production for this
     # page on 2026-10-05. The other shapes seen that day, a User stub without core and no
@@ -940,8 +931,11 @@ def test_own_author_without_profile_keeps_tweets(shape):
 
     assert uid not in to_old_rep(raw)["users"]
 
+    warnings = []
+    monkeypatch.setattr(models.logger, "warning", warnings.append)
     tweets = {x.id: x for x in parse_tweets(raw)}
     assert len(tweets) == 7
+    assert len(warnings) == 1  # once per author per page
     for tw in tweets.values():
         assert (tw.user.id_str, tw.user.username, tw.user.displayname) == (uid, "", "")
         assert tw.url == f"https://x.com/i/status/{tw.id}"

@@ -289,6 +289,20 @@ def to_old_user(obj: dict) -> dict | None:
     return user
 
 
+# Where a tweet holds the ID of the retweeted / quoted tweet
+RT_ID_PATH = [
+    "retweeted_status_id_str",
+    "retweeted_status_result.result.rest_id",
+    "retweeted_status_result.result.tweet.rest_id",
+]
+
+QT_ID_PATH = [
+    "quoted_status_id_str",
+    "quoted_status_result.result.rest_id",
+    "quoted_status_result.result.tweet.rest_id",
+]
+
+
 def to_old_rep(obj: dict) -> dict[str, Any]:
     tmp = get_typed_object(obj, defaultdict(list))
 
@@ -313,11 +327,7 @@ def to_old_rep(obj: dict) -> dict[str, Any]:
     retweeted_ids = {
         str(retweeted_id)
         for tweet in tweets.values()
-        for path in (
-            "retweeted_status_id_str",
-            "retweeted_status_result.result.rest_id",
-            "retweeted_status_result.result.tweet.rest_id",
-        )
+        for path in RT_ID_PATH
         if (retweeted_id := get_or(tweet, path)) is not None
     }
 
@@ -335,11 +345,7 @@ def to_old_rep(obj: dict) -> dict[str, Any]:
     quoted_ids = {
         str(quoted_id)
         for tweet in tweets.values()
-        for path in (
-            "quoted_status_id_str",
-            "quoted_status_result.result.rest_id",
-            "quoted_status_result.result.tweet.rest_id",
-        )
+        for path in QT_ID_PATH
         if (quoted_id := get_or(tweet, path)) is not None and str(quoted_id) not in standalone_ids
     }
 
