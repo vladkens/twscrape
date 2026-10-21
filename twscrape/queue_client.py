@@ -40,9 +40,10 @@ class GqlFeaturesOutdatedError(AbortReqError):
 class ApiError(AbortReqError):
     """X answered with errors and without data."""
 
-    def __init__(self, msg: str, errors: list[str]):
+    # errors is optional so that pickle, which calls ApiError(msg), can rebuild it
+    def __init__(self, msg: str, errors: list[str] | None = None):
         super().__init__(msg)
-        self.errors = errors
+        self.errors = errors or []
 
 
 class FailKind(Enum):
