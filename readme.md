@@ -220,12 +220,12 @@ Parsed `Tweet`, `User`, `Community`, and trend objects can be converted with `.d
 
 A failed request raises instead of looking like an empty result:
 
-- `AbortReqError` when twscrape gives up on a request, for example on an HTML block page
+- `AbortReqError` when twscrape gives up on a request, for example on an HTML block page, including `GqlFeaturesOutdatedError` when X requires GraphQL features twscrape can't enable
 - `ApiError`, its subclass, when X answers with errors and no data; a busy or timed-out X (`LoadShed`, `DeadlineExceeded`) is retried a few times first
 - `XClIdParseError` when the X client transaction ID can't be generated
 - `UserParseError` when `user_by_id()` or `user_by_login()` gets a user twscrape can't parse
 
-A paginated method raises on the page that failed, after yielding the earlier pages. `None` from `user_by_id()` or `user_by_login()` means X has no such user (or no account was available and `raise_when_no_account` is off). The CLI logs these errors in one line and exits with code 1.
+A paginated method raises on the page that failed, after yielding the earlier pages. `None` from `user_by_id()` or `user_by_login()` means X has no such user (or no account was available and `raise_when_no_account` is off). In the CLI, a failed request exits with code 1 without a traceback.
 
 ## CLI
 

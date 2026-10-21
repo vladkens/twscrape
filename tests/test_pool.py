@@ -286,7 +286,10 @@ async def test_reactivate(pool_mock: AccountsPool, monkeypatch):
     acc = await pool_mock.get("user2")
     assert acc.active is False
     assert acc.error_msg == "banned by system"
-    assert warnings == ["Account user2 has no session, use relogin or add_cookie"]
+    assert warnings == [
+        "Account nope not found",
+        "Account user2 has no session, use relogin or add_cookie",
+    ]
 
 
 async def test_reactivate_one_username(pool_mock: AccountsPool):

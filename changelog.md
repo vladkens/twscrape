@@ -21,7 +21,7 @@
 
 - Retried X timeouts (`DeadlineExceeded`) a few times before raising (#347, by @Flaburgan)
 - Reported Cloudflare challenge pages with a clear `XClIdParseError` (#338, by @Matthew-Selvam)
-- Logged failed CLI requests in one line and exited with code 1
+- Exited with code 1 without a traceback on failed CLI requests
 
 **Full Changelog**: https://github.com/vladkens/twscrape/compare/v0.20.1...v0.21.0
 

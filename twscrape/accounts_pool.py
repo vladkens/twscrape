@@ -399,6 +399,8 @@ class AccountsPool:
         placeholders, params = self._usernames_where(usernames)
         qs = f"SELECT * FROM accounts WHERE username IN ({placeholders})"
         accounts = [Account.from_rs(x) for x in await fetchall(self._db_file, qs, params)]
+        for x in sorted(set(usernames) - {a.username for a in accounts}):
+            logger.warning(f"Account {x} not found")
 
         # an account without session cookies can't make requests until relogin or add_cookie
         usernames = []

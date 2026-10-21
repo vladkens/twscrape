@@ -333,7 +333,7 @@ class ArticleContentState(JSONTrait):
         return ArticleContentState(
             blocks=[ArticleBlock.parse(x) for x in obj.get("blocks") or []],
             entityMap={
-                str(x.get("key")): ArticleEntity.parse(x.get("value") or {})
+                str(x.get("key", "")): ArticleEntity.parse(x.get("value") or {})
                 for x in obj.get("entityMap") or []
             },
         )
