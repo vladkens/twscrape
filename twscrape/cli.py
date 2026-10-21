@@ -15,8 +15,10 @@ from .db import get_sqlite_version
 from .http import Response
 from .logger import logger, set_log_level
 from .login import LoginConfig
-from .models import Tweet, User
+from .models import Tweet, User, UserParseError
+from .queue_client import AbortReqError
 from .utils import print_table
+from .xclid import XClIdParseError
 
 
 class CustomHelpFormatter(argparse.HelpFormatter):
@@ -248,3 +250,6 @@ def run():
         asyncio.run(_run(args))
     except KeyboardInterrupt:
         pass
+    except (AbortReqError, XClIdParseError, UserParseError) as e:
+        logger.error(f"{type(e).__name__}: {e}")
+        exit(1)

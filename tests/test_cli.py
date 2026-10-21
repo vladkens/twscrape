@@ -6,7 +6,7 @@ import json
 import pytest
 
 from tests.test_parser import fake_rep
-from twscrape import cli
+from twscrape import ApiError, UserParseError, XClIdParseError, cli
 
 
 def test_reactivate_command(tmp_path, monkeypatch):
@@ -26,6 +26,32 @@ def test_reactivate_command(tmp_path, monkeypatch):
     account = asyncio.run(pool.get("user1"))
     assert account.active is True
     assert account.error_msg is None
+
+
+@pytest.mark.parametrize(
+    "error",
+    [
+        ApiError("API error: 200 - UserByRestId - (-1) Dependency: Unspecified"),
+        XClIdParseError("Signing script not found"),
+        UserParseError("Failed to parse user 123"),
+    ],
+)
+def test_request_error_exits_with_one_line(tmp_path, monkeypatch, error):
+    async def mock_user_by_id(self, uid, kv=None):
+        raise error
+
+    logs = []
+    monkeypatch.setenv("TWS_TELEMETRY", "0")
+    monkeypatch.setattr(cli.API, "user_by_id", mock_user_by_id)
+    monkeypatch.setattr(cli.logger, "error", logs.append)
+    db_path = str(tmp_path / "accounts.db")
+    monkeypatch.setattr(cli.sys, "argv", ["twscrape", "--db", db_path, "user_by_id", "123"])
+
+    with pytest.raises(SystemExit) as exc:
+        cli.run()
+
+    assert exc.value.code == 1
+    assert logs == [f"{type(error).__name__}: {error}"]
 
 
 async def test_add_cookie_uses_arg_cookies(tmp_path, monkeypatch):
