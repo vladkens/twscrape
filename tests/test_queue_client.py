@@ -493,7 +493,7 @@ async def test_cloudflare_block_raises(client_fixture: CF):
     with pytest.raises(AbortReqError, match="Blocked by Cloudflare: 403") as exc:
         await client.get(URL)
 
-    assert "TWS_HTTP_BACKEND=curl" not in str(exc.value)
+    assert "twscrape[curl]" not in str(exc.value)
     await client.__aexit__(None, None, None)
 
     # a Cloudflare block is about the request, not the account
@@ -501,7 +501,7 @@ async def test_cloudflare_block_raises(client_fixture: CF):
     assert await get_inactive(pool) == set()
 
 
-async def test_cloudflare_block_on_httpx_suggests_curl(client_fixture: CF, monkeypatch):
+async def test_cloudflare_block_on_httpx_suggests_curl_extra(client_fixture: CF, monkeypatch):
     # https://github.com/vladkens/twscrape/issues/337
     pool, client, mock = client_fixture
     monkeypatch.setattr(mock, "backend", "httpx", raising=False)
@@ -513,7 +513,7 @@ async def test_cloudflare_block_on_httpx_suggests_curl(client_fixture: CF, monke
         headers={"content-type": "text/html; charset=UTF-8", "cf-ray": "abc123"},
     )
 
-    with pytest.raises(AbortReqError, match="retry with TWS_HTTP_BACKEND=curl"):
+    with pytest.raises(AbortReqError, match=r"pip install 'twscrape\[curl\]'"):
         await client.get(URL)
 
     await client.__aexit__(None, None, None)

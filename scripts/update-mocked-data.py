@@ -47,9 +47,6 @@ DEFAULT_TTL_DAYS = 7
 MOCK_TESTS = ("tests/test_parser.py", "tests/test_pagination.py", "tests/test_cli.py")
 console = Console()
 
-# Cloudflare blocks the httpx TLS fingerprint on UserByRestId, see #337
-os.environ.setdefault("TWS_HTTP_BACKEND", "curl")
-
 MetaEntry: TypeAlias = tuple[str, str]  # (gql_op_id, file_sha256)
 Shape: TypeAlias = frozenset[str]
 
