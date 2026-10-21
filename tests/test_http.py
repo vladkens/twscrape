@@ -1,3 +1,4 @@
+import sys
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import httpx
@@ -94,10 +95,27 @@ def test_detect_backend_env_curl_not_installed(monkeypatch):
         _detect_backend()
 
 
-def test_detect_backend_env_httpx(monkeypatch):
-    monkeypatch.setenv("TWS_HTTP_BACKEND", "httpx")
-    result = _detect_backend()
-    assert result == "httpx"
+@pytest.mark.parametrize(
+    "env, has_curl, expected",
+    [
+        (None, True, "curl"),
+        (None, False, "httpx"),
+        (" ", True, "curl"),
+        ("httpx", True, "httpx"),
+        ("httpx", False, "httpx"),
+        ("CURL", True, "curl"),
+    ],
+)
+def test_detect_backend(monkeypatch, env, has_curl, expected):
+    if env is None:
+        monkeypatch.delenv("TWS_HTTP_BACKEND", raising=False)
+    else:
+        monkeypatch.setenv("TWS_HTTP_BACKEND", env)
+
+    if not has_curl:
+        monkeypatch.setitem(sys.modules, "curl_cffi", None)
+
+    assert _detect_backend() == expected
 
 
 def test_detect_backend_env_missing_backend(monkeypatch):
@@ -115,16 +133,10 @@ def test_detect_backend_invalid_value(monkeypatch):
         _detect_backend()
 
 
-def test_detect_backend_default_httpx(monkeypatch):
-    monkeypatch.delenv("TWS_HTTP_BACKEND", raising=False)
-    result = _detect_backend()
-    assert result == "httpx"
-
-
 def test_detect_backend_default_httpx_missing(monkeypatch):
     monkeypatch.delenv("TWS_HTTP_BACKEND", raising=False)
     with (
-        patch.dict("sys.modules", {"httpx": None}),
+        patch.dict("sys.modules", {"curl_cffi": None, "httpx": None}),
         pytest.raises(ImportError, match="httpx is not installed"),
     ):
         _detect_backend()
@@ -238,21 +250,6 @@ async def test_httpx_client_maps_write_and_pool_timeout():
         await client.aclose()
 
 
-# --- _detect_backend: missing paths ---
-
-
-def test_detect_backend_ignores_installed_curl_by_default(monkeypatch):
-    monkeypatch.delenv("TWS_HTTP_BACKEND", raising=False)
-    result = _detect_backend()
-    assert result == "httpx"
-
-
-def test_detect_backend_env_curl_installed(monkeypatch):
-    monkeypatch.setenv("TWS_HTTP_BACKEND", "curl")
-    result = _detect_backend()
-    assert result == "curl"
-
-
 # --- make_client: missing paths ---
 
 
@@ -267,11 +264,11 @@ def test_make_client_unknown_backend_raises():
         make_client("unknown_backend")
 
 
-def test_make_client_none_uses_default_httpx(monkeypatch):
+def test_make_client_none_uses_default_curl(monkeypatch):
     monkeypatch.delenv("TWS_HTTP_BACKEND", raising=False)
 
     client = make_client(None)
-    assert isinstance(client, HttpxClient)
+    assert isinstance(client, CurlClient)
 
 
 # --- CurlClient ---
