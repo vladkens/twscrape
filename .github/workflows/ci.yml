@@ -1,4 +1,4 @@
-name: main
+name: ci
 
 on:
   push:
@@ -46,4 +46,9 @@ jobs:
       id-token: write
     steps:
       - uses: actions/checkout@v7
-      - uses: vladkens/actions/py-publish@main
+      - id: release
+        uses: vladkens/actions/py-publish@main
+      - if: steps.release.outputs.tag != ''
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          skip-existing: true
