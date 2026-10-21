@@ -311,13 +311,14 @@ class QueueClient:
             raise HandledError()
 
         # no way to check is account banned in direct way, but this check should work
-        if has_error(errors, "(88) Rate limit exceeded") and limit_remaining > 0:
+        rate_limited = has_error(errors, "(88) Rate limit exceeded")
+        if rate_limited and limit_remaining > 0 and rep.status_code != 429:
             logger.warning(f"Ban detected: {request_log}")
             await self._close_ctx(-1, inactive=True, msg=err_msg)
             raise HandledError()
 
         # rate limit without x-rate-limit-* headers: https://github.com/vladkens/twscrape/issues/351
-        if rep.status_code == 429 or has_error(errors, "(88) Rate limit exceeded"):
+        if rep.status_code == 429 or (rate_limited and not has_data(rep, res)):
             logger.debug(f"Rate limited: {request_log}")
             await self._close_ctx(limit_reset if limit_reset > utc.ts() else utc.ts() + 60 * 15)
             raise HandledError()

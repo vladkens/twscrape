@@ -869,24 +869,30 @@ def test_tweet_lookup_ignores_broken_reply():
     assert parse_tweet(raw, 1) is None  # not in the response
 
 
-def test_about_and_community_parse_failure_raises():
-    raw = fake_rep("raw_user_about").json()
-    raw["data"]["user_result_by_screen_name"]["result"]["about_profile"] = ["broken"]
-    with pytest.raises(ParseError, match="Failed to parse about profile"):
-        parse_about(raw)
-
-    raw = fake_rep("raw_community_info").json()
-    del raw["data"]["communityResults"]["result"]["rest_id"]
-    with pytest.raises(ParseError, match="Failed to parse community"):
-        parse_community(raw)
+SINGLE_PARSERS = {
+    "about": ("raw_user_about", "user_result_by_screen_name", "about_profile", parse_about),
+    "community": ("raw_community_info", "communityResults", "rest_id", parse_community),
+}
 
 
-def test_unavailable_about_and_community_return_none():
-    raw = {"data": {"user_result_by_screen_name": {"result": {"__typename": "UserUnavailable"}}}}
-    assert parse_about(raw) is None
+@pytest.mark.parametrize("name, key, field, parse", SINGLE_PARSERS.values(), ids=SINGLE_PARSERS)
+def test_single_object_parse_failure_raises(name, key, field, parse):
+    # https://github.com/vladkens/twscrape/issues/348
+    raw = fake_rep(name).json()
+    raw["data"][key]["result"][field] = ["broken"]
+    with pytest.raises(ParseError, match="Failed to parse"):
+        parse(raw)
 
-    raw = {"data": {"communityResults": {"result": {"__typename": "CommunityUnavailable"}}}}
-    assert parse_community(raw) is None
+
+@pytest.mark.parametrize(
+    "key, typename, parse",
+    [
+        ("user_result_by_screen_name", "UserUnavailable", parse_about),
+        ("communityResults", "CommunityUnavailable", parse_community),
+    ],
+)
+def test_unavailable_single_object_returns_none(key, typename, parse):
+    assert parse({"data": {key: {"result": {"__typename": typename}}}}) is None
 
 
 def test_trend_parse_failure_raises(monkeypatch):
