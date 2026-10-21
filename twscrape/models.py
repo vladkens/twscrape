@@ -1082,8 +1082,8 @@ def _get_reply_user(tw_obj: dict, res: dict):
     if mention:
         return UserRef.parse(mention)
 
-    # Absent from both, e.g. a self-reply on a page sent without its author's profile (see
-    # _get_tweet_user_obj): the reply still names the user
+    # Not found in users or mentions, e.g. a self-reply on a page sent without its author's
+    # profile (see _get_tweet_user_obj): the reply still names the user
     screen_name = tw_obj.get("in_reply_to_screen_name")
     if screen_name:
         return UserRef(id=int(user_id), id_str=user_id, username=screen_name, displayname="")
