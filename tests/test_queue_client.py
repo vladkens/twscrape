@@ -599,9 +599,14 @@ async def test_gql_features_self_healed_and_retried(client_fixture: CF, monkeypa
     assert await get_locked(pool) == set()
 
 
-async def test_gql_features_self_heal_persists_across_requests(client_fixture: CF, monkeypatch):
-    _pool, client, mock = client_fixture
-    await client.__aenter__()
+async def test_gql_features_self_heal_shared_across_clients(client_fixture: CF, monkeypatch):
+    # Single-item calls open a new client each time, so the healed flags must outlive it
+    pool, _client, mock = client_fixture
+    logs = []
+    monkeypatch.setattr(queue_client_module.LogOnce, "seen", OrderedDict())
+    monkeypatch.setattr(
+        queue_client_module.logger, "log", lambda level, msg: logs.append((level, msg))
+    )
 
     sent = []
     original = mock.request
@@ -615,14 +620,17 @@ async def test_gql_features_self_heal_persists_across_requests(client_fixture: C
     mock.add_response(
         json={"errors": [{"code": 336, "message": "The following features cannot be null: foo"}]}
     )
-    mock.add_response(json={"data": {"user": {"id": 1}}})
-    mock.add_response(json={"data": {"user": {"id": 1}}})
+    for _ in range(4):
+        mock.add_response(json={"data": {"user": {"id": 1}}})
 
-    assert await client.get(URL, params={"variables": "{}", "features": "{}"}) is not None
-    assert await client.get(URL, params={"variables": "{}", "features": "{}"}) is not None
-    assert sent == [{}, {"foo": True}, {"foo": True}]
+    for queue in ["SearchTimeline", "SearchTimeline", "UserTweets"]:
+        async with QueueClient(pool, queue) as client:
+            assert await client.get(URL, params={"variables": "{}", "features": "{}"}) is not None
 
-    await client.__aexit__(None, None, None)
+    # one failed request in total; another operation keeps its own features
+    assert sent == [{}, {"foo": True}, {"foo": True}, {}]
+    assert [level for level, _msg in logs] == ["WARNING"]
+    assert "[DEV] Update required" in logs[0][1]
 
 
 async def test_gql_features_self_heal_retries_only_once(client_fixture: CF):
@@ -690,21 +698,6 @@ async def test_authorization_error_200_raises(client_fixture: CF):
     await client.__aexit__(None, None, None)
 
 
-async def test_deadline_exceeded_without_data_raises(client_fixture: CF):
-    # Seen in production: "API unknown error: 200 - ... - (-1) DeadlineExceeded: Unspecified"
-    pool, client, mock = client_fixture
-    await client.__aenter__()
-
-    mock.add_response(json={"errors": [{"code": -1, "message": "DeadlineExceeded: Unspecified"}]})
-
-    with pytest.raises(ApiError) as exc:
-        await client.get(URL)
-    assert exc.value.errors == ["(-1) DeadlineExceeded: Unspecified"]
-    assert "SearchTimeline" in str(exc.value)
-
-    await client.__aexit__(None, None, None)
-
-
 def test_api_error_pickles():
     # Process pools send exceptions back to the parent with pickle
     err = pickle.loads(pickle.dumps(ApiError("API error: x", ["(-1) LoadShed: Unspecified"])))
@@ -753,7 +746,12 @@ async def test_unknown_error_statuses_are_logged_separately(client_fixture: CF, 
     await client.__aexit__(None, None, None)
 
 
-async def test_loadshed_without_data_retries_same_account(client_fixture: CF, monkeypatch):
+# Seen in production: "API unknown error: 200 - ... - (-1) DeadlineExceeded: Unspecified"
+BUSY_ERRORS = ["LoadShed: Unspecified", "DeadlineExceeded: Unspecified"]
+
+
+@pytest.mark.parametrize("msg", BUSY_ERRORS)
+async def test_busy_without_data_retries_same_account(client_fixture: CF, monkeypatch, msg):
     _pool, client, mock = client_fixture
     sleeps = []
 
@@ -763,7 +761,7 @@ async def test_loadshed_without_data_retries_same_account(client_fixture: CF, mo
     monkeypatch.setattr("twscrape.queue_client.asyncio.sleep", fake_sleep)
     await client.__aenter__()
 
-    mock.add_response(json={"errors": [{"code": -1, "message": "LoadShed: Unspecified"}]})
+    mock.add_response(json={"errors": [{"code": -1, "message": msg}]})
     mock.add_response(json={"ok": True})
 
     rep = await client.get(URL)
@@ -775,7 +773,10 @@ async def test_loadshed_without_data_retries_same_account(client_fixture: CF, mo
     await client.__aexit__(None, None, None)
 
 
-async def test_loadshed_without_data_raises_when_retries_exhausted(client_fixture: CF, monkeypatch):
+@pytest.mark.parametrize("msg", BUSY_ERRORS)
+async def test_busy_without_data_raises_when_retries_exhausted(
+    client_fixture: CF, monkeypatch, msg
+):
     _pool, client, mock = client_fixture
 
     async def fake_sleep(secs):
@@ -785,12 +786,36 @@ async def test_loadshed_without_data_raises_when_retries_exhausted(client_fixtur
     await client.__aenter__()
 
     for _ in range(3):
-        mock.add_response(json={"errors": [{"code": -1, "message": "LoadShed: Unspecified"}]})
+        mock.add_response(json={"errors": [{"code": -1, "message": msg}]})
 
-    with pytest.raises(ApiError, match="LoadShed"):
+    with pytest.raises(ApiError, match="SearchTimeline") as exc:
         await client.get(URL)
+    assert exc.value.errors == [f"(-1) {msg}"]
     assert mock._queue == []
 
+    await client.__aexit__(None, None, None)
+
+
+async def test_loadshed_retry_budget_resets_after_success(client_fixture: CF, monkeypatch):
+    # One LoadShed per request over a long crawl must not add up to an error
+    _pool, client, mock = client_fixture
+    sleeps = []
+
+    async def fake_sleep(secs):
+        sleeps.append(secs)
+
+    monkeypatch.setattr("twscrape.queue_client.asyncio.sleep", fake_sleep)
+    await client.__aenter__()
+
+    for _ in range(4):
+        mock.add_response(json={"errors": [{"code": -1, "message": "LoadShed: Unspecified"}]})
+        mock.add_response(json={"ok": True})
+
+        rep = await client.get(URL)
+        assert rep is not None
+        assert getattr(rep, "__username", None) == "user1"
+
+    assert sleeps == [2, 2, 2, 2]
     await client.__aexit__(None, None, None)
 
 

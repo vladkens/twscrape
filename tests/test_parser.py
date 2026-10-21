@@ -1,10 +1,12 @@
 import json
 import os
+from collections import defaultdict
+from datetime import datetime, timezone
 from typing import Any, Callable, cast
 
 import pytest
 
-from twscrape import API, gather
+from twscrape import API, gather, models
 from twscrape.models import (
     AppCard,
     Article,
@@ -20,12 +22,13 @@ from twscrape.models import (
     Trend,
     Tweet,
     User,
+    UserParseError,
     UserRef,
     parse_tweet,
     parse_tweets,
     parse_user,
 )
-from twscrape.utils import find_obj, to_old_rep
+from twscrape.utils import find_obj, get_typed_object, to_old_rep
 
 BASE_DIR = os.path.dirname(__file__)
 DATA_DIR = os.path.join(BASE_DIR, "mocked-data")
@@ -640,49 +643,45 @@ async def test_issue_310():
 
 
 def test_article_tweet():
-    raw = fake_rep("raw_user_tweets").json()
-    doc = parse_tweet(raw, 2079814622639469025)
+    # timelines get the article preview, without its content state
+    raw = fake_rep("_issue_342_343").json()
+    source = find_obj(raw, lambda x: "preview_text" in x)
+    assert source is not None
 
-    assert doc is not None
-    assert doc.article is None
+    doc = {x.id: x for x in parse_tweets(raw)}[2079814622639469025]
     assert doc.retweetedTweet is not None
 
     article = doc.retweetedTweet.article
-    assert isinstance(article, Article)
-    assert article.id == "QXJ0aWNsZUVudGl0eToyMDc5MTYyMDYxMTQyMzM1NDg4"
-    assert article.rest_id == "2079162061142335488"
-    assert (
-        article.title
-        == "Turn your X account into a programmable intelligence system using the X API and Grok Build"
+    assert article is not None
+    assert article.id == int(source["rest_id"])
+    assert article.title == source["title"]
+    assert article.previewText == source["preview_text"]
+    assert article.contentState is None
+    assert article.publishedAt == datetime.fromtimestamp(
+        source["metadata"]["first_published_at_secs"], timezone.utc
     )
-    assert article.preview_text.startswith("Your X account can now become")
-    assert article.modified_at_secs == 1784687550
-    assert article.first_published_at_secs == 1784687550
+    assert article.modifiedAt == datetime.fromtimestamp(
+        source["lifecycle_state"]["modified_at_secs"], timezone.utc
+    )
 
 
 def test_article_rich_content():
-    with open(os.path.join(DATA_DIR, "article.json")) as fp:
-        raw = json.load(fp)
+    raw = fake_rep("article").json()
+    source = find_obj(raw, lambda x: "content_state" in x)
+    assert source is not None
 
-    source = raw["data"]["threaded_conversation_with_injections_v2"]["instructions"][1]["entries"][
-        0
-    ]["content"]["itemContent"]["tweet_results"]["result"]["article"]["article_results"]["result"]
     doc = parse_tweet(raw, 2075503860689281453)
-
     assert doc is not None
     assert isinstance(doc.article, Article)
+
     article = doc.article
+    assert article.id_str == source["rest_id"]
     assert article.title == source["title"]
     assert article.summaryText == source["summary_text"]
     assert article.isGrokSummaryEligible is True
     assert article.coverMedia is not None
     assert article.coverMedia.mediaId == source["cover_media"]["media_id"]
-    assert (
-        article.coverMedia.mediaInfo["original_img_url"]
-        == (source["cover_media"]["media_info"]["original_img_url"])
-    )
-    assert article.coverMedia.mediaInfo["original_img_width"] == 1024
-    assert article.coverMedia.mediaInfo["original_img_height"] == 410
+    assert article.coverMedia.mediaInfo == source["cover_media"]["media_info"]
     assert article.mediaEntities == source["media_entities"]
 
     assert article.contentState is not None
@@ -711,52 +710,53 @@ def test_article_rich_content():
     assert parsed["contentState"]["entityMap"].keys() == content.entityMap.keys()
 
 
-async def test_tweet_details_article(api_mock: API, monkeypatch):
-    with open(os.path.join(DATA_DIR, "article.json")) as fp:
-        raw = json.load(fp)
+def test_article_malformed():
+    # a bad article must never drop its tweet
+    raw = fake_rep("article").json()
+    source = find_obj(raw, lambda x: "content_state" in x)
+    assert source is not None
 
-    async def article_tweet_details_raw(twid: int, kv=None):
-        assert twid == 2075503860689281453
-        return raw
-
-    monkeypatch.setattr(api_mock, "tweet_details_raw", article_tweet_details_raw)
-    doc = await api_mock.tweet_details(2075503860689281453)
-
-    assert doc is not None
-    assert doc.article is not None
+    source["content_state"]["blocks"][0] = {"key": "k1"}
+    del source["cover_media"]["media_key"]
+    doc = parse_tweet(raw, 2075503860689281453)
+    assert doc is not None and doc.article is not None
     assert doc.article.contentState is not None
-    assert doc.article.coverMedia is not None
-    assert doc.article.summaryText is not None
+    assert doc.article.contentState.blocks[0].text == ""
+    assert doc.article.coverMedia is not None and doc.article.coverMedia.mediaKey == ""
+
+    source["content_state"]["blocks"][0] = None
+    source["rest_id"] = None
+    doc = parse_tweet(raw, 2075503860689281453)
+    assert doc is not None
+    assert doc.article is None
 
 
 async def test_issue_315():
     """Quoted tweets must not leak as standalone timeline items.
 
-    In raw_user_tweets the quoting tweets quote tweets by other users
-    (@milichab, @XFreeze, @SpaceXAI, @nicole_clash, @agno_three, @nikitabier).
-    X returns those quoted tweets embedded in the quoting tweet's payload and
-    they must not be yielded as top-level items too:
-    https://github.com/vladkens/twscrape/issues/315
+    UserTweets page of @XDevelopers, trimmed to retweets quoting @XDevelopers and @agno_three,
+    a retweet of the @agno_three tweet and the thread module of the quoted @XDevelopers tweet.
+    X returns quoted tweets embedded in the quoting tweet's payload and they must not be
+    yielded as top-level items too: https://github.com/vladkens/twscrape/issues/315
     """
-    raw = fake_rep("raw_user_tweets").json()
-    tweets = list(parse_tweets(raw))
-    top_level_ids = {x.id_str for x in tweets}
+    tweets = list(parse_tweets(fake_rep("_issue_315").json()))
+    top_level_ids = [x.id_str for x in tweets]
 
-    # the fixture quotes 6 tweets by other users; none may leak top-level
+    # a self-quoted tweet X lists inside its own thread module entry remains a real result
+    assert top_level_ids == [
+        "2082669627528601817",
+        "2082640274845811115",
+        "2082640276389249363",
+        "2075724225273323678",
+        "2075722586172846484",
+    ]
+
     other_user_quotes = {
         x.quotedTweet.id_str
         for x in tweets
         if x.quotedTweet is not None and x.quotedTweet.user.username != x.user.username
     }
-    assert len(other_user_quotes) == 6
-    assert not (other_user_quotes & top_level_ids), (
-        f"quoted tweets leaked as standalone items: {other_user_quotes & top_level_ids}"
-    )
-
-    # a self-quoted tweet X lists inside its own thread module entry remains a
-    # real result (5 items removed vs the pre-fix 25)
-    assert len(tweets) == 21
-    assert "2082640274845811115" in top_level_ids
+    assert other_user_quotes == {"2075716337603907695"}
 
 
 @pytest.mark.parametrize(
@@ -764,27 +764,13 @@ async def test_issue_315():
     ["conversationthread", "list-conversation", "profile-grid", "tweetdetailrelatedtweets"],
 )
 def test_quoted_tweet_in_other_timeline_modules_is_standalone(module):
-    raw = fake_rep("raw_user_tweets").json()
+    raw = fake_rep("_issue_315").json()
     quoted_id = "2082640274845811115"
     entry = find_obj(raw, lambda x: x.get("entryId", "").endswith(f"-tweet-{quoted_id}"))
     assert entry is not None
     entry["entryId"] = entry["entryId"].replace("profile-conversation-", f"{module}-", 1)
 
     assert quoted_id in {tweet.id_str for tweet in parse_tweets(raw)}
-
-
-def _users_in_order(obj, res: list | None = None) -> list[dict]:
-    # User objects in the order get_typed_object visits them
-    res = [] if res is None else res
-    if isinstance(obj, dict):
-        if obj.get("__typename") == "User":
-            res.append(obj)
-        for v in obj.values():
-            _users_in_order(v, res)
-    elif isinstance(obj, list):
-        for v in obj:
-            _users_in_order(v, res)
-    return res
 
 
 def _automated_by_label(user_id: str, screen_name: str) -> dict:
@@ -809,35 +795,27 @@ def test_partial_user_does_not_overwrite_full_user():
         assert rt.user.username == "rodalies"
 
 
-def test_partial_only_user_keeps_user_lookup_single():
-    # The operator of a looked-up bot exists only as a partial User: it must stay
-    # unparseable, or parse_user sees two users and returns None.
+def test_partial_only_user_keeps_user_lookup_single(monkeypatch):
+    # The operator of a looked-up bot exists only as a partial User: the lookup returns the
+    # bot, without a parse error for the operator.
     expected = parse_user(fake_rep("raw_user_by_login").json())
     assert expected is not None
 
     raw = fake_rep("raw_user_by_login").json()
-    _users_in_order(raw)[-1]["affiliates_highlighted_label"] = _automated_by_label(
-        "123456789", "operator_account"
-    )
+    label = _automated_by_label("123456789", "operator_account")
+    raw["data"]["user"]["result"]["affiliates_highlighted_label"] = label
 
-    doc = parse_user(raw)
-    assert doc is not None
-    assert doc.id == expected.id
-
-
-def test_user_lookup_parse_failure_raises():
-    # https://github.com/vladkens/twscrape/issues/346
-    # A user X sent but that can't be parsed must not read as "no user". Here the
-    # looked-up user lacks its name, like the partial users of #341 and #342.
-    raw = fake_rep("raw_user_by_id").json()
-    del raw["data"]["user"]["result"]["core"]["name"]
-
-    with pytest.raises(KeyError, match="name"):
-        parse_user(raw)
+    dumps = []
+    monkeypatch.setattr(models, "_write_dump", lambda *args: dumps.append(args))
+    assert parse_user(raw) == expected
+    assert dumps == []
 
 
-@pytest.mark.parametrize("missing", ["screen_name", "core"])
+@pytest.mark.parametrize("missing", ["name", "screen_name", "core"])
 def test_user_lookup_normalization_failure_raises(missing):
+    # https://github.com/vladkens/twscrape/issues/346
+    # A user X sent but that can't be parsed must not read as "no user", e.g. the looked-up
+    # user lacks its name, like the partial users of #341 and #342.
     raw = fake_rep("raw_user_by_id").json()
     user = raw["data"]["user"]["result"]
     if missing == "core":
@@ -845,18 +823,26 @@ def test_user_lookup_normalization_failure_raises(missing):
     else:
         del user["core"][missing]
 
-    with pytest.raises(ValueError, match="Failed to parse user"):
+    with pytest.raises(UserParseError, match="Failed to parse user"):
         parse_user(raw)
+
+
+def test_user_lookup_parse_failure_keeps_cause():
+    # A looked-up user that normalizes but fails User.parse wraps the original error
+    raw = fake_rep("raw_user_by_id").json()
+    raw["data"]["user"]["result"]["core"]["created_at"] = "not a date"
+
+    with pytest.raises(UserParseError, match="Failed to parse user") as exc:
+        parse_user(raw)
+
+    assert isinstance(exc.value.__cause__, ValueError)
 
 
 def test_bot_reply_to_partial_only_operator():
     # Two own retweets from production UserTweets pages (@NatMus_SWE, @betaworks). Each
     # retweets a bot's reply to its operator, whose "Automated by @operator" label is the
-    # only User of the operator on the page: users keeps it partial, without name.
-    raw = fake_rep("_user_tweets_bot_reply_to_operator").json()
-    users = to_old_rep(raw)["users"]
-
-    tweets = {x.id: x for x in parse_tweets(raw)}
+    # only User of the operator on the page, partial, without name.
+    tweets = {x.id: x for x in parse_tweets(fake_rep("_user_tweets_bot_reply_to_operator").json())}
     for twid, bot, operator in (
         (
             956082660291555328,
@@ -865,8 +851,6 @@ def test_bot_reply_to_partial_only_operator():
         ),
         (1934744325579051137, "opus_genesis", (1614308799220695045, "veryvanya", "veryvanya")),
     ):
-        assert "name" not in users[str(operator[0])]
-
         rt = tweets[twid].retweetedTweet
         assert rt is not None
         assert rt.user.username == bot
@@ -916,18 +900,9 @@ def test_retweet_author_from_text_prefix_without_mention():
     # entry that names the author: the handle comes from the retweet's "RT @handle: " prefix,
     # so the truncated retweet text is still restored with it.
     raw = fake_rep("_issue_342_343").json()
-
-    def drop_mention(obj):
-        if isinstance(obj, dict):
-            if obj.get("rest_id") == "2083305234688803178" and "legacy" in obj:
-                obj["legacy"]["entities"]["user_mentions"] = []
-            for v in obj.values():
-                drop_mention(v)
-        elif isinstance(obj, list):
-            for v in obj:
-                drop_mention(v)
-
-    drop_mention(raw)
+    tweet = find_obj(raw, lambda x: x.get("rest_id") == "2083305234688803178" and "legacy" in x)
+    assert tweet is not None
+    tweet["legacy"]["entities"]["user_mentions"] = []
 
     tweet = {x.id: x for x in parse_tweets(raw)}[2083305234688803178]
     rt = tweet.retweetedTweet
@@ -936,35 +911,41 @@ def test_retweet_author_from_text_prefix_without_mention():
     assert tweet.rawContent == f"RT @benjitaylor: {rt.rawContent}"
 
 
-@pytest.mark.parametrize("shape", ["empty", "stub", "absent"])
-def test_own_author_without_profile_keeps_tweets(shape):
+@pytest.mark.parametrize(
+    "shape", ["empty", "stub", "stub_empty_core", "stub_empty_legacy", "partial", "absent"]
+)
+def test_own_author_without_profile_keeps_tweets(shape, monkeypatch):
     # Real UserTweets page of @scottyenor (April 2023 part, trimmed to 4 entries), with the
     # author of every own tweet sent as empty user_results, as X did in production for this
     # page on 2026-10-05. The other shapes seen that day, a User stub without core and no
-    # core at all, are applied over it. The tweets are complete: kept, with an ID-only author.
+    # core at all, are applied over it, as well as stubs with empty core or legacy and a
+    # partial User with only screen_name. The tweets are complete: kept, with an ID-only author.
     raw = fake_rep("_user_tweets_own_author_without_profile").json()
     uid = "1380623475023355907"
+    stubs = {
+        "stub": {"privacy": {"protected": False}},
+        "stub_empty_core": {"core": {}},
+        "stub_empty_legacy": {"legacy": {}},
+        "partial": {"core": {"screen_name": "scottyenor"}},
+    }
 
-    def set_own_author(obj):
-        if isinstance(obj, dict):
-            if obj.get("__typename") == "Tweet" and obj["legacy"]["user_id_str"] == uid:
-                if shape == "stub":
-                    stub = {"__typename": "User", "rest_id": uid, "privacy": {"protected": False}}
-                    obj["core"] = {"user_results": {"result": stub}}
-                else:
-                    del obj["core"]
-            for v in obj.values():
-                set_own_author(v)
-        elif isinstance(obj, list):
-            for v in obj:
-                set_own_author(v)
+    for x in get_typed_object(raw, defaultdict(list))["Tweet"]:
+        if shape == "empty" or x["legacy"]["user_id_str"] != uid:
+            continue
 
-    if shape != "empty":
-        set_own_author(raw)
+        if shape == "absent":
+            del x["core"]
+        else:
+            stub = {"__typename": "User", "rest_id": uid, **stubs[shape]}
+            x["core"] = {"user_results": {"result": stub}}
+
     assert uid not in to_old_rep(raw)["users"]
 
+    warnings = []
+    monkeypatch.setattr(models.logger, "warning", warnings.append)
     tweets = {x.id: x for x in parse_tweets(raw)}
     assert len(tweets) == 7
+    assert len(warnings) == 1  # once per author per page
     for tw in tweets.values():
         assert (tw.user.id_str, tw.user.username, tw.user.displayname) == (uid, "", "")
         assert tw.url == f"https://x.com/i/status/{tw.id}"
@@ -986,154 +967,190 @@ def test_own_author_without_profile_keeps_tweets(shape):
     assert rt.user.username == "megbasham"
 
 
-async def test_cards():
-    # Issues:
-    # - https://github.com/vladkens/twscrape/issues/72
-    # - https://github.com/vladkens/twscrape/issues/191
+# Issues:
+# - https://github.com/vladkens/twscrape/issues/72
+# - https://github.com/vladkens/twscrape/issues/191
+# fixture, tweet id, card class, expected attrs (`...` means not None)
+CARDS = {
+    "summary": (
+        "card_summary",
+        1696922210588410217,
+        SummaryCard,
+        {"_type": "summary", "title": ..., "description": ..., "url": ...},
+    ),
+    "poll": (
+        "card_poll",
+        1780666831310877100,
+        PollCard,
+        {"_type": "poll", "finished": ..., "options": ...},
+    ),
+    "poll2choice_video": (
+        "card_poll_video",
+        1114574134397165568,
+        PollCard,
+        {"_type": "poll", "finished": True, "videoUrl": ..., "durationSeconds": 24, "photo": ...},
+    ),
+    "broadcast": (
+        "card_broadcast",
+        1790441814857826439,
+        BroadcastCard,
+        {"_type": "broadcast", "title": ..., "url": ..., "photo": ...},
+    ),
+    "audiospace": (
+        "card_audiospace",
+        1789054061729173804,
+        AudiospaceCard,
+        {"_type": "audiospace", "url": ...},
+    ),
+    "message_me": (
+        "card_message_me",
+        1916063270131191983,
+        MessageMeCard,
+        {"_type": "message_me", "url": ..., "cta": ..., "recipientId": "85741735"},
+    ),
+    "periscope_broadcast": (
+        "card_periscope_broadcast",
+        822817044450013184,
+        PeriscopeBroadcastCard,
+        {
+            "_type": "periscope_broadcast",
+            "title": ...,
+            "url": ...,
+            "state": "ENDED",
+            "broadcasterUsername": "womensmarch",
+            "thumbnailUrl": ...,
+        },
+    ),
+    "promo_video_convo": (
+        "card_promo_video_convo",
+        1090673433690685441,
+        PromoVideoConvoCard,
+        {
+            "_type": "promo_video_convo",
+            "title": "Add your voice.",
+            "thankYouText": ...,
+            "videoUrl": ...,
+            "durationSeconds": 5,
+            "ctas": ["#BellLetsTalk"],
+            "photo": ...,
+        },
+    ),
+    "promo_image_convo": (
+        "card_promo_image_convo",
+        2078218219689492480,
+        PromoImageConvoCard,
+        {
+            "_type": "promo_image_convo",
+            "title": ...,
+            "thankYouText": ...,
+            "thankYouUrl": ...,
+            "ctas": ["#onerufflecheddarlong"],
+            "photo": ...,
+        },
+    ),
+    "live_event": (
+        "card_live_event",
+        1463203718153703425,
+        LiveEventCard,
+        {
+            "_type": "live_event",
+            "title": ...,
+            "url": ...,
+            "eventId": "1461789549739143169",
+            "category": "Music",
+            "subtitle": ...,
+            "photo": ...,
+        },
+    ),
+    "app": (
+        "card_app",
+        1249486216266788865,
+        AppCard,
+        {
+            "_type": "app",
+            "title": "The NBC App – Stream TV Shows",
+            "url": ...,
+            "description": ...,
+            "starRating": 4.57233,
+            "numRatings": 289838,
+            "photo": ...,
+        },
+    ),
+}
 
-    # Check SummaryCard
-    raw = fake_rep("card_summary").json()
-    doc = parse_tweet(raw, 1696922210588410217)
-    assert doc is not None
-    assert doc.card is not None
-    assert isinstance(doc.card, SummaryCard)
-    assert doc.card._type == "summary"
-    assert doc.card.title is not None
-    assert doc.card.description is not None
-    assert doc.card.url is not None
 
-    # Check PollCard
-    raw = fake_rep("card_poll").json()
-    doc = parse_tweet(raw, 1780666831310877100)
+@pytest.mark.parametrize("name, twid, cls, attrs", CARDS.values(), ids=CARDS.keys())
+def test_cards(name, twid, cls, attrs):
+    doc = parse_tweet(fake_rep(name).json(), twid)
     assert doc is not None
-    assert doc.card is not None
-    assert isinstance(doc.card, PollCard)
-    assert doc.card._type == "poll"
-    assert doc.card.finished is not None
-    assert doc.card.options is not None
-    assert len(doc.card.options) > 0
+    assert isinstance(doc.card, cls)
+
+    for k, v in attrs.items():
+        x = getattr(doc.card, k)
+        assert x is not None if v is ... else x == v, k
+
+
+@pytest.mark.parametrize(
+    "name, twid, count",
+    [("card_poll", 1780666831310877100, 2), ("card_poll_video", 1114574134397165568, 2)],
+)
+def test_poll_card_options(name, twid, count):
+    doc = parse_tweet(fake_rep(name).json(), twid)
+    assert doc is not None and isinstance(doc.card, PollCard)
+    assert len(doc.card.options) == count
     for x in doc.card.options:
         assert x.label is not None
         assert x.votesCount is not None
 
-    # Check PollCard with video (poll2choice_video)
-    raw = fake_rep("card_poll_video").json()
-    doc = parse_tweet(raw, 1114574134397165568)
-    assert doc is not None and doc.card is not None
-    assert isinstance(doc.card, PollCard)
-    assert doc.card._type == "poll"
-    assert len(doc.card.options) == 2
-    assert doc.card.finished is True
-    assert doc.card.videoUrl is not None
-    assert doc.card.durationSeconds == 24
-    assert doc.card.photo is not None
 
-    image_poll = fake_rep("card_poll").json()
+def test_poll_card_with_choice_images():
+    raw = fake_rep("card_poll").json()
     card = find_obj(
-        image_poll,
+        raw,
         lambda x: (
             isinstance(x.get("legacy"), dict)
             and str(x["legacy"].get("name", "")).startswith("poll")
         ),
     )
     assert card is not None
+
     card["legacy"]["name"] = "1906814671912599552:poll_choice_images"
-    doc = parse_tweet(image_poll, 1780666831310877100)
+    doc = parse_tweet(raw, 1780666831310877100)
     assert doc is not None
     assert isinstance(doc.card, PollCard)
 
-    # Check BrodcastCard
-    raw = fake_rep("card_broadcast").json()
-    doc = parse_tweet(raw, 1790441814857826439)
-    assert doc is not None and doc.card is not None
-    assert doc.card._type == "broadcast"
-    assert isinstance(doc.card, BroadcastCard)
-    assert doc.card.title is not None
-    assert doc.card.url is not None
-    assert doc.card.photo is not None
 
-    # Check AudiospaceCard
-    raw = fake_rep("card_audiospace").json()
-    doc = parse_tweet(raw, 1789054061729173804)
-    assert doc is not None and doc.card is not None
-    assert doc.card._type == "audiospace"
-    assert isinstance(doc.card, AudiospaceCard)
-    assert doc.card.url is not None
-
-    # Check MessageMeCard
-    raw = fake_rep("card_message_me").json()
-    doc = parse_tweet(raw, 1916063270131191983)
-    assert doc is not None and doc.card is not None
-    assert doc.card._type == "message_me"
-    assert isinstance(doc.card, MessageMeCard)
-    assert doc.card.url is not None
-    assert doc.card.cta is not None
-    assert doc.card.recipientId == "85741735"
-
-    # Check PeriscopeBroadcastCard
-    raw = fake_rep("card_periscope_broadcast").json()
-    doc = parse_tweet(raw, 822817044450013184)
-    assert doc is not None and doc.card is not None
-    assert doc.card._type == "periscope_broadcast"
-    assert isinstance(doc.card, PeriscopeBroadcastCard)
-    assert doc.card.title is not None
-    assert doc.card.url is not None
-    assert doc.card.state == "ENDED"
-    assert doc.card.broadcasterUsername == "womensmarch"
-    assert doc.card.thumbnailUrl is not None
-
-    # Check PromoVideoConvoCard
-    raw = fake_rep("card_promo_video_convo").json()
-    doc = parse_tweet(raw, 1090673433690685441)
-    assert doc is not None and doc.card is not None
-    assert doc.card._type == "promo_video_convo"
-    assert isinstance(doc.card, PromoVideoConvoCard)
-    assert doc.card.title == "Add your voice."
-    assert doc.card.thankYouText is not None
-    assert doc.card.videoUrl is not None
-    assert doc.card.durationSeconds == 5
-    assert doc.card.ctas == ["#BellLetsTalk"]
-    assert doc.card.photo is not None
-
-    # Check PromoImageConvoCard
-    raw = fake_rep("card_promo_image_convo").json()
-    doc = parse_tweet(raw, 2078218219689492480)
-    assert doc is not None and doc.card is not None
-    assert doc.card._type == "promo_image_convo"
-    assert isinstance(doc.card, PromoImageConvoCard)
-    assert doc.card.title is not None
-    assert doc.card.thankYouText is not None
-    assert doc.card.thankYouUrl is not None
-    assert doc.card.ctas == ["#onerufflecheddarlong"]
+def test_promo_image_convo_card_photo():
     # main image, not the cover_promo_image ad cover (that one lives under /ad_img/)
+    doc = parse_tweet(fake_rep("card_promo_image_convo").json(), 2078218219689492480)
+    assert doc is not None and isinstance(doc.card, PromoImageConvoCard)
     assert doc.card.photo is not None
     assert "/ad_img/" not in doc.card.photo.url
 
-    # Check LiveEventCard
-    raw = fake_rep("card_live_event").json()
-    doc = parse_tweet(raw, 1463203718153703425)
-    assert doc is not None and doc.card is not None
-    assert doc.card._type == "live_event"
-    assert isinstance(doc.card, LiveEventCard)
-    assert doc.card.title is not None
-    assert doc.card.url is not None
-    assert doc.card.eventId == "1461789549739143169"
-    assert doc.card.category == "Music"
-    assert doc.card.subtitle is not None
-    assert doc.card.photo is not None
 
-    # Check AppCard
-    raw = fake_rep("card_app").json()
-    doc = parse_tweet(raw, 1249486216266788865)
+@pytest.mark.parametrize(
+    "name, twid, key, value, attr",
+    [
+        ("card_app", 1249486216266788865, "app_star_rating", "n/a", "starRating"),
+        ("card_app", 1249486216266788865, "app_num_ratings", "1.2K", "numRatings"),
+        (
+            "card_promo_video_convo",
+            1090673433690685441,
+            "content_duration_seconds",
+            "",
+            "durationSeconds",
+        ),
+    ],
+)
+def test_card_bad_numbers(name, twid, key, value, attr):
+    raw = fake_rep(name).json()
+    item = find_obj(raw, lambda x: x.get("key") == key)
+    assert item is not None
+
+    item["value"]["string_value"] = value
+    doc = parse_tweet(raw, twid)
     assert doc is not None and doc.card is not None
-    assert doc.card._type == "app"
-    assert isinstance(doc.card, AppCard)
-    assert doc.card.title == "The NBC App – Stream TV Shows"
-    assert doc.card.url is not None
-    assert doc.card.description is not None
-    assert doc.card.starRating is not None and 4 < doc.card.starRating < 5
-    assert doc.card.numRatings == 289838
-    assert doc.card.photo is not None
+    assert getattr(doc.card, attr) is None
 
 
 async def test_tweet_new_fields():

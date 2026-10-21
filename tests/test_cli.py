@@ -6,26 +6,55 @@ import json
 import pytest
 
 from tests.test_parser import fake_rep
-from twscrape import cli
+from twscrape import ApiError, UserParseError, XClIdParseError, cli
 
 
 def test_reactivate_command(tmp_path, monkeypatch):
     db_path = tmp_path / "accounts.db"
     pool = cli.AccountsPool(db_path)
 
-    async def add_inactive_account():
-        await pool.add_account("user1", "pass1", "email1", "ep1")
-        await pool.mark_inactive("user1", "session expired")
+    async def add_inactive_accounts():
+        for x in ("user1", "user2"):
+            await pool.add_account(x, "pass1", "email1", "ep1", cookies="auth_token=a; ct0=b")
+            await pool.mark_inactive(x, "session expired")
 
-    asyncio.run(add_inactive_account())
+    asyncio.run(add_inactive_accounts())
     monkeypatch.setenv("TWS_TELEMETRY", "0")
-    monkeypatch.setattr(cli.sys, "argv", ["twscrape", "--db", str(db_path), "reactivate", "user1"])
+    argv = ["twscrape", "--db", str(db_path), "reactivate", "user1", "user2"]
+    monkeypatch.setattr(cli.sys, "argv", argv)
 
     cli.run()
 
-    account = asyncio.run(pool.get("user1"))
-    assert account.active is True
-    assert account.error_msg is None
+    for x in ("user1", "user2"):
+        account = asyncio.run(pool.get(x))
+        assert account.active is True
+        assert account.error_msg is None
+
+
+@pytest.mark.parametrize(
+    "error",
+    [
+        ApiError("API error: 200 - UserByRestId - (-1) Dependency: Unspecified"),
+        XClIdParseError("Signing script not found"),
+        UserParseError("Failed to parse user 123"),
+    ],
+)
+def test_request_error_exits_with_one_line(tmp_path, monkeypatch, error):
+    async def mock_user_by_id(self, uid, kv=None):
+        raise error
+
+    logs = []
+    monkeypatch.setenv("TWS_TELEMETRY", "0")
+    monkeypatch.setattr(cli.API, "user_by_id", mock_user_by_id)
+    monkeypatch.setattr(cli.logger, "error", logs.append)
+    db_path = str(tmp_path / "accounts.db")
+    monkeypatch.setattr(cli.sys, "argv", ["twscrape", "--db", db_path, "user_by_id", "123"])
+
+    with pytest.raises(SystemExit) as exc:
+        cli.run()
+
+    assert exc.value.code == 1
+    assert logs == [f"{type(error).__name__}: {error}"]
 
 
 async def test_add_cookie_uses_arg_cookies(tmp_path, monkeypatch):

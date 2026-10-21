@@ -390,18 +390,33 @@ class AccountsPool:
         """
         await execute(self._db_file, qs, {"username": username, "error_msg": error_msg})
 
-    async def reactivate(self, username: str):
-        rs = await self.get_account(username)
-        if rs is None:
-            logger.warning(f"Account {username} not found")
+    async def reactivate(self, usernames: str | list[str]):
+        usernames = usernames if isinstance(usernames, list) else [usernames]
+        if not usernames:
+            logger.warning("No usernames provided")
             return
 
-        qs = """
-        UPDATE accounts SET active = true, error_msg = NULL
-        WHERE username = :username
-        """
-        await execute(self._db_file, qs, {"username": username})
-        logger.info(f"Account {username} reactivated")
+        placeholders, params = self._usernames_where(usernames)
+        qs = f"SELECT * FROM accounts WHERE username IN ({placeholders})"
+        accounts = [Account.from_rs(x) for x in await fetchall(self._db_file, qs, params)]
+        for x in sorted(set(usernames) - {a.username for a in accounts}):
+            logger.warning(f"Account {x} not found")
+
+        # an account without session cookies can't make requests until relogin or add_cookie
+        usernames = []
+        for x in accounts:
+            if has_required_cookies(x.cookies):
+                usernames.append(x.username)
+            else:
+                logger.warning(f"Account {x.username} has no session, use relogin or add_cookie")
+
+        if not usernames:
+            return
+
+        placeholders, params = self._usernames_where(usernames)
+        qs = f"UPDATE accounts SET active = true, error_msg = NULL WHERE username IN ({placeholders})"
+        await execute(self._db_file, qs, params)
+        logger.info(f"Reactivated accounts: {', '.join(usernames)}")
 
     async def stats(self):
         def locks_count(queue: str):
