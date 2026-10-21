@@ -316,7 +316,15 @@ class QueueClient:
             await self._close_ctx(-1, inactive=True, msg=err_msg)
             raise HandledError()
 
-        if has_error(errors, "(326) Authorization: Denied by access control"):
+        # rate limit without x-rate-limit-* headers: https://github.com/vladkens/twscrape/issues/351
+        if rep.status_code == 429 or has_error(errors, "(88) Rate limit exceeded"):
+            logger.debug(f"Rate limited: {request_log}")
+            await self._close_ctx(limit_reset if limit_reset > utc.ts() else utc.ts() + 60 * 15)
+            raise HandledError()
+
+        # https://github.com/vladkens/twscrape/issues/211
+        suspended = has_error(errors, "(64) Your account is suspended")
+        if suspended or has_error(errors, "(326) Authorization: Denied by access control"):
             logger.warning(f"Ban detected: {request_log}")
             await self._close_ctx(-1, inactive=True, msg=err_msg)
             raise HandledError()
