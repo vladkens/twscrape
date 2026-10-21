@@ -35,7 +35,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: vladkens/actions/py-build@main
+      - uses: vladkens/actions/py-build@v1
 
   publish:
     if: github.ref == 'refs/heads/main'
@@ -47,7 +47,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - id: release
-        uses: vladkens/actions/py-publish@main
+        uses: vladkens/actions/py-publish@v1
       - if: steps.release.outputs.tag != ''
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
