@@ -1,0 +1,3324 @@
+{
+  "data": {
+    "user": {
+      "result": {
+        "__typename": "User",
+        "timeline": {
+          "timeline": {
+            "instructions": [
+              {
+                "entries": [
+                  {
+                    "content": {
+                      "__typename": "TimelineTimelineItem",
+                      "clientEventInfo": {
+                        "component": "tweet",
+                        "details": {
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAABDAABCgABAAAAAAAAAAAKAAkdCAhb+ZcQAAoACgAAAaEhNHbzAAAAAA==",
+                            "injectionType": "RankedOrganicTweet"
+                          }
+                        },
+                        "element": "tweet"
+                      },
+                      "entryType": "TimelineTimelineItem",
+                      "itemContent": {
+                        "__typename": "TimelineTweet",
+                        "itemType": "TimelineTweet",
+                        "tweetDisplayType": "Tweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "card": {
+                              "legacy": {
+                                "binding_values": [
+                                  {
+                                    "key": "photo_image_full_size_large",
+                                    "value": {
+                                      "image_value": {
+                                        "height": 304,
+                                        "url": "https://pbs.twimg.com/card_img/2106927740851027969/UkBu-CrV?format=jpg&name=600x314",
+                                        "width": 580
+                                      },
+                                      "type": "IMAGE"
+                                    }
+                                  },
+                                  {
+                                    "key": "thumbnail_image",
+                                    "value": {
+                                      "image_value": {
+                                        "height": 150,
+                                        "url": "https://pbs.twimg.com/card_img/2106927740851027969/UkBu-CrV?format=jpg&name=280x150",
+                                        "width": 229
+                                      },
+                                      "type": "IMAGE"
+                                    }
+                                  },
+                                  {
+                                    "key": "description",
+                                    "value": {
+                                      "string_value": "Out of 80 HBCUs, just 16 have an official DEI department.",
+                                      "type": "STRING"
+                                    }
+                                  },
+                                  {
+                                    "key": "domain",
+                                    "value": {
+                                      "string_value": "www.thecollegefix.com",
+                                      "type": "STRING"
+                                    }
+                                  },
+                                  {
+                                    "key": "thumbnail_image_large",
+                                    "value": {
+                                      "image_value": {
+                                        "height": 320,
+                                        "url": "https://pbs.twimg.com/card_img/2106927740851027969/UkBu-CrV?format=jpg&name=800x320_1",
+                                        "width": 488
+                                      },
+                                      "type": "IMAGE"
+                                    }
+                                  },
+                                  {
+                                    "key": "summary_photo_image_small",
+                                    "value": {
+                                      "image_value": {
+                                        "height": 202,
+                                        "url": "https://pbs.twimg.com/card_img/2106927740851027969/UkBu-CrV?format=jpg&name=386x202",
+                                        "width": 386
+                                      },
+                                      "type": "IMAGE"
+                                    }
+                                  },
+                                  {
+                                    "key": "thumbnail_image_original",
+                                    "value": {
+                                      "image_value": {
+                                        "height": 380,
+                                        "url": "https://pbs.twimg.com/card_img/2106927740851027969/UkBu-CrV?format=jpg&name=orig",
+                                        "width": 580
+                                      },
+                                      "type": "IMAGE"
+                                    }
+                                  },
+                                  {
+                                    "key": "photo_image_full_size_small",
+                                    "value": {
+                                      "image_value": {
+                                        "height": 202,
+                                        "url": "https://pbs.twimg.com/card_img/2106927740851027969/UkBu-CrV?format=jpg&name=386x202",
+                                        "width": 386
+                                      },
+                                      "type": "IMAGE"
+                                    }
+                                  },
+                                  {
+                                    "key": "summary_photo_image_large",
+                                    "value": {
+                                      "image_value": {
+                                        "height": 304,
+                                        "url": "https://pbs.twimg.com/card_img/2106927740851027969/UkBu-CrV?format=jpg&name=600x314",
+                                        "width": 580
+                                      },
+                                      "type": "IMAGE"
+                                    }
+                                  },
+                                  {
+                                    "key": "thumbnail_image_small",
+                                    "value": {
+                                      "image_value": {
+                                        "height": 66,
+                                        "url": "https://pbs.twimg.com/card_img/2106927740851027969/UkBu-CrV?format=jpg&name=100x100",
+                                        "width": 100
+                                      },
+                                      "type": "IMAGE"
+                                    }
+                                  },
+                                  {
+                                    "key": "thumbnail_image_x_large",
+                                    "value": {
+                                      "image_value": {
+                                        "height": 380,
+                                        "url": "https://pbs.twimg.com/card_img/2106927740851027969/UkBu-CrV?format=png&name=2048x2048_2_exp",
+                                        "width": 580
+                                      },
+                                      "type": "IMAGE"
+                                    }
+                                  },
+                                  {
+                                    "key": "photo_image_full_size_original",
+                                    "value": {
+                                      "image_value": {
+                                        "height": 380,
+                                        "url": "https://pbs.twimg.com/card_img/2106927740851027969/UkBu-CrV?format=jpg&name=orig",
+                                        "width": 580
+                                      },
+                                      "type": "IMAGE"
+                                    }
+                                  },
+                                  {
+                                    "key": "vanity_url",
+                                    "value": {
+                                      "scribe_key": "vanity_url",
+                                      "string_value": "thecollegefix.com",
+                                      "type": "STRING"
+                                    }
+                                  },
+                                  {
+                                    "key": "photo_image_full_size",
+                                    "value": {
+                                      "image_value": {
+                                        "height": 304,
+                                        "url": "https://pbs.twimg.com/card_img/2106927740851027969/UkBu-CrV?format=jpg&name=600x314",
+                                        "width": 580
+                                      },
+                                      "type": "IMAGE"
+                                    }
+                                  },
+                                  {
+                                    "key": "thumbnail_image_color",
+                                    "value": {
+                                      "image_color_value": {
+                                        "palette": [
+                                          {
+                                            "percentage": 42.75,
+                                            "rgb": {
+                                              "blue": 203,
+                                              "green": 199,
+                                              "red": 210
+                                            }
+                                          },
+                                          {
+                                            "percentage": 12.34,
+                                            "rgb": {
+                                              "blue": 48,
+                                              "green": 15,
+                                              "red": 145
+                                            }
+                                          },
+                                          {
+                                            "percentage": 11.98,
+                                            "rgb": {
+                                              "blue": 38,
+                                              "green": 38,
+                                              "red": 49
+                                            }
+                                          },
+                                          {
+                                            "percentage": 5.96,
+                                            "rgb": {
+                                              "blue": 137,
+                                              "green": 176,
+                                              "red": 206
+                                            }
+                                          },
+                                          {
+                                            "percentage": 4.59,
+                                            "rgb": {
+                                              "blue": 203,
+                                              "green": 184,
+                                              "red": 165
+                                            }
+                                          }
+                                        ]
+                                      },
+                                      "type": "IMAGE_COLOR"
+                                    }
+                                  },
+                                  {
+                                    "key": "title",
+                                    "value": {
+                                      "string_value": "HBCUs overwhelmingly lack DEI departments, research shows | The College Fix",
+                                      "type": "STRING"
+                                    }
+                                  },
+                                  {
+                                    "key": "summary_photo_image_color",
+                                    "value": {
+                                      "image_color_value": {
+                                        "palette": [
+                                          {
+                                            "percentage": 42.75,
+                                            "rgb": {
+                                              "blue": 203,
+                                              "green": 199,
+                                              "red": 210
+                                            }
+                                          },
+                                          {
+                                            "percentage": 12.34,
+                                            "rgb": {
+                                              "blue": 48,
+                                              "green": 15,
+                                              "red": 145
+                                            }
+                                          },
+                                          {
+                                            "percentage": 11.98,
+                                            "rgb": {
+                                              "blue": 38,
+                                              "green": 38,
+                                              "red": 49
+                                            }
+                                          },
+                                          {
+                                            "percentage": 5.96,
+                                            "rgb": {
+                                              "blue": 137,
+                                              "green": 176,
+                                              "red": 206
+                                            }
+                                          },
+                                          {
+                                            "percentage": 4.59,
+                                            "rgb": {
+                                              "blue": 203,
+                                              "green": 184,
+                                              "red": 165
+                                            }
+                                          }
+                                        ]
+                                      },
+                                      "type": "IMAGE_COLOR"
+                                    }
+                                  },
+                                  {
+                                    "key": "summary_photo_image_x_large",
+                                    "value": {
+                                      "image_value": {
+                                        "height": 380,
+                                        "url": "https://pbs.twimg.com/card_img/2106927740851027969/UkBu-CrV?format=png&name=2048x2048_2_exp",
+                                        "width": 580
+                                      },
+                                      "type": "IMAGE"
+                                    }
+                                  },
+                                  {
+                                    "key": "summary_photo_image",
+                                    "value": {
+                                      "image_value": {
+                                        "height": 304,
+                                        "url": "https://pbs.twimg.com/card_img/2106927740851027969/UkBu-CrV?format=jpg&name=600x314",
+                                        "width": 580
+                                      },
+                                      "type": "IMAGE"
+                                    }
+                                  },
+                                  {
+                                    "key": "photo_image_full_size_color",
+                                    "value": {
+                                      "image_color_value": {
+                                        "palette": [
+                                          {
+                                            "percentage": 42.75,
+                                            "rgb": {
+                                              "blue": 203,
+                                              "green": 199,
+                                              "red": 210
+                                            }
+                                          },
+                                          {
+                                            "percentage": 12.34,
+                                            "rgb": {
+                                              "blue": 48,
+                                              "green": 15,
+                                              "red": 145
+                                            }
+                                          },
+                                          {
+                                            "percentage": 11.98,
+                                            "rgb": {
+                                              "blue": 38,
+                                              "green": 38,
+                                              "red": 49
+                                            }
+                                          },
+                                          {
+                                            "percentage": 5.96,
+                                            "rgb": {
+                                              "blue": 137,
+                                              "green": 176,
+                                              "red": 206
+                                            }
+                                          },
+                                          {
+                                            "percentage": 4.59,
+                                            "rgb": {
+                                              "blue": 203,
+                                              "green": 184,
+                                              "red": 165
+                                            }
+                                          }
+                                        ]
+                                      },
+                                      "type": "IMAGE_COLOR"
+                                    }
+                                  },
+                                  {
+                                    "key": "photo_image_full_size_x_large",
+                                    "value": {
+                                      "image_value": {
+                                        "height": 380,
+                                        "url": "https://pbs.twimg.com/card_img/2106927740851027969/UkBu-CrV?format=png&name=2048x2048_2_exp",
+                                        "width": 580
+                                      },
+                                      "type": "IMAGE"
+                                    }
+                                  },
+                                  {
+                                    "key": "card_url",
+                                    "value": {
+                                      "scribe_key": "card_url",
+                                      "string_value": "https://t.co/FVn7y616ZX",
+                                      "type": "STRING"
+                                    }
+                                  },
+                                  {
+                                    "key": "summary_photo_image_original",
+                                    "value": {
+                                      "image_value": {
+                                        "height": 380,
+                                        "url": "https://pbs.twimg.com/card_img/2106927740851027969/UkBu-CrV?format=jpg&name=orig",
+                                        "width": 580
+                                      },
+                                      "type": "IMAGE"
+                                    }
+                                  }
+                                ],
+                                "card_platform": {
+                                  "platform": {
+                                    "audience": {
+                                      "name": "production"
+                                    },
+                                    "device": {
+                                      "name": "Swift",
+                                      "version": "12"
+                                    }
+                                  }
+                                },
+                                "name": "summary_large_image",
+                                "url": "https://t.co/FVn7y616ZX",
+                                "user_refs_results": []
+                              },
+                              "rest_id": "https://t.co/FVn7y616ZX"
+                            },
+                            "core": {
+                              "user_results": {}
+                            },
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1651940654757363713"
+                              ],
+                              "editable_until_msecs": "1682690118000",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": true
+                            },
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "is_translatable": false,
+                            "legacy": {
+                              "bookmark_count": 1,
+                              "bookmarked": false,
+                              "conversation_id_str": "1651940654757363713",
+                              "created_at": "Fri Apr 28 13:25:18 +0000 2023",
+                              "display_text_range": [
+                                0,
+                                280
+                              ],
+                              "entities": {
+                                "urls": [
+                                  {
+                                    "display_url": "thecollegefix.com/hbcus-overwhel\u2026",
+                                    "expanded_url": "https://www.thecollegefix.com/hbcus-overwhelmingly-lack-dei-departments-research-shows/",
+                                    "indices": [
+                                      257,
+                                      280
+                                    ],
+                                    "url": "https://t.co/FVn7y616ZX"
+                                  }
+                                ],
+                                "user_mentions": [
+                                  {
+                                    "id_str": "137245465",
+                                    "indices": [
+                                      33,
+                                      44
+                                    ],
+                                    "name": "The College Fix",
+                                    "screen_name": "CollegeFix"
+                                  }
+                                ]
+                              },
+                              "favorite_count": 11,
+                              "favorited": false,
+                              "full_text": "Most HBCUs do not have DEI depts\u00a0@CollegeFix confirms. But they are among the least\u00a0racially diverse unis in the country! No surprise. Diversity does not mean \"being welcoming to everyone\" but rather \"being welcoming to blacks and some ideological allies.\" https://t.co/FVn7y616ZX",
+                              "id_str": "1651940654757363713",
+                              "is_quote_status": false,
+                              "lang": "en",
+                              "possibly_sensitive": false,
+                              "possibly_sensitive_editable": true,
+                              "quote_count": 3,
+                              "reply_count": 9,
+                              "retweet_count": 9,
+                              "retweeted": false,
+                              "user_id_str": "1380623475023355907"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "rest_id": "1651940654757363713",
+                            "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+                            "unmention_data": {},
+                            "views": {
+                              "count": "2830",
+                              "state": "EnabledWithCount"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "entryId": "tweet-1651940654757363713",
+                    "sortIndex": "2108574963261767035"
+                  },
+                  {
+                    "content": {
+                      "__typename": "TimelineTimelineItem",
+                      "clientEventInfo": {
+                        "component": "tweet",
+                        "details": {
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAABDAABCgABAAAAAAAAAAAKAAkdCAhb+ZcQAAoACgAAAaEhNHbzAAAAAA==",
+                            "injectionType": "RankedOrganicTweet"
+                          }
+                        },
+                        "element": "tweet"
+                      },
+                      "entryType": "TimelineTimelineItem",
+                      "itemContent": {
+                        "__typename": "TimelineTweet",
+                        "itemType": "TimelineTweet",
+                        "tweetDisplayType": "Tweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "card": {
+                              "legacy": {
+                                "binding_values": [
+                                  {
+                                    "key": "photo_image_full_size_large",
+                                    "value": {
+                                      "image_value": {
+                                        "height": 419,
+                                        "url": "https://pbs.twimg.com/card_img/2106859843147456512/CWxqee6C?format=jpg&name=800x419",
+                                        "width": 800
+                                      },
+                                      "type": "IMAGE"
+                                    }
+                                  },
+                                  {
+                                    "key": "thumbnail_image",
+                                    "value": {
+                                      "image_value": {
+                                        "height": 150,
+                                        "url": "https://pbs.twimg.com/card_img/2106859843147456512/CWxqee6C?format=jpg&name=280x150",
+                                        "width": 226
+                                      },
+                                      "type": "IMAGE"
+                                    }
+                                  },
+                                  {
+                                    "key": "description",
+                                    "value": {
+                                      "string_value": "Female pastors, LGBTQ, and the future of the SBC",
+                                      "type": "STRING"
+                                    }
+                                  },
+                                  {
+                                    "key": "domain",
+                                    "value": {
+                                      "string_value": "archive.americanreformer.org",
+                                      "type": "STRING"
+                                    }
+                                  },
+                                  {
+                                    "key": "thumbnail_image_large",
+                                    "value": {
+                                      "image_value": {
+                                        "height": 320,
+                                        "url": "https://pbs.twimg.com/card_img/2106859843147456512/CWxqee6C?format=jpg&name=800x320_1",
+                                        "width": 483
+                                      },
+                                      "type": "IMAGE"
+                                    }
+                                  },
+                                  {
+                                    "key": "summary_photo_image_small",
+                                    "value": {
+                                      "image_value": {
+                                        "height": 202,
+                                        "url": "https://pbs.twimg.com/card_img/2106859843147456512/CWxqee6C?format=jpg&name=386x202",
+                                        "width": 386
+                                      },
+                                      "type": "IMAGE"
+                                    }
+                                  },
+                                  {
+                                    "key": "thumbnail_image_original",
+                                    "value": {
+                                      "image_value": {
+                                        "height": 1696,
+                                        "url": "https://pbs.twimg.com/card_img/2106859843147456512/CWxqee6C?format=jpg&name=orig",
+                                        "width": 2560
+                                      },
+                                      "type": "IMAGE"
+                                    }
+                                  },
+                                  {
+                                    "key": "photo_image_full_size_small",
+                                    "value": {
+                                      "image_value": {
+                                        "height": 202,
+                                        "url": "https://pbs.twimg.com/card_img/2106859843147456512/CWxqee6C?format=jpg&name=386x202",
+                                        "width": 386
+                                      },
+                                      "type": "IMAGE"
+                                    }
+                                  },
+                                  {
+                                    "key": "summary_photo_image_large",
+                                    "value": {
+                                      "image_value": {
+                                        "height": 419,
+                                        "url": "https://pbs.twimg.com/card_img/2106859843147456512/CWxqee6C?format=jpg&name=800x419",
+                                        "width": 800
+                                      },
+                                      "type": "IMAGE"
+                                    }
+                                  },
+                                  {
+                                    "key": "thumbnail_image_small",
+                                    "value": {
+                                      "image_value": {
+                                        "height": 66,
+                                        "url": "https://pbs.twimg.com/card_img/2106859843147456512/CWxqee6C?format=jpg&name=100x100",
+                                        "width": 100
+                                      },
+                                      "type": "IMAGE"
+                                    }
+                                  },
+                                  {
+                                    "key": "thumbnail_image_x_large",
+                                    "value": {
+                                      "image_value": {
+                                        "height": 1357,
+                                        "url": "https://pbs.twimg.com/card_img/2106859843147456512/CWxqee6C?format=png&name=2048x2048_2_exp",
+                                        "width": 2048
+                                      },
+                                      "type": "IMAGE"
+                                    }
+                                  },
+                                  {
+                                    "key": "photo_image_full_size_original",
+                                    "value": {
+                                      "image_value": {
+                                        "height": 1696,
+                                        "url": "https://pbs.twimg.com/card_img/2106859843147456512/CWxqee6C?format=jpg&name=orig",
+                                        "width": 2560
+                                      },
+                                      "type": "IMAGE"
+                                    }
+                                  },
+                                  {
+                                    "key": "vanity_url",
+                                    "value": {
+                                      "scribe_key": "vanity_url",
+                                      "string_value": "archive.americanreformer.org",
+                                      "type": "STRING"
+                                    }
+                                  },
+                                  {
+                                    "key": "photo_image_full_size",
+                                    "value": {
+                                      "image_value": {
+                                        "height": 314,
+                                        "url": "https://pbs.twimg.com/card_img/2106859843147456512/CWxqee6C?format=jpg&name=600x314",
+                                        "width": 600
+                                      },
+                                      "type": "IMAGE"
+                                    }
+                                  },
+                                  {
+                                    "key": "thumbnail_image_color",
+                                    "value": {
+                                      "image_color_value": {
+                                        "palette": [
+                                          {
+                                            "percentage": 68.22,
+                                            "rgb": {
+                                              "blue": 167,
+                                              "green": 115,
+                                              "red": 1
+                                            }
+                                          },
+                                          {
+                                            "percentage": 11.91,
+                                            "rgb": {
+                                              "blue": 58,
+                                              "green": 59,
+                                              "red": 35
+                                            }
+                                          },
+                                          {
+                                            "percentage": 7.03,
+                                            "rgb": {
+                                              "blue": 201,
+                                              "green": 179,
+                                              "red": 142
+                                            }
+                                          },
+                                          {
+                                            "percentage": 2.73,
+                                            "rgb": {
+                                              "blue": 54,
+                                              "green": 75,
+                                              "red": 109
+                                            }
+                                          },
+                                          {
+                                            "percentage": 2.1,
+                                            "rgb": {
+                                              "blue": 102,
+                                              "green": 69,
+                                              "red": 4
+                                            }
+                                          }
+                                        ]
+                                      },
+                                      "type": "IMAGE_COLOR"
+                                    }
+                                  },
+                                  {
+                                    "key": "title",
+                                    "value": {
+                                      "string_value": "Mr. Smith Goes to the Convention | Megan Basham",
+                                      "type": "STRING"
+                                    }
+                                  },
+                                  {
+                                    "key": "summary_photo_image_color",
+                                    "value": {
+                                      "image_color_value": {
+                                        "palette": [
+                                          {
+                                            "percentage": 68.22,
+                                            "rgb": {
+                                              "blue": 167,
+                                              "green": 115,
+                                              "red": 1
+                                            }
+                                          },
+                                          {
+                                            "percentage": 11.91,
+                                            "rgb": {
+                                              "blue": 58,
+                                              "green": 59,
+                                              "red": 35
+                                            }
+                                          },
+                                          {
+                                            "percentage": 7.03,
+                                            "rgb": {
+                                              "blue": 201,
+                                              "green": 179,
+                                              "red": 142
+                                            }
+                                          },
+                                          {
+                                            "percentage": 2.73,
+                                            "rgb": {
+                                              "blue": 54,
+                                              "green": 75,
+                                              "red": 109
+                                            }
+                                          },
+                                          {
+                                            "percentage": 2.1,
+                                            "rgb": {
+                                              "blue": 102,
+                                              "green": 69,
+                                              "red": 4
+                                            }
+                                          }
+                                        ]
+                                      },
+                                      "type": "IMAGE_COLOR"
+                                    }
+                                  },
+                                  {
+                                    "key": "summary_photo_image_x_large",
+                                    "value": {
+                                      "image_value": {
+                                        "height": 1357,
+                                        "url": "https://pbs.twimg.com/card_img/2106859843147456512/CWxqee6C?format=png&name=2048x2048_2_exp",
+                                        "width": 2048
+                                      },
+                                      "type": "IMAGE"
+                                    }
+                                  },
+                                  {
+                                    "key": "summary_photo_image",
+                                    "value": {
+                                      "image_value": {
+                                        "height": 314,
+                                        "url": "https://pbs.twimg.com/card_img/2106859843147456512/CWxqee6C?format=jpg&name=600x314",
+                                        "width": 600
+                                      },
+                                      "type": "IMAGE"
+                                    }
+                                  },
+                                  {
+                                    "key": "photo_image_full_size_color",
+                                    "value": {
+                                      "image_color_value": {
+                                        "palette": [
+                                          {
+                                            "percentage": 68.22,
+                                            "rgb": {
+                                              "blue": 167,
+                                              "green": 115,
+                                              "red": 1
+                                            }
+                                          },
+                                          {
+                                            "percentage": 11.91,
+                                            "rgb": {
+                                              "blue": 58,
+                                              "green": 59,
+                                              "red": 35
+                                            }
+                                          },
+                                          {
+                                            "percentage": 7.03,
+                                            "rgb": {
+                                              "blue": 201,
+                                              "green": 179,
+                                              "red": 142
+                                            }
+                                          },
+                                          {
+                                            "percentage": 2.73,
+                                            "rgb": {
+                                              "blue": 54,
+                                              "green": 75,
+                                              "red": 109
+                                            }
+                                          },
+                                          {
+                                            "percentage": 2.1,
+                                            "rgb": {
+                                              "blue": 102,
+                                              "green": 69,
+                                              "red": 4
+                                            }
+                                          }
+                                        ]
+                                      },
+                                      "type": "IMAGE_COLOR"
+                                    }
+                                  },
+                                  {
+                                    "key": "photo_image_full_size_x_large",
+                                    "value": {
+                                      "image_value": {
+                                        "height": 1357,
+                                        "url": "https://pbs.twimg.com/card_img/2106859843147456512/CWxqee6C?format=png&name=2048x2048_2_exp",
+                                        "width": 2048
+                                      },
+                                      "type": "IMAGE"
+                                    }
+                                  },
+                                  {
+                                    "key": "card_url",
+                                    "value": {
+                                      "scribe_key": "card_url",
+                                      "string_value": "https://t.co/ZZbChOJvQr",
+                                      "type": "STRING"
+                                    }
+                                  },
+                                  {
+                                    "key": "summary_photo_image_original",
+                                    "value": {
+                                      "image_value": {
+                                        "height": 1696,
+                                        "url": "https://pbs.twimg.com/card_img/2106859843147456512/CWxqee6C?format=jpg&name=orig",
+                                        "width": 2560
+                                      },
+                                      "type": "IMAGE"
+                                    }
+                                  }
+                                ],
+                                "card_platform": {
+                                  "platform": {
+                                    "audience": {
+                                      "name": "production"
+                                    },
+                                    "device": {
+                                      "name": "Swift",
+                                      "version": "12"
+                                    }
+                                  }
+                                },
+                                "name": "summary_large_image",
+                                "url": "https://t.co/ZZbChOJvQr",
+                                "user_refs_results": []
+                              },
+                              "rest_id": "https://t.co/ZZbChOJvQr"
+                            },
+                            "core": {
+                              "user_results": {}
+                            },
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1645841834814341125"
+                              ],
+                              "editable_until_msecs": "1681236046339",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": false
+                            },
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "is_translatable": false,
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "conversation_id_str": "1645841834814341125",
+                              "created_at": "Tue Apr 11 17:30:46 +0000 2023",
+                              "display_text_range": [
+                                0,
+                                140
+                              ],
+                              "entities": {
+                                "user_mentions": [
+                                  {
+                                    "id_str": "402862978",
+                                    "indices": [
+                                      3,
+                                      13
+                                    ],
+                                    "name": "Megan Basham",
+                                    "screen_name": "megbasham"
+                                  }
+                                ]
+                              },
+                              "favorite_count": 0,
+                              "favorited": false,
+                              "full_text": "RT @megbasham: As I was researching book, I came across evidence that Saddleback has not only drifted left on women pastors but is also com\u2026",
+                              "id_str": "1645841834814341125",
+                              "is_quote_status": false,
+                              "lang": "en",
+                              "quote_count": 0,
+                              "reply_count": 0,
+                              "retweet_count": 185,
+                              "retweeted": false,
+                              "retweeted_status_result": {
+                                "result": {
+                                  "__typename": "Tweet",
+                                  "card": {
+                                    "legacy": {
+                                      "binding_values": [
+                                        {
+                                          "key": "photo_image_full_size_large",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 419,
+                                              "url": "https://pbs.twimg.com/card_img/2106859843147456512/CWxqee6C?format=jpg&name=800x419",
+                                              "width": 800
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "thumbnail_image",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 150,
+                                              "url": "https://pbs.twimg.com/card_img/2106859843147456512/CWxqee6C?format=jpg&name=280x150",
+                                              "width": 226
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "description",
+                                          "value": {
+                                            "string_value": "Female pastors, LGBTQ, and the future of the SBC",
+                                            "type": "STRING"
+                                          }
+                                        },
+                                        {
+                                          "key": "domain",
+                                          "value": {
+                                            "string_value": "archive.americanreformer.org",
+                                            "type": "STRING"
+                                          }
+                                        },
+                                        {
+                                          "key": "thumbnail_image_large",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 320,
+                                              "url": "https://pbs.twimg.com/card_img/2106859843147456512/CWxqee6C?format=jpg&name=800x320_1",
+                                              "width": 483
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "summary_photo_image_small",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 202,
+                                              "url": "https://pbs.twimg.com/card_img/2106859843147456512/CWxqee6C?format=jpg&name=386x202",
+                                              "width": 386
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "thumbnail_image_original",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 1696,
+                                              "url": "https://pbs.twimg.com/card_img/2106859843147456512/CWxqee6C?format=jpg&name=orig",
+                                              "width": 2560
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "photo_image_full_size_small",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 202,
+                                              "url": "https://pbs.twimg.com/card_img/2106859843147456512/CWxqee6C?format=jpg&name=386x202",
+                                              "width": 386
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "summary_photo_image_large",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 419,
+                                              "url": "https://pbs.twimg.com/card_img/2106859843147456512/CWxqee6C?format=jpg&name=800x419",
+                                              "width": 800
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "thumbnail_image_small",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 66,
+                                              "url": "https://pbs.twimg.com/card_img/2106859843147456512/CWxqee6C?format=jpg&name=100x100",
+                                              "width": 100
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "thumbnail_image_x_large",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 1357,
+                                              "url": "https://pbs.twimg.com/card_img/2106859843147456512/CWxqee6C?format=png&name=2048x2048_2_exp",
+                                              "width": 2048
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "photo_image_full_size_original",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 1696,
+                                              "url": "https://pbs.twimg.com/card_img/2106859843147456512/CWxqee6C?format=jpg&name=orig",
+                                              "width": 2560
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "vanity_url",
+                                          "value": {
+                                            "scribe_key": "vanity_url",
+                                            "string_value": "archive.americanreformer.org",
+                                            "type": "STRING"
+                                          }
+                                        },
+                                        {
+                                          "key": "photo_image_full_size",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 314,
+                                              "url": "https://pbs.twimg.com/card_img/2106859843147456512/CWxqee6C?format=jpg&name=600x314",
+                                              "width": 600
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "thumbnail_image_color",
+                                          "value": {
+                                            "image_color_value": {
+                                              "palette": [
+                                                {
+                                                  "percentage": 68.22,
+                                                  "rgb": {
+                                                    "blue": 167,
+                                                    "green": 115,
+                                                    "red": 1
+                                                  }
+                                                },
+                                                {
+                                                  "percentage": 11.91,
+                                                  "rgb": {
+                                                    "blue": 58,
+                                                    "green": 59,
+                                                    "red": 35
+                                                  }
+                                                },
+                                                {
+                                                  "percentage": 7.03,
+                                                  "rgb": {
+                                                    "blue": 201,
+                                                    "green": 179,
+                                                    "red": 142
+                                                  }
+                                                },
+                                                {
+                                                  "percentage": 2.73,
+                                                  "rgb": {
+                                                    "blue": 54,
+                                                    "green": 75,
+                                                    "red": 109
+                                                  }
+                                                },
+                                                {
+                                                  "percentage": 2.1,
+                                                  "rgb": {
+                                                    "blue": 102,
+                                                    "green": 69,
+                                                    "red": 4
+                                                  }
+                                                }
+                                              ]
+                                            },
+                                            "type": "IMAGE_COLOR"
+                                          }
+                                        },
+                                        {
+                                          "key": "title",
+                                          "value": {
+                                            "string_value": "Mr. Smith Goes to the Convention | Megan Basham",
+                                            "type": "STRING"
+                                          }
+                                        },
+                                        {
+                                          "key": "summary_photo_image_color",
+                                          "value": {
+                                            "image_color_value": {
+                                              "palette": [
+                                                {
+                                                  "percentage": 68.22,
+                                                  "rgb": {
+                                                    "blue": 167,
+                                                    "green": 115,
+                                                    "red": 1
+                                                  }
+                                                },
+                                                {
+                                                  "percentage": 11.91,
+                                                  "rgb": {
+                                                    "blue": 58,
+                                                    "green": 59,
+                                                    "red": 35
+                                                  }
+                                                },
+                                                {
+                                                  "percentage": 7.03,
+                                                  "rgb": {
+                                                    "blue": 201,
+                                                    "green": 179,
+                                                    "red": 142
+                                                  }
+                                                },
+                                                {
+                                                  "percentage": 2.73,
+                                                  "rgb": {
+                                                    "blue": 54,
+                                                    "green": 75,
+                                                    "red": 109
+                                                  }
+                                                },
+                                                {
+                                                  "percentage": 2.1,
+                                                  "rgb": {
+                                                    "blue": 102,
+                                                    "green": 69,
+                                                    "red": 4
+                                                  }
+                                                }
+                                              ]
+                                            },
+                                            "type": "IMAGE_COLOR"
+                                          }
+                                        },
+                                        {
+                                          "key": "summary_photo_image_x_large",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 1357,
+                                              "url": "https://pbs.twimg.com/card_img/2106859843147456512/CWxqee6C?format=png&name=2048x2048_2_exp",
+                                              "width": 2048
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "summary_photo_image",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 314,
+                                              "url": "https://pbs.twimg.com/card_img/2106859843147456512/CWxqee6C?format=jpg&name=600x314",
+                                              "width": 600
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "photo_image_full_size_color",
+                                          "value": {
+                                            "image_color_value": {
+                                              "palette": [
+                                                {
+                                                  "percentage": 68.22,
+                                                  "rgb": {
+                                                    "blue": 167,
+                                                    "green": 115,
+                                                    "red": 1
+                                                  }
+                                                },
+                                                {
+                                                  "percentage": 11.91,
+                                                  "rgb": {
+                                                    "blue": 58,
+                                                    "green": 59,
+                                                    "red": 35
+                                                  }
+                                                },
+                                                {
+                                                  "percentage": 7.03,
+                                                  "rgb": {
+                                                    "blue": 201,
+                                                    "green": 179,
+                                                    "red": 142
+                                                  }
+                                                },
+                                                {
+                                                  "percentage": 2.73,
+                                                  "rgb": {
+                                                    "blue": 54,
+                                                    "green": 75,
+                                                    "red": 109
+                                                  }
+                                                },
+                                                {
+                                                  "percentage": 2.1,
+                                                  "rgb": {
+                                                    "blue": 102,
+                                                    "green": 69,
+                                                    "red": 4
+                                                  }
+                                                }
+                                              ]
+                                            },
+                                            "type": "IMAGE_COLOR"
+                                          }
+                                        },
+                                        {
+                                          "key": "photo_image_full_size_x_large",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 1357,
+                                              "url": "https://pbs.twimg.com/card_img/2106859843147456512/CWxqee6C?format=png&name=2048x2048_2_exp",
+                                              "width": 2048
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "card_url",
+                                          "value": {
+                                            "scribe_key": "card_url",
+                                            "string_value": "https://t.co/ZZbChOJvQr",
+                                            "type": "STRING"
+                                          }
+                                        },
+                                        {
+                                          "key": "summary_photo_image_original",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 1696,
+                                              "url": "https://pbs.twimg.com/card_img/2106859843147456512/CWxqee6C?format=jpg&name=orig",
+                                              "width": 2560
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        }
+                                      ],
+                                      "card_platform": {
+                                        "platform": {
+                                          "audience": {
+                                            "name": "production"
+                                          },
+                                          "device": {
+                                            "name": "Swift",
+                                            "version": "12"
+                                          }
+                                        }
+                                      },
+                                      "name": "summary_large_image",
+                                      "url": "https://t.co/ZZbChOJvQr",
+                                      "user_refs_results": []
+                                    },
+                                    "rest_id": "https://t.co/ZZbChOJvQr"
+                                  },
+                                  "core": {
+                                    "user_results": {
+                                      "result": {
+                                        "__typename": "User",
+                                        "action_counts": {
+                                          "favorites_count": 202997
+                                        },
+                                        "affiliates_highlighted_label": {},
+                                        "avatar": {
+                                          "image_url": "https://pbs.twimg.com/profile_images/1914821079547179008/YWraHpfP_normal.jpg"
+                                        },
+                                        "banner": {
+                                          "image_url": "https://pbs.twimg.com/profile_banners/402862978/1722340612"
+                                        },
+                                        "core": {
+                                          "created_at": "Tue Nov 01 17:45:33 +0000 2011",
+                                          "name": "Megan Basham",
+                                          "screen_name": "megbasham"
+                                        },
+                                        "dm_permissions": {
+                                          "can_dm": true
+                                        },
+                                        "follow_request_sent": false,
+                                        "has_graduated_access": true,
+                                        "id": "VXNlcjo0MDI4NjI5Nzg=",
+                                        "is_blue_verified": true,
+                                        "location": {
+                                          "location": ""
+                                        },
+                                        "media_permissions": {
+                                          "can_media_tag": true
+                                        },
+                                        "notifications_settings": {
+                                          "notifications_enabled": false
+                                        },
+                                        "pinned_items": {
+                                          "tweet_ids_str": [
+                                            "1780349641193619482"
+                                          ]
+                                        },
+                                        "possibly_sensitive": false,
+                                        "privacy": {
+                                          "protected": false
+                                        },
+                                        "professional": {
+                                          "category": [
+                                            {
+                                              "icon_name": "IconBriefcaseStroke",
+                                              "id": 933,
+                                              "name": "Media Personality"
+                                            }
+                                          ],
+                                          "professional_type": "Creator",
+                                          "rest_id": "1679685890065543169"
+                                        },
+                                        "profile_bio": {
+                                          "description": "Journalist, NYT bestselling author, @realDailyWire. Other words: @wsj @washingtonpost @telegraph. Unabashed church lady. Aspiring matriarch. \"Christian pitbull\"",
+                                          "entities": {
+                                            "description": {},
+                                            "url": {
+                                              "urls": [
+                                                {
+                                                  "display_url": "dailywire.com/author/megan-b\u2026",
+                                                  "expanded_url": "https://www.dailywire.com/author/megan-basham",
+                                                  "indices": [
+                                                    0,
+                                                    23
+                                                  ],
+                                                  "url": "https://t.co/413WoCoOpC"
+                                                }
+                                              ]
+                                            }
+                                          }
+                                        },
+                                        "profile_image_shape": "Circle",
+                                        "profile_metadata": {
+                                          "profile_interstitial_type": ""
+                                        },
+                                        "profile_translation": {
+                                          "translator_type": "none"
+                                        },
+                                        "relationship_counts": {
+                                          "followers": 219377,
+                                          "following": 1882
+                                        },
+                                        "relationship_perspectives": {
+                                          "blocked_by": false,
+                                          "blocking": false,
+                                          "followed_by": false,
+                                          "following": false,
+                                          "live_following": false,
+                                          "muting": false
+                                        },
+                                        "rest_id": "402862978",
+                                        "super_follow_eligible": true,
+                                        "super_followed_by": false,
+                                        "super_following": false,
+                                        "tipjar_settings": {},
+                                        "tweet_counts": {
+                                          "media_tweets": 6437,
+                                          "tweets": 82398
+                                        },
+                                        "verification": {
+                                          "verified": false
+                                        },
+                                        "website": {
+                                          "url": "https://t.co/413WoCoOpC"
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "edit_control": {
+                                    "edit_tweet_ids": [
+                                      "1645826822796451840"
+                                    ],
+                                    "editable_until_msecs": "1681232467000",
+                                    "edits_remaining": "5",
+                                    "is_edit_eligible": true
+                                  },
+                                  "grok_translated_post_with_availability": {
+                                    "is_available": false
+                                  },
+                                  "is_translatable": false,
+                                  "legacy": {
+                                    "bookmark_count": 113,
+                                    "bookmarked": false,
+                                    "conversation_id_str": "1645826822796451840",
+                                    "created_at": "Tue Apr 11 16:31:07 +0000 2023",
+                                    "display_text_range": [
+                                      0,
+                                      279
+                                    ],
+                                    "entities": {
+                                      "urls": [
+                                        {
+                                          "display_url": "americanreformer.org/2023/04/mr-smi\u2026",
+                                          "expanded_url": "https://americanreformer.org/2023/04/mr-smith-goes-to-the-convention/",
+                                          "indices": [
+                                            256,
+                                            279
+                                          ],
+                                          "url": "https://t.co/ZZbChOJvQr"
+                                        }
+                                      ]
+                                    },
+                                    "favorite_count": 782,
+                                    "favorited": false,
+                                    "full_text": "As I was researching book, I came across evidence that Saddleback has not only drifted left on women pastors but is also compromising on LGBT affirmation. Meanwhile Southern Baptist leaders are setting Rick Warren up to bend SBC to his will. My deep dive\ud83d\udc47\nhttps://t.co/ZZbChOJvQr",
+                                    "id_str": "1645826822796451840",
+                                    "is_quote_status": false,
+                                    "lang": "en",
+                                    "possibly_sensitive": false,
+                                    "possibly_sensitive_editable": true,
+                                    "quote_count": 75,
+                                    "reply_count": 119,
+                                    "retweet_count": 185,
+                                    "retweeted": false,
+                                    "user_id_str": "402862978"
+                                  },
+                                  "rest_id": "1645826822796451840",
+                                  "unmention_data": {},
+                                  "views": {
+                                    "count": "325787",
+                                    "state": "EnabledWithCount"
+                                  }
+                                }
+                              },
+                              "user_id_str": "1380623475023355907"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleNotVerified"
+                            },
+                            "rest_id": "1645841834814341125",
+                            "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+                            "unmention_data": {},
+                            "views": {
+                              "state": "Enabled"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "entryId": "tweet-1645841834814341125",
+                    "sortIndex": "2108574963261767023"
+                  },
+                  {
+                    "content": {
+                      "__typename": "TimelineTimelineModule",
+                      "clientEventInfo": {
+                        "component": "suggest_ranked_organic_tweet",
+                        "details": {
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAABDAABCgABAAAAAAAAAAAKAAkdCAhb+ZcQAAoACgAAAaEhNHbzAAAAAA==",
+                            "injectionType": "RankedOrganicTweet"
+                          }
+                        }
+                      },
+                      "displayType": "VerticalConversation",
+                      "entryType": "TimelineTimelineModule",
+                      "items": [
+                        {
+                          "dispensable": true,
+                          "entryId": "profile-conversation-2108574963261767053-tweet-1643335260132851714",
+                          "item": {
+                            "clientEventInfo": {
+                              "component": "tweet",
+                              "details": {
+                                "timelinesDetails": {
+                                  "controllerData": "DAACDAABDAABCgABAAAAAAAAAAAKAAkdCAhb+ZcQAAoACgAAAaEhNHbzAAAAAA==",
+                                  "injectionType": "RankedOrganicTweet"
+                                }
+                              },
+                              "element": "tweet"
+                            },
+                            "itemContent": {
+                              "__typename": "TimelineTweet",
+                              "itemType": "TimelineTweet",
+                              "tweetDisplayType": "Tweet",
+                              "tweet_results": {
+                                "result": {
+                                  "__typename": "Tweet",
+                                  "card": {
+                                    "legacy": {
+                                      "binding_values": [
+                                        {
+                                          "key": "photo_image_full_size_large",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 419,
+                                              "url": "https://pbs.twimg.com/card_img/2107414894685696000/FcfwrKJ9?format=jpg&name=800x419",
+                                              "width": 800
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "thumbnail_image",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 150,
+                                              "url": "https://pbs.twimg.com/card_img/2107414894685696000/FcfwrKJ9?format=jpg&name=280x150",
+                                              "width": 265
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "description",
+                                          "value": {
+                                            "string_value": "The Battle for Christian Higher Education Rages",
+                                            "type": "STRING"
+                                          }
+                                        },
+                                        {
+                                          "key": "domain",
+                                          "value": {
+                                            "string_value": "archive.americanreformer.org",
+                                            "type": "STRING"
+                                          }
+                                        },
+                                        {
+                                          "key": "thumbnail_image_large",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 320,
+                                              "url": "https://pbs.twimg.com/card_img/2107414894685696000/FcfwrKJ9?format=jpg&name=800x320_1",
+                                              "width": 566
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "summary_photo_image_small",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 202,
+                                              "url": "https://pbs.twimg.com/card_img/2107414894685696000/FcfwrKJ9?format=jpg&name=386x202",
+                                              "width": 386
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "thumbnail_image_original",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 966,
+                                              "url": "https://pbs.twimg.com/card_img/2107414894685696000/FcfwrKJ9?format=jpg&name=orig",
+                                              "width": 1708
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "photo_image_full_size_small",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 202,
+                                              "url": "https://pbs.twimg.com/card_img/2107414894685696000/FcfwrKJ9?format=jpg&name=386x202",
+                                              "width": 386
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "summary_photo_image_large",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 419,
+                                              "url": "https://pbs.twimg.com/card_img/2107414894685696000/FcfwrKJ9?format=jpg&name=800x419",
+                                              "width": 800
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "thumbnail_image_small",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 57,
+                                              "url": "https://pbs.twimg.com/card_img/2107414894685696000/FcfwrKJ9?format=jpg&name=100x100",
+                                              "width": 100
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "thumbnail_image_x_large",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 966,
+                                              "url": "https://pbs.twimg.com/card_img/2107414894685696000/FcfwrKJ9?format=png&name=2048x2048_2_exp",
+                                              "width": 1708
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "photo_image_full_size_original",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 966,
+                                              "url": "https://pbs.twimg.com/card_img/2107414894685696000/FcfwrKJ9?format=jpg&name=orig",
+                                              "width": 1708
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "vanity_url",
+                                          "value": {
+                                            "scribe_key": "vanity_url",
+                                            "string_value": "archive.americanreformer.org",
+                                            "type": "STRING"
+                                          }
+                                        },
+                                        {
+                                          "key": "photo_image_full_size",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 314,
+                                              "url": "https://pbs.twimg.com/card_img/2107414894685696000/FcfwrKJ9?format=jpg&name=600x314",
+                                              "width": 600
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "thumbnail_image_color",
+                                          "value": {
+                                            "image_color_value": {
+                                              "palette": [
+                                                {
+                                                  "percentage": 57.06,
+                                                  "rgb": {
+                                                    "blue": 87,
+                                                    "green": 137,
+                                                    "red": 187
+                                                  }
+                                                },
+                                                {
+                                                  "percentage": 26.46,
+                                                  "rgb": {
+                                                    "blue": 30,
+                                                    "green": 61,
+                                                    "red": 103
+                                                  }
+                                                },
+                                                {
+                                                  "percentage": 13.09,
+                                                  "rgb": {
+                                                    "blue": 182,
+                                                    "green": 208,
+                                                    "red": 234
+                                                  }
+                                                },
+                                                {
+                                                  "percentage": 1.74,
+                                                  "rgb": {
+                                                    "blue": 136,
+                                                    "green": 158,
+                                                    "red": 182
+                                                  }
+                                                },
+                                                {
+                                                  "percentage": 1.05,
+                                                  "rgb": {
+                                                    "blue": 39,
+                                                    "green": 82,
+                                                    "red": 134
+                                                  }
+                                                }
+                                              ]
+                                            },
+                                            "type": "IMAGE_COLOR"
+                                          }
+                                        },
+                                        {
+                                          "key": "title",
+                                          "value": {
+                                            "string_value": "Are There Trustworthy Protestant Universities? | Scott Yenor",
+                                            "type": "STRING"
+                                          }
+                                        },
+                                        {
+                                          "key": "summary_photo_image_color",
+                                          "value": {
+                                            "image_color_value": {
+                                              "palette": [
+                                                {
+                                                  "percentage": 57.06,
+                                                  "rgb": {
+                                                    "blue": 87,
+                                                    "green": 137,
+                                                    "red": 187
+                                                  }
+                                                },
+                                                {
+                                                  "percentage": 26.46,
+                                                  "rgb": {
+                                                    "blue": 30,
+                                                    "green": 61,
+                                                    "red": 103
+                                                  }
+                                                },
+                                                {
+                                                  "percentage": 13.09,
+                                                  "rgb": {
+                                                    "blue": 182,
+                                                    "green": 208,
+                                                    "red": 234
+                                                  }
+                                                },
+                                                {
+                                                  "percentage": 1.74,
+                                                  "rgb": {
+                                                    "blue": 136,
+                                                    "green": 158,
+                                                    "red": 182
+                                                  }
+                                                },
+                                                {
+                                                  "percentage": 1.05,
+                                                  "rgb": {
+                                                    "blue": 39,
+                                                    "green": 82,
+                                                    "red": 134
+                                                  }
+                                                }
+                                              ]
+                                            },
+                                            "type": "IMAGE_COLOR"
+                                          }
+                                        },
+                                        {
+                                          "key": "summary_photo_image_x_large",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 966,
+                                              "url": "https://pbs.twimg.com/card_img/2107414894685696000/FcfwrKJ9?format=png&name=2048x2048_2_exp",
+                                              "width": 1708
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "summary_photo_image",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 314,
+                                              "url": "https://pbs.twimg.com/card_img/2107414894685696000/FcfwrKJ9?format=jpg&name=600x314",
+                                              "width": 600
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "photo_image_full_size_color",
+                                          "value": {
+                                            "image_color_value": {
+                                              "palette": [
+                                                {
+                                                  "percentage": 57.06,
+                                                  "rgb": {
+                                                    "blue": 87,
+                                                    "green": 137,
+                                                    "red": 187
+                                                  }
+                                                },
+                                                {
+                                                  "percentage": 26.46,
+                                                  "rgb": {
+                                                    "blue": 30,
+                                                    "green": 61,
+                                                    "red": 103
+                                                  }
+                                                },
+                                                {
+                                                  "percentage": 13.09,
+                                                  "rgb": {
+                                                    "blue": 182,
+                                                    "green": 208,
+                                                    "red": 234
+                                                  }
+                                                },
+                                                {
+                                                  "percentage": 1.74,
+                                                  "rgb": {
+                                                    "blue": 136,
+                                                    "green": 158,
+                                                    "red": 182
+                                                  }
+                                                },
+                                                {
+                                                  "percentage": 1.05,
+                                                  "rgb": {
+                                                    "blue": 39,
+                                                    "green": 82,
+                                                    "red": 134
+                                                  }
+                                                }
+                                              ]
+                                            },
+                                            "type": "IMAGE_COLOR"
+                                          }
+                                        },
+                                        {
+                                          "key": "photo_image_full_size_x_large",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 966,
+                                              "url": "https://pbs.twimg.com/card_img/2107414894685696000/FcfwrKJ9?format=png&name=2048x2048_2_exp",
+                                              "width": 1708
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "card_url",
+                                          "value": {
+                                            "scribe_key": "card_url",
+                                            "string_value": "https://t.co/M6TKKzlxSH",
+                                            "type": "STRING"
+                                          }
+                                        },
+                                        {
+                                          "key": "summary_photo_image_original",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 966,
+                                              "url": "https://pbs.twimg.com/card_img/2107414894685696000/FcfwrKJ9?format=jpg&name=orig",
+                                              "width": 1708
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        }
+                                      ],
+                                      "card_platform": {
+                                        "platform": {
+                                          "audience": {
+                                            "name": "production"
+                                          },
+                                          "device": {
+                                            "name": "Swift",
+                                            "version": "12"
+                                          }
+                                        }
+                                      },
+                                      "name": "summary_large_image",
+                                      "url": "https://t.co/M6TKKzlxSH",
+                                      "user_refs_results": []
+                                    },
+                                    "rest_id": "https://t.co/M6TKKzlxSH"
+                                  },
+                                  "core": {
+                                    "user_results": {}
+                                  },
+                                  "edit_control": {
+                                    "edit_tweet_ids": [
+                                      "1643335260132851714"
+                                    ],
+                                    "editable_until_msecs": "1680638432000",
+                                    "edits_remaining": "5",
+                                    "is_edit_eligible": false
+                                  },
+                                  "grok_translated_post_with_availability": {
+                                    "is_available": false
+                                  },
+                                  "is_translatable": false,
+                                  "legacy": {
+                                    "bookmark_count": 88,
+                                    "bookmarked": false,
+                                    "conversation_id_str": "1643335260132851714",
+                                    "created_at": "Tue Apr 04 19:30:32 +0000 2023",
+                                    "display_text_range": [
+                                      0,
+                                      217
+                                    ],
+                                    "entities": {
+                                      "urls": [
+                                        {
+                                          "display_url": "americanreformer.org/2023/04/are-th\u2026",
+                                          "expanded_url": "https://americanreformer.org/2023/04/are-there-trustworthy-protestant-universities/",
+                                          "indices": [
+                                            194,
+                                            217
+                                          ],
+                                          "url": "https://t.co/M6TKKzlxSH"
+                                        }
+                                      ]
+                                    },
+                                    "favorite_count": 213,
+                                    "favorited": false,
+                                    "full_text": "Lots of parents are wondering where to send their kids to college. Here is the beginning of a list of schools to avoid and several that orthodox Christian parents should consider. More soon. 1/ https://t.co/M6TKKzlxSH",
+                                    "id_str": "1643335260132851714",
+                                    "is_quote_status": false,
+                                    "lang": "en",
+                                    "possibly_sensitive": false,
+                                    "possibly_sensitive_editable": true,
+                                    "quote_count": 14,
+                                    "reply_count": 40,
+                                    "retweet_count": 66,
+                                    "retweeted": false,
+                                    "user_id_str": "1380623475023355907"
+                                  },
+                                  "quick_promote_eligibility": {
+                                    "eligibility": "IneligibleNotVerified"
+                                  },
+                                  "rest_id": "1643335260132851714",
+                                  "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+                                  "unmention_data": {},
+                                  "views": {
+                                    "count": "80517",
+                                    "state": "EnabledWithCount"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "dispensable": true,
+                          "entryId": "profile-conversation-2108574963261767053-tweet-1643335556762329089",
+                          "item": {
+                            "clientEventInfo": {
+                              "component": "tweet",
+                              "details": {
+                                "timelinesDetails": {
+                                  "controllerData": "DAACDAABDAABCgABAAAAAAAAAAAKAAkdCAhb+ZcQAAoACgAAAaEhNHbzAAAAAA==",
+                                  "injectionType": "RankedOrganicTweet"
+                                }
+                              },
+                              "element": "tweet"
+                            },
+                            "itemContent": {
+                              "__typename": "TimelineTweet",
+                              "itemType": "TimelineTweet",
+                              "tweetDisplayType": "Tweet",
+                              "tweet_results": {
+                                "result": {
+                                  "__typename": "Tweet",
+                                  "core": {
+                                    "user_results": {}
+                                  },
+                                  "edit_control": {
+                                    "edit_tweet_ids": [
+                                      "1643335556762329089"
+                                    ],
+                                    "editable_until_msecs": "1680638503000",
+                                    "edits_remaining": "5",
+                                    "is_edit_eligible": false
+                                  },
+                                  "grok_translated_post_with_availability": {
+                                    "is_available": false
+                                  },
+                                  "is_translatable": false,
+                                  "legacy": {
+                                    "bookmark_count": 3,
+                                    "bookmarked": false,
+                                    "conversation_id_str": "1643335260132851714",
+                                    "created_at": "Tue Apr 04 19:31:43 +0000 2023",
+                                    "display_text_range": [
+                                      0,
+                                      197
+                                    ],
+                                    "entities": {
+                                      "media": [
+                                        {
+                                          "display_url": "pic.x.com/pi6p68f9YW",
+                                          "expanded_url": "https://x.com/scottyenor/status/1643335556762329089/photo/1",
+                                          "ext_media_availability": {
+                                            "status": "Available"
+                                          },
+                                          "features": {
+                                            "large": {
+                                              "faces": []
+                                            },
+                                            "medium": {
+                                              "faces": []
+                                            },
+                                            "orig": {
+                                              "faces": []
+                                            },
+                                            "small": {
+                                              "faces": []
+                                            }
+                                          },
+                                          "id_str": "1643335549661376514",
+                                          "indices": [
+                                            198,
+                                            221
+                                          ],
+                                          "media_key": "3_1643335549661376514",
+                                          "media_results": {
+                                            "result": {
+                                              "media_key": "3_1643335549661376514"
+                                            }
+                                          },
+                                          "media_url_https": "https://pbs.twimg.com/media/Fs5M-cRWcAI7pqr.jpg",
+                                          "original_info": {
+                                            "focus_rects": [
+                                              {
+                                                "h": 821,
+                                                "w": 1466,
+                                                "x": 267,
+                                                "y": 0
+                                              },
+                                              {
+                                                "h": 821,
+                                                "w": 821,
+                                                "x": 590,
+                                                "y": 0
+                                              },
+                                              {
+                                                "h": 821,
+                                                "w": 720,
+                                                "x": 640,
+                                                "y": 0
+                                              },
+                                              {
+                                                "h": 821,
+                                                "w": 411,
+                                                "x": 795,
+                                                "y": 0
+                                              },
+                                              {
+                                                "h": 821,
+                                                "w": 2000,
+                                                "x": 0,
+                                                "y": 0
+                                              }
+                                            ],
+                                            "height": 821,
+                                            "width": 2000
+                                          },
+                                          "sizes": {
+                                            "large": {
+                                              "h": 821,
+                                              "resize": "fit",
+                                              "w": 2000
+                                            },
+                                            "medium": {
+                                              "h": 493,
+                                              "resize": "fit",
+                                              "w": 1200
+                                            },
+                                            "small": {
+                                              "h": 279,
+                                              "resize": "fit",
+                                              "w": 680
+                                            },
+                                            "thumb": {
+                                              "h": 150,
+                                              "resize": "crop",
+                                              "w": 150
+                                            }
+                                          },
+                                          "type": "photo",
+                                          "url": "https://t.co/pi6p68f9YW"
+                                        }
+                                      ]
+                                    },
+                                    "extended_entities": {
+                                      "media": [
+                                        {
+                                          "display_url": "pic.x.com/pi6p68f9YW",
+                                          "expanded_url": "https://x.com/scottyenor/status/1643335556762329089/photo/1",
+                                          "ext_media_availability": {
+                                            "status": "Available"
+                                          },
+                                          "features": {
+                                            "large": {
+                                              "faces": []
+                                            },
+                                            "medium": {
+                                              "faces": []
+                                            },
+                                            "orig": {
+                                              "faces": []
+                                            },
+                                            "small": {
+                                              "faces": []
+                                            }
+                                          },
+                                          "id_str": "1643335549661376514",
+                                          "indices": [
+                                            198,
+                                            221
+                                          ],
+                                          "media_key": "3_1643335549661376514",
+                                          "media_results": {
+                                            "result": {
+                                              "media_key": "3_1643335549661376514"
+                                            }
+                                          },
+                                          "media_url_https": "https://pbs.twimg.com/media/Fs5M-cRWcAI7pqr.jpg",
+                                          "original_info": {
+                                            "focus_rects": [
+                                              {
+                                                "h": 821,
+                                                "w": 1466,
+                                                "x": 267,
+                                                "y": 0
+                                              },
+                                              {
+                                                "h": 821,
+                                                "w": 821,
+                                                "x": 590,
+                                                "y": 0
+                                              },
+                                              {
+                                                "h": 821,
+                                                "w": 720,
+                                                "x": 640,
+                                                "y": 0
+                                              },
+                                              {
+                                                "h": 821,
+                                                "w": 411,
+                                                "x": 795,
+                                                "y": 0
+                                              },
+                                              {
+                                                "h": 821,
+                                                "w": 2000,
+                                                "x": 0,
+                                                "y": 0
+                                              }
+                                            ],
+                                            "height": 821,
+                                            "width": 2000
+                                          },
+                                          "sizes": {
+                                            "large": {
+                                              "h": 821,
+                                              "resize": "fit",
+                                              "w": 2000
+                                            },
+                                            "medium": {
+                                              "h": 493,
+                                              "resize": "fit",
+                                              "w": 1200
+                                            },
+                                            "small": {
+                                              "h": 279,
+                                              "resize": "fit",
+                                              "w": 680
+                                            },
+                                            "thumb": {
+                                              "h": 150,
+                                              "resize": "crop",
+                                              "w": 150
+                                            }
+                                          },
+                                          "type": "photo",
+                                          "url": "https://t.co/pi6p68f9YW"
+                                        }
+                                      ]
+                                    },
+                                    "favorite_count": 31,
+                                    "favorited": false,
+                                    "full_text": "parents should be worried about \u201cteetering\u201d universities, universities that have dropped part of their Christian mission, but keep other parts. When they drop, it is in the direction of the GAE. 3/ https://t.co/pi6p68f9YW",
+                                    "id_str": "1643335556762329089",
+                                    "in_reply_to_screen_name": "scottyenor",
+                                    "in_reply_to_status_id_str": "1643335401703104513",
+                                    "in_reply_to_user_id_str": "1380623475023355907",
+                                    "is_quote_status": false,
+                                    "lang": "en",
+                                    "possibly_sensitive": false,
+                                    "possibly_sensitive_editable": true,
+                                    "quote_count": 1,
+                                    "reply_count": 7,
+                                    "retweet_count": 8,
+                                    "retweeted": false,
+                                    "user_id_str": "1380623475023355907"
+                                  },
+                                  "quick_promote_eligibility": {
+                                    "eligibility": "IneligibleNotVerified"
+                                  },
+                                  "rest_id": "1643335556762329089",
+                                  "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+                                  "unmention_data": {},
+                                  "views": {
+                                    "count": "5211",
+                                    "state": "EnabledWithCount"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "dispensable": false,
+                          "entryId": "profile-conversation-2108574963261767053-tweet-1643612772930813956",
+                          "item": {
+                            "clientEventInfo": {
+                              "component": "tweet",
+                              "details": {
+                                "timelinesDetails": {
+                                  "controllerData": "DAACDAABDAABCgABAAAAAAAAAAAKAAkdCAhb+ZcQAAoACgAAAaEhNHbzAAAAAA==",
+                                  "injectionType": "RankedOrganicTweet"
+                                }
+                              },
+                              "element": "tweet"
+                            },
+                            "itemContent": {
+                              "__typename": "TimelineTweet",
+                              "itemType": "TimelineTweet",
+                              "tweetDisplayType": "Tweet",
+                              "tweet_results": {
+                                "result": {
+                                  "__typename": "Tweet",
+                                  "card": {
+                                    "legacy": {
+                                      "binding_values": [
+                                        {
+                                          "key": "description",
+                                          "value": {
+                                            "string_value": "Learn more about Biola University's theological positions as a leading Christian institution.",
+                                            "type": "STRING"
+                                          }
+                                        },
+                                        {
+                                          "key": "domain",
+                                          "value": {
+                                            "string_value": "www.biola.edu",
+                                            "type": "STRING"
+                                          }
+                                        },
+                                        {
+                                          "key": "vanity_url",
+                                          "value": {
+                                            "scribe_key": "vanity_url",
+                                            "string_value": "biola.edu",
+                                            "type": "STRING"
+                                          }
+                                        },
+                                        {
+                                          "key": "title",
+                                          "value": {
+                                            "string_value": "Theological Positions - Biola University",
+                                            "type": "STRING"
+                                          }
+                                        },
+                                        {
+                                          "key": "card_url",
+                                          "value": {
+                                            "scribe_key": "card_url",
+                                            "string_value": "https://t.co/j1piCbtkg5",
+                                            "type": "STRING"
+                                          }
+                                        }
+                                      ],
+                                      "card_platform": {
+                                        "platform": {
+                                          "audience": {
+                                            "name": "production"
+                                          },
+                                          "device": {
+                                            "name": "Swift",
+                                            "version": "12"
+                                          }
+                                        }
+                                      },
+                                      "name": "summary",
+                                      "url": "https://t.co/j1piCbtkg5",
+                                      "user_refs_results": []
+                                    },
+                                    "rest_id": "https://t.co/j1piCbtkg5"
+                                  },
+                                  "core": {
+                                    "user_results": {}
+                                  },
+                                  "edit_control": {
+                                    "edit_tweet_ids": [
+                                      "1643612772930813956"
+                                    ],
+                                    "editable_until_msecs": "1680704596000",
+                                    "edits_remaining": "5",
+                                    "is_edit_eligible": false
+                                  },
+                                  "grok_translated_post_with_availability": {
+                                    "is_available": false
+                                  },
+                                  "is_translatable": false,
+                                  "legacy": {
+                                    "bookmark_count": 0,
+                                    "bookmarked": false,
+                                    "conversation_id_str": "1643335260132851714",
+                                    "created_at": "Wed Apr 05 13:53:16 +0000 2023",
+                                    "display_text_range": [
+                                      0,
+                                      238
+                                    ],
+                                    "entities": {
+                                      "urls": [
+                                        {
+                                          "display_url": "biola.edu/about/theologi\u2026",
+                                          "expanded_url": "https://www.biola.edu/about/theological-positions",
+                                          "indices": [
+                                            215,
+                                            238
+                                          ],
+                                          "url": "https://t.co/j1piCbtkg5"
+                                        }
+                                      ]
+                                    },
+                                    "favorite_count": 2,
+                                    "favorited": false,
+                                    "full_text": "*** I have subsequently learned that BIOLA has faculty faith requirements in a password-protected faculty handbook. The entry for BIOLA should read: Affirm Creedal Statement of Faith and Protestant Social Teaching. https://t.co/j1piCbtkg5",
+                                    "id_str": "1643612772930813956",
+                                    "in_reply_to_screen_name": "scottyenor",
+                                    "in_reply_to_status_id_str": "1643335556762329089",
+                                    "in_reply_to_user_id_str": "1380623475023355907",
+                                    "is_quote_status": false,
+                                    "lang": "en",
+                                    "possibly_sensitive": false,
+                                    "possibly_sensitive_editable": true,
+                                    "quote_count": 0,
+                                    "reply_count": 2,
+                                    "retweet_count": 0,
+                                    "retweeted": false,
+                                    "user_id_str": "1380623475023355907"
+                                  },
+                                  "quick_promote_eligibility": {
+                                    "eligibility": "IneligibleNotVerified"
+                                  },
+                                  "rest_id": "1643612772930813956",
+                                  "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+                                  "unmention_data": {},
+                                  "views": {
+                                    "count": "507",
+                                    "state": "EnabledWithCount"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ],
+                      "metadata": {
+                        "conversationMetadata": {
+                          "allTweetIds": [
+                            "1643335260132851714",
+                            "1643335401703104513",
+                            "1643335556762329089",
+                            "1643612772930813956"
+                          ],
+                          "enableDeduplication": true
+                        }
+                      }
+                    },
+                    "entryId": "profile-conversation-2108574963261767053",
+                    "sortIndex": "2108574963261767021"
+                  },
+                  {
+                    "content": {
+                      "__typename": "TimelineTimelineModule",
+                      "clientEventInfo": {
+                        "component": "suggest_ranked_organic_tweet",
+                        "details": {
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAABDAABCgABAAAAAAAAAAAKAAkdCAhb+ZcQAAoACgAAAaEhNHbzAAAAAA==",
+                            "injectionType": "RankedOrganicTweet"
+                          }
+                        }
+                      },
+                      "displayType": "VerticalConversation",
+                      "entryType": "TimelineTimelineModule",
+                      "items": [
+                        {
+                          "dispensable": true,
+                          "entryId": "profile-conversation-2108574963261767054-tweet-1643335820617678854",
+                          "item": {
+                            "clientEventInfo": {
+                              "component": "tweet",
+                              "details": {
+                                "timelinesDetails": {
+                                  "controllerData": "DAACDAABDAABCgABAAAAAAAAAAAKAAkdCAhb+ZcQAAoACgAAAaEhNHbzAAAAAA==",
+                                  "injectionType": "RankedOrganicTweet"
+                                }
+                              },
+                              "element": "tweet"
+                            },
+                            "itemContent": {
+                              "__typename": "TimelineTweet",
+                              "itemType": "TimelineTweet",
+                              "tweetDisplayType": "Tweet",
+                              "tweet_results": {
+                                "result": {
+                                  "__typename": "Tweet",
+                                  "card": {
+                                    "legacy": {
+                                      "binding_values": [
+                                        {
+                                          "key": "thumbnail_image",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 144,
+                                              "url": "https://pbs.twimg.com/card_img/2106645950043136000/ksZiBliE?format=jpg&name=144x144_2",
+                                              "width": 144
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "description",
+                                          "value": {
+                                            "string_value": "The flames of revival are being felt again on the campus of Baylor University in Texas where students cried out to",
+                                            "type": "STRING"
+                                          }
+                                        },
+                                        {
+                                          "key": "domain",
+                                          "value": {
+                                            "string_value": "cbn.com",
+                                            "type": "STRING"
+                                          }
+                                        },
+                                        {
+                                          "key": "thumbnail_image_large",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 420,
+                                              "url": "https://pbs.twimg.com/card_img/2106645950043136000/ksZiBliE?format=jpg&name=420x420_2",
+                                              "width": 420
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "thumbnail_image_original",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 1080,
+                                              "url": "https://pbs.twimg.com/card_img/2106645950043136000/ksZiBliE?format=jpg&name=orig",
+                                              "width": 1920
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "site",
+                                          "value": {
+                                            "scribe_key": "publisher_id",
+                                            "type": "USER",
+                                            "user_value": {
+                                              "id_str": "26028938",
+                                              "path": []
+                                            }
+                                          }
+                                        },
+                                        {
+                                          "key": "thumbnail_image_small",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 100,
+                                              "url": "https://pbs.twimg.com/card_img/2106645950043136000/ksZiBliE?format=jpg&name=100x100_2",
+                                              "width": 100
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "thumbnail_image_x_large",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 1080,
+                                              "url": "https://pbs.twimg.com/card_img/2106645950043136000/ksZiBliE?format=png&name=2048x2048_2_exp",
+                                              "width": 1920
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "vanity_url",
+                                          "value": {
+                                            "scribe_key": "vanity_url",
+                                            "string_value": "cbn.com",
+                                            "type": "STRING"
+                                          }
+                                        },
+                                        {
+                                          "key": "thumbnail_image_color",
+                                          "value": {
+                                            "image_color_value": {
+                                              "palette": [
+                                                {
+                                                  "percentage": 62.1,
+                                                  "rgb": {
+                                                    "blue": 36,
+                                                    "green": 30,
+                                                    "red": 28
+                                                  }
+                                                },
+                                                {
+                                                  "percentage": 16.1,
+                                                  "rgb": {
+                                                    "blue": 173,
+                                                    "green": 162,
+                                                    "red": 150
+                                                  }
+                                                },
+                                                {
+                                                  "percentage": 10.87,
+                                                  "rgb": {
+                                                    "blue": 113,
+                                                    "green": 115,
+                                                    "red": 122
+                                                  }
+                                                },
+                                                {
+                                                  "percentage": 1.58,
+                                                  "rgb": {
+                                                    "blue": 132,
+                                                    "green": 102,
+                                                    "red": 56
+                                                  }
+                                                },
+                                                {
+                                                  "percentage": 0.97,
+                                                  "rgb": {
+                                                    "blue": 42,
+                                                    "green": 63,
+                                                    "red": 66
+                                                  }
+                                                }
+                                              ]
+                                            },
+                                            "type": "IMAGE_COLOR"
+                                          }
+                                        },
+                                        {
+                                          "key": "title",
+                                          "value": {
+                                            "string_value": "72-Hour Revival at Baylor Leads to 20+ Baptisms: 'A Compelling Invitation to Know Jesus'",
+                                            "type": "STRING"
+                                          }
+                                        },
+                                        {
+                                          "key": "card_url",
+                                          "value": {
+                                            "scribe_key": "card_url",
+                                            "string_value": "https://t.co/GZSuklC2Id",
+                                            "type": "STRING"
+                                          }
+                                        }
+                                      ],
+                                      "card_platform": {
+                                        "platform": {
+                                          "audience": {
+                                            "name": "production"
+                                          },
+                                          "device": {
+                                            "name": "Swift",
+                                            "version": "12"
+                                          }
+                                        }
+                                      },
+                                      "name": "summary",
+                                      "url": "https://t.co/GZSuklC2Id",
+                                      "user_refs_results": [
+                                        {
+                                          "result": {
+                                            "__typename": "User",
+                                            "action_counts": {
+                                              "favorites_count": 8605
+                                            },
+                                            "affiliates_highlighted_label": {},
+                                            "avatar": {
+                                              "image_url": "https://pbs.twimg.com/profile_images/1716862667208392704/b4g6yqwg_normal.jpg"
+                                            },
+                                            "banner": {
+                                              "image_url": "https://pbs.twimg.com/profile_banners/26028938/1698166933"
+                                            },
+                                            "core": {
+                                              "created_at": "Mon Mar 23 16:05:40 +0000 2009",
+                                              "name": "CBN News",
+                                              "screen_name": "CBNNews"
+                                            },
+                                            "dm_permissions": {
+                                              "can_dm": true
+                                            },
+                                            "follow_request_sent": false,
+                                            "has_graduated_access": true,
+                                            "id": "VXNlcjoyNjAyODkzOA==",
+                                            "is_blue_verified": true,
+                                            "location": {
+                                              "location": "D.C.-Nashville-Jerusalem-VA"
+                                            },
+                                            "media_permissions": {
+                                              "can_media_tag": true
+                                            },
+                                            "notifications_settings": {
+                                              "notifications_enabled": false
+                                            },
+                                            "pinned_items": {
+                                              "tweet_ids_str": [
+                                                "2107591895538962556"
+                                              ]
+                                            },
+                                            "possibly_sensitive": false,
+                                            "privacy": {
+                                              "protected": false
+                                            },
+                                            "professional": {
+                                              "category": [
+                                                {
+                                                  "icon_name": "IconBriefcaseStroke",
+                                                  "id": 955,
+                                                  "name": "Journalist"
+                                                }
+                                              ],
+                                              "professional_type": "Business",
+                                              "rest_id": "1583116354214928387"
+                                            },
+                                            "profile_bio": {
+                                              "description": "Christian Broadcasting Network, bringing International Christian Inspired 24-hour News. Because Truth Matters\u00ae.\n\nOn Rumble @ https://t.co/rKdBgnp4fA",
+                                              "entities": {
+                                                "description": {
+                                                  "urls": [
+                                                    {
+                                                      "display_url": "rumble.com/CBNNews",
+                                                      "expanded_url": "https://rumble.com/CBNNews",
+                                                      "indices": [
+                                                        125,
+                                                        148
+                                                      ],
+                                                      "url": "https://t.co/rKdBgnp4fA"
+                                                    }
+                                                  ]
+                                                },
+                                                "url": {
+                                                  "urls": [
+                                                    {
+                                                      "display_url": "www1.cbn.com/cbnnews",
+                                                      "expanded_url": "https://www1.cbn.com/cbnnews",
+                                                      "indices": [
+                                                        0,
+                                                        23
+                                                      ],
+                                                      "url": "https://t.co/ULw51V8yw6"
+                                                    }
+                                                  ]
+                                                }
+                                              }
+                                            },
+                                            "profile_description_language": "en",
+                                            "profile_image_shape": "Circle",
+                                            "profile_metadata": {
+                                              "profile_interstitial_type": ""
+                                            },
+                                            "profile_translation": {
+                                              "translator_type": "none"
+                                            },
+                                            "relationship_counts": {
+                                              "followers": 193850,
+                                              "following": 528
+                                            },
+                                            "relationship_perspectives": {
+                                              "blocked_by": false,
+                                              "blocking": false,
+                                              "followed_by": false,
+                                              "following": false,
+                                              "live_following": false,
+                                              "muting": false
+                                            },
+                                            "rest_id": "26028938",
+                                            "super_follow_eligible": false,
+                                            "super_followed_by": false,
+                                            "super_following": false,
+                                            "tipjar_settings": {},
+                                            "tweet_counts": {
+                                              "media_tweets": 37056,
+                                              "tweets": 170769
+                                            },
+                                            "verification": {
+                                              "verified": false
+                                            },
+                                            "website": {
+                                              "url": "https://t.co/ULw51V8yw6"
+                                            }
+                                          }
+                                        }
+                                      ]
+                                    },
+                                    "rest_id": "https://t.co/GZSuklC2Id"
+                                  },
+                                  "core": {
+                                    "user_results": {}
+                                  },
+                                  "edit_control": {
+                                    "edit_tweet_ids": [
+                                      "1643335820617678854"
+                                    ],
+                                    "editable_until_msecs": "1680638565000",
+                                    "edits_remaining": "5",
+                                    "is_edit_eligible": false
+                                  },
+                                  "grok_translated_post_with_availability": {
+                                    "is_available": false
+                                  },
+                                  "is_translatable": false,
+                                  "legacy": {
+                                    "bookmark_count": 1,
+                                    "bookmarked": false,
+                                    "conversation_id_str": "1643335260132851714",
+                                    "created_at": "Tue Apr 04 19:32:45 +0000 2023",
+                                    "display_text_range": [
+                                      0,
+                                      235
+                                    ],
+                                    "entities": {
+                                      "urls": [
+                                        {
+                                          "display_url": "www2.cbn.com/news/us/72-hou\u2026",
+                                          "expanded_url": "https://www2.cbn.com/news/us/72-hour-revival-baylor-leads-20-baptisms-compelling-invitation-know-jesus",
+                                          "indices": [
+                                            212,
+                                            235
+                                          ],
+                                          "url": "https://t.co/GZSuklC2Id"
+                                        }
+                                      ]
+                                    },
+                                    "favorite_count": 23,
+                                    "favorited": false,
+                                    "full_text": "Clearly, the picture is a bit more complicated. Baylor has a pretty awesome student body and lots of good majors, but the administration has shown that it is ashamed of its Christian heritage in several ways. 5/ https://t.co/GZSuklC2Id",
+                                    "id_str": "1643335820617678854",
+                                    "in_reply_to_screen_name": "scottyenor",
+                                    "in_reply_to_status_id_str": "1643335684084695040",
+                                    "in_reply_to_user_id_str": "1380623475023355907",
+                                    "is_quote_status": false,
+                                    "lang": "en",
+                                    "possibly_sensitive": false,
+                                    "possibly_sensitive_editable": true,
+                                    "quote_count": 0,
+                                    "reply_count": 5,
+                                    "retweet_count": 3,
+                                    "retweeted": false,
+                                    "user_id_str": "1380623475023355907"
+                                  },
+                                  "quick_promote_eligibility": {
+                                    "eligibility": "IneligibleNotVerified"
+                                  },
+                                  "rest_id": "1643335820617678854",
+                                  "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+                                  "unmention_data": {},
+                                  "views": {
+                                    "count": "4370",
+                                    "state": "EnabledWithCount"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "dispensable": false,
+                          "entryId": "profile-conversation-2108574963261767054-tweet-1643336000138092545",
+                          "item": {
+                            "clientEventInfo": {
+                              "component": "tweet",
+                              "details": {
+                                "timelinesDetails": {
+                                  "controllerData": "DAACDAABDAABCgABAAAAAAAAAAAKAAkdCAhb+ZcQAAoACgAAAaEhNHbzAAAAAA==",
+                                  "injectionType": "RankedOrganicTweet"
+                                }
+                              },
+                              "element": "tweet"
+                            },
+                            "itemContent": {
+                              "__typename": "TimelineTweet",
+                              "itemType": "TimelineTweet",
+                              "tweetDisplayType": "Tweet",
+                              "tweet_results": {
+                                "result": {
+                                  "__typename": "Tweet",
+                                  "card": {
+                                    "legacy": {
+                                      "binding_values": [
+                                        {
+                                          "key": "photo_image_full_size_large",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 419,
+                                              "url": "https://pbs.twimg.com/card_img/2107414894685696000/FcfwrKJ9?format=jpg&name=800x419",
+                                              "width": 800
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "thumbnail_image",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 150,
+                                              "url": "https://pbs.twimg.com/card_img/2107414894685696000/FcfwrKJ9?format=jpg&name=280x150",
+                                              "width": 265
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "description",
+                                          "value": {
+                                            "string_value": "The Battle for Christian Higher Education Rages",
+                                            "type": "STRING"
+                                          }
+                                        },
+                                        {
+                                          "key": "domain",
+                                          "value": {
+                                            "string_value": "archive.americanreformer.org",
+                                            "type": "STRING"
+                                          }
+                                        },
+                                        {
+                                          "key": "thumbnail_image_large",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 320,
+                                              "url": "https://pbs.twimg.com/card_img/2107414894685696000/FcfwrKJ9?format=jpg&name=800x320_1",
+                                              "width": 566
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "summary_photo_image_small",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 202,
+                                              "url": "https://pbs.twimg.com/card_img/2107414894685696000/FcfwrKJ9?format=jpg&name=386x202",
+                                              "width": 386
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "thumbnail_image_original",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 966,
+                                              "url": "https://pbs.twimg.com/card_img/2107414894685696000/FcfwrKJ9?format=jpg&name=orig",
+                                              "width": 1708
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "photo_image_full_size_small",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 202,
+                                              "url": "https://pbs.twimg.com/card_img/2107414894685696000/FcfwrKJ9?format=jpg&name=386x202",
+                                              "width": 386
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "summary_photo_image_large",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 419,
+                                              "url": "https://pbs.twimg.com/card_img/2107414894685696000/FcfwrKJ9?format=jpg&name=800x419",
+                                              "width": 800
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "thumbnail_image_small",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 57,
+                                              "url": "https://pbs.twimg.com/card_img/2107414894685696000/FcfwrKJ9?format=jpg&name=100x100",
+                                              "width": 100
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "thumbnail_image_x_large",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 966,
+                                              "url": "https://pbs.twimg.com/card_img/2107414894685696000/FcfwrKJ9?format=png&name=2048x2048_2_exp",
+                                              "width": 1708
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "photo_image_full_size_original",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 966,
+                                              "url": "https://pbs.twimg.com/card_img/2107414894685696000/FcfwrKJ9?format=jpg&name=orig",
+                                              "width": 1708
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "vanity_url",
+                                          "value": {
+                                            "scribe_key": "vanity_url",
+                                            "string_value": "archive.americanreformer.org",
+                                            "type": "STRING"
+                                          }
+                                        },
+                                        {
+                                          "key": "photo_image_full_size",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 314,
+                                              "url": "https://pbs.twimg.com/card_img/2107414894685696000/FcfwrKJ9?format=jpg&name=600x314",
+                                              "width": 600
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "thumbnail_image_color",
+                                          "value": {
+                                            "image_color_value": {
+                                              "palette": [
+                                                {
+                                                  "percentage": 57.06,
+                                                  "rgb": {
+                                                    "blue": 87,
+                                                    "green": 137,
+                                                    "red": 187
+                                                  }
+                                                },
+                                                {
+                                                  "percentage": 26.46,
+                                                  "rgb": {
+                                                    "blue": 30,
+                                                    "green": 61,
+                                                    "red": 103
+                                                  }
+                                                },
+                                                {
+                                                  "percentage": 13.09,
+                                                  "rgb": {
+                                                    "blue": 182,
+                                                    "green": 208,
+                                                    "red": 234
+                                                  }
+                                                },
+                                                {
+                                                  "percentage": 1.74,
+                                                  "rgb": {
+                                                    "blue": 136,
+                                                    "green": 158,
+                                                    "red": 182
+                                                  }
+                                                },
+                                                {
+                                                  "percentage": 1.05,
+                                                  "rgb": {
+                                                    "blue": 39,
+                                                    "green": 82,
+                                                    "red": 134
+                                                  }
+                                                }
+                                              ]
+                                            },
+                                            "type": "IMAGE_COLOR"
+                                          }
+                                        },
+                                        {
+                                          "key": "title",
+                                          "value": {
+                                            "string_value": "Are There Trustworthy Protestant Universities? | Scott Yenor",
+                                            "type": "STRING"
+                                          }
+                                        },
+                                        {
+                                          "key": "summary_photo_image_color",
+                                          "value": {
+                                            "image_color_value": {
+                                              "palette": [
+                                                {
+                                                  "percentage": 57.06,
+                                                  "rgb": {
+                                                    "blue": 87,
+                                                    "green": 137,
+                                                    "red": 187
+                                                  }
+                                                },
+                                                {
+                                                  "percentage": 26.46,
+                                                  "rgb": {
+                                                    "blue": 30,
+                                                    "green": 61,
+                                                    "red": 103
+                                                  }
+                                                },
+                                                {
+                                                  "percentage": 13.09,
+                                                  "rgb": {
+                                                    "blue": 182,
+                                                    "green": 208,
+                                                    "red": 234
+                                                  }
+                                                },
+                                                {
+                                                  "percentage": 1.74,
+                                                  "rgb": {
+                                                    "blue": 136,
+                                                    "green": 158,
+                                                    "red": 182
+                                                  }
+                                                },
+                                                {
+                                                  "percentage": 1.05,
+                                                  "rgb": {
+                                                    "blue": 39,
+                                                    "green": 82,
+                                                    "red": 134
+                                                  }
+                                                }
+                                              ]
+                                            },
+                                            "type": "IMAGE_COLOR"
+                                          }
+                                        },
+                                        {
+                                          "key": "summary_photo_image_x_large",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 966,
+                                              "url": "https://pbs.twimg.com/card_img/2107414894685696000/FcfwrKJ9?format=png&name=2048x2048_2_exp",
+                                              "width": 1708
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "summary_photo_image",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 314,
+                                              "url": "https://pbs.twimg.com/card_img/2107414894685696000/FcfwrKJ9?format=jpg&name=600x314",
+                                              "width": 600
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "photo_image_full_size_color",
+                                          "value": {
+                                            "image_color_value": {
+                                              "palette": [
+                                                {
+                                                  "percentage": 57.06,
+                                                  "rgb": {
+                                                    "blue": 87,
+                                                    "green": 137,
+                                                    "red": 187
+                                                  }
+                                                },
+                                                {
+                                                  "percentage": 26.46,
+                                                  "rgb": {
+                                                    "blue": 30,
+                                                    "green": 61,
+                                                    "red": 103
+                                                  }
+                                                },
+                                                {
+                                                  "percentage": 13.09,
+                                                  "rgb": {
+                                                    "blue": 182,
+                                                    "green": 208,
+                                                    "red": 234
+                                                  }
+                                                },
+                                                {
+                                                  "percentage": 1.74,
+                                                  "rgb": {
+                                                    "blue": 136,
+                                                    "green": 158,
+                                                    "red": 182
+                                                  }
+                                                },
+                                                {
+                                                  "percentage": 1.05,
+                                                  "rgb": {
+                                                    "blue": 39,
+                                                    "green": 82,
+                                                    "red": 134
+                                                  }
+                                                }
+                                              ]
+                                            },
+                                            "type": "IMAGE_COLOR"
+                                          }
+                                        },
+                                        {
+                                          "key": "photo_image_full_size_x_large",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 966,
+                                              "url": "https://pbs.twimg.com/card_img/2107414894685696000/FcfwrKJ9?format=png&name=2048x2048_2_exp",
+                                              "width": 1708
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        },
+                                        {
+                                          "key": "card_url",
+                                          "value": {
+                                            "scribe_key": "card_url",
+                                            "string_value": "https://t.co/M6TKKzlxSH",
+                                            "type": "STRING"
+                                          }
+                                        },
+                                        {
+                                          "key": "summary_photo_image_original",
+                                          "value": {
+                                            "image_value": {
+                                              "height": 966,
+                                              "url": "https://pbs.twimg.com/card_img/2107414894685696000/FcfwrKJ9?format=jpg&name=orig",
+                                              "width": 1708
+                                            },
+                                            "type": "IMAGE"
+                                          }
+                                        }
+                                      ],
+                                      "card_platform": {
+                                        "platform": {
+                                          "audience": {
+                                            "name": "production"
+                                          },
+                                          "device": {
+                                            "name": "Swift",
+                                            "version": "12"
+                                          }
+                                        }
+                                      },
+                                      "name": "summary_large_image",
+                                      "url": "https://t.co/M6TKKzlxSH",
+                                      "user_refs_results": []
+                                    },
+                                    "rest_id": "https://t.co/M6TKKzlxSH"
+                                  },
+                                  "core": {
+                                    "user_results": {}
+                                  },
+                                  "edit_control": {
+                                    "edit_tweet_ids": [
+                                      "1643336000138092545"
+                                    ],
+                                    "editable_until_msecs": "1680638608000",
+                                    "edits_remaining": "5",
+                                    "is_edit_eligible": false
+                                  },
+                                  "grok_translated_post_with_availability": {
+                                    "is_available": false
+                                  },
+                                  "is_translatable": false,
+                                  "legacy": {
+                                    "bookmark_count": 9,
+                                    "bookmarked": false,
+                                    "conversation_id_str": "1643335260132851714",
+                                    "created_at": "Tue Apr 04 19:33:28 +0000 2023",
+                                    "display_text_range": [
+                                      0,
+                                      178
+                                    ],
+                                    "entities": {
+                                      "urls": [
+                                        {
+                                          "display_url": "americanreformer.org/2023/04/are-th\u2026",
+                                          "expanded_url": "https://americanreformer.org/2023/04/are-there-trustworthy-protestant-universities/",
+                                          "indices": [
+                                            155,
+                                            178
+                                          ],
+                                          "url": "https://t.co/M6TKKzlxSH"
+                                        }
+                                      ],
+                                      "user_mentions": [
+                                        {
+                                          "id_str": "1409531509384613888",
+                                          "indices": [
+                                            113,
+                                            124
+                                          ],
+                                          "name": "American Reformer",
+                                          "screen_name": "AmReformer"
+                                        }
+                                      ]
+                                    },
+                                    "favorite_count": 34,
+                                    "favorited": false,
+                                    "full_text": "There is a market for prestige and orthodoxy, if Christian schools would just rise to meet the demand. Thanks to @AmReformer for publishing the essay. 6/6 https://t.co/M6TKKzlxSH",
+                                    "id_str": "1643336000138092545",
+                                    "in_reply_to_screen_name": "scottyenor",
+                                    "in_reply_to_status_id_str": "1643335820617678854",
+                                    "in_reply_to_user_id_str": "1380623475023355907",
+                                    "is_quote_status": false,
+                                    "lang": "en",
+                                    "possibly_sensitive": false,
+                                    "possibly_sensitive_editable": true,
+                                    "quote_count": 1,
+                                    "reply_count": 5,
+                                    "retweet_count": 8,
+                                    "retweeted": false,
+                                    "user_id_str": "1380623475023355907"
+                                  },
+                                  "quick_promote_eligibility": {
+                                    "eligibility": "IneligibleNotVerified"
+                                  },
+                                  "rest_id": "1643336000138092545",
+                                  "source": "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+                                  "unmention_data": {},
+                                  "views": {
+                                    "count": "5002",
+                                    "state": "EnabledWithCount"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ],
+                      "metadata": {
+                        "conversationMetadata": {
+                          "allTweetIds": [
+                            "1643335260132851714",
+                            "1643335401703104513",
+                            "1643335556762329089",
+                            "1643335684084695040",
+                            "1643335820617678854",
+                            "1643336000138092545"
+                          ],
+                          "enableDeduplication": true
+                        }
+                      }
+                    },
+                    "entryId": "profile-conversation-2108574963261767054",
+                    "sortIndex": "2108574963261767020"
+                  },
+                  {
+                    "content": {
+                      "__typename": "TimelineTimelineCursor",
+                      "cursorType": "Top",
+                      "entryType": "TimelineTimelineCursor",
+                      "value": "DAAHCgABHUMpweOAJI4LAAIAAAATMTY1MzQ0MDAwNjkyNzU3Mjk5MwgAAwAAAAEAAA"
+                    },
+                    "entryId": "cursor-top-2108574963261767038",
+                    "sortIndex": "2108574963261767038"
+                  },
+                  {
+                    "content": {
+                      "__typename": "TimelineTimelineCursor",
+                      "cursorType": "Bottom",
+                      "entryType": "TimelineTimelineCursor",
+                      "value": "DAAHCgABHUMpweN__WsLAAIAAAATMTY0MzMzNjAwMDEzODA5MjU0NQgAAwAAAAIAAA"
+                    },
+                    "entryId": "cursor-bottom-2108574963261767019",
+                    "sortIndex": "2108574963261767019"
+                  }
+                ],
+                "type": "TimelineAddEntries"
+              }
+            ],
+            "metadata": {
+              "scribeConfig": {
+                "page": "profileBest"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
