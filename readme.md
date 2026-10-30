@@ -388,7 +388,7 @@ twscrape collects anonymous, aggregated telemetry about used GraphQL operation n
 
 ## Contributing
 
-Pull requests are welcome, including ones made with agents: point yours at [agents.md](agents.md).
+Pull requests are welcome, including ones made with agents: point yours at [agents.md](https://github.com/vladkens/twscrape/blob/main/agents.md).
 
 ## See Also
 
