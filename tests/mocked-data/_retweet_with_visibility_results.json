@@ -1,0 +1,653 @@
+{
+  "data": {
+    "threaded_conversation_with_injections_v2": {
+      "instructions": [
+        {
+          "type": "TimelineClearCache"
+        },
+        {
+          "entries": [
+            {
+              "content": {
+                "__typename": "TimelineTimelineItem",
+                "clientEventInfo": {
+                  "component": "tweet",
+                  "element": "tweet"
+                },
+                "entryType": "TimelineTimelineItem",
+                "itemContent": {
+                  "__typename": "TimelineTweet",
+                  "itemType": "TimelineTweet",
+                  "tweetDisplayType": "Tweet",
+                  "tweet_results": {
+                    "result": {
+                      "__typename": "Tweet",
+                      "core": {
+                        "user_results": {
+                          "result": {
+                            "__typename": "User",
+                            "action_counts": {
+                              "favorites_count": 1546
+                            },
+                            "affiliates_highlighted_label": {},
+                            "avatar": {
+                              "image_url": "https://pbs.twimg.com/profile_images/1627784857232482305/PSNBkAnf_normal.jpg"
+                            },
+                            "banner": {
+                              "image_url": "https://pbs.twimg.com/profile_banners/997975529193115648/1673552627"
+                            },
+                            "core": {
+                              "created_at": "Sat May 19 23:01:22 +0000 2018",
+                              "name": "IsraelismFilm",
+                              "screen_name": "IsraelismFilm"
+                            },
+                            "dm_permissions": {
+                              "can_dm": false
+                            },
+                            "follow_request_sent": false,
+                            "has_graduated_access": true,
+                            "id": "VXNlcjo5OTc5NzU1MjkxOTMxMTU2NDg=",
+                            "is_blue_verified": false,
+                            "location": {
+                              "location": ""
+                            },
+                            "media_permissions": {
+                              "can_media_tag": true
+                            },
+                            "notifications_settings": {
+                              "notifications_enabled": false
+                            },
+                            "pinned_items": {
+                              "tweet_ids_str": [
+                                "1798365254579311102"
+                              ]
+                            },
+                            "possibly_sensitive": false,
+                            "privacy": {
+                              "protected": false
+                            },
+                            "profile_bio": {
+                              "description": "Rent/Own Israelism on Apple TV, Amazon Prime and YouTube. Watch Free on Tubi, Vice, Roku and Al Jazeera",
+                              "entities": {
+                                "description": {},
+                                "url": {
+                                  "urls": [
+                                    {
+                                      "display_url": "israelismfilm.com",
+                                      "expanded_url": "http://www.israelismfilm.com",
+                                      "indices": [
+                                        0,
+                                        23
+                                      ],
+                                      "url": "https://t.co/R78wFLGLhD"
+                                    }
+                                  ]
+                                }
+                              }
+                            },
+                            "profile_description_language": "en",
+                            "profile_image_shape": "Circle",
+                            "profile_metadata": {
+                              "profile_interstitial_type": ""
+                            },
+                            "profile_translation": {
+                              "translator_type": "none"
+                            },
+                            "relationship_counts": {
+                              "followers": 9549,
+                              "following": 1265
+                            },
+                            "relationship_perspectives": {
+                              "blocked_by": false,
+                              "blocking": false,
+                              "followed_by": false,
+                              "following": false,
+                              "live_following": false,
+                              "muting": false
+                            },
+                            "rest_id": "997975529193115648",
+                            "super_follow_eligible": false,
+                            "super_followed_by": false,
+                            "super_following": false,
+                            "tipjar_settings": {},
+                            "tweet_counts": {
+                              "media_tweets": 347,
+                              "tweets": 901
+                            },
+                            "verification": {
+                              "verified": false
+                            },
+                            "website": {
+                              "url": "https://t.co/R78wFLGLhD"
+                            }
+                          }
+                        }
+                      },
+                      "edit_control": {
+                        "edit_tweet_ids": [
+                          "1686409496019562496"
+                        ],
+                        "editable_until_msecs": "1690909930481",
+                        "edits_remaining": "5",
+                        "is_edit_eligible": false
+                      },
+                      "grok_translated_post_with_availability": {
+                        "is_available": false
+                      },
+                      "has_birdwatch_notes": false,
+                      "is_translatable": false,
+                      "legacy": {
+                        "bookmark_count": 0,
+                        "bookmarked": false,
+                        "conversation_id_str": "1686409496019562496",
+                        "created_at": "Tue Aug 01 16:12:10 +0000 2023",
+                        "display_text_range": [
+                          0,
+                          139
+                        ],
+                        "entities": {
+                          "user_mentions": [
+                            {
+                              "id_str": "997975529193115648",
+                              "indices": [
+                                3,
+                                17
+                              ],
+                              "name": "IsraelismFilm",
+                              "screen_name": "IsraelismFilm"
+                            },
+                            {
+                              "id_str": "277535697",
+                              "indices": [
+                                19,
+                                29
+                              ],
+                              "name": "Avner Gvaryahu",
+                              "screen_name": "AGvaryahu"
+                            },
+                            {
+                              "id_str": "258498441",
+                              "indices": [
+                                33,
+                                43
+                              ],
+                              "name": "Breaking the Silence",
+                              "screen_name": "BtSIsrael"
+                            }
+                          ]
+                        },
+                        "favorite_count": 0,
+                        "favorited": false,
+                        "full_text": "RT @IsraelismFilm: @AGvaryahu of @BtSIsrael recounts his  Israelism story, which eventually led him to \u201cbreak the silence\u201d on the violence\u2026",
+                        "id_str": "1686409496019562496",
+                        "is_quote_status": false,
+                        "lang": "en",
+                        "quote_count": 0,
+                        "reply_count": 0,
+                        "retweet_count": 2,
+                        "retweeted": false,
+                        "retweeted_status_result": {
+                          "result": {
+                            "__typename": "TweetWithVisibilityResults",
+                            "limitedActionResults": {
+                              "limited_actions": [
+                                {
+                                  "action": "QuoteTweet"
+                                },
+                                {
+                                  "action": "CopyLink"
+                                },
+                                {
+                                  "action": "Like"
+                                },
+                                {
+                                  "action": "VoteOnPoll"
+                                },
+                                {
+                                  "action": "AddToMoment"
+                                },
+                                {
+                                  "action": "PinToProfile"
+                                },
+                                {
+                                  "action": "ShareTweetVia"
+                                },
+                                {
+                                  "action": "React"
+                                },
+                                {
+                                  "action": "Embed"
+                                },
+                                {
+                                  "action": "Retweet"
+                                },
+                                {
+                                  "action": "SendViaDm"
+                                },
+                                {
+                                  "action": "AddToBookmarks"
+                                },
+                                {
+                                  "action": "HideCommunityTweet"
+                                },
+                                {
+                                  "action": "Reply"
+                                },
+                                {
+                                  "action": "ViewTweetActivity"
+                                }
+                              ]
+                            },
+                            "tweet": {
+                              "core": {
+                                "user_results": {
+                                  "result": {
+                                    "__typename": "User",
+                                    "action_counts": {
+                                      "favorites_count": 1546
+                                    },
+                                    "affiliates_highlighted_label": {},
+                                    "avatar": {
+                                      "image_url": "https://pbs.twimg.com/profile_images/1627784857232482305/PSNBkAnf_normal.jpg"
+                                    },
+                                    "banner": {
+                                      "image_url": "https://pbs.twimg.com/profile_banners/997975529193115648/1673552627"
+                                    },
+                                    "core": {
+                                      "created_at": "Sat May 19 23:01:22 +0000 2018",
+                                      "name": "IsraelismFilm",
+                                      "screen_name": "IsraelismFilm"
+                                    },
+                                    "dm_permissions": {
+                                      "can_dm": false
+                                    },
+                                    "follow_request_sent": false,
+                                    "has_graduated_access": true,
+                                    "id": "VXNlcjo5OTc5NzU1MjkxOTMxMTU2NDg=",
+                                    "is_blue_verified": false,
+                                    "location": {
+                                      "location": ""
+                                    },
+                                    "media_permissions": {
+                                      "can_media_tag": true
+                                    },
+                                    "notifications_settings": {
+                                      "notifications_enabled": false
+                                    },
+                                    "pinned_items": {
+                                      "tweet_ids_str": [
+                                        "1798365254579311102"
+                                      ]
+                                    },
+                                    "possibly_sensitive": false,
+                                    "privacy": {
+                                      "protected": false
+                                    },
+                                    "profile_bio": {
+                                      "description": "Rent/Own Israelism on Apple TV, Amazon Prime and YouTube. Watch Free on Tubi, Vice, Roku and Al Jazeera",
+                                      "entities": {
+                                        "description": {},
+                                        "url": {
+                                          "urls": [
+                                            {
+                                              "display_url": "israelismfilm.com",
+                                              "expanded_url": "http://www.israelismfilm.com",
+                                              "indices": [
+                                                0,
+                                                23
+                                              ],
+                                              "url": "https://t.co/R78wFLGLhD"
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    },
+                                    "profile_description_language": "en",
+                                    "profile_image_shape": "Circle",
+                                    "profile_metadata": {
+                                      "profile_interstitial_type": ""
+                                    },
+                                    "profile_translation": {
+                                      "translator_type": "none"
+                                    },
+                                    "relationship_counts": {
+                                      "followers": 9549,
+                                      "following": 1265
+                                    },
+                                    "relationship_perspectives": {
+                                      "blocked_by": false,
+                                      "blocking": false,
+                                      "followed_by": false,
+                                      "following": false,
+                                      "live_following": false,
+                                      "muting": false
+                                    },
+                                    "rest_id": "997975529193115648",
+                                    "super_follow_eligible": false,
+                                    "super_followed_by": false,
+                                    "super_following": false,
+                                    "tipjar_settings": {},
+                                    "tweet_counts": {
+                                      "media_tweets": 347,
+                                      "tweets": 901
+                                    },
+                                    "verification": {
+                                      "verified": false
+                                    },
+                                    "website": {
+                                      "url": "https://t.co/R78wFLGLhD"
+                                    }
+                                  }
+                                }
+                              },
+                              "edit_control": {
+                                "edit_control_initial": {
+                                  "edit_tweet_ids": [
+                                    "1686406364556374016",
+                                    "1686407197440323584",
+                                    "1686408294095577090",
+                                    "1686410510365872132"
+                                  ],
+                                  "editable_until_msecs": "1690909183000",
+                                  "edits_remaining": "2",
+                                  "is_edit_eligible": true
+                                },
+                                "initial_tweet_id": "1686406364556374016"
+                              },
+                              "grok_translated_post_with_availability": {
+                                "is_available": false
+                              },
+                              "has_birdwatch_notes": false,
+                              "is_translatable": false,
+                              "legacy": {
+                                "bookmark_count": 0,
+                                "bookmarked": false,
+                                "conversation_id_str": "1686408294095577090",
+                                "created_at": "Tue Aug 01 16:07:23 +0000 2023",
+                                "display_text_range": [
+                                  0,
+                                  245
+                                ],
+                                "entities": {
+                                  "hashtags": [
+                                    {
+                                      "indices": [
+                                        207,
+                                        224
+                                      ],
+                                      "text": "MyIsraelismStory"
+                                    },
+                                    {
+                                      "indices": [
+                                        230,
+                                        245
+                                      ],
+                                      "text": "visitpalestine"
+                                    }
+                                  ],
+                                  "media": [
+                                    {
+                                      "additional_media_info": {
+                                        "monetizable": false
+                                      },
+                                      "display_url": "pic.x.com/R4ZvAKoc0C",
+                                      "expanded_url": "https://x.com/IsraelismFilm/status/1686408294095577090/video/1",
+                                      "ext_media_availability": {
+                                        "status": "Available"
+                                      },
+                                      "id_str": "1686408176176926721",
+                                      "indices": [
+                                        246,
+                                        269
+                                      ],
+                                      "media_key": "13_1686408176176926721",
+                                      "media_results": {
+                                        "result": {
+                                          "media_key": "13_1686408176176926721"
+                                        }
+                                      },
+                                      "media_url_https": "https://pbs.twimg.com/amplify_video_thumb/1686408176176926721/img/OuahGZ6NKrXCR7M7.jpg",
+                                      "original_info": {
+                                        "focus_rects": [],
+                                        "height": 1080,
+                                        "width": 1920
+                                      },
+                                      "sizes": {
+                                        "large": {
+                                          "h": 1080,
+                                          "resize": "fit",
+                                          "w": 1920
+                                        },
+                                        "medium": {
+                                          "h": 675,
+                                          "resize": "fit",
+                                          "w": 1200
+                                        },
+                                        "small": {
+                                          "h": 383,
+                                          "resize": "fit",
+                                          "w": 680
+                                        },
+                                        "thumb": {
+                                          "h": 150,
+                                          "resize": "crop",
+                                          "w": 150
+                                        }
+                                      },
+                                      "type": "video",
+                                      "url": "https://t.co/R4ZvAKoc0C",
+                                      "video_info": {
+                                        "aspect_ratio": [
+                                          16,
+                                          9
+                                        ],
+                                        "duration_millis": 89966,
+                                        "variants": [
+                                          {
+                                            "content_type": "application/x-mpegURL",
+                                            "url": "https://video.twimg.com/amplify_video/1686408176176926721/pl/aMD0Dsm9XT75TP_c.m3u8?tag=14&v=564"
+                                          },
+                                          {
+                                            "bitrate": 288000,
+                                            "content_type": "video/mp4",
+                                            "url": "https://video.twimg.com/amplify_video/1686408176176926721/vid/480x270/CjLNg3KbQD4uiv0y.mp4?tag=14"
+                                          },
+                                          {
+                                            "bitrate": 832000,
+                                            "content_type": "video/mp4",
+                                            "url": "https://video.twimg.com/amplify_video/1686408176176926721/vid/640x360/Fo50eUXL3XsJUSuG.mp4?tag=14"
+                                          },
+                                          {
+                                            "bitrate": 2176000,
+                                            "content_type": "video/mp4",
+                                            "url": "https://video.twimg.com/amplify_video/1686408176176926721/vid/1280x720/LJsxu66nzCr5axAL.mp4?tag=14"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  "user_mentions": [
+                                    {
+                                      "id_str": "277535697",
+                                      "indices": [
+                                        0,
+                                        10
+                                      ],
+                                      "name": "Avner Gvaryahu",
+                                      "screen_name": "AGvaryahu"
+                                    },
+                                    {
+                                      "id_str": "258498441",
+                                      "indices": [
+                                        14,
+                                        24
+                                      ],
+                                      "name": "Breaking the Silence",
+                                      "screen_name": "BtSIsrael"
+                                    }
+                                  ]
+                                },
+                                "extended_entities": {
+                                  "media": [
+                                    {
+                                      "additional_media_info": {
+                                        "monetizable": false
+                                      },
+                                      "display_url": "pic.x.com/R4ZvAKoc0C",
+                                      "expanded_url": "https://x.com/IsraelismFilm/status/1686408294095577090/video/1",
+                                      "ext_media_availability": {
+                                        "status": "Available"
+                                      },
+                                      "id_str": "1686408176176926721",
+                                      "indices": [
+                                        246,
+                                        269
+                                      ],
+                                      "media_key": "13_1686408176176926721",
+                                      "media_results": {
+                                        "result": {
+                                          "media_key": "13_1686408176176926721"
+                                        }
+                                      },
+                                      "media_url_https": "https://pbs.twimg.com/amplify_video_thumb/1686408176176926721/img/OuahGZ6NKrXCR7M7.jpg",
+                                      "original_info": {
+                                        "focus_rects": [],
+                                        "height": 1080,
+                                        "width": 1920
+                                      },
+                                      "sizes": {
+                                        "large": {
+                                          "h": 1080,
+                                          "resize": "fit",
+                                          "w": 1920
+                                        },
+                                        "medium": {
+                                          "h": 675,
+                                          "resize": "fit",
+                                          "w": 1200
+                                        },
+                                        "small": {
+                                          "h": 383,
+                                          "resize": "fit",
+                                          "w": 680
+                                        },
+                                        "thumb": {
+                                          "h": 150,
+                                          "resize": "crop",
+                                          "w": 150
+                                        }
+                                      },
+                                      "type": "video",
+                                      "url": "https://t.co/R4ZvAKoc0C",
+                                      "video_info": {
+                                        "aspect_ratio": [
+                                          16,
+                                          9
+                                        ],
+                                        "duration_millis": 89966,
+                                        "variants": [
+                                          {
+                                            "content_type": "application/x-mpegURL",
+                                            "url": "https://video.twimg.com/amplify_video/1686408176176926721/pl/aMD0Dsm9XT75TP_c.m3u8?tag=14&v=564"
+                                          },
+                                          {
+                                            "bitrate": 288000,
+                                            "content_type": "video/mp4",
+                                            "url": "https://video.twimg.com/amplify_video/1686408176176926721/vid/480x270/CjLNg3KbQD4uiv0y.mp4?tag=14"
+                                          },
+                                          {
+                                            "bitrate": 832000,
+                                            "content_type": "video/mp4",
+                                            "url": "https://video.twimg.com/amplify_video/1686408176176926721/vid/640x360/Fo50eUXL3XsJUSuG.mp4?tag=14"
+                                          },
+                                          {
+                                            "bitrate": 2176000,
+                                            "content_type": "video/mp4",
+                                            "url": "https://video.twimg.com/amplify_video/1686408176176926721/vid/1280x720/LJsxu66nzCr5axAL.mp4?tag=14"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  ]
+                                },
+                                "favorite_count": 5,
+                                "favorited": false,
+                                "full_text": "@AGvaryahu of @BtSIsrael recounts his  Israelism story, which eventually led him to \u201cbreak the silence\u201d on the violence of Israel\u2019s military occupation of the West Bank\ud83d\udc47 \n\nShare yours below with the hashtag #MyIsraelismStory \ud83d\udde3\ufe0f \n\n#visitpalestine https://t.co/R4ZvAKoc0C",
+                                "id_str": "1686408294095577090",
+                                "in_reply_to_screen_name": "AGvaryahu",
+                                "in_reply_to_user_id_str": "277535697",
+                                "is_quote_status": false,
+                                "lang": "en",
+                                "possibly_sensitive": false,
+                                "possibly_sensitive_editable": true,
+                                "quote_count": 0,
+                                "reply_count": 0,
+                                "retweet_count": 2,
+                                "retweeted": false,
+                                "user_id_str": "997975529193115648"
+                              },
+                              "previous_counts": {
+                                "bookmark_count": 0,
+                                "favorite_count": 1,
+                                "quote_count": 0,
+                                "reply_count": 0,
+                                "retweet_count": 0
+                              },
+                              "rest_id": "1686408294095577090",
+                              "unmention_data": {},
+                              "views": {
+                                "count": "1224",
+                                "state": "EnabledWithCount"
+                              }
+                            }
+                          }
+                        },
+                        "user_id_str": "997975529193115648"
+                      },
+                      "quick_promote_eligibility": {
+                        "eligibility": "IneligibleNotVerified"
+                      },
+                      "rest_id": "1686409496019562496",
+                      "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
+                      "unmention_data": {},
+                      "views": {
+                        "count": "1",
+                        "state": "EnabledWithCount"
+                      }
+                    }
+                  }
+                }
+              },
+              "entryId": "tweet-1686409496019562496",
+              "sortIndex": "2113001920044990464"
+            },
+            {
+              "content": {
+                "__typename": "TimelineTimelineCursor",
+                "cursorType": "Bottom",
+                "entryType": "TimelineTimelineCursor",
+                "value": "DAAKCgABHVLkDRX___0LAAIAAAAoRW1QQzZ3QUFBZlEvZ0dKTjB2R3AvQUFBQUFFWFoxU0FiQmR3QUE9PQgAAwAAAAILAAQAAAAGQm90dG9tAAA"
+              },
+              "entryId": "cursor-bottom-2113001920044990463",
+              "sortIndex": "2113001920044990463"
+            }
+          ],
+          "type": "TimelineAddEntries"
+        },
+        {
+          "direction": "Top",
+          "type": "TimelineTerminateTimeline"
+        },
+        {
+          "direction": "Bottom",
+          "type": "TimelineTerminateTimeline"
+        }
+      ],
+      "metadata": {
+        "scribeConfig": {
+          "page": "ranked_replies"
+        }
+      }
+    }
+  }
+}
