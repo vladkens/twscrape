@@ -13,7 +13,7 @@
 twscrape is an async Python library and CLI for X/Twitter Search and GraphQL endpoints. It runs on your own account pool, keeps sessions in SQLite, rotates accounts when an endpoint is rate-limited, and returns either parsed SNScrape-style models or raw API responses.
 
 <div align="center">
-  <img src="https://raw.githubusercontent.com/vladkens/twscrape/main/.github/example.png" alt="example of cli usage" height="400px">
+  <img src=".github/example.png" alt="example of cli usage" height="400px">
 </div>
 
 ## Install
@@ -40,6 +40,20 @@ TWS_HTTP_BACKEND=curl twscrape user_by_login xdevelopers
 - Raw Twitter API responses and parsed SNScrape-compatible models
 - Automatic account switching across rate-limited operations
 
+## Sponsor
+
+<p align="center">
+  <a href="https://proxy-seller.com/?utm_source=github&utm_medium=referral&utm_campaign=partner_promo&utm_term=github&partner=A5588ADD6A634EF3">
+    <img src=".github/proxyseller.png" alt="Proxy-Seller banner" width="600">
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://proxy-seller.com/?utm_source=github&utm_medium=referral&utm_campaign=partner_promo&utm_term=github&partner=A5588ADD6A634EF3"><strong>Proxy-Seller</strong></a> provides residential, ISP, IPv4 and IPv6 proxies in 220+ locations, from $0.70 per GB, with 24/7 support.
+</p>
+
+<p align="center">Promo code <code>TWSCRAPE</code> gives 15% off ISP, IPv4 and residential proxies.</p>
+
 ## Start With Cookies
 
 twscrape requires authorized X/Twitter accounts. The most stable setup is to add an account from browser cookies containing `auth_token` and `ct0`. The recommended way to export them from your current browser profile is [unjar](https://github.com/vladkens/unjar):
@@ -60,7 +74,7 @@ twscrape add_cookie my_account
 
 Cookie accounts that include `auth_token` and `ct0` are activated immediately; no `login_accounts` step is needed.
 
-Ready-to-use cookie accounts are available from [this provider](https://kutt.to/ueeM5f) (referral link).
+Ready-to-use cookie accounts are available from [this provider](https://kutt.to/ueeM5f). Proxy users can bring their own proxies or use [Proxy-Seller](https://proxy-seller.com/?utm_source=github&utm_medium=referral&utm_campaign=partner_promo&utm_term=github&partner=A5588ADD6A634EF3). These are referral links.
 
 X/Twitter's Terms of Service discourage using multiple accounts. Use this project responsibly and at your own discretion.
 
