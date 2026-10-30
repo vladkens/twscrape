@@ -386,6 +386,10 @@ Do not set `api.proxy` or `TWS_PROXY` when you want per-account proxies to be us
 
 twscrape collects anonymous, aggregated telemetry about used GraphQL operation names and the selected HTTP backend. It does not collect usernames, cookies, proxies, queries, request URLs, or response bodies. Disable it with `TWS_TELEMETRY=0`.
 
+## Contributing
+
+Pull requests are welcome, including ones made with agents: point yours at [agents.md](agents.md).
+
 ## See Also
 
 - [twitter-advanced-search](https://github.com/igorbrigadir/twitter-advanced-search) - guide on search filters
