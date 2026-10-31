@@ -394,7 +394,7 @@ twscrape collects anonymous, aggregated telemetry about used GraphQL operation n
 
 ## 🤖 How it's made
 
-twscrape started hand-written; AI agents (Claude Code, Codex) now write most of it following [agents.md](https://github.com/vladkens/twscrape/blob/main/agents.md), alongside contributors' pull requests. I choose what to build and review every pull request. Its tests parse real X responses saved for each endpoint and for past bug reports ([tests/mocked-data](https://github.com/vladkens/twscrape/tree/main/tests/mocked-data)), refetched from the live API when they go stale, and CI runs them on Python 3.10 to 3.14. I've written software by hand for years ([macmon](https://github.com/vladkens/macmon), [ecloop](https://github.com/vladkens/ecloop)); agents are how I build now. Releases are rare; the CLI and data formats stay compatible, the API may still change before 1.0, and every break is listed in [changelog.md](https://github.com/vladkens/twscrape/blob/main/changelog.md).
+twscrape started hand-written and is now built with AI agents following [agents.md](https://github.com/vladkens/twscrape/blob/main/agents.md); I decide what to build and review every change. I've written software by hand for years ([macmon](https://github.com/vladkens/macmon), [ecloop](https://github.com/vladkens/ecloop)). Releases are rare; the API may change before 1.0.
 
 ## Contributing
 
