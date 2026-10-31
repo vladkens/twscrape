@@ -391,3 +391,11 @@ twscrape collects anonymous, aggregated telemetry about used GraphQL operation n
 - [twitter-advanced-search](https://github.com/igorbrigadir/twitter-advanced-search) - guide on search filters
 - [TweeterPy](https://github.com/iSarabjitDhiman/TweeterPy) - another X client
 - [twitter-api-client](https://github.com/trevorhobenshield/twitter-api-client) - implementation of Twitter's v1, v2, and GraphQL APIs
+
+## 🤖 How it's made
+
+twscrape started hand-written and is now built with AI agents following [agents.md](https://github.com/vladkens/twscrape/blob/main/agents.md): I choose what to build, review the changes and test them on real machines. Before agents, I wrote software by hand for years ([macmon](https://github.com/vladkens/macmon), [ecloop](https://github.com/vladkens/ecloop)). Releases are rare on purpose: I'd rather test and polish a set of changes than ship each one as it lands, and I try not to break your config or data; when something has to break, [changelog.md](https://github.com/vladkens/twscrape/blob/main/changelog.md) says so.
+
+## Contributing
+
+Pull requests are welcome, including ones made with agents: point yours at [agents.md](https://github.com/vladkens/twscrape/blob/main/agents.md).
