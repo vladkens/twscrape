@@ -273,7 +273,7 @@ class QueueClient:
             # Cloudflare blocks the httpx TLS fingerprint on some ops (UserByRestId), see #337
             backend = getattr(self.ctx.clt, "backend", None) if self.ctx else None
             if src == "Cloudflare" and backend == "httpx":
-                msg += "; retry with TWS_HTTP_BACKEND=curl (pip install 'twscrape[curl]')"
+                msg += "; install curl-cffi to pass it: pip install 'twscrape[curl]'"
 
             logger.warning(msg)
             raise AbortReqError(msg)

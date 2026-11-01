@@ -248,9 +248,12 @@ class CurlClient(HttpClient):
 
 
 def _detect_backend() -> str:
-    forced = os.getenv("TWS_HTTP_BACKEND", "").lower().strip()
+    """Return TWS_HTTP_BACKEND, or curl when curl-cffi is installed, else httpx."""
+    backend = os.getenv("TWS_HTTP_BACKEND", "").lower().strip()
+    if not backend:
+        backend = "httpx" if importlib.util.find_spec("curl_cffi") is None else "curl"
 
-    if forced == "curl":
+    if backend == "curl":
         if importlib.util.find_spec("curl_cffi") is None:
             raise ImportError(
                 "TWS_HTTP_BACKEND=curl but curl-cffi is not installed. "
@@ -258,14 +261,12 @@ def _detect_backend() -> str:
             )
         return "curl"
 
-    if forced in ("", "httpx"):
+    if backend == "httpx":
         if importlib.util.find_spec("httpx") is None:
-            raise ImportError(
-                "TWS_HTTP_BACKEND=httpx but httpx is not installed. Run: pip install twscrape"
-            )
+            raise ImportError("httpx is not installed. Run: pip install twscrape")
         return "httpx"
 
-    raise ValueError(f"Invalid TWS_HTTP_BACKEND={forced!r}. Expected 'curl' or 'httpx'.")
+    raise ValueError(f"Invalid TWS_HTTP_BACKEND={backend!r}. Expected 'curl' or 'httpx'.")
 
 
 def make_client(
