@@ -27,7 +27,7 @@ MISSING_FEATURES_RE = re.compile(r"The following features cannot be null: ([^;]+
 TMP_TS = utc.now().isoformat().split(".")[0].replace("T", "_").replace(":", "-")[0:16]
 
 # X answers some accounts on these endpoints with a 404, whatever the transaction ID
-RESTRICTED_QUEUES = {"SearchTimeline"}
+RESTRICTED_QUEUES = {"SearchTimeline", "UsersByRestIds"}
 RESTRICTED_LOCK = 24 * 60 * 60
 
 
