@@ -56,6 +56,8 @@ async def client_fixture(pool_mock: AccountsPool, monkeypatch):
             cookies=f"auth_token=token{x}; ct0=csrf{x}",
         )
         await pool_mock.set_active(f"user{x}", True)
+        # known phone state: SearchTimeline would otherwise check it first
+        await pool_mock.set_verified_phone(f"user{x}", True)
 
     client = QueueClient(pool_mock, "SearchTimeline")
     yield pool_mock, client, mock_clt
@@ -71,6 +73,7 @@ async def api_mock(pool_mock: AccountsPool):
         cookies="auth_token=token1; ct0=csrf1",
     )
     await pool_mock.set_active("user1", True)
+    await pool_mock.set_verified_phone("user1", True)
 
     api = API(pool_mock)
     yield api

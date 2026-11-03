@@ -5,6 +5,7 @@ import sqlite3
 from dataclasses import asdict, dataclass, field
 from datetime import datetime
 from typing import Literal
+from urllib.parse import unquote
 
 from .http import HttpClient
 from .http import make_client as _make_http_client
@@ -35,11 +36,18 @@ class Account(JSONTrait):
     proxy: str | None = None
     error_msg: str | None = None
     last_used: datetime | None = None
+    has_verified_phone: bool | None = None  # None: not checked yet
     _tx: str | None = None
 
     @property
     def has_session(self) -> bool:
         return has_required_cookies(self.cookies)
+
+    @property
+    def user_id(self) -> str | None:
+        # X's twid cookie holds the session's user, "u=<id>" URL-encoded
+        twid = unquote(self.cookies.get("twid", ""))
+        return twid[2:] if twid.startswith("u=") else None
 
     @property
     def login_method(self) -> LoginMethod:
@@ -54,6 +62,8 @@ class Account(JSONTrait):
         doc["cookies"] = json.loads(doc["cookies"])
         doc["active"] = bool(doc["active"])
         doc["last_used"] = utc.from_iso(doc["last_used"]) if doc["last_used"] else None
+        phone = doc["has_verified_phone"]
+        doc["has_verified_phone"] = None if phone is None else bool(phone)
         return Account(**doc)
 
     def to_rs(self):

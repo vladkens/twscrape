@@ -325,16 +325,19 @@ twscrape reactivate user1 user2
 twscrape reset_locks
 twscrape delete_inactive
 twscrape del_accounts user1 user2
+twscrape check_phone
 ```
 
 `twscrape accounts` prints the current account state:
 
 ```text
-username  logged_in  active  last_used            total_req  error_msg
-user1     True       True    2023-05-20 03:20:40  100        None
-user2     True       True    2023-05-20 03:25:45  120        None
-user3     False      False   None                 120        Login error
+username  logged_in  active  last_used            total_req  verified_phone  error_msg
+user1     True       True    2023-05-20 03:20:40  100        True            None
+user2     True       True    2023-05-20 03:25:45  120        None            None
+user3     False      False   None                 120        False           Login error
 ```
+
+Some endpoints, such as `SearchTimeline`, can't be accessed with an account without a verified phone.
 
 ## Limits
 

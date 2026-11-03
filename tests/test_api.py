@@ -116,6 +116,29 @@ async def test_article_rich_content_only_in_tweet_details(api_mock: API, monkeyp
     assert rich == [False, False, True]
 
 
+async def test_check_verified_phone_stores_each_account(api_http):
+    api, mock = api_http
+    await api.pool.add_account("user2", "p", "e", "ep", cookies="auth_token=a; ct0=b; twid=u%3D222")
+    await api.pool.set_active("user2", True)
+    await api.pool.add_account("user3", "p", "e", "ep")  # inactive, not checked
+    mock.add_response(json={"data": {"viewer": {"user_results": {"result": {"rest_id": "111"}}}}})
+    mock.add_response(json={"data": {"user_phone_state": {"has_verified_phone": False}}})
+    mock.add_response(json={"data": {"user_phone_state": {"has_verified_phone": True}}})
+
+    assert await api.check_verified_phone() == {"user1": False, "user2": True}
+    assert (await api.pool.get("user1")).has_verified_phone is False
+    assert (await api.pool.get("user2")).has_verified_phone is True
+    assert (await api.pool.get("user3")).has_verified_phone is None
+
+
+async def test_check_verified_phone_keeps_unknown_on_failure(api_http):
+    api, mock = api_http
+    mock.add_response(status_code=500, json={})
+
+    assert await api.check_verified_phone(["user1"]) == {"user1": None}
+    assert (await api.pool.get("user1")).has_verified_phone is True  # left as it was
+
+
 async def test_raise_when_no_account(api_mock: API):
     await api_mock.pool.delete_accounts(["user1"])
     assert len(await api_mock.pool.get_all()) == 0
