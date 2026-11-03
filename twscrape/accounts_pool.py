@@ -18,7 +18,7 @@ class NoAccountError(Exception):
 
 
 # Queues refused for accounts without a verified phone
-PHONE_REQUIRED_QUEUES = {"SearchTimeline"}
+PHONE_REQUIRED_QUEUES = {"SearchTimeline", "UsersByRestIds"}
 
 
 class AccountInfo(TypedDict):

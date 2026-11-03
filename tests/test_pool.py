@@ -180,7 +180,8 @@ async def test_migration_adds_unknown_phone_state(tmp_path):
     assert acc.has_verified_phone is None
 
 
-async def test_get_for_queue_skips_accounts_without_phone_on_search(pool_mock: AccountsPool):
+@pytest.mark.parametrize("queue", ["SearchTimeline", "UsersByRestIds"])
+async def test_get_for_queue_skips_accounts_without_phone(pool_mock: AccountsPool, queue):
     for name, phone in [("user1", False), ("user2", None), ("user3", True)]:
         await pool_mock.add_account(name, "pass", "email", "email_pass")
         await pool_mock.set_active(name, True)
@@ -188,7 +189,7 @@ async def test_get_for_queue_skips_accounts_without_phone_on_search(pool_mock: A
             await pool_mock.set_verified_phone(name, phone)
 
     # an unknown phone state is not excluded: it gets checked when the account is used
-    picked = [await pool_mock.get_for_queue("SearchTimeline") for _ in range(3)]
+    picked = [await pool_mock.get_for_queue(queue) for _ in range(3)]
     assert [x.username if x else None for x in picked] == ["user2", "user3", None]
 
     # other queues don't care about the phone

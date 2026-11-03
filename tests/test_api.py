@@ -139,6 +139,20 @@ async def test_check_verified_phone_keeps_unknown_on_failure(api_http):
     assert (await api.pool.get("user1")).has_verified_phone is True  # left as it was
 
 
+async def test_users_by_ids_sends_ids_as_strings(api_mock: API, monkeypatch):
+    args = []
+
+    async def mock_gql_item(*a, **kw):
+        args.append(a)
+
+    monkeypatch.setattr(api_mock, "_gql_item", mock_gql_item)
+    await api_mock.users_by_ids_raw([44196397, 49074665])
+
+    op, kv = args[0][:2]
+    assert op.endswith("/UsersByRestIds")
+    assert kv == {"userIds": ["44196397", "49074665"]}
+
+
 async def test_raise_when_no_account(api_mock: API):
     await api_mock.pool.delete_accounts(["user1"])
     assert len(await api_mock.pool.get_all()) == 0
@@ -177,8 +191,22 @@ async def test_user_lookup_returns_none_when_x_has_no_user(api_http, method, arg
     assert await getattr(api, method)(arg) is None
 
 
+async def test_users_by_ids_keeps_request_order(api_http):
+    # One entry per requested ID, in request order: normal, not found ({}), suspended and
+    # deactivated (UserUnavailable)
+    api, mock = api_http
+    mock.add_response(json=load("_users_by_ids_states"))
+
+    users = await api.users_by_ids([44196397, 49074665, 429952163, 68001309])
+    assert users is not None
+    assert [x.id if x else None for x in users] == [44196397, None, None, None]
+
+
 @pytest.mark.parametrize("response,tries,error", FAILED_REQUESTS)
-@pytest.mark.parametrize("method,arg", [("user_by_id", 123), ("user_by_login", "someone")])
+@pytest.mark.parametrize(
+    "method,arg",
+    [("user_by_id", 123), ("user_by_login", "someone"), ("users_by_ids", [123, 456])],
+)
 async def test_user_lookup_raises_when_request_fails(api_http, method, arg, response, tries, error):
     api, mock = api_http
     for _ in range(tries):

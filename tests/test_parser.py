@@ -27,6 +27,7 @@ from twscrape.models import (
     parse_tweet,
     parse_tweets,
     parse_user,
+    parse_users_by_ids,
 )
 from twscrape.utils import find_obj, get_typed_object, to_old_rep
 
@@ -835,6 +836,28 @@ def test_user_lookup_parse_failure_keeps_cause():
         parse_user(raw)
 
     assert isinstance(exc.value.__cause__, ValueError)
+
+
+def test_users_by_ids_matches_user_lookup():
+    # Each UsersByRestIds entry is shaped as UserByRestId's data.user
+    raw = fake_rep("_users_by_ids_states").json()
+    users = parse_users_by_ids(raw)
+
+    assert len(users) == len(raw["data"]["users"])
+    assert users[0] is not None
+    assert users[0].id == 44196397
+    assert users[0] == parse_user({"data": {"user": raw["data"]["users"][0]}})
+    assert users[1:] == [None, None, None]
+
+
+def test_users_by_ids_parse_failure_raises():
+    # https://github.com/vladkens/twscrape/issues/346
+    # A user X sent but that can't be parsed must not read as "no user"
+    raw = fake_rep("_users_by_ids_states").json()
+    del raw["data"]["users"][0]["result"]["core"]
+
+    with pytest.raises(UserParseError, match="Failed to parse user"):
+        parse_users_by_ids(raw)
 
 
 def test_bot_reply_to_partial_only_operator():

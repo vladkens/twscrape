@@ -143,7 +143,9 @@ async def main(args):
             print(to_str(doc))
     else:
         doc = await fn(val)
-        print(to_str(doc))
+        # users_by_ids: one line per requested ID, in request order
+        for x in doc if isinstance(doc, list) else [doc]:
+            print(to_str(x))
 
 
 async def _run(args):
@@ -180,9 +182,11 @@ def run():
     p.add_argument("--debug", action="store_true", help="Enable debug mode")
     subparsers = p.add_subparsers(dest="command")
 
-    def c_one(name: str, msg: str, a_name: str, a_msg: str, a_type: type = str):
+    def c_one(
+        name: str, msg: str, a_name: str, a_msg: str, a_type: type = str, nargs: str | None = None
+    ):
         p = subparsers.add_parser(name, help=msg)
-        p.add_argument(a_name, help=a_msg, type=a_type)
+        p.add_argument(a_name, help=a_msg, type=a_type, nargs=nargs)
         p.set_defaults(arg_name=a_name)
         p.add_argument("--raw", action="store_true", help="Print raw response")
         return p
@@ -232,6 +236,7 @@ def run():
     c_lim("tweet_thread", "Get thread tweets", "tweet_id", "Tweet ID", int)
     c_lim("retweeters", "Get retweeters of a tweet", "tweet_id", "Tweet ID", int)
     c_one("user_by_id", "Get user data by ID", "user_id", "User ID", int)
+    c_one("users_by_ids", "Get users data by IDs", "user_ids", "User IDs", int, nargs="+")
     c_one("user_by_login", "Get user data by username", "username", "Username")
     c_one("user_about", "Get about info for username", "username", "Username")
     c_lim("following", "Get user following", "user_id", "User ID", int)
