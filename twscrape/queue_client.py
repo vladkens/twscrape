@@ -139,6 +139,15 @@ async def check_verified_phone(ctx: Ctx, pool: AccountsPool) -> bool | None:
     """Fetch and store the account's phone state; None if the check failed (nothing stored)."""
     from .api import GQL_URL, OP_ProfileUserPhoneState, OP_Viewer  # api imports this module
 
+    async def get(op: str, params: dict) -> Response:
+        # transport errors are retried on the same account, as in QueueClient.req
+        while True:
+            try:
+                return await ctx.req("GET", f"{GQL_URL}/{op}", params=encode_params(params))
+            except (NetworkError, ConnectError):
+                if not await ctx.retry(FailKind.TRANSPORT):
+                    raise
+
     try:
         uid = ctx.acc.user_id
         if uid is None:  # account added without the twid cookie
@@ -147,17 +156,16 @@ async def check_verified_phone(ctx: Ctx, pool: AccountsPool) -> bool | None:
                 "features": dict.fromkeys(VIEWER_FEATURES, True),
                 "fieldToggles": dict.fromkeys(VIEWER_TOGGLES, True),
             }
-            rep = await ctx.req("GET", f"{GQL_URL}/{OP_Viewer}", params=encode_params(params))
+            rep = await get(OP_Viewer, params)
             uid = rep.json()["data"]["viewer"]["user_results"]["result"]["rest_id"]
 
-        params = {"variables": {"userId": uid}, "features": {}}
-        url = f"{GQL_URL}/{OP_ProfileUserPhoneState}"
-        rep = await ctx.req("GET", url, params=encode_params(params))
+        rep = await get(OP_ProfileUserPhoneState, {"variables": {"userId": uid}, "features": {}})
         value = bool(rep.json()["data"]["user_phone_state"]["has_verified_phone"])
     except Exception as e:
         logger.warning(f"Phone check failed for {ctx.acc.username}: {format_error(e)}")
         return None
 
+    ctx.fails = dict.fromkeys(ctx.fails, 0)  # the request that follows gets its own budget
     await pool.set_verified_phone(ctx.acc.username, value)
     return value
 

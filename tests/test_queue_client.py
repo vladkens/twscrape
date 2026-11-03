@@ -1082,6 +1082,53 @@ async def test_failed_phone_check_keeps_account_locked_and_uses_next(client_fixt
     await client.__aexit__(None, None, None)
 
 
+async def test_phone_check_retries_connect_error(client_fixture: CF, monkeypatch):
+    pool, client, mock = client_fixture
+    sleeps = []
+
+    async def fake_sleep(secs):
+        sleeps.append(secs)
+
+    monkeypatch.setattr("twscrape.queue_client.asyncio.sleep", fake_sleep)
+    await pool.set_verified_phone("user1", None)
+    mock.add_exception(ConnectError("Failed to connect to x.com"))
+    mock.add_response(json=VIEWER_REP)
+    mock.add_response(json=phone_rep(True))
+    mock.add_response(json={"ok": True})
+
+    rep = await client.get(URL)
+
+    assert rep is not None
+    assert getattr(rep, "__username", None) == "user1"
+    assert (await pool.get("user1")).has_verified_phone is True
+    assert sleeps == [2]
+    await client.__aexit__(None, None, None)
+
+
+async def test_phone_check_gives_up_after_3_connect_errors(client_fixture: CF, monkeypatch):
+    pool, client, mock = client_fixture
+    sleeps = []
+
+    async def fake_sleep(secs):
+        sleeps.append(secs)
+
+    monkeypatch.setattr("twscrape.queue_client.asyncio.sleep", fake_sleep)
+    await pool.set_verified_phone("user1", None)
+    for _ in range(3):
+        mock.add_exception(ConnectError("Failed to connect to x.com"))
+    mock.add_response(json={"ok": True})
+
+    rep = await client.get(URL)
+
+    assert rep is not None
+    assert getattr(rep, "__username", None) == "user2"
+    assert (await pool.get("user1")).has_verified_phone is None
+    assert sleeps == [2, 4]
+    # the 3 attempts were the phone check's, not the search's
+    assert [x[1].split("/")[-1] for x in mock.requests] == ["Viewer"] * 3 + ["api"]
+    await client.__aexit__(None, None, None)
+
+
 async def test_no_account_with_phone_stops_with_error(client_fixture: CF, monkeypatch):
     pool, client, mock = client_fixture
     for x in ("user1", "user2"):
