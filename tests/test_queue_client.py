@@ -443,6 +443,27 @@ async def test_rate_limit_without_headers_locks_and_switches(
     await client.__aexit__(None, None, None)
 
 
+@pytest.mark.parametrize("headers", [{}, {"cf-ray": "abc123"}])
+async def test_rate_limit_html_locks_and_switches(client_fixture: CF, headers):
+    # https://github.com/vladkens/twscrape/issues/351
+    pool, client, mock = client_fixture
+    await client.__aenter__()
+
+    headers = {"content-type": "text/html", **headers}
+    mock.add_invalid_json_response(status_code=429, text="<html>429</html>", headers=headers)
+    mock.add_response(json={"ok": True})
+
+    rep = await client.get(URL)
+    assert rep is not None
+    assert rep.json() == {"ok": True}
+
+    user1 = next(x for x in await pool.get_all() if x.username == "user1")
+    assert user1.active
+    assert int(user1.locks["SearchTimeline"].timestamp()) > utc.ts() + 60 * 10
+
+    await client.__aexit__(None, None, None)
+
+
 async def test_rate_limit_88_with_data_returns_response(client_fixture: CF):
     pool, client, mock = client_fixture
     await client.__aenter__()

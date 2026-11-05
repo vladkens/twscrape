@@ -267,7 +267,12 @@ class QueueClient:
         if self.debug:
             dump_rep(rep)
 
-        if "text/html" in rep.headers.get("content-type", "") and rep.status_code >= 400:
+        # an HTML 429 is a rate limit, handled below like a JSON one
+        if (
+            "text/html" in rep.headers.get("content-type", "")
+            and rep.status_code >= 400
+            and rep.status_code != 429
+        ):
             src = "Cloudflare" if "cf-ray" in rep.headers else "HTML"
             msg = f"Blocked by {src}: {rep.status_code} - {req_id(rep)}"
             # Cloudflare blocks the httpx TLS fingerprint on some ops (UserByRestId), see #337
