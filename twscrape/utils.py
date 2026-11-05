@@ -303,8 +303,7 @@ QT_ID_PATH = [
 ]
 
 
-def is_tweet_stub(obj: dict) -> bool:
-    # A bare reference, not a tweet: X sends these as quotedRefResult of a quoted tweet
+def is_tweet_ref(obj: dict) -> bool:
     return set(obj) <= {"__typename", "rest_id"}
 
 
@@ -313,10 +312,8 @@ def to_old_rep(obj: dict) -> dict[str, Any]:
 
 
 def to_old_rep_partial(obj: dict) -> tuple[dict[str, Any], list[tuple[dict, Exception]]]:
-    """
-    to_old_rep for a caller that needs one object, not the whole response: objects that can't
-    be normalized are left out and returned as (object, error), the rest stay as usual.
-    """
+    """Like to_old_rep, but objects that can't be normalized come back as (object, error)."""
+
     tmp = get_typed_object(obj, defaultdict(list))
 
     errors: list[tuple[dict, Exception]] = []
@@ -326,7 +323,7 @@ def to_old_rep_partial(obj: dict) -> tuple[dict[str, Any], list[tuple[dict, Exce
             try:
                 rep = _to_old_rep({kind: [x]})
                 tweet = x.get("tweet") or x
-                if kind.startswith("Tweet") and not rep["tweets"] and not is_tweet_stub(tweet):
+                if kind.startswith("Tweet") and not rep["tweets"] and not is_tweet_ref(tweet):
                     raise ValueError("Tweet without legacy")
 
                 items.append(x)

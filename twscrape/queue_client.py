@@ -267,12 +267,9 @@ class QueueClient:
         if self.debug:
             dump_rep(rep)
 
-        # an HTML 429 is a rate limit, handled below like a JSON one
-        if (
-            "text/html" in rep.headers.get("content-type", "")
-            and rep.status_code >= 400
-            and rep.status_code != 429
-        ):
+        html_error = "text/html" in rep.headers.get("content-type", "") and rep.status_code >= 400
+        rate_limited_429 = rep.status_code == 429
+        if html_error and not rate_limited_429:
             src = "Cloudflare" if "cf-ray" in rep.headers else "HTML"
             msg = f"Blocked by {src}: {rep.status_code} - {req_id(rep)}"
             # Cloudflare blocks the httpx TLS fingerprint on some ops (UserByRestId), see #337
@@ -317,13 +314,13 @@ class QueueClient:
 
         # no way to check is account banned in direct way, but this check should work
         rate_limited = has_error(errors, "(88) Rate limit exceeded") and not has_data(rep, res)
-        if rate_limited and limit_remaining > 0 and rep.status_code != 429:
+        if rate_limited and limit_remaining > 0 and not rate_limited_429:
             logger.warning(f"Ban detected: {request_log}")
             await self._close_ctx(-1, inactive=True, msg=err_msg)
             raise HandledError()
 
         # rate limit without x-rate-limit-* headers: https://github.com/vladkens/twscrape/issues/351
-        if rep.status_code == 429 or rate_limited:
+        if rate_limited_429 or rate_limited:
             logger.debug(f"Rate limited: {request_log}")
             await self._close_ctx(limit_reset if limit_reset > utc.ts() else utc.ts() + 60 * 15)
             raise HandledError()

@@ -19,7 +19,7 @@ from .utils import (
     find_obj,
     get_or,
     int_or,
-    is_tweet_stub,
+    is_tweet_ref,
     to_old_obj,
     to_old_rep,
     to_old_rep_partial,
@@ -1254,7 +1254,6 @@ def _get_views(obj: dict, rt_obj: dict):
     return None
 
 
-# Tweet results X sends for a tweet it won't show, other typenames are unexpected
 TWEET_UNAVAILABLE = ("TweetTombstone", "TweetUnavailable")
 
 
@@ -1337,7 +1336,7 @@ def _find_raw_tweet(res: dict, twid: int) -> Any | None:
         elif typename != "Tweet":
             return False
 
-        return isinstance(x, dict) and str(x.get("rest_id")) == str(twid) and not is_tweet_stub(x)
+        return isinstance(x, dict) and str(x.get("rest_id")) == str(twid) and not is_tweet_ref(x)
 
     entry = find_obj(res, lambda x: x.get("entryId") == f"tweet-{twid}")
     item = find_obj(entry, lambda x: isinstance(x.get("tweet_results"), dict))
@@ -1347,18 +1346,16 @@ def _find_raw_tweet(res: dict, twid: int) -> Any | None:
 
 
 def parse_tweet(rep: Response, twid: int) -> Tweet | None:
-    # Only the requested tweet can fail the call, not a broken reply in the same response:
     # https://github.com/vladkens/twscrape/issues/348
     res = rep if isinstance(rep, dict) else rep.json()
     obj, errors = to_old_rep_partial(res)
     raw = _find_raw_tweet(res, twid)
     if raw is None:
-        return None  # tombstone or not found
+        return None
 
     try:
-        # A broken object inside the target, like its quoted tweet, is a broken target
-        for y, e in errors:
-            if find_obj(raw, lambda x, y=y: x is y):
+        for broken, e in errors:
+            if find_obj(raw, lambda x, broken=broken: x is broken):
                 raise e
 
         x = obj["tweets"].get(str(twid))
@@ -1406,7 +1403,6 @@ def parse_trend(rep: Response) -> Trend | None:
 
 
 def _get_result(res: dict, key: str) -> Any:
-    # A null level is an empty result like a missing one: X sent no object to parse
     return ((res.get("data") or {}).get(key) or {}).get("result")
 
 
@@ -1416,7 +1412,7 @@ def parse_about(rep: Response | dict) -> AccountAbout | None:
     try:
         obj = _get_result(res, "user_result_by_screen_name")
         if not obj or obj.get("__typename") == "UserUnavailable":
-            return None  # not found or unavailable
+            return None
 
         if obj.get("__typename", "User") != "User":
             raise ValueError(f"Unexpected __typename: {obj['__typename']}")
@@ -1433,7 +1429,7 @@ def parse_community(rep: Response | dict) -> Community | None:
     try:
         obj = _get_result(res, "communityResults")
         if not obj or obj.get("__typename") == "CommunityUnavailable":
-            return None  # not found or unavailable
+            return None
 
         if obj.get("__typename", "Community") != "Community":
             raise ValueError(f"Unexpected __typename: {obj['__typename']}")

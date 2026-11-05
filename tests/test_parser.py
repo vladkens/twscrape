@@ -1058,7 +1058,7 @@ def test_tweet_lookup_broken_nested_tweet_raises(monkeypatch, breaks, cause):
     assert len(dumps) == 1
 
 
-def test_tweet_lookup_keeps_nested_stub():
+def test_tweet_lookup_keeps_nested_ref():
     # quotedRefResult holds a bare {__typename, rest_id}: no legacy, and not a failure
     raw = fake_rep("raw_list_timeline").json()
     tw = _find_quoting_tweet(raw, lambda x: "quotedRefResult" in x)
