@@ -22,7 +22,7 @@ twscrape is an async Python library and CLI for X/Twitter Search and GraphQL end
 pip install twscrape
 ```
 
-twscrape sends requests through [curl-cffi](https://github.com/lexiforest/curl_cffi) with a browser-like TLS fingerprint, which Cloudflare requires on some operations, for example `user_by_id`.
+twscrape uses [curl-cffi](https://github.com/lexiforest/curl_cffi) by default, with a browser-like TLS fingerprint that Cloudflare requires on some operations, for example `user_by_id`. If something breaks, `TWS_HTTP_BACKEND=httpx` switches back to `httpx`.
 
 ## Features
 
@@ -358,12 +358,13 @@ Do not set `api.proxy` or `TWS_PROXY` when you want per-account proxies to be us
 - `TWS_PROXY` - global proxy for all accounts
 - `TWS_WAIT_EMAIL_CODE` - email verification timeout in seconds, default `30`
 - `TWS_RAISE_WHEN_NO_ACCOUNT` - raise `NoAccountError` instead of waiting; accepts `false`, `0`, `true`, `1`
+- `TWS_HTTP_BACKEND` - `curl` (default) or `httpx`
 - `TWS_LOG_LEVEL` - logger level, default `INFO`
 - `TWS_TELEMETRY=0` - disable anonymous telemetry
 
 ## Telemetry
 
-twscrape collects anonymous, aggregated telemetry about used GraphQL operation names and the HTTP client. It does not collect usernames, cookies, proxies, queries, request URLs, or response bodies. Disable it with `TWS_TELEMETRY=0`.
+twscrape collects anonymous, aggregated telemetry about used GraphQL operation names and the selected HTTP backend. It does not collect usernames, cookies, proxies, queries, request URLs, or response bodies. Disable it with `TWS_TELEMETRY=0`.
 
 ## See Also
 

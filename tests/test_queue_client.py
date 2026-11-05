@@ -490,14 +490,55 @@ async def test_cloudflare_block_raises(client_fixture: CF):
         headers={"content-type": "text/html", "cf-ray": "abc123"},
     )
 
-    with pytest.raises(AbortReqError, match="Blocked by Cloudflare: 403"):
+    with pytest.raises(AbortReqError, match="Blocked by Cloudflare: 403") as exc:
         await client.get(URL)
 
+    assert "TWS_HTTP_BACKEND" not in str(exc.value)
     await client.__aexit__(None, None, None)
 
     # a Cloudflare block is about the request, not the account
     assert await get_locked(pool) == set()
     assert await get_inactive(pool) == set()
+
+
+async def test_cloudflare_block_on_httpx_suggests_curl(client_fixture: CF, monkeypatch):
+    # https://github.com/vladkens/twscrape/issues/337
+    pool, client, mock = client_fixture
+    monkeypatch.setattr(mock, "backend", "httpx", raising=False)
+    await client.__aenter__()
+
+    mock.add_response(
+        status_code=403,
+        text="<title>Attention Required! | Cloudflare</title>",
+        headers={"content-type": "text/html; charset=UTF-8", "cf-ray": "abc123"},
+    )
+
+    with pytest.raises(AbortReqError) as exc:
+        await client.get(URL)
+
+    assert str(exc.value).endswith("; retry with TWS_HTTP_BACKEND=curl or unset it")
+    await client.__aexit__(None, None, None)
+
+
+@pytest.mark.parametrize(
+    ("backend", "headers"),
+    [
+        ("curl", {"content-type": "text/html", "cf-ray": "abc123"}),
+        ("httpx", {"content-type": "text/html"}),
+    ],
+)
+async def test_block_has_no_curl_hint_otherwise(client_fixture: CF, monkeypatch, backend, headers):
+    pool, client, mock = client_fixture
+    monkeypatch.setattr(mock, "backend", backend, raising=False)
+    await client.__aenter__()
+
+    mock.add_response(status_code=403, text="<html>blocked</html>", headers=headers)
+
+    with pytest.raises(AbortReqError, match="Blocked by") as exc:
+        await client.get(URL)
+
+    assert "TWS_HTTP_BACKEND" not in str(exc.value)
+    await client.__aexit__(None, None, None)
 
 
 async def test_html_block_without_cf_raises(client_fixture: CF):

@@ -1,21 +1,25 @@
 import asyncio
+import os
+import random
 from abc import ABC, abstractmethod
-from typing import Any, Literal, cast
+from typing import Any, Literal, Protocol, cast
 
-from curl_cffi.requests import AsyncSession, BrowserTypeLiteral, Headers, Request
-from curl_cffi.requests import Response as CurlResponse
+from curl_cffi.requests import AsyncSession, BrowserTypeLiteral
 from curl_cffi.requests.errors import RequestsError
 from fake_useragent import UserAgent
+
+from .logger import logger
 
 HttpMethod = Literal["GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD", "TRACE", "PATCH"]
 
 _UNSET = object()
 _CURL_MAX_RETRIES = 3
 _CURL_RETRY_DELAY = 0.5  # seconds, grows with each attempt
+_LOGGED_BACKENDS: set[str] = set()
 # libcurl codes of a request that never reached the server: COULDNT_RESOLVE_PROXY,
 # COULDNT_RESOLVE_HOST, COULDNT_CONNECT, SSL_CONNECT_ERROR, PEER_FAILED_VERIFICATION
 _CURL_CONNECT_CODES = {5, 6, 7, 35, 60}
-# Set by the impersonated profile; accounts saved by v0.20 and older still carry httpx defaults
+# Set by the impersonated profile; accounts saved through httpx still carry its defaults
 _PROFILE_HEADERS = {"user-agent", "accept", "accept-encoding", "connection"}
 _COOKIE_DOMAIN = ".x.com"
 
@@ -25,20 +29,35 @@ _BROWSER_FAMILIES = {"chrome", "safari", "firefox", "edge"}
 _ua = UserAgent()
 
 
-def _resolve_browser(hint: str | None) -> tuple[str, str]:
+def _resolve_browser(hint: str | None, seed: int | None = None) -> tuple[str, str]:
     """Return (ua_string, family) for a @hint or a real UA string."""
     if hint and not hint.startswith("@"):
         return hint, "chrome"
     family = hint[1:].lower() if hint else "chrome"
     if family not in _BROWSER_FAMILIES:
         family = "chrome"
+    if seed is not None:
+        uas = [x["useragent"] for x in _ua.data_browsers if family in (x["browser"] or "").lower()]
+        if uas:
+            return random.Random(seed).choice(uas), family
     return cast(str, getattr(_ua, family, _ua.chrome)), family
 
 
-class Response:
-    """Thin wrapper around curl_cffi.Response."""
+class _RawResponse(Protocol):
+    status_code: int
+    text: str
+    content: bytes
+    headers: Any
+    url: Any
+    request: Any
 
-    def __init__(self, rep: CurlResponse):
+    def json(self) -> Any: ...
+
+
+class Response:
+    """Thin wrapper around httpx.Response or curl_cffi.Response."""
+
+    def __init__(self, rep: _RawResponse):
         self._rep = rep
         self._json: Any = _UNSET
 
@@ -55,15 +74,15 @@ class Response:
         return self._rep.content
 
     @property
-    def headers(self) -> Headers:
+    def headers(self) -> Any:
         return self._rep.headers
 
     @property
-    def url(self) -> str:
+    def url(self) -> Any:
         return self._rep.url
 
     @property
-    def request(self) -> Request | None:
+    def request(self) -> Any:
         return self._rep.request
 
     def json(self) -> Any:
@@ -130,6 +149,57 @@ class HttpClient(ABC):
     def headers(self) -> Any: ...
 
 
+class HttpxClient(HttpClient):
+    backend = "httpx"
+
+    def __init__(
+        self,
+        *,
+        proxy: str | None = None,
+        headers: dict | None = None,
+        cookies: dict | None = None,
+        seed: int | None = None,
+    ):
+        import httpx
+        from httpx import AsyncHTTPTransport
+
+        self._httpx = httpx
+        transport = AsyncHTTPTransport(retries=3)
+        resolved_headers = dict(headers or {})
+        ua_string, _ = _resolve_browser(resolved_headers.get("user-agent"), seed=seed)
+        resolved_headers["user-agent"] = ua_string
+        self._client = httpx.AsyncClient(
+            proxy=proxy,
+            follow_redirects=True,
+            transport=transport,
+            headers=resolved_headers,
+            cookies=cookies or {},
+        )
+
+    @property
+    def cookies(self) -> Any:
+        return self._client.cookies
+
+    @property
+    def headers(self) -> Any:
+        return self._client.headers
+
+    async def request(self, method: HttpMethod, url: str, **kwargs) -> Response:
+        return await self._wrap(self._client.request(method, url, **kwargs))
+
+    async def aclose(self) -> None:
+        await self._client.aclose()
+
+    async def _wrap(self, coro: Any) -> Response:
+        hx = self._httpx
+        try:
+            return Response(await coro)
+        except (hx.ConnectError, hx.ConnectTimeout) as e:
+            raise ConnectError(str(e)) from e
+        except (hx.ReadTimeout, hx.WriteTimeout, hx.PoolTimeout, hx.ProxyError) as e:
+            raise NetworkError(str(e)) from e
+
+
 class CurlClient(HttpClient):
     backend = "curl"
 
@@ -193,7 +263,37 @@ class CurlClient(HttpClient):
             raise
 
 
+def _detect_backend() -> str:
+    forced = os.getenv("TWS_HTTP_BACKEND", "").lower().strip()
+
+    if forced in ("", "curl"):
+        return "curl"
+
+    if forced == "httpx":
+        return "httpx"
+
+    raise ValueError(f"Invalid TWS_HTTP_BACKEND={forced!r}. Expected 'curl' or 'httpx'.")
+
+
 def make_client(
-    *, proxy: str | None = None, headers: dict | None = None, cookies: dict | None = None
+    backend: str | None = None,
+    *,
+    proxy: str | None = None,
+    headers: dict | None = None,
+    cookies: dict | None = None,
+    seed: int | None = None,
 ) -> HttpClient:
-    return CurlClient(proxy=proxy, headers=headers, cookies=cookies)
+    if backend is None:
+        backend = _detect_backend()
+
+    if backend not in _LOGGED_BACKENDS:
+        name = "curl-cffi" if backend == "curl" else backend
+        logger.debug(f"Using {name} HTTP client")
+        _LOGGED_BACKENDS.add(backend)
+
+    if backend == "curl":
+        return CurlClient(proxy=proxy, headers=headers, cookies=cookies)
+    if backend == "httpx":
+        return HttpxClient(proxy=proxy, headers=headers, cookies=cookies, seed=seed)
+
+    raise ValueError(f"Unknown backend: {backend!r}. Expected 'curl' or 'httpx'.")

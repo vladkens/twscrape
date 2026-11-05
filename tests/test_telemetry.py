@@ -29,7 +29,7 @@ def find_event(name: str, **properties):
 
 async def test_telemetry_tracks_gql_request(client_fixture):
     _, client, mock = client_fixture
-    mock.backend = "curl"
+    mock.backend = "httpx"
     mock.add_response(json={"ok": True})
 
     await client.__aenter__()
@@ -41,7 +41,7 @@ async def test_telemetry_tracks_gql_request(client_fixture):
         "gql_request",
         operation="SearchTimeline",
         http_method="GET",
-        http_backend="curl",
+        http_backend="httpx",
         source="lib",
     )
 
@@ -87,10 +87,10 @@ async def test_telemetry_tracks_cli_source_on_gql_request(client_fixture):
 
 
 def test_telemetry_capture_aggregates_events():
-    telemetry.capture("gql_request", {"operation": "SearchTimeline", "http_backend": "curl"})
-    telemetry.capture("gql_request", {"operation": "SearchTimeline", "http_backend": "curl"})
+    telemetry.capture("gql_request", {"operation": "SearchTimeline", "http_backend": "httpx"})
+    telemetry.capture("gql_request", {"operation": "SearchTimeline", "http_backend": "httpx"})
 
-    event = find_event("gql_request", operation="SearchTimeline", http_backend="curl")
+    event = find_event("gql_request", operation="SearchTimeline", http_backend="httpx")
     assert event["count"] == 2
     assert event["properties"]["$lib"] == "twscrape"
     assert event["properties"]["$process_person_profile"] is False
@@ -103,10 +103,10 @@ def test_telemetry_capture_aggregates_events():
 
 def test_telemetry_aggregation_ignores_identity_properties(monkeypatch):
     monkeypatch.setattr(telemetry, "_distinct_id", lambda: "first")
-    telemetry.capture("gql_request", {"operation": "SearchTimeline", "http_backend": "curl"})
+    telemetry.capture("gql_request", {"operation": "SearchTimeline", "http_backend": "httpx"})
 
     monkeypatch.setattr(telemetry, "_distinct_id", lambda: "second")
-    telemetry.capture("gql_request", {"operation": "SearchTimeline", "http_backend": "curl"})
+    telemetry.capture("gql_request", {"operation": "SearchTimeline", "http_backend": "httpx"})
 
     events = telemetry.snapshot()
     assert len(events) == 1
@@ -140,10 +140,10 @@ async def test_telemetry_flush_sends_aggregated_batch(monkeypatch):
             requests.append({"url": url, "json": json, "timeout": timeout})
 
     monkeypatch.setattr(telemetry, "POSTHOG_KEY", "test-key")
-    monkeypatch.setattr(telemetry, "AsyncSession", MockClient)
+    monkeypatch.setattr(telemetry.httpx, "AsyncClient", MockClient)
 
-    telemetry.capture("gql_request", {"operation": "SearchTimeline", "http_backend": "curl"})
-    telemetry.capture("gql_request", {"operation": "SearchTimeline", "http_backend": "curl"})
+    telemetry.capture("gql_request", {"operation": "SearchTimeline", "http_backend": "httpx"})
+    telemetry.capture("gql_request", {"operation": "SearchTimeline", "http_backend": "httpx"})
 
     await telemetry.flush()
 
@@ -161,7 +161,7 @@ async def test_telemetry_flush_sends_aggregated_batch(monkeypatch):
     assert item["distinct_id"]
     assert item["timestamp"]
     assert item["properties"]["operation"] == "SearchTimeline"
-    assert item["properties"]["http_backend"] == "curl"
+    assert item["properties"]["http_backend"] == "httpx"
     assert item["properties"]["count"] == 2
 
 
@@ -183,7 +183,7 @@ async def test_telemetry_flush_swallows_errors(monkeypatch):
             raise RuntimeError("boom")
 
     monkeypatch.setattr(telemetry, "POSTHOG_KEY", "test-key")
-    monkeypatch.setattr(telemetry, "AsyncSession", MockClient)
+    monkeypatch.setattr(telemetry.httpx, "AsyncClient", MockClient)
 
     telemetry.capture("gql_request", {"operation": "SearchTimeline"})
     await telemetry.flush()

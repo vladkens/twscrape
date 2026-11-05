@@ -9,8 +9,8 @@ from datetime import datetime, timezone
 from importlib.metadata import PackageNotFoundError, version
 from typing import Any, Literal
 
+import httpx
 import machineid
-from curl_cffi.requests import AsyncSession
 
 APP_NAME = "twscrape"
 POSTHOG_KEY: str = "phc_giRHYHo4460O5UPxySajdO9L4KDRsjSmNQACA7uG9px"
@@ -112,7 +112,7 @@ async def _flush() -> None:
         for item in events
     ]
 
-    async with AsyncSession() as client:
+    async with httpx.AsyncClient() as client:
         await client.post(
             POSTHOG_BATCH_URL,
             json={"api_key": POSTHOG_KEY, "batch": batch},

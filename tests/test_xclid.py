@@ -1,9 +1,9 @@
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, call
 
 import pytest
 
 import twscrape.xclid as xclid
-from twscrape.http import NetworkError
+from twscrape.http import CurlClient, HttpxClient, NetworkError
 
 from .mock_http import MockClient
 
@@ -48,7 +48,11 @@ async def test_xclid_create_passes_proxy_and_cookies_to_client(monkeypatch):
     assert gen.anim_key == "anim-key"
     assert seen["headers"] == {"user-agent": "@chrome"}
     assert seen["proxy"] == proxy
-    assert seen["cookies"] == cookies
+    assert seen["cookies"] is None
+    assert fake_client.cookies.set.call_args_list == [
+        call("auth_token", "abc", domain=".x.com"),
+        call("ct0", "def", domain=".x.com"),
+    ]
     assert seen["url"] == "https://x.com/tesla"
     assert seen["client"] is fake_client
     assert seen["load_client"] is fake_client
@@ -78,8 +82,25 @@ async def test_xclid_create_without_proxy_or_cookies(monkeypatch):
     assert seen == {"proxy": None, "cookies": None}
 
 
-async def test_xclid_client_scopes_cookies_to_x():
+async def test_xclid_client_does_not_send_cookies_to_asset_hosts(monkeypatch):
+    monkeypatch.setenv("TWS_HTTP_BACKEND", "httpx")
+    client = xclid._make_client(cookies={"auth_token": "abc", "ct0": "def"})
+    assert isinstance(client, HttpxClient)
+    try:
+        x_request = client._client.build_request("GET", "https://x.com/tesla")
+        asset_request = client._client.build_request(
+            "GET", "https://abs.twimg.com/x-web/client-web/main.js"
+        )
+        assert x_request.headers["cookie"] == "auth_token=abc; ct0=def"
+        assert "cookie" not in asset_request.headers
+    finally:
+        await client.aclose()
+
+
+async def test_xclid_default_client_scopes_cookies_to_x(monkeypatch):
+    monkeypatch.delenv("TWS_HTTP_BACKEND", raising=False)
     client = xclid._make_client(cookies={"auth_token": "abc"})
+    assert isinstance(client, CurlClient)
     try:
         cookies = list(client.cookies.jar)
         assert [(x.name, x.domain) for x in cookies] == [("auth_token", ".x.com")]

@@ -1,3 +1,4 @@
+import hashlib
 import json
 import os
 import sqlite3
@@ -80,4 +81,5 @@ class Account(JSONTrait):
         if "ct0" in self.cookies:
             headers["x-csrf-token"] = self.cookies["ct0"]
 
-        return _make_http_client(proxy=proxy, headers=headers, cookies=self.cookies)
+        seed = int(hashlib.sha256(self.username.encode()).hexdigest()[:8], 16)
+        return _make_http_client(proxy=proxy, headers=headers, cookies=self.cookies, seed=seed)

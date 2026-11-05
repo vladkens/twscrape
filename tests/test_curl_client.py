@@ -3,6 +3,7 @@
 import asyncio
 import base64
 import json
+from typing import Any
 from unittest.mock import mock_open, patch
 from urllib.parse import parse_qs, urlparse
 
@@ -10,7 +11,6 @@ import pytest
 from curl_cffi.requests import Response as CurlResponse
 from curl_cffi.requests.errors import RequestsError
 
-from twscrape import telemetry
 from twscrape.http import ConnectError, CurlClient, NetworkError, Response, make_client
 from twscrape.queue_client import dump_rep
 
@@ -286,44 +286,11 @@ async def test_dump_rep_reads_a_real_response():
 
 
 async def test_dump_rep_survives_response_without_request():
-    raw = CurlResponse()
+    raw: Any = CurlResponse()
     raw.url = "http://x.com/path"
     assert raw.request is None
 
     assert "200 ? http://x.com/path" in dump(Response(raw))
-
-
-async def test_telemetry_posts_through_curl(monkeypatch):
-    monkeypatch.delenv("DO_NOT_TRACK", raising=False)
-    monkeypatch.delenv("TWS_TELEMETRY", raising=False)
-    monkeypatch.setattr(telemetry, "POSTHOG_KEY", "test-key")
-
-    async with local_server() as srv:
-        monkeypatch.setattr(telemetry, "POSTHOG_BATCH_URL", f"{srv.url}/batch/")
-        telemetry.capture("gql_request", {"operation": "SearchTimeline"})
-        await telemetry.flush()
-
-    assert srv.seen[0].method == "POST"
-    assert srv.seen[0].headers["content-type"] == "application/json"
-
-    pld = json.loads(srv.seen[0].body)
-    assert pld["api_key"] == "test-key"
-    assert pld["batch"][0]["properties"]["operation"] == "SearchTimeline"
-
-
-async def test_telemetry_failure_never_reaches_the_user(monkeypatch):
-    monkeypatch.delenv("DO_NOT_TRACK", raising=False)
-    monkeypatch.delenv("TWS_TELEMETRY", raising=False)
-    monkeypatch.setattr(telemetry, "POSTHOG_KEY", "test-key")
-
-    async with local_server() as srv:
-        pass  # the port is free again
-
-    monkeypatch.setattr(telemetry, "POSTHOG_BATCH_URL", f"{srv.url}/batch/")
-    telemetry.capture("gql_request", {"operation": "SearchTimeline"})
-    await telemetry.flush()
-
-    assert telemetry.snapshot() == []
 
 
 async def test_proxy_credentials_are_url_decoded():
