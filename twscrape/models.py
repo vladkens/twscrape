@@ -1265,9 +1265,6 @@ def _get_views(obj: dict, rt_obj: dict):
     return None
 
 
-TWEET_UNAVAILABLE = ("TweetTombstone", "TweetUnavailable")
-
-
 def _write_dump(kind: str, e: Exception, x: dict, obj: dict):
     uniq = "".join(random.choice(string.ascii_lowercase) for _ in range(5))
     time = utc.now().strftime("%Y-%m-%d_%H-%M-%S")
@@ -1337,6 +1334,9 @@ def _parse_items(
 # public helpers
 
 
+_TWEET_UNAVAILABLE = ("TweetTombstone", "TweetUnavailable")
+
+
 def _find_raw_tweet(res: dict, twid: int) -> Any | None:
     """The requested tweet as X sent it: its timeline entry, else any full copy by rest_id."""
 
@@ -1352,7 +1352,7 @@ def _find_raw_tweet(res: dict, twid: int) -> Any | None:
     entry = find_obj(res, lambda x: x.get("entryId") == f"tweet-{twid}")
     item = find_obj(entry, lambda x: isinstance(x.get("tweet_results"), dict))
     result = item["tweet_results"].get("result") if item else None
-    unavailable = isinstance(result, dict) and result.get("__typename") in TWEET_UNAVAILABLE
+    unavailable = isinstance(result, dict) and result.get("__typename") in _TWEET_UNAVAILABLE
     return result if result and not unavailable else find_obj(res, by_id)
 
 
