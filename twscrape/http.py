@@ -14,6 +14,8 @@ _CURL_RETRY_DELAY = 0.5  # seconds, grows with each attempt
 # libcurl codes of a request that never reached the server: COULDNT_RESOLVE_PROXY,
 # COULDNT_RESOLVE_HOST, COULDNT_CONNECT, SSL_CONNECT_ERROR, PEER_FAILED_VERIFICATION
 _CURL_CONNECT_CODES = {5, 6, 7, 35, 60}
+# Set by the impersonated profile; accounts saved by v0.20 and older still carry httpx defaults
+_PROFILE_HEADERS = {"user-agent", "accept", "accept-encoding", "connection"}
 _COOKIE_DOMAIN = ".x.com"
 
 # https://curl-impersonate.readthedocs.io/en/latest/fingerprints.html
@@ -145,8 +147,9 @@ class CurlClient(HttpClient):
         self, *, proxy: str | None = None, headers: dict | None = None, cookies: dict | None = None
     ):
         _, family = _resolve_browser((headers or {}).get("user-agent"))
-        # strip user-agent — curl_cffi sets its own UA for the impersonated profile
-        safe_headers = {k: v for k, v in (headers or {}).items() if k.lower() != "user-agent"}
+        safe_headers = {
+            k: v for k, v in (headers or {}).items() if k.lower() not in _PROFILE_HEADERS
+        }
         self._session = AsyncSession(
             impersonate=cast(BrowserTypeLiteral, family),
             proxy=proxy,

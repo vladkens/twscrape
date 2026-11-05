@@ -92,3 +92,26 @@ async def test_closed_session_is_not_a_network_error():
     await client.aclose()
     with pytest.raises(RequestsError):
         await client.get("http://x.com/")
+
+
+async def test_saved_httpx_headers_do_not_override_the_browser_profile():
+    # accounts logged in with v0.20 and older have these in `Account.headers`
+    saved = {
+        "accept": "*/*",
+        "accept-encoding": "gzip, deflate",
+        "connection": "keep-alive",
+        "user-agent": "python-httpx/0.28.1",
+        "x-csrf-token": "abc",
+    }
+
+    async with local_server() as srv:
+        client = CurlClient(proxy=srv.url, headers=saved)
+        await client.get("http://x.com/")
+        await client.aclose()
+
+    sent = srv.seen[0].headers
+    assert sent["x-csrf-token"] == "abc"
+    assert sent["accept"] != "*/*"
+    assert sent["accept-encoding"] != "gzip, deflate"
+    assert "keep-alive" not in sent["connection"]
+    assert "Chrome" in sent["user-agent"]
