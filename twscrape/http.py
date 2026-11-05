@@ -9,6 +9,7 @@ HttpMethod = Literal["GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD", "TRACE",
 
 _UNSET = object()
 _CURL_MAX_RETRIES = 3
+_COOKIE_DOMAIN = ".x.com"
 
 # https://curl-impersonate.readthedocs.io/en/latest/fingerprints.html
 _BROWSER_FAMILIES = {"chrome", "safari", "firefox", "edge"}
@@ -147,8 +148,11 @@ class CurlClient(HttpClient):
             allow_redirects=True,
             headers=safe_headers,
         )
-        if cookies:
-            self._session.cookies.update(cookies)
+
+        # Without a domain curl_cffi sends a cookie to any host, and one set by X later doesn't
+        # replace it: both are sent. Asset hosts like abs.twimg.com must not get auth cookies.
+        for name, value in (cookies or {}).items():
+            self._session.cookies.set(name, value, domain=_COOKIE_DOMAIN)
 
     @property
     def cookies(self) -> Any:

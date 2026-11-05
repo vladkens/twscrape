@@ -1,4 +1,4 @@
-from unittest.mock import MagicMock, call
+from unittest.mock import MagicMock
 
 import pytest
 
@@ -48,11 +48,7 @@ async def test_xclid_create_passes_proxy_and_cookies_to_client(monkeypatch):
     assert gen.anim_key == "anim-key"
     assert seen["headers"] == {"user-agent": "@chrome"}
     assert seen["proxy"] == proxy
-    assert seen["cookies"] is None
-    assert fake_client.cookies.set.call_args_list == [
-        call("auth_token", "abc", domain=".x.com"),
-        call("ct0", "def", domain=".x.com"),
-    ]
+    assert seen["cookies"] == cookies
     assert seen["url"] == "https://x.com/tesla"
     assert seen["client"] is fake_client
     assert seen["load_client"] is fake_client
