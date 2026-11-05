@@ -131,54 +131,92 @@ async def test_http_client_is_async_context_manager():
     assert client.closed
 
 
-# --- HttpxClient ---
+# --- Both backends ---
+
+BACKENDS = ["curl", "httpx"]
+CONNECT_ERRORS = {
+    "curl": RequestsError("refused", code=CurlECode.COULDNT_CONNECT),
+    "httpx": httpx.ConnectError("refused"),
+}
+NETWORK_ERRORS = {
+    "curl": RequestsError("timed out", code=CurlECode.OPERATION_TIMEDOUT),
+    "httpx": httpx.ReadTimeout("timed out"),
+}
 
 
-async def test_httpx_client_cookies_and_headers_are_mutable():
-    client = HttpxClient(headers={"x-foo": "bar"}, cookies={"ct0": "token"})
-    # headers support __setitem__
+def _transport(client):
+    return client._session if client.backend == "curl" else client._client
+
+
+@pytest.mark.parametrize("backend", BACKENDS)
+async def test_client_returns_response_wrapper(backend):
+    raw = MagicMock(status_code=200)
+    raw.json.return_value = {"ok": True}
+
+    client = make_client(backend)
+    with patch.object(_transport(client), "request", AsyncMock(return_value=raw)):
+        rep = await client.get("https://example.com")
+
+    assert isinstance(rep, Response)
+    assert rep.status_code == 200
+    assert rep.json() == {"ok": True}
+    await client.aclose()
+
+
+@pytest.mark.parametrize("backend", BACKENDS)
+async def test_client_cookies_and_headers_are_mutable(backend):
+    client = make_client(backend, headers={"x-foo": "bar"}, cookies={"ct0": "token"})
     client.headers["x-new"] = "value"
-    # cookies support __contains__
-    assert "ct0" in client.cookies
+    client.cookies.set("extra", "1")
+
+    assert client.headers["x-foo"] == "bar"
+    assert client.headers["x-new"] == "value"
+    assert client.cookies.get("ct0") == "token"
+    assert "extra" in client.cookies
     await client.aclose()
 
 
-async def test_httpx_client_maps_network_errors():
-    client = HttpxClient()
-    with (
-        patch.object(
-            client._client, "request", AsyncMock(side_effect=httpx.ReadTimeout("timeout"))
-        ),
-        pytest.raises(NetworkError),
-    ):
-        await client.get("https://example.com")
+@pytest.mark.parametrize("backend", BACKENDS)
+async def test_make_client_scopes_cookies_to_x(backend):
+    client = make_client(backend, cookies={"ct0": "token"})
+    assert [x.domain for x in client.cookies.jar] == [".x.com"]
     await client.aclose()
 
 
-async def test_httpx_client_maps_connect_errors():
-    client = HttpxClient()
+@pytest.mark.parametrize("backend", BACKENDS)
+async def test_client_maps_connect_errors(backend):
+    client = make_client(backend)
     with (
-        patch.object(
-            client._client, "request", AsyncMock(side_effect=httpx.ConnectError("refused"))
-        ),
+        patch.object(_transport(client), "request", AsyncMock(side_effect=CONNECT_ERRORS[backend])),
         pytest.raises(ConnectError),
     ):
         await client.get("https://example.com")
     await client.aclose()
 
 
-async def test_httpx_client_returns_response_wrapper():
-
-    raw = httpx.Response(
-        200, json={"ok": True}, request=httpx.Request("GET", "https://example.com")
-    )
-    client = HttpxClient()
-    with patch.object(client._client, "request", AsyncMock(return_value=raw)):
-        rep = await client.get("https://example.com")
-    assert isinstance(rep, Response)
-    assert rep.status_code == 200
-    assert rep.json() == {"ok": True}
+@pytest.mark.parametrize("backend", BACKENDS)
+async def test_client_maps_network_errors(backend):
+    client = make_client(backend)
+    with (
+        patch.object(_transport(client), "request", AsyncMock(side_effect=NETWORK_ERRORS[backend])),
+        pytest.raises(NetworkError),
+    ):
+        await client.get("https://example.com")
     await client.aclose()
+
+
+@pytest.mark.parametrize("backend", BACKENDS)
+async def test_client_other_errors_propagate(backend):
+    client = make_client(backend)
+    with (
+        patch.object(_transport(client), "request", AsyncMock(side_effect=ValueError("oops"))),
+        pytest.raises(ValueError),
+    ):
+        await client.get("https://example.com")
+    await client.aclose()
+
+
+# --- HttpxClient ---
 
 
 async def test_httpx_client_maps_connect_timeout():
@@ -233,28 +271,6 @@ def test_make_client_unknown_backend_raises():
 # --- CurlClient ---
 
 
-async def test_curl_client_returns_response_wrapper():
-
-    raw = MagicMock()
-    raw.status_code = 200
-    raw.text = "hello"
-    raw.content = b"hello"
-    raw.headers = {}
-    raw.url = "https://example.com"
-    raw.request = MagicMock()
-    raw.json.return_value = {"ok": True}
-    raw.raise_for_status.return_value = None
-
-    client = CurlClient()
-    with patch.object(client._session, "request", AsyncMock(return_value=raw)):
-        rep = await client.get("https://example.com")
-
-    assert isinstance(rep, Response)
-    assert rep.status_code == 200
-    assert rep.json() == {"ok": True}
-    await client.aclose()
-
-
 @pytest.mark.parametrize("code", [5, 6, 7, 35, 60])
 async def test_curl_client_connect_error_codes(code):
     client = CurlClient()
@@ -264,26 +280,6 @@ async def test_curl_client_connect_error_codes(code):
         pytest.raises(ConnectError),
     ):
         await client.get("https://example.com")
-    await client.aclose()
-
-
-async def test_curl_client_network_error():
-    client = CurlClient()
-    err = RequestsError("operation timed out", code=CurlECode(28))
-
-    with (
-        patch.object(client._session, "request", AsyncMock(side_effect=err)),
-        pytest.raises(NetworkError),
-    ):
-        await client.get("https://example.com")
-    await client.aclose()
-
-
-async def test_curl_client_cookies_and_headers():
-
-    client = CurlClient(headers={"x-foo": "bar"}, cookies={"ct0": "token"})
-    assert "ct0" in client.cookies
-    assert client.headers is not None
     await client.aclose()
 
 
@@ -318,16 +314,6 @@ async def test_curl_client_error_without_curl_code_propagates():
     with (
         patch.object(client._session, "request", AsyncMock(side_effect=RequestsError("bad"))),
         pytest.raises(RequestsError),
-    ):
-        await client.get("https://example.com")
-    await client.aclose()
-
-
-async def test_curl_client_non_curl_error_propagates():
-    client = CurlClient()
-    with (
-        patch.object(client._session, "request", AsyncMock(side_effect=ValueError("unexpected"))),
-        pytest.raises(ValueError),
     ):
         await client.get("https://example.com")
     await client.aclose()

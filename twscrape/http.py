@@ -4,6 +4,7 @@ import random
 from abc import ABC, abstractmethod
 from typing import Any, Literal, Protocol, cast
 
+from curl_cffi.const import CurlECode
 from curl_cffi.requests import AsyncSession, BrowserTypeLiteral
 from curl_cffi.requests.errors import RequestsError
 from fake_useragent import UserAgent
@@ -16,12 +17,14 @@ _UNSET = object()
 _CURL_MAX_RETRIES = 3
 _CURL_RETRY_DELAY = 0.5  # seconds, grows with each attempt
 _LOGGED_BACKENDS: set[str] = set()
-# libcurl codes of a request that never reached the server: COULDNT_RESOLVE_PROXY,
-# COULDNT_RESOLVE_HOST, COULDNT_CONNECT, SSL_CONNECT_ERROR, PEER_FAILED_VERIFICATION
-_CURL_CONNECT_CODES = {5, 6, 7, 35, 60}
-# Set by the impersonated profile; accounts saved through httpx still carry its defaults
-_PROFILE_HEADERS = {"user-agent", "accept", "accept-encoding", "connection"}
-_COOKIE_DOMAIN = ".x.com"
+_CURL_CONNECT_CODES = {
+    CurlECode.COULDNT_RESOLVE_PROXY,
+    CurlECode.COULDNT_RESOLVE_HOST,
+    CurlECode.COULDNT_CONNECT,
+    CurlECode.SSL_CONNECT_ERROR,
+    CurlECode.PEER_FAILED_VERIFICATION,
+}
+_BROWSER_PROFILE_HEADERS = {"user-agent", "accept", "accept-encoding", "connection"}
 
 # https://curl-impersonate.readthedocs.io/en/latest/fingerprints.html
 _BROWSER_FAMILIES = {"chrome", "safari", "firefox", "edge"}
@@ -157,7 +160,6 @@ class HttpxClient(HttpClient):
         *,
         proxy: str | None = None,
         headers: dict | None = None,
-        cookies: dict | None = None,
         seed: int | None = None,
     ):
         import httpx
@@ -173,7 +175,6 @@ class HttpxClient(HttpClient):
             follow_redirects=True,
             transport=transport,
             headers=resolved_headers,
-            cookies=cookies or {},
         )
 
     @property
@@ -200,32 +201,27 @@ class HttpxClient(HttpClient):
             raise NetworkError(str(e)) from e
 
 
+def _resolve_dns_on_proxy(proxy: str | None) -> str | None:
+    if proxy and proxy.startswith("socks5://"):
+        return proxy.replace("socks5://", "socks5h://", 1)
+
+    return proxy
+
+
 class CurlClient(HttpClient):
     backend = "curl"
 
-    def __init__(
-        self, *, proxy: str | None = None, headers: dict | None = None, cookies: dict | None = None
-    ):
+    def __init__(self, *, proxy: str | None = None, headers: dict | None = None):
         _, family = _resolve_browser((headers or {}).get("user-agent"))
         safe_headers = {
-            k: v for k, v in (headers or {}).items() if k.lower() not in _PROFILE_HEADERS
+            k: v for k, v in (headers or {}).items() if k.lower() not in _BROWSER_PROFILE_HEADERS
         }
-
-        # libcurl resolves socks5:// hosts locally, httpx left that to the proxy
-        if proxy and proxy.startswith("socks5://"):
-            proxy = proxy.replace("socks5://", "socks5h://", 1)
-
         self._session = AsyncSession(
             impersonate=cast(BrowserTypeLiteral, family),
-            proxy=proxy,
+            proxy=_resolve_dns_on_proxy(proxy),
             allow_redirects=True,
             headers=safe_headers,
         )
-
-        # Without a domain curl_cffi sends a cookie to any host, and one set by X later doesn't
-        # replace it: both are sent. Asset hosts like abs.twimg.com must not get auth cookies.
-        for name, value in (cookies or {}).items():
-            self._session.cookies.set(name, value, domain=_COOKIE_DOMAIN)
 
     @property
     def cookies(self) -> Any:
@@ -236,8 +232,6 @@ class CurlClient(HttpClient):
         return self._session.headers
 
     async def request(self, method: HttpMethod, url: str, **kwargs) -> Response:
-        # Only a failed connect is retried: nothing was sent, so it's safe for POST too.
-        # Later failures are left to the caller, which has its own budget and backoff.
         for attempt in range(_CURL_MAX_RETRIES):
             try:
                 return await self._wrap(self._session.request(method, url, **kwargs))
@@ -256,7 +250,6 @@ class CurlClient(HttpClient):
             if e.code in _CURL_CONNECT_CODES:
                 raise ConnectError(str(e)) from e
 
-            # no libcurl code means no transport failure: bad profile, closed session
             if e.code:
                 raise NetworkError(str(e)) from e
 
@@ -291,9 +284,15 @@ def make_client(
         logger.debug(f"Using {name} HTTP client")
         _LOGGED_BACKENDS.add(backend)
 
+    client: HttpClient
     if backend == "curl":
-        return CurlClient(proxy=proxy, headers=headers, cookies=cookies)
-    if backend == "httpx":
-        return HttpxClient(proxy=proxy, headers=headers, cookies=cookies, seed=seed)
+        client = CurlClient(proxy=proxy, headers=headers)
+    elif backend == "httpx":
+        client = HttpxClient(proxy=proxy, headers=headers, seed=seed)
+    else:
+        raise ValueError(f"Unknown backend: {backend!r}. Expected 'curl' or 'httpx'.")
 
-    raise ValueError(f"Unknown backend: {backend!r}. Expected 'curl' or 'httpx'.")
+    for name, value in (cookies or {}).items():
+        client.cookies.set(name, value, domain=".x.com")
+
+    return client

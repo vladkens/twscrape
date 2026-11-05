@@ -34,11 +34,8 @@ class LocalServer:
 async def local_server(
     reply: Callable[[Seen], Reply | None] = lambda _: Reply(),
 ) -> AsyncGenerator[LocalServer]:
-    """Plain HTTP/1.1 server on loopback: lets tests drive real curl_cffi without the network.
+    """Loopback HTTP server, also usable as a proxy; a `None` reply drops the connection."""
 
-    As a proxy (`CurlClient(proxy=srv.url)`) it answers for any host, so `http://x.com/` reaches
-    it and curl still applies its cookie rules for x.com. A `None` reply drops the connection.
-    """
     seen: list[Seen] = []
 
     async def handle(rd: asyncio.StreamReader, wr: asyncio.StreamWriter):

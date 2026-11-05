@@ -53,7 +53,7 @@ async def test_account_cookies_are_dropped_when_x_expires_them():
 
 async def test_account_cookies_stay_off_other_hosts():
     async with local_server() as srv:
-        client = CurlClient(proxy=srv.url, cookies={"auth_token": "a"})
+        client = make_client("curl", proxy=srv.url, cookies={"auth_token": "a"})
         await client.get("http://x.com/")
         await client.get("http://abs.twimg.com/main.js")
         await client.aclose()
@@ -259,8 +259,11 @@ async def test_redirect_is_followed_and_post_becomes_get():
 
 async def test_redirect_to_another_host_drops_credentials():
     async with local_server(redirect) as srv:
-        client = CurlClient(
-            proxy=srv.url, headers={"authorization": "Bearer t"}, cookies={"auth_token": "a"}
+        client = make_client(
+            "curl",
+            proxy=srv.url,
+            headers={"authorization": "Bearer t"},
+            cookies={"auth_token": "a"},
         )
         await client.get("http://x.com/other")
         await client.aclose()
