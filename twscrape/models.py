@@ -1383,7 +1383,11 @@ def parse_user(rep: Response) -> User | None:
 
 def parse_trend(rep: Response) -> Trend | None:
     errors: list[Exception] = []
-    docs = list(_parse_items(rep, "trends", Trend.parse, errors=errors))
+    try:
+        docs = list(_parse_items(rep, "trends", Trend.parse, errors=errors))
+    except Exception as e:
+        raise ParseError(f"Failed to parse trend: {e!r}") from e
+
     if len(docs) == 1:
         return docs[0]
     if not docs and errors:

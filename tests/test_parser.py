@@ -1022,6 +1022,18 @@ def test_trend_parse_failure_raises(monkeypatch):
     assert isinstance(exc.value.__cause__, ValueError)
 
 
+def test_trend_without_name_raises():
+    raw = fake_rep("raw_trends").json()
+    trend = find_obj(raw, lambda x: x.get("__typename") == "TimelineTrend")
+    assert trend is not None
+    del trend["name"]
+
+    with pytest.raises(ParseError, match="Failed to parse trend") as exc:
+        parse_trend(raw)
+
+    assert isinstance(exc.value.__cause__, KeyError)
+
+
 def test_bot_reply_to_partial_only_operator():
     # Two own retweets from production UserTweets pages (@NatMus_SWE, @betaworks). Each
     # retweets a bot's reply to its operator, whose "Automated by @operator" label is the
