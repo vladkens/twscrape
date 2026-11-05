@@ -1330,14 +1330,14 @@ def _parse_items(
 def _find_raw_tweet(res: dict, twid: int) -> Any | None:
     """The requested tweet as X sent it: its timeline entry, else any full copy by rest_id."""
 
-    def by_id(x: dict) -> bool:
+    def by_id(x: Any) -> bool:
         typename = x.get("__typename")
         if typename == "TweetWithVisibilityResults":
-            x = x.get("tweet") or {}
+            x = x.get("tweet")
         elif typename != "Tweet":
             return False
 
-        return str(x.get("rest_id")) == str(twid) and not is_tweet_stub(x)
+        return isinstance(x, dict) and str(x.get("rest_id")) == str(twid) and not is_tweet_stub(x)
 
     entry = find_obj(res, lambda x: x.get("entryId") == f"tweet-{twid}")
     item = find_obj(entry, lambda x: isinstance(x.get("tweet_results"), dict))

@@ -986,6 +986,25 @@ def test_tweet_lookup_unavailable_returns_none(results):
     assert parse_tweet(raw, twid) is None
 
 
+@pytest.mark.parametrize("tweet", ["broken", ["broken"]])
+def test_tweet_lookup_ignores_non_object_visibility_tweet(tweet):
+    twid = 1649191520250245121
+    raw = fake_rep("raw_tweet_details").json()
+    expected = parse_tweet(raw, twid)
+
+    # without its entry the target is found by rest_id, after the broken object
+    entry = find_obj(raw, lambda x: x.get("entryId") == f"tweet-{twid}")
+    assert entry is not None
+    entry["entryId"] = "other"
+    raw["data"] = {
+        "broken": {"__typename": "TweetWithVisibilityResults", "tweet": tweet},
+        **raw["data"],
+    }
+
+    assert parse_tweet(raw, twid) == expected
+    assert parse_tweet(raw, 1) is None
+
+
 def test_tweet_lookup_non_object_result_raises():
     twid = 1649191520250245121
     raw = fake_rep("raw_tweet_details").json()
