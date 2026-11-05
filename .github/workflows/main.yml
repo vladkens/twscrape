@@ -35,6 +35,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+      - name: Prepare README for PyPI
+        run: sed -i "s#src=\"\\.github/#src=\"https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}/.github/#g" readme.md
       - uses: vladkens/actions/py-build@v1
 
   publish:

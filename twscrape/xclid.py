@@ -24,10 +24,7 @@ class XClIdParseError(XClIdError): ...
 
 
 def _make_client(proxy: str | None = None, cookies: dict[str, str] | None = None) -> HttpClient:
-    client = _make_http_client(headers={"user-agent": "@chrome"}, proxy=proxy)
-    for name, value in (cookies or {}).items():
-        client.cookies.set(name, value, domain=".x.com")
-    return client
+    return _make_http_client(headers={"user-agent": "@chrome"}, proxy=proxy, cookies=cookies)
 
 
 async def get_tw_page_text(url: str, clt: HttpClient) -> str:
