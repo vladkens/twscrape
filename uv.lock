@@ -1,5 +1,5 @@
 version = 1
-revision = 3
+revision = 5
 requires-python = ">=3.10"
 resolution-markers = [
     "python_full_version >= '3.11.5'",
@@ -720,6 +720,7 @@ source = { editable = "." }
 dependencies = [
     { name = "aiosqlite" },
     { name = "beautifulsoup4" },
+    { name = "curl-cffi" },
     { name = "fake-useragent" },
     { name = "httpx" },
     { name = "loguru" },
@@ -727,14 +728,8 @@ dependencies = [
     { name = "pyotp" },
 ]
 
-[package.optional-dependencies]
-curl = [
-    { name = "curl-cffi" },
-]
-
 [package.dev-dependencies]
 dev = [
-    { name = "curl-cffi" },
     { name = "pytest" },
     { name = "pytest-asyncio" },
     { name = "pytest-cov" },
@@ -748,18 +743,16 @@ dev = [
 requires-dist = [
     { name = "aiosqlite", specifier = ">=0.17.0" },
     { name = "beautifulsoup4", specifier = ">=4.13.0" },
-    { name = "curl-cffi", marker = "extra == 'curl'", specifier = ">=0.7.0" },
+    { name = "curl-cffi", specifier = ">=0.9.0" },
     { name = "fake-useragent", specifier = ">=1.4.0" },
     { name = "httpx", specifier = ">=0.26.0" },
     { name = "loguru", specifier = ">=0.7.0" },
     { name = "py-machineid", specifier = ">=1.0.0" },
     { name = "pyotp", specifier = ">=2.9.0" },
 ]
-provides-extras = ["curl"]
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "curl-cffi", specifier = ">=0.7.0" },
     { name = "pytest", specifier = ">=7.4.4" },
     { name = "pytest-asyncio", specifier = ">=0.23.3" },
     { name = "pytest-cov", specifier = ">=4.1.0" },

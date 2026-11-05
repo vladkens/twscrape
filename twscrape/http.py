@@ -1,9 +1,12 @@
-import importlib.util
+import asyncio
 import os
 import random
 from abc import ABC, abstractmethod
 from typing import Any, Literal, Protocol, cast
 
+from curl_cffi.const import CurlECode
+from curl_cffi.requests import AsyncSession, BrowserTypeLiteral
+from curl_cffi.requests.errors import RequestsError
 from fake_useragent import UserAgent
 
 from .logger import logger
@@ -12,7 +15,16 @@ HttpMethod = Literal["GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD", "TRACE",
 
 _UNSET = object()
 _CURL_MAX_RETRIES = 3
+_CURL_RETRY_DELAY = 0.5  # seconds, grows with each attempt
 _LOGGED_BACKENDS: set[str] = set()
+_CURL_CONNECT_CODES = {
+    CurlECode.COULDNT_RESOLVE_PROXY,
+    CurlECode.COULDNT_RESOLVE_HOST,
+    CurlECode.COULDNT_CONNECT,
+    CurlECode.SSL_CONNECT_ERROR,
+    CurlECode.PEER_FAILED_VERIFICATION,
+}
+_BROWSER_PROFILE_HEADERS = {"user-agent", "accept", "accept-encoding", "connection"}
 
 # https://curl-impersonate.readthedocs.io/en/latest/fingerprints.html
 _BROWSER_FAMILIES = {"chrome", "safari", "firefox", "edge"}
@@ -148,7 +160,6 @@ class HttpxClient(HttpClient):
         *,
         proxy: str | None = None,
         headers: dict | None = None,
-        cookies: dict | None = None,
         seed: int | None = None,
     ):
         import httpx
@@ -164,7 +175,6 @@ class HttpxClient(HttpClient):
             follow_redirects=True,
             transport=transport,
             headers=resolved_headers,
-            cookies=cookies or {},
         )
 
     @property
@@ -191,25 +201,27 @@ class HttpxClient(HttpClient):
             raise NetworkError(str(e)) from e
 
 
+def _resolve_dns_on_proxy(proxy: str | None) -> str | None:
+    if proxy and proxy.startswith("socks5://"):
+        return proxy.replace("socks5://", "socks5h://", 1)
+
+    return proxy
+
+
 class CurlClient(HttpClient):
     backend = "curl"
 
-    def __init__(
-        self, *, proxy: str | None = None, headers: dict | None = None, cookies: dict | None = None
-    ):
-        from curl_cffi.requests import AsyncSession, BrowserTypeLiteral
-
+    def __init__(self, *, proxy: str | None = None, headers: dict | None = None):
         _, family = _resolve_browser((headers or {}).get("user-agent"))
-        # strip user-agent — curl_cffi sets its own UA for the impersonated profile
-        safe_headers = {k: v for k, v in (headers or {}).items() if k.lower() != "user-agent"}
+        safe_headers = {
+            k: v for k, v in (headers or {}).items() if k.lower() not in _BROWSER_PROFILE_HEADERS
+        }
         self._session = AsyncSession(
             impersonate=cast(BrowserTypeLiteral, family),
-            proxy=proxy,
+            proxy=_resolve_dns_on_proxy(proxy),
             allow_redirects=True,
             headers=safe_headers,
         )
-        if cookies:
-            self._session.cookies.update(cookies)
 
     @property
     def cookies(self) -> Any:
@@ -220,15 +232,13 @@ class CurlClient(HttpClient):
         return self._session.headers
 
     async def request(self, method: HttpMethod, url: str, **kwargs) -> Response:
-        last_err: Exception | None = None
-        for _ in range(_CURL_MAX_RETRIES + 1):
+        for attempt in range(_CURL_MAX_RETRIES):
             try:
                 return await self._wrap(self._session.request(method, url, **kwargs))
-            except NetworkError as e:
-                last_err = e
-        if last_err is not None:
-            raise last_err
-        raise RuntimeError("CurlClient request failed without an error")
+            except ConnectError:
+                await asyncio.sleep(_CURL_RETRY_DELAY * attempt)
+
+        return await self._wrap(self._session.request(method, url, **kwargs))
 
     async def aclose(self) -> None:
         await self._session.close()
@@ -236,33 +246,23 @@ class CurlClient(HttpClient):
     async def _wrap(self, coro: Any) -> Response:
         try:
             return Response(await coro)
-        except Exception as e:
-            from curl_cffi.requests import errors as _curl_errors
+        except RequestsError as e:
+            if e.code in _CURL_CONNECT_CODES:
+                raise ConnectError(str(e)) from e
 
-            if isinstance(e, _curl_errors.RequestsError):
-                # libcurl error codes: 5=COULDNT_RESOLVE_PROXY, 6=COULDNT_RESOLVE_HOST, 7=COULDNT_CONNECT
-                if getattr(e, "code", -1) in {5, 6, 7}:
-                    raise ConnectError(str(e)) from e
+            if e.code:
                 raise NetworkError(str(e)) from e
+
             raise
 
 
 def _detect_backend() -> str:
     forced = os.getenv("TWS_HTTP_BACKEND", "").lower().strip()
 
-    if forced == "curl":
-        if importlib.util.find_spec("curl_cffi") is None:
-            raise ImportError(
-                "TWS_HTTP_BACKEND=curl but curl-cffi is not installed. "
-                "Run: pip install twscrape[curl]"
-            )
+    if forced in ("", "curl"):
         return "curl"
 
-    if forced in ("", "httpx"):
-        if importlib.util.find_spec("httpx") is None:
-            raise ImportError(
-                "TWS_HTTP_BACKEND=httpx but httpx is not installed. Run: pip install twscrape"
-            )
+    if forced == "httpx":
         return "httpx"
 
     raise ValueError(f"Invalid TWS_HTTP_BACKEND={forced!r}. Expected 'curl' or 'httpx'.")
@@ -284,9 +284,15 @@ def make_client(
         logger.debug(f"Using {name} HTTP client")
         _LOGGED_BACKENDS.add(backend)
 
+    client: HttpClient
     if backend == "curl":
-        return CurlClient(proxy=proxy, headers=headers, cookies=cookies)
-    if backend == "httpx":
-        return HttpxClient(proxy=proxy, headers=headers, cookies=cookies, seed=seed)
+        client = CurlClient(proxy=proxy, headers=headers)
+    elif backend == "httpx":
+        client = HttpxClient(proxy=proxy, headers=headers, seed=seed)
+    else:
+        raise ValueError(f"Unknown backend: {backend!r}. Expected 'curl' or 'httpx'.")
 
-    raise ValueError(f"Unknown backend: {backend!r}. Expected 'curl' or 'httpx'.")
+    for name, value in (cookies or {}).items():
+        client.cookies.set(name, value, domain=".x.com")
+
+    return client

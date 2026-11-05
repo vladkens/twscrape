@@ -22,13 +22,7 @@ twscrape is an async Python library and CLI for X/Twitter Search and GraphQL end
 pip install twscrape
 ```
 
-`httpx` is the default HTTP backend. For browser-like TLS fingerprinting, install the optional `curl-cffi` backend. Cloudflare blocks `httpx` on some operations, for example `user_by_id`, so they need `curl-cffi`:
-
-```bash
-pip install "twscrape[curl]"
-
-TWS_HTTP_BACKEND=curl twscrape user_by_login xdevelopers
-```
+twscrape uses [curl-cffi](https://github.com/lexiforest/curl_cffi) by default, with a browser-like TLS fingerprint that Cloudflare requires on some operations, for example `user_by_id`. If something breaks, `TWS_HTTP_BACKEND=httpx` switches back to `httpx`.
 
 ## Features
 
@@ -378,7 +372,7 @@ Do not set `api.proxy` or `TWS_PROXY` when you want per-account proxies to be us
 - `TWS_PROXY` - global proxy for all accounts
 - `TWS_WAIT_EMAIL_CODE` - email verification timeout in seconds, default `30`
 - `TWS_RAISE_WHEN_NO_ACCOUNT` - raise `NoAccountError` instead of waiting; accepts `false`, `0`, `true`, `1`
-- `TWS_HTTP_BACKEND` - `httpx` or `curl`
+- `TWS_HTTP_BACKEND` - `curl` (default) or `httpx`
 - `TWS_LOG_LEVEL` - logger level, default `INFO`
 - `TWS_TELEMETRY=0` - disable anonymous telemetry
 
