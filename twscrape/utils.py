@@ -304,8 +304,32 @@ QT_ID_PATH = [
 
 
 def to_old_rep(obj: dict) -> dict[str, Any]:
+    return _to_old_rep(get_typed_object(obj, defaultdict(list)))
+
+
+def to_old_rep_partial(obj: dict) -> tuple[dict[str, Any], list[tuple[dict, Exception]]]:
+    """
+    to_old_rep for a caller that needs one object, not the whole response: objects that can't
+    be normalized are left out and returned as (object, error), the rest stay as usual.
+    """
     tmp = get_typed_object(obj, defaultdict(list))
 
+    errors: list[tuple[dict, Exception]] = []
+    for kind in ("Tweet", "TweetWithVisibilityResults", "User", "TimelineTrend"):
+        items = []
+        for x in tmp.get(kind, []):
+            try:
+                _to_old_rep({kind: [x]})
+                items.append(x)
+            except Exception as e:
+                errors.append((x, e))
+
+        tmp[kind] = items
+
+    return _to_old_rep(tmp), errors
+
+
+def _to_old_rep(tmp: dict[str, list]) -> dict[str, Any]:
     # "legacy" in x still matches under the new schema: the key is present
     # with value None, so membership tests keep working.
     tw1 = [x for x in tmp.get("Tweet", []) if "legacy" in x]

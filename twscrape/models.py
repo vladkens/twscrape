@@ -16,10 +16,12 @@ from .utils import (
     QT_ID_PATH,
     RT_ID_PATH,
     find_item,
+    find_obj,
     get_or,
     int_or,
     to_old_obj,
     to_old_rep,
+    to_old_rep_partial,
     to_old_user,
     utc,
 )
@@ -1320,19 +1322,43 @@ def _parse_items(
 # public helpers
 
 
+def _find_raw_tweet(res: dict, twid: int) -> dict | None:
+    """The requested tweet as X sent it: by rest_id, or by its timeline entry if that is lost."""
+
+    def by_id(x: dict) -> bool:
+        typename = x.get("__typename")
+        if typename == "TweetWithVisibilityResults":
+            x = x.get("tweet") or {}
+        elif typename != "Tweet":
+            return False
+
+        return str(x.get("rest_id")) == str(twid)
+
+    def by_type(x: dict) -> bool:
+        return x.get("__typename") in ("Tweet", "TweetWithVisibilityResults")
+
+    entry = find_obj(res, lambda x: x.get("entryId") == f"tweet-{twid}")
+    return find_obj(res, by_id) or find_obj(entry, by_type)
+
+
 def parse_tweet(rep: Response, twid: int) -> Tweet | None:
     # Only the requested tweet can fail the call, not a broken reply in the same response:
     # https://github.com/vladkens/twscrape/issues/348
     res = rep if isinstance(rep, dict) else rep.json()
-    obj = to_old_rep(res)
+    obj, errors = to_old_rep_partial(res)
     x = obj["tweets"].get(str(twid))
-    if x is None:
+    raw = x or _find_raw_tweet(res, twid)
+    if raw is None:
         return None  # tombstone or not found
 
     try:
+        if x is None:
+            # no error means to_old_rep skipped it, like a tweet without the legacy key
+            raise next((e for y, e in errors if y is raw), ValueError("tweet not normalized"))
+
         return Tweet.parse(x, obj)
     except Exception as e:
-        _write_dump("tweet", e, x, obj)
+        _write_dump("tweet", e, raw, obj)
         raise ParseError(f"Failed to parse tweet {twid}: {e!r}") from e
 
 

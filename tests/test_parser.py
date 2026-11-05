@@ -841,32 +841,126 @@ def test_user_lookup_parse_failure_keeps_cause():
     assert isinstance(exc.value.__cause__, ValueError)
 
 
-def _break_tweet(raw: dict, fn: Callable[[str], bool]):
-    tw = find_obj(raw, lambda x: "legacy" in x and "rest_id" in x and fn(x["rest_id"]))
+def _find_tweet(raw: dict, fn: Callable[[str], bool]) -> dict:
+    tw = find_obj(raw, lambda x: x.get("__typename") == "Tweet" and fn(x["rest_id"]))
     assert tw is not None
+    return tw
+
+
+def _bad_date(tw: dict):
     tw["legacy"]["created_at"] = "not a date"
 
 
-def test_tweet_lookup_parse_failure_raises():
+def _no_rest_id(tw: dict):
+    del tw["rest_id"]
+
+
+def _no_legacy(tw: dict):
+    del tw["legacy"]
+
+
+def _null_quote(tw: dict):
+    tw["quoted_status_result"] = None
+
+
+def _wrapped_without_tweet(tw: dict):
+    tw.clear()
+    tw["__typename"] = "TweetWithVisibilityResults"
+
+
+def _wrapped_without_legacy(tw: dict):
+    inner = {"rest_id": tw["rest_id"]}
+    tw.clear()
+    tw.update({"__typename": "TweetWithVisibilityResults", "tweet": inner})
+
+
+def _trend_without_name(tw: dict):
+    tw.clear()
+    tw["__typename"] = "TimelineTrend"
+
+
+def _tombstone(tw: dict):
+    tw.clear()
+    tw.update({"__typename": "TweetTombstone", "tombstone": {"__typename": "TextTombstone"}})
+
+
+@pytest.mark.parametrize(
+    "breaks, cause",
+    [
+        (_bad_date, ValueError),
+        (_no_rest_id, KeyError),
+        (_no_legacy, ValueError),
+        (_null_quote, TypeError),
+        (_wrapped_without_tweet, KeyError),
+        (_wrapped_without_legacy, ValueError),
+    ],
+)
+def test_tweet_lookup_parse_failure_raises(monkeypatch, breaks, cause):
     # https://github.com/vladkens/twscrape/issues/348
+    dumps = []
+    monkeypatch.setattr(models, "_write_dump", lambda *args: dumps.append(args))
+
     twid = 1649191520250245121
     raw = fake_rep("raw_tweet_details").json()
-    _break_tweet(raw, lambda x: x == str(twid))
+    breaks(_find_tweet(raw, lambda x: x == str(twid)))
 
     with pytest.raises(ParseError, match=f"Failed to parse tweet {twid}") as exc:
         parse_tweet(raw, twid)
 
-    assert isinstance(exc.value.__cause__, ValueError)
+    assert isinstance(exc.value.__cause__, cause)
+    assert len(dumps) == 1
 
 
-def test_tweet_lookup_ignores_broken_reply():
+@pytest.mark.parametrize(
+    "breaks",
+    [
+        _bad_date,
+        _no_rest_id,
+        _no_legacy,
+        _null_quote,
+        _wrapped_without_tweet,
+        _wrapped_without_legacy,
+        _trend_without_name,
+    ],
+)
+def test_tweet_lookup_ignores_broken_reply(breaks):
     twid = 1649191520250245121
     raw = fake_rep("raw_tweet_details").json()
-    _break_tweet(raw, lambda x: x != str(twid))
+    expected = parse_tweet(raw, twid)
+    breaks(_find_tweet(raw, lambda x: x != str(twid)))
 
     doc = parse_tweet(raw, twid)
-    assert doc is not None and doc.id == twid
+    assert doc is not None and doc == expected
     assert parse_tweet(raw, 1) is None  # not in the response
+
+
+def test_tweet_lookup_keeps_related_objects_of_target():
+    raw = fake_rep("raw_search").json()
+    tw = find_obj(raw, lambda x: x.get("__typename") == "Tweet" and "quoted_status_result" in x)
+    assert tw is not None
+
+    twid = int(tw["rest_id"])
+    expected = parse_tweet(raw, twid)
+    assert expected is not None and expected.quotedTweet is not None
+
+    raw["data"]["broken"] = [
+        {"__typename": "Tweet", "legacy": {}},
+        {"__typename": "TweetWithVisibilityResults"},
+        {"__typename": "TimelineTrend"},
+    ]
+    assert parse_tweet(raw, twid) == expected
+
+    # paginated parsers still fail the page
+    with pytest.raises(KeyError):
+        list(parse_tweets(raw))
+
+
+def test_tweet_lookup_tombstone_returns_none():
+    twid = 1649191520250245121
+    raw = fake_rep("raw_tweet_details").json()
+    _tombstone(_find_tweet(raw, lambda x: x == str(twid)))
+
+    assert parse_tweet(raw, twid) is None
 
 
 SINGLE_PARSERS = {
