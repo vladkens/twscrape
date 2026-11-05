@@ -321,11 +321,7 @@ def to_old_rep_partial(obj: dict) -> tuple[dict[str, Any], list[tuple[dict, Exce
         items = []
         for x in tmp.get(kind, []):
             try:
-                rep = _to_old_rep({kind: [x]})
-                tweet = x.get("tweet") or x
-                if kind.startswith("Tweet") and not rep["tweets"] and not is_tweet_ref(tweet):
-                    raise ValueError("Tweet without legacy")
-
+                _to_old_rep({kind: [x]})
                 items.append(x)
             except Exception as e:
                 errors.append((x, e))

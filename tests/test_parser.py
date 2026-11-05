@@ -1098,7 +1098,6 @@ def _find_quoting_tweet(raw: dict, fn: Callable[[dict], bool] = lambda x: True) 
     [
         (_bad_date, ValueError),
         (_no_rest_id, KeyError),
-        (_no_legacy, ValueError),
         (_null_quote, TypeError),
         (_wrapped_without_tweet, KeyError),
     ],
@@ -1122,6 +1121,22 @@ def test_tweet_lookup_broken_nested_tweet_raises(monkeypatch, breaks, cause):
 
     assert isinstance(exc.value.__cause__, cause)
     assert len(dumps) == 1
+
+
+def test_tweet_lookup_skips_nested_tweet_without_legacy():
+    raw = fake_rep("raw_search").json()
+    tw = _find_quoting_tweet(raw)
+    twid = int(tw["rest_id"])
+
+    qtid = tw["quoted_status_result"]["result"]["rest_id"]
+    for x in get_typed_object(raw, defaultdict(list))["Tweet"]:
+        if x["rest_id"] == qtid:
+            _no_legacy(x)
+
+    doc = parse_tweet(raw, twid)
+    assert doc is not None
+    assert doc.quotedTweet is None
+    assert doc.quotedTweetIdStr == qtid
 
 
 def test_tweet_lookup_keeps_nested_ref():
