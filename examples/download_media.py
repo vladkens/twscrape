@@ -1,18 +1,18 @@
 import asyncio
 import os
 
-import httpx
+from curl_cffi.requests import AsyncSession
 
 from twscrape import API
 
 
-async def download_file(client: httpx.AsyncClient, url: str, outdir: str):
+async def download_file(client: AsyncSession, url: str, outdir: str):
     filename = url.split("/")[-1].split("?")[0]
     outpath = os.path.join(outdir, filename)
 
     async with client.stream("GET", url) as resp:
         with open(outpath, "wb") as fp:
-            async for chunk in resp.aiter_bytes():
+            async for chunk in resp.aiter_content():
                 fp.write(chunk)
 
 
@@ -27,7 +27,7 @@ async def load_user_media(api: API, user_id: int, outdir: str):
             variant = sorted(video.variants, key=lambda x: x.bitrate)[-1]
             all_videos.append(variant.url)
 
-    async with httpx.AsyncClient() as client:
+    async with AsyncSession() as client:
         await asyncio.gather(
             *[download_file(client, url, outdir) for url in all_photos],
             *[download_file(client, url, outdir) for url in all_videos],

@@ -3,7 +3,7 @@ from unittest.mock import MagicMock, call
 import pytest
 
 import twscrape.xclid as xclid
-from twscrape.http import HttpxClient, NetworkError
+from twscrape.http import NetworkError
 
 from .mock_http import MockClient
 
@@ -82,23 +82,7 @@ async def test_xclid_create_without_proxy_or_cookies(monkeypatch):
     assert seen == {"proxy": None, "cookies": None}
 
 
-async def test_xclid_client_does_not_send_cookies_to_asset_hosts(monkeypatch):
-    monkeypatch.setenv("TWS_HTTP_BACKEND", "httpx")
-    client = xclid._make_client(cookies={"auth_token": "abc", "ct0": "def"})
-    assert isinstance(client, HttpxClient)
-    try:
-        x_request = client._client.build_request("GET", "https://x.com/tesla")
-        asset_request = client._client.build_request(
-            "GET", "https://abs.twimg.com/x-web/client-web/main.js"
-        )
-        assert x_request.headers["cookie"] == "auth_token=abc; ct0=def"
-        assert "cookie" not in asset_request.headers
-    finally:
-        await client.aclose()
-
-
-async def test_xclid_curl_client_scopes_cookies_to_x(monkeypatch):
-    monkeypatch.setenv("TWS_HTTP_BACKEND", "curl")
+async def test_xclid_client_scopes_cookies_to_x():
     client = xclid._make_client(cookies={"auth_token": "abc"})
     try:
         cookies = list(client.cookies.jar)

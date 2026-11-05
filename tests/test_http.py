@@ -1,7 +1,5 @@
-import sys
 from unittest.mock import AsyncMock, MagicMock, patch
 
-import httpx
 import pytest
 from curl_cffi.const import CurlECode
 from curl_cffi.requests.errors import RequestsError
@@ -13,10 +11,8 @@ from twscrape.http import (
     HttpClient,
     HttpError,
     HttpStatusError,
-    HttpxClient,
     NetworkError,
     Response,
-    _detect_backend,
     _resolve_browser,
     format_error,
     make_client,
@@ -83,65 +79,6 @@ def test_format_error():
     assert format_error(ValueError("invalid value")) == "ValueError: invalid value"
 
 
-# --- _detect_backend ---
-
-
-def test_detect_backend_env_curl_not_installed(monkeypatch):
-    monkeypatch.setenv("TWS_HTTP_BACKEND", "curl")
-    with (
-        patch.dict("sys.modules", {"curl_cffi": None}),
-        pytest.raises(ImportError, match="curl-cffi is not installed"),
-    ):
-        _detect_backend()
-
-
-@pytest.mark.parametrize(
-    "env, has_curl, expected",
-    [
-        (None, True, "curl"),
-        (None, False, "httpx"),
-        (" ", True, "curl"),
-        ("httpx", True, "httpx"),
-        ("httpx", False, "httpx"),
-        ("CURL", True, "curl"),
-    ],
-)
-def test_detect_backend(monkeypatch, env, has_curl, expected):
-    if env is None:
-        monkeypatch.delenv("TWS_HTTP_BACKEND", raising=False)
-    else:
-        monkeypatch.setenv("TWS_HTTP_BACKEND", env)
-
-    if not has_curl:
-        monkeypatch.setitem(sys.modules, "curl_cffi", None)
-
-    assert _detect_backend() == expected
-
-
-def test_detect_backend_env_missing_backend(monkeypatch):
-    monkeypatch.setenv("TWS_HTTP_BACKEND", "httpx")
-    with (
-        patch.dict("sys.modules", {"httpx": None}),
-        pytest.raises(ImportError, match="not installed"),
-    ):
-        _detect_backend()
-
-
-def test_detect_backend_invalid_value(monkeypatch):
-    monkeypatch.setenv("TWS_HTTP_BACKEND", "requests")
-    with pytest.raises(ValueError, match="Invalid"):
-        _detect_backend()
-
-
-def test_detect_backend_default_httpx_missing(monkeypatch):
-    monkeypatch.delenv("TWS_HTTP_BACKEND", raising=False)
-    with (
-        patch.dict("sys.modules", {"curl_cffi": None, "httpx": None}),
-        pytest.raises(ImportError, match="httpx is not installed"),
-    ):
-        _detect_backend()
-
-
 # --- HttpClient base ---
 
 
@@ -169,106 +106,11 @@ async def test_http_client_is_async_context_manager():
     assert client.closed
 
 
-# --- HttpxClient ---
+# --- make_client ---
 
 
-def test_make_client_httpx_returns_httpx_client(monkeypatch):
-    monkeypatch.delenv("TWS_HTTP_BACKEND", raising=False)
-    client = make_client("httpx")
-    assert isinstance(client, HttpxClient)
-
-
-async def test_httpx_client_cookies_and_headers_are_mutable():
-    client = HttpxClient(headers={"x-foo": "bar"}, cookies={"ct0": "token"})
-    # headers support __setitem__
-    client.headers["x-new"] = "value"
-    # cookies support __contains__
-    assert "ct0" in client.cookies
-    await client.aclose()
-
-
-async def test_httpx_client_maps_network_errors():
-    client = HttpxClient()
-    with (
-        patch.object(
-            client._client, "request", AsyncMock(side_effect=httpx.ReadTimeout("timeout"))
-        ),
-        pytest.raises(NetworkError),
-    ):
-        await client.get("https://example.com")
-    await client.aclose()
-
-
-async def test_httpx_client_maps_connect_errors():
-    client = HttpxClient()
-    with (
-        patch.object(
-            client._client, "request", AsyncMock(side_effect=httpx.ConnectError("refused"))
-        ),
-        pytest.raises(ConnectError),
-    ):
-        await client.get("https://example.com")
-    await client.aclose()
-
-
-async def test_httpx_client_returns_response_wrapper():
-
-    raw = httpx.Response(
-        200, json={"ok": True}, request=httpx.Request("GET", "https://example.com")
-    )
-    client = HttpxClient()
-    with patch.object(client._client, "request", AsyncMock(return_value=raw)):
-        rep = await client.get("https://example.com")
-    assert isinstance(rep, Response)
-    assert rep.status_code == 200
-    assert rep.json() == {"ok": True}
-    await client.aclose()
-
-
-async def test_httpx_client_maps_connect_timeout():
-
-    client = HttpxClient()
-    with (
-        patch.object(
-            client._client, "request", AsyncMock(side_effect=httpx.ConnectTimeout("timeout"))
-        ),
-        pytest.raises(ConnectError),
-    ):
-        await client.get("https://example.com")
-    await client.aclose()
-
-
-async def test_httpx_client_maps_write_and_pool_timeout():
-
-    for exc_cls in (httpx.WriteTimeout, httpx.PoolTimeout, httpx.ProxyError):
-        client = HttpxClient()
-        with (
-            patch.object(client._client, "request", AsyncMock(side_effect=exc_cls("err"))),
-            pytest.raises(NetworkError),
-        ):
-            await client.get("https://example.com")
-        await client.aclose()
-
-
-# --- make_client: missing paths ---
-
-
-def test_make_client_curl_returns_curl_client():
-
-    client = make_client("curl")
-    assert isinstance(client, CurlClient)
-
-
-def test_make_client_unknown_backend_raises():
-    with pytest.raises(ValueError, match="Unknown backend"):
-        make_client("unknown_backend")
-
-
-def test_make_client_none_uses_default_curl(monkeypatch):
-    monkeypatch.delenv("TWS_HTTP_BACKEND", raising=False)
-
-    client = make_client(None)
-    assert isinstance(client, CurlClient)
+def test_make_client_returns_curl_client():
+    assert isinstance(make_client(), CurlClient)
 
 
 # --- CurlClient ---
@@ -462,13 +304,3 @@ def test_curl_client_strips_user_agent_from_session():
     client = CurlClient(headers={"user-agent": "@chrome", "x-foo": "bar"})
     session_headers = dict(client._session.headers)
     assert "user-agent" not in {k.lower() for k in session_headers}
-
-
-def test_httpx_client_resolves_ua_hint_to_real_string():
-    from twscrape.http import HttpxClient
-
-    expected_ua, _ = _resolve_browser("@chrome", seed=0)
-    client = HttpxClient(headers={"user-agent": "@chrome"}, seed=0)
-    ua = dict(client._client.headers).get("user-agent", "")
-    assert ua == expected_ua
-    assert "@" not in ua

@@ -30,7 +30,7 @@ API_FILE = "twscrape/api.py"
 CACHE_DIR = "/tmp/twscrape-ops"
 MARKER = "# GQL_OPS_CODEGEN"
 JS_REF_RE = re.compile(r'(?:from|import)\s*\(?\s*[`"]((?:\.{1,2}/)[^`"]+?\.js)[`"]')
-TIMEOUT = 30  # seconds, httpx default of 5s is too tight for large bundles
+TIMEOUT = 30  # seconds for the whole request, large bundles need it
 RETRIES = 3
 
 

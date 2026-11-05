@@ -1,7 +1,7 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.10"
-# dependencies = ["twscrape[curl]", "rich>=13.0"]
+# dependencies = ["twscrape", "rich>=13.0"]
 #
 # [tool.uv.sources]
 # twscrape = { path = "..", editable = true }
