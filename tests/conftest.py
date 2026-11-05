@@ -1,6 +1,6 @@
 import pytest
 
-from twscrape import telemetry
+from twscrape import http, telemetry
 from twscrape.account import Account
 from twscrape.accounts_pool import AccountsPool
 from twscrape.api import API
@@ -20,6 +20,11 @@ class ClIdGenMock:
 @pytest.fixture(autouse=True)
 def reset_telemetry():
     telemetry.reset()
+
+
+@pytest.fixture(autouse=True)
+def no_retry_delay(monkeypatch):
+    monkeypatch.setattr(http, "_CURL_RETRY_DELAY", 0)
 
 
 @pytest.fixture(autouse=True)

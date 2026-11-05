@@ -1,3 +1,4 @@
+import asyncio
 from abc import ABC, abstractmethod
 from typing import Any, Literal, Protocol, cast
 
@@ -9,6 +10,10 @@ HttpMethod = Literal["GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD", "TRACE",
 
 _UNSET = object()
 _CURL_MAX_RETRIES = 3
+_CURL_RETRY_DELAY = 0.5  # seconds, grows with each attempt
+# libcurl codes of a request that never reached the server: COULDNT_RESOLVE_PROXY,
+# COULDNT_RESOLVE_HOST, COULDNT_CONNECT, SSL_CONNECT_ERROR, PEER_FAILED_VERIFICATION
+_CURL_CONNECT_CODES = {5, 6, 7, 35, 60}
 _COOKIE_DOMAIN = ".x.com"
 
 # https://curl-impersonate.readthedocs.io/en/latest/fingerprints.html
@@ -163,15 +168,15 @@ class CurlClient(HttpClient):
         return self._session.headers
 
     async def request(self, method: HttpMethod, url: str, **kwargs) -> Response:
-        last_err: Exception | None = None
-        for _ in range(_CURL_MAX_RETRIES + 1):
+        # Only a failed connect is retried: nothing was sent, so it's safe for POST too.
+        # Later failures are left to the caller, which has its own budget and backoff.
+        for attempt in range(_CURL_MAX_RETRIES):
             try:
                 return await self._wrap(self._session.request(method, url, **kwargs))
-            except NetworkError as e:
-                last_err = e
-        if last_err is not None:
-            raise last_err
-        raise RuntimeError("CurlClient request failed without an error")
+            except ConnectError:
+                await asyncio.sleep(_CURL_RETRY_DELAY * attempt)
+
+        return await self._wrap(self._session.request(method, url, **kwargs))
 
     async def aclose(self) -> None:
         await self._session.close()
@@ -180,10 +185,14 @@ class CurlClient(HttpClient):
         try:
             return Response(await coro)
         except RequestsError as e:
-            # libcurl error codes: 5=COULDNT_RESOLVE_PROXY, 6=COULDNT_RESOLVE_HOST, 7=COULDNT_CONNECT
-            if e.code in {5, 6, 7}:
+            if e.code in _CURL_CONNECT_CODES:
                 raise ConnectError(str(e)) from e
-            raise NetworkError(str(e)) from e
+
+            # no libcurl code means no transport failure: bad profile, closed session
+            if e.code:
+                raise NetworkError(str(e)) from e
+
+            raise
 
 
 def make_client(

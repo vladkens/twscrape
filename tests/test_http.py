@@ -138,17 +138,16 @@ async def test_curl_client_returns_response_wrapper():
     await client.aclose()
 
 
-async def test_curl_client_connect_error_codes():
-
-    for code in (CurlECode(5), CurlECode(6), CurlECode(7)):
-        client = CurlClient()
-        err = RequestsError("connect failed", code=code)
-        with (
-            patch.object(client._session, "request", AsyncMock(side_effect=err)),
-            pytest.raises(ConnectError),
-        ):
-            await client.get("https://example.com")
-        await client.aclose()
+@pytest.mark.parametrize("code", [5, 6, 7, 35, 60])
+async def test_curl_client_connect_error_codes(code):
+    client = CurlClient()
+    err = RequestsError("connect failed", code=CurlECode(code))
+    with (
+        patch.object(client._session, "request", AsyncMock(side_effect=err)),
+        pytest.raises(ConnectError),
+    ):
+        await client.get("https://example.com")
+    await client.aclose()
 
 
 async def test_curl_client_network_error():
@@ -171,7 +170,20 @@ async def test_curl_client_cookies_and_headers():
     await client.aclose()
 
 
-async def test_curl_client_retries_network_error():
+async def test_curl_client_retries_connect_error():
+    client = CurlClient()
+    err = RequestsError("refused", code=CurlECode(7))
+    mock_req = AsyncMock(side_effect=err)
+    with (
+        patch.object(client._session, "request", mock_req),
+        pytest.raises(ConnectError),
+    ):
+        await client.post("https://example.com")
+    assert mock_req.call_count == _CURL_MAX_RETRIES + 1
+    await client.aclose()
+
+
+async def test_curl_client_does_not_retry_network_error():
     client = CurlClient()
     err = RequestsError("timeout", code=CurlECode(28))
     mock_req = AsyncMock(side_effect=err)
@@ -180,7 +192,17 @@ async def test_curl_client_retries_network_error():
         pytest.raises(NetworkError),
     ):
         await client.get("https://example.com")
-    assert mock_req.call_count == _CURL_MAX_RETRIES + 1
+    assert mock_req.call_count == 1
+    await client.aclose()
+
+
+async def test_curl_client_error_without_curl_code_propagates():
+    client = CurlClient()
+    with (
+        patch.object(client._session, "request", AsyncMock(side_effect=RequestsError("bad"))),
+        pytest.raises(RequestsError),
+    ):
+        await client.get("https://example.com")
     await client.aclose()
 
 
