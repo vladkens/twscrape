@@ -464,11 +464,20 @@ async def test_rate_limit_html_locks_and_switches(client_fixture: CF, headers):
     await client.__aexit__(None, None, None)
 
 
-async def test_rate_limit_88_with_data_returns_response(client_fixture: CF):
+@pytest.mark.parametrize(
+    "headers",
+    [
+        None,
+        {"x-rate-limit-remaining": "1"},
+        {"x-rate-limit-remaining": "1", "x-rate-limit-reset": str(utc.ts() + 900)},
+    ],
+)
+async def test_rate_limit_88_with_data_returns_response(client_fixture: CF, headers):
     pool, client, mock = client_fixture
     await client.__aenter__()
 
-    mock.add_response(json={**RATE_LIMIT_88, "data": {"user": {"id": "1"}}})
+    mock.add_response(json={**RATE_LIMIT_88, "data": {"user": {"id": "1"}}}, headers=headers)
+    mock.add_response(json={"ok": True})  # a retry would get this instead of the data
 
     rep = await client.get(URL)
     assert rep is not None
@@ -487,6 +496,23 @@ async def test_ban_88_marks_account_inactive(client_fixture: CF):
 
     mock.add_response(
         json={"errors": [{"code": 88, "message": "Rate limit exceeded"}]},
+        headers={"x-rate-limit-remaining": "1"},
+    )
+    mock.add_response(json={"ok": True})
+
+    rep = await client.get(URL)
+    assert rep is not None
+    assert "user1" in await get_inactive(pool)
+
+    await client.__aexit__(None, None, None)
+
+
+async def test_ban_88_with_empty_data_marks_account_inactive(client_fixture: CF):
+    pool, client, mock = client_fixture
+    await client.__aenter__()
+
+    mock.add_response(
+        json={**RATE_LIMIT_88, "data": {"user": {}}},
         headers={"x-rate-limit-remaining": "1"},
     )
     mock.add_response(json={"ok": True})
