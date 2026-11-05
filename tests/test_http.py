@@ -29,6 +29,7 @@ def test_response_delegates_attributes():
     assert rep.status_code == 200
     assert rep.text == "hello"
     assert rep.json() == {"key": "val"}
+    assert rep.request is not None
     assert rep.request.method == "GET"
 
 

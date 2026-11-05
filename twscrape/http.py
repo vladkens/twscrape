@@ -1,8 +1,9 @@
 import asyncio
 from abc import ABC, abstractmethod
-from typing import Any, Literal, Protocol, cast
+from typing import Any, Literal, cast
 
-from curl_cffi.requests import AsyncSession, BrowserTypeLiteral
+from curl_cffi.requests import AsyncSession, BrowserTypeLiteral, Headers, Request
+from curl_cffi.requests import Response as CurlResponse
 from curl_cffi.requests.errors import RequestsError
 from fake_useragent import UserAgent
 
@@ -34,21 +35,10 @@ def _resolve_browser(hint: str | None) -> tuple[str, str]:
     return cast(str, getattr(_ua, family, _ua.chrome)), family
 
 
-class _RawResponse(Protocol):
-    status_code: int
-    text: str
-    content: bytes
-    headers: Any
-    url: Any
-    request: Any
-
-    def json(self) -> Any: ...
-
-
 class Response:
     """Thin wrapper around curl_cffi.Response."""
 
-    def __init__(self, rep: _RawResponse):
+    def __init__(self, rep: CurlResponse):
         self._rep = rep
         self._json: Any = _UNSET
 
@@ -65,15 +55,15 @@ class Response:
         return self._rep.content
 
     @property
-    def headers(self) -> Any:
+    def headers(self) -> Headers:
         return self._rep.headers
 
     @property
-    def url(self) -> Any:
+    def url(self) -> str:
         return self._rep.url
 
     @property
-    def request(self) -> Any:
+    def request(self) -> Request | None:
         return self._rep.request
 
     def json(self) -> Any:

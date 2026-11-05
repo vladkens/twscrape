@@ -1,11 +1,17 @@
 """CurlClient against real curl_cffi objects: what MockClient can't catch."""
 
 import asyncio
+import json
+from unittest.mock import mock_open, patch
+from urllib.parse import parse_qs, urlparse
 
 import pytest
+from curl_cffi.requests import Response as CurlResponse
 from curl_cffi.requests.errors import RequestsError
 
-from twscrape.http import ConnectError, CurlClient, NetworkError, make_client
+from twscrape import telemetry
+from twscrape.http import ConnectError, CurlClient, NetworkError, Response, make_client
+from twscrape.queue_client import dump_rep
 
 from .local_server import Reply, Seen, local_server
 
@@ -136,3 +142,184 @@ async def test_socks5_proxy_resolves_hosts_on_the_proxy():
     srv.close()
 
     assert seen["atyp"] == 3  # domain name, 1 would be an IPv4 resolved locally
+
+
+@pytest.mark.parametrize("family", ["chrome", "safari", "firefox", "edge"])
+async def test_every_browser_family_can_send_a_request(family):
+    async with local_server() as srv:
+        client = CurlClient(proxy=srv.url, headers={"user-agent": f"@{family}"})
+        rep = await client.get("http://x.com/")
+        await client.aclose()
+
+    assert rep.status_code == 200
+    assert srv.seen[0].headers["user-agent"]
+
+
+async def test_response_exposes_real_curl_types():
+    headers = [
+        "X-Rate-Limit-Remaining: 5",
+        "Content-Type: application/json; charset=utf-8",
+        "CF-Ray: abc",
+        "X-Dup: 1",
+        "X-Dup: 2",
+    ]
+
+    async with local_server(lambda _: Reply(body=b'{"ok": 1}', headers=headers)) as srv:
+        client = CurlClient(proxy=srv.url)
+        rep = await client.get("http://x.com/path", params={"a": "1"})
+        await client.aclose()
+
+    assert rep.url == "http://x.com/path?a=1"
+    assert rep.request is not None
+    assert rep.request.method == "GET"
+    assert rep.request.url == rep.url
+    assert rep.json() == {"ok": 1}
+    assert rep.text == '{"ok": 1}'
+    assert rep.content == b'{"ok": 1}'
+
+    assert rep.headers.get("x-rate-limit-remaining", -1) == "5"
+    assert rep.headers.get("X-RATE-LIMIT-REMAINING", -1) == "5"
+    assert rep.headers.get("x-rate-limit-reset", -1) == -1
+    assert "cf-ray" in rep.headers
+    assert "text/html" not in rep.headers.get("content-type", "")
+    assert rep.headers.get("x-dup") == "1, 2"
+    assert ("cf-ray", "abc") in list(rep.headers.items())
+
+
+async def test_status_error_keeps_the_response():
+    async with local_server(lambda _: Reply(status=429, body=b"slow down")) as srv:
+        client = CurlClient(proxy=srv.url)
+        rep = await client.get("http://x.com/")
+        await client.aclose()
+
+    assert rep.status_code == 429
+    assert rep.text == "slow down"
+
+
+async def test_request_kwargs_reach_the_wire():
+    variables = json.dumps({"rawQuery": "a b+c &é", "count": 20}, separators=(",", ":"))
+
+    async with local_server() as srv:
+        client = CurlClient(proxy=srv.url, headers={"content-type": "application/json"})
+        await client.get("http://x.com/gql", params={"variables": variables}, headers={"x-t": "1"})
+        await client.post("http://api.x.com/task", params={"flow_name": "login"}, json={"a": 1})
+        await client.post("http://api.x.com/activate")
+        await client.aclose()
+
+    get, post, empty = srv.seen
+    assert parse_qs(urlparse(get.target).query) == {"variables": [variables]}
+    assert get.headers["x-t"] == "1"
+    assert get.headers["content-type"] == "application/json"
+
+    assert post.method == "POST"
+    assert parse_qs(urlparse(post.target).query) == {"flow_name": ["login"]}
+    assert json.loads(post.body) == {"a": 1}
+    assert post.headers["content-type"] == "application/json"
+
+    assert empty.method == "POST"
+    assert empty.body == b""
+
+
+async def test_client_headers_can_be_changed_like_login_does():
+    async with local_server() as srv:
+        client = CurlClient(proxy=srv.url, headers={"authorization": "Bearer t"})
+        client.headers["x-guest-token"] = "1"
+        client.headers["X-Guest-Token"] = "2"
+        await client.get("http://x.com/")
+        await client.aclose()
+
+    assert srv.seen[0].headers["x-guest-token"] == "2"
+    assert srv.seen[0].headers["authorization"] == "Bearer t"
+
+    saved = dict(client.headers.items())
+    assert saved == {"authorization": "Bearer t", "x-guest-token": "2"}
+    assert json.loads(json.dumps(saved)) == saved
+
+
+def redirect(req: Seen) -> Reply:
+    if req.target.endswith("/same"):
+        return Reply(status=302, headers=["Location: /final?a=1"])
+    if req.target.endswith("/other"):
+        return Reply(status=302, headers=["Location: http://abs.twimg.com/final"])
+    return Reply()
+
+
+async def test_redirect_is_followed_and_post_becomes_get():
+    async with local_server(redirect) as srv:
+        client = CurlClient(proxy=srv.url)
+        rep = await client.post("http://x.com/same", json={"a": 1})
+        await client.aclose()
+
+    assert rep.status_code == 200
+    assert rep.url == "http://x.com/final?a=1"
+    assert [x.method for x in srv.seen] == ["POST", "GET"]
+    assert srv.seen[1].body == b""
+
+
+async def test_redirect_to_another_host_drops_credentials():
+    async with local_server(redirect) as srv:
+        client = CurlClient(
+            proxy=srv.url, headers={"authorization": "Bearer t"}, cookies={"auth_token": "a"}
+        )
+        await client.get("http://x.com/other")
+        await client.aclose()
+
+    assert "authorization" not in srv.seen[1].headers
+    assert "cookie" not in srv.seen[1].headers
+
+
+def dump(rep: Response):
+    with patch("builtins.open", mock_open()) as fp, patch("os.makedirs"):
+        dump_rep(rep)
+
+    return "".join(x.args[0] for x in fp().write.call_args_list)
+
+
+async def test_dump_rep_reads_a_real_response():
+    async with local_server(lambda _: Reply(body=b'{"ok": 1}')) as srv:
+        client = CurlClient(proxy=srv.url)
+        rep = await client.get("http://x.com/path")
+        await client.aclose()
+
+    assert "200 GET http://x.com/path" in dump(rep)
+
+
+async def test_dump_rep_survives_response_without_request():
+    raw = CurlResponse()
+    raw.url = "http://x.com/path"
+    assert raw.request is None
+
+    assert "200 ? http://x.com/path" in dump(Response(raw))
+
+
+async def test_telemetry_posts_through_curl(monkeypatch):
+    monkeypatch.delenv("DO_NOT_TRACK", raising=False)
+    monkeypatch.delenv("TWS_TELEMETRY", raising=False)
+    monkeypatch.setattr(telemetry, "POSTHOG_KEY", "test-key")
+
+    async with local_server() as srv:
+        monkeypatch.setattr(telemetry, "POSTHOG_BATCH_URL", f"{srv.url}/batch/")
+        telemetry.capture("gql_request", {"operation": "SearchTimeline"})
+        await telemetry.flush()
+
+    assert srv.seen[0].method == "POST"
+    assert srv.seen[0].headers["content-type"] == "application/json"
+
+    pld = json.loads(srv.seen[0].body)
+    assert pld["api_key"] == "test-key"
+    assert pld["batch"][0]["properties"]["operation"] == "SearchTimeline"
+
+
+async def test_telemetry_failure_never_reaches_the_user(monkeypatch):
+    monkeypatch.delenv("DO_NOT_TRACK", raising=False)
+    monkeypatch.delenv("TWS_TELEMETRY", raising=False)
+    monkeypatch.setattr(telemetry, "POSTHOG_KEY", "test-key")
+
+    async with local_server() as srv:
+        pass  # the port is free again
+
+    monkeypatch.setattr(telemetry, "POSTHOG_BATCH_URL", f"{srv.url}/batch/")
+    telemetry.capture("gql_request", {"operation": "SearchTimeline"})
+    await telemetry.flush()
+
+    assert telemetry.snapshot() == []

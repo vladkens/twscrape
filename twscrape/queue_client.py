@@ -187,7 +187,7 @@ def dump_rep(rep: Response):
 
     msg = []
     msg.append(f"{count:,d} - {req_id(rep)}")
-    msg.append(f"{rep.status_code} {rep.request.method} {rep.request.url}")
+    msg.append(f"{rep.status_code} {rep.request.method if rep.request else '?'} {rep.url}")
     msg.append("\n")
     # msg.append("\n".join([str(x) for x in list(rep.request.headers.items())]))
     msg.append("\n".join([str(x) for x in list(rep.headers.items())]))
