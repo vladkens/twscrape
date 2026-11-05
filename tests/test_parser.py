@@ -32,7 +32,7 @@ from twscrape.models import (
     parse_tweets,
     parse_user,
 )
-from twscrape.utils import find_obj, get_typed_object, to_old_rep
+from twscrape.utils import find_obj, get_or, get_typed_object, to_old_rep
 
 BASE_DIR = os.path.dirname(__file__)
 DATA_DIR = os.path.join(BASE_DIR, "mocked-data")
@@ -879,9 +879,8 @@ def _trend_without_name(tw: dict):
     tw["__typename"] = "TimelineTrend"
 
 
-def _tombstone(tw: dict):
-    tw.clear()
-    tw.update({"__typename": "TweetTombstone", "tombstone": {"__typename": "TextTombstone"}})
+def _unknown_typename(tw: dict):
+    tw["__typename"] = "SomethingNew"
 
 
 @pytest.mark.parametrize(
@@ -893,6 +892,7 @@ def _tombstone(tw: dict):
         (_null_quote, TypeError),
         (_wrapped_without_tweet, KeyError),
         (_wrapped_without_legacy, ValueError),
+        (_unknown_typename, ValueError),
     ],
 )
 def test_tweet_lookup_parse_failure_raises(monkeypatch, breaks, cause):
@@ -955,12 +955,98 @@ def test_tweet_lookup_keeps_related_objects_of_target():
         list(parse_tweets(raw))
 
 
-def test_tweet_lookup_tombstone_returns_none():
+def _target_results(raw: dict, twid: int) -> dict:
+    entry = find_obj(raw, lambda x: x.get("entryId") == f"tweet-{twid}")
+    item = find_obj(entry, lambda x: "tweet_results" in x)
+    assert item is not None
+    return item["tweet_results"]
+
+
+@pytest.mark.parametrize(
+    "results",
+    [
+        {},
+        {"result": None},
+        {"result": {"__typename": "TweetTombstone", "tombstone": {"__typename": "TextTombstone"}}},
+        {"result": {"__typename": "TweetUnavailable"}},
+    ],
+)
+def test_tweet_lookup_unavailable_returns_none(results):
     twid = 1649191520250245121
     raw = fake_rep("raw_tweet_details").json()
-    _tombstone(_find_tweet(raw, lambda x: x == str(twid)))
-
+    tweet_results = _target_results(raw, twid)
+    tweet_results.clear()
+    tweet_results.update(results)
     assert parse_tweet(raw, twid) is None
+
+    # a bare reference from another tweet doesn't make the requested tweet exist
+    raw["data"]["ref"] = {
+        "quotedRefResult": {"result": {"__typename": "Tweet", "rest_id": str(twid)}}
+    }
+    assert parse_tweet(raw, twid) is None
+
+
+def test_tweet_lookup_non_object_result_raises():
+    twid = 1649191520250245121
+    raw = fake_rep("raw_tweet_details").json()
+    _target_results(raw, twid)["result"] = ["broken"]
+
+    with pytest.raises(ParseError, match="broken"):
+        parse_tweet(raw, twid)
+
+
+def _find_quoting_tweet(raw: dict, fn: Callable[[dict], bool] = lambda x: True) -> dict:
+    tw = find_obj(
+        raw,
+        lambda x: (
+            x.get("__typename") == "Tweet"
+            and get_or(x, "quoted_status_result.result.__typename") == "Tweet"
+            and fn(x["quoted_status_result"]["result"])
+        ),
+    )
+    assert tw is not None
+    return tw
+
+
+@pytest.mark.parametrize(
+    "breaks, cause",
+    [
+        (_bad_date, ValueError),
+        (_no_rest_id, KeyError),
+        (_no_legacy, ValueError),
+        (_null_quote, TypeError),
+        (_wrapped_without_tweet, KeyError),
+    ],
+)
+def test_tweet_lookup_broken_nested_tweet_raises(monkeypatch, breaks, cause):
+    dumps = []
+    monkeypatch.setattr(models, "_write_dump", lambda *args: dumps.append(args))
+
+    raw = fake_rep("raw_search").json()
+    tw = _find_quoting_tweet(raw)
+    twid = int(tw["rest_id"])
+
+    # X can also list the quoted tweet on its own: a healthy copy would hide a bad date
+    qtid = tw["quoted_status_result"]["result"]["rest_id"]
+    for x in get_typed_object(raw, defaultdict(list))["Tweet"]:
+        if x["rest_id"] == qtid:
+            breaks(x)
+
+    with pytest.raises(ParseError, match=f"Failed to parse tweet {twid}") as exc:
+        parse_tweet(raw, twid)
+
+    assert isinstance(exc.value.__cause__, cause)
+    assert len(dumps) == 1
+
+
+def test_tweet_lookup_keeps_nested_stub():
+    # quotedRefResult holds a bare {__typename, rest_id}: no legacy, and not a failure
+    raw = fake_rep("raw_list_timeline").json()
+    tw = _find_quoting_tweet(raw, lambda x: "quotedRefResult" in x)
+    twid = int(tw["rest_id"])
+
+    doc = parse_tweet(raw, twid)
+    assert doc is not None and doc.quotedTweet is not None
 
 
 SINGLE_PARSERS = {

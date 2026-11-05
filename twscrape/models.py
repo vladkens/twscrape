@@ -8,7 +8,7 @@ import sys
 import traceback
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
-from typing import Callable, Generator, Optional, TypeVar, Union, cast
+from typing import Any, Callable, Generator, Optional, TypeVar, Union, cast
 
 from .http import Response
 from .logger import logger
@@ -19,6 +19,7 @@ from .utils import (
     find_obj,
     get_or,
     int_or,
+    is_tweet_stub,
     to_old_obj,
     to_old_rep,
     to_old_rep_partial,
@@ -1253,6 +1254,10 @@ def _get_views(obj: dict, rt_obj: dict):
     return None
 
 
+# Tweet results X sends for a tweet it won't show, other typenames are unexpected
+TWEET_UNAVAILABLE = ("TweetTombstone", "TweetUnavailable")
+
+
 def _write_dump(kind: str, e: Exception, x: dict, obj: dict):
     uniq = "".join(random.choice(string.ascii_lowercase) for _ in range(5))
     time = utc.now().strftime("%Y-%m-%d_%H-%M-%S")
@@ -1322,8 +1327,8 @@ def _parse_items(
 # public helpers
 
 
-def _find_raw_tweet(res: dict, twid: int) -> dict | None:
-    """The requested tweet as X sent it: by rest_id, or by its timeline entry if that is lost."""
+def _find_raw_tweet(res: dict, twid: int) -> Any | None:
+    """The requested tweet as X sent it: its timeline entry, else any full copy by rest_id."""
 
     def by_id(x: dict) -> bool:
         typename = x.get("__typename")
@@ -1332,13 +1337,13 @@ def _find_raw_tweet(res: dict, twid: int) -> dict | None:
         elif typename != "Tweet":
             return False
 
-        return str(x.get("rest_id")) == str(twid)
-
-    def by_type(x: dict) -> bool:
-        return x.get("__typename") in ("Tweet", "TweetWithVisibilityResults")
+        return str(x.get("rest_id")) == str(twid) and not is_tweet_stub(x)
 
     entry = find_obj(res, lambda x: x.get("entryId") == f"tweet-{twid}")
-    return find_obj(res, by_id) or find_obj(entry, by_type)
+    item = find_obj(entry, lambda x: isinstance(x.get("tweet_results"), dict))
+    result = item["tweet_results"].get("result") if item else None
+    unavailable = isinstance(result, dict) and result.get("__typename") in TWEET_UNAVAILABLE
+    return result if result and not unavailable else find_obj(res, by_id)
 
 
 def parse_tweet(rep: Response, twid: int) -> Tweet | None:
@@ -1346,15 +1351,19 @@ def parse_tweet(rep: Response, twid: int) -> Tweet | None:
     # https://github.com/vladkens/twscrape/issues/348
     res = rep if isinstance(rep, dict) else rep.json()
     obj, errors = to_old_rep_partial(res)
-    x = obj["tweets"].get(str(twid))
-    raw = x or _find_raw_tweet(res, twid)
+    raw = _find_raw_tweet(res, twid)
     if raw is None:
         return None  # tombstone or not found
 
     try:
+        # A broken object inside the target, like its quoted tweet, is a broken target
+        for y, e in errors:
+            if find_obj(raw, lambda x, y=y: x is y):
+                raise e
+
+        x = obj["tweets"].get(str(twid))
         if x is None:
-            # no error means to_old_rep skipped it, like a tweet without the legacy key
-            raise next((e for y, e in errors if y is raw), ValueError("tweet not normalized"))
+            raise ValueError(f"Unexpected tweet result: {raw!r:.100}")
 
         return Tweet.parse(x, obj)
     except Exception as e:
