@@ -1097,6 +1097,29 @@ def test_unavailable_single_object_returns_none(data, parse):
     assert parse({"data": data}) is None
 
 
+@pytest.mark.parametrize("name, key, field, parse", SINGLE_PARSERS.values(), ids=SINGLE_PARSERS)
+@pytest.mark.parametrize("data", [lambda key: None, lambda key: {key: None}])
+def test_single_object_null_parent_returns_none(data, name, key, field, parse):
+    assert parse({"data": data(key)}) is None
+    assert parse({"data": {key: {"result": None}}}) is None
+
+
+@pytest.mark.parametrize("name, key, field, parse", SINGLE_PARSERS.values(), ids=SINGLE_PARSERS)
+@pytest.mark.parametrize(
+    "data",
+    [lambda key: ["broken"], lambda key: {key: ["broken"]}, lambda key: {key: {"result": ["x"]}}],
+)
+def test_single_object_non_object_raises(monkeypatch, data, name, key, field, parse):
+    dumps = []
+    monkeypatch.setattr(models, "_write_dump", lambda *args: dumps.append(args))
+
+    with pytest.raises(ParseError, match="Failed to parse") as exc:
+        parse({"data": data(key)})
+
+    assert isinstance(exc.value.__cause__, AttributeError)
+    assert len(dumps) == 1
+
+
 def test_trend_parse_failure_raises(monkeypatch):
     def fail(*args):
         raise ValueError("broken trend")

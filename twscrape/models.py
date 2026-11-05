@@ -1405,13 +1405,19 @@ def parse_trend(rep: Response) -> Trend | None:
     return None
 
 
+def _get_result(res: dict, key: str) -> Any:
+    # A null level is an empty result like a missing one: X sent no object to parse
+    return ((res.get("data") or {}).get(key) or {}).get("result")
+
+
 def parse_about(rep: Response | dict) -> AccountAbout | None:
     res = rep if isinstance(rep, dict) else rep.json()
-    obj = get_or(res, "data.user_result_by_screen_name.result")
-    if not obj or obj.get("__typename") == "UserUnavailable":
-        return None  # not found or unavailable
-
+    obj: Any = None
     try:
+        obj = _get_result(res, "user_result_by_screen_name")
+        if not obj or obj.get("__typename") == "UserUnavailable":
+            return None  # not found or unavailable
+
         if obj.get("__typename", "User") != "User":
             raise ValueError(f"Unexpected __typename: {obj['__typename']}")
 
@@ -1423,11 +1429,12 @@ def parse_about(rep: Response | dict) -> AccountAbout | None:
 
 def parse_community(rep: Response | dict) -> Community | None:
     res = rep if isinstance(rep, dict) else rep.json()
-    obj = get_or(res, "data.communityResults.result")
-    if not obj or obj.get("__typename") == "CommunityUnavailable":
-        return None  # not found or unavailable
-
+    obj: Any = None
     try:
+        obj = _get_result(res, "communityResults")
+        if not obj or obj.get("__typename") == "CommunityUnavailable":
+            return None  # not found or unavailable
+
         if obj.get("__typename", "Community") != "Community":
             raise ValueError(f"Unexpected __typename: {obj['__typename']}")
 
