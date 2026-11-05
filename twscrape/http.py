@@ -150,6 +150,11 @@ class CurlClient(HttpClient):
         safe_headers = {
             k: v for k, v in (headers or {}).items() if k.lower() not in _PROFILE_HEADERS
         }
+
+        # libcurl resolves socks5:// hosts locally, httpx left that to the proxy
+        if proxy and proxy.startswith("socks5://"):
+            proxy = proxy.replace("socks5://", "socks5h://", 1)
+
         self._session = AsyncSession(
             impersonate=cast(BrowserTypeLiteral, family),
             proxy=proxy,

@@ -115,3 +115,24 @@ async def test_saved_httpx_headers_do_not_override_the_browser_profile():
     assert sent["accept-encoding"] != "gzip, deflate"
     assert "keep-alive" not in sent["connection"]
     assert "Chrome" in sent["user-agent"]
+
+
+async def test_socks5_proxy_resolves_hosts_on_the_proxy():
+    seen = {}
+
+    async def socks(rd: asyncio.StreamReader, wr: asyncio.StreamWriter):
+        methods = (await rd.readexactly(2))[1]
+        await rd.readexactly(methods)
+        wr.write(b"\x05\x00")
+
+        _, _, _, seen["atyp"] = await rd.readexactly(4)
+        wr.close()
+
+    srv = await asyncio.start_server(socks, "127.0.0.1", 0)
+    client = CurlClient(proxy=f"socks5://127.0.0.1:{srv.sockets[0].getsockname()[1]}")
+    with pytest.raises(NetworkError):
+        await client.get("http://x.com/")
+    await client.aclose()
+    srv.close()
+
+    assert seen["atyp"] == 3  # domain name, 1 would be an IPv4 resolved locally
