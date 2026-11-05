@@ -541,10 +541,34 @@ class Tweet(JSONTrait):
 @dataclass
 class MediaPhoto(JSONTrait):
     url: str
+    # t.co link X puts in the tweet text for the media, distinct from `url` (the image file)
+    shortUrl: str | None = None
+    id: int | None = None
+    id_str: str | None = None
+    # tweet and author the media comes from, when the tweet reuses another tweet's media
+    sourceTweetId: int | None = None
+    sourceTweetIdStr: str | None = None
+    sourceUserId: int | None = None
+    sourceUserIdStr: str | None = None
+    altText: str | None = None
+    width: int | None = None
+    height: int | None = None
 
     @staticmethod
     def parse(obj: dict):
-        return MediaPhoto(url=obj["media_url_https"])
+        return MediaPhoto(
+            url=obj["media_url_https"],
+            shortUrl=obj.get("url"),
+            id=int_or(obj, "id_str"),
+            id_str=obj.get("id_str"),
+            sourceTweetId=int_or(obj, "source_status_id_str"),
+            sourceTweetIdStr=obj.get("source_status_id_str"),
+            sourceUserId=int_or(obj, "source_user_id_str"),
+            sourceUserIdStr=obj.get("source_user_id_str"),
+            altText=obj.get("ext_alt_text"),
+            width=int_or(obj, "original_info.width"),
+            height=int_or(obj, "original_info.height"),
+        )
 
 
 @dataclass
@@ -553,6 +577,16 @@ class MediaVideo(JSONTrait):
     variants: list["MediaVideoVariant"]
     duration: int
     views: int | None = None
+    shortUrl: str | None = None
+    id: int | None = None
+    id_str: str | None = None
+    sourceTweetId: int | None = None
+    sourceTweetIdStr: str | None = None
+    sourceUserId: int | None = None
+    sourceUserIdStr: str | None = None
+    altText: str | None = None
+    width: int | None = None
+    height: int | None = None
 
     @staticmethod
     def parse(obj: dict):
@@ -563,6 +597,16 @@ class MediaVideo(JSONTrait):
             ],
             duration=obj["video_info"]["duration_millis"],
             views=int_or(obj, "mediaStats.viewCount"),
+            shortUrl=obj.get("url"),
+            id=int_or(obj, "id_str"),
+            id_str=obj.get("id_str"),
+            sourceTweetId=int_or(obj, "source_status_id_str"),
+            sourceTweetIdStr=obj.get("source_status_id_str"),
+            sourceUserId=int_or(obj, "source_user_id_str"),
+            sourceUserIdStr=obj.get("source_user_id_str"),
+            altText=obj.get("ext_alt_text"),
+            width=int_or(obj, "original_info.width"),
+            height=int_or(obj, "original_info.height"),
         )
 
 
@@ -570,6 +614,16 @@ class MediaVideo(JSONTrait):
 class MediaAnimated(JSONTrait):
     thumbnailUrl: str
     videoUrl: str
+    shortUrl: str | None = None
+    id: int | None = None
+    id_str: str | None = None
+    sourceTweetId: int | None = None
+    sourceTweetIdStr: str | None = None
+    sourceUserId: int | None = None
+    sourceUserIdStr: str | None = None
+    altText: str | None = None
+    width: int | None = None
+    height: int | None = None
 
     @staticmethod
     def parse(obj: dict):
@@ -577,6 +631,16 @@ class MediaAnimated(JSONTrait):
             return MediaAnimated(
                 thumbnailUrl=obj["media_url_https"],
                 videoUrl=obj["video_info"]["variants"][0]["url"],
+                shortUrl=obj.get("url"),
+                id=int_or(obj, "id_str"),
+                id_str=obj.get("id_str"),
+                sourceTweetId=int_or(obj, "source_status_id_str"),
+                sourceTweetIdStr=obj.get("source_status_id_str"),
+                sourceUserId=int_or(obj, "source_user_id_str"),
+                sourceUserIdStr=obj.get("source_user_id_str"),
+                altText=obj.get("ext_alt_text"),
+                width=int_or(obj, "original_info.width"),
+                height=int_or(obj, "original_info.height"),
             )
         except KeyError:
             return None

@@ -1,5 +1,6 @@
 import json
 import os
+import re
 from collections import defaultdict
 from datetime import datetime, timezone
 from typing import Any, Callable, cast
@@ -13,6 +14,9 @@ from twscrape.models import (
     AudiospaceCard,
     BroadcastCard,
     LiveEventCard,
+    MediaAnimated,
+    MediaPhoto,
+    MediaVideo,
     MessageMeCard,
     PeriscopeBroadcastCard,
     PollCard,
@@ -171,6 +175,9 @@ def check_tweet(doc: Tweet | None):
                 assert v.bitrate is not None
                 assert v.contentType is not None
 
+    for x in [*doc.media.photos, *doc.media.videos, *doc.media.animated]:
+        check_media(x)
+
     if doc.retweetedTweet is not None:
         try:
             assert doc.rawContent.endswith(doc.retweetedTweet.rawContent), "content should be full"
@@ -214,6 +221,34 @@ def check_user(doc: User):
     txt = doc.json()
     assert isinstance(txt, str)
     assert str(doc.id) in txt
+
+
+def check_media(doc: MediaPhoto | MediaVideo | MediaAnimated):
+    assert doc.shortUrl is None or re.fullmatch(r"https://t\.co/[A-Za-z0-9]+", doc.shortUrl)
+    assert isinstance(doc.id, int)
+    assert str(doc.id) == doc.id_str
+
+    # X sends the source tweet and its author together, or neither
+    assert (doc.sourceTweetId is None) == (doc.sourceUserId is None)
+    if doc.sourceTweetId is not None:
+        assert str(doc.sourceTweetId) == doc.sourceTweetIdStr
+        assert str(doc.sourceUserId) == doc.sourceUserIdStr
+    else:
+        assert doc.sourceTweetIdStr is None
+        assert doc.sourceUserIdStr is None
+
+    assert doc.altText is None or isinstance(doc.altText, str)
+
+    # X sends both dimensions together, or neither
+    assert (doc.width is None) == (doc.height is None)
+    if doc.width is not None and doc.height is not None:
+        assert doc.width > 0 and doc.height > 0
+
+
+def collect_tweets(doc: Tweet | None) -> list[Tweet]:
+    if doc is None:
+        return []
+    return [doc, *collect_tweets(doc.retweetedTweet), *collect_tweets(doc.quotedTweet)]
 
 
 def collect_tweet_users(doc: Tweet | None):
@@ -573,6 +608,103 @@ async def test_tweet_with_video():
         doc = await api.tweet_details(twid)
         assert doc is not None
         check_tweet(doc)
+
+
+def test_media_reused_from_another_tweet():
+    # the author pasted another tweet's video URL: X names that tweet and its author
+    tweets = {x.id: x for x in parse_tweets(fake_rep("manual_tweet_with_video_1").json())}
+    video = tweets[1671508600538161153].media.videos[0]
+    assert video.shortUrl == "https://t.co/XnC1A3Uk3J"
+    assert video.id == 1668857866328100864
+    assert video.id_str == "1668857866328100864"
+    assert video.sourceTweetId == 1669691294183043074
+    assert video.sourceTweetIdStr == "1669691294183043074"
+    assert video.sourceUserId == 1433745612537741318
+    assert video.sourceUserIdStr == "1433745612537741318"
+    assert video.altText is None
+    assert (video.width, video.height) == (1080, 1920)
+
+
+@pytest.mark.parametrize(
+    "fixture, twid, kind, media_id, short_url, size",
+    [
+        (
+            "manual_tweet_with_video_1",
+            1671885256914518017,
+            "photos",
+            1671885208583548935,
+            "https://t.co/BlksXCHXiM",
+            (455, 674),
+        ),
+        (
+            "manual_tweet_with_video_2",
+            1671753569412820992,
+            "videos",
+            1671753482821328896,
+            "https://t.co/1FyrDMxt16",
+            (720, 720),
+        ),
+    ],
+)
+def test_media_own_upload(fixture, twid, kind, media_id, short_url, size):
+    tweets = {x.id: x for x in parse_tweets(fake_rep(fixture).json())}
+    media = getattr(tweets[twid].media, kind)[0]
+    assert media.shortUrl == short_url
+    assert media.id == media_id
+    assert media.id_str == str(media_id)
+    assert media.sourceTweetId is None
+    assert media.sourceTweetIdStr is None
+    assert media.sourceUserId is None
+    assert media.sourceUserIdStr is None
+    assert media.altText is None
+    assert (media.width, media.height) == size
+
+
+@pytest.mark.parametrize(
+    "fixture, kind, attr",
+    [
+        ("raw_list_timeline", "photos", "sourceTweetId"),
+        ("raw_user_tweets", "videos", "sourceTweetId"),
+        ("raw_tweet_details", "animated", "altText"),
+        ("raw_user_media", "animated", "altText"),
+    ],
+)
+def test_media_field_coverage(fixture, kind, attr):
+    tweets = [x for t in parse_tweets(fake_rep(fixture).json()) for x in collect_tweets(t)]
+    medias = [x for t in tweets for x in getattr(t.media, kind)]
+    for x in medias:
+        check_media(x)
+    assert any(getattr(x, attr) for x in medias)
+
+
+def recorded_media():
+    # every media of every recorded tweet, with its tweet and the tweet's raw legacy object
+    items = []
+    for name in sorted(os.listdir(DATA_DIR)):
+        raw = fake_rep(name).json()
+        objs = to_old_rep(raw)["tweets"]
+        for doc in (x for t in parse_tweets(raw) for x in collect_tweets(t)):
+            for x in [*doc.media.photos, *doc.media.videos, *doc.media.animated]:
+                items.append((objs[doc.id_str], doc, x))
+    assert len(items) > 0
+    return items
+
+
+def test_media_short_url_in_tweet_text():
+    # X appends the media's t.co to the legacy text; a long tweet's rawContent is its note text,
+    # which carries no attachment link
+    for obj, doc, x in recorded_media():
+        assert x.shortUrl is not None
+        assert x.shortUrl in obj["full_text"]
+        if "note_tweet" not in obj:
+            assert x.shortUrl in doc.rawContent
+
+
+def test_media_dimensions_on_every_recorded_media():
+    for _, _, x in recorded_media():
+        check_media(x)
+        assert x.width is not None
+        assert x.height is not None
 
 
 async def test_issue_28():
