@@ -391,3 +391,7 @@ twscrape collects anonymous, aggregated telemetry about used GraphQL operation n
 - [twitter-advanced-search](https://github.com/igorbrigadir/twitter-advanced-search) - guide on search filters
 - [TweeterPy](https://github.com/iSarabjitDhiman/TweeterPy) - another X client
 - [twitter-api-client](https://github.com/trevorhobenshield/twitter-api-client) - implementation of Twitter's v1, v2, and GraphQL APIs
+
+## Contributing
+
+Pull requests are welcome, including ones made with agents: point yours at [agents.md](https://github.com/vladkens/twscrape/blob/main/agents.md).
