@@ -1,6 +1,7 @@
 """CurlClient against real curl_cffi objects: what MockClient can't catch."""
 
 import asyncio
+import base64
 import json
 from unittest.mock import mock_open, patch
 from urllib.parse import parse_qs, urlparse
@@ -323,3 +324,31 @@ async def test_telemetry_failure_never_reaches_the_user(monkeypatch):
     await telemetry.flush()
 
     assert telemetry.snapshot() == []
+
+
+async def test_proxy_credentials_are_url_decoded():
+    async with local_server() as srv:
+        client = CurlClient(proxy=f"http://user:p%40ss@127.0.0.1:{srv.port}")
+        await client.get("http://x.com/")
+        await client.aclose()
+
+    auth = srv.seen[0].headers["proxy-authorization"].split()[1]
+    assert base64.b64decode(auth) == b"user:p@ss"
+
+
+async def test_cancelled_request_leaves_the_client_closable():
+    # xclid cancels the bundle downloads it no longer needs, then closes the client
+    async def hang(*_):
+        await asyncio.sleep(5)
+
+    srv = await asyncio.start_server(hang, "127.0.0.1", 0)
+    client = CurlClient()
+    task = asyncio.create_task(client.get(f"http://127.0.0.1:{srv.sockets[0].getsockname()[1]}/"))
+    await asyncio.sleep(0.05)
+
+    task.cancel()
+    with pytest.raises(asyncio.CancelledError):
+        await task
+
+    await client.aclose()
+    srv.close()
