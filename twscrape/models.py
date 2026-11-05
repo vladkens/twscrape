@@ -423,7 +423,11 @@ class Tweet(JSONTrait):
     media: "Media"
     viewCount: int | None = None
     retweetedTweet: Optional["Tweet"] = None
+    retweetedTweetId: int | None = None
+    retweetedTweetIdStr: str | None = None
     quotedTweet: Optional["Tweet"] = None
+    quotedTweetId: int | None = None
+    quotedTweetIdStr: str | None = None
     place: Place | None = None
     coordinates: Coordinates | None = None
     inReplyToTweetId: int | None = None
@@ -464,8 +468,11 @@ class Tweet(JSONTrait):
         # author: flat user used when the tweet's own author has no profile in the response
         tw_usr = User.parse(_get_tweet_user_obj(obj, res, author))
 
-        rt_obj = get_or(res, f"tweets.{_first(obj, RT_ID_PATH)}")
-        qt_obj = get_or(res, f"tweets.{_first(obj, QT_ID_PATH)}")
+        # kept even when the nested tweet is absent from the response
+        rt_id = _first(obj, RT_ID_PATH)
+        qt_id = _first(obj, QT_ID_PATH)
+        rt_obj = get_or(res, f"tweets.{rt_id}")
+        qt_obj = get_or(res, f"tweets.{qt_id}")
 
         # x.com/i/status/{id} serves any tweet, for a placeholder author without username
         url = f"https://x.com/{tw_usr.username or 'i'}/status/{obj['id_str']}"
@@ -494,9 +501,13 @@ class Tweet(JSONTrait):
             retweetedTweet=Tweet.parse(rt_obj, res, _referenced_author(obj, rt_obj))
             if rt_obj
             else None,
+            retweetedTweetId=int(rt_id) if rt_id is not None else None,
+            retweetedTweetIdStr=rt_id,
             quotedTweet=Tweet.parse(qt_obj, res, _referenced_author(obj, qt_obj))
             if qt_obj
             else None,
+            quotedTweetId=int(qt_id) if qt_id is not None else None,
+            quotedTweetIdStr=qt_id,
             place=Place.parse(obj["place"]) if obj.get("place") else None,
             coordinates=Coordinates.parse(obj),
             inReplyToTweetId=int_or(obj, "in_reply_to_status_id_str"),

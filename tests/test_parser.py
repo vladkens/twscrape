@@ -119,6 +119,22 @@ def check_tweet(doc: Tweet | None):
         assert isinstance(doc.inReplyToTweetIdStr, str)
         assert str(doc.inReplyToTweetId) == doc.inReplyToTweetIdStr
 
+    if doc.retweetedTweetId is not None:
+        assert isinstance(doc.retweetedTweetId, int)
+        assert isinstance(doc.retweetedTweetIdStr, str)
+        assert str(doc.retweetedTweetId) == doc.retweetedTweetIdStr
+
+    if doc.retweetedTweet is not None:
+        assert doc.retweetedTweetId == doc.retweetedTweet.id
+
+    if doc.quotedTweetId is not None:
+        assert isinstance(doc.quotedTweetId, int)
+        assert isinstance(doc.quotedTweetIdStr, str)
+        assert str(doc.quotedTweetId) == doc.quotedTweetIdStr
+
+    if doc.quotedTweet is not None:
+        assert doc.quotedTweetId == doc.quotedTweet.id
+
     if doc.inReplyToUser:
         check_user_ref(doc.inReplyToUser)
 
@@ -574,6 +590,8 @@ async def test_issue_28():
     assert doc.retweetedTweet.viewCount is not None
     assert doc.viewCount is not None  # views should come from retweetedTweet
     assert doc.viewCount == doc.retweetedTweet.viewCount
+    assert doc.retweetedTweetId == 1658407192859492355
+    assert doc.retweetedTweetIdStr == "1658407192859492355"
     check_tweet(doc.retweetedTweet)
 
     mock_rep(api.tweet_details_raw, "_issue_28_2")
@@ -585,6 +603,8 @@ async def test_issue_28():
 
     assert doc.quotedTweet is not None
     assert doc.quotedTweet.id != doc.id
+    assert doc.quotedTweetId == 1658407192859492355
+    assert doc.quotedTweetIdStr == "1658407192859492355"
     check_tweet(doc.quotedTweet)
     assert doc.quotedTweet.viewCount is not None
 
@@ -613,6 +633,52 @@ def test_retweet_not_duplicated():
     assert all(t.id != original_id for t in tweets), (
         f"retweetedTweet {original_id} leaked as a standalone top-level item"
     )
+
+
+@pytest.mark.parametrize(
+    "fixture, twid, quoted_id",
+    [
+        # Real TweetDetail responses: X sends the quoted ID with a TweetTombstone (account
+        # gone) or a TweetUnavailable in place of the quoted tweet
+        ("_quote_of_tombstone", 1553061790468161538, 1552999455422664704),
+        ("_quote_of_unavailable", 1864361260982083963, 1864142818312171743),
+    ],
+)
+def test_quote_of_unavailable_tweet_keeps_quoted_id(fixture, twid, quoted_id):
+    doc = parse_tweet(fake_rep(fixture).json(), twid)
+    assert doc is not None
+    check_tweet(doc)
+    assert doc.isQuoteStatus
+    assert doc.quotedTweet is None
+    assert doc.quotedTweetId == quoted_id
+    assert doc.quotedTweetIdStr == str(quoted_id)
+    assert doc.retweetedTweetId is None
+
+
+def test_retweet_with_visibility_results_id():
+    # Real TweetDetail response: the retweeted tweet is a TweetWithVisibilityResults, its ID
+    # under retweeted_status_result.result.tweet.rest_id
+    doc = parse_tweet(fake_rep("_retweet_with_visibility_results").json(), 1686409496019562496)
+    assert doc is not None
+    check_tweet(doc)
+    assert doc.retweetedTweet is not None
+    assert doc.retweetedTweetId == 1686408294095577090
+    assert doc.retweetedTweetIdStr == "1686408294095577090"
+
+
+def test_retweet_of_quote_ids():
+    # The wrapper of a retweet of a quote also carries the quoted ID of the original
+    tweets = {x.id: x for x in parse_tweets(fake_rep("_issue_315").json())}
+    doc = tweets[2075724225273323678]
+    check_tweet(doc)
+
+    rt = doc.retweetedTweet
+    assert rt is not None
+    assert doc.retweetedTweetId == rt.id == 2075723878333141097
+    assert rt.quotedTweetId == 2075716337603907695
+    assert doc.quotedTweetId == rt.quotedTweetId
+    assert doc.quotedTweet is not None
+    assert doc.quotedTweet.id == rt.quotedTweetId
 
 
 async def test_issue_56():
