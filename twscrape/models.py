@@ -1395,10 +1395,13 @@ def parse_trend(rep: Response) -> Trend | None:
 def parse_about(rep: Response | dict) -> AccountAbout | None:
     res = rep if isinstance(rep, dict) else rep.json()
     obj = get_or(res, "data.user_result_by_screen_name.result")
-    if not obj or obj.get("__typename", "User") != "User":
-        return None  # not found or UserUnavailable
+    if not obj or obj.get("__typename") == "UserUnavailable":
+        return None  # not found or unavailable
 
     try:
+        if obj.get("__typename", "User") != "User":
+            raise ValueError(f"Unexpected __typename: {obj['__typename']}")
+
         return AccountAbout.parse(obj)
     except Exception as e:
         _write_dump("about", e, obj, res)
@@ -1408,10 +1411,13 @@ def parse_about(rep: Response | dict) -> AccountAbout | None:
 def parse_community(rep: Response | dict) -> Community | None:
     res = rep if isinstance(rep, dict) else rep.json()
     obj = get_or(res, "data.communityResults.result")
-    if not obj or obj.get("__typename", "Community") != "Community":
+    if not obj or obj.get("__typename") == "CommunityUnavailable":
         return None  # not found or unavailable
 
     try:
+        if obj.get("__typename", "Community") != "Community":
+            raise ValueError(f"Unexpected __typename: {obj['__typename']}")
+
         return Community.parse(obj)
     except Exception as e:
         _write_dump("community", e, obj, res)

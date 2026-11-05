@@ -978,15 +978,37 @@ def test_single_object_parse_failure_raises(name, key, field, parse):
         parse(raw)
 
 
+@pytest.mark.parametrize("name, key, field, parse", SINGLE_PARSERS.values(), ids=SINGLE_PARSERS)
+def test_single_object_unknown_typename_raises(monkeypatch, name, key, field, parse):
+    dumps = []
+    monkeypatch.setattr(models, "_write_dump", lambda *args: dumps.append(args))
+
+    raw = fake_rep(name).json()
+    raw["data"][key]["result"]["__typename"] = "SomethingNew"
+    with pytest.raises(ParseError, match="SomethingNew") as exc:
+        parse(raw)
+
+    assert isinstance(exc.value.__cause__, ValueError)
+    assert len(dumps) == 1
+
+
+SUSPENDED_USER = {"__typename": "UserUnavailable", "unavailable_reason": "Suspended"}
+UNKNOWN_COMMUNITY = {"__typename": "CommunityUnavailable", "reason": "Unavailable"}
+
+
 @pytest.mark.parametrize(
-    "key, typename, parse",
+    "data, parse",
     [
-        ("user_result_by_screen_name", "UserUnavailable", parse_about),
-        ("communityResults", "CommunityUnavailable", parse_community),
+        ({}, parse_about),  # missing or deactivated account
+        ({"user_result_by_screen_name": {}}, parse_about),
+        ({"user_result_by_screen_name": {"id": "1", "result": SUSPENDED_USER}}, parse_about),
+        ({}, parse_community),
+        ({"communityResults": {}}, parse_community),
+        ({"communityResults": {"id": "1", "result": UNKNOWN_COMMUNITY}}, parse_community),
     ],
 )
-def test_unavailable_single_object_returns_none(key, typename, parse):
-    assert parse({"data": {key: {"result": {"__typename": typename}}}}) is None
+def test_unavailable_single_object_returns_none(data, parse):
+    assert parse({"data": data}) is None
 
 
 def test_trend_parse_failure_raises(monkeypatch):
