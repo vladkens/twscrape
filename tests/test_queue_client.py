@@ -254,6 +254,7 @@ async def test_queue_client_passes_effective_proxy_to_xclid(pool_mock: AccountsP
         cookies="auth_token=token1; ct0=csrf1",
     )
     await pool_mock.set_active("user1", True)
+    await pool_mock.set_verified_phone("user1", True)
 
     client = QueueClient(pool_mock, "SearchTimeline")
     await client.__aenter__()
@@ -1026,6 +1027,155 @@ async def test_404_refreshes_generator_and_retries(client_fixture: CF, monkeypat
     await client.__aexit__(None, None, None)
 
 
+# --- Verified phone ---
+
+VIEWER_REP = {"data": {"viewer": {"user_results": {"result": {"rest_id": "111"}}}}}
+
+
+def phone_rep(value: bool) -> dict:
+    return {"data": {"user_phone_state": {"has_verified_phone": value}}}
+
+
+async def test_unknown_phone_is_checked_before_search(client_fixture: CF):
+    pool, client, mock = client_fixture
+    await pool.set_verified_phone("user1", None)
+    mock.add_response(json=VIEWER_REP)  # no twid cookie: the account ID comes from Viewer
+    mock.add_response(json=phone_rep(True))
+    mock.add_response(json={"ok": True})
+
+    rep = await client.get(URL)
+
+    assert rep is not None
+    assert getattr(rep, "__username", None) == "user1"
+    assert (await pool.get("user1")).has_verified_phone is True
+    urls = [x[1] for x in mock.requests]
+    assert urls[0].endswith("/Viewer")
+    assert urls[1].endswith("/ProfileUserPhoneState")
+    assert json.loads(mock.requests[1][2]["params"]["variables"]) == {"userId": "111"}
+    assert urls[2] == URL
+    await client.__aexit__(None, None, None)
+
+
+async def test_phone_check_takes_account_id_from_twid_cookie(client_fixture: CF):
+    pool, client, mock = client_fixture
+    await pool.add_account_cookies("user1", "auth_token=token1; ct0=csrf1; twid=u%3D222")
+    await pool.set_verified_phone("user1", None)
+    mock.add_response(json=phone_rep(True))
+    mock.add_response(json={"ok": True})
+
+    await client.get(URL)
+
+    assert mock.requests[0][1].endswith("/ProfileUserPhoneState")
+    assert json.loads(mock.requests[0][2]["params"]["variables"]) == {"userId": "222"}
+    await client.__aexit__(None, None, None)
+
+
+async def test_account_without_phone_is_released_and_next_used(client_fixture: CF):
+    pool, client, mock = client_fixture
+    await pool.set_verified_phone("user1", None)
+    mock.add_response(json=VIEWER_REP)
+    mock.add_response(json=phone_rep(False))
+    mock.add_response(json={"ok": True})
+
+    rep = await client.get(URL)
+
+    assert rep is not None
+    assert getattr(rep, "__username", None) == "user2"
+    user1 = await pool.get("user1")
+    assert user1.has_verified_phone is False
+    assert "SearchTimeline" not in user1.locks
+    await client.__aexit__(None, None, None)
+
+
+async def test_failed_phone_check_keeps_account_locked_and_uses_next(client_fixture: CF):
+    # released, the unchecked account would be picked again first, in a loop
+    pool, client, mock = client_fixture
+    await pool.set_verified_phone("user1", None)
+    mock.add_response(status_code=500, json={})
+    mock.add_response(json={"ok": True})
+
+    rep = await client.get(URL)
+
+    assert rep is not None
+    assert getattr(rep, "__username", None) == "user2"
+    user1 = await pool.get("user1")
+    assert user1.has_verified_phone is None
+    assert user1.locks["SearchTimeline"] > utc.now()
+    await client.__aexit__(None, None, None)
+
+
+async def test_phone_check_retries_connect_error(client_fixture: CF, monkeypatch):
+    pool, client, mock = client_fixture
+    sleeps = []
+
+    async def fake_sleep(secs):
+        sleeps.append(secs)
+
+    monkeypatch.setattr("twscrape.queue_client.asyncio.sleep", fake_sleep)
+    await pool.set_verified_phone("user1", None)
+    mock.add_exception(ConnectError("Failed to connect to x.com"))
+    mock.add_response(json=VIEWER_REP)
+    mock.add_response(json=phone_rep(True))
+    mock.add_response(json={"ok": True})
+
+    rep = await client.get(URL)
+
+    assert rep is not None
+    assert getattr(rep, "__username", None) == "user1"
+    assert (await pool.get("user1")).has_verified_phone is True
+    assert sleeps == [2]
+    await client.__aexit__(None, None, None)
+
+
+async def test_phone_check_gives_up_after_3_connect_errors(client_fixture: CF, monkeypatch):
+    pool, client, mock = client_fixture
+    sleeps = []
+
+    async def fake_sleep(secs):
+        sleeps.append(secs)
+
+    monkeypatch.setattr("twscrape.queue_client.asyncio.sleep", fake_sleep)
+    await pool.set_verified_phone("user1", None)
+    for _ in range(3):
+        mock.add_exception(ConnectError("Failed to connect to x.com"))
+    mock.add_response(json={"ok": True})
+
+    rep = await client.get(URL)
+
+    assert rep is not None
+    assert getattr(rep, "__username", None) == "user2"
+    assert (await pool.get("user1")).has_verified_phone is None
+    assert sleeps == [2, 4]
+    # the 3 attempts were the phone check's, not the search's
+    assert [x[1].split("/")[-1] for x in mock.requests] == ["Viewer"] * 3 + ["api"]
+    await client.__aexit__(None, None, None)
+
+
+async def test_no_account_with_phone_stops_with_error(client_fixture: CF, monkeypatch):
+    pool, client, mock = client_fixture
+    for x in ("user1", "user2"):
+        await pool.set_verified_phone(x, False)
+    errors = []
+    monkeypatch.setattr("twscrape.accounts_pool.logger.error", errors.append)
+
+    assert await client.get(URL) is None
+    assert errors == ["No active account with a verified phone, needed for SearchTimeline"]
+    assert mock.requests == []
+
+
+async def test_phone_not_checked_on_other_queues(client_fixture: CF):
+    pool, _, mock = client_fixture
+    await pool.set_verified_phone("user1", None)
+    mock.add_response(json={"ok": True})
+
+    async with QueueClient(pool, "UserTweets") as client:
+        rep = await client.get(URL)
+
+    assert rep is not None
+    assert [x[1] for x in mock.requests] == [URL]
+    assert (await pool.get("user1")).has_verified_phone is None
+
+
 async def test_xclid_store_reuses_username_across_proxies_and_refreshes(monkeypatch):
     created = []
 
@@ -1100,6 +1250,7 @@ async def test_queue_client_passes_account_cookies_to_xclid(pool_mock: AccountsP
         cookies='{"auth_token": "abc", "ct0": "def"}',
     )
     await pool_mock.set_active("user1", True)
+    await pool_mock.set_verified_phone("user1", True)
 
     client = QueueClient(pool_mock, "SearchTimeline")
     await client.__aenter__()
@@ -1132,6 +1283,8 @@ async def test_missing_required_cookies_deactivates_and_rotates(
         "email_pass2",
         cookies="auth_token=token2; ct0=csrf2",
     )
+    for x in ("user1", "user2"):
+        await pool_mock.set_verified_phone(x, True)
     mock.add_response(json={"ok": True})
 
     client = QueueClient(pool_mock, "SearchTimeline")
@@ -1157,6 +1310,7 @@ async def test_xclid_account_error_locks_queue_and_rotates(pool_mock: AccountsPo
             f"email_pass{index}",
             cookies=f"auth_token=token{index}; ct0=csrf{index}",
         )
+        await pool_mock.set_verified_phone(f"user{index}", True)
 
     original_get = XClIdGenStore.get.__func__
 
@@ -1192,6 +1346,7 @@ async def test_xclid_parse_error_aborts_without_account_state_change(
         proxy="http://secret:password@127.0.0.1:7897",
         cookies="auth_token=token1; ct0=csrf1",
     )
+    await pool_mock.set_verified_phone("user1", True)
     messages = []
 
     async def fake_get(cls, username, proxy=None, cookies=None, fresh=False):

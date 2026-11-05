@@ -8,7 +8,7 @@ from urllib.parse import urlparse
 
 from . import telemetry
 from .account import Account, has_required_cookies
-from .accounts_pool import AccountsPool
+from .accounts_pool import PHONE_REQUIRED_QUEUES, AccountsPool
 from .http import (
     ConnectError,
     HttpClient,
@@ -19,7 +19,7 @@ from .http import (
     format_error,
 )
 from .logger import LogOnce, logger
-from .utils import utc
+from .utils import encode_params, utc
 from .xclid import XClIdAccountError, XClIdGen, XClIdParseError
 
 ReqParams = dict[str, str | int] | None
@@ -120,6 +120,54 @@ class Ctx:
         raise AbortReqError(
             "Failed to get XClIdGen. See: https://github.com/vladkens/twscrape/issues/248"
         )
+
+
+# Viewer flags as the web client sends them
+VIEWER_FEATURES = [
+    "subscriptions_upsells_api_enabled",
+    "profile_label_improvements_pcf_label_in_post_enabled",
+    "responsive_web_profile_redirect_enabled",
+    "rweb_tipjar_consumption_enabled",
+    "verified_phone_label_enabled",
+    "creator_subscriptions_tweet_preview_api_enabled",
+    "responsive_web_graphql_timeline_navigation_enabled",
+]
+VIEWER_TOGGLES = ["isDelegate", "withPayments", "withDmBlocks", "withAuxiliaryUserLabels"]
+
+
+async def check_verified_phone(ctx: Ctx, pool: AccountsPool) -> bool | None:
+    """Fetch and store the account's phone state; None if the check failed (nothing stored)."""
+    from .api import GQL_URL, OP_ProfileUserPhoneState, OP_Viewer  # api imports this module
+
+    async def get(op: str, params: dict) -> Response:
+        # transport errors are retried on the same account, as in QueueClient.req
+        while True:
+            try:
+                return await ctx.req("GET", f"{GQL_URL}/{op}", params=encode_params(params))
+            except (NetworkError, ConnectError):
+                if not await ctx.retry(FailKind.TRANSPORT):
+                    raise
+
+    try:
+        uid = ctx.acc.user_id
+        if uid is None:  # account added without the twid cookie
+            params = {
+                "variables": {},
+                "features": dict.fromkeys(VIEWER_FEATURES, True),
+                "fieldToggles": dict.fromkeys(VIEWER_TOGGLES, True),
+            }
+            rep = await get(OP_Viewer, params)
+            uid = rep.json()["data"]["viewer"]["user_results"]["result"]["rest_id"]
+
+        rep = await get(OP_ProfileUserPhoneState, {"variables": {"userId": uid}, "features": {}})
+        value = bool(rep.json()["data"]["user_phone_state"]["has_verified_phone"])
+    except Exception as e:
+        logger.warning(f"Phone check failed for {ctx.acc.username}: {format_error(e)}")
+        return None
+
+    ctx.fails = dict.fromkeys(ctx.fails, 0)  # the request that follows gets its own budget
+    await pool.set_verified_phone(ctx.acc.username, value)
+    return value
 
 
 def req_id(rep: Response):
@@ -243,13 +291,26 @@ class QueueClient:
         if self.ctx:
             return self.ctx
 
-        acc = await self.pool.get_for_queue_or_wait(self.queue)
-        if acc is None:
-            return None
+        while True:
+            acc = await self.pool.get_for_queue_or_wait(self.queue)
+            if acc is None:
+                return None
 
-        clt = acc.make_client(proxy=self.proxy)
-        self.ctx = Ctx(acc, clt, proxy=acc.resolve_proxy(self.proxy))
-        return self.ctx
+            clt = acc.make_client(proxy=self.proxy)
+            ctx = Ctx(acc, clt, proxy=acc.resolve_proxy(self.proxy))
+            if self.queue in PHONE_REQUIRED_QUEUES and acc.has_verified_phone is None:
+                phone = await check_verified_phone(ctx, self.pool)
+                if not phone:
+                    await ctx.aclose()
+                    # failed check (None): the account keeps the lock it got when picked, or
+                    # it would be picked first again; without a phone, the filter skips it
+                    if phone is False:
+                        logger.info(f"Account {acc.username} has no verified phone: {self.queue}")
+                        await self.pool.unlock(acc.username, self.queue)
+                    continue
+
+            self.ctx = ctx
+            return self.ctx
 
     def _format_ctx_error(self, ctx: Ctx, error: Exception | str) -> str:
         message = format_error(error) if isinstance(error, Exception) else error

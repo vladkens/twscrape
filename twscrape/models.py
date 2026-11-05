@@ -1269,7 +1269,7 @@ ParsedItem = TypeVar("ParsedItem", Tweet, User, Trend)
 
 
 def _parse_items(
-    rep: Response,
+    rep: Response | dict,
     kind: str,
     parser: Callable[[dict, dict], ParsedItem],
     limit: int = -1,
@@ -1328,7 +1328,7 @@ def parse_tweet(rep: Response, twid: int) -> Tweet | None:
         return None
 
 
-def parse_user(rep: Response) -> User | None:
+def parse_user(rep: Response | dict) -> User | None:
     # Propagate parsing failures instead of treating them as missing users:
     # https://github.com/vladkens/twscrape/issues/346
     errors: list[Exception] = []
@@ -1345,6 +1345,13 @@ def parse_user(rep: Response) -> User | None:
             raise UserParseError(f"Failed to parse user {user.get('rest_id', '')}")
 
     return None
+
+
+def parse_users_by_ids(rep: Response | dict) -> list[User | None]:
+    # UsersByRestIds answers one entry per requested ID, in request order, each shaped as
+    # UserByRestId's data.user: {} when not found, UserUnavailable when suspended or deactivated
+    res = rep if isinstance(rep, dict) else rep.json()
+    return [parse_user({"data": {"user": x}}) for x in get_or(res, "data.users", [])]
 
 
 def parse_trend(rep: Response) -> Trend | None:

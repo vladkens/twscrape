@@ -31,6 +31,26 @@ def test_reactivate_command(tmp_path, monkeypatch):
         assert account.error_msg is None
 
 
+def test_check_phone_command(tmp_path, monkeypatch, capsys):
+    calls = []
+
+    async def mock_check(self, usernames=None):
+        calls.append(usernames)
+        return {"user1": True, "user2": None}
+
+    monkeypatch.setenv("TWS_TELEMETRY", "0")
+    monkeypatch.setattr(cli.API, "check_verified_phone", mock_check)
+    argv = ["twscrape", "--db", str(tmp_path / "accounts.db"), "check_phone", "user1", "user2"]
+    monkeypatch.setattr(cli.sys, "argv", argv)
+
+    cli.run()
+
+    assert calls == [["user1", "user2"]]
+    lines = [x.split() for x in capsys.readouterr().out.strip().split("\n")]
+    assert lines[0] == ["username", "verified_phone"]
+    assert lines[1:] == [["user1", "1"], ["user2", "None"]]
+
+
 @pytest.mark.parametrize(
     "error",
     [
@@ -242,6 +262,24 @@ async def test_user_by_login_prints_parsed_user(tmp_path, monkeypatch, capsys):
     doc = json.loads(capsys.readouterr().out.strip())
     assert doc["id"] == 2244994945
     assert doc["username"] == "XDevelopers"
+
+
+def test_users_by_ids_prints_one_line_per_id(tmp_path, monkeypatch, capsys):
+    async def mock_users_by_ids_raw(self, uids, kv=None):
+        assert uids == [44196397, 49074665, 429952163, 68001309]
+        return fake_rep("_users_by_ids_states")
+
+    monkeypatch.setenv("TWS_TELEMETRY", "0")
+    monkeypatch.setattr(cli.API, "users_by_ids_raw", mock_users_by_ids_raw)
+    db_path = str(tmp_path / "accounts.db")
+    ids = ["44196397", "49074665", "429952163", "68001309"]
+    monkeypatch.setattr(cli.sys, "argv", ["twscrape", "--db", db_path, "users_by_ids", *ids])
+
+    cli.run()
+
+    lines = capsys.readouterr().out.strip().split("\n")
+    assert json.loads(lines[0])["id"] == 44196397
+    assert lines[1:] == [cli.to_str(None)] * 3
 
 
 async def test_tweet_details_raw_prints_raw_json(tmp_path, monkeypatch, capsys):

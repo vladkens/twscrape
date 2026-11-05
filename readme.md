@@ -168,6 +168,7 @@ user_login = "xdevelopers"
 user_id = 2244994945
 
 await api.user_by_id(user_id)  # User
+await api.users_by_ids([user_id, 783214])  # list[User | None], in request order
 await api.user_by_login(user_login)  # User
 await api.user_about(user_login)  # AccountAbout
 await gather(api.following(user_id, limit=20))  # list[User]
@@ -217,9 +218,9 @@ A failed request raises instead of looking like an empty result:
 - `AbortReqError` when twscrape gives up on a request, for example on an HTML block page, including `GqlFeaturesOutdatedError` when X requires GraphQL features twscrape can't enable
 - `ApiError`, its subclass, when X answers with errors and no data; a busy or timed-out X (`LoadShed`, `DeadlineExceeded`) is retried a few times first
 - `XClIdParseError` when the X client transaction ID can't be generated
-- `UserParseError` when `user_by_id()` or `user_by_login()` gets a user twscrape can't parse
+- `UserParseError` when `user_by_id()`, `users_by_ids()` or `user_by_login()` gets a user twscrape can't parse
 
-A paginated method raises on the page that failed, after yielding the earlier pages. `None` from `user_by_id()` or `user_by_login()` means X has no such user (or no account was available and `raise_when_no_account` is off). In the CLI, a failed request exits with code 1 without a traceback.
+A paginated method raises on the page that failed, after yielding the earlier pages. `None` from `user_by_id()` or `user_by_login()`, or in place of a user in the `users_by_ids()` list, means X has no such user (or, as the whole result, that no account was available and `raise_when_no_account` is off). In the CLI, a failed request exits with code 1 without a traceback.
 
 ## CLI
 
@@ -237,6 +238,7 @@ twscrape tweet_replies TWEET_ID --limit=20
 twscrape tweet_thread TWEET_ID --limit=20
 twscrape retweeters TWEET_ID --limit=20
 twscrape user_by_id USER_ID
+twscrape users_by_ids USER_ID [USER_ID ...]
 twscrape user_by_login USERNAME
 twscrape user_about USERNAME
 twscrape user_media USER_ID --limit=20
@@ -319,16 +321,19 @@ twscrape reactivate user1 user2
 twscrape reset_locks
 twscrape delete_inactive
 twscrape del_accounts user1 user2
+twscrape check_phone
 ```
 
 `twscrape accounts` prints the current account state:
 
 ```text
-username  logged_in  active  last_used            total_req  error_msg
-user1     True       True    2023-05-20 03:20:40  100        None
-user2     True       True    2023-05-20 03:25:45  120        None
-user3     False      False   None                 120        Login error
+username  logged_in  active  last_used            total_req  verified_phone  error_msg
+user1     True       True    2023-05-20 03:20:40  100        True            None
+user2     True       True    2023-05-20 03:25:45  120        None            None
+user3     False      False   None                 120        False           Login error
 ```
+
+Some endpoints, such as `SearchTimeline`, can't be accessed with an account without a verified phone.
 
 ## Limits
 
