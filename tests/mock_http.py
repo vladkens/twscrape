@@ -27,6 +27,7 @@ class MockClient(HttpClient):
         self._queue: list = []
         self._cookies: dict = {}
         self._headers: dict = {}
+        self.requests: list[tuple[str, str, dict]] = []  # (method, url, kwargs) in order
 
     def add_response(
         self,
@@ -58,6 +59,7 @@ class MockClient(HttpClient):
         return self._headers
 
     async def request(self, method: HttpMethod, url: str, **kwargs) -> Response:
+        self.requests.append((method, url, kwargs))
         if not self._queue:
             raise RuntimeError("MockClient: no more queued responses")
         item = self._queue.pop(0)

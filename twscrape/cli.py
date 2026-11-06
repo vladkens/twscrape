@@ -125,6 +125,11 @@ async def main(args):
         await pool.reactivate(args.usernames)
         return
 
+    if args.command == "check_phone":
+        res = await api.check_verified_phone(args.usernames or None)
+        print_table([{"username": k, "verified_phone": v} for k, v in res.items()])
+        return
+
     fn = args.command + "_raw" if args.raw else args.command
     fn = getattr(api, fn, None)
     if fn is None:
@@ -217,6 +222,9 @@ def run():
 
     reactivate = subparsers.add_parser("reactivate", help="Mark accounts with a session active")
     reactivate.add_argument("usernames", nargs="+", default=[], help="Usernames to reactivate")
+
+    check_phone = subparsers.add_parser("check_phone", help="Check accounts for a verified phone")
+    check_phone.add_argument("usernames", nargs="*", default=[], help="Usernames (all active)")
 
     c_lim("search", "Search for tweets", "query", "Search query")
     c_one("tweet_details", "Get tweet details", "tweet_id", "Tweet ID", int)

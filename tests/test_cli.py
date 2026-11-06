@@ -31,6 +31,26 @@ def test_reactivate_command(tmp_path, monkeypatch):
         assert account.error_msg is None
 
 
+def test_check_phone_command(tmp_path, monkeypatch, capsys):
+    calls = []
+
+    async def mock_check(self, usernames=None):
+        calls.append(usernames)
+        return {"user1": True, "user2": None}
+
+    monkeypatch.setenv("TWS_TELEMETRY", "0")
+    monkeypatch.setattr(cli.API, "check_verified_phone", mock_check)
+    argv = ["twscrape", "--db", str(tmp_path / "accounts.db"), "check_phone", "user1", "user2"]
+    monkeypatch.setattr(cli.sys, "argv", argv)
+
+    cli.run()
+
+    assert calls == [["user1", "user2"]]
+    lines = [x.split() for x in capsys.readouterr().out.strip().split("\n")]
+    assert lines[0] == ["username", "verified_phone"]
+    assert lines[1:] == [["user1", "1"], ["user2", "None"]]
+
+
 @pytest.mark.parametrize(
     "error",
     [

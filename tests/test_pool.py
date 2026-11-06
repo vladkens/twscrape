@@ -1,3 +1,5 @@
+import sqlite3
+
 import pytest
 
 from twscrape.accounts_pool import AccountsPool, NoAccountError
@@ -133,6 +135,66 @@ async def test_get_for_queue(pool_mock: AccountsPool):
     # should return None
     acc = await pool_mock.get_for_queue(Q)
     assert acc is None
+
+
+async def test_verified_phone_is_stored(pool_mock: AccountsPool):
+    await pool_mock.add_account("user1", "pass1", "email1", "email_pass1")
+    assert (await pool_mock.get("user1")).has_verified_phone is None
+
+    await pool_mock.set_verified_phone("user1", False)
+    assert (await pool_mock.get("user1")).has_verified_phone is False
+
+    await pool_mock.set_verified_phone("user1", True)
+    assert (await pool_mock.get("user1")).has_verified_phone is True
+
+
+async def test_migration_adds_unknown_phone_state(tmp_path):
+    # a database created before the phone state existed (schema v4)
+    db_path = tmp_path / "v4.db"
+    with sqlite3.connect(db_path) as db:
+        db.execute("""
+        CREATE TABLE accounts (
+            username TEXT PRIMARY KEY NOT NULL COLLATE NOCASE,
+            password TEXT NOT NULL,
+            email TEXT NOT NULL COLLATE NOCASE,
+            email_password TEXT NOT NULL,
+            user_agent TEXT NOT NULL,
+            active BOOLEAN DEFAULT FALSE NOT NULL,
+            locks TEXT DEFAULT '{}' NOT NULL,
+            headers TEXT DEFAULT '{}' NOT NULL,
+            cookies TEXT DEFAULT '{}' NOT NULL,
+            proxy TEXT DEFAULT NULL,
+            error_msg TEXT DEFAULT NULL,
+            stats TEXT DEFAULT '{}' NOT NULL,
+            last_used TEXT DEFAULT NULL,
+            _tx TEXT DEFAULT NULL,
+            mfa_code TEXT DEFAULT NULL
+        )""")
+        db.execute(
+            "INSERT INTO accounts (username, password, email, email_password, user_agent)"
+            " VALUES ('user1', 'p', 'e', 'ep', '@chrome')"
+        )
+        db.execute("PRAGMA user_version = 4")
+
+    acc = await AccountsPool(db_path).get("user1")
+    assert acc.has_verified_phone is None
+
+
+async def test_get_for_queue_skips_accounts_without_phone_on_search(pool_mock: AccountsPool):
+    for name, phone in [("user1", False), ("user2", None), ("user3", True)]:
+        await pool_mock.add_account(name, "pass", "email", "email_pass")
+        await pool_mock.set_active(name, True)
+        if phone is not None:
+            await pool_mock.set_verified_phone(name, phone)
+
+    # an unknown phone state is not excluded: it gets checked when the account is used
+    picked = [await pool_mock.get_for_queue("SearchTimeline") for _ in range(3)]
+    assert [x.username if x else None for x in picked] == ["user2", "user3", None]
+
+    # other queues don't care about the phone
+    acc = await pool_mock.get_for_queue("UserTweets")
+    assert acc is not None
+    assert acc.username == "user1"
 
 
 async def test_account_unlock(pool_mock: AccountsPool):
@@ -322,6 +384,28 @@ async def test_get_for_queue_or_wait_raises_when_flag_set(pool_mock: AccountsPoo
         await pool.get_for_queue_or_wait("TestQueue")
 
 
+async def test_get_for_queue_or_wait_raises_without_phone_account(pool_mock: AccountsPool):
+    pool = AccountsPool(pool_mock._db_file, raise_when_no_account=True)
+    await pool.add_account("user1", "pass1", "email1", "ep1")
+    await pool.set_active("user1", True)
+    await pool.set_verified_phone("user1", False)
+
+    with pytest.raises(NoAccountError, match="verified phone, needed for SearchTimeline"):
+        await pool.get_for_queue_or_wait("SearchTimeline")
+
+    # other queues still use the account
+    assert await pool.get_for_queue_or_wait("UserTweets") is not None
+
+
+async def test_next_available_at_ignores_accounts_without_phone(pool_mock: AccountsPool):
+    await pool_mock.add_account("user1", "pass1", "email1", "ep1")
+    await pool_mock.set_active("user1", True)
+    await pool_mock.set_verified_phone("user1", False)
+    await pool_mock.lock_until("user1", "SearchTimeline", utc.ts() + 3600)
+
+    assert await pool_mock.next_available_at("SearchTimeline") is None
+
+
 async def test_get_for_queue_or_wait_raises_via_env(pool_mock: AccountsPool, monkeypatch):
     monkeypatch.setenv("TWS_RAISE_WHEN_NO_ACCOUNT", "1")
     with pytest.raises(NoAccountError):
@@ -390,6 +474,16 @@ async def test_accounts_info_active_first(pool_mock: AccountsPool):
     assert items[0]["active"] is True
     assert items[1]["username"] == "user_b"
     assert items[1]["active"] is False
+
+
+async def test_accounts_info_shows_phone_state(pool_mock: AccountsPool):
+    await pool_mock.add_account("user_a", "pass", "email", "ep")
+    await pool_mock.add_account("user_b", "pass", "email", "ep")
+    await pool_mock.set_verified_phone("user_a", False)
+
+    items = {x["username"]: x for x in await pool_mock.accounts_info()}
+    assert items["user_a"]["verified_phone"] is False
+    assert items["user_b"]["verified_phone"] is None
 
 
 async def test_load_from_file(pool_mock: AccountsPool, tmp_path):

@@ -17,6 +17,10 @@ class NoAccountError(Exception):
     pass
 
 
+# Queues refused for accounts without a verified phone
+PHONE_REQUIRED_QUEUES = {"SearchTimeline"}
+
+
 class AccountInfo(TypedDict):
     username: str
     login_method: str
@@ -24,6 +28,7 @@ class AccountInfo(TypedDict):
     active: bool
     last_used: datetime | None
     total_req: int
+    verified_phone: bool | None
     error_msg: str | None
 
 
@@ -260,6 +265,10 @@ class AccountsPool:
         qs = "UPDATE accounts SET active = :active WHERE username = :username"
         await execute(self._db_file, qs, {"username": username, "active": active})
 
+    async def set_verified_phone(self, username: str, value: bool | None):
+        qs = "UPDATE accounts SET has_verified_phone = :value WHERE username = :username"
+        await execute(self._db_file, qs, {"username": username, "value": value})
+
     async def lock_until(self, username: str, queue: str, unlock_at: int, req_count=0):
         qs = f"""
         UPDATE accounts SET
@@ -309,10 +318,14 @@ class AccountsPool:
 
         return Account.from_rs(rs) if rs else None
 
+    @staticmethod
+    def _phone_condition(queue: str) -> str:
+        return "AND has_verified_phone IS NOT 0" if queue in PHONE_REQUIRED_QUEUES else ""
+
     async def get_for_queue(self, queue: str) -> Account | None:
         q = f"""
         SELECT username FROM accounts
-        WHERE active = true AND (
+        WHERE active = true {self._phone_condition(queue)} AND (
             locks IS NULL
             OR json_extract(locks, '$.{queue}') IS NULL
             OR json_extract(locks, '$.{queue}') < datetime('now')
@@ -337,8 +350,9 @@ class AccountsPool:
                 "TWS_RAISE_WHEN_NO_ACCOUNT"
             )
 
-            # next_available_at returns None only when no active account exists at all,
-            # in which case waiting is futile. A timestamp means active accounts exist
+            # next_available_at returns None only when no active account exists at all (for
+            # PHONE_REQUIRED_QUEUES: none with a verified or unchecked phone), in which case
+            # waiting is futile. A timestamp means active accounts exist
             # but are all locked right now (in-use or rate-limited).
             nat = await self.next_available_at(queue)
             no_active = not nat
@@ -348,6 +362,12 @@ class AccountsPool:
             elapsed = (utc.now() - start).total_seconds()
             give_up = no_active or self._wait_timeout is None or elapsed >= self._wait_timeout
             if give_up:
+                if no_active and queue in PHONE_REQUIRED_QUEUES:
+                    msg = f"No active account with a verified phone, needed for {queue}"
+                    if raise_no_account:
+                        raise NoAccountError(msg)
+                    logger.error(msg)
+                    return None
                 if raise_no_account:
                     raise NoAccountError(f"No account available for queue {queue}")
                 if no_active:
@@ -368,7 +388,8 @@ class AccountsPool:
         qs = f"""
         SELECT json_extract(locks, '$."{queue}"') as lock_until
         FROM accounts
-        WHERE active = true AND json_extract(locks, '$."{queue}"') IS NOT NULL
+        WHERE active = true {self._phone_condition(queue)}
+            AND json_extract(locks, '$."{queue}"') IS NOT NULL
         ORDER BY lock_until ASC
         LIMIT 1
         """
@@ -453,6 +474,7 @@ class AccountsPool:
                 "active": x.active,
                 "last_used": x.last_used,
                 "total_req": sum(x.stats.values()),
+                "verified_phone": x.has_verified_phone,
                 "error_msg": str(x.error_msg)[0:60],
             }
             items.append(item)
