@@ -1,14 +1,19 @@
-## v0.21.0 – 2026-10-21
+## v0.21.0 – 2026-11-06
 
 ### Breaking Changes
 
 - Failed requests and unparsable users now raise `AbortReqError`, `ApiError`, `XClIdParseError` or `UserParseError` instead of returning `None` or ending iteration early; `None` and empty results now mean X has no data (#347, by @Flaburgan)
+- `tweet_details`, `user_about`, `community_info` and `parse_trend` now raise `ParseError` when the requested object can't be parsed, instead of returning `None`; `UserParseError` is now its subclass, and `user_about` returns `None` for an unavailable user instead of an empty object (#348, #364)
+- Made curl-cffi a required dependency and the default HTTP backend, and removed the `twscrape[curl]` extra; set `TWS_HTTP_BACKEND=httpx` to switch back (#363)
+- With the default backend, `Response.url` is a `str`, `Response.headers` and `Response.request` are curl-cffi objects, `Response.request` can be `None`, and `Account.user_agent` is not sent (#363)
 
 ### Features
 
 - Added `tweet.article` for X Articles, with the full article content in `tweet_details` (#323, by @softrebel)
 - Added parsing for message me, Periscope broadcast, live event, app, promo video and promo image conversation cards, and polls with video (#333, #335, by @Flaburgan)
 - Added `reactivate` CLI command and `AccountsPool.reactivate` to mark accounts with a session active again (#334, by @Flaburgan)
+- Added `retweetedTweetId` and `quotedTweetId` with their string versions to `Tweet`, set even when the referenced tweet is unavailable (#361, by @Flaburgan)
+- Added media metadata to photos, videos and gifs: IDs, alt text, size, short and expanded URLs, and the source tweet and user (#370, by @Flaburgan)
 
 ### Fixes
 
@@ -16,12 +21,21 @@
 - Fixed items yielded twice when they appear on several pages of a paginated call (#332, by @Flaburgan)
 - Fixed tweets being dropped or user profiles being overwritten when X sends an author without a full profile; such tweets now get a placeholder `tweet.user` (#344, #345, #352, #353, by @Flaburgan)
 - Fixed requests failing when X requires GraphQL features twscrape doesn't send yet; they are now enabled and the request is retried (#339, by @niyamvora)
+- Fixed `user_by_id` being blocked by Cloudflare, by using curl-cffi by default (#337, #363)
+- Fixed requests stopping instead of moving to the next account on a 429 or a rate limit error without rate limit headers (#351, #364)
+- Fixed a suspended account stopping the whole request; it's now marked inactive and the next account is used (#211, #364)
+- Fixed `trends` failing for the news, trending and entertainment tabs (#371, by @Many0therFunctions)
+- Fixed the curl-cffi backend sending auth cookies to other hosts, resolving `socks5://` proxy hosts locally, and retrying timeouts (#363)
 
 ### Improvements
 
 - Retried X timeouts (`DeadlineExceeded`) a few times before raising (#347, by @Flaburgan)
 - Reported Cloudflare challenge pages with a clear `XClIdParseError` (#338, by @Matthew-Selvam)
 - Exited with code 1 without a traceback on failed CLI requests
+
+### Maintenance
+
+- Updated GraphQL operation IDs for current X API compatibility
 
 **Full Changelog**: https://github.com/vladkens/twscrape/compare/v0.20.1...v0.21.0
 
