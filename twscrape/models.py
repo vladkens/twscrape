@@ -8,7 +8,7 @@ import sys
 import traceback
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
-from typing import Callable, Generator, Optional, TypeVar, Union, cast
+from typing import Any, Callable, Generator, Optional, TypeVar, Union, cast
 
 from .http import Response
 from .logger import logger
@@ -538,10 +538,10 @@ class Tweet(JSONTrait):
         return doc
 
 
-@dataclass
-class MediaPhoto(JSONTrait):
-    url: str
-    # t.co link X puts in the tweet text for the media, distinct from `url` (the image file)
+@dataclass(kw_only=True)
+class _MediaMeta(JSONTrait):
+    # fields shared by photos, videos and gifs
+    # t.co link X puts in the tweet text for the media, distinct from the media file URL
     shortUrl: str | None = None
     id: int | None = None
     id_str: str | None = None
@@ -555,38 +555,36 @@ class MediaPhoto(JSONTrait):
     height: int | None = None
 
     @staticmethod
-    def parse(obj: dict):
-        return MediaPhoto(
-            url=obj["media_url_https"],
-            shortUrl=obj.get("url"),
-            id=int_or(obj, "id_str"),
-            id_str=obj.get("id_str"),
-            sourceTweetId=int_or(obj, "source_status_id_str"),
-            sourceTweetIdStr=obj.get("source_status_id_str"),
-            sourceUserId=int_or(obj, "source_user_id_str"),
-            sourceUserIdStr=obj.get("source_user_id_str"),
-            altText=obj.get("ext_alt_text"),
-            width=int_or(obj, "original_info.width"),
-            height=int_or(obj, "original_info.height"),
-        )
+    def parse_meta(obj: dict) -> dict[str, Any]:
+        return {
+            "shortUrl": obj.get("url"),
+            "id": int_or(obj, "id_str"),
+            "id_str": obj.get("id_str"),
+            "sourceTweetId": int_or(obj, "source_status_id_str"),
+            "sourceTweetIdStr": obj.get("source_status_id_str"),
+            "sourceUserId": int_or(obj, "source_user_id_str"),
+            "sourceUserIdStr": obj.get("source_user_id_str"),
+            "altText": obj.get("ext_alt_text"),
+            "width": int_or(obj, "original_info.width"),
+            "height": int_or(obj, "original_info.height"),
+        }
 
 
 @dataclass
-class MediaVideo(JSONTrait):
+class MediaPhoto(_MediaMeta):
+    url: str
+
+    @staticmethod
+    def parse(obj: dict):
+        return MediaPhoto(url=obj["media_url_https"], **_MediaMeta.parse_meta(obj))
+
+
+@dataclass
+class MediaVideo(_MediaMeta):
     thumbnailUrl: str
     variants: list["MediaVideoVariant"]
     duration: int
     views: int | None = None
-    shortUrl: str | None = None
-    id: int | None = None
-    id_str: str | None = None
-    sourceTweetId: int | None = None
-    sourceTweetIdStr: str | None = None
-    sourceUserId: int | None = None
-    sourceUserIdStr: str | None = None
-    altText: str | None = None
-    width: int | None = None
-    height: int | None = None
 
     @staticmethod
     def parse(obj: dict):
@@ -597,33 +595,14 @@ class MediaVideo(JSONTrait):
             ],
             duration=obj["video_info"]["duration_millis"],
             views=int_or(obj, "mediaStats.viewCount"),
-            shortUrl=obj.get("url"),
-            id=int_or(obj, "id_str"),
-            id_str=obj.get("id_str"),
-            sourceTweetId=int_or(obj, "source_status_id_str"),
-            sourceTweetIdStr=obj.get("source_status_id_str"),
-            sourceUserId=int_or(obj, "source_user_id_str"),
-            sourceUserIdStr=obj.get("source_user_id_str"),
-            altText=obj.get("ext_alt_text"),
-            width=int_or(obj, "original_info.width"),
-            height=int_or(obj, "original_info.height"),
+            **_MediaMeta.parse_meta(obj),
         )
 
 
 @dataclass
-class MediaAnimated(JSONTrait):
+class MediaAnimated(_MediaMeta):
     thumbnailUrl: str
     videoUrl: str
-    shortUrl: str | None = None
-    id: int | None = None
-    id_str: str | None = None
-    sourceTweetId: int | None = None
-    sourceTweetIdStr: str | None = None
-    sourceUserId: int | None = None
-    sourceUserIdStr: str | None = None
-    altText: str | None = None
-    width: int | None = None
-    height: int | None = None
 
     @staticmethod
     def parse(obj: dict):
@@ -631,16 +610,7 @@ class MediaAnimated(JSONTrait):
             return MediaAnimated(
                 thumbnailUrl=obj["media_url_https"],
                 videoUrl=obj["video_info"]["variants"][0]["url"],
-                shortUrl=obj.get("url"),
-                id=int_or(obj, "id_str"),
-                id_str=obj.get("id_str"),
-                sourceTweetId=int_or(obj, "source_status_id_str"),
-                sourceTweetIdStr=obj.get("source_status_id_str"),
-                sourceUserId=int_or(obj, "source_user_id_str"),
-                sourceUserIdStr=obj.get("source_user_id_str"),
-                altText=obj.get("ext_alt_text"),
-                width=int_or(obj, "original_info.width"),
-                height=int_or(obj, "original_info.height"),
+                **_MediaMeta.parse_meta(obj),
             )
         except KeyError:
             return None

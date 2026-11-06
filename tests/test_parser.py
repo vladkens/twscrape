@@ -663,10 +663,10 @@ def test_media_own_upload(fixture, twid, kind, media_id, short_url, size):
 @pytest.mark.parametrize(
     "fixture, kind, attr",
     [
-        ("raw_list_timeline", "photos", "sourceTweetId"),
-        ("raw_user_tweets", "videos", "sourceTweetId"),
-        ("raw_tweet_details", "animated", "altText"),
-        ("raw_user_media", "animated", "altText"),
+        ("_retweet_with_photo", "photos", "sourceTweetId"),
+        ("manual_tweet_with_video_1", "videos", "sourceTweetId"),
+        ("manual_tweet_with_video_2", "videos", "sourceTweetId"),
+        ("_tweet_with_gif", "animated", "altText"),
     ],
 )
 def test_media_field_coverage(fixture, kind, attr):

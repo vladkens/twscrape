@@ -1,0 +1,386 @@
+{
+  "data": {
+    "threaded_conversation_with_injections_v2": {
+      "instructions": [
+        {
+          "type": "TimelineClearCache"
+        },
+        {
+          "entries": [
+            {
+              "content": {
+                "__typename": "TimelineTimelineModule",
+                "clientEventInfo": {
+                  "component": "tweet",
+                  "details": {
+                    "conversationDetails": {
+                      "conversationSection": "HighQuality"
+                    },
+                    "timelinesDetails": {
+                      "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaFgLBYXAAAAAA=="
+                    }
+                  }
+                },
+                "displayType": "VerticalConversation",
+                "entryType": "TimelineTimelineModule",
+                "items": [
+                  {
+                    "entryId": "conversationthread-1649263296434806785-tweet-1649263296434806785",
+                    "item": {
+                      "clientEventInfo": {
+                        "component": "tweet",
+                        "details": {
+                          "conversationDetails": {
+                            "conversationSection": "HighQuality"
+                          },
+                          "timelinesDetails": {
+                            "controllerData": "DAACDAAEDAABCgABAAAAAAAAAAEKAAIAAAAAAAAAAAoAAwAAAaFgLBYXAAAAAA=="
+                          }
+                        },
+                        "element": "tweet"
+                      },
+                      "itemContent": {
+                        "__typename": "TimelineTweet",
+                        "itemType": "TimelineTweet",
+                        "tweetDisplayType": "Tweet",
+                        "tweet_results": {
+                          "result": {
+                            "__typename": "Tweet",
+                            "core": {
+                              "user_results": {
+                                "result": {
+                                  "__typename": "User",
+                                  "action_counts": {
+                                    "favorites_count": 39377
+                                  },
+                                  "affiliates_highlighted_label": {},
+                                  "avatar": {
+                                    "image_url": "https://pbs.twimg.com/profile_images/1389082761965629442/JhdikLmt_normal.jpg"
+                                  },
+                                  "banner": {
+                                    "image_url": "https://pbs.twimg.com/profile_banners/108209516/1768399372"
+                                  },
+                                  "core": {
+                                    "created_at": "Mon Jan 25 05:56:22 +0000 2010",
+                                    "name": "Amir Shevat",
+                                    "screen_name": "ashevat"
+                                  },
+                                  "follow_request_sent": false,
+                                  "has_graduated_access": true,
+                                  "id": "VXNlcjoxMDgyMDk1MTY=",
+                                  "is_blue_verified": false,
+                                  "location": {
+                                    "location": "Austin"
+                                  },
+                                  "media_permissions": {
+                                    "can_media_tag": true
+                                  },
+                                  "notifications_settings": {
+                                    "notifications_enabled": false
+                                  },
+                                  "pinned_items": {
+                                    "tweet_ids_str": [
+                                      "1603552334231097351"
+                                    ]
+                                  },
+                                  "possibly_sensitive": false,
+                                  "privacy": {
+                                    "protected": false
+                                  },
+                                  "professional": {
+                                    "category": [
+                                      {
+                                        "icon_name": "IconBriefcaseStroke",
+                                        "id": 713,
+                                        "name": "Science & Technology"
+                                      }
+                                    ],
+                                    "professional_type": "Creator",
+                                    "rest_id": "1720112673294057682"
+                                  },
+                                  "profile_bio": {
+                                    "description": "Early Stage Investor. \u23f3 CPO @reshuffleHQ (acquired by @Twitter), VP product Twitch, Slack & Google, Author\ud83d\udcda @OReillyMedia https://t.co/dScSHVU79a",
+                                    "entities": {
+                                      "description": {
+                                        "urls": [
+                                          {
+                                            "display_url": "amazon.com/author/amirshe\u2026",
+                                            "expanded_url": "http://amazon.com/author/amirshevat",
+                                            "indices": [
+                                              122,
+                                              145
+                                            ],
+                                            "url": "https://t.co/dScSHVU79a"
+                                          }
+                                        ]
+                                      },
+                                      "url": {
+                                        "urls": [
+                                          {
+                                            "display_url": "staging.bsky.app/profile/amir.b\u2026",
+                                            "expanded_url": "https://staging.bsky.app/profile/amir.blue",
+                                            "indices": [
+                                              0,
+                                              23
+                                            ],
+                                            "url": "https://t.co/zWtpooqVXO"
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  "profile_description_language": "en",
+                                  "profile_image_shape": "Circle",
+                                  "profile_metadata": {
+                                    "profile_interstitial_type": ""
+                                  },
+                                  "profile_translation": {
+                                    "translator_type": "none"
+                                  },
+                                  "relationship_counts": {
+                                    "followers": 18192,
+                                    "following": 1929
+                                  },
+                                  "relationship_perspectives": {
+                                    "blocked_by": false,
+                                    "blocking": false,
+                                    "followed_by": false,
+                                    "following": false,
+                                    "live_following": false,
+                                    "muting": false
+                                  },
+                                  "rest_id": "108209516",
+                                  "super_follow_eligible": false,
+                                  "super_followed_by": false,
+                                  "super_following": false,
+                                  "tipjar_settings": {},
+                                  "tweet_counts": {
+                                    "media_tweets": 1251,
+                                    "tweets": 9637
+                                  },
+                                  "verification": {
+                                    "verified": false
+                                  },
+                                  "website": {
+                                    "url": "https://t.co/zWtpooqVXO"
+                                  }
+                                }
+                              }
+                            },
+                            "edit_control": {
+                              "edit_tweet_ids": [
+                                "1649263296434806785"
+                              ],
+                              "editable_until_msecs": "1682051786000",
+                              "edits_remaining": "5",
+                              "is_edit_eligible": false
+                            },
+                            "grok_translated_post_with_availability": {
+                              "is_available": false
+                            },
+                            "has_birdwatch_notes": false,
+                            "is_translatable": false,
+                            "legacy": {
+                              "bookmark_count": 0,
+                              "bookmarked": false,
+                              "conversation_id_str": "1649191520250245121",
+                              "created_at": "Fri Apr 21 04:06:26 +0000 2023",
+                              "display_text_range": [
+                                12,
+                                267
+                              ],
+                              "entities": {
+                                "media": [
+                                  {
+                                    "display_url": "pic.x.com/3cSSGEQgiJ",
+                                    "expanded_url": "https://x.com/ashevat/status/1649263296434806785/photo/1",
+                                    "ext_alt_text": "James Franco Omg GIF",
+                                    "ext_media_availability": {
+                                      "status": "Available"
+                                    },
+                                    "id_str": "1649263289954705410",
+                                    "indices": [
+                                      268,
+                                      291
+                                    ],
+                                    "media_key": "16_1649263289954705410",
+                                    "media_results": {
+                                      "result": {
+                                        "media_key": "16_1649263289954705410"
+                                      }
+                                    },
+                                    "media_url_https": "https://pbs.twimg.com/tweet_video_thumb/FuNcOVrXoAIGi0f.jpg",
+                                    "original_info": {
+                                      "focus_rects": [],
+                                      "height": 304,
+                                      "width": 300
+                                    },
+                                    "sizes": {
+                                      "large": {
+                                        "h": 304,
+                                        "resize": "fit",
+                                        "w": 300
+                                      },
+                                      "medium": {
+                                        "h": 304,
+                                        "resize": "fit",
+                                        "w": 300
+                                      },
+                                      "small": {
+                                        "h": 304,
+                                        "resize": "fit",
+                                        "w": 300
+                                      },
+                                      "thumb": {
+                                        "h": 150,
+                                        "resize": "crop",
+                                        "w": 150
+                                      }
+                                    },
+                                    "type": "animated_gif",
+                                    "url": "https://t.co/3cSSGEQgiJ",
+                                    "video_info": {
+                                      "aspect_ratio": [
+                                        75,
+                                        76
+                                      ],
+                                      "variants": [
+                                        {
+                                          "bitrate": 0,
+                                          "content_type": "video/mp4",
+                                          "url": "https://video.twimg.com/tweet_video/FuNcOVrXoAIGi0f.mp4"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ]
+                              },
+                              "extended_entities": {
+                                "media": [
+                                  {
+                                    "display_url": "pic.x.com/3cSSGEQgiJ",
+                                    "expanded_url": "https://x.com/ashevat/status/1649263296434806785/photo/1",
+                                    "ext_alt_text": "James Franco Omg GIF",
+                                    "ext_media_availability": {
+                                      "status": "Available"
+                                    },
+                                    "id_str": "1649263289954705410",
+                                    "indices": [
+                                      268,
+                                      291
+                                    ],
+                                    "media_key": "16_1649263289954705410",
+                                    "media_results": {
+                                      "result": {
+                                        "media_key": "16_1649263289954705410"
+                                      }
+                                    },
+                                    "media_url_https": "https://pbs.twimg.com/tweet_video_thumb/FuNcOVrXoAIGi0f.jpg",
+                                    "original_info": {
+                                      "focus_rects": [],
+                                      "height": 304,
+                                      "width": 300
+                                    },
+                                    "sizes": {
+                                      "large": {
+                                        "h": 304,
+                                        "resize": "fit",
+                                        "w": 300
+                                      },
+                                      "medium": {
+                                        "h": 304,
+                                        "resize": "fit",
+                                        "w": 300
+                                      },
+                                      "small": {
+                                        "h": 304,
+                                        "resize": "fit",
+                                        "w": 300
+                                      },
+                                      "thumb": {
+                                        "h": 150,
+                                        "resize": "crop",
+                                        "w": 150
+                                      }
+                                    },
+                                    "type": "animated_gif",
+                                    "url": "https://t.co/3cSSGEQgiJ",
+                                    "video_info": {
+                                      "aspect_ratio": [
+                                        75,
+                                        76
+                                      ],
+                                      "variants": [
+                                        {
+                                          "bitrate": 0,
+                                          "content_type": "video/mp4",
+                                          "url": "https://video.twimg.com/tweet_video/FuNcOVrXoAIGi0f.mp4"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ]
+                              },
+                              "favorite_count": 72,
+                              "favorited": false,
+                              "full_text": "@TwitterDev What data makes you think developers can afford $40k per month, even if they have a commercial use case? \nYou are assuming developers are making $500k net a year just to beak even. \nDon\u2019t you think this is a little bit taxing on your community innovation? https://t.co/3cSSGEQgiJ",
+                              "id_str": "1649263296434806785",
+                              "in_reply_to_screen_name": "XDevelopers",
+                              "in_reply_to_status_id_str": "1649191520250245121",
+                              "in_reply_to_user_id_str": "2244994945",
+                              "is_quote_status": false,
+                              "lang": "en",
+                              "possibly_sensitive": false,
+                              "possibly_sensitive_editable": true,
+                              "quote_count": 0,
+                              "reply_count": 2,
+                              "retweet_count": 2,
+                              "retweeted": false,
+                              "user_id_str": "108209516"
+                            },
+                            "quick_promote_eligibility": {
+                              "eligibility": "IneligibleTweet"
+                            },
+                            "rest_id": "1649263296434806785",
+                            "unmention_data": {},
+                            "views": {
+                              "count": "7210",
+                              "state": "EnabledWithCount"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "metadata": {
+                  "conversationMetadata": {
+                    "allTweetIds": [
+                      "1649263296434806785"
+                    ],
+                    "enableDeduplication": true
+                  }
+                }
+              },
+              "entryId": "conversationthread-1649263296434806785",
+              "sortIndex": "2113006006706372588"
+            }
+          ],
+          "type": "TimelineAddEntries"
+        },
+        {
+          "direction": "Top",
+          "type": "TimelineTerminateTimeline"
+        }
+      ],
+      "metadata": {
+        "reader_mode_config": {
+          "is_reader_mode_available": true
+        },
+        "scribeConfig": {
+          "page": "ranked_replies"
+        }
+      }
+    }
+  }
+}
