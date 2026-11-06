@@ -23,6 +23,12 @@ def reset_telemetry():
 
 
 @pytest.fixture(autouse=True)
+def mock_distinct_id(monkeypatch):
+    # machineid finds no ID in containers without /etc/machine-id (e.g. Alpine)
+    monkeypatch.setattr(telemetry, "_distinct_id", lambda: "test-distinct-id")
+
+
+@pytest.fixture(autouse=True)
 def no_retry_delay(monkeypatch):
     monkeypatch.setattr(http, "_CURL_RETRY_DELAY", 0)
 
