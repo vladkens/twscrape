@@ -667,11 +667,12 @@ class API:
     # trends
 
     async def trends_raw(self, trend_id: TrendId, limit=-1, kv: KV = None):
+        # padded base64, as ExplorePage returns them: X rejects these ids without padding
         map = {
-            "trending": "VGltZWxpbmU6DAC2CwABAAAACHRyZW5kaW5nAAA",
-            "news": "VGltZWxpbmU6DAC2CwABAAAABG5ld3MAAA",
+            "trending": "VGltZWxpbmU6DAC2CwABAAAACHRyZW5kaW5nAAA=",
+            "news": "VGltZWxpbmU6DAC2CwABAAAABG5ld3MAAA==",
             "sport": "VGltZWxpbmU6DAC2CwABAAAABnNwb3J0cwAA",
-            "entertainment": "VGltZWxpbmU6DAC2CwABAAAADWVudGVydGFpbm1lbnQAAA",
+            "entertainment": "VGltZWxpbmU6DAC2CwABAAAADWVudGVydGFpbm1lbnQAAA==",
         }
         trend_id = map.get(trend_id, trend_id)
 
