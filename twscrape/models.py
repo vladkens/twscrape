@@ -545,17 +545,52 @@ class Tweet(JSONTrait):
         return doc
 
 
+@dataclass(kw_only=True)
+class _MediaMeta(JSONTrait):
+    # fields shared by photos, videos and gifs
+    # t.co link X puts in the tweet text for the media, distinct from the media file URL
+    shortUrl: str | None = None
+    # page the t.co link opens: the media on the tweet that uploaded it
+    expandedUrl: str | None = None
+    id: int | None = None
+    id_str: str | None = None
+    # tweet and author the media comes from, when the tweet reuses another tweet's media
+    sourceTweetId: int | None = None
+    sourceTweetIdStr: str | None = None
+    sourceUserId: int | None = None
+    sourceUserIdStr: str | None = None
+    altText: str | None = None
+    width: int | None = None
+    height: int | None = None
+
+    @staticmethod
+    def parse_meta(obj: dict) -> dict[str, Any]:
+        return {
+            "shortUrl": obj.get("url"),
+            "expandedUrl": obj.get("expanded_url"),
+            "id": int_or(obj, "id_str"),
+            "id_str": obj.get("id_str"),
+            "sourceTweetId": int_or(obj, "source_status_id_str"),
+            "sourceTweetIdStr": obj.get("source_status_id_str"),
+            "sourceUserId": int_or(obj, "source_user_id_str"),
+            "sourceUserIdStr": obj.get("source_user_id_str"),
+            "altText": obj.get("ext_alt_text"),
+            "width": int_or(obj, "original_info.width"),
+            "height": int_or(obj, "original_info.height"),
+        }
+
+
 @dataclass
-class MediaPhoto(JSONTrait):
+class MediaPhoto(_MediaMeta):
     url: str
 
     @staticmethod
     def parse(obj: dict):
-        return MediaPhoto(url=obj["media_url_https"])
+        return MediaPhoto(url=obj["media_url_https"], **_MediaMeta.parse_meta(obj))
 
 
 @dataclass
-class MediaVideo(JSONTrait):
+class MediaVideo(_MediaMeta):
     thumbnailUrl: str
     variants: list["MediaVideoVariant"]
     duration: int
@@ -570,11 +605,12 @@ class MediaVideo(JSONTrait):
             ],
             duration=obj["video_info"]["duration_millis"],
             views=int_or(obj, "mediaStats.viewCount"),
+            **_MediaMeta.parse_meta(obj),
         )
 
 
 @dataclass
-class MediaAnimated(JSONTrait):
+class MediaAnimated(_MediaMeta):
     thumbnailUrl: str
     videoUrl: str
 
@@ -584,6 +620,7 @@ class MediaAnimated(JSONTrait):
             return MediaAnimated(
                 thumbnailUrl=obj["media_url_https"],
                 videoUrl=obj["video_info"]["variants"][0]["url"],
+                **_MediaMeta.parse_meta(obj),
             )
         except KeyError:
             return None
