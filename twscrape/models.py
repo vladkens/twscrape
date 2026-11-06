@@ -543,6 +543,8 @@ class _MediaMeta(JSONTrait):
     # fields shared by photos, videos and gifs
     # t.co link X puts in the tweet text for the media, distinct from the media file URL
     shortUrl: str | None = None
+    # page the t.co link opens: the media on the tweet that uploaded it
+    expandedUrl: str | None = None
     id: int | None = None
     id_str: str | None = None
     # tweet and author the media comes from, when the tweet reuses another tweet's media
@@ -558,6 +560,7 @@ class _MediaMeta(JSONTrait):
     def parse_meta(obj: dict) -> dict[str, Any]:
         return {
             "shortUrl": obj.get("url"),
+            "expandedUrl": obj.get("expanded_url"),
             "id": int_or(obj, "id_str"),
             "id_str": obj.get("id_str"),
             "sourceTweetId": int_or(obj, "source_status_id_str"),

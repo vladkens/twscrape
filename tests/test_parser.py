@@ -225,6 +225,12 @@ def check_user(doc: User):
 
 def check_media(doc: MediaPhoto | MediaVideo | MediaAnimated):
     assert doc.shortUrl is None or re.fullmatch(r"https://t\.co/[A-Za-z0-9]+", doc.shortUrl)
+    assert doc.expandedUrl is None or re.fullmatch(
+        r"https://(twitter|x)\.com/\w+/status/\d+/(photo|video)/\d+", doc.expandedUrl
+    )
+    # a reused media links to the tweet that uploaded it
+    if doc.expandedUrl is not None and doc.sourceTweetId is not None:
+        assert f"/status/{doc.sourceTweetId}/" in doc.expandedUrl
     assert isinstance(doc.id, int)
     assert str(doc.id) == doc.id_str
 
@@ -615,6 +621,9 @@ def test_media_reused_from_another_tweet():
     tweets = {x.id: x for x in parse_tweets(fake_rep("manual_tweet_with_video_1").json())}
     video = tweets[1671508600538161153].media.videos[0]
     assert video.shortUrl == "https://t.co/XnC1A3Uk3J"
+    assert (
+        video.expandedUrl == "https://twitter.com/sz_mediagroup/status/1669691294183043074/video/1"
+    )
     assert video.id == 1668857866328100864
     assert video.id_str == "1668857866328100864"
     assert video.sourceTweetId == 1669691294183043074
@@ -650,6 +659,8 @@ def test_media_own_upload(fixture, twid, kind, media_id, short_url, size):
     tweets = {x.id: x for x in parse_tweets(fake_rep(fixture).json())}
     media = getattr(tweets[twid].media, kind)[0]
     assert media.shortUrl == short_url
+    assert media.expandedUrl is not None
+    assert f"/status/{twid}/" in media.expandedUrl
     assert media.id == media_id
     assert media.id_str == str(media_id)
     assert media.sourceTweetId is None
@@ -703,6 +714,7 @@ def test_media_short_url_in_tweet_text():
 def test_media_dimensions_on_every_recorded_media():
     for _, _, x in recorded_media():
         check_media(x)
+        assert x.expandedUrl is not None
         assert x.width is not None
         assert x.height is not None
 
