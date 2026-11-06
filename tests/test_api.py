@@ -1,3 +1,4 @@
+import base64
 import json
 import os
 from typing import Any
@@ -92,6 +93,26 @@ async def test_gql_params(api_mock: API, monkeypatch):
         # enough distinct results have passed the parser.
         assert args[0][1]["limit"] == -1, f"raw limit not disabled in {func}"
         assert args[0][0][1]["count"] == 100, f"count not changed in {func}"
+
+
+async def test_trends_timeline_ids(api_mock: API, monkeypatch):
+    # X answers an unpadded timelineId with "(-1) Internal server error"
+    sent = []
+
+    def mock_gql_items(*a, **kw):
+        sent.append(a[1]["timelineId"])
+        raise MockedError()
+
+    monkeypatch.setattr(api_mock, "_gql_items", mock_gql_items)
+    tabs = ("trending", "news", "sport", "entertainment")
+    for tab in tabs:
+        with pytest.raises(MockedError):
+            await gather(api_mock.trends(tab))
+
+    for tab, timeline_id in zip(tabs, sent):
+        assert len(timeline_id) % 4 == 0, f"{tab}: {timeline_id} is not padded"
+        decoded = base64.b64decode(timeline_id, validate=True)
+        assert decoded.startswith(b"Timeline:") and tab.encode() in decoded, tab
 
 
 async def test_article_rich_content_only_in_tweet_details(api_mock: API, monkeypatch):

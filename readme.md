@@ -205,7 +205,7 @@ Trends:
 await gather(api.trends("news"))  # list[Trend]
 await gather(api.trends("sport"))  # list[Trend]
 await gather(api.trends("entertainment"))  # list[Trend]
-await gather(api.trends("VGltZWxpbmU6DAC2CwABAAAACHRyZW5kaW5nAAA"))  # list[Trend]
+await gather(api.trends("VGltZWxpbmU6DAC2CwABAAAACHRyZW5kaW5nAAA="))  # list[Trend]
 ```
 
 Parsed `Tweet`, `User`, `Community`, and trend objects can be converted with `.dict()` or `.json()`.
