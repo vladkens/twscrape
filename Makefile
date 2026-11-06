@@ -41,6 +41,7 @@ test-matrix-py:
 	@make test-py v=3.12
 	@make test-py v=3.13
 	@make test-py v=3.14
+	@make test-py v=3.15
 
 test-matrix-sq:
 	@# https://www.sqlite.org/chronology.html https://www.sqlite.org/download.html
