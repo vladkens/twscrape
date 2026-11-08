@@ -559,6 +559,7 @@ class _MediaMeta(JSONTrait):
     sourceTweetIdStr: str | None = None
     sourceUserId: int | None = None
     sourceUserIdStr: str | None = None
+    sourceUsername: str | None = None
     altText: str | None = None
     width: int | None = None
     height: int | None = None
@@ -574,6 +575,7 @@ class _MediaMeta(JSONTrait):
             "sourceTweetIdStr": obj.get("source_status_id_str"),
             "sourceUserId": int_or(obj, "source_user_id_str"),
             "sourceUserIdStr": obj.get("source_user_id_str"),
+            "sourceUsername": get_or(obj, "source_user_results.result.core.screen_name"),
             "altText": obj.get("ext_alt_text"),
             "width": int_or(obj, "original_info.width"),
             "height": int_or(obj, "original_info.height"),
