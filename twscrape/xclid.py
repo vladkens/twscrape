@@ -5,6 +5,7 @@ import math
 import random
 import re
 import time
+from collections.abc import Callable
 from urllib.parse import urljoin
 
 import bs4
@@ -259,11 +260,27 @@ def parse_vk_bytes(soup: bs4.BeautifulSoup) -> list[int]:
 INDICES_FILE_RE = re.compile(r"(?:\.{0,2}/)?[\w./-]*?\b(?:ondemand\.s|sign\.o)[\w.-]*\.js")
 
 
+# Hashed x-web builds (e.g. `assets/Cm5_4wZ7.js`) have no named reference: the
+# signing chunk is a lazily loaded module whose default export is called, and it
+# sits a few static imports below the page entry.
+STATIC_IMPORT_RE = re.compile(r"""\b(?:from|import)\s*(["'`])([\w./-]+\.js)\1""")
+DEFAULT_IMPORT_RE = re.compile(
+    r"""\bimport\(\s*(["'`])([\w./-]+\.js)\1\s*\)\.then\(\s*\(?(\w+)\)?\s*=>\s*\3\.default\(\)"""
+)
+MAX_IMPORT_DEPTH = 2  # static import hops followed from the page scripts
+MAX_IMPORTED_ASSETS = 32  # chunks fetched beyond the page scripts
+
+
 async def _find_indices_url(scripts: list[str], clt: HttpClient) -> str:
     # The indices file (sign.o-*.js) is not linked in the page directly — it is
     # dynamically imported from one of the bundle chunks. Scan chunks
-    # concurrently and resolve the first reference we find, then stop.
+    # concurrently, level by level along static imports: a named reference wins,
+    # else an `import(x).then(m=>m.default())` target holding the indices.
     sem = asyncio.Semaphore(16)
+    loaded, failed, budget = 0, 0, MAX_IMPORTED_ASSETS
+    seen = set(scripts)
+    imports: list[str] = []  # static imports found on the current level
+    candidates: list[str] = []  # `.default()` dynamic imports on the current level
 
     async def fetch(url: str) -> tuple[str, str | None]:
         async with sem:
@@ -275,27 +292,58 @@ async def _find_indices_url(scripts: list[str], clt: HttpClient) -> str:
                 logger.trace(f"XClId asset failed: {format_error(e)} - {url}")
                 return url, None
 
-    tasks = [asyncio.create_task(fetch(u)) for u in scripts]
-    loaded, failed = 0, 0
-    try:
-        for fut in asyncio.as_completed(tasks):
-            url, body = await fut
-            if body is None:
-                failed += 1
-                continue
+    async def scan(urls: list[str], match: Callable[[str, str], str | None]) -> str | None:
+        nonlocal loaded, failed
+        tasks = [asyncio.create_task(fetch(u)) for u in urls]
+        try:
+            for fut in asyncio.as_completed(tasks):
+                url, body = await fut
+                if body is None:
+                    failed += 1
+                    continue
 
-            loaded += 1
-            m = INDICES_FILE_RE.search(body)
-            if m:
-                return urljoin(url, m.group(0))
-    finally:
-        for t in tasks:
-            t.cancel()
-        await asyncio.gather(*tasks, return_exceptions=True)
+                loaded += 1
+                if found := match(url, body):
+                    return found
+        finally:
+            for t in tasks:
+                t.cancel()
+            await asyncio.gather(*tasks, return_exceptions=True)
+        return None
+
+    def take(urls: list[str]) -> list[str]:
+        nonlocal budget
+        urls = [u for u in dict.fromkeys(urls) if u not in seen][:budget]
+        budget -= len(urls)
+        seen.update(urls)
+        return urls
+
+    def is_signing(url: str, body: str) -> str | None:
+        # load_keys needs at least two indices; a single hit is a false positive
+        return url if len(INDICES_REGEX.findall(body)) >= 2 else None
+
+    def named_ref(url: str, body: str) -> str | None:
+        if m := INDICES_FILE_RE.search(body):
+            return urljoin(url, m.group(0))
+        candidates.extend(urljoin(url, m.group(2)) for m in DEFAULT_IMPORT_RE.finditer(body))
+        imports.extend(urljoin(url, m.group(2)) for m in STATIC_IMPORT_RE.finditer(body))
+        return None
+
+    level, depth = list(dict.fromkeys(scripts)), 0
+    while level:
+        imports.clear()
+        candidates.clear()
+        if found := await scan(level, named_ref):
+            return found
+        if found := await scan(take(candidates), is_signing):
+            return found
+
+        depth += 1
+        level = take(imports) if depth <= MAX_IMPORT_DEPTH else []
 
     raise XClIdParseError(
-        f"Signing script not found (assets: {loaded} loaded, {failed} failed). "
-        "Enable TRACE logs for details"
+        f"Signing script not found (assets: {loaded} loaded, {failed} failed) "
+        f"in {depth} import level(s). Enable TRACE logs for details"
     )
 
 
