@@ -1,7 +1,10 @@
+from datetime import datetime, timedelta, timezone
+
 import pytest
 
 from twscrape.accounts_pool import AccountsPool, NoAccountError
 from twscrape.api import API
+from twscrape.db import execute
 from twscrape.utils import utc
 
 
@@ -133,6 +136,93 @@ async def test_get_for_queue(pool_mock: AccountsPool):
     # should return None
     acc = await pool_mock.get_for_queue(Q)
     assert acc is None
+
+
+async def test_get_for_queue_after_saving_expired_lock(pool_mock: AccountsPool):
+    queue = "SearchTimeline"
+    await pool_mock.add_account_cookies("user1", "auth_token=token; ct0=csrf")
+    # An expired lock on the current UTC date exposes the T-vs-space comparison.
+    expired = utc.now().replace(hour=0, minute=0, second=0, microsecond=0)
+    await pool_mock.lock_until("user1", queue, int(expired.timestamp()))
+    account = await pool_mock.get("user1")
+    await pool_mock.save(account)
+
+    stats = await pool_mock.stats()
+    assert stats[f"locked_{queue}"] == 0
+    assert await pool_mock.get_for_queue(queue) is not None
+
+
+@pytest.mark.parametrize("offset_seconds", [-60, 60])
+@pytest.mark.parametrize("timestamp_format", ["sqlite", "iso", "offset_east", "offset_west"])
+async def test_queue_lock_expiration_uses_instant(
+    pool_mock: AccountsPool, offset_seconds: int, timestamp_format: str
+):
+    queue = "SearchTimeline"
+    await pool_mock.add_account_cookies("user1", "auth_token=token; ct0=csrf")
+    deadline = utc.now() + timedelta(seconds=offset_seconds)
+    if timestamp_format == "sqlite":
+        value = deadline.strftime("%Y-%m-%d %H:%M:%S")
+    elif timestamp_format == "offset_east":
+        value = deadline.astimezone(timezone(timedelta(hours=14))).isoformat()
+    elif timestamp_format == "offset_west":
+        value = deadline.astimezone(timezone(-timedelta(hours=12))).isoformat()
+    else:
+        value = deadline.isoformat()
+    # Simulate existing databases containing either lock writer's timestamp format.
+    await execute(
+        pool_mock._db_file,
+        "UPDATE accounts SET locks = json_object(:queue, :deadline) WHERE username = :username",
+        {"queue": queue, "deadline": value, "username": "user1"},
+    )
+
+    stats = await pool_mock.stats()
+    assert stats[f"locked_{queue}"] == int(offset_seconds > 0)
+    account = await pool_mock.get_for_queue(queue)
+    assert (account is None) == (offset_seconds > 0)
+
+
+async def test_get_for_queue_preserves_future_lock_after_save(pool_mock: AccountsPool):
+    queue = "SearchTimeline"
+    await pool_mock.add_account_cookies("user1", "auth_token=token; ct0=csrf")
+    deadline = utc.ts() + 3600
+    await pool_mock.lock_until("user1", queue, deadline)
+    await pool_mock.save(await pool_mock.get("user1"))
+
+    assert (await pool_mock.stats())[f"locked_{queue}"] == 1
+    assert await pool_mock.get_for_queue(queue) is None
+    assert int((await pool_mock.get("user1")).locks[queue].timestamp()) == deadline
+
+
+@pytest.mark.parametrize("offset_hours", [0, 14, -12])
+async def test_next_available_at_orders_mixed_timestamp_formats(
+    pool_mock: AccountsPool, monkeypatch, offset_hours: int
+):
+    queue = "SearchTimeline"
+    now = datetime(2026, 1, 15, 12, tzinfo=timezone.utc)
+    local_now = datetime(2026, 1, 15, 16)
+
+    class Clock:
+        @staticmethod
+        def now():
+            return local_now
+
+    monkeypatch.setattr("twscrape.accounts_pool.datetime", Clock)
+    monkeypatch.setattr(utc, "now", staticmethod(lambda: now))
+    earlier = (now + timedelta(hours=1)).astimezone(timezone(timedelta(hours=offset_hours)))
+    later = now + timedelta(hours=2)
+    await pool_mock.add_account_cookies("earlier", "auth_token=token; ct0=csrf")
+    await pool_mock.add_account_cookies("later", "auth_token=token; ct0=csrf")
+    for username, deadline in (
+        ("earlier", earlier.isoformat()),
+        ("later", later.strftime("%Y-%m-%d %H:%M:%S")),
+    ):
+        await execute(
+            pool_mock._db_file,
+            "UPDATE accounts SET locks = json_object(:queue, :deadline) WHERE username = :username",
+            {"queue": queue, "deadline": deadline, "username": username},
+        )
+
+    assert await pool_mock.next_available_at(queue) == "17:00:00"
 
 
 async def test_account_unlock(pool_mock: AccountsPool):
