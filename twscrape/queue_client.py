@@ -26,11 +26,19 @@ ReqParams = dict[str, str | int] | None
 MISSING_FEATURES_RE = re.compile(r"The following features cannot be null: ([^;]+)")
 TMP_TS = utc.now().isoformat().split(".")[0].replace("T", "_").replace(":", "-")[0:16]
 
+# X answers some accounts on these endpoints with a 404, whatever the transaction ID
+RESTRICTED_QUEUES = {"SearchTimeline"}
+RESTRICTED_LOCK = 24 * 60 * 60
+
 
 class HandledError(Exception): ...
 
 
 class AbortReqError(Exception): ...
+
+
+class Repeated404Error(AbortReqError):
+    """X answered 404 to every x-client-transaction-id tried."""
 
 
 class GqlFeaturesOutdatedError(AbortReqError):
@@ -117,7 +125,7 @@ class Ctx:
             logger.debug(f"Retrying request with new x-client-transaction-id: {url}")
             await asyncio.sleep(1)
 
-        raise AbortReqError(
+        raise Repeated404Error(
             "Failed to get XClIdGen. See: https://github.com/vladkens/twscrape/issues/248"
         )
 
@@ -429,6 +437,24 @@ class QueueClient:
                     f"[DEV] Update required: {self.queue} needs GQL_FEATURES {missing}, "
                     "set true for now. Update GQL_FEATURES in api.py to fix this permanently.",
                 )
+                continue
+            except Repeated404Error as e:
+                if self.queue not in RESTRICTED_QUEUES:
+                    raise
+
+                # the same empty 404 comes from a bad transaction ID: when every active account
+                # gets it, it's more likely broken than every account restricted
+                if await self.pool.others_restricted(self.queue, ctx.acc.username):
+                    await self._close_ctx()
+                    await self.pool.unlock_restricted(self.queue)
+                    raise AbortReqError(
+                        f"404 on {self.queue} with every active account. "
+                        "See: https://github.com/vladkens/twscrape/issues/248"
+                    ) from e
+
+                msg = self._format_ctx_error(ctx, "404 with every transaction ID")
+                logger.warning(f"{msg}; locking account for 24h")
+                await self._close_ctx(utc.ts() + RESTRICTED_LOCK)
                 continue
             except AbortReqError:
                 # abort all queries; raise rather than return None, which callers

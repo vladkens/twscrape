@@ -336,6 +336,8 @@ user3     False      False   None                 120        Login error
 
 Rate limits are tracked per account and per endpoint. When an account is limited for one operation, twscrape locks it for that operation until the reset time and tries another active account.
 
+X refuses `SearchTimeline` to some accounts with a 404. After three 404s in a row, twscrape locks the account for that operation for 24 hours and tries another active account. When every active account gets them, the locks are cleared and the request raises `AbortReqError`. `twscrape reset_locks` clears them too.
+
 `user_tweets` and `user_tweets_and_replies` are limited by X/Twitter to about 3200 tweets.
 
 ## Proxy
