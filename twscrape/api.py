@@ -17,6 +17,7 @@ from .models import (
     parse_tweets,
     parse_user,
     parse_users,
+    parse_users_by_ids,
 )
 from .queue_client import QueueClient
 from .utils import encode_params, find_obj, get_by_path
@@ -46,6 +47,7 @@ OP_UserCreatorSubscriptions = "mdZ9ngiV6niOd2neFHNDSA/UserCreatorSubscriptions"
 OP_UserMedia = "iTSlWbsmD00dAE7Sk9xvIw/UserMedia"
 OP_UserTweets = "D6z-FJI2pKuwEeYYxVIGbg/UserTweets"
 OP_UserTweetsAndReplies = "FmuxExUC21Xn_C2NwtX5sQ/UserTweetsAndReplies"
+OP_UsersByRestIds = "ubfbnAM4qTlMTOYleYhXSg/UsersByRestIds"
 OP_membersSliceTimeline_Query = "woAp_YdzAdqnWDrqLTNpAw/membersSliceTimeline_Query"
 OP_moderatorsSliceTimeline_Query = "0oYT9GRiWUhrz5xoqFE9uw/moderatorsSliceTimeline_Query"
 # GQL_OPS_CODEGEN
@@ -334,6 +336,24 @@ class API:
     async def user_by_id(self, uid: int, kv: KV = None) -> User | None:
         rep = await self.user_by_id_raw(uid, kv=kv)
         return parse_user(rep) if rep else None
+
+    # users_by_ids
+
+    async def users_by_ids_raw(self, uids: list[int], kv: KV = None):
+        op = OP_UsersByRestIds
+        kv = {"userIds": [str(x) for x in uids], **(kv or {})}
+        ft = {  # as the web client sends them
+            "profile_label_improvements_pcf_label_in_post_enabled": True,
+            "responsive_web_profile_redirect_enabled": True,
+            "rweb_tipjar_consumption_enabled": False,
+            "verified_phone_label_enabled": False,
+            "responsive_web_graphql_timeline_navigation_enabled": True,
+        }
+        return await self._gql_item(op, kv, ft)
+
+    async def users_by_ids(self, uids: list[int], kv: KV = None) -> list[User | None] | None:
+        rep = await self.users_by_ids_raw(uids, kv=kv)
+        return parse_users_by_ids(rep) if rep else None
 
     # user_by_login
 
