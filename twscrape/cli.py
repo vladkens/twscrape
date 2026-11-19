@@ -125,6 +125,10 @@ async def main(args):
         await pool.reactivate(args.usernames)
         return
 
+    if args.command == "deactivate":
+        await pool.deactivate(args.usernames)
+        return
+
     fn = args.command + "_raw" if args.raw else args.command
     fn = getattr(api, fn, None)
     if fn is None:
@@ -217,6 +221,9 @@ def run():
 
     reactivate = subparsers.add_parser("reactivate", help="Mark accounts with a session active")
     reactivate.add_argument("usernames", nargs="+", default=[], help="Usernames to reactivate")
+
+    deactivate = subparsers.add_parser("deactivate", help="Mark accounts inactive")
+    deactivate.add_argument("usernames", nargs="+", default=[], help="Usernames to deactivate")
 
     c_lim("search", "Search for tweets", "query", "Search query")
     c_one("tweet_details", "Get tweet details", "tweet_id", "Tweet ID", int)

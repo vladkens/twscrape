@@ -31,6 +31,27 @@ def test_reactivate_command(tmp_path, monkeypatch):
         assert account.error_msg is None
 
 
+def test_deactivate_command(tmp_path, monkeypatch):
+    db_path = tmp_path / "accounts.db"
+    pool = cli.AccountsPool(db_path)
+
+    async def add_active_accounts():
+        for x in ("user1", "user2"):
+            await pool.add_account(x, "pass1", "email1", "ep1", cookies="auth_token=a; ct0=b")
+
+    asyncio.run(add_active_accounts())
+    monkeypatch.setenv("TWS_TELEMETRY", "0")
+    argv = ["twscrape", "--db", str(db_path), "deactivate", "user1", "user2"]
+    monkeypatch.setattr(cli.sys, "argv", argv)
+
+    cli.run()
+
+    for x in ("user1", "user2"):
+        account = asyncio.run(pool.get(x))
+        assert account.active is False
+        assert account.error_msg == "Deactivated manually"
+
+
 @pytest.mark.parametrize(
     "error",
     [
