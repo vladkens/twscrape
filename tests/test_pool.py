@@ -2,6 +2,7 @@ import pytest
 
 from twscrape.accounts_pool import AccountsPool, NoAccountError
 from twscrape.api import API
+from twscrape.db import fetchone
 from twscrape.utils import utc
 
 
@@ -133,6 +134,39 @@ async def test_get_for_queue(pool_mock: AccountsPool):
     # should return None
     acc = await pool_mock.get_for_queue(Q)
     assert acc is None
+
+
+async def test_save_keeps_sqlite_timestamp_format(pool_mock: AccountsPool):
+    queue = "SearchTimeline"
+    await pool_mock.add_account_cookies("user1", "auth_token=token; ct0=csrf")
+    await pool_mock.lock_until("user1", queue, utc.ts() - 60)
+    await pool_mock.save(await pool_mock.get("user1"))
+
+    # Lock queries compare timestamps as strings against datetime('now'): an ISO value
+    # ("T" separator) sorts after any SQLite value of the same date, so it stays locked.
+    qs = f"""
+    SELECT json_extract(locks, '$.{queue}') = datetime(json_extract(locks, '$.{queue}')) AS lock_ok,
+        last_used = datetime(last_used) AS last_used_ok
+    FROM accounts WHERE username = 'user1'
+    """
+    rs = await fetchone(pool_mock._db_file, qs)
+    assert rs is not None
+    assert rs["lock_ok"] == 1
+    assert rs["last_used_ok"] == 1
+    assert (await pool_mock.stats())[f"locked_{queue}"] == 0
+    assert await pool_mock.get_for_queue(queue) is not None
+
+
+async def test_get_for_queue_preserves_future_lock_after_save(pool_mock: AccountsPool):
+    queue = "SearchTimeline"
+    await pool_mock.add_account_cookies("user1", "auth_token=token; ct0=csrf")
+    deadline = utc.ts() + 3600
+    await pool_mock.lock_until("user1", queue, deadline)
+    await pool_mock.save(await pool_mock.get("user1"))
+
+    assert (await pool_mock.stats())[f"locked_{queue}"] == 1
+    assert await pool_mock.get_for_queue(queue) is None
+    assert int((await pool_mock.get("user1")).locks[queue].timestamp()) == deadline
 
 
 async def test_account_unlock(pool_mock: AccountsPool):
