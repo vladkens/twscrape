@@ -246,6 +246,10 @@ def check_media(doc: MediaPhoto | MediaVideo | MediaAnimated):
     else:
         assert doc.sourceTweetIdStr is None
         assert doc.sourceUserIdStr is None
+    # the source author's username comes with the source user, when X sends its profile
+    assert doc.sourceUsername is None or (
+        doc.sourceUserId is not None and re.fullmatch(r"\w+", doc.sourceUsername)
+    )
 
     assert doc.altText is None or isinstance(doc.altText, str)
 
@@ -634,8 +638,19 @@ def test_media_reused_from_another_tweet():
     assert video.sourceTweetIdStr == "1669691294183043074"
     assert video.sourceUserId == 1433745612537741318
     assert video.sourceUserIdStr == "1433745612537741318"
+    # recorded before X sent the source user's profile with the media
+    assert video.sourceUsername is None
     assert video.altText is None
     assert (video.width, video.height) == (1080, 1920)
+
+
+def test_media_reused_source_username():
+    # a retweet's media name the retweeted tweet and its author, with the author's profile
+    tweets = {x.id: x for x in parse_tweets(fake_rep("_retweet_with_photo").json())}
+    photo = tweets[2113002812380520759].media.photos[0]
+    assert photo.sourceTweetIdStr == "2112845768830652490"
+    assert photo.sourceUserIdStr == "1537130875296563200"
+    assert photo.sourceUsername == "JayinKyiv"
 
 
 @pytest.mark.parametrize(
@@ -671,6 +686,7 @@ def test_media_own_upload(fixture, twid, kind, media_id, short_url, size):
     assert media.sourceTweetIdStr is None
     assert media.sourceUserId is None
     assert media.sourceUserIdStr is None
+    assert media.sourceUsername is None
     assert media.altText is None
     assert (media.width, media.height) == size
 
@@ -679,6 +695,7 @@ def test_media_own_upload(fixture, twid, kind, media_id, short_url, size):
     "fixture, kind, attr",
     [
         ("_retweet_with_photo", "photos", "sourceTweetId"),
+        ("_retweet_with_photo", "photos", "sourceUsername"),
         ("manual_tweet_with_video_1", "videos", "sourceTweetId"),
         ("manual_tweet_with_video_2", "videos", "sourceTweetId"),
         ("_tweet_with_gif", "animated", "altText"),
