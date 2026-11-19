@@ -315,7 +315,7 @@ class AccountsPool:
         WHERE active = true AND (
             locks IS NULL
             OR json_extract(locks, '$.{queue}') IS NULL
-            OR julianday(json_extract(locks, '$.{queue}')) < julianday('now')
+            OR json_extract(locks, '$.{queue}') < datetime('now')
         )
         ORDER BY {self._order_by}
         LIMIT 1
@@ -366,7 +366,7 @@ class AccountsPool:
 
     async def next_available_at(self, queue: str):
         qs = f"""
-        SELECT datetime(json_extract(locks, '$."{queue}"')) as lock_until
+        SELECT json_extract(locks, '$."{queue}"') as lock_until
         FROM accounts
         WHERE active = true AND json_extract(locks, '$."{queue}"') IS NOT NULL
         ORDER BY lock_until ASC
@@ -423,7 +423,7 @@ class AccountsPool:
             return f"""
             SELECT COUNT(*) FROM accounts
             WHERE json_extract(locks, '$.{queue}') IS NOT NULL
-                AND julianday(json_extract(locks, '$.{queue}')) > julianday('now')
+                AND json_extract(locks, '$.{queue}') > datetime('now')
             """
 
         qs = "SELECT DISTINCT(f.key) as k from accounts, json_each(locks) f"

@@ -19,6 +19,12 @@ class utc:
         return datetime.fromisoformat(iso).replace(tzinfo=timezone.utc)
 
     @staticmethod
+    def to_sqlite(dt: datetime) -> str:
+        # Same format as SQLite's datetime(), so stored timestamps compare correctly as
+        # strings in SQL. dt is UTC: account datetimes all come from from_iso.
+        return dt.strftime("%Y-%m-%d %H:%M:%S")
+
+    @staticmethod
     def ts() -> int:
         return int(utc.now().timestamp())
 

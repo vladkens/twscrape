@@ -58,11 +58,11 @@ class Account(JSONTrait):
 
     def to_rs(self):
         rs = asdict(self)
-        rs["locks"] = json.dumps(rs["locks"], default=lambda x: x.isoformat())
+        rs["locks"] = json.dumps(rs["locks"], default=utc.to_sqlite)
         rs["stats"] = json.dumps(rs["stats"])
         rs["headers"] = json.dumps(rs["headers"])
         rs["cookies"] = json.dumps(rs["cookies"])
-        rs["last_used"] = rs["last_used"].isoformat() if rs["last_used"] else None
+        rs["last_used"] = utc.to_sqlite(rs["last_used"]) if rs["last_used"] else None
         return rs
 
     def resolve_proxy(self, proxy: str | None = None) -> str | None:
