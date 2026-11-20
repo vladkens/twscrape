@@ -418,6 +418,38 @@ class AccountsPool:
         await execute(self._db_file, qs, params)
         logger.info(f"Reactivated accounts: {', '.join(usernames)}")
 
+    async def deactivate(self, usernames: str | list[str]):
+        usernames = usernames if isinstance(usernames, list) else [usernames]
+        if not usernames:
+            logger.warning("No usernames provided")
+            return
+
+        placeholders, params = self._usernames_where(usernames)
+        qs = f"SELECT * FROM accounts WHERE username IN ({placeholders})"
+        accounts = [Account.from_rs(x) for x in await fetchall(self._db_file, qs, params)]
+        for x in sorted(set(usernames) - {a.username for a in accounts}):
+            logger.warning(f"Account {x} not found")
+
+        # an inactive account keeps its error_msg, the reason it was marked inactive
+        usernames = []
+        for x in accounts:
+            if x.active:
+                usernames.append(x.username)
+            else:
+                logger.warning(f"Account {x.username} is already inactive")
+
+        if not usernames:
+            return
+
+        # error_msg keeps the account out of login_accounts, which logs in accounts without one
+        placeholders, params = self._usernames_where(usernames)
+        qs = f"""
+        UPDATE accounts SET active = false, error_msg = 'Deactivated manually'
+        WHERE username IN ({placeholders})
+        """
+        await execute(self._db_file, qs, params)
+        logger.info(f"Deactivated accounts: {', '.join(usernames)}")
+
     async def stats(self):
         def locks_count(queue: str):
             return f"""
