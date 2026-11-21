@@ -8,7 +8,7 @@ from urllib.parse import urlparse
 
 from . import telemetry
 from .account import Account, has_required_cookies
-from .accounts_pool import AccountsPool
+from .accounts_pool import RESTRICTED_QUEUES, AccountsPool
 from .http import (
     ConnectError,
     HttpClient,
@@ -25,12 +25,18 @@ from .xclid import XClIdAccountError, XClIdGen, XClIdParseError
 ReqParams = dict[str, str | int] | None
 MISSING_FEATURES_RE = re.compile(r"The following features cannot be null: ([^;]+)")
 TMP_TS = utc.now().isoformat().split(".")[0].replace("T", "_").replace(":", "-")[0:16]
+VERIFY_CREDENTIALS_URL = "https://api.x.com/1.1/account/verify_credentials.json"
+UNLISTED_QUEUE_LOCK = 24 * 60 * 60  # suspended account refused on a queue not in RESTRICTED_QUEUES
 
 
 class HandledError(Exception): ...
 
 
 class AbortReqError(Exception): ...
+
+
+class Repeated404Error(AbortReqError):
+    """X answered 404 to every x-client-transaction-id tried."""
 
 
 class GqlFeaturesOutdatedError(AbortReqError):
@@ -95,6 +101,14 @@ class Ctx:
     async def aclose(self):
         await self.clt.aclose()
 
+    async def is_suspended(self) -> bool:
+        """X's own flag for a suspended (read-only) account. Checks the transaction ID too."""
+        gen = await XClIdGenStore.get(self.acc.username, proxy=self.proxy, cookies=self.acc.cookies)
+        path = urlparse(VERIFY_CREDENTIALS_URL).path
+        hdr = {"x-client-transaction-id": gen.calc("GET", path)}
+        rep = await self.clt.request("GET", VERIFY_CREDENTIALS_URL, headers=hdr)
+        return rep.status_code == 200 and rep.json().get("suspended") is True
+
     async def req(self, method: HttpMethod, url: str, params: ReqParams = None) -> Response:
         # if code 404 on first try then generate new x-client-transaction-id and retry
         # https://github.com/vladkens/twscrape/issues/248
@@ -117,7 +131,7 @@ class Ctx:
             logger.debug(f"Retrying request with new x-client-transaction-id: {url}")
             await asyncio.sleep(1)
 
-        raise AbortReqError(
+        raise Repeated404Error(
             "Failed to get XClIdGen. See: https://github.com/vladkens/twscrape/issues/248"
         )
 
@@ -429,6 +443,25 @@ class QueueClient:
                     f"[DEV] Update required: {self.queue} needs GQL_FEATURES {missing}, "
                     "set true for now. Update GQL_FEATURES in api.py to fix this permanently.",
                 )
+                continue
+            except Repeated404Error:
+                # X refuses some endpoints to a suspended account with the same empty 404 as a
+                # bad transaction ID; only verify_credentials tells them apart. A dead session
+                # never gets here: X answers it 401, handled by _check_rep.
+                if not await ctx.is_suspended():
+                    raise
+
+                await self.pool.mark_restricted(ctx.acc.username)
+                msg = self._format_ctx_error(ctx, "404 with every transaction ID")
+                msg = f"{msg}; account suspended by X, marked restricted"
+                if self.queue in RESTRICTED_QUEUES:
+                    logger.warning(msg)
+                    await self._close_ctx()
+                    continue
+
+                # restricted doesn't keep the account off this queue: lock it so it isn't picked again
+                logger.warning(f"{msg}. Report: https://github.com/vladkens/twscrape/issues")
+                await self._close_ctx(utc.ts() + UNLISTED_QUEUE_LOCK)
                 continue
             except AbortReqError:
                 # abort all queries; raise rather than return None, which callers

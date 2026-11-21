@@ -7,13 +7,14 @@ import pytest
 
 import twscrape.queue_client as queue_client_module
 from twscrape.account import Account
-from twscrape.accounts_pool import AccountsPool
+from twscrape.accounts_pool import AccountsPool, NoAccountError
 from twscrape.http import ConnectError, HttpMethod, NetworkError, Response
 from twscrape.queue_client import (
     AbortReqError,
     ApiError,
     GqlFeaturesOutdatedError,
     QueueClient,
+    Repeated404Error,
     ReqParams,
     XClIdGenStore,
 )
@@ -1093,23 +1094,124 @@ async def test_close_ctx_noop_when_ctx_is_none(pool_mock: AccountsPool):
     await client._close_ctx()
 
 
-async def test_404_retries_exhaust_and_abort(client_fixture: CF):
-    from unittest.mock import patch
+async def fake_sleep(_):
+    return None
 
+
+def add_404s(mock: MockClient, count: int):
+    for _ in range(count):
+        mock.add_response(status_code=404, json={})
+
+
+async def get_lock(pool: AccountsPool, username: str, queue="SearchTimeline") -> float:
+    """Seconds until the account's lock on the queue ends, 0 if it has none."""
+    acc = await pool.get(username)
+    assert isinstance(acc, Account)  # get() has no return annotation
+    lock = acc.locks.get(queue)
+    return (lock - utc.now()).total_seconds() if lock else 0
+
+
+async def test_404_retries_exhaust_and_abort(pool_mock: AccountsPool, monkeypatch):
+    mock = MockClient()
+    monkeypatch.setattr(Account, "make_client", lambda self, proxy=None: mock)
+    monkeypatch.setattr("twscrape.queue_client.asyncio.sleep", fake_sleep)
+    for x in ("user1", "user2"):
+        await pool_mock.add_account(x, "pass", "email", "email_pass", cookies="auth_token=t; ct0=c")
+        await pool_mock.set_active(x, True)
+
+    add_404s(mock, 3)
+    mock.add_response(json={"suspended": False})  # verify_credentials
+    async with QueueClient(pool_mock, "UserTweets") as client:
+        with pytest.raises(Repeated404Error, match="XClIdGen"):
+            await client.get(URL)
+
+    assert [await get_lock(pool_mock, x, "UserTweets") for x in ("user1", "user2")] == [0, 0]
+    assert [(await pool_mock.get(x)).restricted for x in ("user1", "user2")] == [False, False]
+
+
+async def test_404_bad_transaction_id_on_verify_credentials_aborts(client_fixture: CF, monkeypatch):
     pool, client, mock = client_fixture
-    await client.__aenter__()
+    monkeypatch.setattr("twscrape.queue_client.asyncio.sleep", fake_sleep)
 
-    mock.add_response(status_code=404, json={})
-    mock.add_response(status_code=404, json={})
-    mock.add_response(status_code=404, json={})
+    add_404s(mock, 3)
+    mock.add_response(
+        status_code=404,
+        json={"errors": [{"message": "Sorry, that page does not exist", "code": 34}]},
+    )
+    async with client:
+        with pytest.raises(Repeated404Error, match="XClIdGen"):
+            await client.get(URL)
 
-    with (
-        patch("twscrape.queue_client.asyncio.sleep"),
-        pytest.raises(AbortReqError, match="XClIdGen"),
-    ):
+    assert (await pool.get("user1")).restricted is False
+
+
+async def test_404_suspended_account_is_restricted_and_switches(client_fixture: CF, monkeypatch):
+    pool, client, mock = client_fixture
+    monkeypatch.setattr("twscrape.queue_client.asyncio.sleep", fake_sleep)
+
+    add_404s(mock, 3)
+    mock.add_response(json={"suspended": True})  # verify_credentials
+    mock.add_response(json={"ok": True})
+    async with client:
+        rep = await client.get(URL)
+        assert rep is not None
+        assert rep.json() == {"ok": True}
+        assert client.ctx is not None and client.ctx.acc.username == "user2"
+
+    assert [(await pool.get(x)).restricted for x in ("user1", "user2")] == [True, False]
+    assert [await get_lock(pool, x) for x in ("user1", "user2")] == [0, 0]
+
+
+async def test_404_suspended_on_unlisted_queue_is_restricted_and_switches(
+    client_fixture: CF, monkeypatch
+):
+    pool, _, mock = client_fixture
+    monkeypatch.setattr("twscrape.queue_client.asyncio.sleep", fake_sleep)
+    messages = []
+    monkeypatch.setattr("twscrape.queue_client.logger.warning", messages.append)
+
+    add_404s(mock, 3)
+    mock.add_response(json={"suspended": True})  # verify_credentials
+    mock.add_response(json={"ok": True})
+    async with QueueClient(pool, "UserTweets") as client:
+        rep = await client.get(URL)
+        assert rep is not None
+        assert client.ctx is not None and client.ctx.acc.username == "user2"
+
+    assert (await pool.get("user1")).restricted is True
+    assert await get_lock(pool, "user1", "UserTweets") > 23 * 3600
+    assert len(messages) == 1
+    assert "marked restricted" in messages[0]
+    assert "queue=UserTweets" in messages[0]
+    assert "Report:" in messages[0]
+
+
+async def test_restricted_account_skipped_on_restricted_queues_only(
+    client_fixture: CF, monkeypatch
+):
+    pool, client, mock = client_fixture
+    await pool.mark_restricted("user1")
+
+    mock.add_response(json={"ok": True})
+    async with client:
         await client.get(URL)
+        assert client.ctx is not None and client.ctx.acc.username == "user2"
 
-    await client.__aexit__(None, None, None)
+    mock.add_response(json={"ok": True})
+    async with QueueClient(pool, "UserTweets") as other:
+        await other.get(URL)
+        assert other.ctx is not None and other.ctx.acc.username == "user1"
+
+
+async def test_every_account_restricted_raises_no_account(client_fixture: CF):
+    pool, client, _ = client_fixture
+    pool._raise_when_no_account = True
+    for x in ("user1", "user2"):
+        await pool.mark_restricted(x)
+
+    with pytest.raises(NoAccountError):
+        async with client:
+            await client.get(URL)
 
 
 async def test_404_refreshes_generator_and_retries(client_fixture: CF, monkeypatch):
