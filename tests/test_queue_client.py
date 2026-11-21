@@ -14,6 +14,7 @@ from twscrape.queue_client import (
     ApiError,
     GqlFeaturesOutdatedError,
     QueueClient,
+    Repeated404Error,
     ReqParams,
     XClIdGenStore,
 )
@@ -1119,18 +1120,37 @@ async def test_404_retries_exhaust_and_abort(pool_mock: AccountsPool, monkeypatc
         await pool_mock.set_active(x, True)
 
     add_404s(mock, 3)
+    mock.add_response(json={"suspended": False})  # verify_credentials
     async with QueueClient(pool_mock, "UserTweets") as client:
-        with pytest.raises(AbortReqError, match="XClIdGen"):
+        with pytest.raises(Repeated404Error, match="XClIdGen"):
             await client.get(URL)
 
     assert [await get_lock(pool_mock, x, "UserTweets") for x in ("user1", "user2")] == [0, 0]
+    assert [(await pool_mock.get(x)).restricted for x in ("user1", "user2")] == [False, False]
 
 
-async def test_404_on_restricted_queue_locks_account_and_switches(client_fixture: CF, monkeypatch):
+async def test_404_bad_transaction_id_on_verify_credentials_aborts(client_fixture: CF, monkeypatch):
     pool, client, mock = client_fixture
     monkeypatch.setattr("twscrape.queue_client.asyncio.sleep", fake_sleep)
 
     add_404s(mock, 3)
+    mock.add_response(
+        status_code=404,
+        json={"errors": [{"message": "Sorry, that page does not exist", "code": 34}]},
+    )
+    async with client:
+        with pytest.raises(Repeated404Error, match="XClIdGen"):
+            await client.get(URL)
+
+    assert (await pool.get("user1")).restricted is False
+
+
+async def test_404_suspended_account_is_restricted_and_switches(client_fixture: CF, monkeypatch):
+    pool, client, mock = client_fixture
+    monkeypatch.setattr("twscrape.queue_client.asyncio.sleep", fake_sleep)
+
+    add_404s(mock, 3)
+    mock.add_response(json={"suspended": True})  # verify_credentials
     mock.add_response(json={"ok": True})
     async with client:
         rep = await client.get(URL)
@@ -1138,67 +1158,60 @@ async def test_404_on_restricted_queue_locks_account_and_switches(client_fixture
         assert rep.json() == {"ok": True}
         assert client.ctx is not None and client.ctx.acc.username == "user2"
 
-    assert await get_lock(pool, "user1") > 23 * 3600
-    assert await get_lock(pool, "user2") == 0
+    assert [(await pool.get(x)).restricted for x in ("user1", "user2")] == [True, False]
+    assert [await get_lock(pool, x) for x in ("user1", "user2")] == [0, 0]
 
 
-async def test_404_on_restricted_queue_keeps_other_queues(client_fixture: CF, monkeypatch):
-    pool, client, mock = client_fixture
+async def test_404_suspended_on_unlisted_queue_is_restricted_and_switches(
+    client_fixture: CF, monkeypatch
+):
+    pool, _, mock = client_fixture
     monkeypatch.setattr("twscrape.queue_client.asyncio.sleep", fake_sleep)
+    messages = []
+    monkeypatch.setattr("twscrape.queue_client.logger.warning", messages.append)
 
     add_404s(mock, 3)
+    mock.add_response(json={"suspended": True})  # verify_credentials
+    mock.add_response(json={"ok": True})
+    async with QueueClient(pool, "UserTweets") as client:
+        rep = await client.get(URL)
+        assert rep is not None
+        assert client.ctx is not None and client.ctx.acc.username == "user2"
+
+    assert (await pool.get("user1")).restricted is True
+    assert await get_lock(pool, "user1", "UserTweets") > 23 * 3600
+    assert len(messages) == 1
+    assert "marked restricted" in messages[0]
+    assert "queue=UserTweets" in messages[0]
+    assert "Report:" in messages[0]
+
+
+async def test_restricted_account_skipped_on_restricted_queues_only(
+    client_fixture: CF, monkeypatch
+):
+    pool, client, mock = client_fixture
+    await pool.mark_restricted("user1")
+
     mock.add_response(json={"ok": True})
     async with client:
         await client.get(URL)
+        assert client.ctx is not None and client.ctx.acc.username == "user2"
 
     mock.add_response(json={"ok": True})
     async with QueueClient(pool, "UserTweets") as other:
-        rep = await other.get(URL)
-        assert rep is not None
+        await other.get(URL)
         assert other.ctx is not None and other.ctx.acc.username == "user1"
 
-    assert await get_lock(pool, "user1") > 23 * 3600
-    assert await get_lock(pool, "user1", "UserTweets") == 0
 
-
-async def test_404_with_every_account_unlocks_and_aborts(client_fixture: CF, monkeypatch):
-    pool, client, mock = client_fixture
-    monkeypatch.setattr("twscrape.queue_client.asyncio.sleep", fake_sleep)
-
-    add_404s(mock, 6)
-    async with client:
-        with pytest.raises(AbortReqError, match="404 on SearchTimeline with every active account"):
-            await client.get(URL)
-
-    assert [await get_lock(pool, x) for x in ("user1", "user2")] == [0, 0]
-
-
-async def test_404_unlocks_accounts_restricted_earlier(client_fixture: CF, monkeypatch):
-    pool, client, mock = client_fixture
-    monkeypatch.setattr("twscrape.queue_client.asyncio.sleep", fake_sleep)
-    await pool.lock_until("user1", "SearchTimeline", utc.ts() + 2 * 3600)
-
-    add_404s(mock, 3)
-    async with client:
-        with pytest.raises(AbortReqError, match="every active account"):
-            await client.get(URL)
-
-    assert [await get_lock(pool, x) for x in ("user1", "user2")] == [0, 0]
-
-
-async def test_404_rate_limited_account_is_not_restricted(client_fixture: CF, monkeypatch):
-    pool, client, mock = client_fixture
-    monkeypatch.setattr("twscrape.queue_client.asyncio.sleep", fake_sleep)
+async def test_every_account_restricted_raises_no_account(client_fixture: CF):
+    pool, client, _ = client_fixture
     pool._raise_when_no_account = True
-    await pool.lock_until("user1", "SearchTimeline", utc.ts() + 15 * 60)
+    for x in ("user1", "user2"):
+        await pool.mark_restricted(x)
 
-    add_404s(mock, 3)
-    async with client:
-        with pytest.raises(NoAccountError):
+    with pytest.raises(NoAccountError):
+        async with client:
             await client.get(URL)
-
-    assert await get_lock(pool, "user2") > 23 * 3600
-    assert 0 < await get_lock(pool, "user1") <= 15 * 60
 
 
 async def test_404_refreshes_generator_and_retries(client_fixture: CF, monkeypatch):

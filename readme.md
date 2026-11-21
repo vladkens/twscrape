@@ -324,10 +324,10 @@ twscrape del_accounts user1 user2
 `twscrape accounts` prints the current account state:
 
 ```text
-username  logged_in  active  last_used            total_req  error_msg
-user1     True       True    2023-05-20 03:20:40  100        None
-user2     True       True    2023-05-20 03:25:45  120        None
-user3     False      False   None                 120        Login error
+username  logged_in  active  restricted  last_used            total_req  error_msg
+user1     True       True    False       2023-05-20 03:20:40  100        None
+user2     True       True    True        2023-05-20 03:25:45  120        None
+user3     False      False   False       None                 120        Login error
 ```
 
 ## Limits
@@ -336,7 +336,7 @@ user3     False      False   None                 120        Login error
 
 Rate limits are tracked per account and per endpoint. When an account is limited for one operation, twscrape locks it for that operation until the reset time and tries another active account.
 
-X refuses `SearchTimeline` to some accounts with a 404. After three 404s in a row, twscrape locks the account for that operation for 24 hours and tries another active account. When every active account gets them, the locks are cleared and the request raises `AbortReqError`. `twscrape reset_locks` clears them too.
+X suspends some accounts into a read-only mode: they still work on most operations, but `SearchTimeline`, `UsersByRestIds` and `ListLatestTweetsTimeline` answer them with a 404. After three 404s in a row on any operation, twscrape asks X whether the account is suspended; if so, it marks the account `restricted`, no longer uses it for those operations, and tries another active account. `twscrape reactivate` clears the mark.
 
 `user_tweets` and `user_tweets_and_replies` are limited by X/Twitter to about 3200 tweets.
 

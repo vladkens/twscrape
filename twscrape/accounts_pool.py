@@ -12,6 +12,9 @@ from .logger import logger
 from .login import LoginConfig, login
 from .utils import get_env_bool, parse_cookies, utc
 
+# X refuses these endpoints to suspended (read-only) accounts with an empty 404
+RESTRICTED_QUEUES = {"SearchTimeline", "UsersByRestIds", "ListLatestTweetsTimeline"}
+
 
 class NoAccountError(Exception):
     pass
@@ -22,6 +25,7 @@ class AccountInfo(TypedDict):
     login_method: str
     logged_in: bool
     active: bool
+    restricted: bool
     last_used: datetime | None
     total_req: int
     error_msg: str | None
@@ -280,23 +284,13 @@ class AccountsPool:
         """
         await execute(self._db_file, qs, {"username": username})
 
+    async def mark_restricted(self, username: str):
+        qs = "UPDATE accounts SET restricted = true WHERE username = :username"
+        await execute(self._db_file, qs, {"username": username})
+
     @staticmethod
-    def _restricted(queue: str) -> str:
-        # other locks last up to X's 15-minute rate-limit window: a longer one is a restricted lock
-        return f"json_extract(locks, '$.{queue}') > datetime('now', '+1 hour')"
-
-    async def others_restricted(self, queue: str, username: str) -> bool:
-        """True if every active account but `username` holds a restricted lock on the queue."""
-        qs = f"""
-        SELECT 1 FROM accounts
-        WHERE active = true AND username != :username AND NOT COALESCE({self._restricted(queue)}, false)
-        LIMIT 1
-        """
-        return await fetchone(self._db_file, qs, {"username": username}) is None
-
-    async def unlock_restricted(self, queue: str):
-        qs = f"UPDATE accounts SET locks = json_remove(locks, '$.{queue}') WHERE {self._restricted(queue)}"
-        await execute(self._db_file, qs)
+    def _usable(queue: str) -> str:
+        return "active = true AND NOT restricted" if queue in RESTRICTED_QUEUES else "active = true"
 
     async def _get_and_lock(self, queue: str, condition: str) -> Account | None:
         # if space in condition, it's a subquery, otherwise it's username
@@ -330,7 +324,7 @@ class AccountsPool:
     async def get_for_queue(self, queue: str) -> Account | None:
         q = f"""
         SELECT username FROM accounts
-        WHERE active = true AND (
+        WHERE {self._usable(queue)} AND (
             locks IS NULL
             OR json_extract(locks, '$.{queue}') IS NULL
             OR json_extract(locks, '$.{queue}') < datetime('now')
@@ -355,8 +349,8 @@ class AccountsPool:
                 "TWS_RAISE_WHEN_NO_ACCOUNT"
             )
 
-            # next_available_at returns None only when no active account exists at all,
-            # in which case waiting is futile. A timestamp means active accounts exist
+            # next_available_at returns None only when no active account usable for the queue
+            # exists at all (restricted accounts don't count), in which case waiting is futile. A timestamp means active accounts exist
             # but are all locked right now (in-use or rate-limited).
             nat = await self.next_available_at(queue)
             no_active = not nat
@@ -369,7 +363,7 @@ class AccountsPool:
                 if raise_no_account:
                     raise NoAccountError(f"No account available for queue {queue}")
                 if no_active:
-                    logger.warning("No active accounts. Stopping...")
+                    logger.warning(f"No active accounts for queue {queue}. Stopping...")
                     return None
                 if self._wait_timeout is not None:
                     return None
@@ -386,7 +380,7 @@ class AccountsPool:
         qs = f"""
         SELECT json_extract(locks, '$."{queue}"') as lock_until
         FROM accounts
-        WHERE active = true AND json_extract(locks, '$."{queue}"') IS NOT NULL
+        WHERE {self._usable(queue)} AND json_extract(locks, '$."{queue}"') IS NOT NULL
         ORDER BY lock_until ASC
         LIMIT 1
         """
@@ -432,7 +426,10 @@ class AccountsPool:
             return
 
         placeholders, params = self._usernames_where(usernames)
-        qs = f"UPDATE accounts SET active = true, error_msg = NULL WHERE username IN ({placeholders})"
+        qs = f"""
+        UPDATE accounts SET active = true, restricted = false, error_msg = NULL
+        WHERE username IN ({placeholders})
+        """
         await execute(self._db_file, qs, params)
         logger.info(f"Reactivated accounts: {', '.join(usernames)}")
 
@@ -469,6 +466,7 @@ class AccountsPool:
                 "logged_in": x.has_session,
                 "login_method": x.login_method,
                 "active": x.active,
+                "restricted": x.restricted,
                 "last_used": x.last_used,
                 "total_req": sum(x.stats.values()),
                 "error_msg": str(x.error_msg)[0:60],
