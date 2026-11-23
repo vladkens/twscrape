@@ -35,6 +35,7 @@ class Account(JSONTrait):
     proxy: str | None = None
     error_msg: str | None = None
     last_used: datetime | None = None
+    restricted: bool = False  # suspended by X: read-only, refused on RESTRICTED_QUEUES
     _tx: str | None = None
 
     @property
@@ -53,6 +54,7 @@ class Account(JSONTrait):
         doc["headers"] = json.loads(doc["headers"])
         doc["cookies"] = json.loads(doc["cookies"])
         doc["active"] = bool(doc["active"])
+        doc["restricted"] = bool(doc["restricted"])
         doc["last_used"] = utc.from_iso(doc["last_used"]) if doc["last_used"] else None
         return Account(**doc)
 

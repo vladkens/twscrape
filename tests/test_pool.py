@@ -335,6 +335,18 @@ async def test_reactivate_one_username(pool_mock: AccountsPool):
     assert acc.active is True
 
 
+async def test_reactivate_clears_restricted(pool_mock: AccountsPool):
+    await pool_mock.add_account("user1", "pass1", "email1", "ep1", cookies="auth_token=a; ct0=b")
+    await pool_mock.set_active("user1", True)
+    await pool_mock.mark_restricted("user1")
+    assert (await pool_mock.accounts_info())[0]["restricted"] is True
+
+    await pool_mock.reactivate("user1")
+    acc = await pool_mock.get("user1")
+    assert acc.active is True
+    assert acc.restricted is False
+
+
 async def test_next_available_at_none_when_empty(pool_mock: AccountsPool):
     assert await pool_mock.next_available_at("TestQueue") is None
 
