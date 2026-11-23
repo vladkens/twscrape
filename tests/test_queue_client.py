@@ -1259,7 +1259,7 @@ async def test_missing_required_cookies_deactivates_and_rotates(
     await client.__aexit__(None, None, None)
 
 
-async def test_xclid_account_error_locks_queue_and_rotates(pool_mock: AccountsPool, monkeypatch):
+async def test_xclid_account_error_deactivates_and_rotates(pool_mock: AccountsPool, monkeypatch):
     mock = MockClient()
     monkeypatch.setattr(Account, "make_client", lambda self, proxy=None: mock)
     pool_mock._order_by = "username"
@@ -1288,8 +1288,8 @@ async def test_xclid_account_error_locks_queue_and_rotates(pool_mock: AccountsPo
     assert rep is not None
     assert getattr(rep, "__username") == "user2"
     user1 = await pool_mock.get("user1")
-    assert user1.active is True
-    assert int(user1.locks["SearchTimeline"].timestamp()) > utc.ts() + 60 * 10
+    assert user1.active is False
+    assert user1.error_msg == "Logged-out X web app"
     await client.__aexit__(None, None, None)
 
 

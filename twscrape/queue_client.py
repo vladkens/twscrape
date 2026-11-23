@@ -438,8 +438,10 @@ class QueueClient:
                 # retry with new account
                 continue
             except XClIdAccountError as e:
+                # X serves the logged-out app when the cookies no longer authenticate:
+                # the API answers 401 "(32) Could not authenticate you" to the same session
                 logger.warning(self._format_ctx_error(ctx, e))
-                await self._close_ctx(utc.ts() + 60 * 15)
+                await self._close_ctx(inactive=True, msg=str(e))
                 continue
             except XClIdParseError as e:
                 logger.error(
