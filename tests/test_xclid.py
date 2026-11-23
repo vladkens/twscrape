@@ -1,3 +1,4 @@
+import asyncio
 from unittest.mock import MagicMock
 
 import pytest
@@ -237,3 +238,137 @@ async def test_find_indices_url_returns_reference_despite_unrelated_failure():
     )
 
     assert url == "https://x.test/assets/sign.o-abc123.js"
+
+
+# Hashed x-web build: no `sign.o-*.js` name, the signing chunk is loaded via
+# `import(x).then(m=>m.default())` from a chunk statically imported by the entry.
+# https://github.com/vladkens/twscrape/issues/379
+
+
+class RouteClient(MockClient):
+    def __init__(self, routes: dict[str, str]):
+        super().__init__()
+        self.routes = routes
+        self.requested: list[str] = []
+
+    async def request(self, method, url, **kwargs):
+        self.requested.append(url)
+        if url in self.routes:
+            self.add_response(text=self.routes[url])
+        else:
+            self.add_response(status_code=404)
+        return await super().request(method, url, **kwargs)
+
+
+BASE = "https://abs.twimg.com/x-web/x-web"
+ENTRY = f"{BASE}/entry-client-Ab1.js"
+SIGN_JS = "let a=t;x=(a[3], 16);y=(a[7], 16);z=(a[1], 16)"
+
+
+async def test_find_indices_url_hashed_build_second_level():
+    client = RouteClient(
+        {
+            ENTRY: 'import{a as b}from"./assets/Lvl_1.js";import"./assets/Css1.js";',
+            f"{BASE}/assets/Lvl_1.js": "function f(){return import(`./Sg_9x.js`).then(e=>e.default())}",
+            f"{BASE}/assets/Css1.js": "",
+            f"{BASE}/assets/Sg_9x.js": SIGN_JS,
+        }
+    )
+
+    url = await xclid._find_indices_url([ENTRY], client)
+
+    assert url == f"{BASE}/assets/Sg_9x.js"
+
+
+async def test_find_indices_url_picks_candidate_by_content():
+    client = RouteClient(
+        {
+            ENTRY: 'import{a}from"./assets/Lvl_1.js";',
+            f"{BASE}/assets/Lvl_1.js": (
+                'import("./One.js").then(e=>e.default());'
+                "import(`./None.js`).then(n=>n.default());"
+                "import('./Sign.js').then((t) => t.default());"
+                'import("./Plain.js").then(e=>e.foo())'
+            ),
+            f"{BASE}/assets/One.js": "x=(a[5], 16)",  # one index only: not the signing chunk
+            f"{BASE}/assets/None.js": "nothing here",
+            f"{BASE}/assets/Sign.js": SIGN_JS,
+            f"{BASE}/assets/Plain.js": SIGN_JS,
+        }
+    )
+
+    url = await xclid._find_indices_url([ENTRY], client)
+
+    assert url == f"{BASE}/assets/Sign.js"
+    assert f"{BASE}/assets/Plain.js" not in client.requested
+
+
+async def test_find_indices_url_prefers_named_reference():
+    client = RouteClient(
+        {
+            ENTRY: 'import("./assets/Hash1.js").then(e=>e.default());import("./sign.o-abc123.js")',
+            f"{BASE}/assets/Hash1.js": SIGN_JS,
+        }
+    )
+
+    url = await xclid._find_indices_url([ENTRY], client)
+
+    assert url == f"{BASE}/sign.o-abc123.js"
+    assert client.requested == [ENTRY]
+
+
+async def test_find_indices_url_import_depth_is_limited():
+    client = RouteClient(
+        {
+            ENTRY: 'import"./assets/L1.js";',
+            f"{BASE}/assets/L1.js": 'import"./L2.js";',
+            f"{BASE}/assets/L2.js": 'import"./L3.js";',
+            f"{BASE}/assets/L3.js": "import(`./Sign.js`).then(e=>e.default())",
+            f"{BASE}/assets/Sign.js": SIGN_JS,
+        }
+    )
+
+    with pytest.raises(
+        xclid.XClIdParseError,
+        match=r"Signing script not found \(assets: 3 loaded, 0 failed\)",
+    ):
+        await xclid._find_indices_url([ENTRY], client)
+
+    assert f"{BASE}/assets/L3.js" not in client.requested
+
+
+async def test_parse_anim_idx_hashed_build_ignores_failed_script():
+    manifest = "https://abs.twimg.com/x-web/xchat/embed/x/mf-manifest.js"  # 404
+    html = f'<script src="{ENTRY}"></script><script src="{manifest}"></script>'
+    client = RouteClient(
+        {
+            ENTRY: 'import{a}from"./assets/Lvl_1.js";',
+            f"{BASE}/assets/Lvl_1.js": "import(`./Sg_9x.js`).then(e=>e.default())",
+            f"{BASE}/assets/Sg_9x.js": SIGN_JS,
+        }
+    )
+
+    assert await xclid.parse_anim_idx(html, client) == [3, 7, 1]
+    assert manifest in client.requested
+
+
+async def test_find_indices_url_checks_preloaded_candidate():
+    sign = f"{BASE}/assets/Sg_9x.js"  # linked by the page too, e.g. as modulepreload
+    client = RouteClient({ENTRY: "import(`./assets/Sg_9x.js`).then(e=>e.default())", sign: SIGN_JS})
+
+    assert await xclid._find_indices_url([ENTRY, sign], client) == sign
+
+
+async def test_find_indices_url_does_not_wait_for_stalled_asset():
+    stalled = f"{BASE}/assets/Stalled.js"
+
+    class StallClient(RouteClient):
+        async def request(self, method, url, **kwargs):
+            if url == stalled:
+                await asyncio.Event().wait()
+            return await super().request(method, url, **kwargs)
+
+    client = StallClient({ENTRY: 'import("./sign.o-abc123.js")'})
+    url = await asyncio.wait_for(xclid._find_indices_url([stalled, ENTRY], client), timeout=5)
+
+    assert url == f"{BASE}/sign.o-abc123.js"

@@ -259,42 +259,84 @@ def parse_vk_bytes(soup: bs4.BeautifulSoup) -> list[int]:
 INDICES_FILE_RE = re.compile(r"(?:\.{0,2}/)?[\w./-]*?\b(?:ondemand\.s|sign\.o)[\w.-]*\.js")
 
 
+# Hashed x-web builds (e.g. `assets/Cm5_4wZ7.js`) have no named reference: the
+# signing chunk is a lazily loaded module whose default export is called, and it
+# sits a few static imports below the page entry.
+STATIC_IMPORT_RE = re.compile(r"""\b(?:from|import)\s*(["'`])([\w./-]+\.js)\1""")
+DEFAULT_IMPORT_RE = re.compile(
+    r"""\bimport\(\s*(["'`])([\w./-]+\.js)\1\s*\)\.then\(\s*\(?(\w+)\)?\s*=>\s*\3\.default\(\)"""
+)
+MAX_IMPORT_DEPTH = 2  # static import hops followed from the page scripts
+MAX_IMPORTED_ASSETS = 32  # chunks fetched beyond the page scripts
+
+
 async def _find_indices_url(scripts: list[str], clt: HttpClient) -> str:
-    # The indices file (sign.o-*.js) is not linked in the page directly — it is
-    # dynamically imported from one of the bundle chunks. Scan chunks
-    # concurrently and resolve the first reference we find, then stop.
+    # The indices file is not linked in the page directly: a bundle chunk imports it by name
+    # (sign.o-*.js) or, in hashed x-web builds, as `import(x).then(m=>m.default())`. Walk the
+    # static imports from the page scripts level by level until one of them does.
     sem = asyncio.Semaphore(16)
+    stats = {"loaded": 0, "failed": 0}
+    seen = set(scripts)
+    limit = len(seen) + MAX_IMPORTED_ASSETS
 
     async def fetch(url: str) -> tuple[str, str | None]:
         async with sem:
             try:
                 rep = await clt.get(url)
                 rep.raise_for_status()
+                stats["loaded"] += 1
                 return url, rep.text
             except Exception as e:
                 logger.trace(f"XClId asset failed: {format_error(e)} - {url}")
+                stats["failed"] += 1
                 return url, None
 
-    tasks = [asyncio.create_task(fetch(u)) for u in scripts]
-    loaded, failed = 0, 0
-    try:
-        for fut in asyncio.as_completed(tasks):
-            url, body = await fut
-            if body is None:
-                failed += 1
-                continue
+    async def scan(urls: list[str]) -> tuple[str | None, dict[str, str]]:
+        # stops at the first named reference and cancels the rest, else returns all texts
+        texts: dict[str, str] = {}
+        tasks = [asyncio.create_task(fetch(x)) for x in urls]
+        try:
+            for fut in asyncio.as_completed(tasks):
+                url, text = await fut
+                if text is None:
+                    continue
 
-            loaded += 1
-            m = INDICES_FILE_RE.search(body)
-            if m:
-                return urljoin(url, m.group(0))
-    finally:
-        for t in tasks:
-            t.cancel()
-        await asyncio.gather(*tasks, return_exceptions=True)
+                if m := INDICES_FILE_RE.search(text):
+                    return urljoin(url, m.group(0)), texts
+                texts[url] = text
+        finally:
+            for t in tasks:
+                t.cancel()
+            await asyncio.gather(*tasks, return_exceptions=True)
+        return None, texts
+
+    def links(texts: dict[str, str], pattern: re.Pattern[str]) -> list[str]:
+        urls = [
+            urljoin(url, m.group(2)) for url, text in texts.items() for m in pattern.finditer(text)
+        ]
+        return list(dict.fromkeys(urls))
+
+    level = list(dict.fromkeys(scripts))
+    for _ in range(MAX_IMPORT_DEPTH + 1):
+        found, texts = await scan(level)
+        if found:
+            return found
+
+        # not filtered by seen: the signing chunk may also be preloaded by the page
+        found, candidates = await scan(links(texts, DEFAULT_IMPORT_RE)[:MAX_IMPORTED_ASSETS])
+        if found:
+            return found
+
+        # load_keys needs at least two indices: a single hit is an unrelated chunk
+        for url, text in candidates.items():
+            if len(INDICES_REGEX.findall(text)) >= 2:
+                return url
+
+        level = [x for x in links(texts, STATIC_IMPORT_RE) if x not in seen][: limit - len(seen)]
+        seen.update(level)
 
     raise XClIdParseError(
-        f"Signing script not found (assets: {loaded} loaded, {failed} failed). "
+        f"Signing script not found (assets: {stats['loaded']} loaded, {stats['failed']} failed). "
         "Enable TRACE logs for details"
     )
 
