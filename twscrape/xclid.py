@@ -5,7 +5,6 @@ import math
 import random
 import re
 import time
-from collections.abc import Callable
 from urllib.parse import urljoin
 
 import bs4
@@ -272,78 +271,55 @@ MAX_IMPORTED_ASSETS = 32  # chunks fetched beyond the page scripts
 
 
 async def _find_indices_url(scripts: list[str], clt: HttpClient) -> str:
-    # The indices file (sign.o-*.js) is not linked in the page directly — it is
-    # dynamically imported from one of the bundle chunks. Scan chunks
-    # concurrently, level by level along static imports: a named reference wins,
-    # else an `import(x).then(m=>m.default())` target holding the indices.
+    # The indices file is not linked in the page directly: a bundle chunk imports it by name
+    # (sign.o-*.js) or, in hashed x-web builds, as `import(x).then(m=>m.default())`. Walk the
+    # static imports from the page scripts level by level until one of them does.
     sem = asyncio.Semaphore(16)
-    loaded, failed, budget = 0, 0, MAX_IMPORTED_ASSETS
+    stats = {"loaded": 0, "failed": 0}
     seen = set(scripts)
-    imports: list[str] = []  # static imports found on the current level
-    candidates: list[str] = []  # `.default()` dynamic imports on the current level
+    limit = len(seen) + MAX_IMPORTED_ASSETS
 
-    async def fetch(url: str) -> tuple[str, str | None]:
+    async def fetch(url: str) -> str | None:
         async with sem:
             try:
                 rep = await clt.get(url)
                 rep.raise_for_status()
-                return url, rep.text
+                stats["loaded"] += 1
+                return rep.text
             except Exception as e:
                 logger.trace(f"XClId asset failed: {format_error(e)} - {url}")
-                return url, None
+                stats["failed"] += 1
+                return None
 
-    async def scan(urls: list[str], match: Callable[[str, str], str | None]) -> str | None:
-        nonlocal loaded, failed
-        tasks = [asyncio.create_task(fetch(u)) for u in urls]
-        try:
-            for fut in asyncio.as_completed(tasks):
-                url, body = await fut
-                if body is None:
-                    failed += 1
-                    continue
+    async def fetch_all(urls: list[str]) -> dict[str, str]:
+        texts = await asyncio.gather(*(fetch(x) for x in urls))
+        return {url: text for url, text in zip(urls, texts) if text is not None}
 
-                loaded += 1
-                if found := match(url, body):
-                    return found
-        finally:
-            for t in tasks:
-                t.cancel()
-            await asyncio.gather(*tasks, return_exceptions=True)
-        return None
-
-    def take(urls: list[str]) -> list[str]:
-        nonlocal budget
-        urls = [u for u in dict.fromkeys(urls) if u not in seen][:budget]
-        budget -= len(urls)
+    def links(texts: dict[str, str], pattern: re.Pattern[str]) -> list[str]:
+        urls = [
+            urljoin(url, m.group(2)) for url, text in texts.items() for m in pattern.finditer(text)
+        ]
+        urls = [x for x in dict.fromkeys(urls) if x not in seen][: limit - len(seen)]
         seen.update(urls)
         return urls
 
-    def is_signing(url: str, body: str) -> str | None:
-        # load_keys needs at least two indices; a single hit is a false positive
-        return url if len(INDICES_REGEX.findall(body)) >= 2 else None
+    level = list(dict.fromkeys(scripts))
+    for _ in range(MAX_IMPORT_DEPTH + 1):
+        texts = await fetch_all(level)
+        for url, text in texts.items():
+            if m := INDICES_FILE_RE.search(text):
+                return urljoin(url, m.group(0))
 
-    def named_ref(url: str, body: str) -> str | None:
-        if m := INDICES_FILE_RE.search(body):
-            return urljoin(url, m.group(0))
-        candidates.extend(urljoin(url, m.group(2)) for m in DEFAULT_IMPORT_RE.finditer(body))
-        imports.extend(urljoin(url, m.group(2)) for m in STATIC_IMPORT_RE.finditer(body))
-        return None
+        # load_keys needs at least two indices: a single hit is an unrelated chunk
+        for url, text in (await fetch_all(links(texts, DEFAULT_IMPORT_RE))).items():
+            if len(INDICES_REGEX.findall(text)) >= 2:
+                return url
 
-    level, depth = list(dict.fromkeys(scripts)), 0
-    while level:
-        imports.clear()
-        candidates.clear()
-        if found := await scan(level, named_ref):
-            return found
-        if found := await scan(take(candidates), is_signing):
-            return found
-
-        depth += 1
-        level = take(imports) if depth <= MAX_IMPORT_DEPTH else []
+        level = links(texts, STATIC_IMPORT_RE)
 
     raise XClIdParseError(
-        f"Signing script not found (assets: {loaded} loaded, {failed} failed) "
-        f"in {depth} import level(s). Enable TRACE logs for details"
+        f"Signing script not found (assets: {stats['loaded']} loaded, {stats['failed']} failed). "
+        "Enable TRACE logs for details"
     )
 
 

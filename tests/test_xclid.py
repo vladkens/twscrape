@@ -329,7 +329,7 @@ async def test_find_indices_url_import_depth_is_limited():
 
     with pytest.raises(
         xclid.XClIdParseError,
-        match=r"Signing script not found \(assets: 3 loaded, 0 failed\) in 3 import level",
+        match=r"Signing script not found \(assets: 3 loaded, 0 failed\)",
     ):
         await xclid._find_indices_url([ENTRY], client)
 
