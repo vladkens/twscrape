@@ -1,3 +1,19 @@
+## v0.21.1 – 2026-11-23
+
+### Fixes
+
+- Fixed `XClIdParseError: Signing script not found` when X serves an account its new x-web build (#380, by @naive000)
+- Fixed accounts with a session X no longer accepts being retried every 15 minutes forever: they are now marked inactive until `twscrape reactivate` (#385, by @Flaburgan)
+- Fixed accounts locked until earlier today staying locked until midnight UTC (#381, by @kn1l)
+
+### Improvements
+
+- Added Python 3.15 support (#376)
+
+**Full Changelog**: https://github.com/vladkens/twscrape/compare/v0.21.0...v0.21.1
+
+---
+
 ## v0.21.0 – 2026-11-06
 
 ### Breaking Changes

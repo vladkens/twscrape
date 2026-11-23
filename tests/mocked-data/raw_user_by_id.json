@@ -4,7 +4,7 @@
       "result": {
         "__typename": "User",
         "action_counts": {
-          "favorites_count": 2762
+          "favorites_count": 2764
         },
         "affiliates_highlighted_label": {
           "label": {
@@ -100,14 +100,14 @@
           "translator_type": "regular"
         },
         "relationship_counts": {
-          "followers": 697884,
+          "followers": 695961,
           "following": 770
         },
         "relationship_perspectives": {
           "blocked_by": false,
           "blocking": false,
           "followed_by": false,
-          "following": true,
+          "following": false,
           "live_following": false,
           "muting": false
         },
@@ -118,7 +118,7 @@
         "tipjar_settings": {},
         "tweet_counts": {
           "media_tweets": 832,
-          "tweets": 4379
+          "tweets": 4384
         },
         "verification": {
           "verified": false,
