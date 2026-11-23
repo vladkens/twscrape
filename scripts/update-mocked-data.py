@@ -230,7 +230,8 @@ _LID = 1494877848087187461  # https://x.com/i/lists/1494877848087187461
 
 def search_query() -> str:
     until = (datetime.now() - timedelta(days=30)).strftime("%Y-%m-%d")
-    return f"tesla lang:en min_faves:100 until:{until}"
+    # quotes only: parser tests need quote tweets, a plain search can return none
+    return f"tesla filter:quote lang:en min_faves:100 until:{until}"
 
 
 COMMANDS = [

@@ -229,8 +229,9 @@ def check_user(doc: User):
 
 def check_media(doc: MediaPhoto | MediaVideo | MediaAnimated):
     assert doc.shortUrl is None or re.fullmatch(r"https://t\.co/[A-Za-z0-9]+", doc.shortUrl)
+    # a shared media can keep the share link's query, e.g. `?a=...&s=46`
     assert doc.expandedUrl is None or re.fullmatch(
-        r"https://(twitter|x)\.com/\w+/status/\d+/(photo|video)/\d+", doc.expandedUrl
+        r"https://(twitter|x)\.com/\w+/status/\d+/(photo|video)/\d+(\?\S+)?", doc.expandedUrl
     )
     # a reused media links to the tweet that uploaded it
     if doc.expandedUrl is not None and doc.sourceTweetId is not None:
@@ -706,13 +707,12 @@ def recorded_media():
 
 
 def test_media_short_url_in_tweet_text():
-    # X appends the media's t.co to the legacy text; a long tweet's rawContent is its note text,
-    # which carries no attachment link
+    # X appends the media's t.co to the legacy text. A long tweet's rawContent is its note text,
+    # and X puts the link in one of the two: the legacy text may be cut before it
     for obj, doc, x in recorded_media():
         assert x.shortUrl is not None
-        assert x.shortUrl in obj["full_text"]
-        if "note_tweet" not in obj:
-            assert x.shortUrl in doc.rawContent
+        found = [x.shortUrl in obj["full_text"], x.shortUrl in doc.rawContent]
+        assert any(found) if "note_tweet" in obj else all(found)
 
 
 def test_media_dimensions_on_every_recorded_media():
@@ -1144,9 +1144,25 @@ def test_tweet_lookup_ignores_broken_reply(breaks):
     assert parse_tweet(raw, 1) is None  # not in the response
 
 
+def _is_quoting(x: dict):
+    return (
+        x.get("__typename") == "Tweet"
+        and get_or(x, "quoted_status_result.result.__typename") == "Tweet"
+    )
+
+
+def _quoting_rep() -> Any:
+    # every `make update` records other tweets: take the first timeline that has a quote
+    for name in ["raw_search", "raw_list_timeline", "raw_user_tweets"]:
+        raw = fake_rep(name).json()
+        if find_obj(raw, _is_quoting) is not None:
+            return raw
+    raise AssertionError("no quote tweet in the recorded timelines")
+
+
 def test_tweet_lookup_keeps_related_objects_of_target():
-    raw = fake_rep("raw_search").json()
-    tw = find_obj(raw, lambda x: x.get("__typename") == "Tweet" and "quoted_status_result" in x)
+    raw = _quoting_rep()
+    tw = find_obj(raw, _is_quoting)
     assert tw is not None
 
     twid = int(tw["rest_id"])
@@ -1225,14 +1241,7 @@ def test_tweet_lookup_non_object_result_raises():
 
 
 def _find_quoting_tweet(raw: dict, fn: Callable[[dict], bool] = lambda x: True) -> dict:
-    tw = find_obj(
-        raw,
-        lambda x: (
-            x.get("__typename") == "Tweet"
-            and get_or(x, "quoted_status_result.result.__typename") == "Tweet"
-            and fn(x["quoted_status_result"]["result"])
-        ),
-    )
+    tw = find_obj(raw, lambda x: _is_quoting(x) and fn(x["quoted_status_result"]["result"]))
     assert tw is not None
     return tw
 
@@ -1250,14 +1259,14 @@ def test_tweet_lookup_broken_nested_tweet_raises(monkeypatch, breaks, cause):
     dumps = []
     monkeypatch.setattr(models, "_write_dump", lambda *args: dumps.append(args))
 
-    raw = fake_rep("raw_search").json()
+    raw = _quoting_rep()
     tw = _find_quoting_tweet(raw)
     twid = int(tw["rest_id"])
 
     # X can also list the quoted tweet on its own: a healthy copy would hide a bad date
     qtid = tw["quoted_status_result"]["result"]["rest_id"]
     for x in get_typed_object(raw, defaultdict(list))["Tweet"]:
-        if x["rest_id"] == qtid:
+        if x["rest_id"] == qtid and "legacy" in x:
             breaks(x)
 
     with pytest.raises(ParseError, match=f"Failed to parse tweet {twid}") as exc:
@@ -1268,13 +1277,13 @@ def test_tweet_lookup_broken_nested_tweet_raises(monkeypatch, breaks, cause):
 
 
 def test_tweet_lookup_skips_nested_tweet_without_legacy():
-    raw = fake_rep("raw_search").json()
+    raw = _quoting_rep()
     tw = _find_quoting_tweet(raw)
     twid = int(tw["rest_id"])
 
     qtid = tw["quoted_status_result"]["result"]["rest_id"]
     for x in get_typed_object(raw, defaultdict(list))["Tweet"]:
-        if x["rest_id"] == qtid:
+        if x["rest_id"] == qtid and "legacy" in x:
             _no_legacy(x)
 
     doc = parse_tweet(raw, twid)
@@ -1709,6 +1718,7 @@ async def test_tweet_new_fields():
     tweets = [
         *parse_tweets(fake_rep("raw_search").json()),
         *parse_tweets(fake_rep("raw_tweet_replies").json()),
+        *parse_tweets(_quoting_rep()),
     ]
     assert len(tweets) > 0
 
