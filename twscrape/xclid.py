@@ -279,43 +279,61 @@ async def _find_indices_url(scripts: list[str], clt: HttpClient) -> str:
     seen = set(scripts)
     limit = len(seen) + MAX_IMPORTED_ASSETS
 
-    async def fetch(url: str) -> str | None:
+    async def fetch(url: str) -> tuple[str, str | None]:
         async with sem:
             try:
                 rep = await clt.get(url)
                 rep.raise_for_status()
                 stats["loaded"] += 1
-                return rep.text
+                return url, rep.text
             except Exception as e:
                 logger.trace(f"XClId asset failed: {format_error(e)} - {url}")
                 stats["failed"] += 1
-                return None
+                return url, None
 
-    async def fetch_all(urls: list[str]) -> dict[str, str]:
-        texts = await asyncio.gather(*(fetch(x) for x in urls))
-        return {url: text for url, text in zip(urls, texts) if text is not None}
+    async def scan(urls: list[str]) -> tuple[str | None, dict[str, str]]:
+        # stops at the first named reference and cancels the rest, else returns all texts
+        texts: dict[str, str] = {}
+        tasks = [asyncio.create_task(fetch(x)) for x in urls]
+        try:
+            for fut in asyncio.as_completed(tasks):
+                url, text = await fut
+                if text is None:
+                    continue
+
+                if m := INDICES_FILE_RE.search(text):
+                    return urljoin(url, m.group(0)), texts
+                texts[url] = text
+        finally:
+            for t in tasks:
+                t.cancel()
+            await asyncio.gather(*tasks, return_exceptions=True)
+        return None, texts
 
     def links(texts: dict[str, str], pattern: re.Pattern[str]) -> list[str]:
         urls = [
             urljoin(url, m.group(2)) for url, text in texts.items() for m in pattern.finditer(text)
         ]
-        urls = [x for x in dict.fromkeys(urls) if x not in seen][: limit - len(seen)]
-        seen.update(urls)
-        return urls
+        return list(dict.fromkeys(urls))
 
     level = list(dict.fromkeys(scripts))
     for _ in range(MAX_IMPORT_DEPTH + 1):
-        texts = await fetch_all(level)
-        for url, text in texts.items():
-            if m := INDICES_FILE_RE.search(text):
-                return urljoin(url, m.group(0))
+        found, texts = await scan(level)
+        if found:
+            return found
+
+        # not filtered by seen: the signing chunk may also be preloaded by the page
+        found, candidates = await scan(links(texts, DEFAULT_IMPORT_RE)[:MAX_IMPORTED_ASSETS])
+        if found:
+            return found
 
         # load_keys needs at least two indices: a single hit is an unrelated chunk
-        for url, text in (await fetch_all(links(texts, DEFAULT_IMPORT_RE))).items():
+        for url, text in candidates.items():
             if len(INDICES_REGEX.findall(text)) >= 2:
                 return url
 
-        level = links(texts, STATIC_IMPORT_RE)
+        level = [x for x in links(texts, STATIC_IMPORT_RE) if x not in seen][: limit - len(seen)]
+        seen.update(level)
 
     raise XClIdParseError(
         f"Signing script not found (assets: {stats['loaded']} loaded, {stats['failed']} failed). "

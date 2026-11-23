@@ -1,3 +1,4 @@
+import asyncio
 from unittest.mock import MagicMock
 
 import pytest
@@ -349,3 +350,25 @@ async def test_parse_anim_idx_hashed_build_ignores_failed_script():
 
     assert await xclid.parse_anim_idx(html, client) == [3, 7, 1]
     assert manifest in client.requested
+
+
+async def test_find_indices_url_checks_preloaded_candidate():
+    sign = f"{BASE}/assets/Sg_9x.js"  # linked by the page too, e.g. as modulepreload
+    client = RouteClient({ENTRY: "import(`./assets/Sg_9x.js`).then(e=>e.default())", sign: SIGN_JS})
+
+    assert await xclid._find_indices_url([ENTRY, sign], client) == sign
+
+
+async def test_find_indices_url_does_not_wait_for_stalled_asset():
+    stalled = f"{BASE}/assets/Stalled.js"
+
+    class StallClient(RouteClient):
+        async def request(self, method, url, **kwargs):
+            if url == stalled:
+                await asyncio.Event().wait()
+            return await super().request(method, url, **kwargs)
+
+    client = StallClient({ENTRY: 'import("./sign.o-abc123.js")'})
+    url = await asyncio.wait_for(xclid._find_indices_url([stalled, ENTRY], client), timeout=5)
+
+    assert url == f"{BASE}/sign.o-abc123.js"
