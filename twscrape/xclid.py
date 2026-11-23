@@ -59,7 +59,7 @@ def script_url(k: str, v: str):
 # Current X web build (Vite): script bundles are linked directly in the page
 # HTML under https://abs.twimg.com/x-web/.../*.js (modulepreload links + entry).
 ASSET_URL_RE = re.compile(r"https://[\w.-]+/x-web/[\w./-]+\.js")
-RESPONSIVE_WEB_URL_RE = re.compile(r"https://[\w.-]+/responsive-web/client-web/[\w./-]+\.js")
+RESPONSIVE_WEB_URL_RE = re.compile(r"https://[\w.-]+/responsive-web/client-web/[\w./~-]+\.js")
 LEGACY_MAIN_RE = re.compile(r"/client-web/main\.([^.\"']+)\.js")
 LOGGED_OUT_ENTRY_RE = re.compile(r"(?:^|/)entry-client-logged-out(?:[-.][^/?#]+)?\.js(?:[?#].*)?$")
 CHALLENGE_SCRIPT_RE = re.compile(r"/cdn-cgi/challenge-platform/(?:scripts|h)/")

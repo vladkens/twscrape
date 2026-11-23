@@ -157,6 +157,16 @@ def test_script_list_combines_direct_and_reconstructed_urls():
     ]
 
 
+@pytest.mark.parametrize("separator", ["-", "~"])
+def test_script_list_preserves_direct_responsive_web_shared_bundle(separator: str):
+    base = "https://abs.twimg.com/responsive-web/client-web"
+    vendor = f"{base}/vendor.1234567a.js"
+    shared = f"{base}/shared{separator}feature.0badca4a.js"
+    html = f'<script src="{vendor}"></script><script src="{shared}"></script>'
+
+    assert xclid.get_scripts_list(html) == [vendor, shared]
+
+
 # In the legacy webpack fixtures the name map comes BEFORE the hash map: hash values
 # must be excluded from the name map by format alone, or they overwrite the names.
 def test_legacy_webpack_build_with_7_hex_hashes():
@@ -263,6 +273,22 @@ class RouteClient(MockClient):
 BASE = "https://abs.twimg.com/x-web/x-web"
 ENTRY = f"{BASE}/entry-client-Ab1.js"
 SIGN_JS = "let a=t;x=(a[3], 16);y=(a[7], 16);z=(a[1], 16)"
+
+
+@pytest.mark.parametrize("separator", ["-", "~"])
+async def test_parse_anim_idx_direct_responsive_web_shared_bundle(separator: str):
+    base = "https://abs.twimg.com/responsive-web/client-web"
+    vendor = f"{base}/vendor.1234567a.js"
+    shared = f"{base}/shared{separator}feature.0badca4a.js"
+    sign = f"{base}/ondemand.s.0badca4a.js"
+    html = f'<script src="{vendor}"></script><script src="{shared}"></script>'
+    client = RouteClient(
+        {vendor: "no reference", shared: 'import("./ondemand.s.0badca4a.js")', sign: SIGN_JS}
+    )
+
+    assert await xclid.parse_anim_idx(html, client) == [3, 7, 1]
+    assert shared in client.requested
+    assert sign in client.requested
 
 
 async def test_find_indices_url_hashed_build_second_level():
