@@ -783,6 +783,27 @@ def test_retweet_not_duplicated():
     )
 
 
+def test_issue_374_retweet_display_text_range_remapped():
+    # _issue_42: X truncates the retweet full_text at 140 chars and computes
+    # display_text_range on it; rawContent is then rebuilt from the original.
+    raw = fake_rep("_issue_42").json()
+    doc = parse_tweet(raw, 1665951747842641921)
+    assert doc is not None
+    rt = doc.retweetedTweet
+    assert rt is not None and rt.displayTextRange is not None
+    assert doc.displayTextRange is not None
+
+    prefix = f"RT @{rt.user.username}: "
+    assert doc.rawContent == prefix + rt.rawContent
+    assert doc.displayTextRange[0] == 0
+    assert doc.displayTextRange[1] == len(prefix) + rt.displayTextRange[1]
+    # slicing rawContent on the range keeps the whole visible text, nothing more
+    assert (
+        doc.rawContent[: doc.displayTextRange[1]]
+        == prefix + rt.rawContent[: rt.displayTextRange[1]]
+    )
+
+
 @pytest.mark.parametrize(
     "fixture, twid, quoted_id",
     [
