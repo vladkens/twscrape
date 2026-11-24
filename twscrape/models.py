@@ -542,6 +542,17 @@ class Tweet(JSONTrait):
             if doc.rawContent != rt_msg:
                 doc.rawContent = rt_msg
 
+                # issue #374: display_text_range indexes the truncated text, so it
+                # must be remapped onto the rebuilt string to still end at the
+                # original's last displayable char
+                rt_range = rt.displayTextRange
+                rt_end = rt_range[1] if rt_range and len(rt_range) >= 2 else len(rt.rawContent)
+                start = doc.displayTextRange[0] if doc.displayTextRange else 0
+                doc.displayTextRange = [
+                    start,
+                    min(len(rt_msg) - len(rt.rawContent) + rt_end, len(rt_msg)),
+                ]
+
         return doc
 
 
