@@ -280,6 +280,24 @@ class AccountsPool:
         """
         await execute(self._db_file, qs, {"username": username})
 
+    @staticmethod
+    def _restricted(queue: str) -> str:
+        # other locks last up to X's 15-minute rate-limit window: a longer one is a restricted lock
+        return f"json_extract(locks, '$.{queue}') > datetime('now', '+1 hour')"
+
+    async def others_restricted(self, queue: str, username: str) -> bool:
+        """True if every active account but `username` holds a restricted lock on the queue."""
+        qs = f"""
+        SELECT 1 FROM accounts
+        WHERE active = true AND username != :username AND NOT COALESCE({self._restricted(queue)}, false)
+        LIMIT 1
+        """
+        return await fetchone(self._db_file, qs, {"username": username}) is None
+
+    async def unlock_restricted(self, queue: str):
+        qs = f"UPDATE accounts SET locks = json_remove(locks, '$.{queue}') WHERE {self._restricted(queue)}"
+        await execute(self._db_file, qs)
+
     async def _get_and_lock(self, queue: str, condition: str) -> Account | None:
         # if space in condition, it's a subquery, otherwise it's username
         condition = f"({condition})" if " " in condition else f"'{condition}'"

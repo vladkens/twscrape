@@ -1,0 +1,140 @@
+{
+  "data": {
+    "users": [
+      {
+        "result": {
+          "__typename": "User",
+          "action_counts": {
+            "favorites_count": 256860
+          },
+          "affiliates_highlighted_label": {
+            "label": {
+              "badge": {
+                "url": "https://pbs.twimg.com/profile_images/1955359038532653056/OSHY3ewP_bigger.jpg"
+              },
+              "description": "X",
+              "url": {
+                "url": "https://twitter.com/X",
+                "urlType": "DeepLink"
+              },
+              "userLabelDisplayType": "Badge",
+              "userLabelType": "BusinessLabel"
+            }
+          },
+          "avatar": {
+            "image_url": "https://pbs.twimg.com/profile_images/2103567689515954176/aR-Kjpp4_normal.jpg"
+          },
+          "banner": {
+            "image_url": "https://pbs.twimg.com/profile_banners/44196397/1774145451"
+          },
+          "can_pay": true,
+          "core": {
+            "created_at": "Tue Jun 02 20:12:29 +0000 2009",
+            "name": "Elon Musk",
+            "screen_name": "elonmusk"
+          },
+          "follow_request_sent": false,
+          "has_graduated_access": true,
+          "id": "VXNlcjo0NDE5NjM5Nw==",
+          "is_blue_verified": true,
+          "location": {
+            "location": ""
+          },
+          "media_permissions": {
+            "can_media_tag": false
+          },
+          "notifications_settings": {
+            "notifications_enabled": false
+          },
+          "parody_commentary_fan_label": "None",
+          "pinned_items": {
+            "tweet_ids_str": [
+              "2116039632743702637"
+            ]
+          },
+          "possibly_sensitive": false,
+          "privacy": {
+            "protected": false
+          },
+          "professional": {
+            "category": [],
+            "professional_type": "Creator",
+            "rest_id": "1679729435447275522"
+          },
+          "profile_bio": {
+            "description": "https://t.co/ZdBx5WABYx",
+            "entities": {
+              "description": {
+                "urls": [
+                  {
+                    "display_url": "Terafab.AI",
+                    "expanded_url": "http://Terafab.AI",
+                    "indices": [
+                      0,
+                      23
+                    ],
+                    "url": "https://t.co/ZdBx5WABYx"
+                  }
+                ]
+              }
+            }
+          },
+          "profile_image_shape": "Circle",
+          "profile_metadata": {
+            "profile_interstitial_type": ""
+          },
+          "profile_translation": {
+            "translator_type": "none"
+          },
+          "relationship_counts": {
+            "followers": 241475685,
+            "following": 1421
+          },
+          "relationship_perspectives": {
+            "blocked_by": false,
+            "blocking": false,
+            "dm_blocked_by": false,
+            "dm_blocking": false,
+            "followed_by": false,
+            "following": false,
+            "live_following": false,
+            "muting": false
+          },
+          "rest_id": "44196397",
+          "super_follow_eligible": true,
+          "super_followed_by": false,
+          "super_following": false,
+          "tipjar_settings": {
+            "is_enabled": false
+          },
+          "tweet_counts": {
+            "media_tweets": 4756,
+            "tweets": 111516
+          },
+          "verification": {
+            "verified": false
+          },
+          "verified_phone_status": false,
+          "website": {
+            "url": ""
+          }
+        }
+      },
+      {},
+      {
+        "result": {
+          "__typename": "UserUnavailable",
+          "message": "User is suspended",
+          "reason": "Suspended"
+        }
+      },
+      {
+        "result": {
+          "__typename": "UserUnavailable",
+          "message": "User is deactivated",
+          "reason": "NoReason"
+        }
+      }
+    ]
+  }
+}
