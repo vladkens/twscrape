@@ -24,6 +24,9 @@ from .xclid import XClIdAccountError, XClIdGen, XClIdParseError
 
 ReqParams = dict[str, str | int] | None
 MISSING_FEATURES_RE = re.compile(r"The following features cannot be null: ([^;]+)")
+SUSPENDED_SEARCH_GATE = (
+    "Closed gate stopped execution of the pipeline (LatestTabSrpDenySuspendedUsers)"
+)
 TMP_TS = utc.now().isoformat().split(".")[0].replace("T", "_").replace(":", "-")[0:16]
 
 
@@ -327,6 +330,9 @@ class QueueClient:
 
         # https://github.com/vladkens/twscrape/issues/211
         suspended = has_error(errors, "(64) Your account is suspended")
+        # X answers a suspended account's Latest search with 200 and this closed gate. Only this
+        # gate names the account: another closed gate may hold for every account.
+        suspended = suspended or any(SUSPENDED_SEARCH_GATE in x for x in errors)
         if suspended or has_error(errors, "(326) Authorization: Denied by access control"):
             logger.warning(f"Ban detected: {request_log}")
             await self._close_ctx(-1, inactive=True, msg=err_msg)
