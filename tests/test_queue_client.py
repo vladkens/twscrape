@@ -560,6 +560,44 @@ async def test_suspended_64_marks_account_inactive(client_fixture: CF):
     await client.__aexit__(None, None, None)
 
 
+def closed_gate(name: str) -> dict:
+    msg = (
+        f"InvalidArgument: ProductDisabled: Closed gate stopped execution of the pipeline ({name})"
+    )
+    return {"errors": [{"code": -1, "message": msg}]}
+
+
+async def test_suspended_users_search_gate_marks_account_inactive(client_fixture: CF):
+    # X answers SearchTimeline (Latest) of a suspended account with 200 and this gate,
+    # while profile reads still work
+    pool, client, mock = client_fixture
+    await client.__aenter__()
+
+    mock.add_response(json=closed_gate("LatestTabSrpDenySuspendedUsers"))
+    mock.add_response(json={"ok": True})
+
+    rep = await client.get(URL)
+    assert rep is not None
+    assert rep.json() == {"ok": True}
+    assert await get_inactive(pool) == {"user1"}
+
+    await client.__aexit__(None, None, None)
+
+
+async def test_other_closed_gate_is_not_a_suspension(client_fixture: CF):
+    # another gate may be closed for every account, so it must not disable the pool
+    pool, client, mock = client_fixture
+    await client.__aenter__()
+
+    mock.add_response(json=closed_gate("LatestTabSrpOff"))
+
+    with pytest.raises(ApiError, match="LatestTabSrpOff"):
+        await client.get(URL)
+    assert await get_inactive(pool) == set()
+
+    await client.__aexit__(None, None, None)
+
+
 async def test_ban_32_marks_account_inactive(client_fixture: CF):
     pool, client, mock = client_fixture
     await client.__aenter__()
