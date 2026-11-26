@@ -335,6 +335,48 @@ async def test_reactivate_one_username(pool_mock: AccountsPool):
     assert acc.active is True
 
 
+async def test_deactivate(pool_mock: AccountsPool, monkeypatch):
+    await pool_mock.add_account("user1", "pass1", "email1", "ep1", cookies="auth_token=a; ct0=b")
+    await pool_mock.add_account("user2", "pass2", "email2", "ep2")
+    await pool_mock.mark_inactive("user2", "banned by system")
+
+    warnings = []
+    monkeypatch.setattr("twscrape.accounts_pool.logger.warning", warnings.append)
+    await pool_mock.deactivate(["user1", "user2", "nope"])
+
+    acc = await pool_mock.get("user1")
+    assert acc.active is False
+    assert acc.error_msg == "Deactivated manually"
+
+    # an inactive account keeps its error, an unknown username is skipped
+    acc = await pool_mock.get("user2")
+    assert acc.active is False
+    assert acc.error_msg == "banned by system"
+    assert warnings == ["Account nope not found", "Account user2 is already inactive"]
+
+    # a deactivated account is neither picked for a queue nor logged in by login_accounts
+    assert await pool_mock.get_for_queue("TestQueue") is None
+    assert await pool_mock.login_all() == {"total": 0, "success": 0, "failed": 0}
+
+
+async def test_deactivate_one_username(pool_mock: AccountsPool):
+    await pool_mock.add_account("user1", "pass1", "email1", "ep1", cookies="auth_token=a; ct0=b")
+
+    await pool_mock.deactivate("user1")
+    acc = await pool_mock.get("user1")
+    assert acc.active is False
+
+
+async def test_deactivate_then_reactivate(pool_mock: AccountsPool):
+    await pool_mock.add_account("user1", "pass1", "email1", "ep1", cookies="auth_token=a; ct0=b")
+
+    await pool_mock.deactivate("user1")
+    await pool_mock.reactivate("user1")
+    acc = await pool_mock.get("user1")
+    assert acc.active is True
+    assert acc.error_msg is None
+
+
 async def test_next_available_at_none_when_empty(pool_mock: AccountsPool):
     assert await pool_mock.next_available_at("TestQueue") is None
 
